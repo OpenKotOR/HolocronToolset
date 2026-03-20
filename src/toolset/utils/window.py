@@ -182,7 +182,6 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
     from toolset.gui.editors.jrl import JRLEditor  # type: ignore[import-not-found] # noqa: PLC0415
     from toolset.gui.editors.lip import LIPEditor  # type: ignore[import-not-found] # noqa: PLC0415
     from toolset.gui.editors.ltr import LTREditor  # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.mdl import MDLEditor  # type: ignore[import-not-found] # noqa: PLC0415
     from toolset.gui.editors.nss import NSSEditor  # type: ignore[import-not-found] # noqa: PLC0415
     from toolset.gui.editors.pth import PTHEditor  # type: ignore[import-not-found] # noqa: PLC0415
     from toolset.gui.editors.ssf import SSFEditor  # type: ignore[import-not-found] # noqa: PLC0415
@@ -329,7 +328,23 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
             editor = None
 
     if restype in {ResourceType.MDL, ResourceType.MDX}:
-        editor = _instantiate_editor(MDLEditor)
+        import importlib
+
+        try:
+            from toolset.utils.pykotor_mdl_aabb_hotfix import (
+                ensure_mdl_aabb_hotfix,
+                reload_mdl_modules_after_hotfix,
+            )
+
+            ensure_mdl_aabb_hotfix()
+            reload_mdl_modules_after_hotfix()
+            mdl_mod = importlib.import_module("toolset.gui.editors.mdl")
+            importlib.reload(mdl_mod)
+            _MDLEditor = mdl_mod.MDLEditor
+        except Exception:  # noqa: BLE001
+            from toolset.gui.editors.mdl import MDLEditor as _MDLEditor
+
+        editor = _instantiate_editor(_MDLEditor)
 
     elif restype.target_type().contents == "gff" and editor is None:
         editor = _instantiate_editor(GFFEditor)
@@ -341,6 +356,20 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
         from toolset.gui.helpers.message_box import show_error_message
         show_error_message(tr("Failed to open file"), trf("The selected file format '{format}' is not yet supported.", format=str(restype)), parent_window_widget)
         return None, None
+
+    if restype in (ResourceType.MDL, ResourceType.MDX):
+        try:
+            from toolset.utils.mdl_io_aabb_patch_standalone import apply_force_io_mdl_walkmesh_disk_fix
+
+            apply_force_io_mdl_walkmesh_disk_fix()
+        except Exception:
+            pass
+        try:
+            from toolset.utils.mdl_io_aabb_monkeypatch import ensure_mdl_binary_reader_walkmesh_fixed
+
+            ensure_mdl_binary_reader_walkmesh_fixed()
+        except Exception:
+            pass
 
     try:
         editor.load(filepath, resname, restype, data)

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
-py-modules = ["resources_rc"]
+py-modules = ["resources_rc", "sitecustomize"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -24,7 +24,7 @@ toolset = ["wiki/.git", "wiki/.git/**", "**/.git", "**/.git/**"]
 [project]
 name = "holocrontoolset"
 description = "A PyQt-backed program with a collection of tools and editors that make it easy to work with kotor files"
-version = "4.0.0b23"
+version = "4.0.0b29"
 requires-python = ">=3.8"
 dependencies = [
   "certifi>=2021.10.8",
@@ -119,7 +119,7 @@ Changelog = "https://github.com/OldRepublicDevs/PyKotor/releases"
 # Optional Poetry configuration for those who prefer it
 [tool.poetry]
 name = "holocrontoolset"
-version = "4.0.0b23"
+version = "4.0.0b29"
 description = "A PyQt-backed program with a collection of tools and editors that make it easy to work with kotor files"
 authors = ["Nick Hugi", "th3w1zard1 <boden.crouch@gmail.com>"]
 maintainers = ["th3w1zard1 <boden.crouch@gmail.com>"]

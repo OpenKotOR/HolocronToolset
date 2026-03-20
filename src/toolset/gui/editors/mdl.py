@@ -9,7 +9,7 @@ from qtpy.QtWidgets import QMessageBox
 
 from pykotor.extract.installation import SearchLocation
 from pykotor.resource.formats.erf import read_erf
-from pykotor.resource.formats.mdl.mdl_auto import read_mdl, write_mdl
+from pykotor.resource.formats.mdl.mdl_auto import write_mdl
 from pykotor.resource.formats.mdl.mdl_data import MDL
 from pykotor.resource.formats.rim import read_rim
 from pykotor.resource.type import ResourceType
@@ -72,6 +72,19 @@ class MDLEditor(Editor):
         p_filepath: Path = Path(filepath)
         super().load(p_filepath, resref, restype, data)
 
+        try:
+            from toolset.utils.mdl_io_aabb_patch_standalone import apply_force_io_mdl_walkmesh_disk_fix
+
+            apply_force_io_mdl_walkmesh_disk_fix()
+        except Exception:
+            pass
+        try:
+            from toolset.utils.mdl_io_aabb_monkeypatch import ensure_mdl_binary_reader_walkmesh_fixed
+
+            ensure_mdl_binary_reader_walkmesh_fixed()
+        except Exception:
+            pass
+
         mdl_data: bytes | None = None
         mdx_data: bytes | None = None
 
@@ -106,8 +119,46 @@ class MDLEditor(Editor):
             QMessageBox(QMessageBox.Icon.Critical, f"Could not find the '{p_filepath.stem}' MDL/MDX", "").exec()
             return
 
+        # Patch site-packages io_mdl if an older pykotor wheel is installed, then reload so
+        # set_model/read_mdl use fixed MDLBinaryReader (stale imports would still crash).
+        import importlib
+
+        from toolset.utils.pykotor_mdl_aabb_hotfix import (
+            ensure_mdl_aabb_hotfix,
+            reload_mdl_modules_after_hotfix,
+        )
+
+        ensure_mdl_aabb_hotfix()
+        reload_mdl_modules_after_hotfix()
+        mdl_auto = importlib.import_module("pykotor.resource.formats.mdl.mdl_auto")
+
         self.ui.modelRenderer.set_model(mdl_data, mdx_data)
-        self._mdl = read_mdl(mdl_data, 0, 0, mdx_data, 0, 0)
+        try:
+            self._mdl = mdl_auto.read_mdl(mdl_data, 0, 0, mdx_data, 0, 0)
+        except OSError as exc:
+            err = str(exc).lower()
+            if "seek" not in err or ("negative" not in err and "cannot seek" not in err):
+                raise
+            if ensure_mdl_aabb_hotfix():
+                reload_mdl_modules_after_hotfix()
+                mdl_auto = importlib.import_module("pykotor.resource.formats.mdl.mdl_auto")
+                importlib.reload(mdl_auto)
+                self._mdl = mdl_auto.read_mdl(mdl_data, 0, 0, mdx_data, 0, 0)
+            else:
+                from pykotor.resource.formats.mdl.io_mdl import MDLBinaryReader
+
+                try:
+                    self._mdl = MDLBinaryReader(
+                        mdl_data,
+                        0,
+                        0,
+                        mdx_data,
+                        0,
+                        0,
+                        skip_aabb=True,
+                    ).load()
+                except TypeError:
+                    raise exc from None
 
     def _loadMDL(self, mdl: MDL):
         """Load an MDL model into the editor.
