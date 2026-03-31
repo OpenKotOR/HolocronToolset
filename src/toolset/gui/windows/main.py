@@ -678,9 +678,10 @@ class ToolWindow(QMainWindow):
 
         def open_module_designer(*args) -> ModuleDesigner | None:
             """Open the module designer."""
-            assert self.active is not None
+            assert self.active is not None, "Active module is not set"
             module_data = self.ui.modulesWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
             module_path: Path | None = None
+            designer_window: ModuleDesigner | None = None
             if module_data:
                 module_path = self.active.module_path() / Path(str(module_data))
             try:
@@ -697,6 +698,8 @@ class ToolWindow(QMainWindow):
 
             designer_window.setWindowIcon(cast("QApplication", QApplication.instance()).windowIcon())
             add_window(designer_window)
+
+            return designer_window
 
         self.ui.specialActionButton.clicked.connect(open_module_designer)
 
@@ -831,6 +834,7 @@ class ToolWindow(QMainWindow):
         installations = self.settings.installations()
         if not installations:
             no_install_action = self.menu_run.addAction("(No installations configured)")
+            assert no_install_action is not None, "Failed to create menu action for no installations"
             no_install_action.setEnabled(False)
             return
         first = True
@@ -843,12 +847,14 @@ class ToolWindow(QMainWindow):
                 continue
             game_label = f"{name} (Star Wars - {'KotOR2' if config.tsl else 'KotOR'})"
             label_action = self.menu_run.addAction(game_label)
+            assert label_action is not None, "Failed to create menu action for installation"
             label_action.setEnabled(False)
             install_dir = Path(install_path)
-            if install_dir.safe_isdir():
+            if install_dir.is_dir():
                 for exe_file in sorted(install_dir.iterdir()):
                     if exe_file.suffix.lower() == ".exe" and exe_file.is_file():
                         exe_action = self.menu_run.addAction(f"  {exe_file.name}")
+                        assert exe_action is not None, "Failed to create menu action for executable"
                         exe_path = str(exe_file)
                         exe_action.triggered.connect(lambda checked=False, p=exe_path: self._launch_game_exe(p))
 
@@ -905,7 +911,8 @@ class ToolWindow(QMainWindow):
         if not current_index.isValid():
             self.previewPanel.clearPreview()
             return
-        resources = resource_widget.modules_model.resourceFromIndexes([current_index])
+        assert resource_widget.modules_model is not None, "Modules model not found in resource widget"
+        resources = resource_widget.modules_model.resource_from_indexes([current_index])
         if resources:
             self.previewPanel.updatePreview(resources[0])
         else:
@@ -922,11 +929,15 @@ class ToolWindow(QMainWindow):
         if not current_index.isValid():
             self.previewPanel.clearPreview()
             return
-        source_index = self.ui.texturesWidget.texturesProxyModel.mapToSource(current_index)
+        source_index = self.ui.texturesWidget.textures_proxy_model.mapToSource(current_index)
         if not source_index.isValid():
             self.previewPanel.clearPreview()
             return
-        item = self.ui.texturesWidget.texturesModel.item(source_index.row())
+        source_model = self.ui.texturesWidget.textures_proxy_model.sourceModel()
+        if not isinstance(source_model, QStandardItemModel):
+            self.previewPanel.clearPreview()
+            return
+        item = source_model.item(source_index.row())
         if item is None:
             self.previewPanel.clearPreview()
             return
@@ -2669,7 +2680,7 @@ class ToolWindow(QMainWindow):
                 return
 
             from toolset.gui.common.extraction_feedback import show_extraction_results
-            show_extraction_results(self, resource_save_paths, loader.errors, folder_path)
+            show_extraction_results(self, resource_save_paths, loader.errors, folder_path)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
         elif isinstance(resource_widget, ResourceList) and is_capsule_file(resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)):
             module_name = resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
             self._save_capsule_from_tool_ui(module_name)
@@ -2823,7 +2834,7 @@ class ToolWindow(QMainWindow):
         location: LocationResult,
         resident: ResourceIdentifier,
         subfolder: Path,
-        seen_resources: dict[LocationResult, Path],
+        seen_resources: dict[LocationResult | Literal['all_locresults'], Path | Any],
     ):
         file_format = ResourceType.TGA if self.ui.tpcDecompileCheckbox.isChecked() else ResourceType.TPC
         seen_resources[location] = savepath = subfolder / f"{resident.resname}.{file_format.extension}"
