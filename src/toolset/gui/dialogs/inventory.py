@@ -277,7 +277,6 @@ class InventoryEditor(QDialog):
         filepath: str = "",
         name: str = "",
     ):
-        # sourcery skip: remove-redundant-exception, simplify-single-exception-tuple
         slot_picture: QLabel = self._slow_map[slot].label
         if resname:
             try:
@@ -748,7 +747,7 @@ class ItemBuilderDialog(QDialog):
             return "Droid Shields" if droid else "Belts"
         if slots & EquipmentSlot.HIDE.value:
             return "Creature Hide"
-        if slots == 0:  # sourcery skip: assign-if-exp, reintroduce-else
+        if slots == 0:
             return "Miscellaneous"
         return "Unknown"
 

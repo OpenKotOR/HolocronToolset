@@ -86,6 +86,9 @@ class GITEditor(Editor, BlenderEditorMixin):
         Initializes the editor UI and connects signals. Loads default settings. Initializes rendering area and mode. Clears any existing geometry.
         """
         supported = [ResourceType.GIT]
+        # Toolbar may emit installation_changed during Editor.__init__ (combo sync) before setupUi;
+        # _on_installation_changed and _InstanceMode need _git and editor.ui respectively.
+        self._git: GIT = GIT()
         super().__init__(parent, "GIT Editor", "git", supported, supported, installation)
 
         # Initialize Blender integration
@@ -101,9 +104,8 @@ class GITEditor(Editor, BlenderEditorMixin):
         self._setup_signals()
         self._setup_hotkeys()
 
-        self._git: GIT = GIT()
         self._layout: LYT | None = None  # Store the LYT layout for room boundary rendering
-        self._mode: _Mode = _InstanceMode(self, installation, self._git)
+        self._mode: _Mode = _InstanceMode(self, self._installation, self._git)
         self._controls: GITControlScheme = GITControlScheme(self)
         self._geom_instance: GITInstance | None = None  # Used to track which trigger/encounter you are editing
 
@@ -133,7 +135,8 @@ class GITEditor(Editor, BlenderEditorMixin):
         return None
 
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
-        self._installation = installation
+        if getattr(self, "ui", None) is None:
+            return
         self._mode = _InstanceMode(self, self._installation, self._git)
         self.update_visibility()
 

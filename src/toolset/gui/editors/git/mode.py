@@ -650,7 +650,7 @@ class _InstanceMode(_Mode):
         *,
         no_undo_stack: bool = False,
     ):
-        RobustLogger().info(f"Moving selected instances by ({x}, {y})")
+        RobustLogger().debug(f"Moving selected instances by ({x}, {y})")
         if self._ui.lockInstancesCheck.isChecked():
             RobustLogger().info("Ignoring move_selected for instancemode, lockInstancesCheck is checked.")
             return

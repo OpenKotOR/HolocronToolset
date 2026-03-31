@@ -822,7 +822,6 @@ class TreeSettings:
         key: str,
         default: Any,
     ) -> Any:
-        # sourcery skip: assign-if-exp, reintroduce-else
         if qtpy.QT5:
             default_val = self.robust_tree_settings.value(key, default, default.__class__)
             return self.settings.value(

@@ -31,15 +31,27 @@ def get_wiki_path() -> tuple[Path, Path | None]:
         if wiki_path.exists():
             return wiki_path, None
 
-    # Development mode: check toolset/wiki first, then root wiki
     if is_frozen():
-        toolset_wiki = Path("./wiki")
-    else:
-        this_file_path = Path(__file__).absolute()
-        toolset_wiki = this_file_path.parents[2] / "help" / "wiki"
+        # Frozen fallback when wiki is not alongside the executable.
+        return Path("./wiki"), None
 
-    # Fallback
-    return toolset_wiki, None
+    # Development mode:
+    # 1) prefer local toolset wiki (source tree)
+    # 2) fallback to repo-level wiki checkout when available
+    this_file_path = Path(__file__).absolute()
+    toolset_root = this_file_path.parents[2]
+    repo_root = this_file_path.parents[6]
+
+    toolset_wiki_candidates = [
+        toolset_root / "wiki",
+        toolset_root / "help" / "wiki",
+    ]
+    toolset_wiki = next((candidate for candidate in toolset_wiki_candidates if candidate.exists()), toolset_wiki_candidates[0])
+
+    root_wiki_candidate = repo_root / "wiki"
+    root_wiki: Path | None = root_wiki_candidate if root_wiki_candidate.exists() else None
+
+    return toolset_wiki, root_wiki
 
 
 class EditorHelpDialog(QDialog):

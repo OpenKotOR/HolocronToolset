@@ -10,7 +10,7 @@ from __future__ import annotations
 import pytest
 from pathlib import Path
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QListWidgetItem
+from qtpy.QtWidgets import QApplication, QListWidgetItem
 from toolset.gui.editors.uts import UTSEditor  # type: ignore[import-not-found]
 from toolset.data.installation import HTInstallation  # type: ignore[import-not-found]
 from pykotor.resource.generics.uts import UTS, read_uts  # type: ignore[import-not-found]

@@ -10,6 +10,7 @@ from __future__ import annotations
 import pytest
 from pathlib import Path
 from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QApplication
 from toolset.gui.editors.ute import UTEEditor  # type: ignore[import-not-found]
 from toolset.data.installation import HTInstallation  # type: ignore[import-not-found]
 from pykotor.resource.generics.ute import UTE, read_ute  # type: ignore[import-not-found]

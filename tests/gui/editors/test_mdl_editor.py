@@ -11,6 +11,7 @@ import pytest
 
 from typing import TYPE_CHECKING
 from pathlib import Path
+from qtpy.QtWidgets import QApplication
 from toolset.gui.editors.mdl import MDLEditor  # type: ignore[import-not-found]
 from toolset.data.installation import HTInstallation  # type: ignore[import-not-found]
 from pykotor.resource.formats.mdl.mdl_data import MDL  # type: ignore[import-not-found]

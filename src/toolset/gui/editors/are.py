@@ -53,10 +53,10 @@ class AREEditor(Editor):
 
     def __init__(self, parent: QWidget | None, installation: HTInstallation | None = None):
         supported: list[ResourceType] = [ResourceType.ARE]
+        self._are: ARE = ARE()
         super().__init__(parent, "ARE Editor", "none", supported, supported, installation)
         self.setMinimumSize(400, 600)  # Lock the window size
 
-        self._are: ARE = ARE()
         self._loaded_are: ARE | None = None  # Store reference to loaded ARE to preserve original values
         self._minimap: TPC | None = None
         self._rooms: list[ARERoom] = []  # TODO(th3w1zard1): define somewhere in ui.

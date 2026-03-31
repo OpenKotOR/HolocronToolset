@@ -10,6 +10,7 @@ from __future__ import annotations
 import pytest
 from pathlib import Path
 from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QApplication
 from toolset.gui.editors.utp import UTPEditor  # type: ignore[import-not-found]
 from toolset.data.installation import HTInstallation  # type: ignore[import-not-found]
 from pykotor.resource.generics.utp import UTP, read_utp  # type: ignore[import-not-found]

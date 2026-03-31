@@ -31,7 +31,7 @@ def on_app_crash(
     etype: type[BaseException],
     exc: BaseException,
     tback: TracebackType | None,
-):  # sourcery skip: extract-method
+):
     """Handle uncaught exceptions.
 
     This function should be called when an uncaught exception occurs, set to sys.excepthook.

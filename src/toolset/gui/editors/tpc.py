@@ -37,8 +37,9 @@ from qtpy.QtWidgets import (
     QStyle,
 )
 
-from pykotor.resource.formats.tpc import TPC, TPCTextureFormat, read_tpc, write_tpc
+from pykotor.resource.formats.tpc import TPC, TPCTextureFormat, write_tpc
 from pykotor.resource.type import ResourceType
+from pykotor.tools.texture_batch import read_tpc_for_editor
 from toolset.gui.editor import Editor
 
 if TYPE_CHECKING:
@@ -1000,8 +1001,7 @@ class TPCEditor(Editor):
 
         self._tpc = TPC()
         if restype in {ResourceType.TPC, ResourceType.TGA}:
-            txi_path = Path(filepath).with_suffix(".txi")
-            self._tpc = read_tpc(data, txi_source=txi_path if txi_path.exists() else None)
+            self._tpc = read_tpc_for_editor(filepath, data)
         else:
             # Load from standard image format
             supported_formats: list[str] = [

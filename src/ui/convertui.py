@@ -23,6 +23,8 @@ utility_path = file_absolute_path.parents[4] / "Libraries" / "Utility" / "src"
 if utility_path.exists():
     update_sys_path(utility_path)
 
+import re  # noqa: E402
+
 from pathlib import Path  # noqa: E402
 
 # Working dir should always be 'toolset' when running this script.
@@ -209,6 +211,13 @@ def compile_ui(
                 continue
             filedata: str = ui_target.read_text(encoding="utf-8")
             new_filedata: str = filedata.replace(f"from {qt_version}", "from qtpy").replace(f"import {qt_version}", "import qtpy")
+            # pyuic6 bug: contentsMargins with 4 equal values generates setContentsMargins(n) instead of
+            # setContentsMargins(n, n, n, n). Fix any single-int call (which is always invalid in PyQt6).
+            new_filedata = re.sub(
+                r"\.setContentsMargins\((\d+)\)",
+                lambda m: f".setContentsMargins({m.group(1)}, {m.group(1)}, {m.group(1)}, {m.group(1)})",
+                new_filedata,
+            )
             if filedata != new_filedata:
                 ui_target.write_text(new_filedata, encoding="utf-8")
 

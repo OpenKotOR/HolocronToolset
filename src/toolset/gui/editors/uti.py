@@ -628,6 +628,13 @@ class UTIEditor(Editor):
         return installation.talktable().string(stringref)
 
     @staticmethod
+    def _get_2da_row_by_id(table: TwoDA, row_id: int):
+        try:
+            return table.get_row(row_id)
+        except IndexError:
+            return table.find_row(str(row_id))
+
+    @staticmethod
     def subproperty_name(
         installation: HTInstallation,
         prop: int,
@@ -645,8 +652,11 @@ class UTIEditor(Editor):
         if subproperties is None:
             return None
         header_strref: Literal["name", "string_ref"] = "name" if "name" in subproperties.get_headers() else "string_ref"
-        name_strref: int | None = subproperties.get_row(subprop).get_integer(header_strref)
-        return subproperties.get_cell(subprop, "label") if name_strref is None else installation.talktable().string(name_strref)
+        row = UTIEditor._get_2da_row_by_id(subproperties, subprop)
+        if row is None:
+            return None
+        name_strref: int | None = row.get_integer(header_strref)
+        return row.get_string("label") if name_strref is None else installation.talktable().string(name_strref)
 
     @staticmethod
     def cost_name(
@@ -670,7 +680,10 @@ class UTIEditor(Editor):
             return None
 
         try:
-            stringref: int | None = costtable.get_row(value).get_integer("name")
+            row = UTIEditor._get_2da_row_by_id(costtable, value)
+            if row is None:
+                return None
+            stringref: int | None = row.get_integer("name")
             if stringref is not None:
                 return installation.talktable().string(stringref)
         except (IndexError, Exception):  # noqa: BLE001
@@ -706,7 +719,10 @@ class UTIEditor(Editor):
                 return None
 
             # Get the string reference for the parameter name
-            param_row: TwoDARow = paramtable_2da.get_row(param)
+            param_row = UTIEditor._get_2da_row_by_id(paramtable_2da, param)
+            if param_row is None:
+                RobustLogger().warning(f"Failed to find param row '{param}' in '{table_resref}'")
+                return None
             stringref: int | None = param_row.get_integer("name")
             if stringref is None:
                 RobustLogger().warning(f"Failed to get 'name' value for param '{param}' in '{table_resref}'")

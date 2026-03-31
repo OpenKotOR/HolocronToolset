@@ -13,7 +13,7 @@ import unittest
 import pytest
 from pathlib import Path
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QMenu
+from qtpy.QtWidgets import QApplication, QMenu
 from toolset.gui.editors.gff import GFFEditor, _LABEL_NODE_ROLE, _TYPE_NODE_ROLE, _VALUE_NODE_ROLE  # type: ignore[import-not-found]
 from toolset.data.installation import HTInstallation  # type: ignore[import-not-found]
 from pykotor.resource.formats.gff import GFF, GFFContent, GFFFieldType, GFFStruct, GFFList, read_gff, write_gff  # type: ignore[import-not-found]

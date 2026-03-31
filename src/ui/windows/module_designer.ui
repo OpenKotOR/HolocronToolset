@@ -38,876 +38,1013 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="spacing">
-       <number>4</number>
+     <widget class="QFrame" name="toolbarFrame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
-      <item>
-       <widget class="QLabel" name="modeLabelWidget">
-        <property name="text">
-         <string>Mode:</string>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>40</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="modeSelector">
-        <property name="toolTip">
-         <string>Switch editor mode (Layout builds rooms, Object places GIT instances,
-          Walkmesh edits walk surfaces)</string>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>130</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <item>
-         <property name="text">
-          <string>Object Mode</string>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="toolbarFrameLayout">
+       <property name="leftMargin">
+        <number>8</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>8</number>
+       </property>
+       <property name="bottomMargin">
+        <number>6</number>
+       </property>
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>6</number>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Layout Mode</string>
+         <item>
+          <widget class="QLabel" name="modeLabelWidget">
+           <property name="text">
+            <string>Mode:</string>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="modeSelector">
+           <property name="toolTip">
+            <string>Switch editor mode (Layout builds rooms, Object places GIT
+             instances,
+             Walkmesh edits walk surfaces)</string>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>130</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>Object Mode</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Layout Mode</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Walkmesh Mode</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="modeSeparator">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="toolSelectBtn">
+           <property name="text">
+            <string>Select (F1)</string>
+           </property>
+           <property name="toolTip">
+            <string>Select tool — click to select instances [F1]</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="toolMoveBtn">
+           <property name="text">
+            <string>Move (F2)</string>
+           </property>
+           <property name="toolTip">
+            <string>Move tool — drag to translate selected instances [F2]</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="toolRotateBtn">
+           <property name="text">
+            <string>Rotate (F3)</string>
+           </property>
+           <property name="toolTip">
+            <string>Rotate tool — drag to rotate selected instances [F3]</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="toolSeparator">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="snapCheck">
+           <property name="text">
+            <string>Snap</string>
+           </property>
+           <property name="toolTip">
+            <string>Enable grid snapping for move/place (Object mode)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="snapSizeSpin">
+           <property name="minimum">
+            <double>0.050000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>10.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.250000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.500000000000000</double>
+           </property>
+           <property name="suffix">
+            <string> m</string>
+           </property>
+           <property name="toolTip">
+            <string>Grid snap increment (meters)</string>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>84</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="rotSnapCheck">
+           <property name="text">
+            <string>Rot Snap</string>
+           </property>
+           <property name="toolTip">
+            <string>Enable rotation snapping (Object mode)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="rotSnapDegreeSpin">
+           <property name="minimum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>90.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>5.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>15.000000000000000</double>
+           </property>
+           <property name="suffix">
+            <string>°</string>
+           </property>
+           <property name="toolTip">
+            <string>Rotation snap increment (degrees)</string>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>74</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="snapSeparator">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="toolbarSecondaryLayout">
+         <property name="spacing">
+          <number>8</number>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Walkmesh Mode</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="modeSeparator">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="toolSelectBtn">
-        <property name="text">
-         <string>Select (F1)</string>
-        </property>
-        <property name="toolTip">
-         <string>Select tool — click to select instances [F1]</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="toolMoveBtn">
-        <property name="text">
-         <string>Move (F2)</string>
-        </property>
-        <property name="toolTip">
-         <string>Move tool — drag to translate selected instances [F2]</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="toolRotateBtn">
-        <property name="text">
-         <string>Rotate (F3)</string>
-        </property>
-        <property name="toolTip">
-         <string>Rotate tool — drag to rotate selected instances [F3]</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="toolSeparator">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="snapCheck">
-        <property name="text">
-         <string>Snap</string>
-        </property>
-        <property name="toolTip">
-         <string>Enable grid snapping for move/place (Object mode)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="snapSizeSpin">
-        <property name="minimum">
-         <double>0.050000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.250000000000000</double>
-        </property>
-        <property name="value">
-         <double>0.500000000000000</double>
-        </property>
-        <property name="suffix">
-         <string> m</string>
-        </property>
-        <property name="toolTip">
-         <string>Grid snap increment (meters)</string>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="rotSnapCheck">
-        <property name="text">
-         <string>Rot Snap</string>
-        </property>
-        <property name="toolTip">
-         <string>Enable rotation snapping (Object mode)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="rotSnapDegreeSpin">
-        <property name="minimum">
-         <double>1.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>90.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>5.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>15.000000000000000</double>
-        </property>
-        <property name="suffix">
-         <string>\u00b0</string>
-        </property>
-        <property name="toolTip">
-         <string>Rotation snap increment (degrees)</string>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="snapSeparator">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="lockInstancesCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Lock all instances in place</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckbox { spacing: 0px; }
-          QCheckBox::indicator {
-          image: url(:/images/icons/lock.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }</string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="cursorCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Display cursor at mouse</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckbox {
-          spacing: 0px;
-          }
+         <item>
+          <widget class="QFrame" name="sceneOptionsFrame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="sceneOptionsFrameLayout">
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="sceneOptionsLabel">
+              <property name="text">
+               <string>Scene</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="lockInstancesCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Lock all instances in place</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckbox { spacing: 0px; }
+                QCheckBox::indicator {
+                image: url(:/images/icons/lock.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }</string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="cursorCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Display cursor at mouse</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckbox {
+                spacing: 0px;
+                }
 
-          QCheckBox::indicator {
-          image: url(:/images/icons/cursor.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+                QCheckBox::indicator {
+                image: url(:/images/icons/cursor.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="roomBoundariesCheck">
-        <property name="toolTip">
-         <string>Show room boundary boxes and room labels in 2D view</string>
-        </property>
-        <property name="text">
-         <string>Rooms</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="flatGridCheck">
-        <property name="toolTip">
-         <string>Show world-space grid in 2D view</string>
-        </property>
-        <property name="text">
-         <string>Grid</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="walkmeshEdgesCheck">
-        <property name="toolTip">
-         <string>Show walkmesh edges in 2D view (Object/Walkmesh modes)</string>
-        </property>
-        <property name="text">
-         <string>Walkmesh edges</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="backfaceCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Enable backface culling</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckbox {
-          spacing: 0px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="roomBoundariesCheck">
+              <property name="toolTip">
+               <string>Show room boundary boxes and room labels in 2D view</string>
+              </property>
+              <property name="text">
+               <string>Rooms</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="flatGridCheck">
+              <property name="toolTip">
+               <string>Show world-space grid in 2D view</string>
+              </property>
+              <property name="text">
+               <string>Grid</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="walkmeshEdgesCheck">
+              <property name="toolTip">
+               <string>Show walkmesh edges in 2D view (Object/Walkmesh modes)</string>
+              </property>
+              <property name="text">
+               <string>Walkmesh edges</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="renderOptionsFrame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="renderOptionsFrameLayout">
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="renderOptionsLabel">
+              <property name="text">
+               <string>Render</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="backfaceCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Enable backface culling</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckbox {
+                spacing: 0px;
+                }
 
-          QCheckBox::indicator {
-          image: url(:/images/icons/backface.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+                QCheckBox::indicator {
+                image: url(:/images/icons/backface.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="lightmapCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Enable lightmaps</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckbox {
-          spacing: 0px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="lightmapCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Enable lightmaps</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckbox {
+                spacing: 0px;
+                }
 
-          QCheckBox::indicator {
-          image: url(:/images/icons/lightmap.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+                QCheckBox::indicator {
+                image: url(:/images/icons/lightmap.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewCreatureCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Creatures</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckbox {
-          spacing: 0px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="visibilityFiltersFrame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="visibilityFiltersFrameLayout">
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="visibilityFiltersLabel">
+              <property name="text">
+               <string>Visible Types</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewCreatureCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Creatures</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckbox {
+                spacing: 0px;
+                }
 
-          QCheckBox::indicator {
-          image: url(:/images/icons/k1/creature.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+                QCheckBox::indicator {
+                image: url(:/images/icons/k1/creature.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewDoorCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Doors</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/door.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewDoorCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Doors</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/door.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewPlaceableCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Placeables</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/placeable.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewPlaceableCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Placeables</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/placeable.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewStoreCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Merchants</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/merchant.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewStoreCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Merchants</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/merchant.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewSoundCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Sounds</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/sound.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewSoundCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Sounds</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/sound.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewWaypointCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Waypoints</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/waypoint.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewWaypointCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Waypoints</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/waypoint.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewCameraCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Cameras</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/camera.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewCameraCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Cameras</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/camera.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewEncounterCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Encounters</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/encounter.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewEncounterCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Encounters</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/encounter.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="viewTriggerCheck">
-        <property name="maximumSize">
-         <size>
-          <width>28</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Triggers</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox::indicator {
-          image: url(:/images/icons/k1/trigger.png);
-          border: 1px solid rgba(30, 144, 255, 0.0);
-          width: 26px;
-          height: 26px;
-          }
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="viewTriggerCheck">
+              <property name="maximumSize">
+               <size>
+                <width>28</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Triggers</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator {
+                image: url(:/images/icons/k1/trigger.png);
+                border: 1px solid rgba(30, 144, 255, 0.0);
+                width: 26px;
+                height: 26px;
+                }
 
-          QCheckBox::indicator:unchecked:hover {
-          background: rgba(30, 144, 255, 0.2);
-          border: 1px solid rgba(30, 144, 255, 0.4);
-          }
+                QCheckBox::indicator:unchecked:hover {
+                background: rgba(30, 144, 255, 0.2);
+                border: 1px solid rgba(30, 144, 255, 0.4);
+                }
 
-          QCheckBox::indicator:checked {
-          background: rgba(30, 144, 255, 0.4);
-          border:1px solid rgba(30, 144, 255, 0.6);
-          }
+                QCheckBox::indicator:checked {
+                background: rgba(30, 144, 255, 0.4);
+                border:1px solid rgba(30, 144, 255, 0.6);
+                }
 
-          QCheckBox::indicator:checked:hover {
-          background: rgba(30, 144, 255, 0.5);
-          border:1px solid rgba(30, 144, 255, 0.7);
-          }
+                QCheckBox::indicator:checked:hover {
+                background: rgba(30, 144, 255, 0.5);
+                border:1px solid rgba(30, 144, 255, 0.7);
+                }
 
-         </string>
-        </property>
-        <property name="text">
-         <string />
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="pickHiddenCheck">
-        <property name="toolTip">
-         <string>Allow selecting instances that are hidden by type (e.g. creatures when Creatures is unchecked)</string>
-        </property>
-        <property name="text">
-         <string>Pick hidden</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+               </string>
+              </property>
+              <property name="text">
+               <string />
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="pickHiddenCheck">
+              <property name="toolTip">
+               <string>Allow selecting instances that are hidden by type (e.g.
+                creatures when Creatures is unchecked)</string>
+              </property>
+              <property name="text">
+               <string>Pick hidden</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="toolbarSecondarySpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">

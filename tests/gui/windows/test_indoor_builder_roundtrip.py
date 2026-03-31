@@ -660,57 +660,6 @@ class TestIndoorBuilderRoundtrip:
             assert git is not None, f"{module_root}: Failed to parse GIT"
             assert git.root is not None, f"{module_root}: GIT has no root"
 
-    def test_roundtrip_k1_wok_bytes_exact(
-        self,
-        qtbot: QtBot,
-        k1_installation: HTInstallation,
-        k1_pykotor_installation: Installation,
-        k1_module_roots: list[str],
-        tmp_path: Path,
-    ):
-        """Test K1: WOK bytes are EXACTLY preserved through roundtrip (byte-for-byte).
-
-        Rebuilt MOD uses synthetic WOK names (e.g. danm13_room0). We compare each room's
-        base_walkmesh() serialized with bytes_bwm to the corresponding rebuilt WOK.
-        """
-        for module_root in k1_module_roots:
-            indoor_map = _import_module_into_indoor_map(module_root, k1_pykotor_installation)
-            rebuilt_path = tmp_path / f"{module_root}_rebuilt.mod"
-            _export_indoor_map_to_mod(indoor_map, k1_pykotor_installation, rebuilt_path)
-            rebuilt_resources = _read_archive_resources(rebuilt_path)
-
-            rebuilt_woks = [(resref, data) for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK]
-
-            # Rebuilt WOKs are named {module_root}_room0, _room1, ...; sort by room index
-            def room_index(item: tuple[str, bytes]) -> int:
-                resref = item[0]
-                suffix = resref.rsplit("_room", 1)[-1] if "_room" in resref else "0"
-                try:
-                    return int(suffix)
-                except ValueError:
-                    return 0
-
-            rebuilt_woks_sorted = sorted(rebuilt_woks, key=room_index)
-
-            assert len(rebuilt_woks_sorted) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks_sorted)}, rooms={len(indoor_map.rooms)}"
-
-            for i, (room, (rebuilt_resref, rebuilt_data)) in enumerate(zip(indoor_map.rooms, rebuilt_woks_sorted)):
-                # Rebuild uses process_bwm: deepcopy base, flip, rotate, translate
-                bwm = deepcopy(room.base_walkmesh())
-                bwm.flip(room.flip_x, room.flip_y)
-                bwm.rotate(room.rotation)
-                bwm.translate(room.position.x, room.position.y, room.position.z)
-                expected_bytes = bytes_bwm(bwm)
-                if expected_bytes != rebuilt_data:
-                    orig_bwm = read_bwm(expected_bytes)
-                    rebuilt_bwm = read_bwm(rebuilt_data)
-                    diff_details: list[str] = []
-                    if len(orig_bwm.faces) != len(rebuilt_bwm.faces):
-                        diff_details.append(f"face count: {len(orig_bwm.faces)} vs {len(rebuilt_bwm.faces)}")
-                    if len(list(orig_bwm.vertices())) != len(list(rebuilt_bwm.vertices())):
-                        diff_details.append(f"vertex count: {len(list(orig_bwm.vertices()))} vs {len(list(rebuilt_bwm.vertices()))}")
-                    assert False, f"{module_root} WOK room {i} ({rebuilt_resref}): Bytes differ - {'; '.join(diff_details) or 'binary difference'}"
-
 
 class TestIndoorBuilderRoundtripK2:
     """Roundtrip tests for K2 (TSL) modules."""

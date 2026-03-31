@@ -26,10 +26,12 @@ from toolset.gui.widgets.settings.installations import GlobalSettings
 from toolset.utils.window import open_resource_editor
 
 if TYPE_CHECKING:
+    from typing_extensions import Literal
     from qtpy.QtWidgets import QComboBox, QLineEdit, QPlainTextEdit, QWidget
 
     from pykotor.extract.file import ResourceResult
     from pykotor.resource.formats.twoda import TwoDA
+    from utility.gui.qt.widgets.widgets.combobox import FilterComboBox
 
 
 class UTDEditor(Editor):
@@ -124,7 +126,7 @@ class UTDEditor(Editor):
         for signal, handler in signal_connections:
             signal.connect(handler)
 
-    def _script_fields(self) -> list[QPlainTextEdit | QLineEdit | QComboBox]:
+    def _script_fields(self) -> list[FilterComboBox]:
         """Return all script-related combo/text fields used by this editor."""
         return [
             self.ui.onClickEdit,
@@ -140,7 +142,7 @@ class UTDEditor(Editor):
             self.ui.onUserDefinedSelect,
         ]
 
-    def _script_value_pairs(self, utd: UTD) -> list[tuple[QPlainTextEdit | QLineEdit | QComboBox, ResRef]]:
+    def _script_value_pairs(self, utd: UTD) -> list[tuple[FilterComboBox, ResRef]]:
         """Map script widgets to UTD script values for load/populate operations."""
         return [
             (self.ui.onClickEdit, utd.on_click),
@@ -160,13 +162,13 @@ class UTDEditor(Editor):
         self,
         widget: QPlainTextEdit | QLineEdit | QComboBox,
         resource_types: list[ResourceType],
-        reference_type: str,
+        reference_type: Literal['script', 'tag', 'template_resref', 'conversation', 'resref', 'quest'] | None,
         tooltip_text: str,
         *,
         set_max_length: bool = False,
     ) -> None:
         """Configure context menu reference search behavior for a widget."""
-        assert self._installation is not None
+        assert self._installation is not None, "Installation must be set up before configuring reference fields."
         self._installation.setup_file_context_menu(
             widget,
             resource_types,
@@ -175,7 +177,7 @@ class UTDEditor(Editor):
         )
         widget.setToolTip(tr(tooltip_text))
 
-        if set_max_length and hasattr(widget, "lineEdit"):
+        if set_max_length and isinstance(widget, QComboBox):
             line_edit = widget.lineEdit()
             if line_edit is not None:
                 line_edit.setMaxLength(16)
@@ -267,7 +269,7 @@ class UTDEditor(Editor):
         restype: ResourceType,
         data: bytes | bytearray,
     ) -> None:
-        """Load UTD from bytes. Defaults when field missing: Tag/LocName/TemplateResRef "" or empty; lock/key/HP/scripts 0 or blank ResRef; Conversation ""; Static 0. K1 LoadDoor @ 0x0058a1f0, TSL @ 0x00765620."""
+        """Load UTD from bytes."""
         super().load(filepath, resref, restype, data)
 
         utd = read_utd(data)
@@ -282,8 +284,6 @@ class UTDEditor(Editor):
         Args:
         ----
             utd (UTD): UTD object to load data from
-
-        Defaults from construct_utd; LoadDoor @ (K1: 0x0058a1f0, TSL: 0x00765620). Sets Basic, Advanced, Lock, Scripts, Comments.
         """
         assert self._installation is not None
         self._utd = utd

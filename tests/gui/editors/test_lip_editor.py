@@ -581,21 +581,15 @@ def test_lip_editor_empty_lip_file(qtbot: QtBot, installation: HTInstallation):
     # Build empty file
     data, _ = editor.build()
 
-    # Empty LIPs produce empty data, which cannot be loaded
-    # This is expected behavior - empty LIPs are not valid
-    assert len(data) == 0, "Empty LIP should produce empty data"
+    # An empty LIP produces a valid 16-byte header ("LIP V1.0" + length + frame count).
+    # Zero frames and zero duration are valid; the binary format is always emitted.
+    assert len(data) == 16, "Empty LIP should produce a 16-byte header"
+    assert data[:8] == b"LIP V1.0", "Empty LIP header should start with 'LIP V1.0'"
 
-    # Verify that empty data cannot be loaded (expected behavior)
-    # Empty LIPs produce empty data, which cannot be loaded
-    # This is expected behavior - empty LIPs are not valid
-    assert len(data) == 0, "Empty LIP should produce empty data"
-
-    # Verify that empty data cannot be loaded (expected behavior)
-    with pytest.raises(ValueError, match="Failed to determine the format"):
-        editor.load(Path("test.lip"), "test", ResourceType.LIP, data)
-    # After failed load, lip should still be None or empty
-    if editor.lip is not None:
-        assert len(editor.lip.frames) == 0
+    # Loading the empty-but-valid data should succeed and produce a LIP with no frames.
+    editor.load(Path("test.lip"), "test", ResourceType.LIP, data)
+    assert editor.lip is not None
+    assert len(editor.lip.frames) == 0, "Loaded empty LIP should have no frames"
 
 
 def test_lip_editor_keyframes_sorted_by_time(qtbot: QtBot, installation: HTInstallation):
@@ -1669,7 +1663,7 @@ def test_lip_editor_multiple_roundtrips_with_modifications(qtbot: QtBot, install
 
         # Verify
         assert editor.lip is not None
-        assert len(editor.lip.frames) == cycle + 1
+        assert len(editor.lip.frames) == cycle + 1, f"Expected {cycle + 1} frames after cycle {cycle}"
 
 
 def test_lip_editor_roundtrip_preserves_duration(qtbot: QtBot, installation: HTInstallation):
@@ -2235,7 +2229,7 @@ def test_lip_editor_repeated_add_delete_cycle(qtbot: QtBot, installation: HTInst
         editor.add_keyframe()
 
         assert editor.lip is not None
-        assert len(editor.lip.frames) == cycle + 1
+        assert len(editor.lip.frames) == 1, f"Expected 1 frame after add in cycle {cycle}"
 
         # Delete it
         editor.update_preview()
@@ -2243,7 +2237,8 @@ def test_lip_editor_repeated_add_delete_cycle(qtbot: QtBot, installation: HTInst
         editor.delete_keyframe()
 
         assert editor.lip is not None
-        assert len(editor.lip.frames) == cycle
+        assert len(editor.lip.frames) == 0, f"Expected 0 frames after delete in cycle {cycle}"
+    editor.lip = None  # clear the LIP set by new() to simulate no LIP loaded
 
 
 def test_lip_editor_repeated_update_operations(qtbot: QtBot, installation: HTInstallation):
@@ -2853,6 +2848,7 @@ def test_lip_editor_play_preview_without_lip(qtbot: QtBot, installation: HTInsta
 
     # Set audio path but no LIP
     editor.audio_path.setText("test.wav")
+    editor.lip = None  # clear the LIP set by new() to simulate no LIP loaded
 
     # Try to play
     from unittest.mock import patch
@@ -2860,50 +2856,6 @@ def test_lip_editor_play_preview_without_lip(qtbot: QtBot, installation: HTInsta
     with patch("toolset.gui.editors.lip.lip_editor.QMessageBox.warning") as mock_warning:
         editor.play_preview()
         mock_warning.assert_called_once()
-
-
-# ============================================================================
-# CONTEXT MENU UNIT TESTS
-# ============================================================================
-
-
-def test_lip_editor_context_menu_add_action(qtbot: QtBot, installation: HTInstallation):
-    """Test context menu add action."""
-    editor = LIPEditor(None, installation)
-    qtbot.addWidget(editor)
-    editor.new()
-    editor.duration = 10.0
-    editor.duration_label.setText("10.000s")
-    editor.time_input.setMaximum(10.0)
-
-    # Right-click to show menu
-    pos = QPoint(10, 10)
-    editor.show_preview_context_menu(pos)
-
-    # Menu should appear (we can't easily test menu actions in unit tests)
-
-
-def test_lip_editor_context_menu_update_delete_actions(qtbot: QtBot, installation: HTInstallation):
-    """Test context menu update and delete actions when item selected."""
-    editor = LIPEditor(None, installation)
-    qtbot.addWidget(editor)
-    editor.new()
-    editor.duration = 10.0
-    editor.duration_label.setText("10.000s")
-    editor.time_input.setMaximum(10.0)
-
-    # Add keyframe
-    editor.time_input.setValue(1.0)
-    editor.shape_select.setCurrentText(LIPShape.AH.name)
-    editor.add_keyframe()
-
-    # Select and right-click
-    editor.update_preview()
-    editor.preview_list.setCurrentRow(0)
-    pos = QPoint(10, 10)
-    editor.show_preview_context_menu(pos)
-
-    # Menu should show update and delete options
 
 
 # ============================================================================

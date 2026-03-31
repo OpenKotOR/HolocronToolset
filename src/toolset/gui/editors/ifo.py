@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 from typing import TYPE_CHECKING
 
 from qtpy.QtWidgets import QComboBox, QLineEdit
@@ -30,12 +32,49 @@ class IFOEditor(Editor):
         super().__init__(parent, "Module Info Editor", "ifo", supported, supported, installation)
 
         self.ifo: IFO | None = None
+        self._updating_ui: bool = False
 
         # Load UI from .ui file
         from toolset.uic.qtpy.editors.ifo import Ui_MainWindow
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # Backward-compatible direct widget aliases expected by existing tests.
+        self.tag_edit = self.ui.tagEdit
+        self.vo_id_edit = self.ui.voIdEdit
+        self.hak_edit = self.ui.hakEdit
+        self.entry_resref = self.ui.entryAreaEdit
+        self.entry_x = self.ui.entryXSpin
+        self.entry_y = self.ui.entryYSpin
+        self.entry_z = self.ui.entryZSpin
+        self.entry_dir = _RadianSpinAdapter(self.ui.entryDirectionSpin)
+        self.dawn_hour = self.ui.dawnHourSpin
+        self.dusk_hour = self.ui.duskHourSpin
+        self.time_scale = self.ui.timeScaleSpin
+        self.start_month = self.ui.startMonthSpin
+        self.start_day = self.ui.startDaySpin
+        self.start_hour = self.ui.startHourSpin
+        self.start_year = self.ui.startYearSpin
+        self.xp_scale = self.ui.xpScaleSpin
+
+        self.script_fields: dict[str, _ScriptFieldAdapter] = {
+            "on_heartbeat": _ScriptFieldAdapter(self.ui.onHeartbeatEdit),
+            "on_load": _ScriptFieldAdapter(self.ui.onLoadEdit),
+            "on_start": _ScriptFieldAdapter(self.ui.onStartEdit),
+            "on_enter": _ScriptFieldAdapter(self.ui.onEnterEdit),
+            "on_leave": _ScriptFieldAdapter(self.ui.onLeaveEdit),
+            "on_activate_item": _ScriptFieldAdapter(self.ui.onActivateItemEdit),
+            "on_acquire_item": _ScriptFieldAdapter(self.ui.onAcquireItemEdit),
+            "on_unacquire_item": _ScriptFieldAdapter(self.ui.onUnacquireItemEdit),
+            "on_player_death": _ScriptFieldAdapter(self.ui.onPlayerDeathEdit),
+            "on_player_dying": _ScriptFieldAdapter(self.ui.onPlayerDyingEdit),
+            "on_player_levelup": _ScriptFieldAdapter(self.ui.onPlayerLevelupEdit),
+            "on_player_respawn": _ScriptFieldAdapter(self.ui.onPlayerRespawnEdit),
+            "on_user_defined": _ScriptFieldAdapter(self.ui.onUserDefinedEdit),
+            "on_player_rest": _ScriptFieldAdapter(self.ui.onPlayerRestEdit),
+            "start_movie": _ScriptFieldAdapter(self.ui.startMovieEdit),
+        }
 
         self._setup_menus()
         self._add_help_action()
@@ -140,17 +179,25 @@ class IFOEditor(Editor):
 
     def on_mod_name_changed(self):
         """Handle changes to the module name localized string."""
-        if self.ifo is None:
+        if self.ifo is None or self._updating_ui:
             return
         self.ifo.mod_name = self.ui.modNameEdit.locstring()
         self.on_value_changed()
 
     def on_description_changed(self):
         """Handle changes to the module description localized string."""
-        if self.ifo is None:
+        if self.ifo is None or self._updating_ui:
             return
         self.ifo.description = self.ui.descriptionEdit.locstring()
         self.on_value_changed()
+
+    def edit_name(self) -> None:
+        """Backward-compatible shim for tests expecting edit_name."""
+        self.on_mod_name_changed()
+
+    def edit_description(self) -> None:
+        """Backward-compatible shim for tests expecting edit_description."""
+        self.on_description_changed()
 
     def _setup_installation(self, installation: HTInstallation):
         """Setup installation-specific features."""
@@ -236,7 +283,7 @@ class IFOEditor(Editor):
 
     def on_entry_direction_changed(self):
         """Handle entry direction changes, converting degrees to radians."""
-        if self.ifo is None:
+        if self.ifo is None or self._updating_ui:
             return
 
         # Convert degrees to radians
@@ -270,6 +317,11 @@ class IFOEditor(Editor):
         """Create new IFO file."""
         super().new()
         self.ifo = IFO()
+        # Keep month/day in a human calendar range for editor defaults.
+        if self.ifo.start_month < 1:
+            self.ifo.start_month = 1
+        if self.ifo.start_day < 1:
+            self.ifo.start_day = 1
         self.update_ui_from_ifo()
 
     def update_ui_from_ifo(self) -> None:
@@ -277,63 +329,68 @@ class IFOEditor(Editor):
         if self.ifo is None or self._installation is None:
             return
 
-        # Basic Info: Mod_Name/Mod_Tag/Mod_VO_ID "" or empty when missing (K1/TSL LoadModuleStart).
-        self.ui.modNameEdit.set_locstring(self.ifo.mod_name)
-        self.ui.tagEdit.setText(self.ifo.tag)
-        self.ui.voIdEdit.setText(self.ifo.vo_id)
-        self.ui.hakEdit.setText(self.ifo.hak)
-        self.ui.descriptionEdit.set_locstring(self.ifo.description)
+        self._updating_ui = True
 
-        # Module ID (read-only, display as hex)
-        mod_id_str = " ".join(f"{b:02x}" for b in self.ifo.mod_id[:16]) if self.ifo.mod_id else ""
-        self.ui.modIdEdit.setText(mod_id_str)
+        try:
+            # Basic Info: Mod_Name/Mod_Tag/Mod_VO_ID "" or empty when missing (K1/TSL LoadModuleStart).
+            self.ui.modNameEdit.set_locstring(self.ifo.mod_name)
+            self.ui.tagEdit.setText(self.ifo.tag)
+            self.ui.voIdEdit.setText(self.ifo.vo_id)
+            self.ui.hakEdit.setText(self.ifo.hak)
+            self.ui.descriptionEdit.set_locstring(self.ifo.description)
 
-        # Creator ID and Version (deprecated)
-        self.ui.creatorIdSpin.setValue(self.ifo.creator_id)
-        self.ui.versionSpin.setValue(self.ifo.version)
+            # Module ID (read-only, display as hex)
+            mod_id_str = " ".join(f"{b:02x}" for b in self.ifo.mod_id[:16]) if self.ifo.mod_id else ""
+            self.ui.modIdEdit.setText(mod_id_str)
 
-        # Entry Point: Mod_Entry_Area blank, Mod_Entry_X/Y/Z 0.0, Mod_Entry_Dir 1,0 when missing (K1 ~174-186).
-        self.ui.entryAreaEdit.setText(str(self.ifo.resref))
-        self.ui.entryXSpin.setValue(self.ifo.entry_position.x)
-        self.ui.entryYSpin.setValue(self.ifo.entry_position.y)
-        self.ui.entryZSpin.setValue(self.ifo.entry_position.z)
+            # Creator ID and Version (deprecated)
+            self.ui.creatorIdSpin.setValue(self.ifo.creator_id)
+            self.ui.versionSpin.setValue(self.ifo.version)
 
-        # Convert radians to degrees for display
-        degrees = self.ifo.entry_direction * 180.0 / 3.141592653589793
-        if degrees < 0:
-            degrees += 360.0
-        degrees = degrees % 360.0
-        self.ui.entryDirectionSpin.setValue(degrees)
+            # Entry Point: Mod_Entry_Area blank, Mod_Entry_X/Y/Z 0.0, Mod_Entry_Dir 1,0 when missing (K1 ~174-186).
+            self.ui.entryAreaEdit.setText(str(self.ifo.resref))
+            self.ui.entryXSpin.setValue(self.ifo.entry_position.x)
+            self.ui.entryYSpin.setValue(self.ifo.entry_position.y)
+            self.ui.entryZSpin.setValue(self.ifo.entry_position.z)
 
-        # Area name (first area from list, read-only)
-        area_name = str(self.ifo.area_name) if hasattr(self.ifo, "area_name") else ""
-        self.ui.areaNameEdit.setText(area_name)
+            # Convert radians to degrees for display
+            degrees = self.ifo.entry_direction * 180.0 / 3.141592653589793
+            if degrees < 0:
+                degrees += 360.0
+            degrees = degrees % 360.0
+            self.ui.entryDirectionSpin.setValue(degrees)
 
-        # Time Settings (deprecated)
-        self.ui.dawnHourSpin.setValue(self.ifo.dawn_hour)
-        self.ui.duskHourSpin.setValue(self.ifo.dusk_hour)
-        self.ui.timeScaleSpin.setValue(self.ifo.time_scale)
-        self.ui.startMonthSpin.setValue(self.ifo.start_month)
-        self.ui.startDaySpin.setValue(self.ifo.start_day)
-        self.ui.startHourSpin.setValue(self.ifo.start_hour)
-        self.ui.startYearSpin.setValue(self.ifo.start_year)
-        self.ui.xpScaleSpin.setValue(self.ifo.xp_scale)
+            # Area name (first area from list, read-only)
+            area_name = str(self.ifo.area_name) if hasattr(self.ifo, "area_name") else ""
+            self.ui.areaNameEdit.setText(area_name)
 
-        # Scripts - update from IFO attributes to UI widgets
-        for ui_name, ifo_attr in self._script_field_mapping.items():
-            widget = getattr(self.ui, ui_name)
-            script_value = str(getattr(self.ifo, ifo_attr))
-            if isinstance(widget, QComboBox):
-                widget.setCurrentText(script_value)
-            elif isinstance(widget, (QLineEdit,)):
-                widget.setText(script_value)
+            # Time Settings (deprecated)
+            self.ui.dawnHourSpin.setValue(self.ifo.dawn_hour)
+            self.ui.duskHourSpin.setValue(self.ifo.dusk_hour)
+            self.ui.timeScaleSpin.setValue(self.ifo.time_scale)
+            self.ui.startMonthSpin.setValue(self.ifo.start_month)
+            self.ui.startDaySpin.setValue(self.ifo.start_day)
+            self.ui.startHourSpin.setValue(self.ifo.start_hour)
+            self.ui.startYearSpin.setValue(self.ifo.start_year)
+            self.ui.xpScaleSpin.setValue(self.ifo.xp_scale)
 
-        # Advanced settings
-        self.ui.expansionPackSpin.setValue(self.ifo.expansion_id)
+            # Scripts - update from IFO attributes to UI widgets
+            for ui_name, ifo_attr in self._script_field_mapping.items():
+                widget = getattr(self.ui, ui_name)
+                script_value = str(getattr(self.ifo, ifo_attr))
+                if isinstance(widget, QComboBox):
+                    widget.setCurrentText(script_value)
+                elif isinstance(widget, (QLineEdit,)):
+                    widget.setText(script_value)
+
+            # Advanced settings
+            self.ui.expansionPackSpin.setValue(self.ifo.expansion_id)
+        finally:
+            self._updating_ui = False
 
     def on_value_changed(self) -> None:
         """Handle UI value changes. Persisted via dismantle_ifo (K1 0x004c9050, TSL 0x0072aaa0)."""
-        if not self.ifo:
+        if not self.ifo or self._updating_ui:
             return
 
         # Basic Info: same defaults as construct_ifo/dismantle_ifo.
@@ -383,8 +440,8 @@ class IFOEditor(Editor):
                     setattr(self.ifo, ifo_attr, ResRef(script_text))
                 else:
                     setattr(self.ifo, ifo_attr, ResRef.from_blank())
-            except ResRef.ExceedsMaxLengthError:
-                # Skip invalid ResRef values to prevent teardown errors
+            except (ResRef.ExceedsMaxLengthError, ResRef.InvalidEncodingError):
+                # Skip invalid ResRef values to prevent teardown errors.
                 pass
 
         # Advanced settings
@@ -392,6 +449,44 @@ class IFOEditor(Editor):
 
         # TODO: determine if this is needed
         # self.signal_modified.emit()
+
+class _RadianSpinAdapter:
+    """Compatibility shim that exposes a radian API over a degree-based spin box."""
+
+    def __init__(self, spin):
+        self._spin = spin
+
+    def setValue(self, radians: float) -> None:
+        normalized_radians = radians % (2 * math.pi)
+        self._spin.setValue(math.degrees(normalized_radians))
+
+    def value(self) -> float:
+        return math.radians(self._spin.value())
+
+    def __getattr__(self, name: str):
+        return getattr(self._spin, name)
+
+
+class _ScriptFieldAdapter:
+    """Compatibility shim to provide setText/text for script widgets."""
+
+    def __init__(self, widget: QComboBox | QLineEdit):
+        self._widget = widget
+
+    def setText(self, value: str) -> None:
+        if isinstance(self._widget, QComboBox):
+            self._widget.setCurrentText(value)
+        else:
+            self._widget.setText(value)
+
+    def text(self) -> str:
+        if isinstance(self._widget, QComboBox):
+            return self._widget.currentText()
+        return self._widget.text()
+
+    def __getattr__(self, name: str):
+        return getattr(self._widget, name)
+
 
 if __name__ == "__main__":
     import sys

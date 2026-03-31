@@ -347,7 +347,7 @@
     <string>Properties</string>
    </property>
    <property name="features">
-    <number>7</number>
+    <set>QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable</set>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -518,7 +518,7 @@
     <string>TXI Properties</string>
    </property>
    <property name="features">
-    <number>7</number>
+    <set>QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable</set>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>

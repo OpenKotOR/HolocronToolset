@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>480</width><height>620</height></rect>
+  </property>
+  <property name="windowTitle"><string>Camera instance</string></property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0"><widget class="QLabel" name="labelPos"><property name="text"><string>Position</string></property></widget></item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="posLayout">
+       <item><widget class="QDoubleSpinBox" name="xPosSpin"><property name="minimum"><double>-1000000</double></property><property name="maximum"><double>1000000</double></property><property name="decimals"><number>4</number></property></widget></item>
+       <item><widget class="QDoubleSpinBox" name="yPosSpin"><property name="minimum"><double>-1000000</double></property><property name="maximum"><double>1000000</double></property><property name="decimals"><number>4</number></property></widget></item>
+       <item><widget class="QDoubleSpinBox" name="zPosSpin"><property name="minimum"><double>-1000000</double></property><property name="maximum"><double>1000000</double></property><property name="decimals"><number>4</number></property></widget></item>
+      </layout>
+     </item>
+     <item row="1" column="0"><widget class="QLabel" name="labelCamId"><property name="text"><string>Camera ID</string></property></widget></item>
+     <item row="1" column="1"><widget class="QSpinBox" name="cameraIdSpin"><property name="maximum"><number>2147483647</number></property></widget></item>
+     <item row="2" column="0"><widget class="QLabel" name="labelFov"><property name="text"><string>Field of view</string></property></widget></item>
+     <item row="2" column="1"><widget class="QDoubleSpinBox" name="fovSpin"><property name="maximum"><double>360</double></property><property name="decimals"><number>3</number></property></widget></item>
+     <item row="3" column="0"><widget class="QLabel" name="labelHeight"><property name="text"><string>Height</string></property></widget></item>
+     <item row="3" column="1"><widget class="QDoubleSpinBox" name="heightSpin"><property name="minimum"><double>-1000000</double></property><property name="maximum"><double>1000000</double></property><property name="decimals"><number>4</number></property></widget></item>
+     <item row="4" column="0"><widget class="QLabel" name="labelMic"><property name="text"><string>Mic range</string></property></widget></item>
+     <item row="4" column="1"><widget class="QDoubleSpinBox" name="micRangeSpin"><property name="minimum"><double>-1000000</double></property><property name="maximum"><double>1000000</double></property><property name="decimals"><number>4</number></property></widget></item>
+     <item row="5" column="0"><widget class="QLabel" name="labelPitch"><property name="text"><string>Pitch (rad)</string></property></widget></item>
+     <item row="5" column="1"><widget class="QDoubleSpinBox" name="pitchSpin"><property name="minimum"><double>-100</double></property><property name="maximum"><double>100</double></property><property name="decimals"><number>6</number></property></widget></item>
+     <item row="6" column="0"><widget class="QLabel" name="labelOri"><property name="text"><string>Orientation (quat)</string></property></widget></item>
+     <item row="6" column="1">
+      <layout class="QHBoxLayout" name="oriLayout">
+       <item><widget class="QDoubleSpinBox" name="oriXSpin"><property name="minimum"><double>-1000</double></property><property name="maximum"><double>1000</double></property><property name="decimals"><number>6</number></property></widget></item>
+       <item><widget class="QDoubleSpinBox" name="oriYSpin"><property name="minimum"><double>-1000</double></property><property name="maximum"><double>1000</double></property><property name="decimals"><number>6</number></property></widget></item>
+       <item><widget class="QDoubleSpinBox" name="oriZSpin"><property name="minimum"><double>-1000</double></property><property name="maximum"><double>1000</double></property><property name="decimals"><number>6</number></property></widget></item>
+       <item><widget class="QDoubleSpinBox" name="oriWSpin"><property name="minimum"><double>-1000</double></property><property name="maximum"><double>1000</double></property><property name="decimals"><number>6</number></property></widget></item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item><widget class="QDialogButtonBox" name="buttonBox"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="standardButtons"><set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set></property></widget></item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection><sender>buttonBox</sender><signal>accepted()</signal><receiver>Dialog</receiver><slot>accept()</slot></connection>
+  <connection><sender>buttonBox</sender><signal>rejected()</signal><receiver>Dialog</receiver><slot>reject()</slot></connection>
+ </connections>
+</ui>

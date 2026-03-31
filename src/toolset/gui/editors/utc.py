@@ -410,7 +410,7 @@ class UTCEditor(Editor):
         restype: ResourceType,
         data: bytes,
     ):
-        """Load UTC from bytes. Defaults when missing: see construct_utc. K1 LoadCreature @ 0x00500350 (LoadCreatures @ 0x00504a70), TSL LoadCreature @ 0x0068ccb0 (LoadCreatures @ 0x0071b140); ReadStatsFromGff @ (K1: 0x00560e60, TSL: 0x006ec350)."""
+        """Load UTC from bytes. Defaults when missing: see construct_utc. K1 LoadCreature @ 0x00500350 (LoadCreatures @ 0x00504a70), TSL LoadCreature @ 0x0068ccb0 (LoadCreatures @ 0x0071b140); ReadStatsFromGff @  (/K1/k1_win_gog_swkotor.exe: 0x00560e60, TSL: 0x006ec350)."""
         super().load(filepath, resref, restype, data)
         self._load_utc(read_utc(data))
         self.update_item_count()
@@ -603,7 +603,7 @@ class UTCEditor(Editor):
             item.setCheckState(Qt.CheckState.Checked)
 
     def build(self) -> tuple[bytes | bytearray, bytes]:
-        """Build UTC bytes from editor state. Write values match engine. K1 LoadCreature @ 0x00500350, TSL @ 0x0068ccb0; ReadStatsFromGff @ (K1: 0x00560e60, TSL: 0x006ec350)."""
+        """Build UTC bytes from editor state. Write values match engine. K1 LoadCreature @ 0x00500350, TSL @ 0x0068ccb0; ReadStatsFromGff @  (/K1/k1_win_gog_swkotor.exe: 0x00560e60, TSL: 0x006ec350)."""
         utc: UTC = deepcopy(self._utc)
 
         utc.first_name = self.ui.firstnameEdit.locstring()

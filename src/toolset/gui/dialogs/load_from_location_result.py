@@ -141,7 +141,6 @@ STAT_TO_COLUMN_MAP: dict[str, str] = {
 
 def get_sort_key(value: Any) -> int | float | str | Any:
     """Process the value to determine the appropriate sort key."""
-    # sourcery skip: assign-if-exp, reintroduce-else
     if isinstance(value, str):
         if is_int(value.strip()):
             return int(value.strip())

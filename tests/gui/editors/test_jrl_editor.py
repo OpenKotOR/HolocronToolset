@@ -17,7 +17,7 @@ import pytest
 from qtpy.QtCore import Qt, QPoint
 from qtpy.QtGui import QStandardItem, QGuiApplication
 from qtpy.QtTest import QTest
-from qtpy.QtWidgets import QApplication, QMenu, QComboBox, QSpinBox, QTreeView, QLineEdit
+from qtpy.QtWidgets import QApplication, QMenu, QComboBox, QDoubleSpinBox, QSpinBox, QTreeView, QLineEdit
 from toolset.gui.editors.jrl import JRLEditor
 from toolset.data.installation import HTInstallation
 from pykotor.resource.generics.jrl import JRLQuest, JRLEntry, JRLQuestPriority, JRL, read_jrl

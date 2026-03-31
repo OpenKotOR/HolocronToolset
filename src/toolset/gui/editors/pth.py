@@ -234,6 +234,14 @@ class PTHEditor(Editor):
 
         self.new()
 
+    @property
+    def status_out(self):
+        return getattr(self, "_status_out", getattr(self, "rightLabel", None))
+
+    @status_out.setter
+    def status_out(self, value) -> None:
+        self._status_out = value
+
     def _resolve_path_resource(self, resref: str, suffix: str) -> bytes | None:
         folder = getattr(self, "_standalone_folder_paths", {}).get("modules_folder")
         if folder is None:
@@ -259,6 +267,7 @@ class PTHEditor(Editor):
         self.leftLabel = self.status_bar_ui.leftLabel
         self.centerLabel = self.status_bar_ui.centerLabel
         self.rightLabel = self.status_bar_ui.rightLabel
+        self.status_out = self.rightLabel
 
         # Set the widget to the status bar
         sbar = self.statusBar()

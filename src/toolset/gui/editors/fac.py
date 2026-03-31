@@ -5,7 +5,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from qtpy.QtGui import QStandardItem, QStandardItemModel
-from qtpy.QtWidgets import QMenu, QShortcut, QTreeView
+from qtpy.QtWidgets import (
+    QMenu,
+    QShortcut,  # pyright: ignore[reportPrivateImportUsage]
+    QTreeView,
+)
 
 from pykotor.resource.formats.gff import write_gff
 from pykotor.resource.generics.fac import FAC, FACFaction, FACReputation, dismantle_fac, read_fac
@@ -38,9 +42,9 @@ class FACEditor(Editor):
             installation: The installation object.
         """
         supported: list[ResourceType] = [ResourceType.FAC]
+        self._fac: FAC = FAC()
         super().__init__(parent, "Faction Editor", "faction", supported, supported, installation)
 
-        self._fac: FAC = FAC()
         self._faction_model: QStandardItemModel = QStandardItemModel(self)
         self._reputation_model: QStandardItemModel = QStandardItemModel(self)
 
