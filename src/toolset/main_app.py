@@ -303,8 +303,38 @@ def main():
 
     tool_window = ToolWindow()
     RobustLogger().debug("TRACE: ToolWindow created")
+
+    # Show splash screen while loading
+    from toolset.gui.widgets.splash_screen import ToolsetSplashScreen
+    splash = ToolsetSplashScreen()
+    splash.show()
+    app.processEvents()
+    splash.setProgress(20, "Loading main window...")
+    app.processEvents()
+
+    tool_window.hide()  # Keep hidden until splash finishes
+    tool_window._splashScreen = splash
+
+    splash.setProgress(25, "Preparing interface...")
+    app.processEvents()
+
+    # Auto-load last installation behind splash
+    last_inst_name = tool_window.settings.lastInstallation
+    if last_inst_name:
+        idx = tool_window.ui.gameCombo.findText(last_inst_name)
+        if idx > 0:
+            tool_window.change_active_installation(idx)
+
+    splash.setProgress(100, "Ready")
+    app.processEvents()
+
+    tool_window._splashScreen = None
+    splash.finish(tool_window)
+
     RobustLogger().debug("TRACE: About to call tool_window.show()")
     tool_window.show()
+    tool_window.raise_()
+    tool_window.activateWindow()
     RobustLogger().debug("TRACE: tool_window.show() called")
     RobustLogger().debug("TRACE: About to call check_for_updates")
     tool_window.update_manager.check_for_updates(silent=True)
@@ -313,8 +343,8 @@ def main():
     qasync_installed = False
     with suppress(ImportError):
         RobustLogger().debug("TRACE: Importing qasync")
-        from qasync import (
-            QEventLoop,  # type: ignore[import-not-found, import-untyped, note]  # pyright: ignore[reportMissingImports, reportMissingTypeStubs]
+        from qasync import (  # type: ignore[import-not-found, import-untyped, note]  # pyright: ignore[reportMissingImports, reportMissingTypeStubs]
+            QEventLoop,
         )
 
         RobustLogger().debug("TRACE: qasync imported, creating QEventLoop")

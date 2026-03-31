@@ -498,6 +498,13 @@ class GlobalSettings(Settings):
     )
     # endregion
 
+    # region Strings (misc)
+    lastInstallation: SettingsProperty[str] = Settings.addSetting(
+        "lastInstallation",
+        "",
+    )
+    # endregion
+
     # region Bools
     loadEntireInstallation: SettingsProperty[bool] = Settings.addSetting(
         "load_entire_installation",

@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import math
+import time
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, cast, Any
 
 import qtpy
 
@@ -14,7 +15,7 @@ from qtpy.QtCore import (
     Signal,  # pyright: ignore[reportPrivateImportUsage]
 )
 from qtpy.QtGui import QCursor
-from qtpy.QtWidgets import QOpenGLWidget  # pyright: ignore[reportPrivateImportUsage]
+from qtpy.QtWidgets import QLabel, QOpenGLWidget  # pyright: ignore[reportPrivateImportUsage]
 
 from loggerplus import RobustLogger
 from pykotor.gl import vec3
@@ -49,6 +50,8 @@ if TYPE_CHECKING:
 
 
 class ModelRenderer(QOpenGLWidget):
+    MAX_CAMERA_COORD = 5000.0
+
     # Signal emitted when textures/models finish loading
     resourcesLoaded = Signal()
 
@@ -69,6 +72,21 @@ class ModelRenderer(QOpenGLWidget):
         self._mouse_prev: Vector2 = Vector2(0, 0)
         self._controls = ModelRendererControls()
 
+        # Viewfinder gizmo overlay
+        self._viewfinderOverlay: Any = None
+
+        # FPS counter
+        self._fpsLabel = QLabel("0 FPS", self)
+        self._fpsLabel.setStyleSheet(
+            "color: #39ff14; background: transparent; font-size: 11px; font-weight: bold; font-family: Consolas, monospace;"
+        )
+        self._fpsLabel.setFixedSize(80, 18)
+        self._fpsLabel.move(6, 6)
+        self._fpsLabel.show()
+        self._frameCount: int = 0
+        self._lastFpsTime: float = time.monotonic()
+        self._currentFps: int = 0
+
         self._loop_timer: QTimer = QTimer(self)
         self._loop_timer.setInterval(33)
         self._loop_timer.setSingleShot(False)
@@ -77,7 +95,20 @@ class ModelRenderer(QOpenGLWidget):
     def _render_loop(self):
         if not self.isVisible() or self._scene is None:
             return
+        self._stabilize_camera_coordinates()
         self.update()
+        # Update FPS counter
+        self._frameCount += 1
+        now = time.monotonic()
+        elapsed = now - self._lastFpsTime
+        if elapsed >= 1.0:
+            self._currentFps = int(self._frameCount / elapsed)
+            self._fpsLabel.setText(f"{self._currentFps} FPS")
+            self._frameCount = 0
+            self._lastFpsTime = now
+        # Update gizmo with current camera angles
+        if self._viewfinderOverlay is not None and self._scene is not None:
+            self._viewfinderOverlay.setCameraAngles(self._scene.camera.yaw, self._scene.camera.pitch)
 
     @property
     def scene(self) -> Scene:
@@ -120,6 +151,7 @@ class ModelRenderer(QOpenGLWidget):
             self.scene.enable_frustum_culling = False
 
         self._loop_timer.start()
+        self._setup_gizmo()
 
     def paintGL(self):
         if self._scene is None:
@@ -209,6 +241,118 @@ class ModelRenderer(QOpenGLWidget):
             scene = self._scene
             self._scene = None
             del scene
+
+    def _stabilize_camera_coordinates(self):
+        """Clamp and normalize camera coordinates to avoid float jitter at extreme ranges."""
+        if self._scene is None:
+            return
+        camera = self._scene.camera
+        max_coord = self.MAX_CAMERA_COORD
+        camera.x = max(-max_coord, min(max_coord, camera.x))
+        camera.y = max(-max_coord, min(max_coord, camera.y))
+        camera.z = max(-max_coord, min(max_coord, camera.z))
+        if abs(camera.x) < 1e-10:
+            camera.x = 0.0
+        if abs(camera.y) < 1e-10:
+            camera.y = 0.0
+        if abs(camera.z) < 1e-10:
+            camera.z = 0.0
+
+    def _setup_gizmo(self):
+        """Create the viewfinder gizmo overlay in the top-right corner."""
+        try:
+            from toolset.gui.widgets.renderer.viewfinder_gizmo import ViewfinderOverlay
+            self._viewfinderOverlay = ViewfinderOverlay(self)
+            self._viewfinderOverlay.viewChanged.connect(self._on_gizmo_view_changed)
+            self._viewfinderOverlay.projectionToggled.connect(self._on_projection_toggled)
+            self._viewfinderOverlay.dragRotate.connect(self._on_gizmo_drag_rotate)
+            self._viewfinderOverlay.dragPan.connect(self._on_gizmo_drag_pan)
+            self._viewfinderOverlay.zoomIn.connect(self._on_gizmo_zoom_in)
+            self._viewfinderOverlay.zoomOut.connect(self._on_gizmo_zoom_out)
+            self._viewfinderOverlay.wireframeToggled.connect(self._on_wireframe_toggled)
+            self._viewfinderOverlay.texturesToggled.connect(self._on_textures_toggled)
+            self._viewfinderOverlay.gridToggled.connect(self._on_grid_toggled)
+            self._viewfinderOverlay.resetClicked.connect(self._on_reset_clicked)
+            self._viewfinderOverlay.raise_()
+            self._viewfinderOverlay.show()
+            self._reposition_gizmo()
+        except Exception:  # noqa: BLE001
+            RobustLogger().exception("Failed to create viewfinder gizmo")
+            self._viewfinderOverlay = None
+
+    def _reposition_gizmo(self):
+        """Position the gizmo overlay in the top-right corner."""
+        if self._viewfinderOverlay is not None:
+            x = self.width() - self._viewfinderOverlay.width() - 4
+            self._viewfinderOverlay.move(x, 4)
+            self._viewfinderOverlay.raise_()
+        if hasattr(self, "_fpsLabel"):
+            self._fpsLabel.raise_()
+
+    def _on_gizmo_view_changed(self, yaw: float, pitch: float):
+        """Snap camera to the axis view selected on the gizmo."""
+        if self._scene is not None:
+            self._scene.camera.yaw = yaw
+            self._scene.camera.pitch = pitch
+
+    def _on_gizmo_drag_rotate(self, delta_yaw: float, delta_pitch: float):
+        """Free-rotate camera by dragging on the gizmo background."""
+        if self._scene is not None:
+            self._scene.camera.rotate(delta_yaw, delta_pitch, clamp=True)
+
+    def _on_gizmo_drag_pan(self, dx: float, dy: float):
+        """Pan camera by dragging the Move button."""
+        if self._scene is not None:
+            forward: vec3 = -dy * self._scene.camera.forward()
+            sideward: vec3 = dx * self._scene.camera.sideward()
+            strength = ModuleDesignerSettings().moveCameraSensitivity3d / 10000
+            self._scene.camera.x -= (forward.x + sideward.x) * strength
+            self._scene.camera.y -= (forward.y + sideward.y) * strength
+            self._stabilize_camera_coordinates()
+
+    def _on_gizmo_zoom_in(self):
+        """Zoom in (reduce distance)."""
+        if self._scene is not None:
+            self._scene.camera.distance = max(0.1, self._scene.camera.distance - 0.5)
+
+    def _on_gizmo_zoom_out(self):
+        """Zoom out (increase distance)."""
+        if self._scene is not None:
+            self._scene.camera.distance += 0.5
+
+    def _on_wireframe_toggled(self, enabled: bool):
+        """Toggle wireframe rendering mode."""
+        if self._scene is not None:
+            self._scene.wireframe = enabled
+
+    def _on_textures_toggled(self, enabled: bool):
+        """Toggle textured rendering mode."""
+        if self._scene is not None:
+            self._scene.use_textures = enabled
+
+    def _on_grid_toggled(self, enabled: bool):
+        """Toggle world grid visibility."""
+        if self._scene is not None:
+            self._scene.show_grid = enabled
+
+    def _on_reset_clicked(self):
+        """Reset camera location and orientation to the default view."""
+        if self._scene is None:
+            return
+        if "model" in self._scene.objects:
+            self.reset_camera()
+            return
+        self._scene.camera.x = 0
+        self._scene.camera.y = 0
+        self._scene.camera.z = 0
+        self._scene.camera.pitch = math.pi / 16 * 9
+        self._scene.camera.yaw = math.pi / 16 * 7
+        self._scene.camera.distance = 10.0
+
+    def _on_projection_toggled(self, ortho: bool):
+        """Toggle orthographic/perspective projection."""
+        if self._scene is not None:
+            self._scene.camera.orthographic = ortho
 
     def clear_model(self):
         if self._scene is not None and "model" in self.scene.objects:
@@ -326,6 +470,8 @@ class ModelRenderer(QOpenGLWidget):
         if self._scene is not None:
             self.scene.camera.width = e.size().width()
             self.scene.camera.height = e.size().height()
+
+        self._reposition_gizmo()
 
     def wheelEvent(self, e: QWheelEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         if self._controls.moveZCameraControl.satisfied(self._mouse_down, self._keys_down):

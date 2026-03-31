@@ -5,6 +5,7 @@ from __future__ import annotations
 import errno
 import os
 import shutil
+import subprocess
 import sys
 
 from collections import defaultdict
@@ -30,9 +31,11 @@ from qtpy.QtGui import QIcon, QPixmap, QStandardItem
 from qtpy.QtWidgets import (
     QAction,  # pyright: ignore[reportPrivateImportUsage]
     QApplication,
+    QDockWidget,
     QFileDialog,
     QHBoxLayout,
     QMainWindow,
+    QMenu,
     QMessageBox,
     QPushButton,
     QSizePolicy,
@@ -93,7 +96,9 @@ from toolset.gui.editors.uts import UTSEditor
 from toolset.gui.editors.utt import UTTEditor
 from toolset.gui.editors.utw import UTWEditor
 from toolset.gui.widgets.main_widgets import ResourceList, ResourceStandardItem
+from toolset.gui.widgets.preview_panel import PreviewPanel
 from toolset.gui.widgets.settings.widgets.misc import GlobalSettings
+from toolset.gui.windows.autorigger import AutoRiggerWindow
 from toolset.gui.windows.help import HelpWindow, get_help_path
 from toolset.gui.windows.indoor_builder import IndoorMapBuilder
 from toolset.gui.windows.kotordiff import KotorDiffWindow
@@ -252,6 +257,9 @@ class ToolWindow(QMainWindow):
         self._mouse_move_pos: QPoint | None = None
         self._is_changing_installation: bool = False
         self._preparing_resources: bool = False  # Guard to prevent multiple simultaneous preparations
+
+        # Splash screen reference (set externally to load installation behind splash)
+        self._splashScreen = None
 
         # Dialog management (lazy-loaded)
         self._theme_dialog: ThemeSelectorDialog | None = None
@@ -497,6 +505,44 @@ class ToolWindow(QMainWindow):
         self.ui.coreWidget.hide_section()
         self.ui.coreWidget.hide_reload_button()
 
+        # Setup Preview Panel as a dockable widget (detachable, movable, re-attachable)
+        self.previewPanel = PreviewPanel(self)
+
+        self._previewDock = QDockWidget("Preview Tab", self)
+        self._previewDock.setWidget(self.previewPanel)
+        # Minimize the dock title bar to reduce vertical offset vs resource list
+        self._previewDock.setStyleSheet(
+            "QDockWidget {"
+            "  background: #1e1e1e;"
+            "  titlebar-close-icon: none;"
+            "}"
+            "QDockWidget::title {"
+            "  background: #2d2d2d;"
+            "  border: 1px solid #3f3f3f;"
+            "  padding: 2px 4px;"
+            "  font-size: 8pt;"
+            "}"
+        )
+        # Remove central widget margins so resource list and dock align at edges
+        self.ui.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.ui.horizontalLayout.setSpacing(0)
+        self._previewDock.setAllowedAreas(
+            Qt.DockWidgetArea.LeftDockWidgetArea
+            | Qt.DockWidgetArea.RightDockWidgetArea
+            | Qt.DockWidgetArea.BottomDockWidgetArea
+            | Qt.DockWidgetArea.TopDockWidgetArea
+        )
+        self._previewDock.setFeatures(
+            QDockWidget.DockWidgetFeature.DockWidgetMovable
+            | QDockWidget.DockWidgetFeature.DockWidgetFloatable
+        )
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._previewDock)
+
+        # Add Run menu, top-level Discord menu, and AutoRigger to Tools
+        self._setup_run_menu()
+        self._setup_discord_menu()
+        self._setup_tools_menu_extensions()
+
         if os.getenv("HOLOCRON_DEBUG_RELOAD") is not None:
             self.ui.menubar.addAction("Debug Reload").triggered.connect(debug_reload_pymodules)  # pyright: ignore[reportOptionalMemberAccess]
 
@@ -618,11 +664,24 @@ class ToolWindow(QMainWindow):
         # Tab change signal
         self.ui.resourceTabs.currentChanged.connect(self.on_tab_changed)
 
+        # Connect resource selection changes to preview panel
+        for widget in (self.ui.coreWidget, self.ui.modulesWidget, self.ui.overrideWidget, self.ui.savesWidget):
+            sel_model = widget.ui.resourceTree.selectionModel()
+            if sel_model is not None:
+                w = widget  # capture for lambda
+                sel_model.currentChanged.connect(lambda cur, prev, rw=w: self._on_resource_selection_changed(rw, cur))
+        # TextureList uses resourceList (QListView) not resourceTree
+        tex_sel_model = self.ui.texturesWidget.ui.resourceList.selectionModel()
+        if tex_sel_model is not None:
+            tex_sel_model.currentChanged.connect(lambda cur, prev: self._on_texture_selection_changed(cur))
+        self.ui.resourceTabs.currentChanged.connect(self._on_preview_tab_changed)
+
         def open_module_designer(*args) -> ModuleDesigner | None:
             """Open the module designer."""
-            assert self.active is not None
+            assert self.active is not None, "Active module is not set"
             module_data = self.ui.modulesWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
             module_path: Path | None = None
+            designer_window: ModuleDesigner | None = None
             if module_data:
                 module_path = self.active.module_path() / Path(str(module_data))
             try:
@@ -639,6 +698,8 @@ class ToolWindow(QMainWindow):
 
             designer_window.setWindowIcon(cast("QApplication", QApplication.instance()).windowIcon())
             add_window(designer_window)
+
+            return designer_window
 
         self.ui.specialActionButton.clicked.connect(open_module_designer)
 
@@ -758,6 +819,145 @@ class ToolWindow(QMainWindow):
         )
         for action, url in action_links:
             action.triggered.connect(lambda checked=False, target=url: open_link(target))
+
+    def _setup_run_menu(self):
+        """Create the Run menu with exe files from each game installation."""
+        self.menu_run = QMenu("Run", self)
+        # Insert Run menu after Tools in the menubar
+        theme_action = self.ui.menuTheme.menuAction()
+        self.ui.menubar.insertMenu(theme_action, self.menu_run)
+        self._populate_run_menu()
+
+    def _populate_run_menu(self):
+        """Populate the Run menu with exe files from configured installations."""
+        self.menu_run.clear()
+        installations = self.settings.installations()
+        if not installations:
+            no_install_action = self.menu_run.addAction("(No installations configured)")
+            assert no_install_action is not None, "Failed to create menu action for no installations"
+            no_install_action.setEnabled(False)
+            return
+        first = True
+        for name, config in installations.items():
+            if not first:
+                self.menu_run.addSeparator()
+            first = False
+            install_path = config.path.strip()
+            if not install_path:
+                continue
+            game_label = f"{name} (Star Wars - {'KotOR2' if config.tsl else 'KotOR'})"
+            label_action = self.menu_run.addAction(game_label)
+            assert label_action is not None, "Failed to create menu action for installation"
+            label_action.setEnabled(False)
+            install_dir = Path(install_path)
+            if install_dir.is_dir():
+                for exe_file in sorted(install_dir.iterdir()):
+                    if exe_file.suffix.lower() == ".exe" and exe_file.is_file():
+                        exe_action = self.menu_run.addAction(f"  {exe_file.name}")
+                        assert exe_action is not None, "Failed to create menu action for executable"
+                        exe_path = str(exe_file)
+                        exe_action.triggered.connect(lambda checked=False, p=exe_path: self._launch_game_exe(p))
+
+    def _launch_game_exe(self, exe_path: str):
+        """Launch a game executable."""
+        try:
+            subprocess.Popen([exe_path], cwd=str(Path(exe_path).parent))  # noqa: S603
+        except Exception:  # noqa: BLE001
+            RobustLogger().exception(f"Failed to launch {exe_path}")
+            QMessageBox.critical(self, "Launch Error", f"Failed to launch:\n{exe_path}")
+
+    def _setup_discord_menu(self):
+        """Move Discord from Help submenu to top-level menubar with additional servers."""
+        # Remove Discord submenu from Help
+        self.ui.menuHelp.removeAction(self.ui.menuDiscord.menuAction())
+
+        # Create new top-level Discord menu
+        self.menu_discord_top = QMenu("Discord", self)
+        self.menu_discord_top.addAction(self.ui.actionDiscordHolocronToolset)
+        self.menu_discord_top.addAction(self.ui.actionDiscordKotOR)
+
+        # Add KotOR Nexus Mods Discord entry
+        self.action_discord_nexus_mods = QAction("KotOR Nexus Mods Discord", self)
+        self.action_discord_nexus_mods.triggered.connect(lambda: open_link("https://discord.gg/DG9Rk94h27"))
+        self.menu_discord_top.addAction(self.action_discord_nexus_mods)
+
+        self.menu_discord_top.addAction(self.ui.actionDiscordDeadlyStream)
+
+        # Insert Discord menu after Run (before Theme)
+        theme_action = self.ui.menuTheme.menuAction()
+        self.ui.menubar.insertMenu(theme_action, self.menu_discord_top)
+
+    def _setup_tools_menu_extensions(self):
+        """Add dynamic tool actions to the Tools menu without regenerating Qt UI files."""
+        self.action_auto_rigger = QAction("AutoRigger", self)
+        self.ui.menuTools.addSeparator()
+        self.ui.menuTools.addAction(self.action_auto_rigger)
+        self.action_auto_rigger.triggered.connect(self.open_auto_rigger)
+
+    def open_auto_rigger(self):
+        """Open the AutoRigger window."""
+        window = AutoRiggerWindow(self)
+        add_window(window)
+        window.activateWindow()
+
+    def _on_resource_selection_changed(self, resource_widget: ResourceList, current_index: Any):
+        """Handle resource tree selection change to update preview panel."""
+        try:
+            active_widget = self.get_active_resource_widget()
+        except (ValueError, AttributeError):
+            return
+        if resource_widget is not active_widget:
+            return
+        if not current_index.isValid():
+            self.previewPanel.clearPreview()
+            return
+        assert resource_widget.modules_model is not None, "Modules model not found in resource widget"
+        resources = resource_widget.modules_model.resource_from_indexes([current_index])
+        if resources:
+            self.previewPanel.updatePreview(resources[0])
+        else:
+            self.previewPanel.clearPreview()
+
+    def _on_texture_selection_changed(self, current_index: Any):
+        """Handle texture list selection change to update preview panel."""
+        try:
+            active_widget = self.get_active_resource_widget()
+        except (ValueError, AttributeError):
+            return
+        if active_widget is not self.ui.texturesWidget:
+            return
+        if not current_index.isValid():
+            self.previewPanel.clearPreview()
+            return
+        source_index = self.ui.texturesWidget.textures_proxy_model.mapToSource(current_index)
+        if not source_index.isValid():
+            self.previewPanel.clearPreview()
+            return
+        source_model = self.ui.texturesWidget.textures_proxy_model.sourceModel()
+        if not isinstance(source_model, QStandardItemModel):
+            self.previewPanel.clearPreview()
+            return
+        item = source_model.item(source_index.row())
+        if item is None:
+            self.previewPanel.clearPreview()
+            return
+        resource = item.data(Qt.ItemDataRole.UserRole + 1)
+        if resource is not None:
+            self.previewPanel.updatePreview(resource)
+        else:
+            self.previewPanel.clearPreview()
+
+    def _on_preview_tab_changed(self, index: int):
+        """Update preview when switching tabs to show current selection."""
+        try:
+            active_widget = self.get_active_resource_widget()
+            resources = active_widget.selected_resources()
+            if resources:
+                self.previewPanel.updatePreview(resources[0])
+            else:
+                self.previewPanel.clearPreview()
+        except (ValueError, AttributeError):
+            self.previewPanel.clearPreview()
 
     def _set_kotor_action_icon(self, action: QAction, icon_name: str, version: str, *, enabled: bool) -> None:
         """Set K1/K2 icon variant and enabled-state for a menu action."""
@@ -1513,6 +1713,7 @@ class ToolWindow(QMainWindow):
         # Update settings and cache
         name = self.active.name
         self.settings.installations()[name].path = str(self.active.path())
+        self.settings.lastInstallation = name
         self.installations[name] = self.active
 
         # Show and activate window
@@ -1524,6 +1725,12 @@ class ToolWindow(QMainWindow):
 
         # Emit installation changed signal
         self.sig_installation_changed.emit(self.active)
+
+        # Update preview panel with new installation
+        self.previewPanel.setInstallation(self.active)
+
+        # Repopulate Run menu with current installations
+        self._populate_run_menu()
 
         # Set up file system watcher for auto-detecting changes
         self._setup_file_watcher()
@@ -1975,6 +2182,7 @@ class ToolWindow(QMainWindow):
 
     def reload_settings(self):
         self.reload_installations()
+        self._populate_run_menu()
 
     @Slot(bool)
     def _open_module_tab_erf_editor(
@@ -2090,6 +2298,7 @@ class ToolWindow(QMainWindow):
         # Disable resource tabs and update menus
         self.ui.resourceTabs.setEnabled(False)
         self.update_menus()
+        self.previewPanel.clearPreview()
         self.active = None
 
     # endregion
@@ -2471,7 +2680,7 @@ class ToolWindow(QMainWindow):
                 return
 
             from toolset.gui.common.extraction_feedback import show_extraction_results
-            show_extraction_results(self, resource_save_paths, loader.errors, folder_path)
+            show_extraction_results(self, resource_save_paths, loader.errors, folder_path)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
         elif isinstance(resource_widget, ResourceList) and is_capsule_file(resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)):
             module_name = resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
             self._save_capsule_from_tool_ui(module_name)
@@ -2625,7 +2834,7 @@ class ToolWindow(QMainWindow):
         location: LocationResult,
         resident: ResourceIdentifier,
         subfolder: Path,
-        seen_resources: dict[LocationResult, Path],
+        seen_resources: dict[LocationResult | Literal['all_locresults'], Path | Any],
     ):
         file_format = ResourceType.TGA if self.ui.tpcDecompileCheckbox.isChecked() else ResourceType.TPC
         seen_resources[location] = savepath = subfolder / f"{resident.resname}.{file_format.extension}"
