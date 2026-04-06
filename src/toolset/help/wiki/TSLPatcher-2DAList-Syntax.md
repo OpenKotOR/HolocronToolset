@@ -172,7 +172,7 @@ In **HoloPatcher**, the 2DAList runs in the following execution order:
 
 ### Top-Level Keys in [2DAList]
 
-| key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!DefaultDestination` | string | `override` | Default destination for all [2DA files](2DA-File-Format) in this section |
 | `!DefaultSourceFolder` | string | `.` | Default source folder for [2DA files](2DA-File-Format). Relative path from `mod_path` (typically the `tslpatchdata` folder, which is the parent directory of `changes.ini` and `namespaces.ini`). When `.`, refers to the `tslpatchdata` folder itself. Path resolution: `mod_path / !DefaultSourceFolder / filename` |
@@ -181,7 +181,7 @@ In **HoloPatcher**, the 2DAList runs in the following execution order:
 
 Each [2DA file](2DA-File-Format) requires its own section (e.g., `[appearance.2da]`).
 
-| Key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!Destination` | string | Inherited from `!DefaultDestination` | Where to save the modified file (`override` or `path\to\file.mod`) |
 | `!SourceFolder` | string | Inherited from `!DefaultSourceFolder` | Source folder for the [2DA file](2DA-File-Format). Relative path from `mod_path` (typically the tslpatchdata folder). When `.`, refers to the tslpatchdata folder itself. |

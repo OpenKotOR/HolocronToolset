@@ -21,7 +21,7 @@
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Area (ARE) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine AreaFile Format PDF, archived in [`xoreos-docs/specs/bioware/AreaFile_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/AreaFile_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine AreaFile Format PDF, archived in [`xoreos-docs/specs/bioware/AreaFile_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/AreaFile_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
@@ -869,7 +869,7 @@ Module designer's comment
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the IFO format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine IFO Format PDF, archived in [`xoreos-docs/specs/bioware/IFO_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/IFO_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine IFO Format PDF, archived in [`xoreos-docs/specs/bioware/IFO_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/IFO_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
@@ -1437,7 +1437,7 @@ List of scripting variables and their values. See Section 3 of the Common GFF St
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the common GFF structures are **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** Extracted from the official BioWare Aurora Engine CommonGFFStructs PDF, archived in [xoreos-docs](https://github.com/xoreos/xoreos-docs) [`specs/bioware/CommonGFFStructs.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/CommonGFFStructs.pdf). Original from the defunct *nwn.bioware.com* developer site.
+**Source:** Extracted from the official BioWare Aurora Engine CommonGFFStructs PDF, archived in [xoreos-docs](https://github.com/xoreos/xoreos-docs) [`specs/bioware/CommonGFFStructs.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/CommonGFFStructs.pdf). Original from the defunct *nwn.bioware.com* developer site.
 
 ---
 
@@ -2114,7 +2114,7 @@ MetaType
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Palette/ITP (GFF) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine PaletteITP Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/PaletteITP_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/PaletteITP_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine PaletteITP Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/PaletteITP_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/PaletteITP_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 

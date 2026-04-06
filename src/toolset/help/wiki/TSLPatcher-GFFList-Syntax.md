@@ -127,7 +127,7 @@ The `[GFFList]` section declares [GFF (Generic File Format)](GFF-File-Format) fi
 
 ### Top-Level Keys in [GFFList]
 
-| key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!DefaultDestination` | string | `override` | Default destination for all [GFF files](GFF-File-Format) in this section |
 | `!DefaultSourceFolder` | string | `.` | Default source folder for [GFF files](GFF-File-Format). Relative path from `mod_path` (typically the `tslpatchdata` folder, which is the parent directory of `changes.ini` and `namespaces.ini`). When `.`, refers to the `tslpatchdata` folder itself. Path resolution: `mod_path / !DefaultSourceFolder / filename` |
@@ -136,7 +136,7 @@ The `[GFFList]` section declares [GFF (Generic File Format)](GFF-File-Format) fi
 
 Each [GFF file](GFF-File-Format) requires its own section (e.g., `[example.dlg]`).
 
-| Key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!Destination` | string | Inherited from `!DefaultDestination` | Where to save the modified file (`override` or `path\to\file.mod`) |
 | `!SourceFolder` | string | Inherited from `!DefaultSourceFolder` | Source folder for the [GFF file](GFF-File-Format). Relative path from `mod_path` (typically the tslpatchdata folder). When `.`, refers to the tslpatchdata folder itself. |
@@ -215,7 +215,7 @@ Value=123
 
 ### AddField Section Structure
 
-| key | type | Required | Description |
+| Key | Type | Required | Description |
 |-----|------|----------|-------------|
 | `FieldType` | string | Yes | One of the following keywords (case as shown in tools):<br>- [byte](https://en.wikipedia.org/wiki/Byte)<br>- [char](GFF-File-Format#gff-data-types)<br>- Word, Short, DWORD, Int, Int64<br>- double, float<br>- ExoString, *ResRef*, ExoLocString<br>- Binary, Struct, List<br>- orientation, position |
 | `Label` | string | Yes* | field name (max 16 alphanumeric characters, no spaces). Must be unique within the same STRUCT parent. |

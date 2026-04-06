@@ -100,7 +100,7 @@ trackcount <N>
 **Usage:**
 
 - Tracks are optional - most modules omit this section entirely
-- Primarily used in KotOR II swoop racing modules (e.g., Telos surface racing)
+- Primarily used in KotOR II swoop racing modules (e.g., Telos surface racing) [[`lyt_data.py` L72 — "Used in swoop racing mini-games (KotOR II)"](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/lyt/lyt_data.py#L72)]
 - Each track element represents a booster that can be placed along the racing track ([`LYTTrack` L296](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/lyt/lyt_data.py#L296), [xoreos `lytfile.cpp` L98](https://github.com/xoreos/xoreos/blob/f36b681b2a38799ddd6fce0f252b6d7fa781dfc2/src/aurora/lytfile.cpp#L98), [KotOR.js `LYTObject.ts` L73](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/LYTObject.ts#L73))
 - The engine uses these positions to spawn track boosters during racing mini-games
 
@@ -124,7 +124,7 @@ obstaclecount <N>
 **Usage:**
 
 - Obstacles are optional - most modules omit this section entirely
-- Typically only present in KotOR II racing modules (e.g., Telos surface racing)
+- Typically only present in KotOR II racing modules (e.g., Telos surface racing) [[`lyt_data.py` L72](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/lyt/lyt_data.py#L72)]
 - Each obstacle element represents a hazard that can be placed along the racing track ([`LYTObstacle` L354](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/lyt/lyt_data.py#L354), [xoreos `lytfile.cpp` L109](https://github.com/xoreos/xoreos/blob/f36b681b2a38799ddd6fce0f252b6d7fa781dfc2/src/aurora/lytfile.cpp#L109), [KotOR.js `LYTObject.ts` L79](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/LYTObject.ts#L79))
 - The engine uses these positions to spawn obstacles during racing mini-games
 - Mirrors the track format but represents hazards instead of boosters
@@ -166,7 +166,7 @@ doorhookcount <N>
 
 ## Coordinate system
 
-- Units are meters in the same left-handed coordinate system as [MDL](MDL-MDX-File-Format) [models](MDL-MDX-File-Format).  
+- Units are world-space floats (same scale as [MDL](MDL-MDX-File-Format) model coordinates, by community convention).  
 - PyKotor validates that room ResRefs and hook targets are lowercase and conform to resource naming restrictions ([`lyt_data.py` L150–L267](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/lyt/lyt_data.py#L150-L267)).  
 - The engine expects rooms to be pre-aligned so that adjoining doors share positions/rotations
 - [VIS files](Level-Layout-Formats#vis) then control visibility between those rooms.
@@ -275,14 +275,14 @@ room012 3
 - VIS files only control visibility; collision and pathfinding still rely on [walkmeshes](Level-Layout-Formats#bwm) and module [GFF](GFF-File-Format) data.  
 - Editing VIS entries is a common optimization: removing unnecessary pairs prevents the renderer from drawing walls behind closed doors, while adding entries can fix disappearing [geometry](MDL-MDX-File-Format#geometry-header) when doorways are wide open.
 
-**NOTE**: VIS are NOT required by the game. Most modern hardware can run kotor significantly well even without these defined. The game however does not implement frustrum culling, so you may want to regardless.
+**NOTE**: VIS are NOT required by the game. Most modern hardware can run KotOR without them. The game does not appear to implement frustum culling independently of VIS (community-observed behavior; no confirmed engine binary source), so VIS definitions are recommended for rendering correctness.
 
 **Performance Impact:**
 
 VIS files are crucial for performance in large areas:
 
 - **Without VIS**: Engine renders all rooms, even those behind walls/doors (thousands of unnecessary polygons)
-- **With VIS**: Only visible rooms are submitted to the renderer (10-50x fewer draw calls)
+- **With VIS**: Only visible rooms are submitted to the renderer (fewer draw calls)
 - **Overly Restrictive VIS**: Causes pop-in where rooms suddenly appear when entering adjacent areas
 - **Too Permissive VIS**: Wastes GPU resources rendering unseen [geometry](MDL-MDX-File-Format#geometry-header)
 

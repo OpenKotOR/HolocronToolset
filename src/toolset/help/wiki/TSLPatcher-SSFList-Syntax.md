@@ -43,7 +43,7 @@ The `[SSFList]` section declares [SSF files](Audio-and-Localization-Formats#ssf)
 
 ### Top-Level Keys in [SSFList]
 
-| key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!DefaultDestination` | string | `Override` | Default destination for all [SSF files](Audio-and-Localization-Formats#ssf) in this section |
 | `!DefaultSourceFolder` | string | `.` | Default source folder for [SSF files](Audio-and-Localization-Formats#ssf). This is a relative path from `mod_path`, which is typically the `tslpatchdata` folder (the parent directory of the `changes.ini` file). The default value `.` refers to the `tslpatchdata` folder itself. Path resolution: `mod_path / !DefaultSourceFolder / filename` |
@@ -52,7 +52,7 @@ The `[SSFList]` section declares [SSF files](Audio-and-Localization-Formats#ssf)
 
 Each [SSF file](Audio-and-Localization-Formats#ssf) requires its own section (e.g., `[example.ssf]`).
 
-| Key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!Destination` | string | Inherited from `!DefaultDestination` | Where to save the modified file (`Override` or `path\to\file.mod`) |
 | `!SourceFolder` | string | Inherited from `!DefaultSourceFolder` | Source folder for the [SSF file](Audio-and-Localization-Formats#ssf). Relative path from `mod_path` (typically the tslpatchdata folder). When `.`, refers to the tslpatchdata folder itself. |

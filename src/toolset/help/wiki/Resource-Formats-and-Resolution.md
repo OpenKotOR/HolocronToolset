@@ -87,79 +87,127 @@ Some registry members survive because KotOR shares lineage with broader Aurora/O
 
 ### Extended classic registry table
 
+All entries derive from PyKotor's [`ResourceType` enum in `type.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py); each member's `supported_engines` field is the authoritative source for engine support [[`BiowareEngine`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L49-L67), [`ResourceType` members L209-L480](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L209-L480)]. Rows described as having "no known retail game files" are engine-registered types not observed in shipped KotOR archives.
+
 | Resource Name | Type ID | Description                                    |
 | ------------- | ------- | ---------------------------------------------- |
-| RES           | 0x0000  | Used for `.res` resources within the [save game containers](Container-Formats#erf)                     |
+| [RES](GFF-File-Format)           | 0x0000  | Used for `.res` resources within the [save game containers](Container-Formats#erf)                     |
 | BMP           | 0x0001  | Bitmap image                         |
-| MVE           | 0x0002  | Movie/video file       Not used in *KotOR*                   |
+| MVE           | 0x0002  | Movie/video file; Infinity-engine only — not present in KotOR [[`MVE`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L215-L216)] |
 | [TGA](https://en.wikipedia.org/wiki/Truevision_TGA)           | 0x0003  | TarGA image format                          |
 | [WAV](Audio-and-Localization-Formats#wav)           | 0x0004  | Wave audio file (see [WAV File Format](Audio-and-Localization-Formats#wav)) |
 | [INI](https://en.wikipedia.org/wiki/INI_file)           | 0x0007  | Configuration file (e.g., `swkotor.ini`, `swkotor2.ini`)                          |
-| BMU           | 0x0008  | Odyssey audio payload family; TSL commonly treats these as music-like assets rather than generic unknown data [[`BMU`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L231)]                                |
-| MPG           | 0x0009  | MPEG video/audio-adjacent payload retained in the Odyssey registry [[`MPG`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L232)]                            |
+| [BMU](Audio-and-Localization-Formats)           | 0x0008  | Odyssey audio payload family; TSL commonly treats these as music-like assets rather than generic unknown data [[`BMU`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L231)]                                |
+| [MPG](Audio-and-Localization-Formats)           | 0x0009  | MPEG video/audio-adjacent payload retained in the Odyssey registry [[`MPG`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L232)]                            |
 | [TXT](https://en.wikipedia.org/wiki/Text_file)           | 0x000A  | Text file                                  |
-| WMA           | 0x000B  | Windows Media Audio; retained as an Odyssey-supported registry type [[`WMA`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L236)] |
-| WMV           | 0x000C  | Windows Media Video; retained as an Odyssey-supported registry type [[`WMV`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L237)] |
-| XMV           | 0x000D  | Xbox media/video type retained as an Odyssey-supported registry type [[`XMV`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L238)] |
-| PLH           | 0x07D0  | *PLaceable Header* type.  Not used in *KotOR*                      |
-| TEX           | 0x07D1  | Texture. Not used in *KotOR*                      |
+| [WMA](Audio-and-Localization-Formats)           | 0x000B  | Windows Media Audio; retained as an Odyssey-supported registry type [[`WMA`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L236)] |
+| [WMV](Audio-and-Localization-Formats)           | 0x000C  | Windows Media Video; retained as an Odyssey-supported registry type [[`WMV`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L237)] |
+| [XMV](Audio-and-Localization-Formats)           | 0x000D  | Xbox media/video type retained as an Odyssey-supported registry type [[`XMV`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L238)] |
+| PLH           | 0x07D0  | Placeable header type; Odyssey-registered though no known retail KotOR game files of this type are shipped [[`PLH`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L239)] |
+| TEX           | 0x07D1  | Texture type; Odyssey-registered though no known retail KotOR game files of this type are shipped [[`TEX`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L240)] |
 | [MDL](MDL-MDX-File-Format)           | 0x07D2  | 3D [model](MDL-MDX-File-Format) file (see [MDL/MDX File Format](MDL-MDX-File-Format))                                   |
-| THG           | 0x07D3  | Unknown. Not used in *KotOR*                                |
-| FNT           | 0x07D5  | Font file. Not used in *KotOR*                                  |
-| Lua           | 0x07D7  | Lua script. Not used in *KotOR*                             |
-| SLT           | 0x07D8  | Unknown. Not used in *KotOR*                               |
+| THG           | 0x07D3  | Unknown Odyssey-registered type; no known usage [[`THG`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L242)] |
+| FNT           | 0x07D5  | Font file; Odyssey-registered though no known retail KotOR game files of this type are shipped [[`FNT`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L244)] |
+| [Lua](https://www.lua.org/)           | 0x07D7  | Lua script source; Odyssey/Eclipse-registered though no known retail KotOR game files of this type are shipped [[`LUA`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L246)] |
+| SLT           | 0x07D8  | Unknown Odyssey-registered type; no known usage [[`SLT`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L247)] |
 | [NSS](NSS-File-Format)           | 0x07D9  | *NWScript* source code (see [NSS File Format](NSS-File-Format))                            |
 | [NCS](NCS-File-Format)           | 0x07DA  | *Compiled NWScript* bytecode (see [NCS File Format](NCS-File-Format))                     |
 | [MOD](Container-Formats#erf)           | 0x07DB  | [*Module* ERF archive/container](Container-Formats#erf)                         |
 | [ARE](GFF-File-Format#are-area)           | 0x07DC  | *Area* definition (see [GFF-ARE](GFF-Module-and-Area#are))                                 |
-| SET           | 0x07DD  | Unknown.  Not used in *KotOR*                               |
+| SET           | 0x07DD  | Tileset; Odyssey-registered though no known retail KotOR game files of this type are shipped [[`SET`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L252)] |
 | [IFO](GFF-File-Format#ifo-module-info)           | 0x07DE  | *Module* InFOrmation (see [GFF-IFO](GFF-Module-and-Area#ifo))                              |
-| BIC           | 0x07DF  | BlueprInt Creature. *KotOR* supports these but nobody uses them, use [UTC](GFF-Creature-and-Dialogue#utc) instead.                  |
+| BIC          | 0x07DF  | Character export data (GFF format); used in Aurora/Odyssey character exports and some save workflows [[`BIC`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py#L254)] |
 | [WOK](Level-Layout-Formats#bwm)           | 0x07E0  | *Walkmesh* (see [BWM File Format](Level-Layout-Formats#bwm))                                |
 | [2DA](2DA-File-Format)           | 0x07E1  | *Two-Dimensional Array* data (see [2DA File Format](2DA-File-Format))                      |
 | [TLK](Audio-and-Localization-Formats#tlk)           | 0x07E2  | *Talk Table* (Localized Strings, see [TLK File Format](Audio-and-Localization-Formats#tlk))                 |
 | [TXI](Texture-Formats#txi)           | 0x07E6  | [TeXture Information](Texture-Formats#txi)                            |
 | [GIT](GFF-File-Format#git-game-instance-template)           | 0x07E7  | [Game Instance Template](GFF-File-Format#git-game-instance-template) (see [GFF-GIT](GFF-Module-and-Area#git))                          |
-| BTI           | 0x07E8  | Blueprint Template Item. *KotOR* supports these but nobody uses them, use [UTI](GFF-Items-and-Economy#uti) instead.                 |
+| [BTI](GFF-File-Format#bti-item-template--bioware)           | 0x07E8  | Blueprint Template Item. *KotOR* supports these but nobody uses them, use [UTI](GFF-Items-and-Economy#uti) instead.                 |
 | [UTI](GFF-File-Format#uti-item)           | 0x07E9  | [item templates](GFF-File-Format#uti-item) (see [GFF-UTI](GFF-Items-and-Economy#uti))                                   |
-| BTC           | 0x07EA  | Blueprint Template Creature. *KotOR* supports these but nobody uses them, use [UTC](GFF-Creature-and-Dialogue#utc) instead.                |
+| [BTC](GFF-File-Format#btc-creature-template--bioware)           | 0x07EA  | Blueprint Template Creature. *KotOR* supports these but nobody uses them, use [UTC](GFF-Creature-and-Dialogue#utc) instead.                |
 | [UTC](GFF-File-Format#utc-creature)           | 0x07EB  | [Creature Template](GFF-File-Format#utc-creature) (see [GFF-UTC](GFF-Creature-and-Dialogue#utc))                               |
 | [DLG](GFF-File-Format#dlg-dialogue)           | 0x07ED  | Dialogue/conversation (see [GFF-DLG](GFF-Creature-and-Dialogue#dlg))                           |
 | [ITP](Bioware-Aurora-Module-and-Area#paletteitp)           | 0x07EE  | *ITP* format (see [Bioware-Aurora-PaletteITP](Bioware-Aurora-Module-and-Area#paletteitp)).                         |
-| BTT           | 0x07EF  | *Blueprint Template Trigger*. *KotOR* supports these but nobody uses them, use [UTT](GFF-Spatial-Objects#utt) instead.                 |
+| [BTT](GFF-File-Format#btt-trigger-template--bioware)           | 0x07EF  | *Blueprint Template Trigger*. *KotOR* supports these but nobody uses them, use [UTT](GFF-Spatial-Objects#utt) instead.                 |
 | [UTT](GFF-File-Format#utt-trigger)           | 0x07F0  | *Trigger Template* (see [GFF-UTT](GFF-Spatial-Objects#utt)).                                |
-| DDS           | 0x07F1  | *DirectDraw Surface Texture* (see [DDS File Format](Texture-Formats#dds)).                                |
+| [DDS](Texture-Formats#dds)           | 0x07F1  | *DirectDraw Surface Texture* (see [DDS File Format](Texture-Formats#dds)).                                |
+| [BTS](GFF-File-Format)           | 0x07F2  | Sound template (BioWare), GFF (`bts` extension). BioWare-authored sound blueprint counterpart to the user-created [`uts`](GFF-Spatial-Objects#uts). |
 | [UTS](GFF-File-Format#uts-sound)           | 0x07F3  | *Sound Template* (see [GFF-UTS](GFF-Spatial-Objects#uts)).                                |
-| LTR           | 0x07F4  | *Letter Format* (see [LTR File Format](LTR-File-Format)). Not used in *KotOR*                                |
+| [LTR](LTR-File-Format)           | 0x07F4  | *Letter Format* (see [LTR File Format](LTR-File-Format)). Not used in *KotOR*                                |
 | [GFF](GFF-File-Format)           | 0x07F5  | Generic file format (container, see [GFF File Format](GFF-File-Format))                 |
-| [FAC](GFF-File-Format#fac-faction)           | 0x07F6  | Faction                               |
-| BTE           | 0x07F7  | Blueprint encounter                   |
-| [UTE](GFF-File-Format#ute-encounter)           | 0x07F8  | [encounter template](GFF-File-Format#ute-encounter) (see [GFF-UTE](GFF-Spatial-Objects#ute))                              |
-| BTD           | 0x07F9  | Blueprint door    Not used in *KotOR*     |
-| [UTD](GFF-File-Format#utd-door)           | 0x07FA  | [door templates](GFF-File-Format#utd-door) (see [GFF-UTD](GFF-Spatial-Objects#utd))                                   |
-| BTP           | 0x07FB  | Blueprint placeable   Not used in *KotOR*  |
-| [UTP](GFF-File-Format#utp-placeable)           | 0x07FC  | [placeable templates](GFF-File-Format#utp-placeable) (see [GFF-UTP](GFF-Spatial-Objects#utp))                              |
-| DTF           | 0x07FD  | Unknown  Not used in *KotOR*                                |
-| GIC           | 0x07FE  | Unknown  Not used in *KotOR*                                |
+| [FAC](GFF-File-Format#fac-faction)           | 0x07F6  | [Faction](GFF-File-Format#fac-faction)                               |
+| [BTE](GFF-File-Format#bte-encounter-template--bioware)           | 0x07F7  | Blueprint encounter                   |
+| [UTE](GFF-File-Format#ute-encounter)           | 0x07F8  | [Encounter Template](GFF-File-Format#ute-encounter) (see [GFF-UTE](GFF-Spatial-Objects#ute))                              |
+| [BTD](GFF-File-Format#btd-door-template--bioware)           | 0x07F9  | Door template (BioWare), GFF. Rarely used directly; [`utd`](GFF-Spatial-Objects#utd) is the modder-facing equivalent. |
+| [UTD](GFF-File-Format#utd-door)           | 0x07FA  | [Door Template](GFF-File-Format#utd-door) (see [GFF-UTD](GFF-Spatial-Objects#utd))                                   |
+| [BTP](GFF-File-Format#btp-placeable-template--bioware)           | 0x07FB  | Blueprint placeable   Not used in *KotOR*  |
+| [UTP](GFF-File-Format#utp-placeable)           | 0x07FC  | [Placeable Template](GFF-File-Format#utp-placeable) (see [GFF-UTP](GFF-Spatial-Objects#utp))                              |
+| DTF / DFT     | 0x07FD  | Default value file, INI format (`.dtf` / `.dft` extension). Used by area properties dialogs in the Aurora toolset. Not needed directly by modders. |
+| GIC           | 0x07FE  | Game instance comments, GFF. Toolset-only — instance labels are stored in `.gic` separately from runtime `.git` data. Not processed by the game engine itself. |
 | [GUI](GFF-File-Format#gui-graphical-user-interface)           | 0x07FF  | User interface definition (see [GFF-GUI](GFF-GUI))                       |
-| CSS           | 0x0800  | Unknown  Not used in *KotOR*                                |
-| CCS           | 0x0801  | Unknown  Not used in *KotOR*                                |
-| BTM           | 0x0802  | Blueprint merchant.  *KotOR* supports these but nobody uses them, use [UTM](GFF-Items-and-Economy#utm) instead.              |
+| CSS           | 0x0800  | Conditional source script. Not used at runtime in *KotOR*. |
+| CCS           | 0x0801  | Conditional compiled script. Not used at runtime in *KotOR*. |
+| [BTM](GFF-File-Format#btm-merchant-template--bioware)           | 0x0802  | Blueprint merchant.  *KotOR* supports these but nobody uses them, use [UTM](GFF-Items-and-Economy#utm) instead.              |
 | [UTM](GFF-File-Format#utm-merchant)           | 0x0803  | [Merchant/store template](GFF-File-Format#utm-merchant) (see [GFF-UTM](GFF-Items-and-Economy#utm))                         |
 | [DWK](Level-Layout-Formats#bwm)           | 0x0804  | [Door walkmesh](Level-Layout-Formats#bwm) (see [BWM File Format](Level-Layout-Formats#bwm))                                |
 | [PWK](Level-Layout-Formats#bwm)           | 0x0805  | [Placeable walkmesh](Level-Layout-Formats#bwm) (see [BWM File Format](Level-Layout-Formats#bwm))                                |
-| BTG           | 0x0806  | Blueprint trigger  Not used in *KotOR*       |
-| UTG           | 0x0807  | Unknown            Not used in *KotOR*   |
+| [BTG](GFF-File-Format#btg-random-item-generator--bioware)           | 0x0806  | Random item generator template (BioWare), GFF. |
+| [UTG](GFF-File-Format#utg-random-item-generator)           | 0x0807  | Random item generator template (user), GFF. |
 | [JRL](GFF-File-Format#jrl-journal)           | 0x0808  | Journal/quest log (see [GFF-JRL](GFF-Items-and-Economy#jrl))                               |
-| SAV           | 0x0809  | [Save game containers](Container-Formats#erf) (see [ERF File Format](Container-Formats#erf))                               |
+| [SAV](Container-Formats#erf)           | 0x0809  | [Save Game Containers](Container-Formats#erf) (see [ERF File Format](Container-Formats#erf))                               |
 | [UTW](GFF-File-Format#utw-waypoint)           | 0x080A  | [Waypoint Template](GFF-File-Format#utw-waypoint)                               |
-| 4PC           | 0x080B  | Unknown  Not used in *KotOR*          |
+| 4PC           | 0x080B  | Texture, custom 16-bit RGBA palette format. Odyssey-only type. |
 | [SSF](Audio-and-Localization-Formats#ssf)           | 0x080C  | [Sound Set Files](Audio-and-Localization-Formats#ssf) (see [SSF File Format](Audio-and-Localization-Formats#ssf))                                  |
 | HAK           | 0x080D  | Hak pak container. Not used in *KotOR*                                |
 | NWM           | 0x080E  | *Neverwinter Nights* module (Not used in *KotOR*)                                 |
-| BIK           | 0x080F  | BInK video format                                |
-| PTM           | 0x0811  | Unknown       Not used in *KotOR*         |
-| PTT           | 0x0812  | Unknown       Not used in *KotOR*         |
+| [BIK](https://en.wikipedia.org/wiki/Bink_(video_codec))           | 0x080F  | BInK video format                                |
+| NDB           | 0x0810  | Script debugger file. Generated by the *Aurora* toolset debugger; not used by the game engine. |
+| PTM           | 0x0811  | Plot instance/manager, GFF. |
+| PTT           | 0x0812  | Plot wizard blueprint, GFF. |
+| NCM           | 0x0813  | Reserved/unused type. No known BioWare use. |
+| MFX           | 0x0814  | Reserved/unused type. No known BioWare use. |
+| MAT           | 0x0815  | Material file. Used in later BioWare titles; not present in *KotOR*. |
+| MDB           | 0x0816  | BioWare geometry model (`.mdb`). Used in NWN2 / Dragon Age; not present in *KotOR*. |
+| SAY           | 0x0817  | Reserved/unused type. No known BioWare use. |
+| [TTF](https://en.wikipedia.org/wiki/TrueType)           | 0x0818  | TrueType font (`.ttf`). Used in some BioWare titles; not present in *KotOR*. |
+| TTC           | 0x0819  | Reserved/unused type. No known BioWare use. |
+| CUT           | 0x081A  | Cutscene, GFF. Not present in *KotOR*. |
+| KA            | 0x081B  | Karma data, XML format. Not present in *KotOR*. |
+| [JPG](https://en.wikipedia.org/wiki/JPEG)           | 0x081C  | JPEG image. Eclipse engine only (Dragon Age). |
+| [ICO](https://en.wikipedia.org/wiki/ICO_(file_format))           | 0x081D  | Windows icon format. Eclipse engine only (Dragon Age). |
+| [OGG](https://en.wikipedia.org/wiki/Ogg)           | 0x081E  | Audio, Ogg Vorbis. Eclipse engine only (Dragon Age). |
+| SPT           | 0x081F  | Tree data, SpeedTree format. Not present in *KotOR*. |
+| SPW           | 0x0820  | Reserved/unused type. No known BioWare use. |
+| WFX           | 0x0821  | Woot effect class, XML format. Not present in *KotOR*. |
+| UGM           | 0x0822  | Reserved/unused type. No known BioWare use. |
+| QDB           | 0x0823  | Quest database, GFF. Not present in *KotOR*. |
+| QST           | 0x0824  | Quest, GFF. Not present in *KotOR*. |
+| NPC           | 0x0825  | Reserved/unused type. No known BioWare use. |
+| SPN           | 0x0826  | Reserved/unused type. No known BioWare use. |
+| UTX           | 0x0827  | Reserved/unused type. No known BioWare use. |
+| MMD           | 0x0828  | Reserved/unused type. No known BioWare use. |
+| SMM           | 0x0829  | Reserved/unused type. No known BioWare use. |
+| UTA           | 0x082A  | Reserved/unused type. No known BioWare use. |
+| MDE           | 0x082B  | Reserved/unused type. No known BioWare use. |
+| MDV           | 0x082C  | Reserved/unused type. No known BioWare use. |
+| MDA           | 0x082D  | Reserved/unused type. No known BioWare use. |
+| MBA           | 0x082E  | Reserved/unused type. No known BioWare use. |
+| OCT           | 0x082F  | Reserved/unused type. No known BioWare use. |
+| BFX           | 0x0830  | Reserved/unused type. No known BioWare use. |
+| PDB           | 0x0831  | Reserved/unused type. No known BioWare use. |
+| TheWitcherSave | 0x0832 | The Witcher save file. Non-BioWare game; tracked in xoreos type registry. |
+| PVS           | 0x0833  | Reserved/unused type. No known BioWare use. |
+| CFX           | 0x0834  | Reserved/unused type. No known BioWare use. |
+| LUC           | 0x0835  | Script, LUA bytecode. Eclipse engine only (Dragon Age). |
+| *(reserved)*  | 0x0836  | Type ID 2102 is reserved/skipped in the xoreos registry. |
+| PRB           | 0x0837  | Reserved/unused type. No known BioWare use. |
+| CAM           | 0x0838  | Campaign information, Aurora engine only. Not present in *KotOR*. |
+| VDS           | 0x0839  | Reserved/unused type. No known BioWare use. |
+| BIN           | 0x083A  | Reserved/unused type. No known BioWare use. |
+| WOB           | 0x083B  | Reserved/unused type. No known BioWare use. |
+| API           | 0x083C  | Reserved/unused type. No known BioWare use. |
+| Properties    | 0x083D  | Reserved/unused type (`.properties` extension). No known BioWare use. |
+| [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics)           | 0x083E  | PNG image. Odyssey and Eclipse engine support. |
 | [ERF](Container-Formats#erf)           | 0x270D  | [Encapsulated Resource File](Container-Formats#erf) (see [ERF File Format](Container-Formats#erf))                      |
 | [BIF](Container-Formats#bif)           | 0x270E  | [Bioware Index File](Container-Formats#bif) (container, see [BIF File Format](Container-Formats#bif))                    |
 | [KEY](Container-Formats#key)           | 0x270F  | [KEY](Container-Formats#key) table ([BIF](Container-Formats#bif) index, see [KEY File Format](Container-Formats#key))                          |
@@ -171,7 +219,7 @@ For KotOR specifically, do not stop reading at `0x270F`: the Odyssey-only `3000+
 ### File formats
 
 - **[MDL/MDX File Format](MDL-MDX-File-Format)** ← Complete reference for 3D [model](MDL-MDX-File-Format) files
-  - **[2DA File Format](2DA-File-Format)** ← Complete reference for Two-Dimensional array format (see also [Official Bioware 2DA Documentation](Bioware-Aurora-Core-Formats#2da)). All individual 2DA file documentation has been inlined into this document.
+- **[2DA File Format](2DA-File-Format)** ← Complete reference for Two-Dimensional array format (see also [Official Bioware 2DA Documentation](Bioware-Aurora-Core-Formats#2da)). All individual 2DA file documentation has been inlined into this document.
   - **K1 and TSL**
     - [acbonus.2da](2DA-File-Format#acbonus2da)
     - [ambientmusic.2da](2DA-File-Format#ambientmusic2da)

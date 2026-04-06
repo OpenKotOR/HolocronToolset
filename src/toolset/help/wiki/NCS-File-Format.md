@@ -199,7 +199,7 @@ Instruction arguments follow the qualifier [*byte*](https://en.wikipedia.org/wik
    - `MOVSP`: *Stack pointer* adjustment offset (signed, allows positive and negative adjustments)
    - `JMP`, `JSR`, `JZ`, `JNZ`: Relative jump offset (signed, from start of *instruction*, allows forward and backward jumps)
    - `INCxSP`, `DECxSP`, `INCxBP`, `DECxBP`: *Stack*/base pointer offset (signed, negative offsets access stack elements)
-   - `CONSTO`: *Object ID* constant (signed 32-bit: `0x00000000` = OBJECT_SELF, `0x00000001` or `0xFFFFFFFF` = OBJECT_INVALID)
+   - `CONSTO`: *Object ID* constant (signed 32-bit: `0x00000000` = `OBJECT_SELF` [[`scriptdefs.py` L9](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/common/scriptdefs.py#L9)], `0x00000001` = `OBJECT_INVALID` in KotOR [[`scriptdefs.py` L10](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/common/scriptdefs.py#L10)])
 
 3. **Unsigned 32-bit Integer** (6 bytes total: opcode + qualifier + 4 bytes):
    - `CONSTI`: *Integer* constant (stored as unsigned 32-bit [big-endian](https://en.wikipedia.org/wiki/Endianness), but may represent signed integer values in the range -2³¹ to 2³¹-1)

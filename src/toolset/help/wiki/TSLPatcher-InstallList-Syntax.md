@@ -93,7 +93,7 @@ In **HoloPatcher**, the `[InstallList]` runs **first** in the patch execution or
 
 Each folder section (e.g., `[Override]`) supports the following configuration keys:
 
-| key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!SourceFolder` | string | `.` (tslpatchdata folder) | Relative path from `mod_path` (typically the `tslpatchdata` folder, the parent directory of `changes.ini` or `namespaces.ini`) where files should be sourced from. The default value `.` refers to the `tslpatchdata` folder itself, not its parent directory. Path resolution: `mod_path / !SourceFolder / filename`. **HoloPatcher extension** - allows subfolder organization within the `tslpatchdata` folder. |
 
@@ -128,7 +128,7 @@ File2=subfolder\texture3.tpc
 
 Each file can optionally have its own section (e.g., `[my_texture.tpc]`) for per-file configuration options:
 
-| key | type | Default | Description |
+| Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `!SourceFile` | string | Same as filename in `File#=` or `Replace#=` entry | Alternative source filename to load from the `tslpatchdata` folder. The file will be installed with the name specified in the `File#=` or `Replace#=` entry (or `!SaveAs` or `!Filename` if specified). |
 | `!SaveAs` | string | Same as `!SourceFile` | The final filename to save the file as at the destination. Allows renaming during installation. |
@@ -417,7 +417,7 @@ In this example:
 
 When installing files to containers ([MOD](Container-Formats#erf), [ERF](Container-Formats#erf), or [RIM](Container-Formats#rim)), there's a potential conflict: a file might already exist in the Override folder with the same name. The `!OverrideType` setting controls how this conflict is handled:
 
-| value | Behavior | Description |
+| Value | Behavior | Description |
 |-------|----------|-------------|
 | `ignore` | No action | Do nothing - don't even check for conflicts. This is the **TSLPatcher** default. |
 | `warn` | Log warning | Check for conflicts and log a warning if found, but continue with installation. This is the **HoloPatcher** default. |

@@ -1,6 +1,6 @@
 # 2DA — Two-Dimensional Array
 
-The Two-Dimensional Array (2DA) format is the engine's primary configuration mechanism. Nearly every tunable game system — character classes, feats, Force powers, item properties, appearance models, sound sets, combat formulas — is driven by 2DA tables that the engine reads at startup [[`twoda_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/twoda/twoda_data.py#L1-L10)]. Each 2DA file is a simple spreadsheet: rows indexed by number, columns indexed by label, and cell values that are either strings, integers, or the special `****` token meaning "no value" [[`twoda_data.py` L36](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/twoda/twoda_data.py#L36)]. The format is compact enough to ship on disc and simple enough that modders can edit tables with a text editor, but the binary `V2.b` encoding used in shipped game data provides faster load times than the older ASCII `V2.0` format [[`twoda_data.py` binary spec](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/twoda/twoda_data.py#L8-L50)]. xoreos-tools also keeps a dedicated `convert2da` utility in its baseline tool list, which is a useful external signal that 2DA remained a shared BioWare configuration-table family well beyond KotOR-specific tooling [[Running xoreos-tools](https://wiki.xoreos.org/index.php/Running_xoreos-tools)].
+The Two-Dimensional Array (2DA) format is the engine's primary configuration mechanism. Nearly every tunable game system — character classes, feats, Force powers, item properties, appearance models, sound sets, combat formulas — is driven by 2DA tables that the engine reads at startup [[`twoda_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/twoda/twoda_data.py#L1-L10)]. Each 2DA file is a simple spreadsheet: rows indexed by number, columns indexed by label, and cell values that are either strings, integers, or the special `****` token meaning "no value" [[`twoda_data.py` L36](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/twoda/twoda_data.py#L36)]. The format is compact enough to ship on disc and simple enough that modders can edit tables with a text editor; both binary `V2.b` and ASCII `V2.0` encodings appear in shipped KotOR game data [[`twoda_data.py` docstring](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/twoda/twoda_data.py#L8-L12)]. xoreos-tools also keeps a dedicated `convert2da` utility in its baseline tool list, which is a useful external signal that 2DA remained a shared BioWare configuration-table family well beyond KotOR-specific tooling [[Running xoreos-tools](https://wiki.xoreos.org/index.php/Running_xoreos-tools)].
 
 The [official BioWare 2DA specification](Bioware-Aurora-Core-Formats#2da) describes the format as Aurora introduced it. KotOR and TSL use that same foundation for per-table column semantics, game-specific enumerations, and [ResRef](Concepts#resref-resource-reference) lookups. To modify 2DA tables in a mod without overwriting the entire file, use [TSLPatcher/HoloPatcher 2DAList syntax](TSLPatcher-2DAList-Syntax). 2DA tables are referenced from [GFF](GFF-File-Format) resources such as [UTC](GFF-File-Format#utc-creature) creature templates, [UTI](GFF-File-Format#uti-item) item blueprints, and [UTP](GFF-File-Format#utp-placeable) placeable definitions, and they often store [StrRef](Audio-and-Localization-Formats#string-references-strref) indices into [TLK](Audio-and-Localization-Formats#tlk) string tables for player-visible text.
 
@@ -190,16 +190,34 @@ The [official BioWare 2DA specification](Bioware-Aurora-Core-Formats#2da) descri
 <a id="hen_familiar2da"></a>
 <a id="humanfirst2da"></a>
 <a id="humanlast2da"></a>
+<a id="iprp_abilities2da"></a>
+<a id="iprp_acmodtype2da"></a>
+<a id="iprp_aligngrp2da"></a>
 <a id="iprp_ammocost2da"></a>
+<a id="iprp_ammotype2da"></a>
 <a id="iprp_attackmod2da"></a>
 <a id="iprp_bonusfeat2da"></a>
+<a id="iprp_combatdam2da"></a>
+<a id="iprp_costtable2da"></a>
+<a id="iprp_damagecost2da"></a>
 <a id="iprp_damagered2da"></a>
 <a id="iprp_damagevs2da"></a>
+<a id="iprp_damagetype2da"></a>
 <a id="iprp_feats2da"></a>
+<a id="iprp_immunity2da"></a>
+<a id="iprp_lightcol2da"></a>
+<a id="iprp_monstdam2da"></a>
+<a id="iprp_mosterhit2da"></a>
+<a id="iprp_onhit2da"></a>
+<a id="iprp_paramtable2da"></a>
+<a id="iprp_protection2da"></a>
+<a id="iprp_saveelement2da"></a>
+<a id="iprp_savingthrow2da"></a>
 <a id="iprp_skillcost2da"></a>
 <a id="iprp_spellres2da"></a>
 <a id="iprp_spells2da"></a>
 <a id="iprp_traptype2da"></a>
+<a id="iprp_walk2da"></a>
 <a id="iprp_weightinc2da"></a>
 <a id="itempropsdef2da"></a>
 <a id="merchants2da"></a>
@@ -374,6 +392,8 @@ The game engine analysis was performed by:
 
 ### KotOR 1 (`swkotor.exe`) - Confirmed *2DA* Files
 
+> **Note:** Function names below are derived from binary analysis of `swkotor.exe` (Ghidra/AgentDecompile). Absolute binary addresses for K1 have not been independently verified in this table — see the TSL columns above for confirmed `FUN_*` addresses. K1 addresses are marked `TODO: Find this address` per convention.
+
 **Core Game Systems:**
 
 - `classes.2da` - `LoadClassInfo()` --> `CResRef("Classes")`
@@ -492,7 +512,7 @@ The following 2DA files are loaded in KotOR 2 but not in KotOR 1:
 
 ## Known 2DA Files
 
-KotOR and TSL ship a large set of 2DA tables. The sections below group them by system and call out engine usage, column definitions, and the data each table drives.
+KotOR and TSL ship a large set of 2DA tables. The sections below group them by system and call out engine usage, column definitions, and the data each table drives. Engine usage descriptions are derived from the `Confirmed Engine Usage` loading analysis above, reone's dedicated 2DA table parsers ([`src/libs/resource/parser/2da/`](https://github.com/seedhartha/reone/tree/master/src/libs/resource/parser/2da)), and PyKotor's extraction metadata ([`extract/twoda.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/twoda.py)).
 
 ---
 

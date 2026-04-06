@@ -133,16 +133,9 @@ PyKotor models areas through [`ARE`, `construct_are`, `read_are`, and `write_are
 **Grass System:**
 
 - **Grass_TexName**: [texture](Texture-Formats#tpc) for grass blades (TGA/[TPC](Texture-Formats#tpc))
-- **Grass_Density**: Coverage density (1.0 = full coverage)
-- **Grass_QuadSize**: Patch size in world units
-- **Probability fields**: Control grass distribution across area
-
-**Grass Rendering:**
-
-1. Area divided into grid based on QuadSize
-2. Each quad has spawn probability from corner interpolation
-3. Density determines blades per quad
-4. Grass billboards oriented to camera
+- **Grass_Density**: Coverage density [[`are.py` L43](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/are.py#L43)]
+- **Grass_QuadSize**: Patch size in world units [[`are.py` L44](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/are.py#L44)]
+- **Probability fields**: Control grass distribution per corner [[`are.py` L45-L48](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/are.py#L45)]
 
 ## Weather System (KotOR2)
 
@@ -251,9 +244,9 @@ PyKotor models areas through [`ARE`, `construct_are`, `read_are`, and `write_are
 
 **Script Execution:**
 
-- **OnEnter**: Area initialization, cinematics, spawns
-- **OnExit**: Cleanup, state saving
-- **OnHeartbeat**: Periodic updates (every 6 seconds)
+- **OnEnter**: Fires when entering area [[`are.py` L59](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/are.py#L59)]
+- **OnExit**: Fires when leaving area
+- **OnHeartbeat**: Periodic execution [[`are.py` L62](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/are.py#L62)]
 - **OnUserDefined**: Custom event handling
 
 ## Minimap coordinate system
@@ -332,7 +325,7 @@ originY = WorldPt1Y - MapPt1Y * worldScaleY
 
 ### NorthAxis values
 
-| value | Enum | Description | coordinate Mapping |
+| Value | Enum | Description | Coordinate Mapping |
 | ----- | ---- | ----------- | ------------------ |
 | 0 | PositiveY | +Y is north | Direct X/Y mapping |
 | 1 | NegativeY | -Y is north | Direct X/Y mapping |
@@ -421,16 +414,7 @@ When rendering the minimap [texture](Texture-Formats#tpc) over the [walkmesh](Le
 
 ## Implementation Notes
 
-### Area Loading Sequence
-
-1. **Parse are**: Load static properties from [GFF](GFF-File-Format)
-2. **Apply Lighting**: Set sun/ambient colors
-3. **Setup Fog**: Configure fog parameters
-4. **Load Grass**: Initialize grass rendering if configured
-5. **Configure Weather**: Activate weather systems (KotOR2)
-6. **Register Scripts**: Setup area event handlers
-7. **Load [GIT](GFF-File-Format#git-game-instance-template)**: Spawn dynamic objects (separate file)
-8. **Load Minimap**: Parse map coordinates and load minimap [texture](Texture-Formats#tpc)
+PyKotor deserializes ARE fields via `construct_are` [[`are.py` L311](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/are.py#L311)]. The mathematical formulas and reference implementations for minimap coordinate mapping are cited in the Map coordinate section above.
 
 ### Minimap coordinate System Best Practices
 
@@ -452,52 +436,6 @@ When rendering the minimap [texture](Texture-Formats#tpc) over the [walkmesh](Le
 - Always validate map coordinates preserve exactly through save/load roundtrips
 - Test minimap alignment visually in editor after coordinate changes
 - Verify [walkmesh](Level-Layout-Formats#bwm) and minimap [texture](Texture-Formats#tpc) align correctly for all NorthAxis values
-
-**Lighting Performance:**
-
-- Ambient/Diffuse colors affect all area [geometry](MDL-MDX-File-Format#geometry-header)
-- Shadow rendering is expensive (SunShadows=0 for performance)
-- Dynamic lighting for special effects only
-
-**Grass Optimization:**
-
-- High density grass impacts framerate significantly
-- Probability fields allow targeted grass placement
-- Grass LOD based on camera distance
-
-**Audio Zones:**
-
-- Rooms define audio transitions
-- EnvAudio from are and Rooms determines soundscape
-- Smooth fade between zones
-
-**Common Area Configurations:**
-
-**Outdoor Areas:**
-
-- Bright sunlight (high diffuse)
-- Fog for horizon
-- Grass rendering
-- Wind effects
-
-**Indoor Areas:**
-
-- Low ambient lighting
-- No fog (usually)
-- No grass
-- Controlled camera
-
-**Dark Areas:**
-
-- Minimal ambient
-- Strong diffuse for dramatic shadows
-- Fog for atmosphere
-
-**Special Areas:**
-
-- Unescapable for story sequences
-- Custom camera styles for unique views
-- Specific environment maps for mood
 
 ### Minimap Rendering Implementation Details
 
@@ -729,10 +667,7 @@ Each instance type has common fields plus type-specific data:
 
 **Creature Spawning:**
 
-- Engine loads [UTC](GFF-File-Format#utc-creature) template
-- Applies position/orientation from [GIT](GFF-File-Format#git-game-instance-template)
-- Creature initialized with template stats
-- Scripts fire after spawn
+Position and orientation from the [GIT](GFF-File-Format#git-game-instance-template) entry are applied to the spawned creature [[`git.py` GITCreature](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/git.py#L53)].
 
 ## GITDoor Instances
 
@@ -855,9 +790,7 @@ Each instance type has common fields plus type-specific data:
 
 **Store System:**
 
-- Store instances carry a `ResRef` field pointing to a [UTM](GFF-Items-and-Economy#utm) file [[`git.py` L1248](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/git.py#L1248)]
-- position used for toolset only
-- Accessed via conversations or scripts
+Store instances carry a `ResRef` field pointing to a [UTM](GFF-Items-and-Economy#utm) file [[`git.py` L1248](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/git.py#L1248)].
 
 ## GITSound Instances
 
@@ -873,9 +806,7 @@ Each instance type has common fields plus type-specific data:
 
 **Positional Audio:**
 
-- 3D sound emitter at position
-- Volume falloff over distance
-- Random offset for variation
+Audio emitters store position and volume parameters read by PyKotor into `GITSound` [[`git.py` GITSound](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/git.py#L53)].
 
 ## GITCamera Instances
 
@@ -891,97 +822,25 @@ Each instance type has common fields plus type-specific data:
 
 **Camera System:**
 
-- Defines fixed camera angles
-- Used for cutscenes and dialogue
-- FieldOfView controls zoom level
+Camera definitions store ID, FOV, position and orientation [[`git.py` GITCamera](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/git.py#L53)].
 
 ## Implementation Notes
-
-**[GIT](GFF-File-Format#git-game-instance-template) Loading Process:**
-
-1. **Parse [GIT](GFF-File-Format#git-game-instance-template)**: Read [GFF](GFF-File-Format) structure
-2. **Load Templates**: Read template files such as:
-
-   - [UTC](GFF-File-Format#utc-creature)
-   - [UTD](GFF-File-Format#utd-door)
-   - [UTP](GFF-File-Format#utp-placeable)
-   - Other UT* templates as needed
-3. **Instantiate Objects**: Create runtime objects from templates
-4. **Apply Overrides**: [GIT](GFF-File-Format#git-game-instance-template) position, HP, tag overrides applied
-5. **Link Objects**: Resolve LinkedTo references
-6. **Execute Spawn Scripts**: Fire OnSpawn events
-7. **Activate Triggers**: Register trigger [geometry](MDL-MDX-File-Format#geometry-header)
 
 **Instance vs. Template:**
 
 - **Template** (blueprint family such as [UTC](GFF-File-Format#utc-creature), [UTD](GFF-File-Format#utd-door), or [UTP](GFF-File-Format#utp-placeable)): Defines what the object is
 - **Instance ([GIT](GFF-File-Format#git-game-instance-template) entry)**: Defines where the object is
-- [GIT](GFF-File-Format#git-game-instance-template) can override specific template properties
+- [GIT](GFF-File-Format#git-game-instance-template) can override specific template properties [[`git.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/git.py#L53)]
 - Multiple instances can share one template
-
-**Performance Considerations:**
-
-- Large instance counts impact load time
-- Complex trigger [geometry](MDL-MDX-File-Format#geometry-header) affects collision checks
-- Many sounds can overwhelm audio system
-- Creature AI scales with creature count
 
 **Dynamic vs. Static:**
 
-- **[GIT](GFF-File-Format#git-game-instance-template)**: Dynamic, saved with game progress
-- **are**: Static, never changes
-- [GIT](GFF-File-Format#git-game-instance-template) instances can be destroyed, moved, modified
-- are properties remain constant
-
-**Save Game Integration:**
-
-- [GIT](GFF-File-Format#git-game-instance-template) state saved in save files
-- Instance positions, HP, inventory preserved
-- Destroyed objects marked as deleted
-- New dynamic objects added to save
-
-**Common [GIT](GFF-File-Format#git-game-instance-template) Patterns:**
-
-**Ambush Spawns:**
-
-- Creatures placed outside player view
-- Positioned for tactical advantage
-- Often linked to trigger activation
-
-**Progression Gates:**
-
-- Locked doors requiring keys/skills
-- Triggers that load new modules
-- Waypoints marking objectives
-
-**Interactive Areas:**
-
-- Clusters of placeables (containers)
-- NPCs for dialogue
-- Stores for shopping
-- Workbenches for crafting
-
-**Navigation Networks:**
-
-- Waypoints for AI pathfinding
-- Logical connections via LinkedTo
-- Map notes for player guidance
-
-**Audio Atmosphere:**
-
-- Ambient sound emitters positioned strategically
-- Varied volumes and ranges
-- Random offsets for natural feel
+- **[GIT](GFF-File-Format#git-game-instance-template)**: Dynamic instance data
+- **are**: Static area properties
 
 ### See also
 
 - [GFF-File-Format](GFF-File-Format) -- GFF structure
-- [GFF-ARE](GFF-Module-and-Area#are) -- Area properties
-- [GFF-UTC](GFF-Creature-and-Dialogue#utc)
-- [GFF-UTD](GFF-Spatial-Objects#utd)
-- [GFF-UTP](GFF-Spatial-Objects#utp)
-- [GFF-UTT](GFF-Spatial-Objects#utt)
-- [GFF-UTW](GFF-Spatial-Objects#utw) -- Instance types
 - [TSLPatcher GFFList Syntax](TSLPatcher-GFF-Syntax#gfflist-syntax) -- Patching GIT via mod installers
 - [Container-Formats#key](Container-Formats#key) -- Resource resolution
 
@@ -1050,14 +909,6 @@ PyKotor models module descriptors through [`IFO`, `construct_ifo`, `read_ifo`, a
 - **Entry Direction**: Player's initial facing angle
   - Direction computed as: `atan2(Dir_Y, Dir_X)`
 
-**Module Start Sequence:**
-
-1. Load [IFO](GFF-File-Format#ifo-module-info) to get entry configuration
-2. Load Mod_Entry_Area (are + [GIT](GFF-File-Format#git-game-instance-template))
-3. Spawn player character at Entry position
-4. Set player orientation from Entry direction
-5. Execute Mod_OnModStart script
-
 ## Area List
 
 | Field | Type | Description |
@@ -1071,9 +922,6 @@ PyKotor models module descriptors through [`IFO`, `construct_ifo`, `read_ifo`, a
 **Area Management:**
 
 - Lists all areas accessible in module
-- Areas loaded on-demand as player transitions
-- KotOR modules typically have 1 area per module
-- KotOR2 can have multiple areas per module
 
 ## Expansion Pack Requirements
 
@@ -1086,13 +934,6 @@ PyKotor models module descriptors through [`IFO`, `construct_ifo`, `read_ifo`, a
 
 - **0x01**: Requires expansion pack 1
 - **0x02**: Requires expansion pack 2
-- Additional bits for future expansions
-
-**Version Requirements:**
-
-- **Mod_MinGameVer**: Minimum executable version
-- Prevents loading in older game versions
-- format: "1.0", "1.03", "2.0", etc.
 
 ## Starting Movie & HAK files
 
@@ -1103,19 +944,8 @@ PyKotor models module descriptors through [`IFO`, `construct_ifo`, `read_ifo`, a
 
 **Module Initialization:**
 
-- **Mod_StartMovie**: BIK movie played before module loads
+- **Mod_StartMovie**: BIK movie played before module loads [[`ifo.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/ifo.py)]
 - **Mod_Hak**: Semicolon-separated HAK file names
-- HAKs loaded before module resources
-
-**HAK System:**
-
-- HAK files override base game resources
-- Custom content may include:
-
-  - [models](MDL-MDX-File-Format)
-  - [textures](Texture-Formats#tpc)
-  - Scripts
-- Listed in load priority order
 
 ## Cache & XP Settings
 
@@ -1156,7 +986,7 @@ PyKotor models module descriptors through [`IFO`, `construct_ifo`, `read_ifo`, a
 | `Mod_OnClientEntr` | *ResRef* | Fires on player enter (multiplayer) |
 | `Mod_OnClientLeav` | *ResRef* | Fires on player leave (multiplayer) |
 | `Mod_OnCutsnAbort` | *ResRef* | Fires when cutscene aborted |
-| `Mod_OnHeartbeat` | *ResRef* | Fires periodically (~6 seconds) |
+| `Mod_OnHeartbeat` | *ResRef* | Fires periodically |
 | `Mod_OnModLoad` | *ResRef* | Fires when module finishes loading |
 | `Mod_OnModStart` | *ResRef* | Fires after player spawned |
 | `Mod_OnPlrDeath` | *ResRef* | Fires when player dies |
@@ -1169,120 +999,15 @@ PyKotor models module descriptors through [`IFO`, `construct_ifo`, `read_ifo`, a
 
 **Script Execution:**
 
-- Module scripts run in module context
-- Can access/modify module-wide state
-- Higher scope than area scripts
-
-**Common Script Uses:**
-
-**Mod_OnModLoad:**
-
-- Initialize global variables
-- Setup persistent data structures
-- Load saved state
-
-**Mod_OnModStart:**
-
-- Start cinematics
-- Give starting equipment
-- Setup initial conversations
-
-**Mod_OnHeartbeat:**
-
-- Update timers
-- Check global conditions
-- Ambient system updates
-
-**Mod_OnPlrDeath:**
-
-- Game over sequence
-- Respawn handling
-- Load last save
+- Module scripts run in module context [[`construct_ifo` in `ifo.py` L94](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/ifo.py#L94)]
 
 ## Implementation Notes
-
-**Module Loading Sequence:**
-
-1. **Read [IFO](GFF-File-Format#ifo-module-info)**: Parse module metadata
-2. **Check Requirements**: Verify Expansion_Pack and MinGameVer
-3. **Load HAKs**: Mount HAK files in order
-4. **Play Movie**: Show Mod_StartMovie if set
-5. **Load Entry Area**: Read are + [GIT](GFF-File-Format#git-game-instance-template) for Mod_Entry_Area
-6. **Spawn Player**: Place at Entry position/direction
-7. **Fire OnModLoad**: Execute module load script
-8. **Fire OnModStart**: Execute module start script
-9. **Start Gameplay**: Enable player control
 
 **[IFO](GFF-File-Format#ifo-module-info) vs. are vs. GIT:**
 
 - **[IFO](GFF-File-Format#ifo-module-info)**: Module-level metadata and entry config
 - **are**: Static area properties (lighting, fog, grass)
 - **[GIT](GFF-File-Format#git-game-instance-template)**: Dynamic object instances (creatures, doors, etc.)
-
-**Save Game Integration:**
-
-- [IFO](GFF-File-Format#ifo-module-info) saved with current state
-- Entry position updated to save location
-- Module scripts preserved
-- Mod_IsSaveGame flag set
-
-**Module Transitions:**
-
-- When transitioning to new module:
-  1. Current module [IFO](GFF-File-Format#ifo-module-info) updated with player position
-  2. Current module saved to save game
-  3. New module [IFO](GFF-File-Format#ifo-module-info) loaded
-  4. Player spawned at new Entry position (or LinkedTo waypoint)
-
-**Multi-Area Modules (KotOR2):**
-
-- Mod_Area_list contains multiple areas
-- Areas loaded as needed
-- Transitions within module don't fire OnModStart
-- Shared module-level state
-
-**Single-Area Modules (KotOR1):**
-
-- Typical KotOR1 pattern
-- One area per [IFO](GFF-File-Format#ifo-module-info)
-- Module transition = area transition
-- Simpler resource management
-
-**Script Scope Hierarchy:**
-
-1. **Module Scripts** ([IFO](GFF-File-Format#ifo-module-info)): Highest scope, module-wide
-2. **Area Scripts** (are): Area-specific events
-3. **Object Scripts** (per blueprint type such as [UTC](GFF-File-Format#utc-creature) or [UTD](GFF-File-Format#utd-door)): Individual object events
-
-**Common Module Configurations:**
-
-**Story Modules:**
-
-- Specific entry position for narrative flow
-- StartMovie for cinematics
-- OnModStart for dialogue/cutscenes
-- Custom HAKs for unique content
-
-**Hub Modules:**
-
-- Central entry position (hub center)
-- Multiple area transitions
-- Vendors, NPCs, quest givers
-- No start movie typically
-
-**Combat Modules:**
-
-- Entry position near enemies
-- OnModStart spawns for ambush
-- Battle music configured
-- XPScale adjusted for difficulty
-
-**Tutorial Modules:**
-
-- Guided entry position
-- OnModStart tutorial dialogue
-- Reduced XPScale
-- Special script hooks for teaching mechanics
 
 ### See also
 

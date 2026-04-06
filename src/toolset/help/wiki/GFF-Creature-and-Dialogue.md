@@ -51,11 +51,11 @@ UTC support in PyKotor is implemented by the in-memory `UTC` model and GFF reade
 | ----- | ---- | ----------- |
 | `Appearance_Type` | UInt32 | Index into [`appearance.2da`](2DA-File-Format#appearance2da) |
 | `PortraitId` | [word](GFF-File-Format#gff-data-types) | Index into [`portraits.2da`](2DA-File-Format#portraits2da); 65535 (0xFFFF) = use Portrait ResRef instead |
-| `Gender` | [byte](GFF-File-Format#gff-data-types) | 0=Male, 1=Female, 2=Both, 3=Other, 4=None (engine clamps values > 4 to 4) |
-| `Race` | [byte](GFF-File-Format#gff-data-types) | Index into [`racialtypes.2da`](2DA-File-Format#racialtypes2da). If value is greater than or equal to the number of rows in race.2da, the creature fails to load. |
+| `Gender` | [byte](GFF-File-Format#gff-data-types) | 0=Male, 1=Female, 2=Both, 3=Other, 4=None [[`utc.py` L221](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utc.py#L221)] |
+| `Race` | [byte](GFF-File-Format#gff-data-types) | Index into [`racialtypes.2da`](2DA-File-Format#racialtypes2da) [[`utc.py` L219](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utc.py#L219)]. |
 | `SubraceIndex` | [byte](GFF-File-Format#gff-data-types) | Index into subrace.2da; refines race (e.g. subspecies). |
-| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body [model](MDL-MDX-File-Format) variation (0-9) |
-| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variation (1-9) |
+| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body [model](MDL-MDX-File-Format) variation index [[`utc.py` L231](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utc.py#L231)] |
+| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variation index [[`utc.py` L232](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utc.py#L232)] |
 | `SoundSetFile` | [word](GFF-File-Format#gff-data-types) | Index into [sound set table](Audio-and-Localization-Formats#ssf) |
 
 ## Core Stats & Attributes
@@ -181,7 +181,7 @@ When editing UTCs in the Holocron Toolset, numeric fields use the following rang
 - **Tag:** No engine-enforced max length; keep unique per module for script lookups (e.g. `GetObjectByTag`).
 - **FirstName, LastName, Comment:** Localized or plain string; no fixed max in GFF.
 - **Appearance_Type, PortraitId, SoundSetFile, FactionID:** WORD (0–65535); use valid 2DA row indices.
-- **Race, Gender, SubraceIndex, PerceptionRange, NaturalAC, ability scores (Str–Cha), skill Rank:** BYTE (0–255). **Race:** must be a valid row index in racialtypes.2da (0 to row count − 1); otherwise the creature fails to load. Save bonuses (fortbonus, refbonus, willbonus): SHORT (-32768–32767).
+- **Race, Gender, SubraceIndex, PerceptionRange, NaturalAC, ability scores (Str–Cha), skill Rank:** BYTE (0–255). **Race:** row index into `racialtypes.2da` (0 to row count − 1). Save bonuses (fortbonus, refbonus, willbonus): SHORT (-32768–32767).
 - **WalkRate:** INT; row index into creaturespeed.2da (0 to row count − 1). Invalid index can cause default or broken movement.
 - **HitPoints, CurrentHitPoints, MaxHitPoints, CurrentForce, ForcePoints:** SHORT (0–32767 typical; game does not use negative HP/FP).
 - **ChallengeRating:** Float (0–100 typical). **GoodEvil (alignment):** 0–100 (0=Dark, 100=Light).
@@ -192,20 +192,7 @@ All script hooks store a ResRef to an NCS file; leave blank for no script. The t
 
 ## Implementation Notes
 
-[UTC](GFF-File-Format#utc-creature) files are loaded during module initialization or creature spawning. The engine:
-
-1. **Reads template data** from the [UTC](GFF-File-Format#utc-creature) [GFF](GFF-File-Format) structure
-2. **Applies appearance** based on [`appearance.2da`](2DA-File-Format#appearance2da) ([appearance definitions](2DA-File-Format#appearance2da)) lookup
-3. **Calculates derived stats** (AC, saves, attack bonuses) from attributes and equipment
-4. **Loads inventory** by instantiating [UTI](GFF-File-Format#uti-item) ([item templates](GFF-File-Format#uti-item)) templates
-5. **Applies effects** from equipped items and active powers
-6. **Registers scripts** ([NCS files](NCS-File-Format)) for the creature's event handlers
-
-**Performance Considerations:**
-
-- Complex creatures with many items/feats increase load time
-- Script hooks fire frequently - keep handlers optimized
-- Large SkillList/FeatList structures add memory overhead
+[UTC](GFF-File-Format#utc-creature) files are loaded during module initialization or creature spawning. PyKotor reads a UTC via `construct_utc`, which deserializes each GFF field into the [`UTC`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utc.py#L354) data object [[`utc.py` L354](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utc.py#L354)].
 
 **Common Use Cases:**
 

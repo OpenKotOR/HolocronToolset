@@ -1141,10 +1141,17 @@ To extend these findings or verify behavior against a specific binary:
 
 ## See Also
 
-- [Level-Layout-Formats#bwm](Level-Layout-Formats#bwm) -- BWM binary layout (canonical format); [Indoor Map Builder Implementation Guide](Indoor-Map-Builder-Implementation-Guide), [Kit-Structure-Documentation](Kit-Structure-Documentation) -- Walkmesh extraction
-- [Container-Formats#key](Container-Formats#key), [Container-Formats#bif](Container-Formats#bif), [Container-Formats#erf](Container-Formats#erf) -- Containers and resolution with KEY/BIF
-- [NCS-File-Format](NCS-File-Format), [NSS-File-Format](NSS-File-Format) -- Script execution; [MDL-MDX-File-Format](MDL-MDX-File-Format) -- Model loading
-- [GFF-File-Format](GFF-File-Format), [2DA-File-Format](2DA-File-Format) -- Engine data formats
+- [Level-Layout-Formats#bwm](Level-Layout-Formats#bwm) -- BWM binary layout (canonical format)
+- [Indoor Map Builder Implementation Guide](Indoor-Map-Builder-Implementation-Guide) -- Walkmesh extraction
+- [Kit-Structure-Documentation](Kit-Structure-Documentation) -- Walkmesh extraction
+- [Container-Formats#key](Container-Formats#key)
+- [Container-Formats#bif](Container-Formats#bif)
+- [Container-Formats#erf](Container-Formats#erf)
+- [NCS-File-Format](NCS-File-Format)
+- [NSS-File-Format](NSS-File-Format)
+- [MDL-MDX-File-Format](MDL-MDX-File-Format)
+- [GFF-File-Format](GFF-File-Format)
+- [2DA-File-Format](2DA-File-Format)
 - [Concepts](Concepts) -- Resource resolution, ResRef, override folder
 - [Community sources and archives](Home#community-sources-and-archives) -- DeadlyStream, LucasForums for RE and tool history
 

@@ -39,7 +39,7 @@ UTI files define [item templates](GFF-File-Format#uti-item) for all objects in c
   - [MDL](MDL-MDX-File-Format) ([model](MDL-MDX-File-Format) geometry)
   - [TPC](Texture-Formats#tpc) ([texture](Texture-Formats#tpc) data)
 
-PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti` / `write_uti` helpers](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L22) on top of the shared binary [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82) pipeline, while Holocron Toolset exposes the same item fields through its [`uti.py` editor](https://github.com/OpenKotOR/HolocronToolset/src/toolset/gui/editors/uti.py). Other toolchains keep UTI in the generic GFF family as well, including reone's [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp) and [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora GFF stack.
+PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti` / `write_uti` helpers](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L22) on top of the shared binary [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82) pipeline, while Holocron Toolset exposes the same item fields through its [`uti.py` editor](https://github.com/OpenKotOR/HolocronToolset/src/toolset/gui/editors/uti.py). Other toolchains keep UTI in the generic GFF family as well, including reone's [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp) and [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora GFF stack.
 
 ## Core Identity fields
 
@@ -62,18 +62,11 @@ PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti`
 | `Plot` | [byte](GFF-File-Format#gff-data-types) | Plot-critical item (cannot be sold/destroyed) |
 | `Charges` | [byte](GFF-File-Format#gff-data-types) | Number of uses remaining |
 | `StackSize` | [word](GFF-File-Format#gff-data-types) | Current stack quantity |
-| `ModelVariation` | [byte](GFF-File-Format#gff-data-types) | [model](MDL-MDX-File-Format) variation index (1-99) |
-| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body variation for armor (1-9) |
-| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variation for armor (1-9) |
+| `ModelVariation` | [byte](GFF-File-Format#gff-data-types) | [model](MDL-MDX-File-Format) variation index [[`uti.py` L82](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L82)] |
+| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body variation for armor [[`uti.py` L81](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L81)] |
+| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variation for armor [[`uti.py` L83](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L83)] |
 
-**BaseItem types** (from [`baseitems.2da`](2DA-File-Format#baseitems2da)):
-
-- **0-10**: Various weapon types (shortsword, longsword, blaster, etc.)
-- **11-30**: Armor types and shields
-- **31-50**: Quest items, grenades, medical supplies
-- **51-70**: Upgrades, armbands, belts
-- **71-90**: Droid equipment, special items
-- **91+**: KotOR2-specific items
+**BaseItem types** (from [`baseitems.2da`](2DA-File-Format#baseitems2da)); row index into the 2DA defines item type.
 
 ## Item Properties
 
@@ -91,22 +84,9 @@ PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti`
 - `CostValue` ([word](GFF-File-Format#gff-data-types)): Cost value
 - `Param1` ([byte](GFF-File-Format#gff-data-types)): First parameter
 - `Param1Value` ([byte](GFF-File-Format#gff-data-types)): First parameter value
-- `ChanceAppear` ([byte](GFF-File-Format#gff-data-types)): Percentage chance to appear (random loot)
-- `UsesPerDay` ([byte](GFF-File-Format#gff-data-types)): Daily usage limit (0 = unlimited)
-- `UsesLeft` ([byte](GFF-File-Format#gff-data-types)): Remaining uses for today
+- `ChanceAppear` ([byte](GFF-File-Format#gff-data-types)): Percentage chance to appear on randomly generated loot; default 100 [[`uti.py` L169](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L169)]
 
-**Common Item Properties:**
-
-- **Attack Bonus**: +1 to +12 attack rolls
-- **Damage Bonus**: Additional damage dice
-- **Ability Bonus**: +1 to +12 to ability scores
-- **Damage Resistance**: Reduce damage by amount/percentage
-- **Saving Throw Bonus**: +1 to +20 to saves
-- **Skill Bonus**: +1 to +50 to skills
-- **Immunity**: Immunity to damage type or condition
-- **On Hit**: Cast spell/effect on successful hit
-- **Keen**: Expanded critical threat range
-- **Massive Criticals**: Bonus damage on critical hit
+**Property types** are defined entirely in [`itempropdef.2da`](2DA-File-Format#itempropdef2da); the `PropertyName` field indexes into this table which maps each row to its subtype table, cost table, and parameter tables. PyKotor serializes each `UTIProperty` without enumerating property-type names in code — all valid property names derive from the 2DA at runtime [[`uti.py` L165–L176](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L165)].
 
 ## Weapon-Specific fields
 
@@ -125,9 +105,9 @@ PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti`
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body [model](MDL-MDX-File-Format) variation (1-9) |
-| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variation (1-9) |
-| `ModelVariation` | [byte](GFF-File-Format#gff-data-types) | [model](MDL-MDX-File-Format) type (typically 1-3) |
+| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body [model](MDL-MDX-File-Format) variation [[`uti.py` L81](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L81)] |
+| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variation [[`uti.py` L83](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L83)] |
+| `ModelVariation` | [byte](GFF-File-Format#gff-data-types) | [model](MDL-MDX-File-Format) type [[`uti.py` L82](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L82)] |
 | `ArmorRulesType` (KotOR2) | [byte](GFF-File-Format#gff-data-types) | Armor class category |
 
 **Armor [model](MDL-MDX-File-Format) Variations:**
@@ -175,25 +155,19 @@ PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti`
 
 **KotOR2 Upgrade Slots:**
 
-- Weapons can have multiple upgrade slots
-- Each slot has specific type restrictions
-- Lightsabers get color customization
-- Armor upgrades affect appearance
+Weapons and armor may have upgrade slots defined in [`baseitems.2da`](2DA-File-Format#baseitems2da).
 
 ## Visual & Audio
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `ModelVariation` | [byte](GFF-File-Format#gff-data-types) | Base [model](MDL-MDX-File-Format) index |
-| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body [model](MDL-MDX-File-Format) for armor |
-| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variant |
+| `ModelVariation` | [byte](GFF-File-Format#gff-data-types) | Base [model](MDL-MDX-File-Format) index [[`uti.py` L82](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L82)] |
+| `BodyVariation` | [byte](GFF-File-Format#gff-data-types) | Body [model](MDL-MDX-File-Format) for armor [[`uti.py` L81](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L81)] |
+| `TextureVar` | [byte](GFF-File-Format#gff-data-types) | [texture](Texture-Formats#tpc) variant [[`uti.py` L83](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L83)] |
 
 **[model](MDL-MDX-File-Format) Resolution:**
 
-1. Engine looks up `BaseItem` in [`baseitems.2da`](2DA-File-Format#baseitems2da)
-2. Retrieves [model](MDL-MDX-File-Format) prefix (e.g., `w_lghtsbr`)
-3. Appends variations: `w_lghtsbr_001.mdl`
-4. [textures](Texture-Formats#tpc) follow similar pattern
+Item model names are derived from the `ModelResRef` column in [`baseitems.2da`](2DA-File-Format#baseitems2da), combined with the `ModelVariation` index. [textures](Texture-Formats#tpc) follow the same naming convention.
 
 ## Palette & Editor
 
@@ -210,66 +184,9 @@ PyKotor models UTI templates with the dedicated [`UTI` data class and `read_uti`
 
 ## Implementation Notes
 
-**Item Instantiation:**
+PyKotor parses UTI via `construct_uti` [[`uti.py` L128](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L128)], which deserializes each GFF field into the `UTI` data object.
 
-1. **Template Loading**: [GFF](GFF-File-Format) structure parsed from [UTI](GFF-File-Format#uti-item)
-2. **Property Application**: PropertiesList merged into item
-3. **Cost Calculation**: Base cost + AddCost + property costs
-4. **Visual Setup**: resolve [model](MDL-MDX-File-Format) variants and [texture](Texture-Formats#tpc) variants
-5. **Stack Handling**: StackSize determines inventory behavior
-
-**Property System:**
-
-- Properties defined in [`itempropdef.2da`](2DA-File-Format#itempropdef2da)
-- Each property has cost formula
-- Properties stack or override based on type
-- Engine recalculates effects when equipped
-
-**Performance Optimization:**
-
-- Simple items (no properties) load fastest
-- Complex property lists increase spawn time
-- Stack-based items share template data
-- Unique items (non-stackable) require instance data
-
-**Common Item Categories:**
-
-**Weapons:**
-
-- Melee: lightsabers, swords, vibroblades
-- Ranged: blasters, rifles, heavy weapons
-- Properties: damage, attack bonus, critical
-
-**Armor:**
-
-- Light, Medium, Heavy classes
-- Robes (Force user specific)
-- Properties: AC bonus, resistance, ability boosts
-
-**Upgrades:**
-
-- Weapon: Power crystals, energy cells, lens
-- Armor: Overlays, underlays, plates
-- Applied via crafting interface
-
-**Consumables:**
-
-- Medpacs: Restore health
-- Stimulants: Temporary bonuses
-- Grenades: Area damage/effects
-- Single-use or limited charges
-
-**Quest Items:**
-
-- Plot-flagged, cannot be lost
-- Often no combat value
-- Trigger scripted events
-
-**Droid Equipment:**
-
-- Special items for droid party members
-- Sensors, shields, weapons
-- Different slot types than organic characters
+Armor identification uses the `ARMOR_BASE_ITEMS` frozenset (`{35,36,37,38,39,40,41,42,43,53,58,63,64,65,69,71,85,89,98,100,102,103}`) defined in [[`uti.py` L19](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/uti.py#L19)] to distinguish armor from weapons when computing visual variants. `PaletteID` and `Comment` are toolset-only fields not used at game runtime.
 
 ## See also
 
@@ -308,13 +225,13 @@ Global merchant metadata also lives in **[merchants.2da](2DA-File-Format)** (dat
 | `ResRef` | ResRef | Template resref (file stem). |
 | `LocName` | CExoLocString | Localized merchant name. |
 | `Tag` | CExoString | Tag for scripts / identification. |
-| `MarkUp` | int32 | Markup when selling **to** the player (percent). |
-| `MarkDown` | int32 | Markdown when buying **from** the player (percent). |
+| `MarkUp` | int32 | Markup when selling **to** the player (integer; divide by 100 for percentage multiplier [[`ModuleStore.ts` L56](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/module/ModuleStore.ts#L56)]). |
+| `MarkDown` | int32 | Markdown when buying **from** the player (integer; divide by 100 for percentage multiplier [[`ModuleStore.ts` L52](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/module/ModuleStore.ts#L52)]). |
 | `OnOpenStore` | ResRef | Script executed when the store UI opens. |
 | `Comment` | CExoString | Authoring comment. |
-| `BuySellFlag` | byte | Bit 0 = can buy from player; bit 1 = can sell to player ([`construct_utm` L173–L174](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L173-L174)). |
+| `BuySellFlag` | byte | Bit 0 = can buy from player; bit 1 = can sell to player [[`construct_utm` L127–L128](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L127-L128)]. |
 | `ItemList` | List | Stock entries (see below). |
-| `ID` | byte | Legacy / unused in practice; PyKotor can still emit it when `use_deprecated=True` in [`dismantle_utm` L218–L219](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L218-L219). |
+| `ID` | byte | Legacy field; default 5 in PyKotor [[`utm.py` L83](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L83)]; emitted only when `use_deprecated=True` in [`dismantle_utm` L172](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L172). |
 
 ## ItemList element struct
 
@@ -325,10 +242,10 @@ Each list element is a struct with (at minimum) the fields PyKotor reads and wri
 | `InventoryRes` | ResRef | Item template ([UTI](GFF-Items-and-Economy#uti)) resref. |
 | `Infinite` | byte | Infinite stock when non-zero. |
 | `Dropable` | byte | Droppable flag (PyKotor writes the field only when true — [`dismantle_utm` L213–L214](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L213-L214)). |
-| `Repos_PosX` | uint16 | Repository grid X (writer uses slot index — [`dismantle_utm` L211](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L211)). |
-| `Repos_PosY` | uint16 | Repository grid Y (writer uses `0` — same block). |
+| `Repos_PosX` | uint16 | Repository grid X (writer uses slot index — [`dismantle_utm` L164](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L164)). |
+| `Repos_PosY` | uint16 | Repository grid Y (writer uses `0` — [`dismantle_utm` L165](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L165)). Note: reone reads this field as `Repos_Posy` (lowercase 'y'); PyKotor writes `Repos_PosY` (capital 'Y'). |
 
-PyKotor documents and round-trips merchant templates through [`UTM`, `construct_utm`, `dismantle_utm`, `read_utm`, and `write_utm`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L18) on top of the shared [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82) path, and the same merchant-root-as-GFF approach appears in reone's [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp) and [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`UTM.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Resources/KotorUTM/UTM.cs#L13-L35) plus [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora GFF loader stack.
+PyKotor documents and round-trips merchant templates through [`UTM`, `construct_utm`, `dismantle_utm`, `read_utm`, and `write_utm`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/utm.py#L18) on top of the shared [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82) path, and the same merchant-root-as-GFF approach appears in reone's [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp) and [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`UTM.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Resources/KotorUTM/UTM.cs#L13-L35) plus [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora GFF loader stack.
 
 ### See also
 
@@ -366,7 +283,7 @@ Part of the [GFF File Format Documentation](GFF-File-Format).
 - [NCS](NCS-File-Format) (journal API)
 - [2DA](2DA-File-Format) (e.g. journal.2da for XP)
 
-PyKotor represents journals through [`JRL`, `JRLQuest`, `JRLEntry`, `construct_jrl`, `read_jrl`, and `write_jrl`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/jrl.py#L18), tags them as [`GFFContent.JRL`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/gff/gff_data.py#L166), and decodes them through the same shared [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82) path that Holocron Toolset builds on in its dialogue and module editors. Other implementations also keep JRL inside the generic GFF family, including reone's [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp) and [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora reader stack.
+PyKotor represents journals through [`JRL`, `JRLQuest`, `JRLEntry`, `construct_jrl`, `read_jrl`, and `write_jrl`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/jrl.py#L18), tags them as [`GFFContent.JRL`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/gff_data.py#L166), and decodes them through the same shared [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82) path that Holocron Toolset builds on in its dialogue and module editors. Other implementations also keep JRL inside the generic GFF family, including reone's [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp) and [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora reader stack.
 
 ## Quest structure
 
@@ -383,7 +300,7 @@ PyKotor represents journals through [`JRL`, `JRLQuest`, `JRLEntry`, `construct_j
 | `Tag` | [CExoString](GFF-File-Format#gff-data-types) | Unique quest identifier |
 | `Name` | [CExoLocString](GFF-File-Format#gff-data-types) | Quest title |
 | `Comment` | [CExoString](GFF-File-Format#gff-data-types) | Developer comment |
-| `Priority` | [int32](GFF-File-Format#gff-data-types) | Sorting priority (0=Highest, 4=Lowest) |
+| `Priority` | [uint32](GFF-File-Format#gff-data-types) | Sorting priority (0=Highest, 4=Lowest) [[`JRLQuestPriority` L93–98](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/jrl.py#L93)]; default LOWEST when constructing a new `JRLQuest` object [[`jrl.py` L64](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/jrl.py#L64)] |
 | `PlotIndex` | [int32](GFF-File-Format#gff-data-types) | Legacy plot index |
 | `PlanetID` | [int32](GFF-File-Format#gff-data-types) | Planet association (unused) |
 | `EntryList` | [List](GFF-File-Format#gff-data-types) | List of quest states |
@@ -400,10 +317,10 @@ PyKotor represents journals through [`JRL`, `JRLQuest`, `JRLEntry`, `construct_j
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `ID` | [int32](GFF-File-Format#gff-data-types) | State identifier (referenced by scripts/dialogue) |
+| `ID` | [uint32](GFF-File-Format#gff-data-types) | State identifier (referenced by scripts/dialogue) |
 | `Text` | [CExoLocString](GFF-File-Format#gff-data-types) | [Journal](GFF-File-Format#jrl-journal) text displayed for this state |
-| `End` | [byte](GFF-File-Format#gff-data-types) | 1 if this state completes the quest |
-| `XP_Percentage` | float | XP reward multiplier for reaching this state |
+| `End` | [uint16](GFF-File-Format#gff-data-types) | 1 if this state completes the quest [[`jrl.py` L153](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/jrl.py#L153)] |
+| `XP_Percentage` | [float (single)](GFF-File-Format#gff-data-types) | XP reward multiplier for reaching this state [[`jrl.py` L155](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/jrl.py#L155)] |
 
 **Quest Updates:**
 
@@ -436,7 +353,7 @@ FAC files are GFF-based format files that store faction definitions and reputati
 
 **Official BioWare Documentation:** For the authoritative BioWare Aurora Engine Faction Format specification, see [Bioware Aurora Faction Format](Bioware-Aurora-Items-Economy-and-Narrative#faction).
 
-**Source:** This documentation is based on the official BioWare Aurora Engine Faction Format PDF, contained in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Faction_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Faction_Format.pdf).
+**Source:** This documentation is based on the official BioWare Aurora Engine Faction Format PDF, contained in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Faction_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Faction_Format.pdf).
 
 ---
 
@@ -449,7 +366,7 @@ A Faction is a control system for determining how game objects interact with eac
 - `repute.2da` - Default faction standings (see [2DA File Format](2DA-File-Format))
 - `repadjust.2da` - Reputation adjustment values (see [2DA File Format](2DA-File-Format))
 
-PyKotor describes module faction state with [`FACFaction`, `FACReputation`, `FAC`, `construct_fac`, `read_fac`, and `write_fac`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/fac.py#L16), labels the root as [`GFFContent.FAC`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/gff/gff_data.py#L161), and parses it through the shared [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82); Holocron Toolset exposes the same `repute.fac` data where its module and generic GFF workflows surface faction editing. Other engines again keep FAC as ordinary GFF, including reone's [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp) and [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora stack.
+PyKotor describes module faction state with [`FACFaction`, `FACReputation`, `FAC`, `construct_fac`, `read_fac`, and `write_fac`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/fac.py#L16), labels the root as [`GFFContent.FAC`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/gff_data.py#L161), and parses it through the shared [`GFFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/io_gff.py#L82); Holocron Toolset exposes the same `repute.fac` data where its module and generic GFF workflows surface faction editing. Other engines again keep FAC as ordinary GFF, including reone's [`gff.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/gff.cpp) and [`gffreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/resource/format/gffreader.cpp), KotOR.js's [`GFFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/GFFObject.ts#L24), Kotor.NET's [`GFF.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorGFF/GFF.cs#L18), and xoreos's Aurora stack.
 
 ---
 
@@ -494,15 +411,15 @@ Each Reputation Struct in the RepList describes how one faction feels about anot
 | --------- | ----- | ---------------------------------------------------------------------------------------------- |
 | FactionID1 | DWORD | Index into the Top-Level Struct's FactionList. "Faction1"                                    |
 | FactionID2 | DWORD | Index into the Top-Level Struct's FactionList. "Faction2"                                    |
-| FactionRep | DWORD | How Faction2 perceives Faction1. 0-10 = Faction2 is hostile to Faction1, 11-89 = Faction2 is neutral to Faction1, 90-100 = Faction2 is friendly to Faction1 |
+| FactionRep | DWORD | How Faction2 perceives Faction1. 0–10 = Faction2 is hostile to Faction1, 11–89 = Faction2 is neutral to Faction1, 90–100 = Faction2 is friendly to Faction1 [[`FactionManager.ts` L131–L141](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/managers/FactionManager.ts#L131)]; default 50 when field absent [[`fac.py` L134](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/fac.py#L134)] |
 
 ### Reputation Values
 
 | Range | Relationship              | Description                                                                 |
 | ----- | ------------------------- | --------------------------------------------------------------------------- |
-| 0-10  | Hostile                   | Faction2 will attack Faction1 on sight.                                    |
-| 11-89 | Neutral                   | Faction2 is neutral to Faction1. No automatic aggression.                  |
-| 90-100| Friendly                  | Faction2 is friendly to Faction1. Will not attack and may assist.          |
+| 0–10  | Hostile                   | Faction2 will attack Faction1 on sight [[`IsHostile` L132](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/managers/FactionManager.ts#L132)]. |
+| 11–89 | Neutral                   | Faction2 is neutral to Faction1. No automatic aggression [[`IsNeutral` L136](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/managers/FactionManager.ts#L136)]. |
+| 90–100| Friendly                  | Faction2 is friendly to Faction1. Will not attack and may assist [[`IsFriendly` L140](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/managers/FactionManager.ts#L140)]. |
 
 ### RepList Completeness
 

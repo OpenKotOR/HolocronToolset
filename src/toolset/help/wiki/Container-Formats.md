@@ -5,7 +5,7 @@ The KotOR engine organizes game resources into a layered archive system. At the 
 ## Contents
 
 - [KEY — Resource Key Index](#key)
-- [BIF — BioWare Index File](#bif)
+- [BIF — Binary Resource Archive](#bif)
 - [ERF — Encapsulated Resource File](#erf)
 - [RIM — Resource Image](#rim)
 
@@ -21,14 +21,17 @@ Mods do not normally edit the KEY file. Instead, they place content in the overr
 
 ## Table of Contents
 
-- [File structure overview](#file-structure-overview)
-  - [KEY File Purpose](#key-file-purpose)
-- [Binary Format](#binary-format)
-  - [File Header](#file-header)
-  - [File Table](#file-table)
-  - [Filename Table](#filename-table)
-  - [KEY Table](#key-table)
-- [Resource ID Encoding](#resource-id-encoding)
+- KEY — Resource Key Index
+  - Table of Contents
+  - [File structure overview](#file-structure-overview)
+    - [KEY File Purpose](#key-file-purpose)
+  - [Binary Format](#binary-format)
+    - [File Header](#file-header)
+    - [File Table](#file-table)
+    - [Filename Table](#filename-table)
+    - [KEY Table](#key-table)
+  - [Resource ID Encoding](#resource-id-encoding)
+  - [Cross-reference: implementations](#cross-reference-implementations)
 
 ---
 
@@ -100,7 +103,7 @@ The *KEY* indexes [BIF](Container-Formats#bif) entries only (step 4 in that orde
 
 ### File Header
 
-The *file header* is 64 (0x40) bytes in size:
+The file header is 64 bytes in size:
 
 | Name                | type    | offset | size | Description                                    |
 | ------------------- | ------- | ------ | ---- | ---------------------------------------------- |
@@ -147,7 +150,7 @@ In contemporary distributions:
 
 - [Steam](https://store.steampowered.com/)
 - [GOG](https://www.gog.com/)
-- [Digital](https://en.wikipedia.org/wiki/Digital_distribution)
+- [digital](https://en.wikipedia.org/wiki/Digital_distribution)
 
 **Typical PC installs:**
 
@@ -241,7 +244,7 @@ This split is implemented directly in reone's [`readKeyEntry`](https://github.co
 
 PyKotor's KEY coverage is split between [`KEYBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L65-L128), [`KEYBinaryWriter`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L143-L195), and the structural notes plus data models in [`key_data.py`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L473); the broader cross-tool comparison remains summarized under [File structure overview](#file-structure-overview).
 
-## See also
+### See also
 
 - [BIF File Format](Container-Formats#bif) - Container format indexed by KEY
 - [ERF File Format](Container-Formats#erf) - Self-contained containers (MOD/SAV/ERF) and resolution order
@@ -266,15 +269,18 @@ BIF files hold the bulk of the game's read-only resources — models, textures, 
 
 ## Table of Contents
 
-- [File structure overview](#file-structure-overview)
-  - [BIF Usage in KotOR](#bif-usage-in-kotor)
-- [Binary Format](#binary-format)
-  - [File Header](#file-header)
-  - [Variable resource table](#variable-resource-table)
-  - [Resource data](#resource-data)
-- [BZF Compression](#bzf-compression)
-  - [BZF format details](#bzf-format-details)
-- [KEY file Relationship](#key-file-relationship)
+- BIF — BioWare Index File
+  - Table of Contents
+  - [File structure overview](#file-structure-overview)
+    - [BIF Usage in KotOR](#bif-usage-in-kotor)
+  - [Binary Format](#binary-format)
+    - [File Header](#file-header)
+    - [Variable resource table](#variable-resource-table)
+    - [Resource data](#resource-data)
+  - [BZF Compression](#bzf-compression)
+    - [BZF format details](#bzf-format-details)
+  - [KEY file Relationship](#key-file-relationship)
+  - [Cross-reference: implementations](#cross-reference-implementations)
 
 ---
 
@@ -334,9 +340,9 @@ The [modular structure](https://en.wikipedia.org/wiki/Modular_programming) allow
 
 ### File Header
 
-The file header is 20 (0x14) bytes in size:
+The file header is 20 bytes in size:
 
-| Name                      | Type    | Offset | Size | Description                                    |
+| Name                      | type    | offset | size | Description                                    |
 | ------------------------- | ------- | ------ | ---- | ---------------------------------------------- |
 | File Type                 | [char](GFF-File-Format#gff-data-types) | 0 (0x00) | 4    | `"BIFF"` for BIF, `"BZF "` for compressed BIF  |
 | File Version              | [char](GFF-File-Format#gff-data-types) | 4 (0x04) | 4    | `"V1  "` for BIF, `"V1.0"` for BZF             |
@@ -359,7 +365,7 @@ The file header is 20 (0x14) bytes in size:
 
 Each variable resource entry is 16 bytes:
 
-| Name        | Type   | Offset | Size | Description                                                      |
+| Name        | type   | offset | size | Description                                                      |
 | ----------- | ------ | ------ | ---- | ---------------------------------------------------------------- |
 | Resource ID | `UInt32` | 0 (0x00) | 4    | Resource ID (matches [KEY file](Container-Formats#key) entry, encodes BIF index and resource index) |
 | Offset      | `UInt32` | 4 (0x04) | 4    | Offset to resource data in file (absolute file offset)                    |
@@ -438,7 +444,7 @@ The *BZF* format wraps a complete *BIF* file in LZMA compression:
 2. **LZMA Stream**: Compressed *BIF* file data using LZMA algorithm
 3. **Decompressed Result**: Standard *BIF* file structure (as described above)
 
-**Compression Details:**
+**compression Details:**
 
 - The entire *BIF* file (after the 8-[byte](https://en.wikipedia.org/wiki/Byte) header) is compressed using LZMA (Lempel-Ziv-Markov chain Algorithm)
 - LZMA provides high compression ratios with good decompression speed
@@ -490,7 +496,7 @@ See [KEY File Format](Container-Formats#key) for the matching KEY-side lookup an
 
 PyKotor's BIF implementation is centered in [`io_bif.py`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py) for binary read and write paths and [`bif_data.py`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L100-L575) for the in-memory model.
 
-## See also
+### See also
 
 - [Resource formats and resolution](Resource-Formats-and-Resolution#resource-type-identifiers) -- Hex resource type IDs
 - [Container-Formats#key](Container-Formats#key) -- *BIF* indexing and resource resolution
@@ -512,65 +518,23 @@ ERF is a self-contained resource archive: every entry carries its own ResRef and
 
 ## Table of Contents
 
-- [Container Formats](#container-formats)
-  - [Contents](#contents)
-- [KEY — Resource Key Index](#key--resource-key-index)
-  - [Table of Contents](#table-of-contents)
-  - [File structure overview](#file-structure-overview)
-    - [KEY File Purpose](#key-file-purpose)
+- ERF — Encapsulated Resource File
+  - Table of Contents
+  - [File Structure Overview](#file-structure-overview)
+  - [RIM versus ERF](#rim-versus-erf)
   - [Binary Format](#binary-format)
     - [File Header](#file-header)
-    - [File Table](#file-table)
-    - [Filename Table](#filename-table)
-    - [*KEY* Table](#key-table)
-  - [Resource ID Encoding](#resource-id-encoding)
-  - [See also](#see-also)
-- [BIF — BioWare Index File](#bif--bioware-index-file)
-  - [Table of Contents](#table-of-contents-1)
-  - [File structure overview](#file-structure-overview-1)
-    - [BIF Usage in KotOR](#bif-usage-in-kotor)
-  - [Binary Format](#binary-format-1)
-    - [File Header](#file-header-1)
-    - [Variable Resource Table](#variable-resource-table)
-    - [Resource Data](#resource-data)
-  - [BZF Compression](#bzf-compression)
-    - [BZF format details](#bzf-format-details)
-  - [KEY File Relationship](#key-file-relationship)
-  - [See also](#see-also-1)
-- [ERF — Encapsulated Resource File](#erf--encapsulated-resource-file)
-  - [Table of Contents](#table-of-contents-2)
-  - [File Structure Overview](#file-structure-overview-2)
-  - [RIM versus ERF](#rim-versus-erf)
-  - [Binary Format](#binary-format-2)
-    - [File Header](#file-header-2)
     - [Localized String List](#localized-string-list)
     - [KEY List](#key-list)
     - [Resource List](#resource-list)
-    - [Resource data](#resource-data-1)
-    - [MOD/NWM file format Quirk: Blank data Block](#modnwm-file-format-quirk-blank-data-block)
+    - [Resource Data](#resource-data)
+    - [MOD/NWM File Format Quirk: Blank Data Block](#modnwm-file-format-quirk-blank-data-block)
   - [ERF Variants](#erf-variants)
     - [MOD Files (module containers)](#mod-files-module-containers)
     - [SAV Files (save game containers)](#sav-files-save-game-containers)
     - [RIM files (resource image)](#rim-files-resource-image)
     - [ERF Files (Generic Containers)](#erf-files-generic-containers)
-  - [Engine Internal Behavior](#engine-internal-behavior)
-    - [Critical vs. Metadata Fields](#critical-vs-metadata-fields)
-    - [Save Game Detection](#save-game-detection)
-    - [TSL Specific Quirks](#tsl-specific-quirks)
   - [Cross-reference: implementations](#cross-reference-implementations)
-  - [See also](#see-also-2)
-- [RIM — Resource Image](#rim--resource-image)
-  - [Table of contents](#table-of-contents-3)
-  - [Role in the game and modding](#role-in-the-game-and-modding)
-  - [File structure overview](#file-structure-overview-3)
-  - [Binary format](#binary-format-3)
-    - [File header](#file-header-3)
-    - [Resource entries](#resource-entries)
-    - [Resource data and padding](#resource-data-and-padding)
-  - [Module file sets (rim, \_s, dlg)](#module-file-sets-rim-_s-dlg)
-  - [Relationship to ERF and MOD](#relationship-to-erf-and-mod)
-  - [Cross-reference: implementations](#cross-reference-implementations-1)
-  - [See also](#see-also-3)
 
 ---
 
@@ -764,7 +728,7 @@ The best published description of this odd padding region is still Torlack's his
 
 ERF files come in several variants based on file type:
 
-| File Type | Extension | Description                                                      |
+| file type | Extension | Description                                                      |
 | --------- | --------- | ---------------------------------------------------------------- |
 | ERF       | `.erf`    | Generic encapsulated resource file                               |
 | MOD       | `.mod`    | Module file (contains area resources)                            |
@@ -868,13 +832,14 @@ Contrary to popular belief, the engine does **not** identify Save Games based on
 
 See also **Cross-reference** at the [top of this page](#file-structure-overview) for KotOR.js, Kotor.NET, reone, and xoreos.
 
-## See also
+### See also
 
 - [Concepts](Concepts#language-ids-kotor) - Language ID enum and encodings (ERF localized strings, TLK, GFF)
 - [BIF File Format](Container-Formats#bif) - Container format used with [KEY](Container-Formats#key) files
 - [KEY File Format](Container-Formats#key) - Index for [BIF containers](Container-Formats#bif) and resource resolution
 - [GFF File Format](GFF-File-Format) - Common content type stored in ERF containers
-- [RIM File Format](Container-Formats#rim) — Resource image containers (distinct binary layout; [compare with ERF](Container-Formats#rim-versus-erf))
+- [RIM File Format](Container-Formats#rim) — Resource image containers (distinct binary layout
+- [comparison](Container-Formats#rim-versus-erf))
 
 ---
 
@@ -1049,7 +1014,7 @@ Community tools and installers (TSLPatcher, HoloPatcher) support inserting or pa
 
 The KotOR **RIM** container stores module resources without compression. For ERF-specific fields and engine behavior around MOD/SAV, see [ERF File Format](Container-Formats#erf).
 
-## See also
+### See also
 
 - [ERF File Format](Container-Formats#erf) — Encapsulated resource format (MOD, SAV, generic ERF). Compare RIM layout under:
 

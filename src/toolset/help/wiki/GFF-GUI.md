@@ -23,21 +23,23 @@ GUI controls reference [TPC](Texture-Formats#tpc)/TGA textures for visual elemen
 | `ID` | [int32](GFF-File-Format#gff-data-types) | Unique control ID |
 | `Tag` | [CExoString](GFF-File-Format#gff-data-types) | Control tag |
 
-**Control types** (source: [`GUIControl` L100](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L100), [`read_gui` L1060](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L1060)):
+**Control types** [[`gui.py` GUIControlType L23](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L23), [reone `types.h` L23](https://github.com/seedhartha/reone/blob/master/include/reone/gui/types.h#L23), [KotOR.js `GUIControlType.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/enums/gui/GUIControlType.ts)]:
 
-| ID | Name | Description |
-| -- | ---- | ----------- |
-| -1 | Invalid | Invalid control type |
-| 0 | Control | Base container (rarely used) |
-| 2 | Panel | Background panel/container |
-| 4 | ProtoItem | Prototype item template (for ListBox items) |
-| 5 | Label | Static text label |
-| 6 | Button | Clickable button |
-| 7 | CheckBox | Toggle checkbox |
-| 8 | Slider | Sliding value control |
-| 9 | ScrollBar | Scroll bar control |
-| 10 | Progress | Progress bar indicator |
-| 11 | ListBox | List of items with scrolling |
+> **⚠ Note:** PyKotor assigns 4=ProtoItem, 5=Label; reone and KotOR.js assign 4=Label, 5=ProtoItem/ImageButton. The discrepancy exists across implementations — use the `TAG` field for reliable control lookup.
+
+| ID | Name (reone/KotOR.js) | Name (PyKotor) | Description |
+| -- | --------------------- | -------------- | ----------- |
+| -1 | Invalid | Invalid | Invalid control type |
+| 0 | Control | Control | Base container |
+| 2 | Panel | Panel | Background panel/container |
+| 4 | Label | ProtoItem | Static text label (reone/KotOR.js); ProtoItem template (PyKotor) |
+| 5 | ProtoItem/ImageButton | Label | ProtoItem template (reone/KotOR.js); Static text label (PyKotor) |
+| 6 | Button | Button | Clickable button |
+| 7 | ToggleButton/CheckBox | CheckBox | Toggle checkbox |
+| 8 | Slider | Slider | Sliding value control |
+| 9 | ScrollBar | ScrollBar | Scroll bar control |
+| 10 | ProgressBar | Progress | Progress bar indicator |
+| 11 | ListBox | ListBox | List of items with scrolling |
 
 ## Common Properties
 
@@ -82,7 +84,7 @@ All controls share these base properties:
 | `CORNER` | *ResRef* | Corner texture ([TPC](Texture-Formats#tpc) or TGA) |
 | `EDGE` | *ResRef* | [edge](Level-Layout-Formats#edges-wok-only) texture ([TPC](Texture-Formats#tpc) or TGA) |
 | `FILL` | *ResRef* | Fill/background texture ([TPC](Texture-Formats#tpc) or TGA) |
-| `FILLSTYLE` | [int32](GFF-File-Format#gff-data-types) | Fill rendering style (-1=None, 0=Empty, 1=Solid, 2=[texture](Texture-Formats#tpc)) |
+| `FILLSTYLE` | [int32](GFF-File-Format#gff-data-types) | Fill rendering style integer; default 2 in BORDER [[`gui.py` L461](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L461)], 0 in HILIGHT/PROGRESS [[`gui.py` L408](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L408)]; reone and xoreos read as raw uint [[xoreos `widget.cpp` L532](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/widget.cpp#L532)] |
 | `DIMENSION` | [int32](GFF-File-Format#gff-data-types) | Border thickness in pixels |
 | `INNEROFFSET` | [int32](GFF-File-Format#gff-data-types) | Inner padding X-axis (pixels) |
 | `INNEROFFSETY` | [int32](GFF-File-Format#gff-data-types) | Inner padding Y-axis (pixels, optional) |
@@ -95,8 +97,8 @@ All controls share these base properties:
 - **[edge](Level-Layout-Formats#edges-wok-only)**: 4 [edge](Level-Layout-Formats#edges-wok-only) pieces (top, right, bottom, left)
 - **FILL**: Center fill area (scaled to fit)
 - **DIMENSION**: Thickness of border [edges](Level-Layout-Formats#edges-wok-only)
-- **FILLSTYLE**: Controls how fill [texture](Texture-Formats#tpc) is rendered (tiled, stretched, solid color)
-- Border pieces are tiled/repeated along [edges](Level-Layout-Formats#edges-wok-only)
+- **FILLSTYLE**: Raw integer read by engine; default 2 for BORDER [[`gui.py` L461](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L461)]; no named enum exists in reone or xoreos sources
+- **CORNER/EDGE/FILL textures**: skipped if empty or if the value is the string `"0"` [[reone `control.cpp` `loadBorder`](https://github.com/seedhartha/reone/blob/master/src/libs/gui/control.cpp)]
 
 **TEXT Struct:**
 
@@ -353,7 +355,8 @@ All controls share these base properties:
 **Button Behavior:**
 
 - Clickable control with text label
-- **HILIGHT**: Shown on mouse hover
+- **HILIGHT**: Shown on mouse hover; hover event plays hardcoded sound `gui_actscroll` [[xoreos `button.cpp` L124](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/button.cpp#L124)]
+- Click event plays hardcoded sound `gui_actuse` [[xoreos `button.cpp` L148](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/button.cpp#L148)]
 - **TEXT**: Button label (can use [StrRef](Audio-and-Localization-Formats#string-references-strref) for localization)
 - **MOVETO**: Keyboard/D-pad navigation
 
@@ -428,6 +431,7 @@ All controls share these base properties:
 - colors multiply with textures (white=full color, black=no color)
 - KotOR 1 default text color: RGB(0.0, 0.658824, 0.980392) — cyan [[KotOR.js `GUIControl.ts` L188](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/gui/GUIControl.ts#L188)]
 - KotOR 2 default text color: RGB(0.102, 0.698, 0.549) — teal [[KotOR.js `GUIControl.ts` L192](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/gui/GUIControl.ts#L192)]
+- KotOR 1 default highlight color: RGB(1.0, 1.0, 0.0) — yellow [[KotOR.js `GUIControl.ts` L189](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/gui/GUIControl.ts#L189)]
 - KotOR 2 default highlight color: RGB(0.8, 0.8, 0.698) [[KotOR.js `GUIControl.ts` L193](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/gui/GUIControl.ts#L193)]
 
 **Border Rendering:**
@@ -443,7 +447,7 @@ All controls share these base properties:
 
 - Fonts are [texture](Texture-Formats#tpc)-based ([TPC](Texture-Formats#tpc) or TGA files with character grid)
 - Each character has fixed width/height in font [texture](Texture-Formats#tpc)
-- TEXT field takes precedence over [StrRef](Audio-and-Localization-Formats#string-references-strref) if both set
+- If STRREF is a valid index, the engine resolves it via TLK; if STRREF is absent/`0xFFFFFFFF`, the direct TEXT string is used [[xoreos `widget.cpp` `createText` L544](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/widget.cpp#L544), [PyKotor `gui.py` L362](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L362)]
 - [StrRef](Audio-and-Localization-Formats#string-references-strref) references [dialog.tlk](Audio-and-Localization-Formats#tlk) for localized strings
 - ALIGNMENT uses bitfield: horizontal (1=left, 2=center, 3=right) + vertical (0=top, 16=center, 32=bottom) [[`gui.py` GUIAlignment](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L39)]
 - Text color modulates font [texture](Texture-Formats#tpc)
@@ -457,12 +461,8 @@ All controls share these base properties:
 
 **Control IDs:**
 
-- **ID** field: Unique identifier for script references
-- Control IDs are used by scripts and engine systems to locate specific controls
-- Some engine behaviors may depend on specific Control IDs or Tags
-- IDs should remain stable across [GUI](GFF-File-Format#gui-graphical-user-interface) versions to maintain script compatibility
-
-**Note**: While control IDs are used extensively for script references, explicit evidence of hardcoded ID dependencies in the engine is not found in vendor implementations. However, control tags (TAG field) are commonly used for engine lookups.
+- **ID** field: Unique control identifier read by PyKotor as `ID` int32 [[`gui.py` `construct_control`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L608)]; read by reone via `getTag`/`getId` [[reone `control.cpp` L48](https://github.com/seedhartha/reone/blob/master/src/libs/gui/control.cpp#L48)]
+- **TAG** field: String identifier; used by reone for parent lookup via `Obj_Parent` [[reone `control.cpp` L52](https://github.com/seedhartha/reone/blob/master/src/libs/gui/control.cpp#L52)]
 
 **Navigation:**
 
@@ -473,12 +473,11 @@ All controls share these base properties:
 
 **ScrollBar Integration:**
 
-- ListBox controls can embed SCROLLBAR
-- ScrollBar.MAXVALUE = total items - visible items
-- ScrollBar.VISIBLEVALUE = number of visible items
-- ScrollBar.CURVALUE = current scroll offset
-- Thumb size = (VISIBLEVALUE / MAXVALUE) × track length
-- LEFTSCROLLBAR: positions scrollbar on left side
+- ListBox controls can embed SCROLLBAR struct [[xoreos `listbox.cpp` L70](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/listbox.cpp#L70), [PyKotor `gui.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py)]
+- `SCROLLBAR.MAXVALUE` default 99; `SCROLLBAR.VISIBLEVALUE` default 1 [[PyKotor `gui.py` `construct_control`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py)]
+- `SCROLLBAR.CURVALUE` = current scroll offset
+- Thumb size proportional to viewport: `(trackLength - 2 × arrowHeight) × (visibleValue / maxValue)` [[xoreos `scrollbar.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/scrollbar.cpp)]
+- `LEFTSCROLLBAR`: positions scrollbar on left side [[xoreos `listbox.cpp` L71](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/listbox.cpp#L71)]
 
 **Pulsing [animation](MDL-MDX-File-Format#animation-header):**
 
@@ -488,16 +487,15 @@ All controls share these base properties:
 
 **[texture](Texture-Formats#tpc) formats:**
 
-- [GUI](GFF-File-Format#gui-graphical-user-interface) [textures](Texture-Formats#tpc) use TPC (Targa Packed) or TGA format
-- [textures](Texture-Formats#tpc) often have alpha channels for transparency
-- Border pieces designed to tile seamlessly
-- Font [textures](Texture-Formats#tpc) contain character glyphs in fixed grid
+- [GUI](GFF-File-Format#gui-graphical-user-interface) [textures](Texture-Formats#tpc) use TPC or TGA format; fields CORNER/EDGE/FILL are ResRef strings
+- xoreos HILIGHT struct reads only the `FILL` field (no CORNER/EDGE for highlights) [[xoreos `widget.cpp` L580](https://github.com/xoreos/xoreos/blob/master/src/engines/odyssey/widget.cpp#L580)]
+- Font [textures](Texture-Formats#tpc) contain character glyphs; each glyph rendered at fixed grid position [[xoreos `GUIFont.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/gui/GUIFont.ts)]
 
 **KotOR-Specific Notes:**
 
-- GUIs are loaded from `.gui` files ([GFF](GFF-File-Format) format)
-- Base resolution 640x480 is scaled for higher resolutions ([reone `gui.h` L38-39](https://github.com/seedhartha/reone/blob/master/include/reone/gui/gui.h#L38-L39))
-- Scripts can access controls by TAG or ID
+- GUIs are loaded from `.gui` files ([GFF](GFF-File-Format) format); entry function `construct_gui` [[PyKotor `gui.py` L353](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py#L353)]
+- Base resolution 640×480; implementations scale to screen by aspect or center offset [[reone `gui.h` L37-38](https://github.com/seedhartha/reone/blob/master/include/reone/gui/gui.h#L37), [reone `gui.cpp` scaling L119-124](https://github.com/seedhartha/reone/blob/master/src/libs/gui/gui.cpp#L119)]
+- Controls located by `TAG` string [[reone `control.cpp` L52](https://github.com/seedhartha/reone/blob/master/src/libs/gui/control.cpp#L52)] or `ID` integer [[PyKotor `gui.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/generics/gui.py)]
 
 ### See also
 

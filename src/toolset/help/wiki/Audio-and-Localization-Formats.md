@@ -102,8 +102,8 @@ The string data table contains metadata for each string entry. Each entry is 40 
 | ----------------- | --------- | ------ | ---- | ---------------------------------------------------------------- |
 | flags             | UInt32    | 0 (0x00) | 4    | bit flags: bit 0=text present, bit 1=sound present, bit 2=sound length present |
 | Sound *ResRef*      | [char](GFF-File-Format#gff-data-types)  | 4 (0x04) | 16   | Voice-over audio filename ([null-terminated](https://en.cppreference.com/w/c/string/byte), max 16 chars)        |
-| Volume Variance   | UInt32    | 20 (0x14) | 4    | Unused in KotOR (always 0)                                      |
-| Pitch Variance    | UInt32    | 24 (0x18) | 4    | Unused in KotOR (always 0)                                      |
+| Volume Variance   | UInt32    | 20 (0x14) | 4    | Unused in KotOR (always 0) [[`tlk_data.py` L27](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/tlk_data.py#L27), [`io_tlk.py` L214](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L214)] |
+| Pitch Variance    | UInt32    | 24 (0x18) | 4    | Unused in KotOR (always 0) [[`tlk_data.py` L28](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/tlk_data.py#L28), [`io_tlk.py` L215](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L215)] |
 | offset to string  | UInt32    | 28 (0x1C) | 4    | offset to string text (relative to string Entries offset)       |
 | string size       | UInt32    | 32 (0x20) | 4    | Length of string text in bytes                                  |
 | Sound Length      | float     | 36 (0x24) | 4    | Duration of voice-over audio in seconds                         |
@@ -134,17 +134,18 @@ Common flag patterns in KotOR TLK files:
 
 The engine uses these flags to decide:
 
-- Whether to display subtitles (Text present flag)
-- Whether to play voice-over audio (Sound present flag)
-- How long to wait before auto-advancing dialog (Sound length present flag)
+- Whether to display subtitles (Text present flag) [[`io_tlk.py` L108](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L108)]
+- Whether to play voice-over audio (Sound present flag) [[`io_tlk.py` L109](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L109)]
 
-Missing flags are treated as `false` - if Text present is not set, the string is treated as empty even if text data exists.
+The soundlength-present flag (bit 2) is parsed into `soundlength_present` [[`io_tlk.py` L110](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L110)] but is noted as "Unused by KOTOR1 and 2" in PyKotor's writer [[`io_tlk.py` L210](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L210)]. The `sound_length` float stores duration in seconds but the engine does not appear to require the flag to be set to read that value.
+
+Missing flags are treated as `false` by PyKotor's reader [[`io_tlk.py` L108–L110](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L108-L110)] — if Text present is not set, the string is treated as empty even if text data exists.
 
 ### String entries
 
 String entries follow the string data table:
 
-| Name         | type   | Description                                                      |
+| Name         | Type   | Description                                                      |
 | ------------ | ------ | ---------------------------------------------------------------- |
 | string Text  | [char](GFF-File-Format#gff-data-types)[] | [null-terminated string](https://en.cppreference.com/w/c/string/byte) data (UTF-8 or Windows-1252 encoded)     |
 
@@ -164,7 +165,7 @@ Each TLK entry contains:
 - PyKotor `TLK` / `TLKEntry` — [`tlk_data.py` L54–L420](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/tlk/tlk_data.py#L54-L420)
 - entry serialization — [`io_tlk.py` `_write_entry` L194–L219](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/tlk/io_tlk.py#L194-L219).
 
-| Attribute        | type   | Description                                                      |
+| Attribute        | Type   | Description                                                      |
 | ---------------- | ------ | ---------------------------------------------------------------- |
 | `text`           | str    | Localized text string                                            |
 | `voiceover`      | *ResRef* | Voice-over audio filename ([WAV file](Audio-and-Localization-Formats#wav))                            |
@@ -189,7 +190,7 @@ The game uses StrRef values throughout [GFF files](GFF-File-Format), scripts, an
 
 Mods can add custom TLK files to extend available strings:
 
-**dialog.tlk structure:**
+**`dialog.tlk` structure:**
 
 - Base game: `dialog.tlk` (read-only, ~50,000-100,000 entries)
 - Custom content: `dialogf.tlk` or custom TLK files placed in override
@@ -489,7 +490,7 @@ KotOR.js's binary reader shows the same contiguous keyframe-table decode ([`LIPO
 
 KotOR reuses the 16-shape Preston Blair [phoneme](https://en.wikipedia.org/wiki/Phoneme) set. Every implementation agrees on the [byte](https://en.wikipedia.org/wiki/Byte) value assignments; KotOR.js only renames a few labels but the indices match.
 
-| value | Shape | Description |
+| Value | Shape | Description |
 | ----- | ----- | ----------- |
 | 0 | **NEUTRAL** | Rest/closed mouth |
 | 1 | **EE** | Teeth apart, wide smile (long "ee") |
@@ -637,11 +638,11 @@ KotOR voice-over WAVs add a `"fact"` chunk with a 32-bit sample count, which PyK
 
 ---
 
-## KotOR [*SFX*](https://wiki.xoreos.org/index.php?title=Running_xoreos) header
+## KotOR SFX header
 
 - SFX assets start with 470 bytes of obfuscated metadata (magic numbers plus filler `0x55`).  
 - After this header, the file resumes at the `"RIFF"` signature described above.  
-- When exporting SFX, PyKotor recreates the header verbatim so the game recognizes the asset ([`io_wav.py:150-163`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/io/io_wav.py#L150-L163)).  
+- When exporting SFX, PyKotor recreates the header verbatim so the game recognizes the asset (`io_wav.py:150-163`).  
 
 *(See **Cross-reference implementations** above for reone / KotOR.js / Kotor.NET line anchors.)*
 
@@ -650,7 +651,7 @@ KotOR voice-over WAVs add a `"fact"` chunk with a 32-bit sample count, which PyK
 ## Encoding Details
 
 - **PCM (`audio_format = 0x0001`)**: Most dialogue is 16-bit mono PCM, which streams directly through the engine mixer.  
-- **IMA ADPCM (`audio_format = 0x0011`)**: Some ambient *SFX* use compressed [*ADPCM frames*](https://en.wikipedia.org/wiki/Adaptive_differential_pulse-code_modulation); when present, the `fmt` chunk includes the extra coefficient block defined by the [WAV](https://en.wikipedia.org/wiki/WAV) spec.  
+- **IMA ADPCM (`audio_format = 0x0011`)**: Some ambient SFX use compressed ADPCM frames; when present, the `fmt` chunk includes the extra coefficient block defined by the WAV spec.  
 - KotOR requires `block_align` and `bytes_per_sec` to match the values implied by the codec; mismatched headers can crash the in-engine decoder.  
 
 External tooling such as SithCodec and `SWKotOR-Audio-Encoder` implement the same formats; PyKotor simply exposes the metadata so conversions stay lossless.
@@ -658,11 +659,11 @@ External tooling such as SithCodec and `SWKotOR-Audio-Encoder` implement the sam
 ### Community context (workflow)
 
 - Deadly Stream — [SithCodec](https://deadlystream.com/files/file/1716-sithcodec/) (Windows tool for KotOR audio header strip/add; pair with PyKotor `io_wav` when verifying bytes).
-- Deadly Stream — [Extracting Dialogue](https://deadlystream.com/topic/9437-extracting-dialogue/) — **Community-Reported** layout notes (e.g. some assets under `StreamWaves` / `StreamVoice`); treat thread as **Workflow Hints**, not normative [*RIFF*](https://en.wikipedia.org/wiki/Resource_Interchange_File_Format)
+- Deadly Stream — [Extracting dialogue](https://deadlystream.com/topic/9437-extracting-dialogue/) — **community-reported** layout notes (e.g. some assets under `StreamWaves` / `StreamVoice`); treat thread as **workflow hints**, not normative RIFF layout—verify against **PyKotor** / **reone** / **KotOR.js** above.
 
 ### Historical context (LucasForums Archive)
 
-TSLPatcher-era threads discuss **`StreamSounds`** / **`StreamWaves`** paths, codec issues in Miles-based workflows, and DLG-related **`StreamVoice`** layout (e.g. `alienvo.2da` → `StreamVoice\AVO\`). Treat these as **dated player/modder reports**, not engine specifications—pair with **SithCodec**, **PyKotor [`io_wav`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/io/io_wav.py)**, and the cross-refs at the top of this page.
+TSLPatcher-era threads discuss **Streamsounds** / **Streamwaves** paths, codec issues in Miles-based workflows, and DLG-related **`StreamVoice`** layout (e.g. `alienvo.2da` → `StreamVoice\AVO\`). Treat these as **dated player/modder reports**, not engine specifications—pair with **SithCodec**, **PyKotor `io_wav`**, and the cross-refs at the top of this page.
 
 - [Convert KOTOR sounds to a usable audio file](https://www.lucasforumsarchive.com/thread/208881-convert-kotor-sounds-to-a-usable-audio-file)
 - [Editing KotOR voiceover files — which program?](https://www.lucasforumsarchive.com/thread/208744-editing-kotor-voiceover-files-program)
@@ -673,7 +674,7 @@ TSLPatcher-era threads discuss **`StreamSounds`** / **`StreamWaves`** paths, cod
 
 ## Cross-reference: implementations
 
-- **Reference implementations (engines):** same as **Cross-reference implementations** at the top of this page (PyKotor [`io_wav.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/io/io_wav.py), reone [`wavreader.cpp`](https://github.com/reone/wavreader.cpp), KotOR.js [`AudioFile.ts`](https://github.com/KotOR.js/AudioFile.ts)).
+- **Reference implementations (engines):** same as **Cross-reference implementations** at the top of this page (PyKotor `io_wav.py`, reone `wavreader.cpp`, KotOR.js `AudioFile.ts`).
 - **Community tooling (not normative):** **[SithCodec](https://github.com/BBBrassil/SithCodec)** — encode/decode helper; **[SWKotOR-Audio-Encoder](https://github.com/LoranRendel/SWKotOR-Audio-Encoder)** — batch-friendly encoder. Prefer verifying headers against **PyKotor** / **reone** / **KotOR.js** when debugging engine mismatches.
 
 With this structure, WAV assets authored in PyKotor will play identically in the base game and in the other vendor tools.

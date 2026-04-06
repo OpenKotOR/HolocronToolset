@@ -22,7 +22,7 @@
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Door (UTD) and Placeable (UTP) formats are **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine DoorPlaceableGFF PDF, archived in [`xoreos-docs/specs/bioware/DoorPlaceableGFF.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/DoorPlaceableGFF.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine DoorPlaceableGFF PDF, archived in [`xoreos-docs/specs/bioware/DoorPlaceableGFF.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/DoorPlaceableGFF.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
@@ -1984,7 +1984,7 @@ Structs document.
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Sound Object (UTS) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine SoundObject Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/SoundObject_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/SoundObject_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine SoundObject Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/SoundObject_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/SoundObject_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
@@ -2469,7 +2469,7 @@ default VolumeVrtn
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Encounter (UTE) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine Encounter Format PDF, archived in [`xoreos-docs/specs/bioware/Encounter_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Encounter_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine Encounter Format PDF, archived in [`xoreos-docs/specs/bioware/Encounter_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Encounter_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 

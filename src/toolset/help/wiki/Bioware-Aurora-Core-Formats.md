@@ -130,7 +130,7 @@
 
 *Official BioWare Aurora Documentation*
 
-**Source:** Extracted from the official BioWare Aurora Engine GFF Format PDF, archived in [xoreos-docs `specs/bioware/GFF_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/GFF_Format.pdf) ([mirror: `specs/bioware/GFF_Format.pdf`](https://raw.githubusercontent.com/th3w1zard1/xoreos-docs/master/specs/bioware/GFF_Format.pdf)). Original from the defunct nwn.bioware.com developer site.
+**Source:** Extracted from the official BioWare Aurora Engine GFF Format PDF, archived in [xoreos-docs `specs/bioware/GFF_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/GFF_Format.pdf) ([mirror: `specs/bioware/GFF_Format.pdf`](https://github.com/th3w1zard1/xoreos-docs/blob/master/specs/bioware/GFF_Format.pdf)). Original from the defunct nwn.bioware.com developer site.
 
 ---
 
@@ -678,7 +678,7 @@ The starting address of a List is specified in its Field's `DataOrDataOffset` va
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the 2DA format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine 2DA Format PDF, archived in **[xoreos-docs -- specs/bioware/2DA_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/2DA_Format.pdf)**. The original documentation was published on the now-defunct *nwn.bioware.com* developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine 2DA Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/2DA_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/2DA_Format.pdf). The original documentation was published on the now-defunct *nwn.bioware.com* developer site.
 
 ---
 
@@ -686,9 +686,9 @@ The starting address of a List is specified in its Field's `DataOrDataOffset` va
 
 ## 1. Introduction
 
-A [*2DA*](2DA-File-Format) file is a plain-text file that describes a 2-dimensional array of data.
-In BioWare's games, [2DA files](2DA-File-Format) serve many purposes, and are often crucial to the proper functioning of the game and tools. They describe many aspects of the rules and game engine.
-Although [2DA files](2DA-File-Format) are plain text files, they are structured according to a set of rules that must be followed in order for the game and tools to read them correctly.
+A 2da file is a plain-text file that describes a 2-dimensional array of data.
+In BioWare's games, 2da files serve many purposes, and are often crucial to the proper functioning of the game and tools. They describe many aspects of the rules and game engine.
+Although 2da files are plain text files, they are structured according to a set of rules that must be followed in order for the game and tools to read them correctly.
 
 ## 2. General Concepts
 
@@ -696,23 +696,15 @@ The main body of a 2da file is a table containing rows and columns of data. Each
 
 Consider the following example of the contents of a 2da file:
 
-```mermaid
-graph TD
-  A["2DA V2.0<br/>(File Format Version)"]
-  B["Row 0: Chicken<br/>STRREF: 2013<br/>HasLegs: 1<br/>Personal_Space: 0.13"]
-  C["Row 1: BLANK<br/>(All entries: ****)"]
-  D["Row 2: Battle_Horror<br/>STRREF: 1996<br/>String: Battle Horror<br/>HasLegs: 0<br/>Personal_Space: 0.3"]
-  E["Row 3: Bear_Polar<br/>STRREF: 1999<br/>String: Polar Bear<br/>HasLegs: 1<br/>Personal_Space: 0.6"]
-  F["Row 4: Deer<br/>STRREF: 2017<br/>HasLegs: 1<br/>Personal_Space: 0.6"]
-  
-  A --> B
-  A --> C
-  A --> D
-  A --> E
-  A --> F
-  
-  style C fill:#ffcccc
-  style A fill:#e1f5ff
+```
+2DA V2.0
+
+LABEL         STRREF  STRING          HasLegs  Pesonal_Space
+0   Chicken       2013    Chicken         1        0.13
+1   ****          ****    ****            ****     ****
+2   Battle_Horror 1996    "Battle Horror" 0        0.3
+3   Bear_Polar    1999    "Polar Bear"    1        0.6
+4   Deer          2017    Deer            1        0.6
 ```
 
 The above example illustrates several points elaborated on below.
@@ -832,13 +824,13 @@ Try to ensure that no existing data, in a 2da or otherwise, references the starr
 
 <a id="keybif"></a>
 
-# [KEY/BIF](Container-Formats#bif) — Key and BIF File Formats
+# KEY/BIF — Key and BIF File Formats
 
 *Official Bioware Aurora Documentation*
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the KEY and BIF formats are **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine KeyBIF Format PDF, archived in [`xoreos-docs/specs/bioware/KeyBIF_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/KeyBIF_Format.pdf). The original documentation was published on the now-defunct *nwn.bioware.com* developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine KeyBIF Format PDF, archived in [`xoreos-docs/specs/bioware/KeyBIF_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/KeyBIF_Format.pdf). The original documentation was published on the now-defunct *nwn.bioware.com* developer site.
 
 ---
 
@@ -927,6 +919,7 @@ from 0 to 2999, 9000 to 9999, and 0xFFFF are reserved.
 | 2030 | itp | gff | Tile/Blueprint Palette File |
 | 2032 | utt | gff | Trigger Blueprint |
 | 2033 | dds | binary | Compressed texture file |
+| 2034 | bts | gff | Sound template (BioWare). The BioWare-authored counterpart to the user-created `.uts` sound blueprint. |
 | 2035 | uts | gff | Sound Blueprint |
 | 2036 | ltr | binary | Letter-combo probability info for name generation |
 | 2037 | gff | gff | Generic File Format. Used when undesirable to create a new file extension for a resource, but the resource is a GFF. (Examples of GFFs include itp, utc, uti, ifo, are, git) |
@@ -1541,7 +1534,7 @@ null-terminated strings. As soon as one string ends, the next one begins.
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the SSF (Sound Set File) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine SSF Format PDF, archived in [`xoreos-docs/specs/bioware/SSF_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/SSF_Format.pdf). The original documentation was published on the now-defunct *nwn.bioware.com* developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine SSF Format PDF, archived in [`xoreos-docs/specs/bioware/SSF_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/SSF_Format.pdf). The original documentation was published on the now-defunct *nwn.bioware.com* developer site.
 
 **KotOR wiki SSOT (modding):** KotOR uses a **12-byte** header, version **`V1.1`**, and a **28-slot** StrRef table (many writers emit **40** uint32 words including padding). Binary layout, slot names, **[SSFList](TSLPatcher-GFF-Syntax#ssflist-syntax)** patching, and implementation permalinks (PyKotor, reone, KotOR.js, Kotor.NET) are maintained in **[Audio-and-Localization-Formats#ssf](Audio-and-Localization-Formats#ssf)**. Treat this PDF as **historical BioWare / NWN-oriented** reference; verify KotOR-specific claims there before relying on NWN-era entry counts or tooling notes alone.
 
@@ -1773,7 +1766,7 @@ are displayed during player character creation.
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the LocalizedStrings format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine LocalizedStrings Format PDF, archived in [`xoreos-docs/specs/bioware/LocalizedStrings_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/LocalizedStrings_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine LocalizedStrings Format PDF, archived in [`xoreos-docs/specs/bioware/LocalizedStrings_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/LocalizedStrings_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
