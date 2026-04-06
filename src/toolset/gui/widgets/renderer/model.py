@@ -9,10 +9,8 @@ from typing import TYPE_CHECKING, cast
 import qtpy
 
 from qtpy.QtCore import (
-    QPoint,
     Signal,  # pyright: ignore[reportPrivateImportUsage]
 )
-from qtpy.QtGui import QCursor
 
 from loggerplus import RobustLogger
 from pykotor.gl import vec3
@@ -24,7 +22,7 @@ from pykotor.resource.type import ResourceType
 from toolset.data.misc import ControlItem
 from toolset.gui.widgets.renderer.base import OpenGLSceneRenderer
 from toolset.gui.widgets.settings.widgets.module_designer import ModuleDesignerSettings
-from utility.common.geometry import Vector2, Vector3
+from utility.common.geometry import Vector2
 from utility.error_handling import assert_with_variable_trace
 
 if TYPE_CHECKING:
@@ -270,19 +268,8 @@ class ModelRenderer(OpenGLSceneRenderer):
             self.scene.show_cursor = show_cursor
         self.update()
 
-    def snap_camera_to_point(
-        self,
-        point: Vector2 | Vector3,
-        *,
-        distance: float | None = None,
-    ):
-        """Snap camera center to point in model preview scene."""
-        self.scene.camera.x = point.x
-        self.scene.camera.y = point.y
-        if isinstance(point, Vector3):
-            self.scene.camera.z = point.z
-        if distance is not None:
-            self.scene.camera.distance = distance
+    # snap_camera_to_point, pan_camera, move_camera, rotate_camera, zoom_camera,
+    # do_cursor_lock, reset_all_down are all inherited from OpenGLSceneRenderer.
 
     # region Events
     def resizeEvent(self, e: QResizeEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -302,17 +289,6 @@ class ModelRenderer(OpenGLSceneRenderer):
             strength = self._controls.zoomCameraSensitivity3d / 30000
             self.scene.camera.distance += -e.angleDelta().y() * strength
 
-    def do_cursor_lock(self, mut_scr: Vector2):
-        """Reset the cursor to the center of the screen to prevent it from going off screen.
-
-        Used with the FreeCam and drag camera movements and drag rotations.
-        """
-        global_old_pos = self.mapToGlobal(QPoint(int(self._mouse_prev.x), int(self._mouse_prev.y)))
-        QCursor.setPos(global_old_pos)
-        local_old_pos = self.mapFromGlobal(QPoint(global_old_pos.x(), global_old_pos.y()))
-        mut_scr.x = local_old_pos.x()
-        mut_scr.y = local_old_pos.y()
-
     def mouseMoveEvent(self, e: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         screen = (
             Vector2(e.x(), e.y())  # type: ignore[attr-defined] # pyright: ignore[reportAttributeAccessIssue]
@@ -321,18 +297,28 @@ class ModelRenderer(OpenGLSceneRenderer):
         )
         screen_delta = Vector2(screen.x - self._mouse_prev.x, screen.y - self._mouse_prev.y)
 
-        if self._controls.moveXYCameraControl.satisfied(self._mouse_down, self._keys_down):
-            self.do_cursor_lock(screen)
-            forward: vec3 = -screen_delta.y * self.scene.camera.forward()
-            sideward: vec3 = screen_delta.x * self.scene.camera.sideward()
-            strength = self._controls.moveCameraSensitivity3d / 10000
-            self.scene.camera.x -= (forward.x + sideward.x) * strength
-            self.scene.camera.y -= (forward.y + sideward.y) * strength
+        if self.scene is None:
+            self._mouse_prev = screen
+            return
 
-        if self._controls.rotateCameraControl.satisfied(self._mouse_down, self._keys_down):
+        if self.free_cam:
+            # Free-cam: lock cursor to its last position and rotate camera with the movement delta.
             self.do_cursor_lock(screen)
             strength = self._controls.rotateCameraSensitivity3d / 10000
-            self.scene.camera.rotate(-screen_delta.x * strength, screen_delta.y * strength, clamp=True)
+            self.rotate_camera(-screen_delta.x * strength, screen_delta.y * strength)
+        else:
+            if self._controls.moveXYCameraControl.satisfied(self._mouse_down, self._keys_down):
+                self.do_cursor_lock(screen)
+                forward: vec3 = -screen_delta.y * self.scene.camera.forward()
+                sideward: vec3 = screen_delta.x * self.scene.camera.sideward()
+                strength = self._controls.moveCameraSensitivity3d / 10000
+                self.scene.camera.x -= (forward.x + sideward.x) * strength
+                self.scene.camera.y -= (forward.y + sideward.y) * strength
+
+            if self._controls.rotateCameraControl.satisfied(self._mouse_down, self._keys_down):
+                self.do_cursor_lock(screen)
+                strength = self._controls.rotateCameraSensitivity3d / 10000
+                self.rotate_camera(-screen_delta.x * strength, screen_delta.y * strength)
 
         self._mouse_prev = screen  # Always assign mouse_prev after emitting, in order to do cursor lock properly.
 
@@ -345,39 +331,6 @@ class ModelRenderer(OpenGLSceneRenderer):
         button = e.button()
         self._mouse_down.discard(button)
         # RobustLogger().debug(f"ModelRenderer.mouseReleaseEvent: {self._mouse_down}, e.button() '{button}'")
-
-    def pan_camera(self, forward: float, right: float, up: float):
-        """Moves the camera by the specified amount.
-
-        The movement takes into account both the rotation and zoom of the
-        camera on the x/y plane.
-
-        Args:
-        ----
-            forward: Units to move forwards.
-            right: Units to move to the right.
-            up: Units to move upwards.
-        """
-        forward_vec = forward * self.scene.camera.forward()
-        sideways = right * self.scene.camera.sideward()
-
-        self.scene.camera.x += forward_vec.x + sideways.x
-        self.scene.camera.y += forward_vec.y + sideways.y
-        self.scene.camera.z += up
-
-    def move_camera(
-        self,
-        forward: float,
-        right: float,
-        up: float,
-    ):
-        forward_vec = forward * self.scene.camera.forward(ignore_z=False)
-        sideways = right * self.scene.camera.sideward(ignore_z=False)
-        upward = -up * self.scene.camera.upward(ignore_xy=False)
-
-        self.scene.camera.x += upward.x + sideways.x + forward_vec.x
-        self.scene.camera.y += upward.y + sideways.y + forward_vec.y
-        self.scene.camera.z += upward.z + sideways.z + forward_vec.z
 
     def rotate_object(self, obj: RenderObject, pitch: float, yaw: float, roll: float):
         """Apply an incremental rotation to a RenderObject."""
@@ -468,13 +421,6 @@ class ModelRendererControls:
 
     @moveZCameraControl.setter
     def moveZCameraControl(self, value): ...
-
-    @property
-    def rotate_cameraControl(self) -> ControlItem:
-        return ControlItem(ModuleDesignerSettings().rotateCamera3dBind)
-
-    @rotate_cameraControl.setter
-    def rotate_cameraControl(self, value): ...
 
     @property
     def zoomCameraControl(self) -> ControlItem:
