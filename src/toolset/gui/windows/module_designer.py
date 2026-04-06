@@ -199,6 +199,7 @@ if TYPE_CHECKING:
     )
     from pykotor.resource.generics.ifo import IFO
     from toolset.gui.common.indoor_builder_ops import RoomClipboardData
+    from toolset.gui.widgets.renderer.view_compass import ViewCompassWidget
     from toolset.gui.widgets.renderer.walkmesh import WalkmeshRenderer
     from toolset.gui.windows.indoor_builder.constants import (  # noqa: F401  # Phase 2
         ZOOM_STEP_FACTOR,
@@ -499,6 +500,13 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self._last_undo_index: int = 0
         self._indoor_preview_source_image: QImage | None = None
 
+        # Attributes that were previously late-initialized; set to None/defaults
+        # so no hasattr/getattr guards are ever needed.
+        self._view_compass: ViewCompassWidget | None = None
+        self._inspector_updating: bool = False
+        self._walkmesh_mode_buttons: dict[int, QPushButton] = {}
+        self.blender_status_chip: QLabel | None = None
+
         self._installation: HTInstallation | None = installation
         self._module: Module | None = None
         self._git_cache: GIT | None = None  # Same GIT reference for selection/delete consistency
@@ -683,7 +691,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             self.log.exception("Failed to refresh after installation switch")
 
     def showEvent(self, a0: QShowEvent) -> None:
-        if getattr(self.ui, "mainRenderer", self.ui.mainRenderer.scene) is None:  # noqa: SLF001
+        if self.ui.mainRenderer.scene is None:
             return  # Don't show the window if the scene isn't ready, otherwise the gl context stuff will start prematurely.
         super().showEvent(a0)
 
@@ -860,7 +868,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         tool_names = {EditorTool.SELECT: "Select", EditorTool.MOVE: "Move", EditorTool.ROTATE: "Rotate"}
         self._status_mode_label.setText(f"  Mode: {mode_names.get(self._editor_mode, '?')}  ")
         self._status_tool_label.setText(f"  Tool: {tool_names.get(self._active_tool, '?')}  ")
-        sel_count = len(self.selected_instances) if hasattr(self, "selected_instances") else 0
+        sel_count = len(self.selected_instances)
         self._status_selection_label.setText(f"  Selected: {sel_count}  ")
         self._sync_object_gizmo()
 
@@ -1056,8 +1064,8 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
     def _update_camera_hud(self):
         """Refresh camera HUD text from current 3D scene camera."""
-        scene = self.ui.mainRenderer.scene if hasattr(self.ui.mainRenderer, "_scene") else None
-        if scene is None or not hasattr(scene, "camera"):
+        scene = self.ui.mainRenderer.scene
+        if scene is None:
             return
         cam = scene.camera
         self._camera_hud.setText(f"X: {cam.x:8.2f}  Y: {cam.y:8.2f}  Z: {cam.z:8.2f}\nPitch: {cam.pitch:6.1f}  Yaw: {cam.yaw:6.1f}  Dist: {cam.distance:6.1f}")
@@ -1079,11 +1087,11 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
     def _update_properties_panel(self):
         """Refresh inspector panel from current selection."""
-        if not hasattr(self, "_inspector_updating"):
+        if self._inspector_updating:
             return
         self._inspector_updating = True
         try:
-            if not hasattr(self, "selected_instances") or not self.selected_instances:
+            if not self.selected_instances:
                 self.ui.propertiesGroup.setEnabled(False)
                 self.ui.propResRefValue.setText("\u2014")
                 self.ui.propTypeValue.setText("\u2014")
@@ -1110,7 +1118,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
     def _on_inspector_position_changed(self):
         """Handle XYZ spinbox changes from the inspector panel."""
-        if not hasattr(self, "_inspector_updating") or self._inspector_updating:
+        if self._inspector_updating:
             return
         if not self.selected_instances:
             return
@@ -1129,7 +1137,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
     def _on_inspector_bearing_changed(self):
         """Handle bearing spinbox changes from the inspector panel."""
-        if not hasattr(self, "_inspector_updating") or self._inspector_updating:
+        if self._inspector_updating:
             return
         if not self.selected_instances:
             return
@@ -1403,7 +1411,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self.ui.mainRenderer.setVisible(True)
         self.ui.flatRenderer.setVisible(True)
         self.ui.indoorRenderer.setVisible(is_layout)
-        lyt_renderer = getattr(self, "_lyt_renderer", None)
+        lyt_renderer = self._lyt_renderer
         if lyt_renderer is not None:
             lyt_renderer.setVisible(is_layout)
 
@@ -1741,7 +1749,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
         self._walkmesh_mode_button_group = QButtonGroup(self)
         self._walkmesh_mode_button_group.setExclusive(True)
-        self._walkmesh_mode_buttons: dict[int, QPushButton] = {}
+        self._walkmesh_mode_buttons.clear()
         mode_buttons_row = QWidget(self.ui.walkmeshFacePropsBox)
         mode_buttons_layout = QHBoxLayout(mode_buttons_row)
         mode_buttons_layout.setContentsMargins(0, 0, 0, 0)
@@ -1980,7 +1988,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self._walkmesh_face_ui_updating = True
         try:
             self._walkmesh_mode_value.setText(self._walkmesh_mode_name())
-            for mode, button in getattr(self, "_walkmesh_mode_buttons", {}).items():
+            for mode, button in self._walkmesh_mode_buttons.items():
                 button.setChecked(mode == self._walkmesh_select_mode)
             selected = self._selected_walkmesh_face
             has_selected = selected is not None
@@ -3094,7 +3102,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         }
 
     def _update_blender_status_chip(self, message: str, *, severity: str = "info"):
-        if not hasattr(self, "blender_status_chip"):
+        if self.blender_status_chip is None:
             return
         colors = self._get_semantic_colors()
         color = colors.get(severity, colors["info"])
@@ -5559,32 +5567,30 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         QTimer.singleShot(50, self._deferred_initialization)
 
     def _bind_3d_control_callbacks(self) -> None:
-        callback = getattr(self._controls3d, "update_camera_from_input", None)
-        self.ui.mainRenderer._loop_callback = callback if callable(callback) else None
+        self.ui.mainRenderer._loop_callback = self._controls3d.update_camera_from_input
 
-        compass = getattr(self, "_view_compass", None)
+        compass = self._view_compass
         if compass is None:
             return
         try:
             compass.sig_snap_view.disconnect()
         except TypeError:
             pass
-        apply_view = getattr(self._controls3d, "_apply_numpad_view", None)
-        if callable(apply_view):
-            compass.sig_snap_view.connect(apply_view)
+        if isinstance(self._controls3d, ModuleDesignerControls3d):
+            compass.sig_snap_view.connect(self._controls3d._apply_numpad_view)
 
     def _setup_view_compass(self) -> None:
         """Create and wire the Blender-style orientation gizmo on the 3-D viewport."""
         from toolset.gui.widgets.renderer.view_compass import ViewCompassWidget  # noqa: PLC0415
 
-        if hasattr(self, "_view_compass") and self._view_compass is not None:
+        if self._view_compass is not None:
             return  # Already created (e.g. module reloaded)
 
         scene = self.ui.mainRenderer.scene
         if scene is None:
             return
 
-        self._view_compass: ViewCompassWidget = ViewCompassWidget(self.ui.mainRenderer)
+        self._view_compass = ViewCompassWidget(self.ui.mainRenderer)
         self._view_compass.set_camera_source(lambda: (scene.camera.yaw, scene.camera.pitch))
         self._bind_3d_control_callbacks()
 
@@ -6376,7 +6382,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         if bookmark is None:
             self._show_status_message(f"Camera bookmark {slot + 1} is empty")
             return
-        if not hasattr(self.ui, "mainRenderer") or self.ui.mainRenderer is None:
+        if self.ui.mainRenderer is None:
             return
         scene = self.ui.mainRenderer.scene
         if scene is None:
@@ -6465,7 +6471,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             return
 
         # Track previous index to determine if we're undoing or redoing
-        if not hasattr(self, "_last_undo_index"):
+        if self._last_undo_index == 0 and index != 0:
             self._last_undo_index = index
             return
 
@@ -6502,7 +6508,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         return self._has_unsaved_changes
 
     def update_camera(self):
-        if not hasattr(self.ui, "mainRenderer") or self.ui.mainRenderer is None:
+        if self.ui.mainRenderer is None:
             return
         if self._use_blender_mode and not self.ui.mainRenderer.scene:
             return

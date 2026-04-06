@@ -6,7 +6,7 @@ This page is the wiki SSOT for KotOR-facing resource IDs, the Odyssey-specific e
 
 ## Resource resolution order
 
-Full prose (resource manager demands, KEY's role, override vs MOD/ERF/[RIM](Container-Formats#rim)): **[Concepts — Resource resolution order](Concepts#resource-resolution-order)**.
+Full prose (resource manager demands, KEY's role, override vs [MOD/ERF](Container-Formats#erf)/[RIM](Container-Formats#rim)): **[Concepts — Resource resolution order](Concepts#resource-resolution-order)**.
 
 **Operational summary:**
 

@@ -9,7 +9,7 @@ import math
 from collections import deque
 from copy import copy, deepcopy
 from time import monotonic, perf_counter
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, Callable, ClassVar
 
 import qtpy
 
@@ -171,6 +171,11 @@ class ModuleRenderer(OpenGLSceneRenderer):
         self._vis_overlay_points: dict[int, Vector3] = {}
         self._vis_overlay_matrix: dict[int, set[int]] = {}
         self._show_vis_overlay: bool = True
+
+        # Render-loop state: initialized here so no getattr/hasattr is ever needed.
+        self._last_loop_time: float = 0.0
+        self._loop_callback: Callable[[float], bool] | None = None
+        self.loop_interval: int = get_renderer_loop_interval_ms()
 
     def _scene_has_pending_async_work(self) -> bool:
         if self.scene is None:
@@ -1136,13 +1141,13 @@ class ModuleRenderer(OpenGLSceneRenderer):
         """
         import time as _time
         now = _time.perf_counter()
-        delta_time = now - getattr(self, "_last_loop_time", now)
+        delta_time = now - self._last_loop_time if self._last_loop_time > 0.0 else 0.0
         self._last_loop_time = now
         if delta_time > 0.1:
             delta_time = 0.1
-        callback = getattr(self, "_loop_callback", None)
+        callback = self._loop_callback
         callback_requested = False
-        if callable(callback):
+        if callback is not None:
             callback_requested = bool(callback(delta_time))
         if callback_requested or self._needs_continuous_render():
             # Use update() instead of repaint() - this schedules a repaint rather than

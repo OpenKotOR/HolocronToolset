@@ -12,7 +12,6 @@ from qtpy import QtCore
 from qtpy.QtCore import QPoint, Qt
 
 from loggerplus import RobustLogger  # pyright: ignore[reportMissingTypeStubs]
-from pykotor.gl.scene import Scene
 from pykotor.gl.scene.camera_controller import (
     CameraController,
     CameraControllerSettings,
@@ -28,7 +27,6 @@ from toolset.utils.misc import BUTTON_TO_INT
 from utility.common.geometry import Vector2, Vector3
 
 if TYPE_CHECKING:
-    from pykotor.gl.scene import Scene
     from pykotor.resource.generics.git import GITInstance, GITObject
     from toolset.gui.editors.git import _SpawnMode
     from toolset.gui.widgets.renderer.module import ModuleRenderer
@@ -292,7 +290,7 @@ class ModuleDesignerControls3d:
         _TOOL_SELECT = 0
         _TOOL_MOVE = 1
         _TOOL_ROTATE = 2
-        active_tool: int = getattr(self.editor, "_active_tool", _TOOL_MOVE)
+        active_tool: int = self.editor._active_tool  # noqa: SLF001
         instance_drag_ok = active_tool != _TOOL_SELECT or self.move_xy_selected.satisfied(buttons, keys)
 
         if not camera_wants_input and instance_drag_ok and not self.editor.ui.lockInstancesCheck.isChecked() and self.editor.selected_instances:
@@ -1060,7 +1058,7 @@ class ModuleDesignerControls2d(Base2DControlScheme):
             self._mode.duplicate_selected(world)
 
         if self.select_underneath.satisfied(buttons, keys):
-            if hasattr(self, "_mode") and isinstance(self._mode, _GeometryMode):
+            if self._mode is not None and isinstance(self._mode, _GeometryMode):
                 RobustLogger().debug("select_underneath_geometry?")
                 self._mode.select_underneath()
             elif self.renderer.instances_under_mouse():
