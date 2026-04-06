@@ -7,7 +7,7 @@ import os
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
-from qtpy.QtWidgets import QMessageBox, QWidget
+from qtpy.QtWidgets import QComboBox, QLineEdit, QMessageBox, QPlainTextEdit, QWidget
 
 from loggerplus import RobustLogger  # type: ignore[import-untyped, note]
 from pykotor.common.misc import ResRef
@@ -27,7 +27,7 @@ from toolset.utils.window import open_resource_editor
 
 if TYPE_CHECKING:
     from typing_extensions import Literal
-    from qtpy.QtWidgets import QComboBox, QLineEdit, QPlainTextEdit, QWidget
+    from qtpy.QtWidgets import QWidget
 
     from pykotor.extract.file import ResourceResult
     from pykotor.resource.formats.twoda import TwoDA
@@ -62,11 +62,10 @@ class UTDEditor(Editor):
             7. Update 3D preview and call new() to initialize editor.
         """
         supported: list[ResourceType] = [ResourceType.UTD]
-        super().__init__(parent, "Door Editor", "door", supported, supported, installation)
-
         self.global_settings: GlobalSettings = GlobalSettings()
         self._genericdoors_2da: TwoDA | None = installation.ht_get_cache_2da("genericdoors") if installation is not None else None
         self._utd: UTD = UTD()
+        super().__init__(parent, "Door Editor", "door", supported, supported, installation)
 
         from toolset.uic.qtpy.editors.utd import Ui_MainWindow  # noqa: PLC0415
 
