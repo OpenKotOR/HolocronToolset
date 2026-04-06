@@ -1,7 +1,7 @@
 """Custom setup.py to handle wiki directory inclusion for PyPI distribution.
 
 This file extends setuptools to copy the wiki directory from the repo root
-into the package during the build process, ensuring it's included in PyPI distributions.
+into the packaged help tree during the build process, ensuring it's included in PyPI distributions.
 
 Note: When using setuptools.build_meta (pyproject.toml), this file is automatically
 detected and used for custom build commands.
@@ -22,12 +22,12 @@ class BuildPyWithWiki(build_py):
     """Custom build_py that copies wiki directory before building."""
 
     def run(self):
-        """Copy wiki directory to package before building (idempotent)."""
+        """Copy wiki directory to src/toolset/help/wiki before building (idempotent)."""
         # Get paths
         setup_dir = Path(__file__).parent
         repo_root = setup_dir.parent.parent
         wiki_src = repo_root / "wiki"
-        wiki_dest = setup_dir / "src" / "toolset" / "wiki"
+        wiki_dest = setup_dir / "src" / "toolset" / "help" / "wiki"
 
         # Copy wiki if it exists (idempotent: removes existing first)
         if wiki_src.exists() and wiki_src.is_dir():
@@ -49,9 +49,9 @@ class SDistWithWiki(sdist):
         setup_dir = Path(__file__).parent
         repo_root = setup_dir.parent.parent
         wiki_src = repo_root / "wiki"
-        wiki_dest = setup_dir / "src" / "toolset" / "wiki"
+        wiki_dest = setup_dir / "src" / "toolset" / "help" / "wiki"
 
-        # Copy wiki to src/toolset/wiki if it exists (idempotent: removes existing first)
+        # Copy wiki to src/toolset/help/wiki if it exists (idempotent: removes existing first)
         # This must happen BEFORE super().run() so MANIFEST.in can find the files
         if wiki_src.exists() and wiki_src.is_dir():
             if wiki_dest.exists():
@@ -59,10 +59,10 @@ class SDistWithWiki(sdist):
             shutil.copytree(wiki_src, wiki_dest, dirs_exist_ok=True)
             print(f"Copied wiki directory from {wiki_src} to {wiki_dest} for sdist")
 
-        # Run standard sdist (processes MANIFEST.in, which will now find src/toolset/wiki)
+        # Run standard sdist (processes MANIFEST.in, which will now find src/toolset/help/wiki)
         # NOTE: make_release_tree() is NOT overridden because wiki is already included
-        # via MANIFEST.in from src/toolset/wiki. Overriding it would cause duplication
-        # (wiki would appear both in src/toolset/wiki/ and wiki/ in the distribution).
+        # via MANIFEST.in from src/toolset/help/wiki. Overriding it would cause duplication
+        # (wiki would appear both in src/toolset/help/wiki/ and wiki/ in the distribution).
         super().run()
 
 

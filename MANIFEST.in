@@ -7,9 +7,9 @@ include src/resources_rc.py
 recursive-include src/toolset/help *.xml
 recursive-include src/toolset/help *.md
 # Include wiki directory for help system
-# Note: setup.py copies wiki from repo root to src/toolset/wiki before building
+# Note: setup.py copies wiki from repo root to src/toolset/help/wiki before building
 # MANIFEST.in paths are relative to the file location and cannot use parent directory references
-recursive-include src/toolset/wiki *.md
+recursive-include src/toolset/help/wiki *.md
 recursive-exclude * __pycache__
 recursive-exclude * *.pyc
 recursive-exclude * *.pyo

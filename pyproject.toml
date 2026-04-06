@@ -15,11 +15,11 @@ exclude = ["plugin*", "*.plugin*", "*plugin*", "plugin"]
 toolset = [
   "help/**/*.xml",
   "help/**/*.md",
-  "wiki/**/*.md",  # Wiki files copied during build from ../../wiki/ to src/toolset/help/wiki/
+  "help/wiki/**/*.md",  # Wiki files copied during build from ../../wiki/ to src/toolset/help/wiki/
 ]
 
 [tool.setuptools.exclude-package-data]
-toolset = ["wiki/.git", "wiki/.git/**", "**/.git", "**/.git/**"]
+toolset = ["help/wiki/.git", "help/wiki/.git/**", "wiki/.git", "wiki/.git/**", "**/.git", "**/.git/**"]
 
 [project]
 name = "holocrontoolset"

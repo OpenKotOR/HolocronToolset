@@ -21,13 +21,18 @@ from setuptools.build_meta import prepare_metadata_for_build_wheel as _prepare_m
 
 
 def _remove_wiki_git() -> None:
-    """Remove .git from src/toolset/wiki to avoid build failures (e.g. WinError 5 on Windows)."""
-    wiki_git = Path(__file__).resolve().parent / "src" / "toolset" / "wiki" / ".git"
-    if wiki_git.exists():
-        try:
-            shutil.rmtree(wiki_git)
-        except OSError:
-            pass
+    """Remove copied wiki git metadata from packaged help paths to avoid build failures."""
+    root = Path(__file__).resolve().parent
+    wiki_git_paths = [
+        root / "src" / "toolset" / "help" / "wiki" / ".git",
+        root / "src" / "toolset" / "wiki" / ".git",
+    ]
+    for wiki_git in wiki_git_paths:
+        if wiki_git.exists():
+            try:
+                shutil.rmtree(wiki_git)
+            except OSError:
+                pass
 
 
 def build_wheel(wheel_directory: str, config_settings: object = None, metadata_directory: str | None = None) -> str:

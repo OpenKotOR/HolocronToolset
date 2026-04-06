@@ -43,8 +43,8 @@ def get_wiki_path() -> tuple[Path, Path | None]:
     repo_root = this_file_path.parents[6]
 
     toolset_wiki_candidates = [
-        toolset_root / "wiki",
         toolset_root / "help" / "wiki",
+        toolset_root / "wiki",
     ]
     toolset_wiki = next((candidate for candidate in toolset_wiki_candidates if candidate.exists()), toolset_wiki_candidates[0])
 

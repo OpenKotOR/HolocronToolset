@@ -133,7 +133,7 @@ test_output.txt
 .cursor/plans/*.md
 Tools/HolocronToolset/src/ui/**/*_ui.py
 Tools/tests/
-Tools/HolocronToolset/src/toolset/wiki/
+src/toolset/wiki/
 docs/reva_roadmap/
 vendor/kotor_re_things/
 agentdecompile_projects/my_project.gpr
