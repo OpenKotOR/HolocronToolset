@@ -26,7 +26,7 @@
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Item (UTI) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine Item Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Item_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Item_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine Item Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Item_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Item_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 >>>>>>> 5be92464342446d66dc3d86baf7cd406f19d5b2d:wiki/Bioware-Aurora-Items-Economy-and-Narrative.md
 
 ---
@@ -70,7 +70,7 @@
 
 ## About this document
 
-**Source:** Official BioWare Aurora Engine Item Format PDF, archived in [`vendor/xoreos-docs/specs/bioware/Item_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Item_Format.pdf) (mirror: [`th3w1zard1/xoreos-docs/.../Item_Format.pdf`](https://github.com/th3w1zard1/xoreos-docs/blob/master/specs/bioware/Item_Format.pdf)). Originally published on `nwn.bioware.com`.
+**Source:** Official BioWare Aurora Engine Item Format PDF, archived in [`vendor/xoreos-docs/specs/bioware/Item_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Item_Format.pdf) (mirror: [`th3w1zard1/xoreos-docs/.../Item_Format.pdf`](https://raw.githubusercontent.com/th3w1zard1/xoreos-docs/master/specs/bioware/Item_Format.pdf)). Originally published on `nwn.bioware.com`.
 
 > **Note:** Written for **Neverwinter Nights**; the **Item (UTI) format is identical in KotOR**. NWN-specific examples may appear, but the core GFF layout and procedures match KotOR.
 
@@ -1851,7 +1851,7 @@ Armor type. Use as column name in weaponsounds.2da.
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Store (UTM) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine Store Format PDF, archived in [`xoreos-docs/specs/bioware/Store_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Store_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine Store Format PDF, archived in [`xoreos-docs/specs/bioware/Store_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Store_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
@@ -2132,7 +2132,7 @@ Structs document.
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Journal (JRL) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine Journal Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Journal_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Journal_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine Journal Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Journal_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Journal_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
@@ -2256,7 +2256,7 @@ category.
 
 > **Note**: This official BioWare documentation was originally written for **Neverwinter Nights**, but the Faction (FAC) format is **identical in KotOR**. All structures, fields, and behaviors described here apply to KotOR as well. The examples may reference NWN-specific features, but the core format is the same.
 
-**Source:** This documentation is extracted from the official BioWare Aurora Engine Faction Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Faction_Format.pdf`](https://github.com/xoreos/xoreos-docs/blob/master/specs/bioware/Faction_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
+**Source:** This documentation is extracted from the official BioWare Aurora Engine Faction Format PDF, archived in **[xoreos-docs](https://github.com/xoreos/xoreos-docs)**: [`specs/bioware/Faction_Format.pdf`](https://raw.githubusercontent.com/xoreos/xoreos-docs/master/specs/bioware/Faction_Format.pdf). The original documentation was published on the now-defunct nwn.bioware.com developer site.
 
 ---
 
