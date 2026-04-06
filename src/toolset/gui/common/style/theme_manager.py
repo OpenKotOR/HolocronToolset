@@ -39,15 +39,28 @@ class ThemeManager:
         )
         self.original_style: str = self._utility.original_style
 
+    @staticmethod
+    def _selected_theme_or_default() -> str:
+        theme = GlobalSettings().selectedTheme
+        return theme if theme else "sourcegraph-dark"
+
+    @staticmethod
+    def _selected_style_or_default() -> str:
+        style = GlobalSettings().selectedStyle
+        return "Fusion" if style is None else style
+
     def _on_theme_error(self, title: str, message: str) -> None:
         from qtpy.QtWidgets import QMessageBox
 
         from toolset.gui.common.localization import translate as tr
+
         QMessageBox.critical(None, tr(title), tr(message))
         GlobalSettings().reset_setting("selectedTheme")
-        theme = GlobalSettings().selectedTheme or "sourcegraph-dark"
-        style = GlobalSettings().selectedStyle or "Fusion"
-        self._utility.apply_theme_and_style(theme, style, fallback_theme="sourcegraph-dark", fallback_style="Fusion")
+        theme = self._selected_theme_or_default()
+        style = self._selected_style_or_default()
+        self._utility.apply_theme_and_style(
+            theme, style, fallback_theme="sourcegraph-dark", fallback_style="Fusion"
+        )
 
     @classmethod
     def get_available_themes(cls) -> tuple[str, ...]:
@@ -71,7 +84,7 @@ class ThemeManager:
         theme_name = theme.text() if isinstance(theme, QAction) else theme
         if not isinstance(theme_name, str):
             return
-        style_name = GlobalSettings().selectedStyle or "Fusion"
+        style_name = self._selected_style_or_default()
         self._utility.apply_theme_and_style(
             theme_name,
             style_name,
@@ -85,7 +98,7 @@ class ThemeManager:
         style_name = style.text() if isinstance(style, QAction) else style
         if not isinstance(style_name, str):
             return
-        theme_name = GlobalSettings().selectedTheme or "sourcegraph-dark"
+        theme_name = self._selected_theme_or_default()
         self._utility.apply_theme_and_style(
             theme_name,
             style_name,
@@ -99,8 +112,8 @@ class ThemeManager:
         style_name: str | None = None,
     ) -> None:
         """Apply theme and style (used at startup and by main window). Reads settings if None."""
-        theme_name = theme_name or GlobalSettings().selectedTheme or "sourcegraph-dark"
-        style_name = style_name if style_name is not None else (GlobalSettings().selectedStyle or "Fusion")
+        theme_name = theme_name or self._selected_theme_or_default()
+        style_name = style_name if style_name is not None else self._selected_style_or_default()
         self._utility.apply_theme_and_style(
             theme_name,
             style_name,

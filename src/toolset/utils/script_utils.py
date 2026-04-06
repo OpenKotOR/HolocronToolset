@@ -62,7 +62,9 @@ def setup_extract_path() -> Path:
     extract_path = Path(global_settings.extractPath)
 
     if not extract_path.is_dir():
-        extract_path_str: str | None = QFileDialog.getExistingDirectory(None, "Select a temp directory")
+        extract_path_str: str | None = QFileDialog.getExistingDirectory(
+            None, "Select a temp directory"
+        )
         extract_path: Path | None = Path(extract_path_str) if extract_path_str else None
         if extract_path is None or not extract_path.exists() or not extract_path.is_dir():
             msg: str = "Temp directory has not been set or is invalid."

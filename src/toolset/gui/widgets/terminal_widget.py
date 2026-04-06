@@ -121,7 +121,9 @@ class TerminalWidget(QWidget):
                         self._history_index = len(self._command_history)
                         self.ui.terminalInput.clear()
                 return True
-            if event.key() == Qt.Key.Key_L and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            if event.key() == Qt.Key.Key_L and (
+                event.modifiers() & Qt.KeyboardModifier.ControlModifier
+            ):
                 self.clear()
                 return True
         return super().eventFilter(obj, event)

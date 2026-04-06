@@ -23,7 +23,9 @@ class Ui_MainWindow(object):
         self.mapRenderer.setMouseTracking(True)
         self.mapRenderer.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.mapRenderer.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(4)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mapRenderer.sizePolicy().hasHeightForWidth())
@@ -32,10 +34,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.mapRenderer)
         MainWindow.setCentralWidget(self.centralwidget)
         self.leftDockWidget = QtWidgets.QDockWidget(MainWindow)
-        self.leftDockWidget.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea|QtCore.Qt.RightDockWidgetArea)
+        self.leftDockWidget.setAllowedAreas(
+            QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea
+        )
         self.leftDockWidget.setObjectName("leftDockWidget")
         self.leftContainer = QtWidgets.QWidget()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.leftContainer.sizePolicy().hasHeightForWidth())
@@ -52,7 +58,9 @@ class Ui_MainWindow(object):
         self.previewImage = QtWidgets.QLabel(self.previewBox)
         self.previewImage.setText("")
         self.previewImage.setScaledContents(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.previewImage.sizePolicy().hasHeightForWidth())
@@ -63,7 +71,9 @@ class Ui_MainWindow(object):
         self.leftScrollArea = QtWidgets.QScrollArea(self.leftContainer)
         self.leftScrollArea.setWidgetResizable(True)
         self.leftScrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.leftScrollArea.sizePolicy().hasHeightForWidth())
@@ -117,17 +127,23 @@ class Ui_MainWindow(object):
         self.componentList.setObjectName("componentList")
         self.kitsLayout.addWidget(self.componentList)
         self.leftScrollLayout.addWidget(self.kitsGroupBox)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.leftScrollLayout.addItem(spacerItem)
         self.leftScrollArea.setWidget(self.leftScrollContents)
         self.leftContainerLayout.addWidget(self.leftScrollArea)
         self.leftDockWidget.setWidget(self.leftContainer)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.leftDockWidget)
         self.rightDockWidget = QtWidgets.QDockWidget(MainWindow)
-        self.rightDockWidget.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea|QtCore.Qt.RightDockWidgetArea)
+        self.rightDockWidget.setAllowedAreas(
+            QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea
+        )
         self.rightDockWidget.setObjectName("rightDockWidget")
         self.rightContainer = QtWidgets.QWidget()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.rightContainer.sizePolicy().hasHeightForWidth())
@@ -140,7 +156,9 @@ class Ui_MainWindow(object):
         self.rightScrollArea = QtWidgets.QScrollArea(self.rightContainer)
         self.rightScrollArea.setWidgetResizable(True)
         self.rightScrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.rightScrollArea.sizePolicy().hasHeightForWidth())
@@ -226,11 +244,15 @@ class Ui_MainWindow(object):
         self.resetPaintButton = QtWidgets.QPushButton(self.walkmeshBox)
         self.resetPaintButton.setObjectName("resetPaintButton")
         self.walkmeshButtonsLayout.addWidget(self.resetPaintButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.walkmeshButtonsLayout.addItem(spacerItem1)
         self.walkmeshLayout.addLayout(self.walkmeshButtonsLayout)
         self.rightScrollLayout.addWidget(self.walkmeshBox)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.rightScrollLayout.addItem(spacerItem2)
         self.rightScrollArea.setWidget(self.rightScrollContents)
         self.rightContainerLayout.addWidget(self.rightScrollArea)
@@ -254,7 +276,9 @@ class Ui_MainWindow(object):
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setObjectName("toolBar")
         self.settingsToolbarWidget = QtWidgets.QWidget(self.toolBar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.settingsToolbarWidget.sizePolicy().hasHeightForWidth())
@@ -324,7 +348,12 @@ class Ui_MainWindow(object):
         self.settingsToolbarLayout.addWidget(self.toolbarRefreshModulesButton)
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.logDockWidget = QtWidgets.QDockWidget(MainWindow)
-        self.logDockWidget.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea|QtCore.Qt.RightDockWidgetArea|QtCore.Qt.TopDockWidgetArea|QtCore.Qt.BottomDockWidgetArea)
+        self.logDockWidget.setAllowedAreas(
+            QtCore.Qt.LeftDockWidgetArea
+            | QtCore.Qt.RightDockWidgetArea
+            | QtCore.Qt.TopDockWidgetArea
+            | QtCore.Qt.BottomDockWidgetArea
+        )
         self.logDockWidget.setObjectName("logDockWidget")
         self.logContainer = QtWidgets.QWidget()
         self.logContainer.setObjectName("logContainer")
@@ -428,7 +457,9 @@ class Ui_MainWindow(object):
         self.modulesGroupBox.setTitle(_translate("MainWindow", "Modules"))
         self.kitsGroupBox.setTitle(_translate("MainWindow", "Kits"))
         self.kitDownloadUpdateButton.setText(_translate("MainWindow", "Download/Update Kits..."))
-        self.kitDownloadUpdateButton.setToolTip(_translate("MainWindow", "Open the kit downloader to install or update indoor kits"))
+        self.kitDownloadUpdateButton.setToolTip(
+            _translate("MainWindow", "Open the kit downloader to install or update indoor kits")
+        )
         self.rightDockWidget.setWindowTitle(_translate("MainWindow", "Tools"))
         self.optionsBox.setTitle(_translate("MainWindow", "Options"))
         self.snapToGridCheck.setText(_translate("MainWindow", "Snap to Grid (G)"))
@@ -454,13 +485,21 @@ class Ui_MainWindow(object):
         self.settingsSkyboxLabel.setText(_translate("MainWindow", "Skybox:"))
         self.settingsGameLabel.setText(_translate("MainWindow", "Game:"))
         self.toolbarInstallationLabel.setText(_translate("MainWindow", "Installation:"))
-        self.toolbarInstallationLabel.setToolTip(_translate("MainWindow", "Game installation used for module list and build"))
+        self.toolbarInstallationLabel.setToolTip(
+            _translate("MainWindow", "Game installation used for module list and build")
+        )
         self.toolbarModuleLabel.setText(_translate("MainWindow", "Module:"))
-        self.toolbarModuleLabel.setToolTip(_translate("MainWindow", "Module to open into the builder"))
+        self.toolbarModuleLabel.setToolTip(
+            _translate("MainWindow", "Module to open into the builder")
+        )
         self.toolbarOpenModuleButton.setText(_translate("MainWindow", "Open Module"))
-        self.toolbarOpenModuleButton.setToolTip(_translate("MainWindow", "Load the selected module into the builder"))
+        self.toolbarOpenModuleButton.setToolTip(
+            _translate("MainWindow", "Load the selected module into the builder")
+        )
         self.toolbarRefreshModulesButton.setText(_translate("MainWindow", "Refresh"))
-        self.toolbarRefreshModulesButton.setToolTip(_translate("MainWindow", "Refresh module list from installation"))
+        self.toolbarRefreshModulesButton.setToolTip(
+            _translate("MainWindow", "Refresh module list from installation")
+        )
         self.logDockWidget.setWindowTitle(_translate("MainWindow", "Log"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
@@ -506,7 +545,11 @@ class Ui_MainWindow(object):
         self.actionCenterOnSelection.setText(_translate("MainWindow", "Center on Selection"))
         self.actionCenterOnSelection.setShortcut(_translate("MainWindow", "F"))
         self.actionSettings.setText(_translate("MainWindow", "Settings..."))
-        self.actionSettings.setToolTip(_translate("MainWindow", "Open settings (keybinds for walkmesh area, etc.)"))
+        self.actionSettings.setToolTip(
+            _translate("MainWindow", "Open settings (keybinds for walkmesh area, etc.)")
+        )
+
+
 from toolset.gui.common.widgets.collapsible import CollapsibleGroupBox
 from toolset.gui.widgets.edit.color import ColorEdit
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit

@@ -45,7 +45,9 @@ if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
 
 
 K1_PATH = os.environ.get("K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor")
-K2_PATH = os.environ.get("K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II")
+K2_PATH = os.environ.get(
+    "K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II"
+)
 
 from pykotor.extract.file import FileResource, ResourceIdentifier, ResourceResult
 from pykotor.extract.installation import Installation
@@ -104,7 +106,9 @@ class BWMEditorTest(TestCase):
         assert old.walkmesh_type == new.walkmesh_type, "Walkmesh type must be preserved"
         assert old.walkmesh_type.value == new.walkmesh_type.value, "Walkmesh type value must match"
         assert isinstance(new.walkmesh_type.value, int), "Walkmesh type must be integer"
-        assert new.walkmesh_type.value in (0, 1), "Walkmesh type must be 0 (PlaceableOrDoor) or 1 (AreaModel)"
+        assert new.walkmesh_type.value in (0, 1), (
+            "Walkmesh type must be 0 (PlaceableOrDoor) or 1 (AreaModel)"
+        )
 
         assert old.position == new.position, "Position must be preserved"
         assert abs(old.position.x - new.position.x) < 1e-6, "Position.x must match exactly"
@@ -112,24 +116,48 @@ class BWMEditorTest(TestCase):
         assert abs(old.position.z - new.position.z) < 1e-6, "Position.z must match exactly"
 
         assert old.relative_hook1 == new.relative_hook1, "Relative hook1 must be preserved"
-        assert abs(old.relative_hook1.x - new.relative_hook1.x) < 1e-6, "Relative hook1.x must match"
-        assert abs(old.relative_hook1.y - new.relative_hook1.y) < 1e-6, "Relative hook1.y must match"
-        assert abs(old.relative_hook1.z - new.relative_hook1.z) < 1e-6, "Relative hook1.z must match"
+        assert abs(old.relative_hook1.x - new.relative_hook1.x) < 1e-6, (
+            "Relative hook1.x must match"
+        )
+        assert abs(old.relative_hook1.y - new.relative_hook1.y) < 1e-6, (
+            "Relative hook1.y must match"
+        )
+        assert abs(old.relative_hook1.z - new.relative_hook1.z) < 1e-6, (
+            "Relative hook1.z must match"
+        )
 
         assert old.relative_hook2 == new.relative_hook2, "Relative hook2 must be preserved"
-        assert abs(old.relative_hook2.x - new.relative_hook2.x) < 1e-6, "Relative hook2.x must match"
-        assert abs(old.relative_hook2.y - new.relative_hook2.y) < 1e-6, "Relative hook2.y must match"
-        assert abs(old.relative_hook2.z - new.relative_hook2.z) < 1e-6, "Relative hook2.z must match"
+        assert abs(old.relative_hook2.x - new.relative_hook2.x) < 1e-6, (
+            "Relative hook2.x must match"
+        )
+        assert abs(old.relative_hook2.y - new.relative_hook2.y) < 1e-6, (
+            "Relative hook2.y must match"
+        )
+        assert abs(old.relative_hook2.z - new.relative_hook2.z) < 1e-6, (
+            "Relative hook2.z must match"
+        )
 
         assert old.absolute_hook1 == new.absolute_hook1, "Absolute hook1 must be preserved"
-        assert abs(old.absolute_hook1.x - new.absolute_hook1.x) < 1e-6, "Absolute hook1.x must match"
-        assert abs(old.absolute_hook1.y - new.absolute_hook1.y) < 1e-6, "Absolute hook1.y must match"
-        assert abs(old.absolute_hook1.z - new.absolute_hook1.z) < 1e-6, "Absolute hook1.z must match"
+        assert abs(old.absolute_hook1.x - new.absolute_hook1.x) < 1e-6, (
+            "Absolute hook1.x must match"
+        )
+        assert abs(old.absolute_hook1.y - new.absolute_hook1.y) < 1e-6, (
+            "Absolute hook1.y must match"
+        )
+        assert abs(old.absolute_hook1.z - new.absolute_hook1.z) < 1e-6, (
+            "Absolute hook1.z must match"
+        )
 
         assert old.absolute_hook2 == new.absolute_hook2, "Absolute hook2 must be preserved"
-        assert abs(old.absolute_hook2.x - new.absolute_hook2.x) < 1e-6, "Absolute hook2.x must match"
-        assert abs(old.absolute_hook2.y - new.absolute_hook2.y) < 1e-6, "Absolute hook2.y must match"
-        assert abs(old.absolute_hook2.z - new.absolute_hook2.z) < 1e-6, "Absolute hook2.z must match"
+        assert abs(old.absolute_hook2.x - new.absolute_hook2.x) < 1e-6, (
+            "Absolute hook2.x must match"
+        )
+        assert abs(old.absolute_hook2.y - new.absolute_hook2.y) < 1e-6, (
+            "Absolute hook2.y must match"
+        )
+        assert abs(old.absolute_hook2.z - new.absolute_hook2.z) < 1e-6, (
+            "Absolute hook2.z must match"
+        )
 
         # ========================================================================
         # VERTEX VALIDATION (10+ assertions)
@@ -164,9 +192,13 @@ class BWMEditorTest(TestCase):
         unwalkable_count = len(new.faces) - walkable_count
         for i, face in enumerate(new.faces):
             if i < walkable_count:
-                assert face.material.walkable(), f"Face {i} should be walkable (walkable faces must come first)"
+                assert face.material.walkable(), (
+                    f"Face {i} should be walkable (walkable faces must come first)"
+                )
             else:
-                assert not face.material.walkable(), f"Face {i} should be unwalkable (unwalkable faces must come after walkable)"
+                assert not face.material.walkable(), (
+                    f"Face {i} should be unwalkable (unwalkable faces must come after walkable)"
+                )
 
         # Strict face signature comparison (geometry + material + transitions)
         old_faces_sigs = sorted(self._face_signatures(old))
@@ -181,7 +213,9 @@ class BWMEditorTest(TestCase):
         for old_face in old_faces_list:
             # Find matching face in new (by value, not identity)
             matching_faces = [f for f in new_faces_list if f == old_face]
-            assert len(matching_faces) == 1, f"Each old face must have exactly one matching new face"
+            assert len(matching_faces) == 1, (
+                f"Each old face must have exactly one matching new face"
+            )
             new_face = matching_faces[0]
 
             # Verify vertices (with tolerance for float precision)
@@ -197,7 +231,9 @@ class BWMEditorTest(TestCase):
 
             # Verify material
             assert old_face.material == new_face.material, "Face material must match"
-            assert old_face.material.value == new_face.material.value, "Face material value must match"
+            assert old_face.material.value == new_face.material.value, (
+                "Face material value must match"
+            )
 
             # Verify transitions (critical for pathfinding)
             assert old_face.trans1 == new_face.trans1, "Face trans1 must be preserved"
@@ -223,10 +259,22 @@ class BWMEditorTest(TestCase):
             assert abs(old_normal.z - new_normal.z) < 1e-4, "Face normal.z must match approximately"
 
             # Verify planar distance consistency
-            assert abs(old_face.planar_distance() - new_face.planar_distance()) < 1e-4, "Face planar distance must match approximately"
+            assert abs(old_face.planar_distance() - new_face.planar_distance()) < 1e-4, (
+                "Face planar distance must match approximately"
+            )
 
     @staticmethod
-    def _face_signature(face) -> tuple[tuple[float, float, float], tuple[float, float, float], tuple[float, float, float], int, int | None, int | None, int | None]:
+    def _face_signature(
+        face,
+    ) -> tuple[
+        tuple[float, float, float],
+        tuple[float, float, float],
+        tuple[float, float, float],
+        int,
+        int | None,
+        int | None,
+        int | None,
+    ]:
         """Return a strict, stable signature for a face (geometry + material + transitions)."""
         v1 = (round(face.v1.x, 9), round(face.v1.y, 9), round(face.v1.z, 9))
         v2 = (round(face.v2.x, 9), round(face.v2.y, 9), round(face.v2.z, 9))
@@ -261,10 +309,26 @@ class BWMEditorTest(TestCase):
         abs1 = struct.unpack_from("<fff", out_data, 36)
         abs2 = struct.unpack_from("<fff", out_data, 48)
         pos = struct.unpack_from("<fff", out_data, 60)
-        assert rel1 == (roundtrip.relative_hook1.x, roundtrip.relative_hook1.y, roundtrip.relative_hook1.z)
-        assert rel2 == (roundtrip.relative_hook2.x, roundtrip.relative_hook2.y, roundtrip.relative_hook2.z)
-        assert abs1 == (roundtrip.absolute_hook1.x, roundtrip.absolute_hook1.y, roundtrip.absolute_hook1.z)
-        assert abs2 == (roundtrip.absolute_hook2.x, roundtrip.absolute_hook2.y, roundtrip.absolute_hook2.z)
+        assert rel1 == (
+            roundtrip.relative_hook1.x,
+            roundtrip.relative_hook1.y,
+            roundtrip.relative_hook1.z,
+        )
+        assert rel2 == (
+            roundtrip.relative_hook2.x,
+            roundtrip.relative_hook2.y,
+            roundtrip.relative_hook2.z,
+        )
+        assert abs1 == (
+            roundtrip.absolute_hook1.x,
+            roundtrip.absolute_hook1.y,
+            roundtrip.absolute_hook1.z,
+        )
+        assert abs2 == (
+            roundtrip.absolute_hook2.x,
+            roundtrip.absolute_hook2.y,
+            roundtrip.absolute_hook2.z,
+        )
         assert pos == (roundtrip.position.x, roundtrip.position.y, roundtrip.position.z)
 
         vertex_count, vertex_offset = struct.unpack_from("<II", out_data, 72)
@@ -298,7 +362,9 @@ class BWMEditorTest(TestCase):
         # Edge layout (8 bytes each) and perimeters layout (4 bytes each)
         expected_edge_bytes = edges_count * 8
         assert perimeters_offset == edges_offset + expected_edge_bytes, "Perimeters offset mismatch"
-        assert len(out_data) == perimeters_offset + perimeters_count * 4, "File length mismatch with perimeters"
+        assert len(out_data) == perimeters_offset + perimeters_count * 4, (
+            "File length mismatch with perimeters"
+        )
 
         # Verify vertex table
         vertices = []
@@ -307,18 +373,25 @@ class BWMEditorTest(TestCase):
             vertices.append((x, y, z))
         assert len(vertices) == len(roundtrip.vertices()), "Vertex table length mismatch"
         for idx, vertex in enumerate(roundtrip.vertices()):
-            assert vertices[idx] == (vertex.x, vertex.y, vertex.z), f"Vertex mismatch at index {idx}"
+            assert vertices[idx] == (vertex.x, vertex.y, vertex.z), (
+                f"Vertex mismatch at index {idx}"
+            )
 
         # Verify face indices map to vertex table
         face_indices = []
         for i in range(face_count):
             i1, i2, i3 = struct.unpack_from("<III", out_data, indices_offset + i * 12)
             face_indices.append((i1, i2, i3))
-            assert i1 < vertex_count and i2 < vertex_count and i3 < vertex_count, "Face index out of range"
+            assert i1 < vertex_count and i2 < vertex_count and i3 < vertex_count, (
+                "Face index out of range"
+            )
         assert len(face_indices) == len(roundtrip.faces), "Face indices length mismatch"
 
         # Verify materials table
-        materials = [struct.unpack_from("<I", out_data, materials_offset + i * 4)[0] for i in range(face_count)]
+        materials = [
+            struct.unpack_from("<I", out_data, materials_offset + i * 4)[0]
+            for i in range(face_count)
+        ]
         for i, face in enumerate(roundtrip.faces):
             assert materials[i] == face.material.value, f"Material mismatch for face {i}"
 
@@ -333,7 +406,9 @@ class BWMEditorTest(TestCase):
         # Verify planar distances (approximate)
         for i, face in enumerate(roundtrip.faces):
             distance = struct.unpack_from("<f", out_data, distances_offset + i * 4)[0]
-            assert abs(distance - face.planar_distance()) < 1e-4, f"Planar distance mismatch for face {i}"
+            assert abs(distance - face.planar_distance()) < 1e-4, (
+                f"Planar distance mismatch for face {i}"
+            )
 
         # Verify adjacency table for walkable faces
         walkable_faces = roundtrip.walkable_faces()
@@ -378,7 +453,9 @@ class BWMEditorTest(TestCase):
         for edge in roundtrip.edges():
             face_idx = face_index_map[id(edge.face)]
             edge_indices.add(face_idx * 3 + edge.index)
-        assert edges_count == len(edge_indices), "Edges count must cover transitions and perimeter edges"
+        assert edges_count == len(edge_indices), (
+            "Edges count must cover transitions and perimeter edges"
+        )
 
     def assertDeepEqual(self, obj1: Any, obj2: Any, context: str = ""):
         # Special handling for BWM faces - compare as sets since order may differ
@@ -388,7 +465,9 @@ class BWMEditorTest(TestCase):
             # Compare as sets (faces may be reordered: walkable first, then unwalkable)
             obj1_set = set(obj1)
             obj2_set = set(obj2)
-            assert obj1_set == obj2_set, f"{context}: Face content mismatch - faces may have been reordered or modified"
+            assert obj1_set == obj2_set, (
+                f"{context}: Face content mismatch - faces may have been reordered or modified"
+            )
             return
 
         if isinstance(obj1, dict) and isinstance(obj2, dict):
@@ -411,7 +490,9 @@ class BWMEditorTest(TestCase):
             ):
                 obj1_set = set(obj1)
                 obj2_set = set(obj2)
-                assert obj1_set == obj2_set, f"{context}: Face content mismatch - faces may have been reordered or modified"
+                assert obj1_set == obj2_set, (
+                    f"{context}: Face content mismatch - faces may have been reordered or modified"
+                )
                 return
             for index, (item1, item2) in enumerate(zip(obj1, obj2)):
                 new_context = f"{context}[{index}]" if context else f"[{index}]"
@@ -423,7 +504,9 @@ class BWMEditorTest(TestCase):
         elif isinstance(obj1, float) and isinstance(obj2, float):
             # Use approximate equality for floating-point numbers (1e-3 tolerance)
             # Some game files have precision differences after roundtrip
-            assert abs(obj1 - obj2) < 1e-3, f"{context}: {obj1} != {obj2} (diff: {abs(obj1 - obj2)})"
+            assert abs(obj1 - obj2) < 1e-3, (
+                f"{context}: {obj1} != {obj2} (diff: {abs(obj1 - obj2)})"
+            )
 
         else:
             assert obj1 == obj2, context
@@ -484,14 +567,20 @@ class BWMTransitionIntegrityTest(TestCase):
 
         # Verify initial state: transition should be on walkable face
         assert walkable_face1.trans1 == 1, "Initial: walkable face should have transition"
-        assert walkable_face1.material.walkable(), "Initial: face with transition should be walkable"
+        assert walkable_face1.material.walkable(), (
+            "Initial: face with transition should be walkable"
+        )
 
         # Serialize and deserialize
         data = bytes_bwm(bwm)
         loaded_bwm = read_bwm(data)
 
         # Find faces with transitions in the loaded BWM
-        faces_with_transitions = [(i, face) for i, face in enumerate(loaded_bwm.faces) if face.trans1 is not None or face.trans2 is not None or face.trans3 is not None]
+        faces_with_transitions = [
+            (i, face)
+            for i, face in enumerate(loaded_bwm.faces)
+            if face.trans1 is not None or face.trans2 is not None or face.trans3 is not None
+        ]
 
         # Verify: all faces with transitions should be walkable
         for idx, face in faces_with_transitions:
@@ -570,7 +659,9 @@ class BWMTransitionIntegrityTest(TestCase):
                     )
 
                 # Verify we didn't lose transitions
-                assert len(new_transitions) == len(original_transitions), f"Transition count changed: {len(original_transitions)} -> {len(new_transitions)}"
+                assert len(new_transitions) == len(original_transitions), (
+                    f"Transition count changed: {len(original_transitions)} -> {len(new_transitions)}"
+                )
                 break
         else:
             self.skipTest("No room0 WOK found in test module")
@@ -640,7 +731,9 @@ from toolset.gui.editors.bwm import BWMEditor
 from toolset.data.installation import HTInstallation
 
 
-def test_bwm_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_headless_ui_load_build(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test BWM Editor in headless UI - loads real file and builds data."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -649,9 +742,13 @@ def test_bwm_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstall
     bwm_file = test_files_dir / "zio006j.wok"
     if not bwm_file.exists():
         # Try to get one from installation
-        bwm_resources: list[ResourceResult | None] = list(installation.resources([ResourceIdentifier("zio006j", ResourceType.WOK)]).values())[:1]
+        bwm_resources: list[ResourceResult | None] = list(
+            installation.resources([ResourceIdentifier("zio006j", ResourceType.WOK)]).values()
+        )[:1]
         if not bwm_resources:
-            bwm_resources = list(installation.resources([ResourceIdentifier("zio006j", ResourceType.DWK)]).values())[:1]
+            bwm_resources = list(
+                installation.resources([ResourceIdentifier("zio006j", ResourceType.DWK)]).values()
+            )[:1]
         if not bwm_resources:
             pytest.skip("No BWM files available for testing")
         first_bwm_resource: ResourceResult | None = bwm_resources[0]
@@ -661,7 +758,9 @@ def test_bwm_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstall
         if not bwm_resource:
             pytest.skip(f"Could not load BWM data for {first_bwm_resource.resname}")
         editor.load(
-            first_bwm_resource.filepath if hasattr(first_bwm_resource, "filepath") else pathlib.Path("module.wok"),
+            first_bwm_resource.filepath
+            if hasattr(first_bwm_resource, "filepath")
+            else pathlib.Path("module.wok"),
             first_bwm_resource.resname,
             first_bwm_resource.restype,
             bwm_resource.data,
@@ -684,7 +783,9 @@ def test_bwm_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstall
     assert loaded_bwm is not None
 
 
-def test_bwmeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_bwmeditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that BWMEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -708,7 +809,9 @@ def test_bwmeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'BWM-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'BWM-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -799,7 +902,9 @@ def test_bwm_editor_material_selection(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_bwm_editor_transition_list_populated(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_transition_list_populated(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that transition list is populated when loading BWM with transitions."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -820,7 +925,9 @@ def test_bwm_editor_transition_list_populated(qtbot: QtBot, installation: HTInst
     assert editor.ui.transList.count() >= 0
 
 
-def test_bwm_editor_transition_list_selection(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_transition_list_selection(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test selecting transitions from the list."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -845,7 +952,9 @@ def test_bwm_editor_transition_list_selection(qtbot: QtBot, installation: HTInst
         assert "Transition" in current_item.text()
 
 
-def test_bwm_editor_renderer_highlight_boundaries_no_exception(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_renderer_highlight_boundaries_no_exception(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """With highlight_boundaries=True, renderer draws perimeter/arrows without raising (plan 4.2)."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1038,7 +1147,9 @@ def test_bwm_editor_load_invalid_data(qtbot: QtBot, installation: HTInstallation
 # ============================================================================
 
 
-def test_bwm_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1090,11 +1201,15 @@ def test_bwm_editor_load_from_installation(qtbot: QtBot, installation: HTInstall
 
     # Try to find any walkmesh resource in the installation by enumerating known resources.
     # (Installation.resources() expects explicit name+type queries, not a tuple of types.)
-    file_res: FileResource | None = next((r for r in installation if r.restype() in (ResourceType.WOK, ResourceType.DWK)), None)
+    file_res: FileResource | None = next(
+        (r for r in installation if r.restype() in (ResourceType.WOK, ResourceType.DWK)), None
+    )
     if file_res is None:
         pytest.skip("No WOK/DWK resources found in installation")
 
-    bwm_resource: ResourceResult | None = installation.resource(file_res.resname(), file_res.restype())
+    bwm_resource: ResourceResult | None = installation.resource(
+        file_res.resname(), file_res.restype()
+    )
     if bwm_resource is None:
         pytest.skip(f"Could not load BWM data for {file_res.resname}")
 
@@ -1117,7 +1232,9 @@ def test_bwm_editor_load_from_installation(qtbot: QtBot, installation: HTInstall
 # ============================================================================
 
 
-def test_bwm_editor_large_walkmesh(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_large_walkmesh(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test editor with large walkmesh (stress test)."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1153,7 +1270,9 @@ def test_bwm_editor_large_walkmesh(qtbot: QtBot, installation: HTInstallation, t
 # ============================================================================
 
 
-def test_bwm_editor_complete_workflow(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_bwm_editor_complete_workflow(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test complete workflow: load, verify, save, reload, verify."""
     editor = BWMEditor(None, installation)
     qtbot.addWidget(editor)

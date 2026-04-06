@@ -20,7 +20,9 @@ class Ui_Form(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.sectionCombo = QtWidgets.QComboBox(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.sectionCombo.sizePolicy().hasHeightForWidth())
@@ -39,7 +41,9 @@ class Ui_Form(object):
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.searchEdit = QtWidgets.QLineEdit(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.searchEdit.sizePolicy().hasHeightForWidth())
@@ -73,4 +77,6 @@ class Ui_Form(object):
         self.searchEdit.setPlaceholderText(_translate("Form", "search..."))
         self.reloadButton.setToolTip(_translate("Form", "Reload the active module/folder."))
         self.reloadButton.setText(_translate("Form", "Reload"))
+
+
 from utility.gui.qt.widgets.itemviews.treeview import RobustTreeView

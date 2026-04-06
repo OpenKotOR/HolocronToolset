@@ -34,7 +34,9 @@ class Ui_Form(object):
         self.controlsResetButton = QtWidgets.QPushButton(self.groupBox)
         self.controlsResetButton.setObjectName("controlsResetButton")
         self.horizontalLayout_3.addWidget(self.controlsResetButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_3.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.widget = QtWidgets.QWidget(self.groupBox)
@@ -72,7 +74,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_4)
         self.rotateSelectedToPointBindEdit = SetBindWidget(self.widget)
         self.rotateSelectedToPointBindEdit.setObjectName("rotateSelectedToPointBindEdit")
-        self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.rotateSelectedToPointBindEdit)
+        self.formLayout.setWidget(
+            4, QtWidgets.QFormLayout.FieldRole, self.rotateSelectedToPointBindEdit
+        )
         self.label_6 = QtWidgets.QLabel(self.widget)
         self.label_6.setObjectName("label_6")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_6)
@@ -84,13 +88,17 @@ class Ui_Form(object):
         self.formLayout.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_7)
         self.duplicateSelectedBindEdit = SetBindWidget(self.widget)
         self.duplicateSelectedBindEdit.setObjectName("duplicateSelectedBindEdit")
-        self.formLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.duplicateSelectedBindEdit)
+        self.formLayout.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.duplicateSelectedBindEdit
+        )
         self.label_8 = QtWidgets.QLabel(self.widget)
         self.label_8.setObjectName("label_8")
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.label_8)
         self.toggleLockInstancesBindEdit = SetBindWidget(self.widget)
         self.toggleLockInstancesBindEdit.setObjectName("toggleLockInstancesBindEdit")
-        self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.toggleLockInstancesBindEdit)
+        self.formLayout.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.toggleLockInstancesBindEdit
+        )
         self.verticalLayout_2.addWidget(self.widget)
         self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
@@ -106,14 +114,20 @@ class Ui_Form(object):
         self.label_10.setObjectName("label_10")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_10)
         self.undefinedMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
-        sizePolicy.setHeightForWidth(self.undefinedMaterialColourEdit.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.undefinedMaterialColourEdit.sizePolicy().hasHeightForWidth()
+        )
         self.undefinedMaterialColourEdit.setSizePolicy(sizePolicy)
         self.undefinedMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.undefinedMaterialColourEdit.setObjectName("undefinedMaterialColourEdit")
-        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.undefinedMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.undefinedMaterialColourEdit
+        )
         self.label_11 = QtWidgets.QLabel(self.groupBox_2)
         self.label_11.setObjectName("label_11")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_11)
@@ -176,20 +190,30 @@ class Ui_Form(object):
         self.dirtMaterialColourEdit.setObjectName("dirtMaterialColourEdit")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.dirtMaterialColourEdit)
         self.obscuringMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
-        sizePolicy.setHeightForWidth(self.obscuringMaterialColourEdit.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.obscuringMaterialColourEdit.sizePolicy().hasHeightForWidth()
+        )
         self.obscuringMaterialColourEdit.setSizePolicy(sizePolicy)
         self.obscuringMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.obscuringMaterialColourEdit.setObjectName("obscuringMaterialColourEdit")
-        self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.obscuringMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.obscuringMaterialColourEdit
+        )
         self.grassMaterialColourEdit = ColorEdit(self.groupBox_2)
         self.grassMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.grassMaterialColourEdit.setObjectName("grassMaterialColourEdit")
-        self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.grassMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.grassMaterialColourEdit
+        )
         self.stoneMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.stoneMaterialColourEdit.sizePolicy().hasHeightForWidth())
@@ -197,9 +221,13 @@ class Ui_Form(object):
         self.stoneMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.stoneMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.stoneMaterialColourEdit.setObjectName("stoneMaterialColourEdit")
-        self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.stoneMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            4, QtWidgets.QFormLayout.FieldRole, self.stoneMaterialColourEdit
+        )
         self.woodMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.woodMaterialColourEdit.sizePolicy().hasHeightForWidth())
@@ -209,7 +237,9 @@ class Ui_Form(object):
         self.woodMaterialColourEdit.setObjectName("woodMaterialColourEdit")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.woodMaterialColourEdit)
         self.waterMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.waterMaterialColourEdit.sizePolicy().hasHeightForWidth())
@@ -217,51 +247,79 @@ class Ui_Form(object):
         self.waterMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.waterMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.waterMaterialColourEdit.setObjectName("waterMaterialColourEdit")
-        self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.waterMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.waterMaterialColourEdit
+        )
         self.nonWalkMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
-        sizePolicy.setHeightForWidth(self.nonWalkMaterialColourEdit.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.nonWalkMaterialColourEdit.sizePolicy().hasHeightForWidth()
+        )
         self.nonWalkMaterialColourEdit.setSizePolicy(sizePolicy)
         self.nonWalkMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.nonWalkMaterialColourEdit.setObjectName("nonWalkMaterialColourEdit")
-        self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.nonWalkMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.nonWalkMaterialColourEdit
+        )
         self.transparentMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
-        sizePolicy.setHeightForWidth(self.transparentMaterialColourEdit.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.transparentMaterialColourEdit.sizePolicy().hasHeightForWidth()
+        )
         self.transparentMaterialColourEdit.setSizePolicy(sizePolicy)
         self.transparentMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.transparentMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.transparentMaterialColourEdit.setObjectName("transparentMaterialColourEdit")
-        self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.transparentMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            8, QtWidgets.QFormLayout.FieldRole, self.transparentMaterialColourEdit
+        )
         self.carpetMaterialColourEdit = ColorEdit(self.groupBox_2)
         self.carpetMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.carpetMaterialColourEdit.setObjectName("carpetMaterialColourEdit")
-        self.formLayout_2.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.carpetMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            9, QtWidgets.QFormLayout.FieldRole, self.carpetMaterialColourEdit
+        )
         self.metalMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.metalMaterialColourEdit.sizePolicy().hasHeightForWidth())
         self.metalMaterialColourEdit.setSizePolicy(sizePolicy)
         self.metalMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.metalMaterialColourEdit.setObjectName("metalMaterialColourEdit")
-        self.formLayout_2.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.metalMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            10, QtWidgets.QFormLayout.FieldRole, self.metalMaterialColourEdit
+        )
         self.puddlesMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
-        sizePolicy.setHeightForWidth(self.puddlesMaterialColourEdit.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.puddlesMaterialColourEdit.sizePolicy().hasHeightForWidth()
+        )
         self.puddlesMaterialColourEdit.setSizePolicy(sizePolicy)
         self.puddlesMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.puddlesMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.puddlesMaterialColourEdit.setObjectName("puddlesMaterialColourEdit")
-        self.formLayout_2.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.puddlesMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            11, QtWidgets.QFormLayout.FieldRole, self.puddlesMaterialColourEdit
+        )
         self.swampMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.swampMaterialColourEdit.sizePolicy().hasHeightForWidth())
@@ -269,9 +327,13 @@ class Ui_Form(object):
         self.swampMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.swampMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.swampMaterialColourEdit.setObjectName("swampMaterialColourEdit")
-        self.formLayout_2.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.swampMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            12, QtWidgets.QFormLayout.FieldRole, self.swampMaterialColourEdit
+        )
         self.mudMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.mudMaterialColourEdit.sizePolicy().hasHeightForWidth())
@@ -280,51 +342,73 @@ class Ui_Form(object):
         self.mudMaterialColourEdit.setObjectName("mudMaterialColourEdit")
         self.formLayout_2.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.mudMaterialColourEdit)
         self.leavesMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.leavesMaterialColourEdit.sizePolicy().hasHeightForWidth())
         self.leavesMaterialColourEdit.setSizePolicy(sizePolicy)
         self.leavesMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.leavesMaterialColourEdit.setObjectName("leavesMaterialColourEdit")
-        self.formLayout_2.setWidget(14, QtWidgets.QFormLayout.FieldRole, self.leavesMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            14, QtWidgets.QFormLayout.FieldRole, self.leavesMaterialColourEdit
+        )
         self.lavaMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.lavaMaterialColourEdit.sizePolicy().hasHeightForWidth())
         self.lavaMaterialColourEdit.setSizePolicy(sizePolicy)
         self.lavaMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.lavaMaterialColourEdit.setObjectName("lavaMaterialColourEdit")
-        self.formLayout_2.setWidget(15, QtWidgets.QFormLayout.FieldRole, self.lavaMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            15, QtWidgets.QFormLayout.FieldRole, self.lavaMaterialColourEdit
+        )
         self.bottomlessPitMaterialColourEdit = ColorEdit(self.groupBox_2)
         self.bottomlessPitMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.bottomlessPitMaterialColourEdit.setObjectName("bottomlessPitMaterialColourEdit")
-        self.formLayout_2.setWidget(16, QtWidgets.QFormLayout.FieldRole, self.bottomlessPitMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            16, QtWidgets.QFormLayout.FieldRole, self.bottomlessPitMaterialColourEdit
+        )
         self.deepWaterMaterialColourEdit = ColorEdit(self.groupBox_2)
         self.deepWaterMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.deepWaterMaterialColourEdit.setObjectName("deepWaterMaterialColourEdit")
-        self.formLayout_2.setWidget(17, QtWidgets.QFormLayout.FieldRole, self.deepWaterMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            17, QtWidgets.QFormLayout.FieldRole, self.deepWaterMaterialColourEdit
+        )
         self.doorMaterialColourEdit = ColorEdit(self.groupBox_2)
         self.doorMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.doorMaterialColourEdit.setObjectName("doorMaterialColourEdit")
-        self.formLayout_2.setWidget(18, QtWidgets.QFormLayout.FieldRole, self.doorMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            18, QtWidgets.QFormLayout.FieldRole, self.doorMaterialColourEdit
+        )
         self.nonWalkGrassMaterialColourEdit = ColorEdit(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
-        sizePolicy.setHeightForWidth(self.nonWalkGrassMaterialColourEdit.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.nonWalkGrassMaterialColourEdit.sizePolicy().hasHeightForWidth()
+        )
         self.nonWalkGrassMaterialColourEdit.setSizePolicy(sizePolicy)
         self.nonWalkGrassMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.nonWalkGrassMaterialColourEdit.setObjectName("nonWalkGrassMaterialColourEdit")
-        self.formLayout_2.setWidget(19, QtWidgets.QFormLayout.FieldRole, self.nonWalkGrassMaterialColourEdit)
+        self.formLayout_2.setWidget(
+            19, QtWidgets.QFormLayout.FieldRole, self.nonWalkGrassMaterialColourEdit
+        )
         self.gridLayout_2.addLayout(self.formLayout_2, 1, 0, 1, 1)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.coloursResetButton = QtWidgets.QPushButton(self.groupBox_2)
         self.coloursResetButton.setObjectName("coloursResetButton")
         self.horizontalLayout.addWidget(self.coloursResetButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem1)
         self.gridLayout_2.addLayout(self.horizontalLayout, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_2)
@@ -369,5 +453,7 @@ class Ui_Form(object):
         self.label_28.setText(_translate("Form", "Door:"))
         self.label_29.setText(_translate("Form", "Non-Walk Grass:"))
         self.coloursResetButton.setText(_translate("Form", "Reset"))
+
+
 from toolset.gui.widgets.edit.color import ColorEdit
 from toolset.gui.widgets.set_bind import SetBindWidget

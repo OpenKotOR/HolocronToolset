@@ -40,7 +40,9 @@ class Ui_Dialog(object):
         self.themesHeaderLayout.addWidget(self.themesLabel)
         self.currentThemeDisplay = QtWidgets.QLineEdit(Dialog)
         self.currentThemeDisplay.setReadOnly(True)
-        self.currentThemeDisplay.setStyleSheet("background-color: palette(base); border: 1px solid palette(mid); padding: 2px;")
+        self.currentThemeDisplay.setStyleSheet(
+            "background-color: palette(base); border: 1px solid palette(mid); padding: 2px;"
+        )
         self.currentThemeDisplay.setObjectName("currentThemeDisplay")
         self.themesHeaderLayout.addWidget(self.currentThemeDisplay)
         self.themesLayout.addLayout(self.themesHeaderLayout)
@@ -61,7 +63,9 @@ class Ui_Dialog(object):
         self.stylesHeaderLayout.addWidget(self.stylesLabel)
         self.currentStyleDisplay = QtWidgets.QLineEdit(Dialog)
         self.currentStyleDisplay.setReadOnly(True)
-        self.currentStyleDisplay.setStyleSheet("background-color: palette(base); border: 1px solid palette(mid); padding: 2px;")
+        self.currentStyleDisplay.setStyleSheet(
+            "background-color: palette(base); border: 1px solid palette(mid); padding: 2px;"
+        )
         self.currentStyleDisplay.setObjectName("currentStyleDisplay")
         self.stylesHeaderLayout.addWidget(self.currentStyleDisplay)
         self.stylesLayout.addLayout(self.stylesHeaderLayout)

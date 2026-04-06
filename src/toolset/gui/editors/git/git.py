@@ -63,8 +63,12 @@ if qtpy.QT5 or qtpy.QT6:
 
 class GITEditor(Editor, BlenderEditorMixin):
     STANDALONE_FOLDER_PATHS = [
-        FolderPathSpec("modules_folder", "Modules Folder", "Folder containing extracted module resources."),
-        FolderPathSpec("override_folder", "Override Folder", "Folder containing override resources."),
+        FolderPathSpec(
+            "modules_folder", "Modules Folder", "Folder containing extracted module resources."
+        ),
+        FolderPathSpec(
+            "override_folder", "Override Folder", "Folder containing override resources."
+        ),
     ]
 
     sig_settings_updated = Signal(object)  # pyright: ignore[reportPrivateImportUsage]
@@ -107,7 +111,9 @@ class GITEditor(Editor, BlenderEditorMixin):
         self._layout: LYT | None = None  # Store the LYT layout for room boundary rendering
         self._mode: _Mode = _InstanceMode(self, self._installation, self._git)
         self._controls: GITControlScheme = GITControlScheme(self)
-        self._geom_instance: GITObject | None = None  # Used to track which trigger/encounter you are editing
+        self._geom_instance: GITObject | None = (
+            None  # Used to track which trigger/encounter you are editing
+        )
 
         self.settings = GITSettings()
 
@@ -124,7 +130,9 @@ class GITEditor(Editor, BlenderEditorMixin):
 
         self.new()
 
-    def _resolve_path_resource(self, resref: str, suffix: str, keys: tuple[str, ...]) -> bytes | None:
+    def _resolve_path_resource(
+        self, resref: str, suffix: str, keys: tuple[str, ...]
+    ) -> bytes | None:
         for key in keys:
             folder = getattr(self, "_standalone_folder_paths", {}).get(key)
             if folder is None:
@@ -175,15 +183,33 @@ class GITEditor(Editor, BlenderEditorMixin):
         self.ui.viewCameraCheck.toggled.connect(self.update_visibility)
         self.ui.viewStoreCheck.toggled.connect(self.update_visibility)
 
-        self.ui.viewCreatureCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewCreatureCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewPlaceableCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewPlaceableCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewDoorCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewDoorCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewSoundCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewSoundCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewTriggerCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewTriggerCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewEncounterCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewEncounterCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewWaypointCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewWaypointCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewCameraCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewCameraCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
-        self.ui.viewStoreCheck.mouseDoubleClickEvent = lambda a0: self.on_instance_visibility_double_click(self.ui.viewStoreCheck)  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewCreatureCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewCreatureCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewPlaceableCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewPlaceableCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewDoorCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewDoorCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewSoundCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewSoundCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewTriggerCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewTriggerCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewEncounterCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewEncounterCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewWaypointCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewWaypointCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewCameraCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewCameraCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
+        self.ui.viewStoreCheck.mouseDoubleClickEvent = (
+            lambda a0: self.on_instance_visibility_double_click(self.ui.viewStoreCheck)
+        )  # noqa: ARG005  # pyright: ignore[reportAttributeAccessIssue]
 
         # Undo/Redo
         self.ui.actionUndo.triggered.connect(lambda: self._controls.undo_stack.undo())
@@ -193,65 +219,117 @@ class GITEditor(Editor, BlenderEditorMixin):
         self.ui.actionZoomIn.triggered.connect(lambda: self.ui.renderArea.camera.nudge_zoom(1))
         self.ui.actionZoomOut.triggered.connect(lambda: self.ui.renderArea.camera.nudge_zoom(-1))
         self.ui.actionRecentreCamera.triggered.connect(self.ui.renderArea.center_camera)
-        self.ui.actionShowRoomBoundaries.toggled.connect(lambda value: setattr(self.ui.renderArea, "show_room_boundaries", value))
+        self.ui.actionShowRoomBoundaries.toggled.connect(
+            lambda value: setattr(self.ui.renderArea, "show_room_boundaries", value)
+        )
         self.ui.actionShowRoomBoundaries.toggled.connect(lambda _: self.ui.renderArea.update())
-        self.ui.actionShowGrid.toggled.connect(lambda value: setattr(self.ui.renderArea, "show_grid", value))
+        self.ui.actionShowGrid.toggled.connect(
+            lambda value: setattr(self.ui.renderArea, "show_grid", value)
+        )
         self.ui.actionShowGrid.toggled.connect(lambda _: self.ui.renderArea.update())
         # View -> Creature Labels
-        self.ui.actionUseCreatureResRef.triggered.connect(lambda: setattr(self.settings, "creatureLabel", "resref"))
+        self.ui.actionUseCreatureResRef.triggered.connect(
+            lambda: setattr(self.settings, "creatureLabel", "resref")
+        )
         self.ui.actionUseCreatureResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseCreatureTag.triggered.connect(lambda: setattr(self.settings, "creatureLabel", "tag"))
+        self.ui.actionUseCreatureTag.triggered.connect(
+            lambda: setattr(self.settings, "creatureLabel", "tag")
+        )
         self.ui.actionUseCreatureTag.triggered.connect(self.update_visibility)
-        self.ui.actionUseCreatureName.triggered.connect(lambda: setattr(self.settings, "creatureLabel", "name"))
+        self.ui.actionUseCreatureName.triggered.connect(
+            lambda: setattr(self.settings, "creatureLabel", "name")
+        )
         self.ui.actionUseCreatureName.triggered.connect(self.update_visibility)
         # View -> Door Labels
-        self.ui.actionUseDoorResRef.triggered.connect(lambda: setattr(self.settings, "doorLabel", "resref"))
+        self.ui.actionUseDoorResRef.triggered.connect(
+            lambda: setattr(self.settings, "doorLabel", "resref")
+        )
         self.ui.actionUseDoorResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseDoorTag.triggered.connect(lambda: setattr(self.settings, "doorLabel", "tag"))
+        self.ui.actionUseDoorTag.triggered.connect(
+            lambda: setattr(self.settings, "doorLabel", "tag")
+        )
         self.ui.actionUseDoorTag.triggered.connect(self.update_visibility)
-        self.ui.actionUseDoorName.triggered.connect(lambda: setattr(self.settings, "doorLabel", "name"))
+        self.ui.actionUseDoorName.triggered.connect(
+            lambda: setattr(self.settings, "doorLabel", "name")
+        )
         self.ui.actionUseDoorName.triggered.connect(self.update_visibility)
         # View -> Placeable Labels
-        self.ui.actionUsePlaceableResRef.triggered.connect(lambda: setattr(self.settings, "placeableLabel", "resref"))
+        self.ui.actionUsePlaceableResRef.triggered.connect(
+            lambda: setattr(self.settings, "placeableLabel", "resref")
+        )
         self.ui.actionUsePlaceableResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUsePlaceableName.triggered.connect(lambda: setattr(self.settings, "placeableLabel", "name"))
+        self.ui.actionUsePlaceableName.triggered.connect(
+            lambda: setattr(self.settings, "placeableLabel", "name")
+        )
         self.ui.actionUsePlaceableName.triggered.connect(self.update_visibility)
-        self.ui.actionUsePlaceableTag.triggered.connect(lambda: setattr(self.settings, "placeableLabel", "tag"))
+        self.ui.actionUsePlaceableTag.triggered.connect(
+            lambda: setattr(self.settings, "placeableLabel", "tag")
+        )
         self.ui.actionUsePlaceableTag.triggered.connect(self.update_visibility)
         # View -> Merchant Labels
-        self.ui.actionUseMerchantResRef.triggered.connect(lambda: setattr(self.settings, "storeLabel", "resref"))
+        self.ui.actionUseMerchantResRef.triggered.connect(
+            lambda: setattr(self.settings, "storeLabel", "resref")
+        )
         self.ui.actionUseMerchantResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseMerchantName.triggered.connect(lambda: setattr(self.settings, "storeLabel", "name"))
+        self.ui.actionUseMerchantName.triggered.connect(
+            lambda: setattr(self.settings, "storeLabel", "name")
+        )
         self.ui.actionUseMerchantName.triggered.connect(self.update_visibility)
-        self.ui.actionUseMerchantTag.triggered.connect(lambda: setattr(self.settings, "storeLabel", "tag"))
+        self.ui.actionUseMerchantTag.triggered.connect(
+            lambda: setattr(self.settings, "storeLabel", "tag")
+        )
         self.ui.actionUseMerchantTag.triggered.connect(self.update_visibility)
         # View -> Sound Labels
-        self.ui.actionUseSoundResRef.triggered.connect(lambda: setattr(self.settings, "soundLabel", "resref"))
+        self.ui.actionUseSoundResRef.triggered.connect(
+            lambda: setattr(self.settings, "soundLabel", "resref")
+        )
         self.ui.actionUseSoundResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseSoundName.triggered.connect(lambda: setattr(self.settings, "soundLabel", "name"))
+        self.ui.actionUseSoundName.triggered.connect(
+            lambda: setattr(self.settings, "soundLabel", "name")
+        )
         self.ui.actionUseSoundName.triggered.connect(self.update_visibility)
-        self.ui.actionUseSoundTag.triggered.connect(lambda: setattr(self.settings, "soundLabel", "tag"))
+        self.ui.actionUseSoundTag.triggered.connect(
+            lambda: setattr(self.settings, "soundLabel", "tag")
+        )
         self.ui.actionUseSoundTag.triggered.connect(self.update_visibility)
         # View -> Waypoint Labels
-        self.ui.actionUseWaypointResRef.triggered.connect(lambda: setattr(self.settings, "waypointLabel", "resref"))
+        self.ui.actionUseWaypointResRef.triggered.connect(
+            lambda: setattr(self.settings, "waypointLabel", "resref")
+        )
         self.ui.actionUseWaypointResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseWaypointName.triggered.connect(lambda: setattr(self.settings, "waypointLabel", "name"))
+        self.ui.actionUseWaypointName.triggered.connect(
+            lambda: setattr(self.settings, "waypointLabel", "name")
+        )
         self.ui.actionUseWaypointName.triggered.connect(self.update_visibility)
-        self.ui.actionUseWaypointTag.triggered.connect(lambda: setattr(self.settings, "waypointLabel", "tag"))
+        self.ui.actionUseWaypointTag.triggered.connect(
+            lambda: setattr(self.settings, "waypointLabel", "tag")
+        )
         self.ui.actionUseWaypointTag.triggered.connect(self.update_visibility)
         # View -> Encounter Labels
-        self.ui.actionUseEncounterResRef.triggered.connect(lambda: setattr(self.settings, "encounterLabel", "resref"))
+        self.ui.actionUseEncounterResRef.triggered.connect(
+            lambda: setattr(self.settings, "encounterLabel", "resref")
+        )
         self.ui.actionUseEncounterResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseEncounterName.triggered.connect(lambda: setattr(self.settings, "encounterLabel", "name"))
+        self.ui.actionUseEncounterName.triggered.connect(
+            lambda: setattr(self.settings, "encounterLabel", "name")
+        )
         self.ui.actionUseEncounterName.triggered.connect(self.update_visibility)
-        self.ui.actionUseEncounterTag.triggered.connect(lambda: setattr(self.settings, "encounterLabel", "tag"))
+        self.ui.actionUseEncounterTag.triggered.connect(
+            lambda: setattr(self.settings, "encounterLabel", "tag")
+        )
         self.ui.actionUseEncounterTag.triggered.connect(self.update_visibility)
         # View -> Trigger Labels
-        self.ui.actionUseTriggerResRef.triggered.connect(lambda: setattr(self.settings, "triggerLabel", "resref"))
+        self.ui.actionUseTriggerResRef.triggered.connect(
+            lambda: setattr(self.settings, "triggerLabel", "resref")
+        )
         self.ui.actionUseTriggerResRef.triggered.connect(self.update_visibility)
-        self.ui.actionUseTriggerTag.triggered.connect(lambda: setattr(self.settings, "triggerLabel", "tag"))
+        self.ui.actionUseTriggerTag.triggered.connect(
+            lambda: setattr(self.settings, "triggerLabel", "tag")
+        )
         self.ui.actionUseTriggerTag.triggered.connect(self.update_visibility)
-        self.ui.actionUseTriggerName.triggered.connect(lambda: setattr(self.settings, "triggerLabel", "name"))
+        self.ui.actionUseTriggerName.triggered.connect(
+            lambda: setattr(self.settings, "triggerLabel", "name")
+        )
         self.ui.actionUseTriggerName.triggered.connect(self.update_visibility)
 
     def load(
@@ -290,17 +368,23 @@ class GITEditor(Editor, BlenderEditorMixin):
                 SearchLocation.MODULES,
                 SearchLocation.CHITIN,
             ]
-            result: ResourceResult | None = self._installation.resource(resref, ResourceType.LYT, order)
+            result: ResourceResult | None = self._installation.resource(
+                resref, ResourceType.LYT, order
+            )
             if result is not None:
                 layout_data = result.data
         else:
-            layout_data = self._resolve_path_resource(resref, "lyt", ("override_folder", "modules_folder"))
+            layout_data = self._resolve_path_resource(
+                resref, "lyt", ("override_folder", "modules_folder")
+            )
 
         if layout_data is not None:
             self._logger.debug("Found GITEditor layout for '%s'", filepath)
             self.load_layout(read_lyt(layout_data))
         else:
-            self._logger.warning("Missing layout %s.lyt, needed for GITEditor '%s.%s'", resref, resref, restype)
+            self._logger.warning(
+                "Missing layout %s.lyt, needed for GITEditor '%s.%s'", resref, resref, restype
+            )
 
         git = read_git(data)
         self._loadGIT(git)
@@ -373,13 +457,17 @@ class GITEditor(Editor, BlenderEditorMixin):
                 )
                 walkmesh_data = walkmesh_resource.data if walkmesh_resource is not None else None
             else:
-                walkmesh_data = self._resolve_path_resource(room.model, "wok", ("override_folder", "modules_folder"))
+                walkmesh_data = self._resolve_path_resource(
+                    room.model, "wok", ("override_folder", "modules_folder")
+                )
 
             if walkmesh_data is not None:
                 try:
                     wok_data = read_bwm(walkmesh_data)
                 except (ValueError, OSError):
-                    self._logger.exception("Corrupted walkmesh cannot be loaded: '%s.wok'", room.model)
+                    self._logger.exception(
+                        "Corrupted walkmesh cannot be loaded: '%s.wok'", room.model
+                    )
                 else:
                     walkmeshes.append(wok_data)
             else:
@@ -455,9 +543,13 @@ class GITEditor(Editor, BlenderEditorMixin):
         if self._installation is None:
             return None
         res_ident: ResourceIdentifier | None = instance.identifier()
-        assert res_ident is not None, f"resid cannot be None in get_instance_external_tag({instance!r})"
+        assert res_ident is not None, (
+            f"resid cannot be None in get_instance_external_tag({instance!r})"
+        )
         if res_ident not in self.tag_buffer:
-            res: ResourceResult | None = self._installation.resource(res_ident.resname, res_ident.restype)
+            res: ResourceResult | None = self._installation.resource(
+                res_ident.resname, res_ident.restype
+            )
             if res is None:
                 return None
             self.tag_buffer[res_ident] = extract_tag_from_gff(res.data)
@@ -571,10 +663,14 @@ class GITEditor(Editor, BlenderEditorMixin):
         assert item is not None, f"item cannot be None in {self!r}.onItemContextMenu({point!r})"
         self._mode.open_list_context_menu(item, global_point)
 
-    def on_mouse_moved(self, screen: Vector2, delta: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):
+    def on_mouse_moved(
+        self, screen: Vector2, delta: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]
+    ):
         world_delta: Vector2 = self.ui.renderArea.to_world_delta(delta.x, delta.y)
         world: Vector3 = self.ui.renderArea.to_world_coords(screen.x, screen.y)
-        self._controls.on_mouse_moved(screen, delta, Vector2.from_vector3(world), world_delta, buttons, keys)
+        self._controls.on_mouse_moved(
+            screen, delta, Vector2.from_vector3(world), world_delta, buttons, keys
+        )
         self._mode.update_status_bar(Vector2.from_vector3(world))
 
     def on_mouse_scrolled(self, delta: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):
@@ -583,7 +679,13 @@ class GITEditor(Editor, BlenderEditorMixin):
     def on_mouse_pressed(self, screen: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):
         self._controls.on_mouse_pressed(screen, buttons, keys)
 
-    def on_mouse_released(self, screen: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key], released_button: Qt.MouseButton | None = None):
+    def on_mouse_released(
+        self,
+        screen: Vector2,
+        buttons: set[Qt.MouseButton],
+        keys: set[Qt.Key],
+        released_button: Qt.MouseButton | None = None,
+    ):
         self._controls.on_mouse_released(screen, buttons, keys)
 
     def on_marquee_select(self, world_rect: tuple[float, float, float, float], additive: bool):
@@ -616,6 +718,7 @@ class GITEditor(Editor, BlenderEditorMixin):
         self.ui.renderArea.keyReleaseEvent(e)
 
     # endregion
+
 
 if __name__ == "__main__":
     import sys

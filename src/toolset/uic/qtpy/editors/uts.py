@@ -77,7 +77,9 @@ class Ui_MainWindow(object):
         self.activeCheckbox = QtWidgets.QCheckBox(self.tab)
         self.activeCheckbox.setObjectName("activeCheckbox")
         self.verticalLayout.addWidget(self.activeCheckbox)
-        spacerItem = QtWidgets.QSpacerItem(20, 132, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 132, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -162,7 +164,9 @@ class Ui_MainWindow(object):
         self.pitchVariationSlider.setObjectName("pitchVariationSlider")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.pitchVariationSlider)
         self.verticalLayout_5.addWidget(self.variationGroup)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_5.addItem(spacerItem1)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_3 = QtWidgets.QWidget()
@@ -172,7 +176,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_9 = QtWidgets.QVBoxLayout()
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.soundList = QtWidgets.QListWidget(self.tab_3)
-        self.soundList.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked|QtWidgets.QAbstractItemView.EditKeyPressed)
+        self.soundList.setEditTriggers(
+            QtWidgets.QAbstractItemView.DoubleClicked | QtWidgets.QAbstractItemView.EditKeyPressed
+        )
         self.soundList.setAlternatingRowColors(True)
         self.soundList.setObjectName("soundList")
         self.verticalLayout_9.addWidget(self.soundList)
@@ -185,7 +191,9 @@ class Ui_MainWindow(object):
         self.removeSoundButton = QtWidgets.QPushButton(self.tab_3)
         self.removeSoundButton.setObjectName("removeSoundButton")
         self.verticalLayout_8.addWidget(self.removeSoundButton)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_8.addItem(spacerItem2)
         self.moveUpButton = QtWidgets.QPushButton(self.tab_3)
         self.moveUpButton.setObjectName("moveUpButton")
@@ -193,7 +201,9 @@ class Ui_MainWindow(object):
         self.moveDownButton = QtWidgets.QPushButton(self.tab_3)
         self.moveDownButton.setObjectName("moveDownButton")
         self.verticalLayout_8.addWidget(self.moveDownButton)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_8.addItem(spacerItem3)
         self.playSoundButton = QtWidgets.QPushButton(self.tab_3)
         self.playSoundButton.setObjectName("playSoundButton")
@@ -277,7 +287,9 @@ class Ui_MainWindow(object):
         self.formLayout_6.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.eastRandomSpin)
         self.horizontalLayout_2.addWidget(self.rangeGroup)
         self.verticalLayout_7.addLayout(self.horizontalLayout_2)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_7.addItem(spacerItem4)
         self.tabWidget.addTab(self.tab_4, "")
         self.tab_5 = QtWidgets.QWidget()
@@ -325,175 +337,347 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Sound Editor"))
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocName). Localized display name. The engine does not read this\n"
-"                field in CSWSSoundObject::Load—used only by the toolset and module\n"
-"                editors for identification. Modders: optional; leave empty if not needed. Does not\n"
-"                affect in-game sound playback."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocName). Localized display name. The engine does not read this\n"
+                "                field in CSWSSoundObject::Load—used only by the toolset and module\n"
+                "                editors for identification. Modders: optional; leave empty if not needed. Does not\n"
+                "                affect in-game sound playback.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for this sound object. The\n"
-"                engine reads it via ReadFieldCExoString in CSWSSoundObject::Load.\n"
-"                Scripts use GetObjectByTag to target this sound (e.g. SoundObjectPlay,\n"
-"                SoundObjectSetVolume). Modders: keep unique per area; duplicate tags can cause wrong\n"
-"                object to be targeted. Used when placing instances in the area (GIT SoundList)."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
-"                they stay in sync. Scripts reference sound objects by Tag; keep Tag unique per area."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for this sound object. The\n"
+                "                engine reads it via ReadFieldCExoString in CSWSSoundObject::Load.\n"
+                "                Scripts use GetObjectByTag to target this sound (e.g. SoundObjectPlay,\n"
+                "                SoundObjectSetVolume). Modders: keep unique per area; duplicate tags can cause wrong\n"
+                "                object to be targeted. Used when placing instances in the area (GIT SoundList).",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
+                "                they stay in sync. Scripts reference sound objects by Tag; keep Tag unique per area.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) of this UTS\n"
-"                template; .uts extension implied. The engine stores ResRefs in 16 bytes. When the\n"
-"                game loads a sound from a GIT file it uses TemplateResRef to find the UTS template\n"
-"                (LoadFromTemplate). Modders: set to match the UTS filename (without .uts);\n"
-"                keep under 16 characters. Must match the .uts filename or area instances may\n"
-"                fail to load."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
-"                16 characters). ResRef should match the UTS filename for area placement to work."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) of this UTS\n"
+                "                template; .uts extension implied. The engine stores ResRefs in 16 bytes. When the\n"
+                "                game loads a sound from a GIT file it uses TemplateResRef to find the UTS template\n"
+                "                (LoadFromTemplate). Modders: set to match the UTS filename (without .uts);\n"
+                "                keep under 16 characters. Must match the .uts filename or area instances may\n"
+                "                fail to load.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
+                "                16 characters). ResRef should match the UTS filename for area placement to work.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
         self.label.setText(_translate("MainWindow", "Volume:"))
-        self.volumeSlider.setToolTip(_translate("MainWindow", "Volume (GFF: Volume). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
-"              CSWSSoundObject::Load. Master volume for this sound object; 0 =\n"
-"              silent, 255 = full. In-game: used for ambient sounds (wind, rain, machinery). Modders:\n"
-"              127 is roughly half volume; typical range 64–255. Affects all sounds in the Sounds\n"
-"              list when played from this object."))
+        self.volumeSlider.setToolTip(
+            _translate(
+                "MainWindow",
+                "Volume (GFF: Volume). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
+                "              CSWSSoundObject::Load. Master volume for this sound object; 0 =\n"
+                "              silent, 255 = full. In-game: used for ambient sounds (wind, rain, machinery). Modders:\n"
+                "              127 is roughly half volume; typical range 64–255. Affects all sounds in the Sounds\n"
+                "              list when played from this object.",
+            )
+        )
         self.activeCheckbox.setText(_translate("MainWindow", "Active"))
-        self.activeCheckbox.setToolTip(_translate("MainWindow", "Active (GFF: Active). BYTE 0/1. Engine reads via ReadFieldBYTE in\n"
-"            CSWSSoundObject::Load. When checked (1), the sound object is enabled\n"
-"            and will play when conditions are met (e.g. in area, interval elapsed). Unchecked (0) =\n"
-"            disabled; the sound will not play in-game. Modders: use to disable ambient sounds\n"
-"            without deleting the object; scripts can also toggle active state at runtime."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
+        self.activeCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Active (GFF: Active). BYTE 0/1. Engine reads via ReadFieldBYTE in\n"
+                "            CSWSSoundObject::Load. When checked (1), the sound object is enabled\n"
+                "            and will play when conditions are met (e.g. in area, interval elapsed). Unchecked (0) =\n"
+                "            disabled; the sound will not play in-game. Modders: use to disable ambient sounds\n"
+                "            without deleting the object; scripts can also toggle active state at runtime.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
         self.styleGroup.setTitle(_translate("MainWindow", "Play Style"))
         self.styleOnceRadio.setText(_translate("MainWindow", "Once"))
-        self.styleOnceRadio.setToolTip(_translate("MainWindow", "Play Style: Once. GFF: Continuous=0, Looping=0. Sound plays a single time\n"
-"                   then stops. Use for one-shot ambient events (e.g. a creak, bird call)."))
+        self.styleOnceRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Play Style: Once. GFF: Continuous=0, Looping=0. Sound plays a single time\n"
+                "                   then stops. Use for one-shot ambient events (e.g. a creak, bird call).",
+            )
+        )
         self.styleRepeatRadio.setText(_translate("MainWindow", "Repeating"))
-        self.styleRepeatRadio.setToolTip(_translate("MainWindow", "Play Style: Repeating. GFF: Continuous=0, Looping=1. Sound loops with a\n"
-"                   gap between plays. Interval and Interval Variation control timing. Use for\n"
-"                   periodic ambience (e.g. distant thunder)."))
+        self.styleRepeatRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Play Style: Repeating. GFF: Continuous=0, Looping=1. Sound loops with a\n"
+                "                   gap between plays. Interval and Interval Variation control timing. Use for\n"
+                "                   periodic ambience (e.g. distant thunder).",
+            )
+        )
         self.styleSeamlessRadio.setText(_translate("MainWindow", "Seamless Looping"))
-        self.styleSeamlessRadio.setToolTip(_translate("MainWindow", "Play Style: Seamless Looping. GFF: Continuous=1, Looping=1. Sound plays\n"
-"                   continuously with no gap. Best for ambient beds (e.g. wind, rain). Requires a\n"
-"                   loopable .wav file."))
+        self.styleSeamlessRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Play Style: Seamless Looping. GFF: Continuous=1, Looping=1. Sound plays\n"
+                "                   continuously with no gap. Best for ambient beds (e.g. wind, rain). Requires a\n"
+                "                   loopable .wav file.",
+            )
+        )
         self.orderGroup.setTitle(_translate("MainWindow", "Play Order"))
-        self.orderSequentialRadio.setToolTip(_translate("MainWindow", "Play Order: Sequential. GFF: Random=0. Sounds from the list play in order\n"
-"                   (first, second, third…). When the list ends, playback wraps to the start. Use for\n"
-"                   ordered ambient sequences (e.g. bird calls in a fixed pattern). Engine reads\n"
-"                   Random via ReadFieldBYTE in CSWSSoundObject::Load."))
+        self.orderSequentialRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Play Order: Sequential. GFF: Random=0. Sounds from the list play in order\n"
+                "                   (first, second, third…). When the list ends, playback wraps to the start. Use for\n"
+                "                   ordered ambient sequences (e.g. bird calls in a fixed pattern). Engine reads\n"
+                "                   Random via ReadFieldBYTE in CSWSSoundObject::Load.",
+            )
+        )
         self.orderSequentialRadio.setText(_translate("MainWindow", "Sequential"))
-        self.orderRandomRadio.setToolTip(_translate("MainWindow", "Play Order: Random. GFF: Random=1. Each time a sound is due to play, the\n"
-"                   engine picks one at random from the Sounds list. Use for varied ambient (e.g.\n"
-"                   random bird or insect sounds). Engine reads Random via ReadFieldBYTE in\n"
-"                   CSWSSoundObject::Load."))
+        self.orderRandomRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Play Order: Random. GFF: Random=1. Each time a sound is due to play, the\n"
+                "                   engine picks one at random from the Sounds list. Use for varied ambient (e.g.\n"
+                "                   random bird or insect sounds). Engine reads Random via ReadFieldBYTE in\n"
+                "                   CSWSSoundObject::Load.",
+            )
+        )
         self.orderRandomRadio.setText(_translate("MainWindow", "Random"))
         self.intervalGroup.setTitle(_translate("MainWindow", "Interval"))
         self.label_2.setText(_translate("MainWindow", "Interval between sounds (s):"))
         self.label_3.setText(_translate("MainWindow", "Interval variation (s):"))
-        self.intervalSpin.setToolTip(_translate("MainWindow", "Interval (GFF: Interval). DWORD. Engine reads via ReadFieldDWORD in\n"
-"                 CSWSSoundObject::Load. Seconds between sound plays when using\n"
-"                 Repeating mode. Valid range 0–4294967295; UI caps at 2147483647. 0 = play as fast\n"
-"                 as possible; 10–60 typical for ambient. Only used when Looping or Repeating is\n"
-"                 enabled. Modders: set in seconds; high values (e.g. 3600) for rare ambient events."))
-        self.intervalVariationSpin.setToolTip(_translate("MainWindow", "Interval Variation (GFF: IntervalVrtn). DWORD. Engine reads via\n"
-"                 ReadFieldDWORD in CSWSSoundObject::Load. Random variation (in\n"
-"                 seconds) added to the interval each time. E.g. Interval 30 + Variation 10 = plays\n"
-"                 every 30±10 seconds. Used with Repeating mode. Modders: 0 = fixed interval; higher\n"
-"                 values add variety. Valid range 0–4294967295."))
+        self.intervalSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Interval (GFF: Interval). DWORD. Engine reads via ReadFieldDWORD in\n"
+                "                 CSWSSoundObject::Load. Seconds between sound plays when using\n"
+                "                 Repeating mode. Valid range 0–4294967295; UI caps at 2147483647. 0 = play as fast\n"
+                "                 as possible; 10–60 typical for ambient. Only used when Looping or Repeating is\n"
+                "                 enabled. Modders: set in seconds; high values (e.g. 3600) for rare ambient events.",
+            )
+        )
+        self.intervalVariationSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Interval Variation (GFF: IntervalVrtn). DWORD. Engine reads via\n"
+                "                 ReadFieldDWORD in CSWSSoundObject::Load. Random variation (in\n"
+                "                 seconds) added to the interval each time. E.g. Interval 30 + Variation 10 = plays\n"
+                "                 every 30±10 seconds. Used with Repeating mode. Modders: 0 = fixed interval; higher\n"
+                "                 values add variety. Valid range 0–4294967295.",
+            )
+        )
         self.variationGroup.setTitle(_translate("MainWindow", "Variation"))
         self.label_4.setText(_translate("MainWindow", "Volume Variation:"))
-        self.volumeVariationSlider.setToolTip(_translate("MainWindow", "Volume Variation (GFF: VolumeVrtn). BYTE 0–255. Engine reads via ReadFieldBYTE\n"
-"               in CSWSSoundObject::Load. Random variation added to the base Volume\n"
-"               each time a sound plays. 0 = no variation; higher values create more dynamic ambient.\n"
-"               Modders: typical 0–32; very high values can make some plays inaudible or too loud."))
+        self.volumeVariationSlider.setToolTip(
+            _translate(
+                "MainWindow",
+                "Volume Variation (GFF: VolumeVrtn). BYTE 0–255. Engine reads via ReadFieldBYTE\n"
+                "               in CSWSSoundObject::Load. Random variation added to the base Volume\n"
+                "               each time a sound plays. 0 = no variation; higher values create more dynamic ambient.\n"
+                "               Modders: typical 0–32; very high values can make some plays inaudible or too loud.",
+            )
+        )
         self.label_5.setText(_translate("MainWindow", "Pitch Variation:"))
-        self.pitchVariationSlider.setToolTip(_translate("MainWindow", "Pitch Variation (GFF: PitchVariation). FLOAT. Engine reads via ReadFieldFLOAT\n"
-"               in CSWSSoundObject::Load. Random pitch shift per play; UI shows\n"
-"               0–100% (stored as 0.0–1.0). 0 = no variation; 0.5 = ±50% pitch. Modders: adds variety\n"
-"               to repeated sounds; high values can sound unnatural. No engine clamp; keep 0–1 for\n"
-"               predictable behavior."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Advanced"))
-        self.soundList.setToolTip(_translate("MainWindow", "Sounds (GFF: Sounds list). Engine reads via GetList(\"Sounds\") and each\n"
-"              element\'s ReadFieldCResRef(\"Sound\") in CSWSSoundObject::Load. List\n"
-"              of .wav ResRefs (max 16 chars each). Order matters when Play Order is Sequential;\n"
-"              Random picks from list. Double-click to edit a ResRef. Add/Remove to manage entries.\n"
-"              At least one valid sound recommended; empty list may cause no audio. ResRefs without\n"
-"              extension refer to .wav files."))
-        self.addSoundButton.setToolTip(_translate("MainWindow", "Add a new sound to the list. Appends an entry to the Sounds list (GFF); you can\n"
-"              then set its .wav ResRef (max 16 characters). At least one sound is recommended for\n"
-"              the object to play audio in-game."))
+        self.pitchVariationSlider.setToolTip(
+            _translate(
+                "MainWindow",
+                "Pitch Variation (GFF: PitchVariation). FLOAT. Engine reads via ReadFieldFLOAT\n"
+                "               in CSWSSoundObject::Load. Random pitch shift per play; UI shows\n"
+                "               0–100% (stored as 0.0–1.0). 0 = no variation; 0.5 = ±50% pitch. Modders: adds variety\n"
+                "               to repeated sounds; high values can sound unnatural. No engine clamp; keep 0–1 for\n"
+                "               predictable behavior.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Advanced")
+        )
+        self.soundList.setToolTip(
+            _translate(
+                "MainWindow",
+                'Sounds (GFF: Sounds list). Engine reads via GetList("Sounds") and each\n'
+                '              element\'s ReadFieldCResRef("Sound") in CSWSSoundObject::Load. List\n'
+                "              of .wav ResRefs (max 16 chars each). Order matters when Play Order is Sequential;\n"
+                "              Random picks from list. Double-click to edit a ResRef. Add/Remove to manage entries.\n"
+                "              At least one valid sound recommended; empty list may cause no audio. ResRefs without\n"
+                "              extension refer to .wav files.",
+            )
+        )
+        self.addSoundButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Add a new sound to the list. Appends an entry to the Sounds list (GFF); you can\n"
+                "              then set its .wav ResRef (max 16 characters). At least one sound is recommended for\n"
+                "              the object to play audio in-game.",
+            )
+        )
         self.addSoundButton.setText(_translate("MainWindow", "Add"))
-        self.removeSoundButton.setToolTip(_translate("MainWindow", "Remove the selected sound from the list. Deletes the ResRef from the Sounds\n"
-"              list. The list can be empty, but the sound object will not play any audio in-game\n"
-"              until at least one valid sound is added."))
+        self.removeSoundButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Remove the selected sound from the list. Deletes the ResRef from the Sounds\n"
+                "              list. The list can be empty, but the sound object will not play any audio in-game\n"
+                "              until at least one valid sound is added.",
+            )
+        )
         self.removeSoundButton.setText(_translate("MainWindow", "Remove"))
-        self.moveUpButton.setToolTip(_translate("MainWindow", "Move the selected sound one position up in the list. Order matters when Play\n"
-"              Order is Sequential; the engine plays sounds in list order. When Random is selected,\n"
-"              order has no effect."))
+        self.moveUpButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Move the selected sound one position up in the list. Order matters when Play\n"
+                "              Order is Sequential; the engine plays sounds in list order. When Random is selected,\n"
+                "              order has no effect.",
+            )
+        )
         self.moveUpButton.setText(_translate("MainWindow", "Move Up"))
-        self.moveDownButton.setToolTip(_translate("MainWindow", "Move the selected sound one position down in the list. Order matters when Play\n"
-"              Order is Sequential."))
+        self.moveDownButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Move the selected sound one position down in the list. Order matters when Play\n"
+                "              Order is Sequential.",
+            )
+        )
         self.moveDownButton.setText(_translate("MainWindow", "Move Down"))
-        self.playSoundButton.setToolTip(_translate("MainWindow", "Play the selected sound in the list (or the first if none selected). Uses the\n"
-"              toolset\'s audio player to preview the .wav; does not affect the UTS file. Useful to\n"
-"              verify ResRefs point to valid audio."))
+        self.playSoundButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Play the selected sound in the list (or the first if none selected). Uses the\n"
+                "              toolset's audio player to preview the .wav; does not affect the UTS file. Useful to\n"
+                "              verify ResRefs point to valid audio.",
+            )
+        )
         self.playSoundButton.setText(_translate("MainWindow", "Play"))
-        self.stopSoundButton.setToolTip(_translate("MainWindow", "Stop the currently playing preview sound. Only affects the toolset preview, not\n"
-"              in-game playback."))
+        self.stopSoundButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Stop the currently playing preview sound. Only affects the toolset preview, not\n"
+                "              in-game playback.",
+            )
+        )
         self.stopSoundButton.setText(_translate("MainWindow", "Stop"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Sounds"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Sounds")
+        )
         self.playEverywhereRadio.setText(_translate("MainWindow", "Plays everywhere in area"))
-        self.playEverywhereRadio.setToolTip(_translate("MainWindow", "Position: Plays everywhere. GFF: Positional=0, RandomPosition=0.\n"
-"              Non-positional; sound is heard at full volume anywhere in the area. Use for background\n"
-"              ambience (wind, rain)."))
-        self.playRandomRadio.setText(_translate("MainWindow", "Plays from a random position each time"))
-        self.playRandomRadio.setToolTip(_translate("MainWindow", "Position: Random. GFF: Positional=1, RandomPosition=1. Sound plays from a\n"
-"              random point each time. North/South and East/West ranges define the randomization\n"
-"              area. Use for scattered ambient (birds, insects)."))
+        self.playEverywhereRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Position: Plays everywhere. GFF: Positional=0, RandomPosition=0.\n"
+                "              Non-positional; sound is heard at full volume anywhere in the area. Use for background\n"
+                "              ambience (wind, rain).",
+            )
+        )
+        self.playRandomRadio.setText(
+            _translate("MainWindow", "Plays from a random position each time")
+        )
+        self.playRandomRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Position: Random. GFF: Positional=1, RandomPosition=1. Sound plays from a\n"
+                "              random point each time. North/South and East/West ranges define the randomization\n"
+                "              area. Use for scattered ambient (birds, insects).",
+            )
+        )
         self.playSpecificRadio.setText(_translate("MainWindow", "Plays from a specific position"))
-        self.playSpecificRadio.setToolTip(_translate("MainWindow", "Position: Specific. GFF: Positional=1, RandomPosition=0. 3D positional sound\n"
-"              from the object\'s placed location. Volume falls off with distance (MinDistance,\n"
-"              MaxDistance). Use for localized sources (fountain, machinery)."))
+        self.playSpecificRadio.setToolTip(
+            _translate(
+                "MainWindow",
+                "Position: Specific. GFF: Positional=1, RandomPosition=0. 3D positional sound\n"
+                "              from the object's placed location. Volume falls off with distance (MinDistance,\n"
+                "              MaxDistance). Use for localized sources (fountain, machinery).",
+            )
+        )
         self.distanceGroup.setTitle(_translate("MainWindow", "Volume Distances"))
         self.label_7.setText(_translate("MainWindow", "Cutoff Distance (m):"))
-        self.cutoffSpin.setToolTip(_translate("MainWindow", "Cutoff Distance (GFF: MinDistance). FLOAT meters. Engine reads via\n"
-"               ReadFieldFLOAT in\n"
-"               CSWSSoundObject::Load. Distance beyond which the sound is no longer\n"
-"               audible (for positional sounds). Used when \"Plays from a specific position\" is\n"
-"               selected.\n"
-"               Modders: 0 = no cutoff; typical 5–50. Beyond MaxVolumeDistance volume falls off;\n"
-"               beyond\n"
-"               MinDistance sound is silent. Set MaxDistance < MinDistance for normal falloff."))
+        self.cutoffSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Cutoff Distance (GFF: MinDistance). FLOAT meters. Engine reads via\n"
+                "               ReadFieldFLOAT in\n"
+                "               CSWSSoundObject::Load. Distance beyond which the sound is no longer\n"
+                '               audible (for positional sounds). Used when "Plays from a specific position" is\n'
+                "               selected.\n"
+                "               Modders: 0 = no cutoff; typical 5–50. Beyond MaxVolumeDistance volume falls off;\n"
+                "               beyond\n"
+                "               MinDistance sound is silent. Set MaxDistance < MinDistance for normal falloff.",
+            )
+        )
         self.label_8.setText(_translate("MainWindow", "Max Volume Distance (m):"))
-        self.maxVolumeDistanceSpin.setToolTip(_translate("MainWindow", "Max Volume Distance (GFF: MaxDistance). FLOAT meters. Engine reads via\n"
-"               ReadFieldFLOAT\n"
-"               in CSWSSoundObject::Load. Distance within which sound plays at full\n"
-"               volume (positional sounds). Beyond this, volume falls off until MinDistance (cutoff).\n"
-"               Modders: set MaxDistance < MinDistance (e.g. full volume to 10 m, cutoff at 30 m).\n"
-"               Reversing them can cause odd behavior."))
+        self.maxVolumeDistanceSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max Volume Distance (GFF: MaxDistance). FLOAT meters. Engine reads via\n"
+                "               ReadFieldFLOAT\n"
+                "               in CSWSSoundObject::Load. Distance within which sound plays at full\n"
+                "               volume (positional sounds). Beyond this, volume falls off until MinDistance (cutoff).\n"
+                "               Modders: set MaxDistance < MinDistance (e.g. full volume to 10 m, cutoff at 30 m).\n"
+                "               Reversing them can cause odd behavior.",
+            )
+        )
         self.heightGroup.setTitle(_translate("MainWindow", "Height"))
         self.label_9.setText(_translate("MainWindow", "Height (m):"))
-        self.heightSpin.setToolTip(_translate("MainWindow", "Height (GFF: Elevation). FLOAT meters. Vertical offset. K1\n"
-"                 CSWSSoundObject::Load\n"
-"                 does NOT read Elevation—only XPosition, YPosition, ZPosition and\n"
-"                 RandomRangeX/Y. Height in-game comes from the placed instance position (GIT). This\n"
-"                 field is stored for toolset/TSL; may be unused. Modders: set for documentation."))
+        self.heightSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Height (GFF: Elevation). FLOAT meters. Vertical offset. K1\n"
+                "                 CSWSSoundObject::Load\n"
+                "                 does NOT read Elevation—only XPosition, YPosition, ZPosition and\n"
+                "                 RandomRangeX/Y. Height in-game comes from the placed instance position (GIT). This\n"
+                "                 field is stored for toolset/TSL; may be unused. Modders: set for documentation.",
+            )
+        )
         self.rangeGroup.setTitle(_translate("MainWindow", "Random Range:"))
         self.label_10.setText(_translate("MainWindow", "North/South (m):"))
-        self.northRandomSpin.setToolTip(_translate("MainWindow", "North/South Random Range (GFF: RandomRangeY). FLOAT meters. When \"Plays from\n"
-"                 a\n"
-"                 random position\" is selected, sound spawns within ±this distance on the Y axis.\n"
-"                 Engine\n"
-"                 reads via ReadFieldFLOAT in CSWSSoundObject::Load. Modders: 0 = no\n"
-"                 north/south variation; typical 5–50."))
+        self.northRandomSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                'North/South Random Range (GFF: RandomRangeY). FLOAT meters. When "Plays from\n'
+                "                 a\n"
+                '                 random position" is selected, sound spawns within ±this distance on the Y axis.\n'
+                "                 Engine\n"
+                "                 reads via ReadFieldFLOAT in CSWSSoundObject::Load. Modders: 0 = no\n"
+                "                 north/south variation; typical 5–50.",
+            )
+        )
         self.label_11.setText(_translate("MainWindow", "East/West (m):"))
-        self.eastRandomSpin.setToolTip(_translate("MainWindow", "East/West Random Range (GFF: RandomRangeX). FLOAT meters. When \"Plays from a\n"
-"                 random position\" is selected, sound spawns within ±this distance on the X axis.\n"
-"                 Engine\n"
-"                 reads via ReadFieldFLOAT in CSWSSoundObject::Load. Modders: 0 = no\n"
-"                 east/west variation; typical 5–50."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Positioning"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer notes only—the game engine never\n"
-"            reads or displays this. Use for mod documentation, author, or internal notes. No length\n"
-"            limit in GFF; keep readable for your team."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Comments"))
+        self.eastRandomSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                'East/West Random Range (GFF: RandomRangeX). FLOAT meters. When "Plays from a\n'
+                '                 random position" is selected, sound spawns within ±this distance on the X axis.\n'
+                "                 Engine\n"
+                "                 reads via ReadFieldFLOAT in CSWSSoundObject::Load. Modders: 0 = no\n"
+                "                 east/west variation; typical 5–50.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Positioning")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer notes only—the game engine never\n"
+                "            reads or displays this. Use for mod documentation, author, or internal notes. No length\n"
+                "            limit in GFF; keep readable for your team.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -501,4 +685,6 @@ class Ui_MainWindow(object):
         self.actionSave_As.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit

@@ -66,7 +66,9 @@ class GFFEditor(Editor):
         parent: QWidget | None,
         installation: HTInstallation | None = None,
     ):
-        supported: list[ResourceType] = [restype for restype in ResourceType if restype.contents == "gff"]
+        supported: list[ResourceType] = [
+            restype for restype in ResourceType if restype.contents == "gff"
+        ]
         super().__init__(parent, "GFF Editor", "none", supported, supported, installation)
         self.resize(400, 250)
 
@@ -205,7 +207,9 @@ class GFFEditor(Editor):
         self.apply_palette(node, GFFFieldType.List)
 
     def build(self) -> tuple[bytes, bytes]:
-        gff_content: GFFContent | None = self._gff_content or GFFContent.from_res(self._resname or "")
+        gff_content: GFFContent | None = self._gff_content or GFFContent.from_res(
+            self._resname or ""
+        )
         assert gff_content is not None
 
         # Determine if we should write as XML based on file extension
@@ -276,7 +280,9 @@ class GFFEditor(Editor):
     ):
         for i in range(item.rowCount()):
             child: QStandardItem | None = item.child(i, 0)
-            assert child is not None, f"child cannot be None in {self!r}._build_list({item!r}, {gff_list!r})"
+            assert child is not None, (
+                f"child cannot be None in {self!r}._build_list({item!r}, {gff_list!r})"
+            )
             struct_id: int = cast("int", child.data(_VALUE_NODE_ROLE))
             gff_struct: GFFStruct = gff_list.add(struct_id)
             self._build_struct(child, gff_struct)
@@ -394,12 +400,16 @@ class GFFEditor(Editor):
             binary_data_label.setWordWrap(True)
             binary_data_label.setFont(QFont("Courier New", 7))
             binary_data_label.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
-            binary_data_label.setMaximumWidth(self.ui.blankPage.width() - 20)  # -20 otherwise the pane grows for some reason.
+            binary_data_label.setMaximumWidth(
+                self.ui.blankPage.width() - 20
+            )  # -20 otherwise the pane grows for some reason.
             layout.addWidget(binary_data_label)
             copy_button: QPushButton | None = QPushButton("Copy Binary Data")
             assert copy_button is not None, "copy_button cannot be None"
             layout.addWidget(copy_button)
-            copy_button.clicked.connect(lambda: cast("QClipboard", QApplication.clipboard()).setText(hex_data_str))
+            copy_button.clicked.connect(
+                lambda: cast("QClipboard", QApplication.clipboard()).setText(hex_data_str)
+            )
         elif item_type == GFFFieldType.LocalizedString:
             locstring: LocalizedString = item.data(_VALUE_NODE_ROLE)
             self.ui.pages.setCurrentWidget(self.ui.substringPage)
@@ -443,10 +453,17 @@ class GFFEditor(Editor):
         elif item_type == GFFFieldType.String:
             item.setData(self.ui.textEdit.toPlainText(), _VALUE_NODE_ROLE)
         elif item_type == GFFFieldType.Vector3:
-            vec3 = Vector3(self.ui.xVec3Spin.value(), self.ui.yVec3Spin.value(), self.ui.zVec3Spin.value())
+            vec3 = Vector3(
+                self.ui.xVec3Spin.value(), self.ui.yVec3Spin.value(), self.ui.zVec3Spin.value()
+            )
             item.setData(vec3, _VALUE_NODE_ROLE)
         elif item_type == GFFFieldType.Vector4:
-            vec4 = Vector4(self.ui.xVec4Spin.value(), self.ui.yVec4Spin.value(), self.ui.zVec4Spin.value(), self.ui.wVec4Spin.value())
+            vec4 = Vector4(
+                self.ui.xVec4Spin.value(),
+                self.ui.yVec4Spin.value(),
+                self.ui.zVec4Spin.value(),
+                self.ui.wVec4Spin.value(),
+            )
             item.setData(vec4, _VALUE_NODE_ROLE)
         elif item_type == GFFFieldType.LocalizedString:
             value_locstring: LocalizedString = cast("LocalizedString", item.data(_VALUE_NODE_ROLE))
@@ -527,7 +544,11 @@ class GFFEditor(Editor):
         ftype: GFFFieldType
         value: Any
         try:
-            label, ftype, value = item.data(_LABEL_NODE_ROLE), item.data(_TYPE_NODE_ROLE), item.data(_VALUE_NODE_ROLE)
+            label, ftype, value = (
+                item.data(_LABEL_NODE_ROLE),
+                item.data(_TYPE_NODE_ROLE),
+                item.data(_VALUE_NODE_ROLE),
+            )
         except RuntimeError:  # wrapped C/C++ object of type QStandardItem has been deleted?
             return
 
@@ -641,7 +662,11 @@ class GFFEditor(Editor):
     ):
         parent_item: QStandardItem | None = item.parent()
         if parent_item is None:
-            QMessageBox(QMessageBox.Icon.Critical, tr("Invalid action attempted"), tr("Cannot remove the top-level [ROOT] item.")).exec()
+            QMessageBox(
+                QMessageBox.Icon.Critical,
+                tr("Invalid action attempted"),
+                tr("Cannot remove the top-level [ROOT] item."),
+            ).exec()
             return
         parent_item.removeRow(item.row())
         self.refresh_item_text(item)
@@ -692,22 +717,35 @@ class GFFEditor(Editor):
             ("Add Double", "New Double", GFFFieldType.Double, 0.0),
             ("Add ResRef", "New ResRef", GFFFieldType.ResRef, 0),
             ("Add String", "New String", GFFFieldType.String, 0),
-            ("Add LocalizedString", "New LocalizedString", GFFFieldType.LocalizedString, LocalizedString.from_invalid()),
+            (
+                "Add LocalizedString",
+                "New LocalizedString",
+                GFFFieldType.LocalizedString,
+                LocalizedString.from_invalid(),
+            ),
             ("Add Binary", "New Binary", GFFFieldType.Binary, b""),
             ("Add Vector3", "New Vector3", GFFFieldType.Vector3, Vector3.from_null()),
             ("Add Vector4", "New Vector4", GFFFieldType.Vector4, Vector3.from_null()),
         ]
         for action_label, node_label, field_type, default_value in field_actions:
             menu.addAction(action_label).triggered.connect(
-                lambda _=False, n=node_label, t=field_type, v=default_value: self.insert_node(item, n, t, v),
+                lambda _=False, n=node_label, t=field_type, v=default_value: self.insert_node(
+                    item, n, t, v
+                ),
             )
         menu.addSeparator()
-        menu.addAction("Add Struct").triggered.connect(lambda: self.insert_node(item, "New Struct", GFFFieldType.Struct, GFFStruct()))
-        menu.addAction("Add List").triggered.connect(lambda: self.insert_node(item, "New List", GFFFieldType.List, GFFList()))
+        menu.addAction("Add Struct").triggered.connect(
+            lambda: self.insert_node(item, "New Struct", GFFFieldType.Struct, GFFStruct())
+        )
+        menu.addAction("Add List").triggered.connect(
+            lambda: self.insert_node(item, "New List", GFFFieldType.List, GFFList())
+        )
         menu.addSeparator()
 
     def select_talk_table(self):
-        filepath, filter = QFileDialog.getOpenFileName(self, tr("Select a TLK file"), "", "TalkTable (*.tlk)")
+        filepath, filter = QFileDialog.getOpenFileName(
+            self, tr("Select a TLK file"), "", "TalkTable (*.tlk)"
+        )
         if not filepath:
             return
         self._talktable = TalkTable(filepath)
@@ -769,7 +807,9 @@ class GFFEditor(Editor):
             # GFFFieldType.Vector3: self.adjustColor(palette.buttonText().color(), hue_shift=90, saturation_factor=0.8, value_factor=1.1),
             # GFFFieldType.Vector4: self.adjustColor(palette.buttonText().color(), hue_shift=90, saturation_factor=0.8, value_factor=1.3),
             GFFFieldType.Struct: QColor("darkGreen"),
-            GFFFieldType.List: self.adjust_color(palette.highlight().color(), hue_shift=120, saturation_factor=0.8, value_factor=1.1),
+            GFFFieldType.List: self.adjust_color(
+                palette.highlight().color(), hue_shift=120, saturation_factor=0.8, value_factor=1.1
+            ),
             # GFFFieldType.Binary: palette.midlight().color(),
         }
         if ftype in field_type_colors:
@@ -789,19 +829,24 @@ class GFFSortFilterProxyModel(QSortFilterProxyModel):
         right: QModelIndex,
     ) -> bool:
         source_model: QAbstractItemModel | None = self.sourceModel()
-        assert isinstance(source_model, QStandardItemModel), f"Source model is not a QStandardItemModel, was: {type(source_model).__name__}"
+        assert isinstance(source_model, QStandardItemModel), (
+            f"Source model is not a QStandardItemModel, was: {type(source_model).__name__}"
+        )
         left_item: QStandardItem | None = source_model.itemFromIndex(left)
         right_item: QStandardItem | None = source_model.itemFromIndex(right)
         assert left_item is not None, f"Left item at index {left.row()} is None"
         assert right_item is not None, f"Right item at index {right.row()} is None"
         left_text: str = left_item.data(_LABEL_NODE_ROLE) or str(left_item.data(_VALUE_NODE_ROLE))
-        right_text: str = right_item.data(_LABEL_NODE_ROLE) or str(right_item.data(_VALUE_NODE_ROLE))
+        right_text: str = right_item.data(_LABEL_NODE_ROLE) or str(
+            right_item.data(_VALUE_NODE_ROLE)
+        )
 
         if left_text.isdigit() and right_text.isdigit():
             left_int = int(left_text)
             right_int = int(right_text)
             return left_int < right_int
         return left_text < right_text
+
 
 if __name__ == "__main__":
     import sys

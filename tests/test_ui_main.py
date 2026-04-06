@@ -50,7 +50,9 @@ def test_main_window_set_installation(qtbot: QtBot, installation: HTInstallation
     # Ensure the installation is present in the tree model
     model = window.installation_tree_model
     assert model.rowCount() >= 1
-    assert any(model.data(model.index(row, 0)) == installation.name for row in range(model.rowCount()))
+    assert any(
+        model.data(model.index(row, 0)) == installation.name for row in range(model.rowCount())
+    )
 
     # Manually set active installation and enable tabs to mimic a successful load
     window.installations[installation.name] = installation

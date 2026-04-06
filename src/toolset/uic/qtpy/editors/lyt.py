@@ -33,7 +33,9 @@ class Ui_LYTEditor(object):
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.graphicsView = QtWidgets.QGraphicsView(self.topDownPage)
         self.graphicsView.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
-        self.graphicsView.setRenderHints(QtGui.QPainter.Antialiasing|QtGui.QPainter.SmoothPixmapTransform)
+        self.graphicsView.setRenderHints(
+            QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform
+        )
         self.graphicsView.setObjectName("graphicsView")
         self.verticalLayout_7.addWidget(self.graphicsView)
         self.viewStack.addWidget(self.topDownPage)
@@ -140,13 +142,21 @@ class Ui_LYTEditor(object):
         _translate = QtCore.QCoreApplication.translate
         LYTEditor.setWindowTitle(_translate("LYTEditor", "LYT Editor"))
         self.addRoomButton.setText(_translate("LYTEditor", "Add Room"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.roomsTab), _translate("LYTEditor", "Rooms"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.roomsTab), _translate("LYTEditor", "Rooms")
+        )
         self.addTrackButton.setText(_translate("LYTEditor", "Add Track"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tracksTab), _translate("LYTEditor", "Tracks"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tracksTab), _translate("LYTEditor", "Tracks")
+        )
         self.addObstacleButton.setText(_translate("LYTEditor", "Add Obstacle"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.obstaclesTab), _translate("LYTEditor", "Obstacles"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.obstaclesTab), _translate("LYTEditor", "Obstacles")
+        )
         self.addDoorHookButton.setText(_translate("LYTEditor", "Add Door Hook"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.doorhooksTab), _translate("LYTEditor", "Doorhooks"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.doorhooksTab), _translate("LYTEditor", "Doorhooks")
+        )
         self.texturesGroupBox.setTitle(_translate("LYTEditor", "Textures"))
         self.importTextureButton.setText(_translate("LYTEditor", "Import Texture"))
         self.roomTemplatesGroupBox.setTitle(_translate("LYTEditor", "Room Templates"))

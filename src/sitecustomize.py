@@ -3,6 +3,7 @@
 Patches every ``io_mdl.py`` (purelib, ``sys.path``, site-packages) before imports.
 Mirror: ``scripts/sitecustomize_koq_mdl.py``. Disable: ``PYKOTOR_SKIP_MDL_PATCH=1``.
 """
+
 from __future__ import annotations
 
 import os

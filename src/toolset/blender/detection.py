@@ -37,7 +37,9 @@ if TYPE_CHECKING:
 
 KOTORBLENDER_GITHUB_REPO = "OpenKotOR/kotorblender"
 KOTORBLENDER_GITHUB_URL = f"https://github.com/{KOTORBLENDER_GITHUB_REPO}"
-KOTORBLENDER_ARCHIVE_URL = f"https://codeload.github.com/{KOTORBLENDER_GITHUB_REPO}/zip/refs/heads/master"
+KOTORBLENDER_ARCHIVE_URL = (
+    f"https://codeload.github.com/{KOTORBLENDER_GITHUB_REPO}/zip/refs/heads/master"
+)
 KOTORBLENDER_ENV_VAR = "KOTORBLENDER_SOURCE_PATH"
 
 
@@ -639,7 +641,9 @@ def _install_kotorblender_overlay(destination: Path) -> None:
     """Copy the Holocron IPC overlay into an installed kotorblender package."""
     overlay_source = _get_kotorblender_overlay_path()
     if overlay_source is None:
-        RobustLogger().warning("Holocron IPC overlay package was not found; Blender live bridge will be unavailable")
+        RobustLogger().warning(
+            "Holocron IPC overlay package was not found; Blender live bridge will be unavailable"
+        )
         return
 
     overlay_destination = destination / "ipc"
@@ -753,7 +757,10 @@ def install_kotorblender(
         info.has_kotorblender = check_kotorblender_installed(info)
 
         if not info.has_kotorblender:
-            return False, f"Installation completed but file verification failed at:\n{kotorblender_dest}"
+            return (
+                False,
+                f"Installation completed but file verification failed at:\n{kotorblender_dest}",
+            )
 
         # If IPC verification is requested, test the connection
         if verify_ipc:
@@ -762,7 +769,9 @@ def install_kotorblender(
 
             if ipc_success:
                 # Both file check and IPC verification passed - fully successful
-                return True, (f"kotorblender{version_msg} installed successfully to:\n{kotorblender_dest}\n\n{ipc_message}")
+                return True, (
+                    f"kotorblender{version_msg} installed successfully to:\n{kotorblender_dest}\n\n{ipc_message}"
+                )
             # Files installed but IPC verification failed
             # This could mean Blender isn't running, or addon isn't enabled
             # We still consider this a success (files are installed), but warn the user
@@ -861,7 +870,9 @@ def launch_blender_with_ipc(
     if kotorblender_dest is not None and kotorblender_dest.exists():
         _install_kotorblender_overlay(kotorblender_dest)
 
-    startup_script = _generate_ipc_startup_script(ipc_port, installation_path, module_path, background=background)
+    startup_script = _generate_ipc_startup_script(
+        ipc_port, installation_path, module_path, background=background
+    )
 
     # Build command line
     cmd: list[str] = [str(blender_info.executable)]
@@ -1003,11 +1014,19 @@ class BlenderSettings:
 
     def _load_settings(self):
         """Load settings from QSettings."""
-        self._custom_path = self._qsettings.value(f"{self._SETTINGS_KEY_PREFIX}custom_path", "", str)
-        self._auto_launch = self._qsettings.value(f"{self._SETTINGS_KEY_PREFIX}auto_launch", True, bool)
+        self._custom_path = self._qsettings.value(
+            f"{self._SETTINGS_KEY_PREFIX}custom_path", "", str
+        )
+        self._auto_launch = self._qsettings.value(
+            f"{self._SETTINGS_KEY_PREFIX}auto_launch", True, bool
+        )
         self._ipc_port = self._qsettings.value(f"{self._SETTINGS_KEY_PREFIX}ipc_port", 7531, int)
-        self._prefer_blender = self._qsettings.value(f"{self._SETTINGS_KEY_PREFIX}prefer_blender", False, bool)
-        self._remember_choice = self._qsettings.value(f"{self._SETTINGS_KEY_PREFIX}remember_choice", False, bool)
+        self._prefer_blender = self._qsettings.value(
+            f"{self._SETTINGS_KEY_PREFIX}prefer_blender", False, bool
+        )
+        self._remember_choice = self._qsettings.value(
+            f"{self._SETTINGS_KEY_PREFIX}remember_choice", False, bool
+        )
 
     def _save_settings(self):
         """Save settings to QSettings."""
@@ -1015,7 +1034,9 @@ class BlenderSettings:
         self._qsettings.setValue(f"{self._SETTINGS_KEY_PREFIX}auto_launch", self._auto_launch)
         self._qsettings.setValue(f"{self._SETTINGS_KEY_PREFIX}ipc_port", self._ipc_port)
         self._qsettings.setValue(f"{self._SETTINGS_KEY_PREFIX}prefer_blender", self._prefer_blender)
-        self._qsettings.setValue(f"{self._SETTINGS_KEY_PREFIX}remember_choice", self._remember_choice)
+        self._qsettings.setValue(
+            f"{self._SETTINGS_KEY_PREFIX}remember_choice", self._remember_choice
+        )
         self._qsettings.sync()
 
     @property

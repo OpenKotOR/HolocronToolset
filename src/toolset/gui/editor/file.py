@@ -30,12 +30,17 @@ class EditorFile:
         self.editor: Editor = editor
 
     def open(self):
-        filepath_str, _filter = QFileDialog.getOpenFileName(self.editor, "Open file", "", self.editor._open_filter, "")  # noqa: SLF001
+        filepath_str, _filter = QFileDialog.getOpenFileName(
+            self.editor, "Open file", "", self.editor._open_filter, ""
+        )  # noqa: SLF001
         if not str(filepath_str).strip():
             return
         r_filepath = Path(filepath_str)
 
-        if is_capsule_file(r_filepath) and f"Load from module ({self.editor.CAPSULE_FILTER})" in self.editor._open_filter:  # noqa: SLF001
+        if (
+            is_capsule_file(r_filepath)
+            and f"Load from module ({self.editor.CAPSULE_FILTER})" in self.editor._open_filter
+        ):  # noqa: SLF001
             self._load_module_from_dialog_info(r_filepath)
         else:
             data: bytes = r_filepath.read_bytes()
@@ -67,16 +72,23 @@ class EditorFile:
         self.editor._resname = resref  # noqa: SLF001
         self.editor._restype = restype  # noqa: SLF001
         self.editor._revert = data  # noqa: SLF001
-        for action in cast("QMenu", cast("QMenuBar", self.editor.menuBar()).actions()[0].menu()).actions():
+        for action in cast(
+            "QMenu", cast("QMenuBar", self.editor.menuBar()).actions()[0].menu()
+        ).actions():
             if action.text() == "Revert":
                 action.setEnabled(True)
                 break
         self.editor.refresh_window_title()
-        self.editor.sig_loaded_file.emit(str(self.editor._filepath), self.editor._resname, self.editor._restype, data)  # noqa: SLF001
+        self.editor.sig_loaded_file.emit(
+            str(self.editor._filepath), self.editor._resname, self.editor._restype, data
+        )  # noqa: SLF001
 
     def new(self):
         self.editor._revert = b""  # noqa: SLF001
-        self.editor._filepath = self.editor.setup_extract_path() / f"{self.editor._resname}.{self.editor._restype.extension}"  # noqa: SLF001
+        self.editor._filepath = (
+            self.editor.setup_extract_path()
+            / f"{self.editor._resname}.{self.editor._restype.extension}"
+        )  # noqa: SLF001
         menu_bar: QMenuBar | None = cast("Optional[QMenuBar]", self.editor.menuBar())
         assert menu_bar is not None, "Menu bar is None somehow? This should be impossible."
         for action in cast("QMenu", cast("QMenuBar", menu_bar).actions()[0].menu()).actions():
@@ -91,4 +103,6 @@ class EditorFile:
             print("No data to revert from")
             self.editor.blink_window()
             return
-        self.load(self.editor._filepath, self.editor._resname, self.editor._restype, self.editor._revert)  # noqa: SLF001
+        self.load(
+            self.editor._filepath, self.editor._resname, self.editor._restype, self.editor._revert
+        )  # noqa: SLF001

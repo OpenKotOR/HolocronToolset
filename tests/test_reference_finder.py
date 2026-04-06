@@ -135,7 +135,9 @@ class TestFindScriptReferences:
         # Verify file patterns are respected
         for result in results_modules:
             filename = result.file_resource.filename().lower()
-            assert filename.endswith(".mod") or any("module" in str(result.file_resource.filepath()).lower() for _ in [None])
+            assert filename.endswith(".mod") or any(
+                "module" in str(result.file_resource.filepath()).lower() for _ in [None]
+            )
 
     def test_find_script_references_file_types(self, installation: HTInstallation):
         """Test finding script references with file type filter."""
@@ -215,7 +217,12 @@ class TestFindTagReferences:
             assert isinstance(result, ReferenceSearchResult)
             assert result.file_resource is not None
             # Field path can be "Tag" or contain "Tag" or "ItemList" in nested structures
-            assert result.field_path == "Tag" or ".Tag" in result.field_path or "Tag]" in result.field_path or "ItemList" in result.field_path
+            assert (
+                result.field_path == "Tag"
+                or ".Tag" in result.field_path
+                or "Tag]" in result.field_path
+                or "ItemList" in result.field_path
+            )
             assert result.matched_value is not None
             # Tag fields can be in various GFF file types
             assert result.file_type in {"UTC", "UTD", "UTP", "UTT", "UTI", "UTM", "UTW", "GIT"}
@@ -305,7 +312,10 @@ class TestFindTemplateResRefReferences:
         for result in results:
             assert isinstance(result, ReferenceSearchResult)
             assert result.file_resource is not None
-            assert result.field_path in {"TemplateResRef", "InventoryRes"} or "ItemList" in result.field_path
+            assert (
+                result.field_path in {"TemplateResRef", "InventoryRes"}
+                or "ItemList" in result.field_path
+            )
             assert result.matched_value is not None
             assert result.file_type in {"UTC", "UTD", "UTP", "UTT", "UTI", "UTM"}
 

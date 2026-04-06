@@ -57,7 +57,9 @@ class SetBindWidget(QWidget):
     def keyPressEvent(self, a0: QKeyEvent):
         if self.record_bind:
             self.keybind.add(Qt.Key(a0.key()))
-            assert isinstance(self.keybind, set), f"{self.keybind!r} <{self.keybind}> ({self.keybind.__class__.__name__}) is not a set"
+            assert isinstance(self.keybind, set), (
+                f"{self.keybind!r} <{self.keybind}> ({self.keybind.__class__.__name__}) is not a set"
+            )
             self.update_keybind_text()
         super().keyPressEvent(a0)
 
@@ -70,10 +72,16 @@ class SetBindWidget(QWidget):
         # these asserts will be removed automatically with -O PYTHONOPTIMIZE flag, performance isn't affected there.
         assert isinstance(bind, tuple), f"{bind} ({bind.__class__.__name__}) is not a tuple"
         assert len(bind) == 2, f"{len(bind)} != 2"  # noqa: PLR2004
-        assert isinstance(bind[0], set), f"{bind[0]!r} <{bind[0]}> ({bind[0].__class__.__name__}) is not a set"
-        assert isinstance(bind[1], (set, type(None))), f"{bind[1]!r} <{bind[1]}> ({bind[1].__class__.__name__}) is not a set"
+        assert isinstance(bind[0], set), (
+            f"{bind[0]!r} <{bind[0]}> ({bind[0].__class__.__name__}) is not a set"
+        )
+        assert isinstance(bind[1], (set, type(None))), (
+            f"{bind[1]!r} <{bind[1]}> ({bind[1].__class__.__name__}) is not a set"
+        )
 
-        mouse_bind: Qt.MouseButton | set | None = next(iter(bind[1])) if bind[1] else (None if bind[1] is None else set())
+        mouse_bind: Qt.MouseButton | set | None = (
+            next(iter(bind[1])) if bind[1] else (None if bind[1] is None else set())
+        )
         if mouse_bind is None:  # None
             self.ui.mouseCombo.setCurrentIndex(4)
         elif not mouse_bind:  # Any (empty set)
@@ -85,15 +93,21 @@ class SetBindWidget(QWidget):
         elif mouse_bind == Qt.MouseButton.RightButton:
             self.ui.mouseCombo.setCurrentIndex(2)
         else:
-            raise ValueError(f"{mouse_bind!r} <{mouse_bind}> ({mouse_bind.__class__.__name__}) is not a valid mousebind")
+            raise ValueError(
+                f"{mouse_bind!r} <{mouse_bind}> ({mouse_bind.__class__.__name__}) is not a valid mousebind"
+            )
 
         self.keybind = bind[0]
         self.update_keybind_text()
 
     def get_mouse_and_key_binds(self) -> Bind:
         mousebind: set[Qt.MouseButton] = self.ui.mouseCombo.currentData()
-        assert isinstance(mousebind, (set, type(None))), f"{mousebind!r} <{mousebind}> ({mousebind.__class__.__name__}) is not a mousebind set"
-        assert isinstance(self.keybind, set), f"{self.keybind!r} <{self.keybind}> ({self.keybind.__class__.__name__}) is not a keybind set"
+        assert isinstance(mousebind, (set, type(None))), (
+            f"{mousebind!r} <{mousebind}> ({mousebind.__class__.__name__}) is not a mousebind set"
+        )
+        assert isinstance(self.keybind, set), (
+            f"{self.keybind!r} <{self.keybind}> ({self.keybind.__class__.__name__}) is not a keybind set"
+        )
         return self.keybind, mousebind
 
     def update_keybind_text(self):

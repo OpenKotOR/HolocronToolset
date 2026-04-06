@@ -106,7 +106,9 @@ class Ui_Form(object):
         self.durationLabel.setText(_translate("Form", "Duration:"))
         self.durationValueLabel.setText(_translate("Form", "0.000s"))
         self.durationValueLabel.setToolTip(_translate("Form", "Duration of the loaded audio file"))
-        self.previewList.setToolTip(_translate("Form", "List of keyframes (right-click for options)"))
+        self.previewList.setToolTip(
+            _translate("Form", "List of keyframes (right-click for options)")
+        )
         self.timeLabel.setText(_translate("Form", "Time:"))
         self.timeInput.setToolTip(_translate("Form", "Time in seconds for the keyframe"))
         self.shapeLabel.setText(_translate("Form", "Shape:"))
@@ -116,7 +118,9 @@ class Ui_Form(object):
         self.updateKeyframeButton.setText(_translate("Form", "Update Keyframe"))
         self.updateKeyframeButton.setToolTip(_translate("Form", "Update selected keyframe (Enter)"))
         self.deleteKeyframeButton.setText(_translate("Form", "Delete Keyframe"))
-        self.deleteKeyframeButton.setToolTip(_translate("Form", "Delete selected keyframe (Delete)"))
+        self.deleteKeyframeButton.setToolTip(
+            _translate("Form", "Delete selected keyframe (Delete)")
+        )
         self.currentShapeLabel.setText(_translate("Form", "Current Shape:"))
         self.previewLabel.setText(_translate("Form", "None"))
         self.playButton.setText(_translate("Form", "Play"))

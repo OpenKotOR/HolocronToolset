@@ -57,13 +57,15 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.hintLabel)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(Dialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(Dialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -71,4 +73,9 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Encounter instance"))
         self.labelResref.setText(_translate("Dialog", "Template resref"))
         self.labelPos.setText(_translate("Dialog", "Position"))
-        self.hintLabel.setText(_translate("Dialog", "Edit encounter polygon and spawn points using the editor geometry and spawn modes."))
+        self.hintLabel.setText(
+            _translate(
+                "Dialog",
+                "Edit encounter polygon and spawn points using the editor geometry and spawn modes.",
+            )
+        )

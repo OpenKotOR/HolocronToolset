@@ -319,7 +319,9 @@ class Ui_MainWindow(object):
         self.actionSelectColumn.setShortcut(_translate("MainWindow", "Ctrl+Space"))
         self.actionSelectVisibleOnly.setText(_translate("MainWindow", "Select Visible Cells Only"))
         self.actionSelectBlankCells.setText(_translate("MainWindow", "Select Blank Cells"))
-        self.actionSelectCellsWithContent.setText(_translate("MainWindow", "Select Cells with Content"))
+        self.actionSelectCellsWithContent.setText(
+            _translate("MainWindow", "Select Cells with Content")
+        )
         self.actionClearContents.setText(_translate("MainWindow", "Clear Contents"))
         self.actionClearContents.setShortcut(_translate("MainWindow", "Del"))
         self.actionInsertRow.setText(_translate("MainWindow", "Insert Row"))
@@ -354,9 +356,13 @@ class Ui_MainWindow(object):
         self.actionTransposeTable.setText(_translate("MainWindow", "Transpose Table"))
         self.actionRedoRowLabels.setText(_translate("MainWindow", "Redo Row Labels"))
         self.actionRedoRowLabels.setShortcut(_translate("MainWindow", "Ctrl+L"))
-        self.actionResizeColumnsToContents.setText(_translate("MainWindow", "Resize Columns to Contents"))
+        self.actionResizeColumnsToContents.setText(
+            _translate("MainWindow", "Resize Columns to Contents")
+        )
         self.actionResizeRowsToContents.setText(_translate("MainWindow", "Resize Rows to Contents"))
-        self.actionAutoFitColumnsOnLoad.setText(_translate("MainWindow", "Auto-fit Columns on Load"))
+        self.actionAutoFitColumnsOnLoad.setText(
+            _translate("MainWindow", "Auto-fit Columns on Load")
+        )
         self.actionWrapTextInCells.setText(_translate("MainWindow", "Wrap Text in Cells"))
         self.actionAlternatingRowColors.setText(_translate("MainWindow", "Alternating Row Colors"))
         self.actionZoomIn.setText(_translate("MainWindow", "Zoom In"))
@@ -373,4 +379,6 @@ class Ui_MainWindow(object):
         self.actionToggleFilter.setText(_translate("MainWindow", "Toggle Filter"))
         self.actionToggleFilter.setShortcut(_translate("MainWindow", "Ctrl+F"))
         self.actionplaceholder.setText(_translate("MainWindow", "placeholder"))
+
+
 from utility.gui.qt.widgets.itemviews.tableview import RobustTableView

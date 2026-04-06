@@ -8,7 +8,9 @@ from toolset.gui.windows.indoor_builder import IndoorMapBuilder
 from toolset.gui.windows.kotordiff import KotorDiffWindow
 
 
-def test_indoor_builder_action_exit_accepts_qaction_triggered_bool(qtbot, installation: HTInstallation) -> None:
+def test_indoor_builder_action_exit_accepts_qaction_triggered_bool(
+    qtbot, installation: HTInstallation
+) -> None:
     """Regression: QAction.triggered(bool) must not crash when connected to QWidget.close()."""
     builder = IndoorMapBuilder(None, installation)
     qtbot.addWidget(builder)

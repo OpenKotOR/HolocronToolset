@@ -72,11 +72,15 @@ class MoveCommand(QUndoCommand):
         self.new_position: Vector3 = new_position
 
     def undo(self):
-        RobustLogger().debug(f"Undo position: {self.instance.identifier()} (NEW {self.new_position} --> {self.old_position})")
+        RobustLogger().debug(
+            f"Undo position: {self.instance.identifier()} (NEW {self.new_position} --> {self.old_position})"
+        )
         self.instance.position = self.old_position
 
     def redo(self):
-        RobustLogger().debug(f"Undo position: {self.instance.identifier()} ({self.old_position} --> NEW {self.new_position})")
+        RobustLogger().debug(
+            f"Undo position: {self.instance.identifier()} ({self.old_position} --> NEW {self.new_position})"
+        )
         self.instance.position = self.new_position
 
 
@@ -94,7 +98,9 @@ class RotateCommand(QUndoCommand):
         self.new_orientation: Vector4 | float = new_orientation
 
     def undo(self):
-        RobustLogger().debug(f"Undo rotation: {self.instance.identifier()} (NEW {self.new_orientation} --> {self.old_orientation})")
+        RobustLogger().debug(
+            f"Undo rotation: {self.instance.identifier()} (NEW {self.new_orientation} --> {self.old_orientation})"
+        )
         if isinstance(self.instance, GITCamera):
             assert isinstance(self.old_orientation, Vector4)
             self.instance.orientation = self.old_orientation
@@ -105,7 +111,9 @@ class RotateCommand(QUndoCommand):
             raise ValueError(f"Invalid instance type: {self.instance.__class__.__name__}")
 
     def redo(self):
-        RobustLogger().debug(f"Redo rotation: {self.instance.identifier()} ({self.old_orientation} --> NEW {self.new_orientation})")
+        RobustLogger().debug(
+            f"Redo rotation: {self.instance.identifier()} ({self.old_orientation} --> NEW {self.new_orientation})"
+        )
         if isinstance(self.instance, GITCamera):
             assert isinstance(self.new_orientation, Vector4)
             self.instance.orientation = self.new_orientation
@@ -133,7 +141,9 @@ class DuplicateCommand(QUndoCommand):
         current_instance_ids: set[int] = _instance_id_set(self.git.instances())
         for instance in self.instances:
             if id(instance) not in current_instance_ids:
-                RobustLogger().warning(f"{instance!r} not found in instances: no duplicate to undo.")
+                RobustLogger().warning(
+                    f"{instance!r} not found in instances: no duplicate to undo."
+                )
                 continue
             RobustLogger().debug(f"Undo duplicate: {instance.identifier()}")
             _select_instance_in_editor(self.editor, instance)
@@ -147,7 +157,9 @@ class DuplicateCommand(QUndoCommand):
         current_instance_ids: set[int] = _instance_id_set(self.git.instances())
         for instance in self.instances:
             if id(instance) in current_instance_ids:
-                RobustLogger().warning(f"{instance!r} already found in instances: no duplicate to redo.")
+                RobustLogger().warning(
+                    f"{instance!r} already found in instances: no duplicate to redo."
+                )
                 continue
             RobustLogger().debug(f"Redo duplicate: {instance.identifier()}")
             self.git.add(instance)
@@ -172,7 +184,9 @@ class DeleteCommand(QUndoCommand):
         current_instance_ids: set[int] = _instance_id_set(self.git.instances())
         for instance in self.instances:
             if id(instance) in current_instance_ids:
-                RobustLogger().warning(f"{instance!r} already found in instances: no deletecommand to undo.")
+                RobustLogger().warning(
+                    f"{instance!r} already found in instances: no deletecommand to undo."
+                )
                 continue
             self.git.add(instance)
         self.rebuild_instance_list()
@@ -186,7 +200,9 @@ class DeleteCommand(QUndoCommand):
         current_instance_ids: set[int] = _instance_id_set(self.git.instances())
         for instance in self.instances:
             if id(instance) not in current_instance_ids:
-                RobustLogger().warning(f"{instance!r} not found in instances: no deletecommand to redo.")
+                RobustLogger().warning(
+                    f"{instance!r} not found in instances: no deletecommand to redo."
+                )
                 continue
             RobustLogger().debug(f"Redo delete: {instance!r}")
             _select_instance_in_editor(self.editor, instance)

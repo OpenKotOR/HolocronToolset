@@ -47,7 +47,9 @@ class Ui_MainWindow(object):
         self.openSaveEditorButton.setEnabled(False)
         self.openSaveEditorButton.setObjectName("openSaveEditorButton")
         self.horizontalLayoutSaveButtons.addWidget(self.openSaveEditorButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayoutSaveButtons.addItem(spacerItem)
         self.verticalLayoutSavesTab.addLayout(self.horizontalLayoutSaveButtons)
         self.gridLayoutSaves = QtWidgets.QGridLayout()
@@ -71,7 +73,9 @@ class Ui_MainWindow(object):
         self.levelBuilderButton = QtWidgets.QPushButton(self.modulesTab)
         self.levelBuilderButton.setObjectName("levelBuilderButton")
         self.horizontalLayoutModuleButtons.addWidget(self.levelBuilderButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayoutModuleButtons.addItem(spacerItem1)
         self.verticalLayoutModulesTab.addLayout(self.horizontalLayoutModuleButtons)
         self.gridLayoutModules = QtWidgets.QGridLayout()
@@ -106,7 +110,9 @@ class Ui_MainWindow(object):
         self.vboxlayout = QtWidgets.QVBoxLayout()
         self.vboxlayout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
         self.vboxlayout.setObjectName("vboxlayout")
-        spacerItem2 = QtWidgets.QSpacerItem(124, 45, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            124, 45, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         self.vboxlayout.addItem(spacerItem2)
         self.sidebar = QtWidgets.QFrame(self.centralwidget)
         self.sidebar.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -119,7 +125,9 @@ class Ui_MainWindow(object):
         self.openButton.setObjectName("openButton")
         self.verticalLayoutRightPanel.addWidget(self.openButton)
         self.extractButton = QtWidgets.QPushButton(self.sidebar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.extractButton.sizePolicy().hasHeightForWidth())
@@ -150,7 +158,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.mdlTexturesCheckbox)
         self.verticalLayoutRightPanel.addWidget(self.mdlGroup_2)
         self.vboxlayout.addWidget(self.sidebar)
-        spacerItem3 = QtWidgets.QSpacerItem(124, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            124, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.vboxlayout.addItem(spacerItem3)
         self.horizontalLayout.addLayout(self.vboxlayout)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -232,7 +242,9 @@ class Ui_MainWindow(object):
         self.actionNewUTC = QtWidgets.QAction(MainWindow)
         self.actionNewUTC.setEnabled(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/images/icons/kx/creature.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/creature.png"), QtGui.QIcon.Normal, QtGui.QIcon.On
+        )
         self.actionNewUTC.setIcon(icon)
         self.actionNewUTC.setObjectName("actionNewUTC")
         self.actionCloneModule = QtWidgets.QAction(MainWindow)
@@ -241,67 +253,89 @@ class Ui_MainWindow(object):
         self.actionNewUTP = QtWidgets.QAction(MainWindow)
         self.actionNewUTP.setEnabled(False)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/images/icons/kx/placeable.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/placeable.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTP.setIcon(icon1)
         self.actionNewUTP.setObjectName("actionNewUTP")
         self.actionNewUTD = QtWidgets.QAction(MainWindow)
         self.actionNewUTD.setEnabled(False)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/images/icons/kx/door.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/door.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTD.setIcon(icon2)
         self.actionNewUTD.setObjectName("actionNewUTD")
         self.actionNewUTW = QtWidgets.QAction(MainWindow)
         self.actionNewUTW.setEnabled(False)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/images/icons/kx/waypoint.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/waypoint.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTW.setIcon(icon3)
         self.actionNewUTW.setObjectName("actionNewUTW")
         self.actionNewUTT = QtWidgets.QAction(MainWindow)
         self.actionNewUTT.setEnabled(False)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/images/icons/kx/trigger.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/trigger.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTT.setIcon(icon4)
         self.actionNewUTT.setObjectName("actionNewUTT")
         self.actionNewUTE = QtWidgets.QAction(MainWindow)
         self.actionNewUTE.setEnabled(False)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/images/icons/kx/encounter.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/encounter.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTE.setIcon(icon5)
         self.actionNewUTE.setObjectName("actionNewUTE")
         self.actionNewUTS = QtWidgets.QAction(MainWindow)
         self.actionNewUTS.setEnabled(False)
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/images/icons/kx/sound.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/sound.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTS.setIcon(icon6)
         self.actionNewUTS.setObjectName("actionNewUTS")
         self.actionNewUTM = QtWidgets.QAction(MainWindow)
         self.actionNewUTM.setEnabled(False)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/images/icons/kx/merchant.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/merchant.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTM.setIcon(icon7)
         self.actionNewUTM.setObjectName("actionNewUTM")
         self.actionNewTLK = QtWidgets.QAction(MainWindow)
         self.actionNewTLK.setEnabled(True)
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/images/icons/kx/tlk.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/tlk.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewTLK.setIcon(icon8)
         self.actionNewTLK.setObjectName("actionNewTLK")
         self.actionNewUTI = QtWidgets.QAction(MainWindow)
         self.actionNewUTI.setEnabled(False)
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/images/icons/kx/item.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/item.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewUTI.setIcon(icon9)
         self.actionNewUTI.setObjectName("actionNewUTI")
         self.actionNewDLG = QtWidgets.QAction(MainWindow)
         self.actionNewDLG.setEnabled(False)
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/images/icons/kx/dialog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/dialog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewDLG.setIcon(icon10)
         self.actionNewDLG.setObjectName("actionNewDLG")
         self.actionNewNSS = QtWidgets.QAction(MainWindow)
         self.actionNewNSS.setEnabled(False)
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/images/icons/kx/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(
+            QtGui.QPixmap(":/images/icons/kx/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.actionNewNSS.setIcon(icon11)
         self.actionNewNSS.setObjectName("actionNewNSS")
         self.actionEditJRL = QtWidgets.QAction(MainWindow)
@@ -395,22 +429,36 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Holocron Toolset"))
-        self.resourceTabs.setTabText(self.resourceTabs.indexOf(self.coreTab), _translate("MainWindow", "Core"))
+        self.resourceTabs.setTabText(
+            self.resourceTabs.indexOf(self.coreTab), _translate("MainWindow", "Core")
+        )
         self.openSaveEditorButton.setText(_translate("MainWindow", "Open Save Editor"))
-        self.openSaveEditorButton.setToolTip(_translate("MainWindow", "Open the selected save in the Save Editor"))
-        self.resourceTabs.setTabText(self.resourceTabs.indexOf(self.savesTab), _translate("MainWindow", "Saves"))
+        self.openSaveEditorButton.setToolTip(
+            _translate("MainWindow", "Open the selected save in the Save Editor")
+        )
+        self.resourceTabs.setTabText(
+            self.resourceTabs.indexOf(self.savesTab), _translate("MainWindow", "Saves")
+        )
         self.specialActionButton.setText(_translate("MainWindow", "Designer"))
         self.levelBuilderButton.setText(_translate("MainWindow", "Level Builder"))
-        self.resourceTabs.setTabText(self.resourceTabs.indexOf(self.modulesTab), _translate("MainWindow", "Modules"))
-        self.resourceTabs.setTabText(self.resourceTabs.indexOf(self.overrideTab), _translate("MainWindow", "Override"))
-        self.resourceTabs.setTabText(self.resourceTabs.indexOf(self.texturesTab), _translate("MainWindow", "Textures"))
+        self.resourceTabs.setTabText(
+            self.resourceTabs.indexOf(self.modulesTab), _translate("MainWindow", "Modules")
+        )
+        self.resourceTabs.setTabText(
+            self.resourceTabs.indexOf(self.overrideTab), _translate("MainWindow", "Override")
+        )
+        self.resourceTabs.setTabText(
+            self.resourceTabs.indexOf(self.texturesTab), _translate("MainWindow", "Textures")
+        )
         self.openButton.setText(_translate("MainWindow", "Open Selected"))
         self.extractButton.setText(_translate("MainWindow", "Extract Selected"))
         self.tpcGroup_2.setTitle(_translate("MainWindow", "TPC"))
         self.tpcDecompileCheckbox.setText(_translate("MainWindow", "Decompile"))
         self.tpcTxiCheckbox.setText(_translate("MainWindow", "Extract TXI"))
         self.mdlGroup_2.setTitle(_translate("MainWindow", "MDL"))
-        self.mdlDecompileCheckbox.setToolTip(_translate("MainWindow", "Decompile MDL to ASCII format"))
+        self.mdlDecompileCheckbox.setToolTip(
+            _translate("MainWindow", "Decompile MDL to ASCII format")
+        )
         self.mdlDecompileCheckbox.setText(_translate("MainWindow", "Decompile"))
         self.mdlTexturesCheckbox.setText(_translate("MainWindow", "Extract Textures"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
@@ -472,5 +520,7 @@ class Ui_MainWindow(object):
         self.actionModuleDesigner.setText(_translate("MainWindow", "Module Designer"))
         self.actionKotorDiff.setText(_translate("MainWindow", "KotorDiff"))
         self.actionTSLPatchDataEditor.setText(_translate("MainWindow", "TSLPatchData Editor"))
+
+
 from toolset.gui.widgets.main_widgets import ResourceList, TextureList
 import resources_rc

@@ -44,8 +44,15 @@ class ReferenceChooserDialog(QDialog):
 
         assert isinstance(parent, DLGEditor)
         super().__init__(parent)
-        qt_constructor: type[Qt.WindowFlags | Qt.WindowType] = Qt.WindowFlags if qtpy.QT5 else Qt.WindowType  # pyright: ignore[reportAttributeAccessIssue]
-        self.setWindowFlags(Qt.WindowType.Dialog | qt_constructor(Qt.WindowType.WindowCloseButtonHint & ~Qt.WindowType.WindowContextHelpButtonHint))  # pyright: ignore[reportAttributeAccessIssue]
+        qt_constructor: type[Qt.WindowFlags | Qt.WindowType] = (
+            Qt.WindowFlags if qtpy.QT5 else Qt.WindowType
+        )  # pyright: ignore[reportAttributeAccessIssue]
+        self.setWindowFlags(
+            Qt.WindowType.Dialog
+            | qt_constructor(
+                Qt.WindowType.WindowCloseButtonHint & ~Qt.WindowType.WindowContextHelpButtonHint
+            )
+        )  # pyright: ignore[reportAttributeAccessIssue]
         self.setWindowTitle("Node References")
 
         # Load UI from .ui file
@@ -87,7 +94,9 @@ class ReferenceChooserDialog(QDialog):
         self.back_button: QPushButton = self.ui.backButton
         self.forward_button: QPushButton = self.ui.forwardButton
         self.back_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowBack))  # pyright: ignore[reportOptionalMemberAccess]
-        self.forward_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowForward))  # pyright: ignore[reportOptionalMemberAccess]
+        self.forward_button.setIcon(
+            self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowForward)
+        )  # pyright: ignore[reportOptionalMemberAccess]
 
         max_width = 0
         for linkref in references:
@@ -98,7 +107,9 @@ class ReferenceChooserDialog(QDialog):
             # Build the HTML display
             self.list_widget.update_item(item)
             self.list_widget.addItem(item)
-            max_width = max(max_width, self.calculate_html_width(item.data(Qt.ItemDataRole.DisplayRole)))
+            max_width = max(
+                max_width, self.calculate_html_width(item.data(Qt.ItemDataRole.DisplayRole))
+            )
 
         # Connect buttons
         self.ui.okButton.clicked.connect(lambda: self.accept())
@@ -137,7 +148,9 @@ class ReferenceChooserDialog(QDialog):
         for i in range(self.list_widget.count()):
             item: QListWidgetItem | None = self.list_widget.item(i)
             if not isinstance(item, QListWidgetItem):
-                RobustLogger().warning(f"ReferenceChooser.update_item_sizes({i}): Item was None unexpectedly.")
+                RobustLogger().warning(
+                    f"ReferenceChooser.update_item_sizes({i}): Item was None unexpectedly."
+                )
                 continue
             if qtpy.QT5:
                 options: QStyleOptionViewItem = self.list_widget.viewOptions()  # pyright: ignore[reportAttributeAccessIssue]
@@ -231,4 +244,6 @@ class ReferenceChooserDialog(QDialog):
     def update_button_states(self):
         parent: DLGEditor = self.parent()
         self.back_button.setEnabled(parent.current_reference_index > 0)
-        self.forward_button.setEnabled(parent.current_reference_index < len(parent.reference_history) - 1)
+        self.forward_button.setEnabled(
+            parent.current_reference_index < len(parent.reference_history) - 1
+        )

@@ -46,7 +46,9 @@ class Ui_Dialog(object):
         self.repoTreeWidget.setObjectName("repoTreeWidget")
         self.mainLayout.addWidget(self.repoTreeWidget)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.mainLayout.addWidget(self.buttonBox)
         self.cloneButton = QtWidgets.QPushButton(Dialog)
@@ -62,7 +64,9 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Select a GitHub Repository File"))
-        self.label.setText(_translate("Dialog", "Please select the correct script path or enter manually:"))
+        self.label.setText(
+            _translate("Dialog", "Please select the correct script path or enter manually:")
+        )
         self.forkLabel.setText(_translate("Dialog", "Select Fork:"))
         self.filterEdit.setPlaceholderText(_translate("Dialog", "Type to filter paths..."))
         self.searchButton.setText(_translate("Dialog", "Search"))

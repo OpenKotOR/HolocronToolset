@@ -97,7 +97,9 @@ class SearchManager:
                     self.recent_searches.pop()
 
             results: list[SearchResult] = []
-            search_cats: list[SearchCategory] = categories or [cat for cat, enabled in self.search_filters.items() if enabled]
+            search_cats: list[SearchCategory] = categories or [
+                cat for cat, enabled in self.search_filters.items() if enabled
+            ]
             query_lower: str = query.lower()
 
             for node, link in self._iter_nodes_and_links():
@@ -105,7 +107,9 @@ class SearchManager:
                     if category == SearchCategory.ALL:
                         continue
 
-                    result: SearchResult | None = self._search_node_and_link(node, link, query_lower, category)
+                    result: SearchResult | None = self._search_node_and_link(
+                        node, link, query_lower, category
+                    )
                     if result is None:
                         continue
                     results.append(result)

@@ -112,7 +112,9 @@ class Base2DMapRenderer(QWidget):
 
     def do_cursor_lock(self, mutable_screen: Vector2) -> None:
         """Reset the cursor to the previous screen position during drag-camera operations."""
-        global_old_pos: QPoint = self.mapToGlobal(QPoint(int(self._mouse_prev.x), int(self._mouse_prev.y)))
+        global_old_pos: QPoint = self.mapToGlobal(
+            QPoint(int(self._mouse_prev.x), int(self._mouse_prev.y))
+        )
         QCursor.setPos(global_old_pos)
         local_old_pos: QPoint = self.mapFromGlobal(QPoint(global_old_pos.x(), global_old_pos.y()))
         mutable_screen.x = local_old_pos.x()
@@ -258,14 +260,20 @@ class Base2DMapRenderer(QWidget):
             self._render_timer.stop()
 
     def wheelEvent(self, e: QWheelEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
-        keys_to_emit: set[int | Qt.Key] = self._keys_down | keyboard_modifiers_to_qt_keys(e.modifiers())
-        self.sig_mouse_scrolled.emit(Vector2(e.angleDelta().x(), e.angleDelta().y()), self._mouse_down, keys_to_emit)
+        keys_to_emit: set[int | Qt.Key] = self._keys_down | keyboard_modifiers_to_qt_keys(
+            e.modifiers()
+        )
+        self.sig_mouse_scrolled.emit(
+            Vector2(e.angleDelta().x(), e.angleDelta().y()), self._mouse_down, keys_to_emit
+        )
         self.mark_dirty()
 
     def mouseMoveEvent(self, e: QMouseEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
         super().mouseMoveEvent(e)
         coords: Vector2 = self._event_coords(e)
-        coords_delta: Vector2 = Vector2(coords.x - self._mouse_prev.x, coords.y - self._mouse_prev.y)
+        coords_delta: Vector2 = Vector2(
+            coords.x - self._mouse_prev.x, coords.y - self._mouse_prev.y
+        )
         self.sig_mouse_moved.emit(coords, coords_delta, self._mouse_down, self._keys_down)
         self._mouse_prev = coords
         if self._marquee_active:

@@ -52,13 +52,17 @@ class Ui_Dialog(object):
         self.fileTypesScrollAreaWidgetContents = QtWidgets.QWidget()
         self.fileTypesScrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 382, 200))
         self.fileTypesScrollAreaWidgetContents.setObjectName("fileTypesScrollAreaWidgetContents")
-        self.fileTypesContainerLayout = QtWidgets.QVBoxLayout(self.fileTypesScrollAreaWidgetContents)
+        self.fileTypesContainerLayout = QtWidgets.QVBoxLayout(
+            self.fileTypesScrollAreaWidgetContents
+        )
         self.fileTypesContainerLayout.setObjectName("fileTypesContainerLayout")
         self.fileTypesScrollArea.setWidget(self.fileTypesScrollAreaWidgetContents)
         self.typesLayout.addWidget(self.fileTypesScrollArea)
         self.verticalLayout.addWidget(self.typesGroup)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
@@ -70,11 +74,22 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Reference Search Options"))
         self.optionsGroup.setTitle(_translate("Dialog", "Search Options"))
         self.partialMatchCheck.setText(_translate("Dialog", "Partial match"))
-        self.partialMatchCheck.setToolTip(_translate("Dialog", "Allow partial matches (e.g., \'test\' matches \'testscript\')"))
+        self.partialMatchCheck.setToolTip(
+            _translate("Dialog", "Allow partial matches (e.g., 'test' matches 'testscript')")
+        )
         self.caseSensitiveCheck.setText(_translate("Dialog", "Case sensitive"))
         self.caseSensitiveCheck.setToolTip(_translate("Dialog", "Perform case-sensitive matching"))
         self.patternGroup.setTitle(_translate("Dialog", "File Pattern (optional)"))
-        self.patternLabel.setText(_translate("Dialog", "Filter results by filename pattern (e.g., *.mod, *_s.rim):"))
-        self.filePatternEdit.setPlaceholderText(_translate("Dialog", "Leave empty to search all files"))
+        self.patternLabel.setText(
+            _translate("Dialog", "Filter results by filename pattern (e.g., *.mod, *_s.rim):")
+        )
+        self.filePatternEdit.setPlaceholderText(
+            _translate("Dialog", "Leave empty to search all files")
+        )
         self.typesGroup.setTitle(_translate("Dialog", "File Types"))
-        self.typesLabel.setText(_translate("Dialog", "Select file types to search (leave all checked to search all supported types):"))
+        self.typesLabel.setText(
+            _translate(
+                "Dialog",
+                "Select file types to search (leave all checked to search all supported types):",
+            )
+        )

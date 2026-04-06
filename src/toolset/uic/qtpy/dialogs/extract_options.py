@@ -42,13 +42,15 @@ class Ui_ExtractOptionsDialog(object):
         self.verticalLayout.addWidget(self.mdlGroup)
         self.buttonBox = QtWidgets.QDialogButtonBox(ExtractOptionsDialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(ExtractOptionsDialog)
-        self.buttonBox.accepted.connect(ExtractOptionsDialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(ExtractOptionsDialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(ExtractOptionsDialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(ExtractOptionsDialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(ExtractOptionsDialog)
 
     def retranslateUi(self, ExtractOptionsDialog):
@@ -58,6 +60,8 @@ class Ui_ExtractOptionsDialog(object):
         self.tpcDecompileCheckbox.setText(_translate("ExtractOptionsDialog", "Decompile"))
         self.tpcTxiCheckbox.setText(_translate("ExtractOptionsDialog", "Extract TXI"))
         self.mdlGroup.setTitle(_translate("ExtractOptionsDialog", "MDL Options"))
-        self.mdlDecompileCheckbox.setToolTip(_translate("ExtractOptionsDialog", "Decompile MDL to ASCII format"))
+        self.mdlDecompileCheckbox.setToolTip(
+            _translate("ExtractOptionsDialog", "Decompile MDL to ASCII format")
+        )
         self.mdlDecompileCheckbox.setText(_translate("ExtractOptionsDialog", "Decompile"))
         self.mdlTexturesCheckbox.setText(_translate("ExtractOptionsDialog", "Extract Textures"))

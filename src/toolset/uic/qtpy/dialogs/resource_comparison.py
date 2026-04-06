@@ -54,7 +54,9 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.splitter)
         self.buttonLayout = QtWidgets.QHBoxLayout()
         self.buttonLayout.setObjectName("buttonLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonLayout.addItem(spacerItem)
         self.closeButton = QtWidgets.QPushButton(Dialog)
         self.closeButton.setObjectName("closeButton")

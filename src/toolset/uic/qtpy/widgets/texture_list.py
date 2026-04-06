@@ -67,4 +67,6 @@ class Ui_Form(object):
         self.reloadButton.setToolTip(_translate("Form", "Reload the active module/folder."))
         self.reloadButton.setText(_translate("Form", "Reload"))
         self.searchEdit.setPlaceholderText(_translate("Form", "search..."))
+
+
 from utility.gui.qt.widgets.itemviews.listview import RobustListView

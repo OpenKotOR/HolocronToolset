@@ -46,7 +46,9 @@ class ProgressDialog(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog  # pyright: ignore[reportGeneralTypeIssues]
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinMaxButtonsHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         from toolset.uic.qtpy.dialogs.progress_dialog import Ui_Dialog
@@ -80,9 +82,13 @@ class ProgressDialog(QDialog):
                 from toolset.gui.common.localization import translate as tr, trf
 
                 self.ui.statusLabel.setText(trf("Downloading... {progress}%", progress=progress))
-                time_remaining: str = data.get("time", self.ui.timeLabel.text().replace(tr("Time remaining: "), ""))
+                time_remaining: str = data.get(
+                    "time", self.ui.timeLabel.text().replace(tr("Time remaining: "), "")
+                )
                 self.ui.timeLabel.setText(trf("Time remaining: {time}", time=time_remaining))
-                self.ui.bytesLabel.setText(f"{human_readable_size(downloaded)} / {human_readable_size(total)}")
+                self.ui.bytesLabel.setText(
+                    f"{human_readable_size(downloaded)} / {human_readable_size(total)}"
+                )
             elif message["action"] == "update_status":
                 # Handle status text updates
                 text = message["text"]
@@ -265,9 +271,13 @@ class AsyncLoader(QDialog, Generic[T]):
     }}
 """)
         # Labels are already centered in the .ui file, but ensure alignment is set
-        self._main_task_text.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Centers the main task text
+        self._main_task_text.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )  # Centers the main task text
         self._sub_task_text.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Centers the sub task text
-        self._task_progress_text.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Centers the task progress text
+        self._task_progress_text.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )  # Centers the task progress text
 
         self.value: T | None = None  # type: ignore[assignment]
         self.error: Exception | None = None
@@ -343,14 +353,20 @@ class AsyncLoader(QDialog, Generic[T]):
                 this_err_msg = str((e.__class__.__name__, str(e))).replace("\n", "<br>")
                 error_msgs += f"<br>Error in task {i + 1}: {this_err_msg}"
             error_msgs += " " * 700 + "<br>" * 2
-            msg_box = QMessageBox(QMessageBox.Icon.Critical, self.error_title + " " * 700, error_msgs)
-            msg_box.setDetailedText("\n\n".join(format_exception_with_variables(e) for e in self.errors))
+            msg_box = QMessageBox(
+                QMessageBox.Icon.Critical, self.error_title + " " * 700, error_msgs
+            )
+            msg_box.setDetailedText(
+                "\n\n".join(format_exception_with_variables(e) for e in self.errors)
+            )
             msg_box.exec()
 
     def _on_progress(
         self,
         value: int | str,
-        task_type: Literal["set_maximum", "increment", "update_maintask_text", "update_subtask_text"],
+        task_type: Literal[
+            "set_maximum", "increment", "update_maintask_text", "update_subtask_text"
+        ],
     ):
         if task_type == "increment":
             assert isinstance(value, int)
@@ -364,7 +380,9 @@ class AsyncLoader(QDialog, Generic[T]):
         elif task_type == "update_subtask_text":
             assert isinstance(value, str)
             self._sub_task_text.setText(value)
-        self._task_progress_text.setText(f"{self._progress_bar.value()}/{self._progress_bar.maximum()}")
+        self._task_progress_text.setText(
+            f"{self._progress_bar.value()}/{self._progress_bar.maximum()}"
+        )
         old_width = self.width()
         self.adjustSize()
         self.setMinimumSize(self.size())
@@ -414,6 +432,8 @@ class AsyncWorker(QThread, Generic[T]):
     def progress_callback(
         self,
         value: int | str,
-        task_type: Literal["set_maximum", "increment", "update_maintask_text", "update_subtask_text"],
+        task_type: Literal[
+            "set_maximum", "increment", "update_maintask_text", "update_subtask_text"
+        ],
     ):
         self.progress.emit(value, task_type)

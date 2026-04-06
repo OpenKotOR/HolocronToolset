@@ -38,7 +38,9 @@ if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
 
 
 K1_PATH = os.environ.get("K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor")
-K2_PATH = os.environ.get("K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II")
+K2_PATH = os.environ.get(
+    "K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II"
+)
 
 from pykotor.common.stream import BinaryReader
 from pykotor.extract.installation import Installation
@@ -95,9 +97,16 @@ class UTIEditorTest(TestCase):
     )
     def test_gff_reconstruct_from_k1_installation(self):
         self.installation = Installation(K1_PATH)  # type: ignore[arg-type]
-        for uti_resource in (resource for resource in self.installation if resource.restype() == ResourceType.UTI):
+        for uti_resource in (
+            resource for resource in self.installation if resource.restype() == ResourceType.UTI
+        ):
             old = read_gff(uti_resource.data())
-            self.editor.load(uti_resource.filepath(), uti_resource.resname(), uti_resource.restype(), uti_resource.data())
+            self.editor.load(
+                uti_resource.filepath(),
+                uti_resource.resname(),
+                uti_resource.restype(),
+                uti_resource.data(),
+            )
 
             data, _ = self.editor.build()
             new = read_gff(data)
@@ -111,9 +120,16 @@ class UTIEditorTest(TestCase):
     )
     def test_gff_reconstruct_from_k2_installation(self):
         self.installation = Installation(K2_PATH)  # type: ignore[arg-type]
-        for uti_resource in (resource for resource in self.installation if resource.restype() == ResourceType.UTI):
+        for uti_resource in (
+            resource for resource in self.installation if resource.restype() == ResourceType.UTI
+        ):
             old = read_gff(uti_resource.data())
-            self.editor.load(uti_resource.filepath(), uti_resource.resname(), uti_resource.restype(), uti_resource.data())
+            self.editor.load(
+                uti_resource.filepath(),
+                uti_resource.resname(),
+                uti_resource.restype(),
+                uti_resource.data(),
+            )
 
             data, _ = self.editor.build()
             new = read_gff(data)
@@ -266,7 +282,11 @@ def test_uti_editor_properties_widgets_exhaustive(qtbot, installation: HTInstall
         editor.ui.assignedPropertiesList.clear()
         editor.ui.availablePropertyList.setCurrentItem(first_item)
         if first_item.childCount() == 0:
-            qtbot.mouseDClick(editor.ui.availablePropertyList.viewport(), Qt.MouseButton.LeftButton, pos=editor.ui.availablePropertyList.visualItemRect(first_item).center())
+            qtbot.mouseDClick(
+                editor.ui.availablePropertyList.viewport(),
+                Qt.MouseButton.LeftButton,
+                pos=editor.ui.availablePropertyList.visualItemRect(first_item).center(),
+            )
             assert editor.ui.assignedPropertiesList.count() > 0
 
     # Test assignedPropertiesList interactions
@@ -289,7 +309,9 @@ def test_uti_editor_properties_widgets_exhaustive(qtbot, installation: HTInstall
             qtbot.mouseDClick(
                 editor.ui.assignedPropertiesList.viewport(),
                 Qt.MouseButton.LeftButton,
-                pos=editor.ui.assignedPropertiesList.visualItemRect(editor.ui.assignedPropertiesList.item(0)).center(),
+                pos=editor.ui.assignedPropertiesList.visualItemRect(
+                    editor.ui.assignedPropertiesList.item(0)
+                ).center(),
             )
             # Dialog should open
 
@@ -477,7 +499,9 @@ def test_utieditor_editor_help_dialog_opens_correct_file(qtbot, installation: HT
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-UTI.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-UTI.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"

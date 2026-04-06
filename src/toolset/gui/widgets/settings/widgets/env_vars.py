@@ -248,10 +248,20 @@ ENV_VARS: list[EnvVar] = sorted(
             group="Styling",
         ),  # noqa: E501
         EnvVar(
-            name="QT_NO_FONT_FALLBACK", description="Disables font fallback.", default="0", possible_values="0, 1", doc_link="https://doc.qt.io/qt-5/qfont.html", group="Fonts",
+            name="QT_NO_FONT_FALLBACK",
+            description="Disables font fallback.",
+            default="0",
+            possible_values="0, 1",
+            doc_link="https://doc.qt.io/qt-5/qfont.html",
+            group="Fonts",
         ),  # noqa: E501
         EnvVar(
-            name="QT_NO_LINKING", description="Disables linking checks.", default="0", possible_values="0, 1", doc_link="https://doc.qt.io/qt-5/qtglobal.html", group="General",
+            name="QT_NO_LINKING",
+            description="Disables linking checks.",
+            default="0",
+            possible_values="0, 1",
+            doc_link="https://doc.qt.io/qt-5/qtglobal.html",
+            group="General",
         ),  # noqa: E501
         EnvVar(
             name="QT_NO_SHORTCUT_OVERRIDE",
@@ -414,10 +424,20 @@ ENV_VARS: list[EnvVar] = sorted(
             group="QPA",
         ),  # noqa: E501
         EnvVar(
-            name="QT_QPA_NO_SYSTEM_TRAY", description="Disables the system tray.", default="0", possible_values="0, 1", doc_link="https://doc.qt.io/qt-5/qpa.html", group="QPA",
+            name="QT_QPA_NO_SYSTEM_TRAY",
+            description="Disables the system tray.",
+            default="0",
+            possible_values="0, 1",
+            doc_link="https://doc.qt.io/qt-5/qpa.html",
+            group="QPA",
         ),  # noqa: E501
         EnvVar(
-            name="QT_QPA_OFFSCREEN", description="Enables offscreen rendering.", default="0", possible_values="0, 1", doc_link="https://doc.qt.io/qt-5/qpa.html", group="QPA",
+            name="QT_QPA_OFFSCREEN",
+            description="Enables offscreen rendering.",
+            default="0",
+            possible_values="0, 1",
+            doc_link="https://doc.qt.io/qt-5/qpa.html",
+            group="QPA",
         ),  # noqa: E501
         EnvVar(
             name="QT_QPA_PLATFORM",
@@ -492,7 +512,12 @@ ENV_VARS: list[EnvVar] = sorted(
             group="QPA",
         ),  # noqa: E501
         EnvVar(
-            name="QT_QPA_XCB_NO_MITSHM", description="Disables MIT-SHM on X11.", default="0", possible_values="0, 1", doc_link="https://doc.qt.io/qt-5/qpa.html", group="QPA",
+            name="QT_QPA_XCB_NO_MITSHM",
+            description="Disables MIT-SHM on X11.",
+            default="0",
+            possible_values="0, 1",
+            doc_link="https://doc.qt.io/qt-5/qpa.html",
+            group="QPA",
         ),  # noqa: E501
         EnvVar(
             name="QT_QPA_XCB_RENDERER",
@@ -703,7 +728,12 @@ ENV_VARS: list[EnvVar] = sorted(
             group="XCB",
         ),  # noqa: E501
         EnvVar(
-            name="QT_X11_NO_MITSHM", description="Disables MIT-SHM on X11.", default="0", possible_values="0, 1", doc_link="https://doc.qt.io/qt-5/x11extras.html", group="X11",
+            name="QT_X11_NO_MITSHM",
+            description="Disables MIT-SHM on X11.",
+            default="0",
+            possible_values="0, 1",
+            doc_link="https://doc.qt.io/qt-5/x11extras.html",
+            group="X11",
         ),  # noqa: E501
         EnvVar(
             name="QTWEBENGINE_CHROMIUM_FLAGS",
@@ -1260,7 +1290,9 @@ class EnvVariableDialog(QDialog):
         # Populate name combo box
         for env_var in ENV_VARS:
             self.ui.nameEdit.addItem(env_var.name)
-            self.ui.nameEdit.setItemData(self.ui.nameEdit.count() - 1, env_var.description, Qt.ToolTipRole)
+            self.ui.nameEdit.setItemData(
+                self.ui.nameEdit.count() - 1, env_var.description, Qt.ToolTipRole
+            )
 
         # Setup value completer
         self.value_completer = QCompleter()
@@ -1287,7 +1319,9 @@ class EnvVariableDialog(QDialog):
             None,
         )
         if current_var:
-            self.ui.docLinkLabel.setText(f'<a href="{current_var.doc_link}">Documentation ({current_var.doc_link})</a>')
+            self.ui.docLinkLabel.setText(
+                f'<a href="{current_var.doc_link}">Documentation ({current_var.doc_link})</a>'
+            )
             self.ui.descriptionEdit.setText(current_var.description)
 
             # Update completer for value_edit
@@ -1296,7 +1330,9 @@ class EnvVariableDialog(QDialog):
                 self.value_completer.setModel(QStandardItemModel())
                 self.value_completer.setModel(QStringListModel(possible_values))
             else:
-                self.value_completer.setModel(QStandardItemModel())  # Empty model if no possible values
+                self.value_completer.setModel(
+                    QStandardItemModel()
+                )  # Empty model if no possible values
 
     def check_value_validity(self):
         """Checks if the current value matches the possible values and adds a red border if it doesn't."""
@@ -1316,14 +1352,18 @@ class EnvVariableDialog(QDialog):
 
                         colors = get_semantic_colors()
                         error_color = colors.get("error", "red")
-                        self.ui.valueEdit.setStyleSheet(f"border: 1px solid {error_color};")  # Not a positive integer
+                        self.ui.valueEdit.setStyleSheet(
+                            f"border: 1px solid {error_color};"
+                        )  # Not a positive integer
                 except ValueError:
                     # Use palette error color for validation errors
                     from toolset.gui.common.palette_helpers import get_semantic_colors
 
                     colors = get_semantic_colors()
                     error_color = colors.get("error", "red")
-                    self.ui.valueEdit.setStyleSheet(f"border: 1px solid {error_color};")  # Not an integer
+                    self.ui.valueEdit.setStyleSheet(
+                        f"border: 1px solid {error_color};"
+                    )  # Not an integer
             else:
                 possible_values = current_var.possible_values.split(", ")
                 if self.ui.valueEdit.text() not in possible_values:

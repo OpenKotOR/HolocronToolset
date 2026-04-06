@@ -52,8 +52,12 @@ class Viewport2DNavigationHelper:
         self._get_selection_bounds = get_selection_bounds
         self._settings = settings
 
-    def _bind(self, attr_name: str, default: tuple[set[Qt.Key], set[Qt.MouseButton] | None]) -> ControlItem:
-        bind = getattr(self._settings, attr_name, default) if self._settings is not None else default
+    def _bind(
+        self, attr_name: str, default: tuple[set[Qt.Key], set[Qt.MouseButton] | None]
+    ) -> ControlItem:
+        bind = (
+            getattr(self._settings, attr_name, default) if self._settings is not None else default
+        )
         return ControlItem(bind)
 
     def frame_all(self) -> bool:
@@ -101,29 +105,45 @@ class Viewport2DNavigationHelper:
 
         if self._bind("frameAll2dBind", ({Qt.Key.Key_Home}, set())).satisfied(active_buttons, keys):
             return self.frame_all()
-        if self._bind("moveCameraToSelected2dBind", ({Qt.Key.Key_Period}, set())).satisfied(active_buttons, keys):
+        if self._bind("moveCameraToSelected2dBind", ({Qt.Key.Key_Period}, set())).satisfied(
+            active_buttons, keys
+        ):
             return self.frame_selected()
-        if self._bind("resetCameraView2dBind", ({Qt.Key.Key_Control, Qt.Key.Key_0}, set())).satisfied(active_buttons, keys):
+        if self._bind(
+            "resetCameraView2dBind", ({Qt.Key.Key_Control, Qt.Key.Key_0}, set())
+        ).satisfied(active_buttons, keys):
             return self.reset_view()
-        if self._bind("zoomCameraIn2dBind", ({Qt.Key.Key_Equal}, None)).satisfied(active_buttons, keys):
+        if self._bind("zoomCameraIn2dBind", ({Qt.Key.Key_Equal}, None)).satisfied(
+            active_buttons, keys
+        ):
             self.renderer.zoom_at_screen(1.25)
             return True
-        if self._bind("zoomCameraOut2dBind", ({Qt.Key.Key_Minus}, None)).satisfied(active_buttons, keys):
+        if self._bind("zoomCameraOut2dBind", ({Qt.Key.Key_Minus}, None)).satisfied(
+            active_buttons, keys
+        ):
             self.renderer.zoom_at_screen(0.8)
             return True
-        if self._bind("moveCameraLeft2dBind", ({Qt.Key.Key_Left}, None)).satisfied(active_buttons, keys):
+        if self._bind("moveCameraLeft2dBind", ({Qt.Key.Key_Left}, None)).satisfied(
+            active_buttons, keys
+        ):
             self.renderer.camera.nudge_position(-pan_step, 0.0)
             self.renderer.mark_dirty()
             return True
-        if self._bind("moveCameraRight2dBind", ({Qt.Key.Key_Right}, None)).satisfied(active_buttons, keys):
+        if self._bind("moveCameraRight2dBind", ({Qt.Key.Key_Right}, None)).satisfied(
+            active_buttons, keys
+        ):
             self.renderer.camera.nudge_position(pan_step, 0.0)
             self.renderer.mark_dirty()
             return True
-        if self._bind("moveCameraUp2dBind", ({Qt.Key.Key_Up}, None)).satisfied(active_buttons, keys):
+        if self._bind("moveCameraUp2dBind", ({Qt.Key.Key_Up}, None)).satisfied(
+            active_buttons, keys
+        ):
             self.renderer.camera.nudge_position(0.0, pan_step)
             self.renderer.mark_dirty()
             return True
-        if self._bind("moveCameraDown2dBind", ({Qt.Key.Key_Down}, None)).satisfied(active_buttons, keys):
+        if self._bind("moveCameraDown2dBind", ({Qt.Key.Key_Down}, None)).satisfied(
+            active_buttons, keys
+        ):
             self.renderer.camera.nudge_position(0.0, -pan_step)
             self.renderer.mark_dirty()
             return True

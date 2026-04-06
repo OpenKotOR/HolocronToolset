@@ -47,7 +47,15 @@ def test_ifo_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation):
     editor.new()
 
     # Test various tag values
-    test_tags = ["test_tag", "TAG123", "module_tag", "", "x" * 32, "tag-with-dashes", "tag_with_underscores"]
+    test_tags = [
+        "test_tag",
+        "TAG123",
+        "module_tag",
+        "",
+        "x" * 32,
+        "tag-with-dashes",
+        "tag_with_underscores",
+    ]
     for tag in test_tags:
         editor.tag_edit.setText(tag)
         editor.on_value_changed()
@@ -61,7 +69,9 @@ def test_ifo_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation):
         editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
         assert editor.tag_edit.text() == tag, f"Tag should roundtrip correctly for case: {tag}"
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert editor.ifo.tag == tag, f"Internal IFO object should have updated tag after load() for case: {tag}"
+        assert editor.ifo.tag == tag, (
+            f"Internal IFO object should have updated tag after load() for case: {tag}"
+        )
 
 
 def test_ifo_editor_manipulate_vo_id(qtbot: QtBot, installation: HTInstallation):
@@ -84,10 +94,13 @@ def test_ifo_editor_manipulate_vo_id(qtbot: QtBot, installation: HTInstallation)
 
         # Load back and verify
         editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
-        assert editor.vo_id_edit.text() == vo_id, f"VO ID should roundtrip correctly for case: {vo_id}"
+        assert editor.vo_id_edit.text() == vo_id, (
+            f"VO ID should roundtrip correctly for case: {vo_id}"
+        )
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert editor.ifo.vo_id == vo_id, f"Internal IFO object should have updated VO ID after load() for case: {vo_id}"
-
+        assert editor.ifo.vo_id == vo_id, (
+            f"Internal IFO object should have updated VO ID after load() for case: {vo_id}"
+        )
 
 
 # ============================================================================
@@ -103,7 +116,16 @@ def test_ifo_editor_manipulate_entry_resref(qtbot: QtBot, installation: HTInstal
     editor.new()
 
     # Test various ResRef values (max 16 characters)
-    test_resrefs = ["area001", "test_area", "", "entry_point", "a", "x" * 16, "area_001", "module_area"]
+    test_resrefs = [
+        "area001",
+        "test_area",
+        "",
+        "entry_point",
+        "a",
+        "x" * 16,
+        "area_001",
+        "module_area",
+    ]
     for resref in test_resrefs:
         editor.entry_resref.setText(resref)
         editor.on_value_changed()
@@ -111,16 +133,24 @@ def test_ifo_editor_manipulate_entry_resref(qtbot: QtBot, installation: HTInstal
         # Build and verify
         data, _ = editor.build()
         modified_ifo = read_ifo(data)
-        assert str(modified_ifo.resref) == resref, f"ResRef should roundtrip correctly for case: {resref}"
+        assert str(modified_ifo.resref) == resref, (
+            f"ResRef should roundtrip correctly for case: {resref}"
+        )
 
         # Load back and verify
         editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
-        assert editor.entry_resref.text() == resref, f"ResRef should roundtrip correctly for case: {resref}"
+        assert editor.entry_resref.text() == resref, (
+            f"ResRef should roundtrip correctly for case: {resref}"
+        )
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert str(editor.ifo.resref) == resref, f"Internal IFO object should have updated ResRef after load() for case: {resref}"
+        assert str(editor.ifo.resref) == resref, (
+            f"Internal IFO object should have updated ResRef after load() for case: {resref}"
+        )
 
 
-def test_ifo_editor_manipulate_entry_position_comprehensive(qtbot: QtBot, installation: HTInstallation):
+def test_ifo_editor_manipulate_entry_position_comprehensive(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test manipulating entry position coordinates with comprehensive test cases."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -165,7 +195,9 @@ def test_ifo_editor_manipulate_entry_position_comprehensive(qtbot: QtBot, instal
         assert abs(editor.ifo.entry_position.z - z) < 0.01
 
 
-def test_ifo_editor_manipulate_entry_direction_comprehensive(qtbot: QtBot, installation: HTInstallation):
+def test_ifo_editor_manipulate_entry_direction_comprehensive(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test manipulating entry direction with comprehensive angular values."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -196,8 +228,9 @@ def test_ifo_editor_manipulate_entry_direction_comprehensive(qtbot: QtBot, insta
         modified_ifo = read_ifo(data)
         assert math.isfinite(modified_ifo.entry_direction)
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert math.isfinite(editor.ifo.entry_direction), "Internal IFO object should have updated entry direction after load()"
-
+        assert math.isfinite(editor.ifo.entry_direction), (
+            "Internal IFO object should have updated entry direction after load()"
+        )
 
 
 # ============================================================================
@@ -242,13 +275,19 @@ def test_ifo_editor_manipulate_dusk_hour_comprehensive(qtbot: QtBot, installatio
         # Build and verify
         data, _ = editor.build()
         modified_ifo = read_ifo(data)
-        assert modified_ifo.dusk_hour == hour, f"Dusk hour should roundtrip correctly for case: {hour}"
+        assert modified_ifo.dusk_hour == hour, (
+            f"Dusk hour should roundtrip correctly for case: {hour}"
+        )
 
         # Load back and verify
         editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
-        assert editor.dusk_hour.value() == hour, f"Dusk hour should roundtrip correctly for case: {hour}"
+        assert editor.dusk_hour.value() == hour, (
+            f"Dusk hour should roundtrip correctly for case: {hour}"
+        )
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert editor.ifo.dusk_hour == hour, f"Internal IFO object should have updated dusk hour after load() for case: {hour}"
+        assert editor.ifo.dusk_hour == hour, (
+            f"Internal IFO object should have updated dusk hour after load() for case: {hour}"
+        )
 
 
 def test_ifo_editor_manipulate_time_scale_comprehensive(qtbot: QtBot, installation: HTInstallation):
@@ -265,13 +304,19 @@ def test_ifo_editor_manipulate_time_scale_comprehensive(qtbot: QtBot, installati
 
         data, _ = editor.build()
         modified_ifo = read_ifo(data)
-        assert modified_ifo.time_scale == scale, f"Time scale should roundtrip correctly for case: {scale}"
+        assert modified_ifo.time_scale == scale, (
+            f"Time scale should roundtrip correctly for case: {scale}"
+        )
 
         # Load back and verify
         editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
-        assert editor.time_scale.value() == scale, f"Time scale should roundtrip correctly for case: {scale}"
+        assert editor.time_scale.value() == scale, (
+            f"Time scale should roundtrip correctly for case: {scale}"
+        )
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert editor.ifo.time_scale == scale, f"Internal IFO object should have updated time scale after load() for case: {scale}"
+        assert editor.ifo.time_scale == scale, (
+            f"Internal IFO object should have updated time scale after load() for case: {scale}"
+        )
 
 
 def test_ifo_editor_manipulate_start_date_comprehensive(qtbot: QtBot, installation: HTInstallation):
@@ -328,13 +373,19 @@ def test_ifo_editor_manipulate_xp_scale_comprehensive(qtbot: QtBot, installation
 
         data, _ = editor.build()
         modified_ifo = read_ifo(data)
-        assert modified_ifo.xp_scale == scale, f"XP scale should roundtrip correctly for case: {scale}"
+        assert modified_ifo.xp_scale == scale, (
+            f"XP scale should roundtrip correctly for case: {scale}"
+        )
 
         # Load back and verify
         editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
-        assert editor.xp_scale.value() == scale, f"XP scale should roundtrip correctly for case: {scale}"
+        assert editor.xp_scale.value() == scale, (
+            f"XP scale should roundtrip correctly for case: {scale}"
+        )
         assert editor.ifo is not None, "IFO should be loaded after load()"
-        assert editor.ifo.xp_scale == scale, f"Internal IFO object should have updated XP scale after load() for case: {scale}"
+        assert editor.ifo.xp_scale == scale, (
+            f"Internal IFO object should have updated XP scale after load() for case: {scale}"
+        )
 
 
 # ============================================================================
@@ -379,17 +430,22 @@ def test_ifo_editor_manipulate_individual_scripts(qtbot: QtBot, installation: HT
             # Build and verify
             data, _ = editor.build()
             modified_ifo = read_ifo(data)
-            assert str(getattr(modified_ifo, script_field)) == script_name, f"{script_field} should roundtrip correctly for case: {script_name}"
+            assert str(getattr(modified_ifo, script_field)) == script_name, (
+                f"{script_field} should roundtrip correctly for case: {script_name}"
+            )
 
             # Load back and verify
             editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
             assert editor.script_fields[script_field].text() == script_name
             assert editor.ifo is not None, "IFO should be loaded after load()"
-            assert str(getattr(editor.ifo, script_field)) == script_name, f"Internal IFO object should have updated {script_field} after load() for case: {script_name}"
+            assert str(getattr(editor.ifo, script_field)) == script_name, (
+                f"Internal IFO object should have updated {script_field} after load() for case: {script_name}"
+            )
 
 
-
-def test_ifo_editor_manipulate_all_scripts_simultaneously(qtbot: QtBot, installation: HTInstallation):
+def test_ifo_editor_manipulate_all_scripts_simultaneously(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test manipulating all script fields simultaneously with realistic values."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -425,12 +481,16 @@ def test_ifo_editor_manipulate_all_scripts_simultaneously(qtbot: QtBot, installa
 
     # Verify all scripts
     for script_name, expected_value in script_test_values.items():
-        assert str(getattr(modified_ifo, script_name)) == expected_value, f"{script_name} should roundtrip correctly for case: {expected_value}"
+        assert str(getattr(modified_ifo, script_name)) == expected_value, (
+            f"{script_name} should roundtrip correctly for case: {expected_value}"
+        )
 
     # Load back and verify all
     editor.load(Path("test.ifo"), "test", ResourceType.IFO, data)
     for script_name, expected_value in script_test_values.items():
-        assert editor.script_fields[script_name].text() == expected_value, f"{script_name} should roundtrip correctly for case: {expected_value}"
+        assert editor.script_fields[script_name].text() == expected_value, (
+            f"{script_name} should roundtrip correctly for case: {expected_value}"
+        )
     assert editor.ifo is not None, "IFO should be loaded after load()"
 
 
@@ -450,7 +510,9 @@ def test_ifo_editor_script_fields_empty_and_boundary(qtbot: QtBot, installation:
     modified_ifo = read_ifo(data)
 
     for script_field in editor.script_fields.keys():
-        assert str(getattr(modified_ifo, script_field)) == "", f"{script_field} should roundtrip correctly when empty"
+        assert str(getattr(modified_ifo, script_field)) == "", (
+            f"{script_field} should roundtrip correctly when empty"
+        )
 
     # Test with maximum length names (16 characters)
     max_length_scripts = {field: "x" * 16 for field in editor.script_fields.keys()}
@@ -462,7 +524,9 @@ def test_ifo_editor_script_fields_empty_and_boundary(qtbot: QtBot, installation:
     modified_ifo = read_ifo(data)
 
     for script_field, expected_name in max_length_scripts.items():
-        assert str(getattr(modified_ifo, script_field)) == expected_name, f"{script_field} should roundtrip correctly for case: {expected_name}"
+        assert str(getattr(modified_ifo, script_field)) == expected_name, (
+            f"{script_field} should roundtrip correctly for case: {expected_name}"
+        )
 
 
 # ============================================================================
@@ -470,7 +534,9 @@ def test_ifo_editor_script_fields_empty_and_boundary(qtbot: QtBot, installation:
 # ============================================================================
 
 
-def test_ifo_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, installation: HTInstallation):
+def test_ifo_editor_manipulate_all_basic_fields_combination(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test manipulating all basic fields simultaneously with comprehensive values."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -522,14 +588,30 @@ def test_ifo_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, instal
     data, _ = editor.build()
     modified_ifo = read_ifo(data)
 
-    assert modified_ifo.tag == "test_module", f"Tag should roundtrip correctly for case: test_module"
-    assert modified_ifo.vo_id == "vo_testmod", f"VO ID should roundtrip correctly for case: vo_testmod"
-    assert modified_ifo.hak == "test_hak;custom_hak", f"HAK should roundtrip correctly for case: test_hak;custom_hak"
-    assert str(modified_ifo.resref) == "test_entry", f"Entry ResRef should roundtrip correctly for case: test_entry"
-    assert abs(modified_ifo.entry_position.x - 15.5) < 0.001, f"Entry X should roundtrip correctly for case: 15.5"
-    assert abs(modified_ifo.entry_position.y - 25.7) < 0.001, f"Entry Y should roundtrip correctly for case: 25.7"
-    assert abs(modified_ifo.entry_position.z - 8.2) < 0.001, f"Entry Z should roundtrip correctly for case: 8.2"
-    assert abs(modified_ifo.entry_direction - 2.1) < 0.01, f"Entry Direction should roundtrip correctly for case: 2.1" # Allow some precision loss
+    assert modified_ifo.tag == "test_module", (
+        f"Tag should roundtrip correctly for case: test_module"
+    )
+    assert modified_ifo.vo_id == "vo_testmod", (
+        f"VO ID should roundtrip correctly for case: vo_testmod"
+    )
+    assert modified_ifo.hak == "test_hak;custom_hak", (
+        f"HAK should roundtrip correctly for case: test_hak;custom_hak"
+    )
+    assert str(modified_ifo.resref) == "test_entry", (
+        f"Entry ResRef should roundtrip correctly for case: test_entry"
+    )
+    assert abs(modified_ifo.entry_position.x - 15.5) < 0.001, (
+        f"Entry X should roundtrip correctly for case: 15.5"
+    )
+    assert abs(modified_ifo.entry_position.y - 25.7) < 0.001, (
+        f"Entry Y should roundtrip correctly for case: 25.7"
+    )
+    assert abs(modified_ifo.entry_position.z - 8.2) < 0.001, (
+        f"Entry Z should roundtrip correctly for case: 8.2"
+    )
+    assert abs(modified_ifo.entry_direction - 2.1) < 0.01, (
+        f"Entry Direction should roundtrip correctly for case: 2.1"
+    )  # Allow some precision loss
     assert modified_ifo.dawn_hour == 7, f"Dawn Hour should roundtrip correctly for case: 7"
     assert modified_ifo.dusk_hour == 19, f"Dusk Hour should roundtrip correctly for case: 19"
     assert modified_ifo.time_scale == 75, f"Time Scale should roundtrip correctly for case: 75"
@@ -541,7 +623,9 @@ def test_ifo_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, instal
 
     # Verify all scripts
     for script_name, expected_value in script_values.items():
-        assert str(getattr(modified_ifo, script_name)) == expected_value, f"{script_name} should roundtrip correctly for case: {expected_value}"
+        assert str(getattr(modified_ifo, script_name)) == expected_value, (
+            f"{script_name} should roundtrip correctly for case: {expected_value}"
+        )
 
 
 # ============================================================================
@@ -572,13 +656,21 @@ def test_ifo_editor_headless_basic_field_manipulation():
 
     # Test entry position manipulation
     ifo.entry_position = Vector3(10.5, 20.3, 5.0)
-    assert abs(ifo.entry_position.x - 10.5) < 0.001, "Entry X should be set correctly in headless manipulation"
-    assert abs(ifo.entry_position.y - 20.3) < 0.001, "Entry Y should be set correctly in headless manipulation"
-    assert abs(ifo.entry_position.z - 5.0) < 0.001, "Entry Z should be set correctly in headless manipulation"
+    assert abs(ifo.entry_position.x - 10.5) < 0.001, (
+        "Entry X should be set correctly in headless manipulation"
+    )
+    assert abs(ifo.entry_position.y - 20.3) < 0.001, (
+        "Entry Y should be set correctly in headless manipulation"
+    )
+    assert abs(ifo.entry_position.z - 5.0) < 0.001, (
+        "Entry Z should be set correctly in headless manipulation"
+    )
 
     # Test entry direction manipulation
     ifo.entry_direction = 1.57
-    assert abs(ifo.entry_direction - 1.57) < 0.001, "Entry Direction should be set correctly in headless manipulation"
+    assert abs(ifo.entry_direction - 1.57) < 0.001, (
+        "Entry Direction should be set correctly in headless manipulation"
+    )
 
     # Test time settings
     ifo.dawn_hour = 6
@@ -598,9 +690,15 @@ def test_ifo_editor_headless_basic_field_manipulation():
     ifo.on_load = ResRef("load_script")
     ifo.on_start = ResRef("start_script")
 
-    assert str(ifo.on_heartbeat) == "heartbeat_script", "On Heartbeat script should be set correctly in headless manipulation"
-    assert str(ifo.on_load) == "load_script", "On Load script should be set correctly in headless manipulation"
-    assert str(ifo.on_start) == "start_script", "On Start script should be set correctly in headless manipulation"
+    assert str(ifo.on_heartbeat) == "heartbeat_script", (
+        "On Heartbeat script should be set correctly in headless manipulation"
+    )
+    assert str(ifo.on_load) == "load_script", (
+        "On Load script should be set correctly in headless manipulation"
+    )
+    assert str(ifo.on_start) == "start_script", (
+        "On Start script should be set correctly in headless manipulation"
+    )
 
 
 def test_ifo_editor_headless_roundtrip():
@@ -634,11 +732,21 @@ def test_ifo_editor_headless_roundtrip():
     assert abs(loaded_ifo.entry_position.x - original_ifo.entry_position.x) < 0.001
     assert abs(loaded_ifo.entry_position.y - original_ifo.entry_position.y) < 0.001
     assert abs(loaded_ifo.entry_position.z - original_ifo.entry_position.z) < 0.001
-    assert abs(loaded_ifo.entry_direction - original_ifo.entry_direction) < 0.01, "Entry Direction should be preserved in roundtrip"
-    assert loaded_ifo.dawn_hour == original_ifo.dawn_hour, "Dawn Hour should be preserved in roundtrip"
-    assert loaded_ifo.dusk_hour == original_ifo.dusk_hour, "Dusk Hour should be preserved in roundtrip"
-    assert loaded_ifo.time_scale == original_ifo.time_scale, "Time Scale should be preserved in roundtrip"
-    assert str(loaded_ifo.on_heartbeat) == str(original_ifo.on_heartbeat), "On Heartbeat script should be preserved in roundtrip"
+    assert abs(loaded_ifo.entry_direction - original_ifo.entry_direction) < 0.01, (
+        "Entry Direction should be preserved in roundtrip"
+    )
+    assert loaded_ifo.dawn_hour == original_ifo.dawn_hour, (
+        "Dawn Hour should be preserved in roundtrip"
+    )
+    assert loaded_ifo.dusk_hour == original_ifo.dusk_hour, (
+        "Dusk Hour should be preserved in roundtrip"
+    )
+    assert loaded_ifo.time_scale == original_ifo.time_scale, (
+        "Time Scale should be preserved in roundtrip"
+    )
+    assert str(loaded_ifo.on_heartbeat) == str(original_ifo.on_heartbeat), (
+        "On Heartbeat script should be preserved in roundtrip"
+    )
 
 
 def test_ifo_editor_headless_boundary_conditions():
@@ -667,16 +775,26 @@ def test_ifo_editor_headless_boundary_conditions():
 
     # Verify boundary values preserved
     assert loaded_ifo.tag == "x" * 32, "Tag should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_position.x - 99999.0) < 0.001, "Entry Position X should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_position.y - (-99999.0)) < 0.001, "Entry Position Y should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_position.z - 99999.0) < 0.001, "Entry Position Z should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_direction - 3.14159) < 0.01, "Entry Direction should be preserved in roundtrip"
+    assert abs(loaded_ifo.entry_position.x - 99999.0) < 0.001, (
+        "Entry Position X should be preserved in roundtrip"
+    )
+    assert abs(loaded_ifo.entry_position.y - (-99999.0)) < 0.001, (
+        "Entry Position Y should be preserved in roundtrip"
+    )
+    assert abs(loaded_ifo.entry_position.z - 99999.0) < 0.001, (
+        "Entry Position Z should be preserved in roundtrip"
+    )
+    assert abs(loaded_ifo.entry_direction - 3.14159) < 0.01, (
+        "Entry Direction should be preserved in roundtrip"
+    )
     assert loaded_ifo.dawn_hour == 23, "Dawn Hour should be preserved in roundtrip"
     assert loaded_ifo.dusk_hour == 23, "Dusk Hour should be preserved in roundtrip"
     assert loaded_ifo.time_scale == 100, "Time Scale should be preserved in roundtrip"
     assert loaded_ifo.start_year == 9999, "Start Year should be preserved in roundtrip"
     assert loaded_ifo.xp_scale == 100, "XP Scale should be preserved in roundtrip"
-    assert str(loaded_ifo.on_heartbeat) == "x" * 16, "On Heartbeat script should be preserved in roundtrip"
+    assert str(loaded_ifo.on_heartbeat) == "x" * 16, (
+        "On Heartbeat script should be preserved in roundtrip"
+    )
 
 
 def test_ifo_editor_headless_all_fields_comprehensive():
@@ -735,10 +853,18 @@ def test_ifo_editor_headless_all_fields_comprehensive():
     assert loaded_ifo.vo_id == "vo_comprehensive"
     assert loaded_ifo.hak == "hak1;hak2;hak3"
     assert str(loaded_ifo.resref) == "entry_area"
-    assert abs(loaded_ifo.entry_position.x - 123.456) < 0.001, "Entry Position X should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_position.y - 789.012) < 0.001, "Entry Position Y should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_position.z - 345.678) < 0.001, "Entry Position Z should be preserved in roundtrip"
-    assert abs(loaded_ifo.entry_direction - 2.5) < 0.01, "Entry Direction should be preserved in roundtrip"
+    assert abs(loaded_ifo.entry_position.x - 123.456) < 0.001, (
+        "Entry Position X should be preserved in roundtrip"
+    )
+    assert abs(loaded_ifo.entry_position.y - 789.012) < 0.001, (
+        "Entry Position Y should be preserved in roundtrip"
+    )
+    assert abs(loaded_ifo.entry_position.z - 345.678) < 0.001, (
+        "Entry Position Z should be preserved in roundtrip"
+    )
+    assert abs(loaded_ifo.entry_direction - 2.5) < 0.01, (
+        "Entry Direction should be preserved in roundtrip"
+    )
     assert loaded_ifo.dawn_hour == 5, "Dawn Hour should be preserved in roundtrip"
     assert loaded_ifo.dusk_hour == 21, "Dusk Hour should be preserved in roundtrip"
     assert loaded_ifo.time_scale == 80, "Time Scale should be preserved in roundtrip"
@@ -826,7 +952,9 @@ def test_ifo_editor_extreme_values_combination(qtbot: QtBot, installation: HTIns
 
     # Verify all scripts are max length
     for script_field in editor.script_fields.keys():
-        assert str(getattr(modified_ifo, script_field)) == "x" * 16, f"{script_field} should roundtrip correctly for case: {'x' * 16}"
+        assert str(getattr(modified_ifo, script_field)) == "x" * 16, (
+            f"{script_field} should roundtrip correctly for case: {'x' * 16}"
+        )
 
 
 def test_ifo_editor_minimum_values_combination(qtbot: QtBot, installation: HTInstallation):
@@ -876,7 +1004,9 @@ def test_ifo_editor_minimum_values_combination(qtbot: QtBot, installation: HTIns
 
     # Verify all scripts are empty
     for script_field in editor.script_fields.keys():
-        assert str(getattr(modified_ifo, script_field)) == "", f"{script_field} should roundtrip correctly for case: ''"
+        assert str(getattr(modified_ifo, script_field)) == "", (
+            f"{script_field} should roundtrip correctly for case: ''"
+        )
 
 
 # ============================================================================
@@ -924,14 +1054,30 @@ def test_ifo_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     editor.load(Path("test.ifo"), "test", ResourceType.IFO, data1)
 
     # Verify all modifications preserved
-    assert editor.tag_edit.text() == "roundtrip_test", "Tag should roundtrip correctly for case: roundtrip_test"
-    assert editor.vo_id_edit.text() == "vo_roundtrip", "VO ID should roundtrip correctly for case: vo_roundtrip"
-    assert editor.hak_edit.text() == "hak1;hak2", "HAK should roundtrip correctly for case: hak1;hak2"
-    assert editor.entry_resref.text() == "entry_area", "ResRef should roundtrip correctly for case: entry_area"
-    assert abs(editor.entry_x.value() - 15.5) < 0.001, "Entry X should roundtrip correctly for case: 15.5"
-    assert abs(editor.entry_y.value() - 25.5) < 0.001, "Entry Y should roundtrip correctly for case: 25.5"
-    assert abs(editor.entry_z.value() - 10.0) < 0.001, "Entry Z should roundtrip correctly for case: 10.0"
-    assert abs(editor.entry_dir.value() - 1.23) < 0.01, "Entry Dir should roundtrip correctly for case: 1.23"
+    assert editor.tag_edit.text() == "roundtrip_test", (
+        "Tag should roundtrip correctly for case: roundtrip_test"
+    )
+    assert editor.vo_id_edit.text() == "vo_roundtrip", (
+        "VO ID should roundtrip correctly for case: vo_roundtrip"
+    )
+    assert editor.hak_edit.text() == "hak1;hak2", (
+        "HAK should roundtrip correctly for case: hak1;hak2"
+    )
+    assert editor.entry_resref.text() == "entry_area", (
+        "ResRef should roundtrip correctly for case: entry_area"
+    )
+    assert abs(editor.entry_x.value() - 15.5) < 0.001, (
+        "Entry X should roundtrip correctly for case: 15.5"
+    )
+    assert abs(editor.entry_y.value() - 25.5) < 0.001, (
+        "Entry Y should roundtrip correctly for case: 25.5"
+    )
+    assert abs(editor.entry_z.value() - 10.0) < 0.001, (
+        "Entry Z should roundtrip correctly for case: 10.0"
+    )
+    assert abs(editor.entry_dir.value() - 1.23) < 0.01, (
+        "Entry Dir should roundtrip correctly for case: 1.23"
+    )
     assert editor.dawn_hour.value() == 7, "Dawn Hour should roundtrip correctly for case: 7"
     assert editor.dusk_hour.value() == 19, "Dusk Hour should roundtrip correctly for case: 19"
     assert editor.time_scale.value() == 65, "Time Scale should roundtrip correctly for case: 65"
@@ -943,7 +1089,9 @@ def test_ifo_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
 
     for script_field in editor.script_fields.keys():
         expected_script = f"rt_{script_field}"[:16]
-        assert editor.script_fields[script_field].text() == expected_script, f"{script_field} should roundtrip correctly for case: {expected_script}"
+        assert editor.script_fields[script_field].text() == expected_script, (
+            f"{script_field} should roundtrip correctly for case: {expected_script}"
+        )
 
     # Save again
     data2, _ = editor.build()
@@ -953,8 +1101,12 @@ def test_ifo_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     assert saved_ifo2.tag == saved_ifo1.tag, "Tag should roundtrip correctly in second save"
     assert saved_ifo2.vo_id == saved_ifo1.vo_id, "VO ID should roundtrip correctly in second save"
     assert saved_ifo2.hak == saved_ifo1.hak, "HAK should roundtrip correctly in second save"
-    assert str(saved_ifo2.resref) == str(saved_ifo1.resref), "ResRef should roundtrip correctly in second save"
-    assert abs(saved_ifo2.entry_position.x - saved_ifo1.entry_position.x) < 0.001, "Entry X should roundtrip correctly"
+    assert str(saved_ifo2.resref) == str(saved_ifo1.resref), (
+        "ResRef should roundtrip correctly in second save"
+    )
+    assert abs(saved_ifo2.entry_position.x - saved_ifo1.entry_position.x) < 0.001, (
+        "Entry X should roundtrip correctly"
+    )
     assert saved_ifo2.dawn_hour == saved_ifo1.dawn_hour, "Dawn Hour should roundtrip correctly"
     assert saved_ifo2.time_scale == saved_ifo1.time_scale, "Time Scale should roundtrip correctly"
 
@@ -1089,7 +1241,13 @@ def test_ifo_editor_boundary_value_combinations(qtbot: QtBot, installation: HTIn
             "scripts": {field: "x" * 16 for field in editor.script_fields.keys()},
         },
         # Case 3: Negative extremes
-        {"entry_x": -99999.0, "entry_y": -99999.0, "entry_z": -99999.0, "entry_dir": -3.14159, "scripts": {field: "" for field in editor.script_fields.keys()}},
+        {
+            "entry_x": -99999.0,
+            "entry_y": -99999.0,
+            "entry_z": -99999.0,
+            "entry_dir": -3.14159,
+            "scripts": {field: "" for field in editor.script_fields.keys()},
+        },
         # Case 4: Special characters
         {
             "tag": "tag_!@#$%^&*()",
@@ -1099,7 +1257,11 @@ def test_ifo_editor_boundary_value_combinations(qtbot: QtBot, installation: HTIn
             "scripts": {field: f"script_{field}_!@#" for field in editor.script_fields.keys()},
         },
         # Case 5: Unicode characters (if supported)
-        {"tag": "täg_mödülé", "vo_id": "vö_ïd", "scripts": {field: f"scrïpt_{field}" for field in editor.script_fields.keys()}},
+        {
+            "tag": "täg_mödülé",
+            "vo_id": "vö_ïd",
+            "scripts": {field: f"scrïpt_{field}" for field in editor.script_fields.keys()},
+        },
     ]
 
     for case_num, case_data in enumerate(test_cases):
@@ -1435,7 +1597,9 @@ def test_ifo_editor_help_dialog_integration(qtbot: QtBot, installation: HTInstal
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-IFO.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-IFO.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -1560,7 +1724,9 @@ def test_ifo_editor_load_from_installation(qtbot: QtBot, installation: HTInstall
     assert loaded_ifo.tag == editor.ifo.tag
 
 
-def test_ifo_editor_load_from_test_files_comprehensive(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_ifo_editor_load_from_test_files_comprehensive(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test loading IFO files from test_files_dir with comprehensive validation."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1605,7 +1771,9 @@ def test_ifo_editor_load_from_test_files_comprehensive(qtbot: QtBot, installatio
         assert loaded_ifo.dawn_hour == original_ifo.dawn_hour
 
 
-def test_ifo_editor_real_file_roundtrip_comprehensive(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_ifo_editor_real_file_roundtrip_comprehensive(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test complete load -> modify -> build -> save -> reload roundtrip with real files."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1679,7 +1847,9 @@ def test_ifo_editor_real_file_roundtrip_comprehensive(qtbot: QtBot, installation
     assert editor.script_fields["on_start"].text() == "rt_start"
 
 
-def test_ifo_editor_real_file_all_fields_manipulation(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_ifo_editor_real_file_all_fields_manipulation(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all fields with a real IFO file."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1773,7 +1943,9 @@ def test_ifo_editor_real_file_all_fields_manipulation(qtbot: QtBot, installation
         assert str(getattr(modified_ifo, script_name)) == expected_value
 
 
-def test_ifo_editor_real_file_gff_integrity(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_ifo_editor_real_file_gff_integrity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF integrity with real files through multiple modifications."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1826,7 +1998,9 @@ def test_ifo_editor_real_file_gff_integrity(qtbot: QtBot, installation: HTInstal
         assert str(ifo.on_start) == f"gff_start_{round_num}"
 
 
-def test_ifo_editor_real_file_stress_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_ifo_editor_real_file_stress_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Stress test with many save/load cycles using real files."""
     editor = IFOEditor(None, installation)
     qtbot.addWidget(editor)

@@ -516,6 +516,10 @@ class LanguageServerClient:
         """
         current_time = time.time()
         with self._lock:
-            expired = [rid for rid, req in self._pending_requests.items() if current_time - req.timestamp > max_age]
+            expired = [
+                rid
+                for rid, req in self._pending_requests.items()
+                if current_time - req.timestamp > max_age
+            ]
             for rid in expired:
                 self._pending_requests.pop(rid, None)

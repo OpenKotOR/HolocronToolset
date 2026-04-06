@@ -16,119 +16,121 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 570)
         MainWindow.setMinimumSize(QtCore.QSize(600, 450))
-        MainWindow.setStyleSheet("\n"
-"    QTreeView {\n"
-"    background-color: palette(base);\n"
-"    alternate-background-color: palette(alternate-base);\n"
-"    color: palette(text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 3px;\n"
-"    selection-background-color: palette(highlight);\n"
-"    selection-color: palette(highlighted-text);\n"
-"    show-decoration-selected: 1;\n"
-"    }\n"
-"    QTreeView::item {\n"
-"    padding: 3px 4px;\n"
-"    border-radius: 2px;\n"
-"    }\n"
-"    QTreeView::item:hover {\n"
-"    background-color: palette(midlight);\n"
-"    }\n"
-"    QTreeView::branch {\n"
-"    background: palette(base);\n"
-"    }\n"
-"    QSplitter::handle {\n"
-"    background-color: palette(mid);\n"
-"    }\n"
-"    QSplitter::handle:vertical {\n"
-"    height: 4px;\n"
-"    }\n"
-"    QGroupBox {\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 4px;\n"
-"    margin-top: 8px;\n"
-"    padding: 4px 2px 2px 2px;\n"
-"    font-weight: bold;\n"
-"    color: palette(window-text);\n"
-"    }\n"
-"    QGroupBox::title {\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top left;\n"
-"    padding: 0 4px;\n"
-"    left: 8px;\n"
-"    }\n"
-"    QLineEdit {\n"
-"    background-color: palette(base);\n"
-"    color: palette(text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 3px;\n"
-"    padding: 2px 4px;\n"
-"    }\n"
-"    QLineEdit:focus {\n"
-"    border: 1px solid palette(highlight);\n"
-"    }\n"
-"    QSpinBox, QDoubleSpinBox {\n"
-"    background-color: palette(base);\n"
-"    color: palette(text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 3px;\n"
-"    }\n"
-"    QComboBox {\n"
-"    background-color: palette(button);\n"
-"    color: palette(button-text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 6px;\n"
-"    }\n"
-"    QComboBox:hover {\n"
-"    border: 1px solid palette(highlight);\n"
-"    }\n"
-"    QComboBox::drop-down {\n"
-"    border: none;\n"
-"    }\n"
-"    QCheckBox {\n"
-"    color: palette(window-text);\n"
-"    spacing: 5px;\n"
-"    }\n"
-"    QCheckBox::indicator {\n"
-"    width: 14px;\n"
-"    height: 14px;\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 2px;\n"
-"    background-color: palette(base);\n"
-"    }\n"
-"    QCheckBox::indicator:checked {\n"
-"    background-color: palette(highlight);\n"
-"    border-color: palette(highlight);\n"
-"    }\n"
-"    QLabel {\n"
-"    color: palette(window-text);\n"
-"    }\n"
-"    QPlainTextEdit {\n"
-"    background-color: palette(base);\n"
-"    color: palette(text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 3px;\n"
-"    padding: 2px;\n"
-"    }\n"
-"    QPlainTextEdit:focus {\n"
-"    border: 1px solid palette(highlight);\n"
-"    }\n"
-"    QPushButton {\n"
-"    background-color: palette(button);\n"
-"    color: palette(button-text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 3px;\n"
-"    padding: 2px 8px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"    background-color: palette(midlight);\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"    background-color: palette(dark);\n"
-"    }\n"
-"   ")
+        MainWindow.setStyleSheet(
+            "\n"
+            "    QTreeView {\n"
+            "    background-color: palette(base);\n"
+            "    alternate-background-color: palette(alternate-base);\n"
+            "    color: palette(text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 3px;\n"
+            "    selection-background-color: palette(highlight);\n"
+            "    selection-color: palette(highlighted-text);\n"
+            "    show-decoration-selected: 1;\n"
+            "    }\n"
+            "    QTreeView::item {\n"
+            "    padding: 3px 4px;\n"
+            "    border-radius: 2px;\n"
+            "    }\n"
+            "    QTreeView::item:hover {\n"
+            "    background-color: palette(midlight);\n"
+            "    }\n"
+            "    QTreeView::branch {\n"
+            "    background: palette(base);\n"
+            "    }\n"
+            "    QSplitter::handle {\n"
+            "    background-color: palette(mid);\n"
+            "    }\n"
+            "    QSplitter::handle:vertical {\n"
+            "    height: 4px;\n"
+            "    }\n"
+            "    QGroupBox {\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 4px;\n"
+            "    margin-top: 8px;\n"
+            "    padding: 4px 2px 2px 2px;\n"
+            "    font-weight: bold;\n"
+            "    color: palette(window-text);\n"
+            "    }\n"
+            "    QGroupBox::title {\n"
+            "    subcontrol-origin: margin;\n"
+            "    subcontrol-position: top left;\n"
+            "    padding: 0 4px;\n"
+            "    left: 8px;\n"
+            "    }\n"
+            "    QLineEdit {\n"
+            "    background-color: palette(base);\n"
+            "    color: palette(text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 3px;\n"
+            "    padding: 2px 4px;\n"
+            "    }\n"
+            "    QLineEdit:focus {\n"
+            "    border: 1px solid palette(highlight);\n"
+            "    }\n"
+            "    QSpinBox, QDoubleSpinBox {\n"
+            "    background-color: palette(base);\n"
+            "    color: palette(text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 3px;\n"
+            "    padding: 1px 3px;\n"
+            "    }\n"
+            "    QComboBox {\n"
+            "    background-color: palette(button);\n"
+            "    color: palette(button-text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 3px;\n"
+            "    padding: 1px 6px;\n"
+            "    }\n"
+            "    QComboBox:hover {\n"
+            "    border: 1px solid palette(highlight);\n"
+            "    }\n"
+            "    QComboBox::drop-down {\n"
+            "    border: none;\n"
+            "    }\n"
+            "    QCheckBox {\n"
+            "    color: palette(window-text);\n"
+            "    spacing: 5px;\n"
+            "    }\n"
+            "    QCheckBox::indicator {\n"
+            "    width: 14px;\n"
+            "    height: 14px;\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 2px;\n"
+            "    background-color: palette(base);\n"
+            "    }\n"
+            "    QCheckBox::indicator:checked {\n"
+            "    background-color: palette(highlight);\n"
+            "    border-color: palette(highlight);\n"
+            "    }\n"
+            "    QLabel {\n"
+            "    color: palette(window-text);\n"
+            "    }\n"
+            "    QPlainTextEdit {\n"
+            "    background-color: palette(base);\n"
+            "    color: palette(text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 3px;\n"
+            "    padding: 2px;\n"
+            "    }\n"
+            "    QPlainTextEdit:focus {\n"
+            "    border: 1px solid palette(highlight);\n"
+            "    }\n"
+            "    QPushButton {\n"
+            "    background-color: palette(button);\n"
+            "    color: palette(button-text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 3px;\n"
+            "    padding: 2px 8px;\n"
+            "    }\n"
+            "    QPushButton:hover {\n"
+            "    background-color: palette(midlight);\n"
+            "    }\n"
+            "    QPushButton:pressed {\n"
+            "    background-color: palette(dark);\n"
+            "    }\n"
+            "   "
+        )
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_main = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -161,7 +163,9 @@ class Ui_MainWindow(object):
         self.journalTree.setHeaderHidden(True)
         self.journalTree.setObjectName("journalTree")
         self.questPages = QtWidgets.QStackedWidget(self.splitter)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.questPages.sizePolicy().hasHeightForWidth())
@@ -311,41 +315,90 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Journal Editor"))
         self.filterLabel.setText(_translate("MainWindow", "Filter:"))
         self.filterEdit.setPlaceholderText(_translate("MainWindow", "Search quests and entries..."))
-        self.filterEdit.setToolTip(_translate("MainWindow", "Type to filter quests and entries. Right-click for filter options."))
+        self.filterEdit.setToolTip(
+            _translate(
+                "MainWindow", "Type to filter quests and entries. Right-click for filter options."
+            )
+        )
         self.filterClearBtn.setText(_translate("MainWindow", "X"))
         self.filterClearBtn.setToolTip(_translate("MainWindow", "Clear filter"))
         self.categoryPropsGroup.setTitle(_translate("MainWindow", "Quest Properties"))
         self.label.setText(_translate("MainWindow", "Name:"))
-        self.categoryNameEdit.setToolTip(_translate("MainWindow", "Name (GFF: Name): Display title of the quest in the journal. Localized\n"
-"                  string. Shown in the quest list."))
+        self.categoryNameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: Name): Display title of the quest in the journal. Localized\n"
+                "                  string. Shown in the quest list.",
+            )
+        )
         self.label_5.setText(_translate("MainWindow", "Tag:"))
-        self.categoryTag.setToolTip(_translate("MainWindow", "Tag (GFF: Tag): Unique identifier for this quest. Scripts use\n"
-"                AddJournalQuestEntry(\"Tag\", ID). Right-click to find all references."))
+        self.categoryTag.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag): Unique identifier for this quest. Scripts use\n"
+                '                AddJournalQuestEntry("Tag", ID). Right-click to find all references.',
+            )
+        )
         self.label_3.setText(_translate("MainWindow", "Plot Index:"))
-        self.categoryPlotSelect.setToolTip(_translate("MainWindow", "PlotIndex (GFF: PlotIndex): Row index into plot.2da. Legacy plot flag. INT32."))
+        self.categoryPlotSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "PlotIndex (GFF: PlotIndex): Row index into plot.2da. Legacy plot flag. INT32.",
+            )
+        )
         self.label_2.setText(_translate("MainWindow", "Planet ID:"))
-        self.categoryPlanetSelect.setToolTip(_translate("MainWindow", "PlanetID (GFF: PlanetID): Row index into planet 2DA. Toolset metadata only.\n"
-"                INT32."))
+        self.categoryPlanetSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "PlanetID (GFF: PlanetID): Row index into planet 2DA. Toolset metadata only.\n"
+                "                INT32.",
+            )
+        )
         self.label_4.setText(_translate("MainWindow", "Priority:"))
-        self.categoryPrioritySelect.setToolTip(_translate("MainWindow", "Priority (GFF: Priority): Quest sort order. 0=Highest, 4=Lowest. UINT32."))
+        self.categoryPrioritySelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Priority (GFF: Priority): Quest sort order. 0=Highest, 4=Lowest. UINT32.",
+            )
+        )
         self.categoryPrioritySelect.setItemText(0, _translate("MainWindow", "Highest"))
         self.categoryPrioritySelect.setItemText(1, _translate("MainWindow", "High"))
         self.categoryPrioritySelect.setItemText(2, _translate("MainWindow", "Medium"))
         self.categoryPrioritySelect.setItemText(3, _translate("MainWindow", "Low"))
         self.categoryPrioritySelect.setItemText(4, _translate("MainWindow", "Lowest"))
         self.categoryNotesGroup.setTitle(_translate("MainWindow", "Notes"))
-        self.categoryCommentEdit.setToolTip(_translate("MainWindow", "Comment (GFF: Comment): Developer notes only. The game ignores this."))
+        self.categoryCommentEdit.setToolTip(
+            _translate(
+                "MainWindow", "Comment (GFF: Comment): Developer notes only. The game ignores this."
+            )
+        )
         self.entryPropsGroup.setTitle(_translate("MainWindow", "Entry Properties"))
         self.label_8.setText(_translate("MainWindow", "ID:"))
-        self.entryIdSpin.setToolTip(_translate("MainWindow", "ID (GFF: ID): State identifier. Scripts use AddJournalQuestEntry(\"Tag\", ID).\n"
-"                UINT32."))
+        self.entryIdSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                'ID (GFF: ID): State identifier. Scripts use AddJournalQuestEntry("Tag", ID).\n'
+                "                UINT32.",
+            )
+        )
         self.label_9.setText(_translate("MainWindow", "XP Percentage:"))
-        self.entryXpSpin.setToolTip(_translate("MainWindow", "XP_Percentage (GFF: XP_Percentage): XP reward multiplier. Float."))
+        self.entryXpSpin.setToolTip(
+            _translate(
+                "MainWindow", "XP_Percentage (GFF: XP_Percentage): XP reward multiplier. Float."
+            )
+        )
         self.label_7.setText(_translate("MainWindow", "End:"))
-        self.entryEndCheck.setToolTip(_translate("MainWindow", "End (GFF: End): Completes the quest when reached. BYTE 0/1."))
+        self.entryEndCheck.setToolTip(
+            _translate("MainWindow", "End (GFF: End): Completes the quest when reached. BYTE 0/1.")
+        )
         self.entryTextGroup.setTitle(_translate("MainWindow", "Entry Text"))
-        self.entryTextEdit.setToolTip(_translate("MainWindow", "Text (GFF: Text): Journal text shown to the player for this entry. Localized\n"
-"                string. Double-click to edit."))
+        self.entryTextEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Text (GFF: Text): Journal text shown to the player for this entry. Localized\n"
+                "                string. Double-click to edit.",
+            )
+        )
         self.menuNew.setTitle(_translate("MainWindow", "File"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
@@ -354,7 +407,13 @@ class Ui_MainWindow(object):
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionSettings.setText(_translate("MainWindow", "Settings..."))
-        self.actionSettings.setToolTip(_translate("MainWindow", "Configure Journal Editor filter and jump-to-resource behaviour"))
+        self.actionSettings.setToolTip(
+            _translate(
+                "MainWindow", "Configure Journal Editor filter and jump-to-resource behaviour"
+            )
+        )
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from toolset.gui.widgets.edit.plaintext import HTPlainTextEdit

@@ -74,6 +74,7 @@ def normalize_control_scheme(scheme: str | None = None) -> str:
         return "standard"
     return (scheme or "").strip().lower()
 
+
 def get_renderer_loop_interval_ms() -> int:
     """Return the render loop interval in ms from settings (0 = auto = primary screen Hz)."""
     settings = ModuleDesignerSettings()
@@ -134,9 +135,15 @@ class ModuleDesignerWidget(SettingsWidget):
             x_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             x_label.setObjectName("walkmeshVertexDragXAxis3dLabel")
             self.ui.walkmeshVertexDragXAxis3dBindEdit = SetBindWidget(parent=self.ui.tab3DControls)
-            self.ui.walkmeshVertexDragXAxis3dBindEdit.setObjectName("walkmeshVertexDragXAxis3dBindEdit")
+            self.ui.walkmeshVertexDragXAxis3dBindEdit.setObjectName(
+                "walkmeshVertexDragXAxis3dBindEdit"
+            )
             self.ui.formLayout.setWidget(row, self.ui.formLayout.ItemRole.LabelRole, x_label)
-            self.ui.formLayout.setWidget(row, self.ui.formLayout.ItemRole.FieldRole, self.ui.walkmeshVertexDragXAxis3dBindEdit)
+            self.ui.formLayout.setWidget(
+                row,
+                self.ui.formLayout.ItemRole.FieldRole,
+                self.ui.walkmeshVertexDragXAxis3dBindEdit,
+            )
 
             row += 1
             y_label = QLabel("Walkmesh Vertex Drag Y", self.ui.tab3DControls)
@@ -145,9 +152,15 @@ class ModuleDesignerWidget(SettingsWidget):
             y_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             y_label.setObjectName("walkmeshVertexDragYAxis3dLabel")
             self.ui.walkmeshVertexDragYAxis3dBindEdit = SetBindWidget(parent=self.ui.tab3DControls)
-            self.ui.walkmeshVertexDragYAxis3dBindEdit.setObjectName("walkmeshVertexDragYAxis3dBindEdit")
+            self.ui.walkmeshVertexDragYAxis3dBindEdit.setObjectName(
+                "walkmeshVertexDragYAxis3dBindEdit"
+            )
             self.ui.formLayout.setWidget(row, self.ui.formLayout.ItemRole.LabelRole, y_label)
-            self.ui.formLayout.setWidget(row, self.ui.formLayout.ItemRole.FieldRole, self.ui.walkmeshVertexDragYAxis3dBindEdit)
+            self.ui.formLayout.setWidget(
+                row,
+                self.ui.formLayout.ItemRole.FieldRole,
+                self.ui.walkmeshVertexDragYAxis3dBindEdit,
+            )
 
             row += 1
             z_label = QLabel("Walkmesh Vertex Drag Z", self.ui.tab3DControls)
@@ -156,14 +169,21 @@ class ModuleDesignerWidget(SettingsWidget):
             z_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             z_label.setObjectName("walkmeshVertexDragZAxis3dLabel")
             self.ui.walkmeshVertexDragZAxis3dBindEdit = SetBindWidget(parent=self.ui.tab3DControls)
-            self.ui.walkmeshVertexDragZAxis3dBindEdit.setObjectName("walkmeshVertexDragZAxis3dBindEdit")
+            self.ui.walkmeshVertexDragZAxis3dBindEdit.setObjectName(
+                "walkmeshVertexDragZAxis3dBindEdit"
+            )
             self.ui.formLayout.setWidget(row, self.ui.formLayout.ItemRole.LabelRole, z_label)
-            self.ui.formLayout.setWidget(row, self.ui.formLayout.ItemRole.FieldRole, self.ui.walkmeshVertexDragZAxis3dBindEdit)
+            self.ui.formLayout.setWidget(
+                row,
+                self.ui.formLayout.ItemRole.FieldRole,
+                self.ui.walkmeshVertexDragZAxis3dBindEdit,
+            )
 
         # --- Control Scheme selector (Standard / Classic) ---
         # Dynamically added so no .ui change is needed.
         if not hasattr(self.ui, "controlSchemeCombo"):
             from qtpy.QtWidgets import QComboBox, QHBoxLayout
+
             scheme_row = QHBoxLayout()
             scheme_label = QLabel("Control Scheme", self.ui.tab3DControls)
             scheme_label.setObjectName("controlSchemeLabel")
@@ -181,16 +201,16 @@ class ModuleDesignerWidget(SettingsWidget):
         # --- Blender numpad view / frame navigation binds (3D) ---
         if not hasattr(self.ui, "viewFront3dBindEdit"):
             _nav_binds_3d: list[tuple[str, str]] = [
-                ("viewFront3dBindEdit",       "View Front (Numpad 1)"),
-                ("viewBack3dBindEdit",        "View Back (Ctrl+Num 1)"),
-                ("viewRight3dBindEdit",       "View Right (Numpad 3)"),
-                ("viewLeft3dBindEdit",        "View Left (Ctrl+Num 3)"),
-                ("viewTop3dBindEdit",         "View Top (Numpad 7)"),
-                ("viewBottom3dBindEdit",      "View Bottom (Ctrl+Num 7)"),
+                ("viewFront3dBindEdit", "View Front (Numpad 1)"),
+                ("viewBack3dBindEdit", "View Back (Ctrl+Num 1)"),
+                ("viewRight3dBindEdit", "View Right (Numpad 3)"),
+                ("viewLeft3dBindEdit", "View Left (Ctrl+Num 3)"),
+                ("viewTop3dBindEdit", "View Top (Numpad 7)"),
+                ("viewBottom3dBindEdit", "View Bottom (Ctrl+Num 7)"),
                 ("viewToggleOrtho3dBindEdit", "Toggle Ortho (Numpad 5)"),
-                ("viewCamera3dBindEdit",      "Snap to Camera (Numpad 0)"),
-                ("frameAll3dBindEdit",        "Frame All (Home)"),
-                ("frameSelected3dBindEdit",   "Frame Selected (Numpad .)"),
+                ("viewCamera3dBindEdit", "Snap to Camera (Numpad 0)"),
+                ("frameAll3dBindEdit", "Frame All (Home)"),
+                ("frameSelected3dBindEdit", "Frame Selected (Numpad .)"),
             ]
             for attr_name, label_text in _nav_binds_3d:
                 nav_row = self.ui.formLayout.rowCount()
@@ -201,8 +221,12 @@ class ModuleDesignerWidget(SettingsWidget):
                 nav_bind_widget = SetBindWidget(parent=self.ui.tab3DControls)
                 nav_bind_widget.setObjectName(attr_name)
                 setattr(self.ui, attr_name, nav_bind_widget)
-                self.ui.formLayout.setWidget(nav_row, self.ui.formLayout.ItemRole.LabelRole, nav_lbl)
-                self.ui.formLayout.setWidget(nav_row, self.ui.formLayout.ItemRole.FieldRole, nav_bind_widget)
+                self.ui.formLayout.setWidget(
+                    nav_row, self.ui.formLayout.ItemRole.LabelRole, nav_lbl
+                )
+                self.ui.formLayout.setWidget(
+                    nav_row, self.ui.formLayout.ItemRole.FieldRole, nav_bind_widget
+                )
 
         # --- Pan camera (LMB) bind (3D) ---
         if not hasattr(self.ui, "panCameraLMB3dBindEdit"):
@@ -213,8 +237,12 @@ class ModuleDesignerWidget(SettingsWidget):
             pan_lmb_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.ui.panCameraLMB3dBindEdit = SetBindWidget(parent=self.ui.tab3DControls)
             self.ui.panCameraLMB3dBindEdit.setObjectName("panCameraLMB3dBindEdit")
-            self.ui.formLayout.setWidget(pan_lmb_row, self.ui.formLayout.ItemRole.LabelRole, pan_lmb_lbl)
-            self.ui.formLayout.setWidget(pan_lmb_row, self.ui.formLayout.ItemRole.FieldRole, self.ui.panCameraLMB3dBindEdit)
+            self.ui.formLayout.setWidget(
+                pan_lmb_row, self.ui.formLayout.ItemRole.LabelRole, pan_lmb_lbl
+            )
+            self.ui.formLayout.setWidget(
+                pan_lmb_row, self.ui.formLayout.ItemRole.FieldRole, self.ui.panCameraLMB3dBindEdit
+            )
 
         # --- Frame-all bind (2D) ---
         if not hasattr(self.ui, "frameAll2dBindEdit"):
@@ -226,7 +254,9 @@ class ModuleDesignerWidget(SettingsWidget):
             self.ui.frameAll2dBindEdit = SetBindWidget(parent=self.ui.tab2DControls)
             self.ui.frameAll2dBindEdit.setObjectName("frameAll2dBindEdit")
             self.ui.formLayout_2.setWidget(d2_row, self.ui.formLayout_2.ItemRole.LabelRole, d2_lbl)
-            self.ui.formLayout_2.setWidget(d2_row, self.ui.formLayout_2.ItemRole.FieldRole, self.ui.frameAll2dBindEdit)
+            self.ui.formLayout_2.setWidget(
+                d2_row, self.ui.formLayout_2.ItemRole.FieldRole, self.ui.frameAll2dBindEdit
+            )
 
         extra_2d_binds: list[tuple[str, str]] = [
             ("resetCameraView2dBindEdit", "Reset View 2D"),
@@ -249,7 +279,9 @@ class ModuleDesignerWidget(SettingsWidget):
             bind_widget.setObjectName(attr_name)
             setattr(self.ui, attr_name, bind_widget)
             self.ui.formLayout_2.setWidget(row, self.ui.formLayout_2.ItemRole.LabelRole, bind_label)
-            self.ui.formLayout_2.setWidget(row, self.ui.formLayout_2.ItemRole.FieldRole, bind_widget)
+            self.ui.formLayout_2.setWidget(
+                row, self.ui.formLayout_2.ItemRole.FieldRole, bind_widget
+            )
 
         self.ui.undefinedMaterialColourEdit.allow_alpha = True
         self.ui.dirtMaterialColourEdit.allow_alpha = True
@@ -287,7 +319,9 @@ class ModuleDesignerWidget(SettingsWidget):
         self.ui.moveCameraSensitivity3dEdit.setValue(self.settings.moveCameraSensitivity3d)
         self.ui.rotateCameraSensitivity3dEdit.setValue(self.settings.rotateCameraSensitivity3d)
         self.ui.zoomCameraSensitivity3dEdit.setValue(self.settings.zoomCameraSensitivity3d)
-        self.ui.boostedMoveCameraSensitivity3dEdit.setValue(self.settings.boostedMoveCameraSensitivity3d)
+        self.ui.boostedMoveCameraSensitivity3dEdit.setValue(
+            self.settings.boostedMoveCameraSensitivity3d
+        )
 
         for bindEdit in [widget for widget in dir(self.ui) if "3dBindEdit" in widget]:
             bindWidget: SetBindWidget = getattr(self.ui, bindEdit)
@@ -318,7 +352,9 @@ class ModuleDesignerWidget(SettingsWidget):
 
     def _populate_renderer_refresh_rate_combo(self) -> None:
         screen: QScreen | None = QApplication.primaryScreen()
-        detected_hz: int = round(screen.refreshRate()) if screen and screen.refreshRate() > 0 else 60
+        detected_hz: int = (
+            round(screen.refreshRate()) if screen and screen.refreshRate() > 0 else 60
+        )
         self.ui.rendererRefreshRateCombo.clear()
         self.ui.rendererRefreshRateCombo.addItem(
             f"Auto-Detect -- Match Refresh Rate ({detected_hz} Hz)",
@@ -359,7 +395,9 @@ class ModuleDesignerWidget(SettingsWidget):
         self.settings.moveCameraSensitivity3d = self.ui.moveCameraSensitivity3dEdit.value()
         self.settings.rotateCameraSensitivity3d = self.ui.rotateCameraSensitivity3dEdit.value()
         self.settings.zoomCameraSensitivity3d = self.ui.zoomCameraSensitivity3dEdit.value()
-        self.settings.boostedMoveCameraSensitivity3d = self.ui.boostedMoveCameraSensitivity3dEdit.value()
+        self.settings.boostedMoveCameraSensitivity3d = (
+            self.ui.boostedMoveCameraSensitivity3dEdit.value()
+        )
 
         self.settings.moveCameraSensitivity2d = self.ui.moveCameraSensitivity2dEdit.value()
         self.settings.rotateCameraSensitivity2d = self.ui.rotateCameraSensitivity2dEdit.value()

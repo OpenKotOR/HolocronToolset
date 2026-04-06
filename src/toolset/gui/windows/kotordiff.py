@@ -71,7 +71,9 @@ class KotorDiffThread(QThread):
 
             self.finished_signal.emit(exit_code)
         except Exception as e:  # noqa: BLE001
-            self.output_signal.emit(f"Error: {e.__class__.__name__}: {e}{os.linesep}{traceback.format_exc()}")
+            self.output_signal.emit(
+                f"Error: {e.__class__.__name__}: {e}{os.linesep}{traceback.format_exc()}"
+            )
             self.finished_signal.emit(1)
 
 
@@ -123,7 +125,9 @@ class KotorDiffWindow(QMainWindow):
         self.ui.tslpatchdataCheck.toggled.connect(self.ui.tslpatchdataEdit.setEnabled)
         self.ui.tslpatchdataCheck.toggled.connect(self.ui.tslpatchdataBrowseBtn.setEnabled)
         self.ui.tslpatchdataCheck.toggled.connect(self.ui.iniNameEdit.setEnabled)
-        self.ui.tslpatchdataBrowseBtn.clicked.connect(lambda: self._browse_directory(self.ui.tslpatchdataEdit))
+        self.ui.tslpatchdataBrowseBtn.clicked.connect(
+            lambda: self._browse_directory(self.ui.tslpatchdataEdit)
+        )
 
         # Connect button signals
         self.ui.runBtn.clicked.connect(self._run_diff)
@@ -222,7 +226,9 @@ class KotorDiffWindow(QMainWindow):
         """Load saved settings from QSettings."""
         # Load path selections
         for path_num in [1, 2]:
-            use_installation = self._settings.value(f"path{path_num}_use_installation", True, type=bool)
+            use_installation = self._settings.value(
+                f"path{path_num}_use_installation", True, type=bool
+            )
             installation_name = self._settings.value(f"path{path_num}_installation", "")
             custom_path = self._settings.value(f"path{path_num}_custom", "")
 
@@ -243,8 +249,12 @@ class KotorDiffWindow(QMainWindow):
                 edit.setText(custom_path)
 
         # Load options
-        self.ui.compareHashesCheck.setChecked(self._settings.value("compare_hashes", True, type=bool))
-        self.ui.tslpatchdataCheck.setChecked(self._settings.value("tslpatchdata_enabled", False, type=bool))
+        self.ui.compareHashesCheck.setChecked(
+            self._settings.value("compare_hashes", True, type=bool)
+        )
+        self.ui.tslpatchdataCheck.setChecked(
+            self._settings.value("tslpatchdata_enabled", False, type=bool)
+        )
         self.ui.tslpatchdataEdit.setText(self._settings.value("tslpatchdata_path", ""))
         self.ui.iniNameEdit.setText(self._settings.value("ini_filename", "changes.ini"))
         self.ui.logLevelCombo.setCurrentText(self._settings.value("log_level", "info"))
@@ -257,7 +267,9 @@ class KotorDiffWindow(QMainWindow):
             combo = getattr(self.ui, f"path{path_num}Combo")
             edit = getattr(self.ui, f"path{path_num}Edit")
 
-            self._settings.setValue(f"path{path_num}_use_installation", installation_radio.isChecked())
+            self._settings.setValue(
+                f"path{path_num}_use_installation", installation_radio.isChecked()
+            )
             self._settings.setValue(f"path{path_num}_installation", combo.currentText())
             self._settings.setValue(f"path{path_num}_custom", edit.text())
 
@@ -306,7 +318,11 @@ class KotorDiffWindow(QMainWindow):
         # Build configuration
         config = DiffConfig(
             paths=paths,
-            tslpatchdata_path=(Path(self.ui.tslpatchdataEdit.text().strip()) if self.ui.tslpatchdataCheck.isChecked() and self.ui.tslpatchdataEdit.text().strip() else None),
+            tslpatchdata_path=(
+                Path(self.ui.tslpatchdataEdit.text().strip())
+                if self.ui.tslpatchdataCheck.isChecked() and self.ui.tslpatchdataEdit.text().strip()
+                else None
+            ),
             ini_filename=(self.ui.iniNameEdit.text().strip() or "changes.ini"),
             output_log_path=None,
             log_level=self.ui.logLevelCombo.currentText(),

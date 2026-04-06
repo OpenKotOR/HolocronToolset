@@ -76,8 +76,12 @@ class DLGListWidgetItem(QListWidgetItem):
             self.isHidden()
             self.flags()
             self.isSelected()
-        except RuntimeError as e:  # RuntimeError: wrapped C/C++ object of type DLGStandardItem has been deleted
-            RobustLogger().warning(f"isDeleted suppressed the following exception: {e.__class__.__name__}: {e}")
+        except (
+            RuntimeError
+        ) as e:  # RuntimeError: wrapped C/C++ object of type DLGStandardItem has been deleted
+            RobustLogger().warning(
+                f"isDeleted suppressed the following exception: {e.__class__.__name__}: {e}"
+            )
             return True
         else:
             return False
@@ -94,10 +98,20 @@ class DLGListWidget(QListWidget):
         self.currently_hovered_item: DLGListWidgetItem | None = None
         self.use_hover_text: bool = True
 
-        self.itemPressed.connect(lambda: None if self.editor is None else self.editor.jump_to_node(getattr(self.currentItem(), "link", None)))
-        self.itemDoubleClicked.connect(lambda: None if self.editor is None else self.editor.focus_on_node(getattr(self.currentItem(), "link", None)))
+        self.itemPressed.connect(
+            lambda: None
+            if self.editor is None
+            else self.editor.jump_to_node(getattr(self.currentItem(), "link", None))
+        )
+        self.itemDoubleClicked.connect(
+            lambda: None
+            if self.editor is None
+            else self.editor.focus_on_node(getattr(self.currentItem(), "link", None))
+        )
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.customContextMenuRequested.connect(lambda pt: None if self.editor is None else self.editor.on_list_context_menu(pt, self))
+        self.customContextMenuRequested.connect(
+            lambda pt: None if self.editor is None else self.editor.on_list_context_menu(pt, self)
+        )
         self.setMouseTracking(True)
 
     def itemDelegate(self) -> HTMLDelegate | QAbstractItemDelegate | None:
@@ -112,8 +126,12 @@ class DLGListWidget(QListWidget):
         """Handle custom data dropping."""
         assert self.editor is not None
         if data.hasFormat(QT_STANDARD_ITEM_FORMAT):
-            item_data: list[dict[Literal["row", "column", "roles"], Any]] = self.editor.ui.dialogTree.parse_mime_data(data)
-            link: DLGLink[Any] = DLGLink.from_dict(json.loads(item_data[0]["roles"][_DLG_MIME_DATA_ROLE]))
+            item_data: list[dict[Literal["row", "column", "roles"], Any]] = (
+                self.editor.ui.dialogTree.parse_mime_data(data)
+            )
+            link: DLGLink[Any] = DLGLink.from_dict(
+                json.loads(item_data[0]["roles"][_DLG_MIME_DATA_ROLE])
+            )
             newItem = DLGListWidgetItem(link=link)
             self.update_item(newItem)
             self.addItem(newItem)
@@ -134,7 +152,11 @@ class DLGListWidget(QListWidget):
             return
 
         # Reset previous hover item
-        if self.currently_hovered_item is not None and not self.currently_hovered_item.isDeleted() and self.row(self.currently_hovered_item) != -1:
+        if (
+            self.currently_hovered_item is not None
+            and not self.currently_hovered_item.isDeleted()
+            and self.row(self.currently_hovered_item) != -1
+        ):
             self._swap_display_text(self.currently_hovered_item)
 
         # Set new hover item
@@ -150,7 +172,11 @@ class DLGListWidget(QListWidget):
         event: QFocusEvent,
     ):
         super().focusOutEvent(event)
-        if self.currently_hovered_item is not None and not self.currently_hovered_item.isDeleted() and self.row(self.currently_hovered_item) != -1:
+        if (
+            self.currently_hovered_item is not None
+            and not self.currently_hovered_item.isDeleted()
+            and self.row(self.currently_hovered_item) != -1
+        ):
             # print("Reset old hover item")
             hover_display: str = self.currently_hovered_item.data(Qt.ItemDataRole.DisplayRole)
             default_display: str = self.currently_hovered_item.data(_EXTRA_DISPLAY_ROLE)
@@ -166,7 +192,9 @@ class DLGListWidget(QListWidget):
     ):
         """Refreshes the item text and formatting based on the node data."""
         assert self.editor is not None
-        link_parent_path, link_partial_path, node_path = self.editor.get_item_dlg_paths(item) if cached_paths is None else cached_paths
+        link_parent_path, link_partial_path, node_path = (
+            self.editor.get_item_dlg_paths(item) if cached_paths is None else cached_paths
+        )
 
         # Get palette colors for entry/reply (same logic as model.py)
         app = QApplication.instance()
@@ -197,9 +225,19 @@ class DLGListWidget(QListWidget):
             link_parent_path = ""
         hover_text_1: str = f"<span style='color:{color}; display:inline-block; vertical-align:top;'>{link_partial_path} --></span>"
         display_text_2: str = f"<div class='link-hover-text' style='display:inline-block; vertical-align:top; color:{color}; text-align:center;'>{node_path}</div>"
-        item.setData(Qt.ItemDataRole.DisplayRole, f"<div class='link-container' style='white-space: nowrap;'>{display_text_2}</div>")
-        item.setData(_EXTRA_DISPLAY_ROLE, f"<div class='link-container' style='white-space: nowrap;'>{hover_text_1}{display_text_2}</div>")
-        text: str = repr(item.link.node) if self.editor._installation is None else self.editor._installation.string(item.link.node.text)  # noqa: SLF001
+        item.setData(
+            Qt.ItemDataRole.DisplayRole,
+            f"<div class='link-container' style='white-space: nowrap;'>{display_text_2}</div>",
+        )
+        item.setData(
+            _EXTRA_DISPLAY_ROLE,
+            f"<div class='link-container' style='white-space: nowrap;'>{hover_text_1}{display_text_2}</div>",
+        )
+        text: str = (
+            repr(item.link.node)
+            if self.editor._installation is None
+            else self.editor._installation.string(item.link.node.text)
+        )  # noqa: SLF001
         item.setToolTip(f"{text}<br><br><i>Right click for more options</i>")
 
     def _swap_display_text(

@@ -150,7 +150,9 @@ class WalkmeshEditor(QWidget):
         if len(self.lyt.rooms) < 2:  # noqa: PLR2004
             from toolset.gui.common.localization import translate as tr
 
-            QMessageBox.warning(self, tr("Add Track"), tr("At least two rooms are required to add a track."))
+            QMessageBox.warning(
+                self, tr("Add Track"), tr("At least two rooms are required to add a track.")
+            )
             return
         dialog = TrackPropertiesDialog(self, self.lyt.rooms)
         if dialog.exec():
@@ -215,7 +217,9 @@ class WalkmeshEditor(QWidget):
         if not self.lyt.rooms:
             from toolset.gui.common.localization import translate as tr
 
-            QMessageBox.warning(self, tr("Add Door Hook"), tr("At least one room is required to add a door hook."))
+            QMessageBox.warning(
+                self, tr("Add Door Hook"), tr("At least one room is required to add a door hook.")
+            )
             return
         dialog = DoorHookPropertiesDialog(self, self.lyt.rooms)
         if dialog.exec():
@@ -229,7 +233,9 @@ class WalkmeshEditor(QWidget):
     def edit_doorhook(self):
         if self.selected_element and isinstance(self.selected_element, QGraphicsRectItem):
             doorhook: LYTDoorHook = self.selected_element.data(0)
-            dialog: DoorHookPropertiesDialog = DoorHookPropertiesDialog(self, self.lyt.rooms, doorhook)
+            dialog: DoorHookPropertiesDialog = DoorHookPropertiesDialog(
+                self, self.lyt.rooms, doorhook
+            )
             if dialog.exec():
                 old_doorhook: LYTDoorHook = LYTDoorHook()
                 old_doorhook.room = doorhook.room
@@ -268,7 +274,12 @@ class WalkmeshEditor(QWidget):
         width: float = room.size.x
         height: float = room.size.y
 
-        vertices: list[tuple[float, float, float]] = [(x, y, z), (x + width, y, z), (x + width, y + height, z), (x, y + height, z)]
+        vertices: list[tuple[float, float, float]] = [
+            (x, y, z),
+            (x + width, y, z),
+            (x + width, y + height, z),
+            (x, y + height, z),
+        ]
 
         faces: list[tuple[int, int, int]] = [(0, 1, 2), (0, 2, 3)]
 
@@ -450,7 +461,9 @@ class WalkmeshEditor(QWidget):
 
     def select_element_at(self, pos: QPointF):
         # Select the element at the given position
-        item: QGraphicsItem | None = self.scene.itemAt(self.graphics_view.mapToScene(pos.toPoint()), self.graphics_view.transform())
+        item: QGraphicsItem | None = self.scene.itemAt(
+            self.graphics_view.mapToScene(pos.toPoint()), self.graphics_view.transform()
+        )
         if item:
             self.selected_element = item
             item.setSelected(True)
@@ -468,7 +481,7 @@ class WalkmeshEditor(QWidget):
         elif self.current_tool == "rotate":
             element = self.selected_element.data(0)
             if isinstance(element, (LYTRoom, LYTObstacle, LYTDoorHook)):
-                center = self.selected_element.boundingRect().center()
+                _center = self.selected_element.boundingRect().center()
                 angle = math.atan2(delta.y(), delta.x())
                 self.selected_element.set_rotation(math.degrees(angle))
         self.transform_start = current_pos
@@ -478,11 +491,38 @@ class WalkmeshEditor(QWidget):
             return
         element = self.selected_element.data(0)
         if isinstance(element, LYTRoom):
-            command = MoveRoomCommand(self, element, element.position, Vector3(self.selected_element.pos().x(), self.selected_element.pos().y(), element.position.z))
+            command = MoveRoomCommand(
+                self,
+                element,
+                element.position,
+                Vector3(
+                    self.selected_element.pos().x(),
+                    self.selected_element.pos().y(),
+                    element.position.z,
+                ),
+            )
         elif isinstance(element, LYTObstacle):
-            command = MoveObstacleCommand(self, element, element.position, Vector3(self.selected_element.pos().x(), self.selected_element.pos().y(), element.position.z))
+            command = MoveObstacleCommand(
+                self,
+                element,
+                element.position,
+                Vector3(
+                    self.selected_element.pos().x(),
+                    self.selected_element.pos().y(),
+                    element.position.z,
+                ),
+            )
         elif isinstance(element, LYTDoorHook):
-            command = MoveDoorHookCommand(self, element, element.position, Vector3(self.selected_element.pos().x(), self.selected_element.pos().y(), element.position.z))
+            command = MoveDoorHookCommand(
+                self,
+                element,
+                element.position,
+                Vector3(
+                    self.selected_element.pos().x(),
+                    self.selected_element.pos().y(),
+                    element.position.z,
+                ),
+            )
         else:
             return
         self.undo_stack.push(command)
@@ -1039,7 +1079,10 @@ class MoveObstacleCommand(QUndoCommand):
     def update_scene_item(self):
         for item in self.editor.scene.items():
             if item.data(0) == self.obstacle:
-                item.setPos(self.obstacle.position.x - self.obstacle.radius, self.obstacle.position.y - self.obstacle.radius)
+                item.setPos(
+                    self.obstacle.position.x - self.obstacle.radius,
+                    self.obstacle.position.y - self.obstacle.radius,
+                )
                 break
 
 

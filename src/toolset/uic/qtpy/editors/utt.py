@@ -117,7 +117,9 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName("label_7")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_7)
         self.verticalLayout_4.addLayout(self.formLayout_3)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_4.addItem(spacerItem)
         self.tabWidget.addTab(self.tab_5, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -170,7 +172,9 @@ class Ui_MainWindow(object):
         self.disarmDcSpin.setObjectName("disarmDcSpin")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.disarmDcSpin)
         self.verticalLayout_3.addLayout(self.formLayout_2)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_3.addItem(spacerItem1)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_4 = QtWidgets.QWidget()
@@ -222,7 +226,9 @@ class Ui_MainWindow(object):
         self.onClickEdit.setObjectName("onClickEdit")
         self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.onClickEdit)
         self.verticalLayout_5.addLayout(self.formLayout_5)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 26, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 26, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_5.addItem(spacerItem2)
         self.tabWidget.addTab(self.tab_4, "")
         self.commentsTab = QtWidgets.QWidget()
@@ -270,98 +276,238 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocalizedName). CExoLocString. Localized trigger name. Not used by\n"
-"                the game engine. Default when missing: empty. Modders: toolset/display only."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocalizedName). CExoLocString. Localized trigger name. Not used by\n"
+                "                the game engine. Default when missing: empty. Modders: toolset/display only.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Trigger tag for scripts and linking. Default when\n"
-"                missing: \"\". Modders: keep unique in area for script targeting."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Copy the Template ResRef into the Tag field so they stay in sync. Use when\n"
-"                you need to reference this trigger by tag in scripts; keep Tag unique per area.\n"
-"                Scripts use GetObjectByTag to find triggers."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Trigger tag for scripts and linking. Default when\n"
+                '                missing: "". Modders: keep unique in area for script targeting.',
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Copy the Template ResRef into the Tag field so they stay in sync. Use when\n"
+                "                you need to reference this trigger by tag in scripts; keep Tag unique per area.\n"
+                "                Scripts use GetObjectByTag to find triggers.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "ResRef (GFF: TemplateResRef). CResRef. Trigger template resource reference.\n"
-"                Default when missing: blank. Modders: max 16 chars; .utt extension implied."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Copy the Tag into the Template ResRef field (max 16 characters). ResRef\n"
-"                should match the UTT filename so the game finds the template when loading triggers\n"
-"                from the GIT."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "ResRef (GFF: TemplateResRef). CResRef. Trigger template resource reference.\n"
+                "                Default when missing: blank. Modders: max 16 chars; .utt extension implied.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Copy the Tag into the Template ResRef field (max 16 characters). ResRef\n"
+                "                should match the UTT filename so the game finds the template when loading triggers\n"
+                "                from the GIT.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_2.setText(_translate("MainWindow", "Type:"))
-        self.typeSelect.setToolTip(_translate("MainWindow", "Type (GFF: Type). INT32. Trigger type: 0 Generic, 1 Transition, 2 Trap. Default\n"
-"              when missing: 0. Modders: affects cursor and behavior."))
+        self.typeSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Type (GFF: Type). INT32. Trigger type: 0 Generic, 1 Transition, 2 Trap. Default\n"
+                "              when missing: 0. Modders: affects cursor and behavior.",
+            )
+        )
         self.typeSelect.setItemText(0, _translate("MainWindow", "Generic"))
         self.typeSelect.setItemText(1, _translate("MainWindow", "Transition"))
         self.typeSelect.setItemText(2, _translate("MainWindow", "Trap"))
         self.label_3.setText(_translate("MainWindow", "Cursor:"))
-        self.cursorSelect.setToolTip(_translate("MainWindow", "Cursor (GFF: Cursor). BYTE. Cursor type when hovering trigger. Default when\n"
-"              missing: 0. Modders: from cursors.2da."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
-        self.autoRemoveKeyCheckbox.setToolTip(_translate("MainWindow", "Auto Remove Key (GFF: AutoRemoveKey). BYTE. Key removed from inventory after use.\n"
-"            Default when missing: 0. Modders: 0 or 1."))
+        self.cursorSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Cursor (GFF: Cursor). BYTE. Cursor type when hovering trigger. Default when\n"
+                "              missing: 0. Modders: from cursors.2da.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
+        self.autoRemoveKeyCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Auto Remove Key (GFF: AutoRemoveKey). BYTE. Key removed from inventory after use.\n"
+                "            Default when missing: 0. Modders: 0 or 1.",
+            )
+        )
         self.autoRemoveKeyCheckbox.setText(_translate("MainWindow", "Auto Remove Key"))
         self.label_8.setText(_translate("MainWindow", "Key Name:"))
-        self.keyEdit.setToolTip(_translate("MainWindow", "Key Name (GFF: KeyName). CExoString. Tag of key item required to open/lock.\n"
-"              Default when missing: \"\". Modders: leave blank if no key required."))
+        self.keyEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Key Name (GFF: KeyName). CExoString. Tag of key item required to open/lock.\n"
+                '              Default when missing: "". Modders: leave blank if no key required.',
+            )
+        )
         self.label.setText(_translate("MainWindow", "Faction:"))
-        self.factionSelect.setToolTip(_translate("MainWindow", "Faction (GFF: Faction). DWORD. Faction identifier for reaction/combat. Default\n"
-"              when missing: 0. Modders: from faction.2da."))
-        self.highlightHeightSpin.setToolTip(_translate("MainWindow", "Highlight Height (GFF: HighlightHeight). FLOAT. Height of trigger highlight\n"
-"              area. Default when missing: 0.0. Modders: affects visible trigger bounds."))
+        self.factionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Faction (GFF: Faction). DWORD. Faction identifier for reaction/combat. Default\n"
+                "              when missing: 0. Modders: from faction.2da.",
+            )
+        )
+        self.highlightHeightSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Highlight Height (GFF: HighlightHeight). FLOAT. Height of trigger highlight\n"
+                "              area. Default when missing: 0.0. Modders: affects visible trigger bounds.",
+            )
+        )
         self.label_7.setText(_translate("MainWindow", "Highlight Height:"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Advanced"))
-        self.isTrapCheckbox.setToolTip(_translate("MainWindow", "Is a trap (GFF: TrapFlag). BYTE. Trigger has trap behavior. Default when\n"
-"              missing: 0. Modders: enable to use trap type/DC fields."))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Advanced")
+        )
+        self.isTrapCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Is a trap (GFF: TrapFlag). BYTE. Trigger has trap behavior. Default when\n"
+                "              missing: 0. Modders: enable to use trap type/DC fields.",
+            )
+        )
         self.isTrapCheckbox.setText(_translate("MainWindow", "Is a trap"))
-        self.activateOnceCheckbox.setToolTip(_translate("MainWindow", "Activate Once (GFF: TrapOneShot). BYTE. Trap fires only once. Default when\n"
-"              missing: 0. Modders: 0 = repeatable, 1 = one shot."))
+        self.activateOnceCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Activate Once (GFF: TrapOneShot). BYTE. Trap fires only once. Default when\n"
+                "              missing: 0. Modders: 0 = repeatable, 1 = one shot.",
+            )
+        )
         self.activateOnceCheckbox.setText(_translate("MainWindow", "Activate Once"))
         self.label_17.setText(_translate("MainWindow", "Trap Type:"))
-        self.trapSelect.setToolTip(_translate("MainWindow", "Trap Type (GFF: TrapType). BYTE. Trap type from traps.2da. Default when\n"
-"                missing: 0. Modders: used when Is a trap is set."))
-        self.detectableCheckbox.setToolTip(_translate("MainWindow", "Detectable (GFF: TrapDetectable). BYTE. Trap can be detected by skills. Default\n"
-"            when missing: 0. Modders: use with Detect DC."))
+        self.trapSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Trap Type (GFF: TrapType). BYTE. Trap type from traps.2da. Default when\n"
+                "                missing: 0. Modders: used when Is a trap is set.",
+            )
+        )
+        self.detectableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Detectable (GFF: TrapDetectable). BYTE. Trap can be detected by skills. Default\n"
+                "            when missing: 0. Modders: use with Detect DC.",
+            )
+        )
         self.detectableCheckbox.setText(_translate("MainWindow", "Detectable"))
         self.label_4.setText(_translate("MainWindow", "Detect DC:"))
-        self.detectDcSpin.setToolTip(_translate("MainWindow", "Detect DC (GFF: TrapDetectDC). BYTE 0–255. Difficulty class for Awareness to\n"
-"              detect the trap. Note: K1 LoadTrigger does not read this—trigger DC comes from\n"
-"              traps.2da DetectDCMod. PyKotor stores it for GFF compatibility (doors/placeables use\n"
-"              it). Modders: set 0–255; used when Detectable is checked. Doors and placeables read\n"
-"              this field; triggers use traps.2da."))
-        self.disarmableCheckbox.setToolTip(_translate("MainWindow", "Disarmable (GFF: TrapDisarmable). BYTE. Trap can be disarmed. Default when\n"
-"            missing: 0. Modders: use with Disarm DC."))
+        self.detectDcSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Detect DC (GFF: TrapDetectDC). BYTE 0–255. Difficulty class for Awareness to\n"
+                "              detect the trap. Note: K1 LoadTrigger does not read this—trigger DC comes from\n"
+                "              traps.2da DetectDCMod. PyKotor stores it for GFF compatibility (doors/placeables use\n"
+                "              it). Modders: set 0–255; used when Detectable is checked. Doors and placeables read\n"
+                "              this field; triggers use traps.2da.",
+            )
+        )
+        self.disarmableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Disarmable (GFF: TrapDisarmable). BYTE. Trap can be disarmed. Default when\n"
+                "            missing: 0. Modders: use with Disarm DC.",
+            )
+        )
         self.disarmableCheckbox.setText(_translate("MainWindow", "Disarmable"))
         self.label_5.setText(_translate("MainWindow", "Disarm DC:"))
-        self.disarmDcSpin.setToolTip(_translate("MainWindow", "Disarm DC (GFF: DisarmDC). BYTE 0–255. Difficulty class for Security to disarm\n"
-"              the trap. Note: K1 LoadTrigger does not read this—trigger DC comes from traps.2da\n"
-"              DisarmDCMod. PyKotor stores it for GFF compatibility (doors/placeables use it).\n"
-"              Modders: set 0–255; used when Disarmable is checked. Doors and placeables read this\n"
-"              field; triggers use traps.2da."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Trap"))
+        self.disarmDcSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Disarm DC (GFF: DisarmDC). BYTE 0–255. Difficulty class for Security to disarm\n"
+                "              the trap. Note: K1 LoadTrigger does not read this—trigger DC comes from traps.2da\n"
+                "              DisarmDCMod. PyKotor stores it for GFF compatibility (doors/placeables use it).\n"
+                "              Modders: set 0–255; used when Disarmable is checked. Doors and placeables read this\n"
+                "              field; triggers use traps.2da.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Trap")
+        )
         self.label_9.setText(_translate("MainWindow", "OnHeartbeat:"))
-        self.onHeartbeatSelect.setToolTip(_translate("MainWindow", "OnHeartbeat (GFF: ScriptHeartbeat). CResRef. Script run on heartbeat while in\n"
-"              trigger. Default when missing: blank. Modders: .ncs script ResRef."))
+        self.onHeartbeatSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnHeartbeat (GFF: ScriptHeartbeat). CResRef. Script run on heartbeat while in\n"
+                "              trigger. Default when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
         self.label_10.setText(_translate("MainWindow", "OnExit:"))
         self.label_11.setText(_translate("MainWindow", "OnEnter:"))
         self.label_12.setText(_translate("MainWindow", "OnUserDefined:"))
-        self.onExitSelect.setToolTip(_translate("MainWindow", "OnExit (GFF: ScriptOnExit). CResRef. Script run when creature exits trigger.\n"
-"              Default when missing: blank. Modders: .ncs script ResRef."))
-        self.onEnterSelect.setToolTip(_translate("MainWindow", "OnEnter (GFF: ScriptOnEnter). CResRef. Script run when creature enters trigger.\n"
-"              Default when missing: blank. Modders: .ncs script ResRef."))
-        self.onUserDefinedSelect.setToolTip(_translate("MainWindow", "OnUserDefined (GFF: ScriptUserDefine). CResRef. Script run on user-defined\n"
-"              event. Default when missing: blank. Modders: .ncs script ResRef."))
+        self.onExitSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnExit (GFF: ScriptOnExit). CResRef. Script run when creature exits trigger.\n"
+                "              Default when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
+        self.onEnterSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnEnter (GFF: ScriptOnEnter). CResRef. Script run when creature enters trigger.\n"
+                "              Default when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
+        self.onUserDefinedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnUserDefined (GFF: ScriptUserDefine). CResRef. Script run on user-defined\n"
+                "              event. Default when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
         self.label_13.setText(_translate("MainWindow", "OnClick:"))
         self.label_15.setText(_translate("MainWindow", "OnDisarm:"))
         self.label_16.setText(_translate("MainWindow", "OnTrapTriggered:"))
-        self.onTrapTriggeredEdit.setToolTip(_translate("MainWindow", "OnTrapTriggered (GFF: OnTrapTriggered). CResRef. Script run when trap fires.\n"
-"              Default when missing: blank. Modders: .ncs script ResRef."))
-        self.onDisarmEdit.setToolTip(_translate("MainWindow", "OnDisarm (GFF: OnDisarm). CResRef. Script run when trap is disarmed. Default\n"
-"              when missing: blank. Modders: .ncs script ResRef."))
-        self.onClickEdit.setToolTip(_translate("MainWindow", "OnClick (GFF: OnClick). CResRef. Script run when trigger is clicked. Default\n"
-"              when missing: blank. Modders: .ncs script ResRef."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Scripts"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer comment; not used by the game\n"
-"            engine. Default when missing: \"\". Modders: toolset only."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.onTrapTriggeredEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnTrapTriggered (GFF: OnTrapTriggered). CResRef. Script run when trap fires.\n"
+                "              Default when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
+        self.onDisarmEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnDisarm (GFF: OnDisarm). CResRef. Script run when trap is disarmed. Default\n"
+                "              when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
+        self.onClickEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnClick (GFF: OnClick). CResRef. Script run when trigger is clicked. Default\n"
+                "              when missing: blank. Modders: .ncs script ResRef.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Scripts")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer comment; not used by the game\n"
+                '            engine. Default when missing: "". Modders: toolset only.',
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -369,6 +515,8 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from utility.gui.qt.widgets.widgets.combobox import FilterComboBox

@@ -44,8 +44,12 @@ if TYPE_CHECKING:
 
 class AREEditor(Editor):
     STANDALONE_FOLDER_PATHS = [
-        FolderPathSpec("modules_folder", "Modules Folder", "Folder containing extracted module resources."),
-        FolderPathSpec("override_folder", "Override Folder", "Folder containing override resources."),
+        FolderPathSpec(
+            "modules_folder", "Modules Folder", "Folder containing extracted module resources."
+        ),
+        FolderPathSpec(
+            "override_folder", "Override Folder", "Folder containing override resources."
+        ),
     ]
 
     def __init__(self, parent: QWidget | None, installation: HTInstallation | None = None):
@@ -54,7 +58,9 @@ class AREEditor(Editor):
         super().__init__(parent, "ARE Editor", "none", supported, supported, installation)
         self.setMinimumSize(400, 600)  # Lock the window size
 
-        self._loaded_are: ARE | None = None  # Store reference to loaded ARE to preserve original values
+        self._loaded_are: ARE | None = (
+            None  # Store reference to loaded ARE to preserve original values
+        )
         self._minimap: TPC | None = None
         self._rooms: list[ARERoom] = []  # TODO(th3w1zard1): define somewhere in ui.
 
@@ -75,7 +81,9 @@ class AREEditor(Editor):
 
         self.ui.minimapRenderer.default_material_color = QColor(0, 0, 255, 127)
         self.ui.minimapRenderer.material_colors[SurfaceMaterial.NON_WALK] = QColor(255, 0, 0, 80)
-        self.ui.minimapRenderer.material_colors[SurfaceMaterial.NON_WALK_GRASS] = QColor(255, 0, 0, 80)
+        self.ui.minimapRenderer.material_colors[SurfaceMaterial.NON_WALK_GRASS] = QColor(
+            255, 0, 0, 80
+        )
         self.ui.minimapRenderer.material_colors[SurfaceMaterial.UNDEFINED] = QColor(255, 0, 0, 80)
         self.ui.minimapRenderer.material_colors[SurfaceMaterial.OBSCURING] = QColor(255, 0, 0, 80)
         self.ui.minimapRenderer.hide_walkmesh_edges = True
@@ -90,7 +98,9 @@ class AREEditor(Editor):
 
         self.new()
 
-    def _resolve_path_resource(self, resref: str, suffix: str, keys: tuple[str, ...]) -> bytes | None:
+    def _resolve_path_resource(
+        self, resref: str, suffix: str, keys: tuple[str, ...]
+    ) -> bytes | None:
         for key in keys:
             folder = getattr(self, "_standalone_folder_paths", {}).get(key)
             if folder is None:
@@ -139,7 +149,16 @@ class AREEditor(Editor):
 
         self.relevant_script_resnames: list[str] = []
         if self._installation is not None:
-            self.relevant_script_resnames = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)}))
+            self.relevant_script_resnames = sorted(
+                iter(
+                    {
+                        res.resname().lower()
+                        for res in self._installation.get_relevant_resources(
+                            ResourceType.NCS, self._filepath
+                        )
+                    }
+                )
+            )
             for combo_box in self._script_combo_boxes():
                 combo_box.populate_combo_box(self.relevant_script_resnames)
 
@@ -165,12 +184,18 @@ class AREEditor(Editor):
         self,
         field: QPlainTextEdit | QLineEdit | QComboBox,
         resource_types: list[ResourceType],
-        reference_type: Literal["script", "tag", "template_resref", "conversation", "resref", "quest"],
+        reference_type: Literal[
+            "script", "tag", "template_resref", "conversation", "resref", "quest"
+        ],
         tooltip_text: str,
     ) -> None:
         """Configure context menu reference search behavior for a script widget."""
-        assert self._installation is not None, f"Installation must be set to configure reference search for {reference_type} fields"
-        assert field is not None, f"Field widget cannot be None in _setup_reference_field for {reference_type}"
+        assert self._installation is not None, (
+            f"Installation must be set to configure reference search for {reference_type} fields"
+        )
+        assert field is not None, (
+            f"Field widget cannot be None in _setup_reference_field for {reference_type}"
+        )
         line_edit = field.lineEdit() if isinstance(field, QComboBox) else None
         if line_edit is not None:
             line_edit.setMaxLength(16)
@@ -197,7 +222,9 @@ class AREEditor(Editor):
         cameras: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_CAMERAS)
 
         self.ui.cameraStyleSelect.clear()
-        self.ui.cameraStyleSelect.set_context(cameras, self._installation, HTInstallation.TwoDA_CAMERAS)
+        self.ui.cameraStyleSelect.set_context(
+            cameras, self._installation, HTInstallation.TwoDA_CAMERAS
+        )
         assert cameras is not None, "Cameras are not set"
         for label in cameras.get_column("name"):
             self.ui.cameraStyleSelect.addItem(label.title())
@@ -258,22 +285,34 @@ class AREEditor(Editor):
             ]
             lyt_data: bytes | None = None
             if self._installation is not None:
-                res_result_lyt: ResourceResult | None = self._installation.resource(self._resname, ResourceType.LYT, order_lyt)
+                res_result_lyt: ResourceResult | None = self._installation.resource(
+                    self._resname, ResourceType.LYT, order_lyt
+                )
                 lyt_data = res_result_lyt.data if res_result_lyt is not None else None
             else:
-                lyt_data = self._resolve_path_resource(self._resname, "lyt", ("override_folder", "modules_folder"))
+                lyt_data = self._resolve_path_resource(
+                    self._resname, "lyt", ("override_folder", "modules_folder")
+                )
 
             if lyt_data is not None:
                 lyt: LYT = read_lyt(lyt_data)
-                queries: list[ResourceIdentifier] = [ResourceIdentifier(room.model, ResourceType.WOK) for room in lyt.rooms]
+                queries: list[ResourceIdentifier] = [
+                    ResourceIdentifier(room.model, ResourceType.WOK) for room in lyt.rooms
+                ]
 
                 walkmeshes: list[BWM] = []
                 if self._installation is not None:
-                    wok_results: dict[ResourceIdentifier, ResourceResult | None] = self._installation.resources(queries, order_lyt)
-                    walkmeshes = [read_bwm(result.data) for result in wok_results.values() if result]
+                    wok_results: dict[ResourceIdentifier, ResourceResult | None] = (
+                        self._installation.resources(queries, order_lyt)
+                    )
+                    walkmeshes = [
+                        read_bwm(result.data) for result in wok_results.values() if result
+                    ]
                 else:
                     for query in queries:
-                        wok_data = self._resolve_path_resource(query.resname, "wok", ("override_folder", "modules_folder"))
+                        wok_data = self._resolve_path_resource(
+                            query.resname, "wok", ("override_folder", "modules_folder")
+                        )
                         if wok_data is not None:
                             walkmeshes.append(read_bwm(wok_data))
                 self.ui.minimapRenderer.set_walkmeshes(walkmeshes)
@@ -295,7 +334,9 @@ class AREEditor(Editor):
             else:
                 self._minimap = None
             if self._minimap is None:
-                RobustLogger().warning(f"Could not find texture '{minimap_resname}' required for minimap")
+                RobustLogger().warning(
+                    f"Could not find texture '{minimap_resname}' required for minimap"
+                )
             else:
                 self.ui.minimapRenderer.set_minimap(are, self._minimap)
 
@@ -383,7 +424,9 @@ class AREEditor(Editor):
         if getattr(self, "_loaded_are", None) is not None:
             if getattr(self._loaded_are, "_has_original", False):
                 self._are._has_original = True
-                self._are._original_values = getattr(self._loaded_are, "_original_values", {}).copy()
+                self._are._original_values = getattr(
+                    self._loaded_are, "_original_values", {}
+                ).copy()
 
         if self._installation:
             game = self._installation.game()
@@ -524,9 +567,16 @@ class AREEditor(Editor):
         walkmeshes = getattr(self.ui.minimapRenderer, "_walkmeshes", [])
         if not walkmeshes:
             return None
-        return aabb_from_points((vertex.x, vertex.y) for walkmesh in walkmeshes for face in walkmesh.faces for vertex in (face.v1, face.v2, face.v3))
+        return aabb_from_points(
+            (vertex.x, vertex.y)
+            for walkmesh in walkmeshes
+            for face in walkmesh.faces
+            for vertex in (face.v1, face.v2, face.v3)
+        )
 
-    def on_minimap_mouse_moved(self, screen: Vector2, delta: Vector2, buttons: set[int], keys: set[int]):
+    def on_minimap_mouse_moved(
+        self, screen: Vector2, delta: Vector2, buttons: set[int], keys: set[int]
+    ):
         # Pan/rotate controls mirror `BWMEditor` (Ctrl+drag) and respect module designer sensitivities.
         world_delta: Vector2 = self.ui.minimapRenderer.to_world_delta(delta.x, delta.y)
         move_sens = ModuleDesignerSettings().moveCameraSensitivity2d / 100
@@ -545,11 +595,15 @@ class AREEditor(Editor):
         )
 
     def on_minimap_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
-        if self._minimap_nav.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
+        if self._minimap_nav.handle_mouse_scroll(
+            delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d
+        ):
             return
 
     def on_minimap_key_pressed(self, buttons: set[int], keys: set[int]) -> None:
-        self._minimap_nav.handle_key_pressed(keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10)
+        self._minimap_nav.handle_key_pressed(
+            keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10
+        )
 
     def change_color(self, color_spin: LongSpinBox):
         qcolor: QColor = QColorDialog.getColor(QColor(color_spin.value()))
@@ -570,7 +624,9 @@ class AREEditor(Editor):
             self._load_locstring(self.ui.nameEdit.ui.locstringText, dialog.locstring)
 
     def generate_tag(self):
-        self.ui.tagEdit.setText("newarea" if self._resname is None or self._resname == "" else self._resname)
+        self.ui.tagEdit.setText(
+            "newarea" if self._resname is None or self._resname == "" else self._resname
+        )
 
 
 if __name__ == "__main__":

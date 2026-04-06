@@ -118,7 +118,9 @@ class LYTRenderer(QWidget):
         self.update()
         return room
 
-    def add_doorhook(self, room: LYTRoom | None = None, position: Vector3 | None = None) -> LYTDoorHook:
+    def add_doorhook(
+        self, room: LYTRoom | None = None, position: Vector3 | None = None
+    ) -> LYTDoorHook:
         """Add a new door hook."""
         if self._lyt is None:
             self._lyt = LYT()
@@ -130,7 +132,9 @@ class LYTRenderer(QWidget):
             position = Vector3(self._camera_pos.x, self._camera_pos.y, 0)
 
         room_name = room.model if room else "NULL"
-        doorhook = LYTDoorHook(room_name, f"door{len(self._lyt.doorhooks)}", position, Vector4(0, 0, 0, 1))
+        doorhook = LYTDoorHook(
+            room_name, f"door{len(self._lyt.doorhooks)}", position, Vector4(0, 0, 0, 1)
+        )
         self._lyt.doorhooks.append(doorhook)
         self.sig_element_added.emit(doorhook)
         self.update()
@@ -180,7 +184,9 @@ class LYTRenderer(QWidget):
         self.sig_element_deleted.emit(element)
         self.update()
 
-    def duplicate_element(self, element: LYTRoom | LYTDoorHook | LYTTrack | LYTObstacle | None = None):
+    def duplicate_element(
+        self, element: LYTRoom | LYTDoorHook | LYTTrack | LYTObstacle | None = None
+    ):
         """Duplicate the specified element (or selected element if none specified)."""
         if element is None:
             element = self._selected_element
@@ -209,7 +215,9 @@ class LYTRenderer(QWidget):
         world_y = (screen_pos.y - self.height() / 2) / self._zoom + self._camera_pos.y
         return Vector3(world_x, world_y, 0)
 
-    def _get_element_at_position(self, screen_pos: Vector2) -> LYTRoom | LYTDoorHook | LYTTrack | LYTObstacle | None:
+    def _get_element_at_position(
+        self, screen_pos: Vector2
+    ) -> LYTRoom | LYTDoorHook | LYTTrack | LYTObstacle | None:
         """Get the element at the specified screen position."""
         if self._lyt is None:
             return None
@@ -218,25 +226,33 @@ class LYTRenderer(QWidget):
 
         # Check door hooks first (smallest, should be on top)
         for doorhook in self._lyt.doorhooks:
-            dist = math.sqrt((doorhook.position.x - world_pos.x) ** 2 + (doorhook.position.y - world_pos.y) ** 2)
+            dist = math.sqrt(
+                (doorhook.position.x - world_pos.x) ** 2 + (doorhook.position.y - world_pos.y) ** 2
+            )
             if dist <= self.DOORHOOK_SIZE / self._zoom:
                 return doorhook
 
         # Check tracks
         for track in self._lyt.tracks:
-            dist = math.sqrt((track.position.x - world_pos.x) ** 2 + (track.position.y - world_pos.y) ** 2)
+            dist = math.sqrt(
+                (track.position.x - world_pos.x) ** 2 + (track.position.y - world_pos.y) ** 2
+            )
             if dist <= self.TRACK_SIZE / self._zoom:
                 return track
 
         # Check obstacles
         for obstacle in self._lyt.obstacles:
-            dist = math.sqrt((obstacle.position.x - world_pos.x) ** 2 + (obstacle.position.y - world_pos.y) ** 2)
+            dist = math.sqrt(
+                (obstacle.position.x - world_pos.x) ** 2 + (obstacle.position.y - world_pos.y) ** 2
+            )
             if dist <= self.OBSTACLE_SIZE / self._zoom:
                 return obstacle
 
         # Check rooms (largest, should be checked last)
         for room in self._lyt.rooms:
-            dist = math.sqrt((room.position.x - world_pos.x) ** 2 + (room.position.y - world_pos.y) ** 2)
+            dist = math.sqrt(
+                (room.position.x - world_pos.x) ** 2 + (room.position.y - world_pos.y) ** 2
+            )
             if dist <= self.ROOM_SIZE / self._zoom:
                 return room
 
@@ -327,7 +343,9 @@ class LYTRenderer(QWidget):
 
         # Draw as square
         size = self.ROOM_SIZE
-        painter.drawRect(int(room.position.x - size / 2), int(room.position.y - size / 2), int(size), int(size))
+        painter.drawRect(
+            int(room.position.x - size / 2), int(room.position.y - size / 2), int(size), int(size)
+        )
 
         # Draw label
         if self._zoom > 0.5:  # Only show text when zoomed in enough
@@ -335,7 +353,14 @@ class LYTRenderer(QWidget):
             painter.resetTransform()
             screen_pos = self._world_to_screen(room.position)
             painter.setPen(Qt.GlobalColor.white)
-            painter.drawText(int(screen_pos.x - 50), int(screen_pos.y + size * self._zoom / 2 + 15), 100, 20, Qt.AlignmentFlag.AlignCenter, room.model)
+            painter.drawText(
+                int(screen_pos.x - 50),
+                int(screen_pos.y + size * self._zoom / 2 + 15),
+                100,
+                20,
+                Qt.AlignmentFlag.AlignCenter,
+                room.model,
+            )
             painter.restore()
 
     def _draw_doorhook(self, painter: QPainter, doorhook: LYTDoorHook):
@@ -349,7 +374,10 @@ class LYTRenderer(QWidget):
 
         # Draw as circle
         painter.drawEllipse(
-            int(doorhook.position.x - self.DOORHOOK_SIZE / 2), int(doorhook.position.y - self.DOORHOOK_SIZE / 2), int(self.DOORHOOK_SIZE), int(self.DOORHOOK_SIZE),
+            int(doorhook.position.x - self.DOORHOOK_SIZE / 2),
+            int(doorhook.position.y - self.DOORHOOK_SIZE / 2),
+            int(self.DOORHOOK_SIZE),
+            int(self.DOORHOOK_SIZE),
         )
 
         # Draw orientation indicator
@@ -393,12 +421,27 @@ class LYTRenderer(QWidget):
 
         # Draw as cross
         size = self.OBSTACLE_SIZE / 2
-        painter.drawLine(int(obstacle.position.x - size), int(obstacle.position.y - size), int(obstacle.position.x + size), int(obstacle.position.y + size))
-        painter.drawLine(int(obstacle.position.x - size), int(obstacle.position.y + size), int(obstacle.position.x + size), int(obstacle.position.y - size))
+        painter.drawLine(
+            int(obstacle.position.x - size),
+            int(obstacle.position.y - size),
+            int(obstacle.position.x + size),
+            int(obstacle.position.y + size),
+        )
+        painter.drawLine(
+            int(obstacle.position.x - size),
+            int(obstacle.position.y + size),
+            int(obstacle.position.x + size),
+            int(obstacle.position.y - size),
+        )
 
         # Draw circle around it
         painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawEllipse(int(obstacle.position.x - size), int(obstacle.position.y - size), int(size * 2), int(size * 2))
+        painter.drawEllipse(
+            int(obstacle.position.x - size),
+            int(obstacle.position.y - size),
+            int(size * 2),
+            int(size * 2),
+        )
 
     def mousePressEvent(self, event: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         """Handle mouse press events."""
@@ -410,7 +453,11 @@ class LYTRenderer(QWidget):
                 self.select_element(element)
                 self._dragging = True
                 self._drag_start_pos = mouse_pos
-                self._element_start_pos = element.position.copy() if hasattr(element.position, "copy") else Vector3(element.position.x, element.position.y, element.position.z)
+                self._element_start_pos = (
+                    element.position.copy()
+                    if hasattr(element.position, "copy")
+                    else Vector3(element.position.x, element.position.y, element.position.z)
+                )
             else:
                 self.select_element(None)
 
@@ -422,14 +469,23 @@ class LYTRenderer(QWidget):
         """Handle mouse move events."""
         mouse_pos = Vector2(event.pos().x(), event.pos().y())
 
-        if self._dragging and self._selected_element and self._drag_start_pos and self._element_start_pos:
+        if (
+            self._dragging
+            and self._selected_element
+            and self._drag_start_pos
+            and self._element_start_pos
+        ):
             # Calculate world space delta
             world_start = self._screen_to_world(self._drag_start_pos)
             world_current = self._screen_to_world(mouse_pos)
             delta = Vector3(world_current.x - world_start.x, world_current.y - world_start.y, 0)
 
             # Update element position
-            new_pos = Vector3(self._element_start_pos.x + delta.x, self._element_start_pos.y + delta.y, self._element_start_pos.z)
+            new_pos = Vector3(
+                self._element_start_pos.x + delta.x,
+                self._element_start_pos.y + delta.y,
+                self._element_start_pos.z,
+            )
             self._selected_element.position = new_pos
             self.update()
 

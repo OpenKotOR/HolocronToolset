@@ -23,11 +23,30 @@ from qtpy.QtWidgets import QApplication, QDialogButtonBox
 from pykotor.common.language import LocalizedString  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
 from pykotor.common.misc import ResRef  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
 from pykotor.resource.formats.gff import read_gff  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
-from pykotor.resource.generics.dlg import DLG, DLGEntry, DLGLink, DLGNode, DLGReply, DLGComputerType, DLGConversationType, DLGStunt, DLGAnimation, read_dlg  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
+from pykotor.resource.generics.dlg import (
+    DLG,
+    DLGEntry,
+    DLGLink,
+    DLGNode,
+    DLGReply,
+    DLGComputerType,
+    DLGConversationType,
+    DLGStunt,
+    DLGAnimation,
+    read_dlg,
+)  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
 from pykotor.resource.type import ResourceType  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
 from toolset.data.installation import HTInstallation  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
 from toolset.gui.dialogs.edit.locstring import LocalizedStringDialog  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
-from toolset.gui.editors.dlg import DLGEditor, DLGStandardItem, DLGStandardItemModel, DLGTreeView, _DLG_MIME_DATA_ROLE, _MODEL_INSTANCE_ID_ROLE, QT_STANDARD_ITEM_FORMAT
+from toolset.gui.editors.dlg import (
+    DLGEditor,
+    DLGStandardItem,
+    DLGStandardItemModel,
+    DLGTreeView,
+    _DLG_MIME_DATA_ROLE,
+    _MODEL_INSTANCE_ID_ROLE,
+    QT_STANDARD_ITEM_FORMAT,
+)
 from toolset.gui.editors.dlg.editor import DLGEditor  # pyright: ignore[reportMissingModuleSource]  # type: ignore[import-untyped, import-not-found, note]
 
 if TYPE_CHECKING:
@@ -36,7 +55,9 @@ if TYPE_CHECKING:
 
 app = QApplication(sys.argv)
 
-K1_PATH: str | None = os.environ.get("K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor")
+K1_PATH: str | None = os.environ.get(
+    "K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor"
+)
 
 
 @unittest.skipIf(
@@ -100,7 +121,9 @@ class TestDLGStandardItemModel(unittest.TestCase):
         # Create the DLG structure with entries and replies
         dlg = DLG()
         entries: list[DLGEntry] = [DLGEntry(comment=f"E{i}") for i in range(5)]
-        replies: list[DLGReply] = [DLGReply(text=LocalizedString.from_english(f"R{i}")) for i in range(5, 10)]
+        replies: list[DLGReply] = [
+            DLGReply(text=LocalizedString.from_english(f"R{i}")) for i in range(5, 10)
+        ]
 
         # Create a nested structure
         def add_links(
@@ -191,20 +214,26 @@ class TestDLGStandardItemModel(unittest.TestCase):
                 seen_nodes = set()
 
             for i, link in enumerate(node.links):
-                assert link.list_index == i, f"Link list_index {link.list_index} == {i} before loading to the model"
+                assert link.list_index == i, (
+                    f"Link list_index {link.list_index} == {i} before loading to the model"
+                )
                 if link.node is None or link.node in seen_nodes:
                     continue
                 seen_nodes.add(link.node)
                 verify_list_index(link.node, seen_nodes)
 
         for i, link in enumerate(dlg.starters):
-            assert link.list_index == i, f"Starter link list_index {link.list_index} == {i} before loading to the model"
+            assert link.list_index == i, (
+                f"Starter link list_index {link.list_index} == {i} before loading to the model"
+            )
             verify_list_index(link.node)
 
         self.editor._load_dlg(dlg)
 
         for i, link in enumerate(dlg.starters):
-            assert link.list_index == i, f"Starter link list_index {link.list_index} == {i} after loading to the model"
+            assert link.list_index == i, (
+                f"Starter link list_index {link.list_index} == {i} after loading to the model"
+            )
             verify_list_index(link.node)
 
         items: list[DLGStandardItem] = []
@@ -253,11 +282,15 @@ class TestDLGStandardItemModel(unittest.TestCase):
         )
 
         pasted_item: QStandardItem | None = items[0].child(0)
-        assert isinstance(pasted_item, DLGStandardItem), f"{pasted_item!r} is not a DLGStandardItem, instead was {pasted_item.__class__.__name__}"
+        assert isinstance(pasted_item, DLGStandardItem), (
+            f"{pasted_item!r} is not a DLGStandardItem, instead was {pasted_item.__class__.__name__}"
+        )
         assert pasted_item.link is not None, f"{pasted_item.link!r} is None"
         assert pasted_item.link.node is not None, f"{pasted_item.link.node!r} is None"
         assert items[0].link is not None, f"{items[0].link!r} is None (items[0] is {items[0]!r})"
-        assert pasted_item.link == items[0].link.node.links[0], f"{pasted_item.link!r} != {items[0].link.node.links[0]!r}"
+        assert pasted_item.link == items[0].link.node.links[0], (
+            f"{pasted_item.link!r} != {items[0].link.node.links[0]!r}"
+        )
 
     def test_serialize_mime_data(self):
         dlg: DLG = self.create_complex_tree()
@@ -287,7 +320,9 @@ class TestDLGStandardItemModel(unittest.TestCase):
             if item is None:
                 invalid_indices.append(index)
                 continue
-            assert isinstance(item, DLGStandardItem), f"item is {item.__class__.__name__}, {item} for index {index} ({index.row()}, {index.column()}) expected DLGStandardItem"
+            assert isinstance(item, DLGStandardItem), (
+                f"item is {item.__class__.__name__}, {item} for index {index} ({index.row()}, {index.column()}) expected DLGStandardItem"
+            )
             all_items.append(item)
 
         mime_data: QMimeData = self.model.mimeData([item.index() for item in all_items])
@@ -306,15 +341,21 @@ class TestDLGStandardItemModel(unittest.TestCase):
                 if role == int(Qt.ItemDataRole.DisplayRole):
                     display_data: str = stream.readQString()
                 elif role == _DLG_MIME_DATA_ROLE:
-                    dlg_data_encoded: bytes | str | None = cast(Union[bytes, str, None], stream.readQString())
-                    assert dlg_data_encoded is not None, "dlg_data_encoded is None, expected byte-encoded string of DLG data."
+                    dlg_data_encoded: bytes | str | None = cast(
+                        Union[bytes, str, None], stream.readQString()
+                    )
+                    assert dlg_data_encoded is not None, (
+                        "dlg_data_encoded is None, expected byte-encoded string of DLG data."
+                    )
                     dlg_data_dict: dict[str | int, Any] = json.loads(dlg_data_encoded)
                 elif role == _MODEL_INSTANCE_ID_ROLE:
                     model_id: int = stream.readInt64()
 
         # Deserialize and compare
         deserialized_link: DLGLink = DLGLink.from_dict(dlg_data_dict)
-        assert deserialized_link == all_items[4].link, f"{deserialized_link!r} != {all_items[4].link!r}"
+        assert deserialized_link == all_items[4].link, (
+            f"{deserialized_link!r} != {all_items[4].link!r}"
+        )
 
 
 if __name__ == "__main__":
@@ -331,7 +372,9 @@ if __name__ == "__main__":
 # ============================================================================
 
 
-def set_text_via_ui_dialog(qtbot: QtBot, editor: DLGEditor, item: DLGStandardItem, text: str) -> None:
+def set_text_via_ui_dialog(
+    qtbot: QtBot, editor: DLGEditor, item: DLGStandardItem, text: str
+) -> None:
     """Helper function to set node text via the UI dialog."""
     assert item.link is not None, "item.link should not be None"
     # Call edit_text to open the dialog
@@ -458,7 +501,9 @@ def test_dlg_editor_add_child_node(qtbot: QtBot, installation: HTInstallation):
 # ============================================================================
 
 
-def test_dlg_editor_manipulate_conversation_type(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_conversation_type(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating conversation type combo box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -485,7 +530,9 @@ def test_dlg_editor_manipulate_conversation_type(qtbot: QtBot, installation: HTI
         assert editor.ui.conversationSelect.currentIndex() == i
 
 
-def test_dlg_editor_manipulate_computer_type(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_computer_type(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating computer type combo box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -507,7 +554,9 @@ def test_dlg_editor_manipulate_computer_type(qtbot: QtBot, installation: HTInsta
         assert modified_dlg.computer_type == DLGComputerType(i)
 
 
-def test_dlg_editor_manipulate_reply_delay_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_reply_delay_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating reply delay spin box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -534,7 +583,9 @@ def test_dlg_editor_manipulate_reply_delay_spin(qtbot: QtBot, installation: HTIn
         assert editor.ui.replyDelaySpin.value() == val
 
 
-def test_dlg_editor_manipulate_entry_delay_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_entry_delay_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating entry delay spin box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -557,7 +608,9 @@ def test_dlg_editor_manipulate_entry_delay_spin(qtbot: QtBot, installation: HTIn
         assert modified_dlg.delay_entry == val
 
 
-def test_dlg_editor_manipulate_vo_id_edit(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_vo_id_edit(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating voiceover ID field."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -580,7 +633,9 @@ def test_dlg_editor_manipulate_vo_id_edit(qtbot: QtBot, installation: HTInstalla
         assert modified_dlg.vo_id == vo_id
 
 
-def test_dlg_editor_manipulate_on_abort_combo(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_on_abort_combo(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on abort script combo box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -601,7 +656,9 @@ def test_dlg_editor_manipulate_on_abort_combo(qtbot: QtBot, installation: HTInst
     assert str(modified_dlg.on_abort) == "test_abort"
 
 
-def test_dlg_editor_manipulate_on_end_edit(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_on_end_edit(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on end script combo box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -622,7 +679,9 @@ def test_dlg_editor_manipulate_on_end_edit(qtbot: QtBot, installation: HTInstall
     assert str(modified_dlg.on_end) == "test_on_end"
 
 
-def test_dlg_editor_manipulate_camera_model_select(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_camera_model_select(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating camera model combo box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -643,7 +702,9 @@ def test_dlg_editor_manipulate_camera_model_select(qtbot: QtBot, installation: H
     assert str(modified_dlg.camera_model) == "test_camera"
 
 
-def test_dlg_editor_manipulate_ambient_track_combo(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_ambient_track_combo(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating ambient track combo box."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -664,7 +725,9 @@ def test_dlg_editor_manipulate_ambient_track_combo(qtbot: QtBot, installation: H
     assert str(modified_dlg.ambient_track) == "test_ambient"
 
 
-def test_dlg_editor_manipulate_file_level_checkboxes(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_file_level_checkboxes(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all file-level checkboxes."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -770,7 +833,16 @@ def test_dlg_editor_all_node_widgets_interactions(qtbot: QtBot, installation: HT
     assert str(root_item.link.node.script1) == "test_script1"
 
     # Test script1Param spins
-    for i, param_name in enumerate(["script1Param1Spin", "script1Param2Spin", "script1Param3Spin", "script1Param4Spin", "script1Param5Spin"], 1):
+    for i, param_name in enumerate(
+        [
+            "script1Param1Spin",
+            "script1Param2Spin",
+            "script1Param3Spin",
+            "script1Param4Spin",
+            "script1Param5Spin",
+        ],
+        1,
+    ):
         spin = getattr(editor.ui, param_name)
         spin.setValue(i * 10)
         editor.on_node_update()
@@ -787,7 +859,16 @@ def test_dlg_editor_all_node_widgets_interactions(qtbot: QtBot, installation: HT
     assert str(root_item.link.node.script2) == "test_script2"
 
     # Test script2Param spins
-    for i, param_name in enumerate(["script2Param1Spin", "script2Param2Spin", "script2Param3Spin", "script2Param4Spin", "script2Param5Spin"], 1):
+    for i, param_name in enumerate(
+        [
+            "script2Param1Spin",
+            "script2Param2Spin",
+            "script2Param3Spin",
+            "script2Param4Spin",
+            "script2Param5Spin",
+        ],
+        1,
+    ):
         spin = getattr(editor.ui, param_name)
         spin.setValue(i * 5)
         editor.on_node_update()
@@ -799,7 +880,16 @@ def test_dlg_editor_all_node_widgets_interactions(qtbot: QtBot, installation: HT
     assert str(root_item.link.active1) == "test_cond1"
 
     # Test condition1Param spins
-    for i, param_name in enumerate(["condition1Param1Spin", "condition1Param2Spin", "condition1Param3Spin", "condition1Param4Spin", "condition1Param5Spin"], 1):
+    for i, param_name in enumerate(
+        [
+            "condition1Param1Spin",
+            "condition1Param2Spin",
+            "condition1Param3Spin",
+            "condition1Param4Spin",
+            "condition1Param5Spin",
+        ],
+        1,
+    ):
         spin = getattr(editor.ui, param_name)
         spin.setValue(i * 2)
         editor.on_node_update()
@@ -1051,7 +1141,9 @@ def test_dlg_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-DLG.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-DLG.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -1706,7 +1798,9 @@ def test_dlg_editor_multiple_animations(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_dlg_editor_load_real_file(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_load_real_file(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test loading a real DLG file."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1731,7 +1825,9 @@ def test_dlg_editor_load_real_file(qtbot: QtBot, installation: HTInstallation, t
             # The node text is stored in item.link.node.text (a LocalizedString)
 
 
-def test_dlg_editor_load_and_save_preserves_data(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_load_and_save_preserves_data(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that loading and saving preserves all data."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1756,7 +1852,9 @@ def test_dlg_editor_load_and_save_preserves_data(qtbot: QtBot, installation: HTI
     assert str(saved_dlg.on_end) == str(original_dlg.on_end)
 
 
-def test_dlg_editor_load_multiple_files(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_load_multiple_files(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test loading multiple DLG files in sequence."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1783,7 +1881,9 @@ def test_dlg_editor_load_multiple_files(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_dlg_editor_gff_roundtrip_no_modification(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_gff_roundtrip_no_modification(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip without any modifications."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2391,7 +2491,9 @@ def test_dlg_editor_negative_values(qtbot: QtBot, installation: HTInstallation):
 # ============================================================================
 
 
-def test_dlg_editor_manipulate_speaker_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_speaker_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating speaker field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2423,7 +2525,9 @@ def test_dlg_editor_manipulate_speaker_roundtrip(qtbot: QtBot, installation: HTI
             if modified_node and isinstance(modified_node, DLGEntry):
                 assert modified_node.speaker == "ModifiedSpeaker"
                 assert (
-                    modified_node.speaker != original_dlg.starters[0].node.speaker if original_dlg.starters and isinstance(original_dlg.starters[0].node, DLGEntry) else True
+                    modified_node.speaker != original_dlg.starters[0].node.speaker
+                    if original_dlg.starters and isinstance(original_dlg.starters[0].node, DLGEntry)
+                    else True
                 )
 
                 # Load back and verify
@@ -2432,7 +2536,9 @@ def test_dlg_editor_manipulate_speaker_roundtrip(qtbot: QtBot, installation: HTI
                 assert editor.ui.speakerEdit.text() == "ModifiedSpeaker"
 
 
-def test_dlg_editor_manipulate_listener_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_listener_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating listener field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2467,7 +2573,9 @@ def test_dlg_editor_manipulate_listener_roundtrip(qtbot: QtBot, installation: HT
                     assert editor.ui.listenerEdit.text() == listener
 
 
-def test_dlg_editor_manipulate_script1_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_script1_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating script1 field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2500,7 +2608,9 @@ def test_dlg_editor_manipulate_script1_roundtrip(qtbot: QtBot, installation: HTI
                 assert editor.ui.script1ResrefEdit.currentText() == "test_script1"
 
 
-def test_dlg_editor_manipulate_script1_param1_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_script1_param1_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating script1 param1 with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2527,7 +2637,9 @@ def test_dlg_editor_manipulate_script1_param1_roundtrip(qtbot: QtBot, installati
                 assert first_item.link.node.script1_param1 == val
 
 
-def test_dlg_editor_manipulate_condition1_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_condition1_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating condition1 field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2560,7 +2672,9 @@ def test_dlg_editor_manipulate_condition1_roundtrip(qtbot: QtBot, installation: 
                 assert editor.ui.condition1ResrefEdit.currentText() == "test_condition1"
 
 
-def test_dlg_editor_manipulate_condition1_not_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_condition1_not_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating condition1 NOT checkbox with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2596,7 +2710,9 @@ def test_dlg_editor_manipulate_condition1_not_roundtrip(qtbot: QtBot, installati
                     assert not modified_dlg.starters[0].active1_not
 
 
-def test_dlg_editor_manipulate_emotion_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_emotion_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating emotion field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2626,7 +2742,9 @@ def test_dlg_editor_manipulate_emotion_roundtrip(qtbot: QtBot, installation: HTI
                         assert modified_dlg.starters[0].node.emotion_id == i
 
 
-def test_dlg_editor_manipulate_expression_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_expression_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating expression field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2656,7 +2774,9 @@ def test_dlg_editor_manipulate_expression_roundtrip(qtbot: QtBot, installation: 
                         assert modified_dlg.starters[0].node.facial_id == i
 
 
-def test_dlg_editor_manipulate_sound_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_sound_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating sound field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2691,7 +2811,9 @@ def test_dlg_editor_manipulate_sound_roundtrip(qtbot: QtBot, installation: HTIns
                     assert editor.ui.soundComboBox.currentText() == sound
 
 
-def test_dlg_editor_manipulate_sound_checkbox_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_sound_checkbox_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating sound exists checkbox with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2727,7 +2849,9 @@ def test_dlg_editor_manipulate_sound_checkbox_roundtrip(qtbot: QtBot, installati
                     assert not modified_dlg.starters[0].node.sound_exists
 
 
-def test_dlg_editor_manipulate_quest_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_quest_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating quest field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2762,7 +2886,9 @@ def test_dlg_editor_manipulate_quest_roundtrip(qtbot: QtBot, installation: HTIns
                     assert editor.ui.questEdit.text() == quest
 
 
-def test_dlg_editor_manipulate_quest_entry_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_quest_entry_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating quest entry spin box with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2797,7 +2923,9 @@ def test_dlg_editor_manipulate_quest_entry_roundtrip(qtbot: QtBot, installation:
                     assert editor.ui.questEntrySpin.value() == val
 
 
-def test_dlg_editor_manipulate_plot_xp_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_plot_xp_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating plot XP percentage with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2832,7 +2960,9 @@ def test_dlg_editor_manipulate_plot_xp_roundtrip(qtbot: QtBot, installation: HTI
                     assert editor.ui.plotXpSpin.value() == val
 
 
-def test_dlg_editor_manipulate_comments_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_comments_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating comments field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2873,7 +3003,9 @@ def test_dlg_editor_manipulate_comments_roundtrip(qtbot: QtBot, installation: HT
                     assert editor.ui.commentsEdit.toPlainText() == comment
 
 
-def test_dlg_editor_manipulate_camera_id_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_camera_id_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating camera ID with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2908,7 +3040,9 @@ def test_dlg_editor_manipulate_camera_id_roundtrip(qtbot: QtBot, installation: H
                     assert editor.ui.cameraIdSpin.value() == val
 
 
-def test_dlg_editor_manipulate_delay_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_delay_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating delay field with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2943,7 +3077,9 @@ def test_dlg_editor_manipulate_delay_roundtrip(qtbot: QtBot, installation: HTIns
                     assert editor.ui.delaySpin.value() == val
 
 
-def test_dlg_editor_manipulate_wait_flags_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_wait_flags_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating wait flags with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2973,7 +3109,9 @@ def test_dlg_editor_manipulate_wait_flags_roundtrip(qtbot: QtBot, installation: 
                     assert modified_dlg.starters[0].node.wait_flags == val
 
 
-def test_dlg_editor_manipulate_fade_type_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_fade_type_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating fade type with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3003,7 +3141,9 @@ def test_dlg_editor_manipulate_fade_type_roundtrip(qtbot: QtBot, installation: H
                     assert modified_dlg.starters[0].node.fade_type == val
 
 
-def test_dlg_editor_manipulate_voice_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_voice_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating voice ResRef with save/load roundtrip."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3033,7 +3173,9 @@ def test_dlg_editor_manipulate_voice_roundtrip(qtbot: QtBot, installation: HTIns
                     assert str(modified_dlg.starters[0].node.vo_resref) == voice
 
 
-def test_dlg_editor_manipulate_all_file_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_all_file_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all file-level fields simultaneously."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3081,7 +3223,9 @@ def test_dlg_editor_manipulate_all_file_fields_combination(qtbot: QtBot, install
     assert str(modified_dlg.camera_model) == "test_camera"
 
 
-def test_dlg_editor_manipulate_all_node_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_dlg_editor_manipulate_all_node_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all node-level fields simultaneously."""
     editor = DLGEditor(None, installation)
     qtbot.addWidget(editor)

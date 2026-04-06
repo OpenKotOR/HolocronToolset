@@ -153,10 +153,18 @@ class IndoorMapRenderer(Base2DMapRenderer):
     sig_mouse_released: ClassVar[Signal] = Signal(object, object, object)  # pyright: ignore[reportPrivateImportUsage]
     sig_mouse_pressed: ClassVar[Signal] = Signal(object, object, object)  # pyright: ignore[reportPrivateImportUsage]
     sig_mouse_double_clicked: ClassVar[Signal] = Signal(object, object, object)  # pyright: ignore[reportPrivateImportUsage]
-    sig_rooms_moved: ClassVar[Signal] = Signal(object, object, object)  # rooms, old_positions, new_positions  # pyright: ignore[reportPrivateImportUsage]
-    sig_rooms_rotated: ClassVar[Signal] = Signal(object, object, object)  # rooms, old_rotations, new_rotations  # pyright: ignore[reportPrivateImportUsage]
-    sig_warp_moved: ClassVar[Signal] = Signal(object, object)  # old_position, new_position  # pyright: ignore[reportPrivateImportUsage]
-    sig_marquee_select: ClassVar[Signal] = Signal(object, object)  # rooms selected, additive  # pyright: ignore[reportPrivateImportUsage]
+    sig_rooms_moved: ClassVar[Signal] = Signal(
+        object, object, object
+    )  # rooms, old_positions, new_positions  # pyright: ignore[reportPrivateImportUsage]
+    sig_rooms_rotated: ClassVar[Signal] = Signal(
+        object, object, object
+    )  # rooms, old_rotations, new_rotations  # pyright: ignore[reportPrivateImportUsage]
+    sig_warp_moved: ClassVar[Signal] = Signal(
+        object, object
+    )  # old_position, new_position  # pyright: ignore[reportPrivateImportUsage]
+    sig_marquee_select: ClassVar[Signal] = Signal(
+        object, object
+    )  # rooms selected, additive  # pyright: ignore[reportPrivateImportUsage]
 
     def __init__(self, parent: QWidget):
         super().__init__(
@@ -169,7 +177,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
             world_delta_y_sign=1.0,
             render_interval_ms=RENDER_INTERVAL_MS,
             always_repaint=False,
-            background_color=QColor(BACKGROUND_COLOR[0], BACKGROUND_COLOR[1], BACKGROUND_COLOR[2], BACKGROUND_COLOR[3]),
+            background_color=QColor(
+                BACKGROUND_COLOR[0], BACKGROUND_COLOR[1], BACKGROUND_COLOR[2], BACKGROUND_COLOR[3]
+            ),
         )
 
         self._map: IndoorMap = IndoorMap()
@@ -232,7 +242,10 @@ class IndoorMapRenderer(Base2DMapRenderer):
         self.warp_point_radius: float = WARP_POINT_RADIUS
 
         # Status callback (set by parent window)
-        self._status_callback: Callable[[QPoint | Vector2 | None, set[int | Qt.MouseButton], set[int | Qt.Key]], None] | None = None
+        self._status_callback: (
+            Callable[[QPoint | Vector2 | None, set[int | Qt.MouseButton], set[int | Qt.Key]], None]
+            | None
+        ) = None
 
         # Walkmesh visualization
         self._material_colors: dict[SurfaceMaterial, QColor] = {}
@@ -271,7 +284,10 @@ class IndoorMapRenderer(Base2DMapRenderer):
 
     def set_status_callback(
         self,
-        callback: Callable[[QPoint | Vector2 | None, set[int | Qt.MouseButton], set[int | Qt.Key]], None] | None,
+        callback: Callable[
+            [QPoint | Vector2 | None, set[int | Qt.MouseButton], set[int | Qt.Key]], None
+        ]
+        | None,
     ) -> None:
         self._status_callback = callback  # type: ignore[assignment]  # pyright: ignore[reportAssignmentType]
 
@@ -431,7 +447,12 @@ class IndoorMapRenderer(Base2DMapRenderer):
             cache = self._get_bwm_surface_cache(base_bwm)
             local: Vector3 = self._world_to_room_local(room, world)
             # Cheap AABB reject before O(n_faces) point-in-triangle scan.
-            if local.x < cache.bbmin.x or local.x > cache.bbmax.x or local.y < cache.bbmin.y or local.y > cache.bbmax.y:
+            if (
+                local.x < cache.bbmin.x
+                or local.x > cache.bbmax.x
+                or local.y < cache.bbmin.y
+                or local.y > cache.bbmax.y
+            ):
                 continue
             face: BWMFace | None = base_bwm.faceAt(local.x, local.y)
             if face is None:
@@ -494,7 +515,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
             return SnapResult(position=position, snapped=False)
 
         # Create fake room for hook position calculations
-        test_room: IndoorMapRoom = IndoorMapRoom(component, position, rotation, flip_x=flip_x, flip_y=flip_y)
+        test_room: IndoorMapRoom = IndoorMapRoom(
+            component, position, rotation, flip_x=flip_x, flip_y=flip_y
+        )
 
         best_distance = float("inf")
         best_snap: SnapResult = SnapResult(position=position, snapped=False)
@@ -522,7 +545,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
                         existing_hook_world.z - test_hook_local.z,
                     )
 
-                    distance = Vector2.from_vector3(position).distance(Vector2.from_vector3(snapped_pos))
+                    distance = Vector2.from_vector3(position).distance(
+                        Vector2.from_vector3(snapped_pos)
+                    )
                     if distance < snap_threshold and distance < best_distance:
                         best_distance = distance
                         best_snap = SnapResult(
@@ -548,7 +573,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
             hook_pos = room1.hook_position(hook)
             for other_hook in room2.component.hooks:
                 other_hook_pos = room2.hook_position(other_hook)
-                distance_2d = Vector2.from_vector3(hook_pos).distance(Vector2.from_vector3(other_hook_pos))
+                distance_2d = Vector2.from_vector3(hook_pos).distance(
+                    Vector2.from_vector3(other_hook_pos)
+                )
                 if distance_2d < HOOK_CONNECTION_THRESHOLD:
                     hook1 = hook
                     hook2 = other_hook
@@ -599,9 +626,13 @@ class IndoorMapRenderer(Base2DMapRenderer):
             snap_result = self._find_hook_snap(room, room.position)
             if snap_result.snapped:
                 # Check if room is actually at the snap position (within small threshold)
-                distance_to_snap = Vector2.from_vector3(room.position).distance(Vector2.from_vector3(snap_result.position))
+                distance_to_snap = Vector2.from_vector3(room.position).distance(
+                    Vector2.from_vector3(snap_result.position)
+                )
                 # Use same threshold as _find_hook_snap for consistency
-                snap_threshold = max(HOOK_SNAP_BASE_THRESHOLD, HOOK_SNAP_SCALE_FACTOR / self.camera.zoom())
+                snap_threshold = max(
+                    HOOK_SNAP_BASE_THRESHOLD, HOOK_SNAP_SCALE_FACTOR / self.camera.zoom()
+                )
                 if distance_to_snap <= snap_threshold:
                     # Room is snapped - record the snap anchor
                     self._snap_anchor_position = Vector3(*snap_result.position)
@@ -638,10 +669,14 @@ class IndoorMapRenderer(Base2DMapRenderer):
             self._dragging = False
             if self._drag_rooms:
                 new_positions = [Vector3(*r.position) for r in self._drag_rooms]
-                self.sig_rooms_moved.emit(self._drag_rooms, self._drag_start_positions, new_positions)
+                self.sig_rooms_moved.emit(
+                    self._drag_rooms, self._drag_start_positions, new_positions
+                )
                 new_rotations = [r.rotation for r in self._drag_rooms]
                 if self._drag_start_rotations:
-                    self.sig_rooms_rotated.emit(self._drag_rooms, self._drag_start_rotations, new_rotations)
+                    self.sig_rooms_rotated.emit(
+                        self._drag_rooms, self._drag_start_rotations, new_rotations
+                    )
             self._drag_rooms = []
             self._drag_start_positions = []
             self._drag_start_rotations = []
@@ -659,7 +694,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
         if self._marquee_active:
             self._marquee_active = False
             # Only select rooms if marquee actually moved (not just a click)
-            marquee_moved = self._marquee_start.distance(self._marquee_end) > MARQUEE_MOVE_THRESHOLD_PIXELS
+            marquee_moved = (
+                self._marquee_start.distance(self._marquee_end) > MARQUEE_MOVE_THRESHOLD_PIXELS
+            )
             if marquee_moved:
                 # Select rooms within marquee
                 rooms_in_marquee = self._get_rooms_in_marquee()
@@ -764,7 +801,10 @@ class IndoorMapRenderer(Base2DMapRenderer):
     ):
         original = painter.transform()
         true_width, true_height = image.width(), image.height()
-        width, height = image.width() * COMPONENT_PREVIEW_SCALE, image.height() * COMPONENT_PREVIEW_SCALE
+        width, height = (
+            image.width() * COMPONENT_PREVIEW_SCALE,
+            image.height() * COMPONENT_PREVIEW_SCALE,
+        )
 
         transform = self._apply_transformation()
         transform.translate(coords.x, coords.y)
@@ -811,24 +851,58 @@ class IndoorMapRenderer(Base2DMapRenderer):
     ):
         """Draw hook markers for a component at a transformed position."""
         # Use a temporary room to reuse hook_position logic
-        temp_room = IndoorMapRoom(component, Vector3(*position), rotation, flip_x=flip_x, flip_y=flip_y)
+        temp_room = IndoorMapRoom(
+            component, Vector3(*position), rotation, flip_x=flip_x, flip_y=flip_y
+        )
 
         for hook_index, hook in enumerate(component.hooks):
             hook_pos = temp_room.hook_position(hook)
-            is_connected = bool(connections and hook_index < len(connections) and connections[hook_index] is not None)
-            is_selected = selected is not None and room_for_selection is not None and selected == (room_for_selection, hook_index)
+            is_connected = bool(
+                connections
+                and hook_index < len(connections)
+                and connections[hook_index] is not None
+            )
+            is_selected = (
+                selected is not None
+                and room_for_selection is not None
+                and selected == (room_for_selection, hook_index)
+            )
 
             if is_selected:
-                brush_color = QColor(HOOK_COLOR_SELECTED[0], HOOK_COLOR_SELECTED[1], HOOK_COLOR_SELECTED[2], alpha)
-                pen_color = QColor(HOOK_PEN_COLOR_SELECTED[0], HOOK_PEN_COLOR_SELECTED[1], HOOK_PEN_COLOR_SELECTED[2], alpha)
+                brush_color = QColor(
+                    HOOK_COLOR_SELECTED[0], HOOK_COLOR_SELECTED[1], HOOK_COLOR_SELECTED[2], alpha
+                )
+                pen_color = QColor(
+                    HOOK_PEN_COLOR_SELECTED[0],
+                    HOOK_PEN_COLOR_SELECTED[1],
+                    HOOK_PEN_COLOR_SELECTED[2],
+                    alpha,
+                )
                 radius = HOOK_SELECTED_RADIUS
             elif is_connected:
-                brush_color = QColor(HOOK_COLOR_CONNECTED[0], HOOK_COLOR_CONNECTED[1], HOOK_COLOR_CONNECTED[2], alpha)
-                pen_color = QColor(HOOK_PEN_COLOR_CONNECTED[0], HOOK_PEN_COLOR_CONNECTED[1], HOOK_PEN_COLOR_CONNECTED[2], alpha)
+                brush_color = QColor(
+                    HOOK_COLOR_CONNECTED[0], HOOK_COLOR_CONNECTED[1], HOOK_COLOR_CONNECTED[2], alpha
+                )
+                pen_color = QColor(
+                    HOOK_PEN_COLOR_CONNECTED[0],
+                    HOOK_PEN_COLOR_CONNECTED[1],
+                    HOOK_PEN_COLOR_CONNECTED[2],
+                    alpha,
+                )
                 radius = HOOK_DISPLAY_RADIUS
             else:
-                brush_color = QColor(HOOK_COLOR_UNCONNECTED[0], HOOK_COLOR_UNCONNECTED[1], HOOK_COLOR_UNCONNECTED[2], alpha)
-                pen_color = QColor(HOOK_PEN_COLOR_UNCONNECTED[0], HOOK_PEN_COLOR_UNCONNECTED[1], HOOK_PEN_COLOR_UNCONNECTED[2], alpha)
+                brush_color = QColor(
+                    HOOK_COLOR_UNCONNECTED[0],
+                    HOOK_COLOR_UNCONNECTED[1],
+                    HOOK_COLOR_UNCONNECTED[2],
+                    alpha,
+                )
+                pen_color = QColor(
+                    HOOK_PEN_COLOR_UNCONNECTED[0],
+                    HOOK_PEN_COLOR_UNCONNECTED[1],
+                    HOOK_PEN_COLOR_UNCONNECTED[2],
+                    alpha,
+                )
                 radius = HOOK_DISPLAY_RADIUS
 
             painter.setBrush(brush_color)
@@ -1022,8 +1096,12 @@ class IndoorMapRenderer(Base2DMapRenderer):
         # Vertex list + AABB for early rejection.
         verts = bwm.vertices()
         if verts:
-            bbmin = Vector3(min(v.x for v in verts), min(v.y for v in verts), min(v.z for v in verts))
-            bbmax = Vector3(max(v.x for v in verts), max(v.y for v in verts), max(v.z for v in verts))
+            bbmin = Vector3(
+                min(v.x for v in verts), min(v.y for v in verts), min(v.z for v in verts)
+            )
+            bbmax = Vector3(
+                max(v.x for v in verts), max(v.y for v in verts), max(v.z for v in verts)
+            )
         else:
             bbmin = Vector3.from_null()
             bbmax = Vector3.from_null()
@@ -1123,11 +1201,17 @@ class IndoorMapRenderer(Base2DMapRenderer):
         local_pos = self._world_to_local_hook(room, world_pos)
 
         # Choose a door reference: prefer existing hook door, else first kit door
-        door = room.component.hooks[0].door if room.component.hooks else (room.component.kit.doors[0] if room.component.kit.doors else None)
+        door = (
+            room.component.hooks[0].door
+            if room.component.hooks
+            else (room.component.kit.doors[0] if room.component.kit.doors else None)
+        )
         if door is None:
             return  # cannot add without a door reference
 
-        hook = KitComponentHook(position=local_pos, rotation=0.0, edge=len(room.component.hooks), door=door)
+        hook = KitComponentHook(
+            position=local_pos, rotation=0.0, edge=len(room.component.hooks), door=door
+        )
         room.component.hooks.append(hook)
         room.hooks.append(None)
         self._selected_hook = (room, len(room.component.hooks) - 1)
@@ -1146,7 +1230,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
         # Clear selected hook if it's the one being deleted or if it becomes invalid
         if self._selected_hook is not None:
             sel_room, sel_index = self._selected_hook
-            if sel_room is room and (sel_index == hook_index or sel_index >= len(room.component.hooks) - 1):
+            if sel_room is room and (
+                sel_index == hook_index or sel_index >= len(room.component.hooks) - 1
+            ):
                 self._selected_hook = None
         room.component.hooks.pop(hook_index)
         if hook_index < len(room.hooks):
@@ -1193,14 +1279,31 @@ class IndoorMapRenderer(Base2DMapRenderer):
             return
 
         # Prefer the exact hook-to position for visual cue; fall back to snap position.
-        if self._snap_indicator.hook_to is not None and self._snap_indicator.target_room is not None:
+        if (
+            self._snap_indicator.hook_to is not None
+            and self._snap_indicator.target_room is not None
+        ):
             pos_vec = self._snap_indicator.target_room.hook_position(self._snap_indicator.hook_to)
         else:
             pos_vec = self._snap_indicator.position
 
-        painter.setPen(QPen(QColor(SNAP_INDICATOR_COLOR[0], SNAP_INDICATOR_COLOR[1], SNAP_INDICATOR_COLOR[2]), SNAP_INDICATOR_PEN_WIDTH))
-        painter.setBrush(QColor(SNAP_INDICATOR_COLOR[0], SNAP_INDICATOR_COLOR[1], SNAP_INDICATOR_COLOR[2], SNAP_INDICATOR_ALPHA))
-        painter.drawEllipse(QPointF(pos_vec.x, pos_vec.y), SNAP_INDICATOR_RADIUS, SNAP_INDICATOR_RADIUS)
+        painter.setPen(
+            QPen(
+                QColor(SNAP_INDICATOR_COLOR[0], SNAP_INDICATOR_COLOR[1], SNAP_INDICATOR_COLOR[2]),
+                SNAP_INDICATOR_PEN_WIDTH,
+            )
+        )
+        painter.setBrush(
+            QColor(
+                SNAP_INDICATOR_COLOR[0],
+                SNAP_INDICATOR_COLOR[1],
+                SNAP_INDICATOR_COLOR[2],
+                SNAP_INDICATOR_ALPHA,
+            )
+        )
+        painter.drawEllipse(
+            QPointF(pos_vec.x, pos_vec.y), SNAP_INDICATOR_RADIUS, SNAP_INDICATOR_RADIUS
+        )
 
     def _draw_spawn_point(self, painter: QPainter, coords: Vector3):
         # Highlight when hovering or dragging
@@ -1209,15 +1312,23 @@ class IndoorMapRenderer(Base2DMapRenderer):
         alpha = WARP_POINT_ALPHA_ACTIVE if is_active else WARP_POINT_ALPHA_NORMAL
 
         painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(WARP_POINT_COLOR[0], WARP_POINT_COLOR[1], WARP_POINT_COLOR[2], alpha))
+        painter.setBrush(
+            QColor(WARP_POINT_COLOR[0], WARP_POINT_COLOR[1], WARP_POINT_COLOR[2], alpha)
+        )
         painter.drawEllipse(QPointF(coords.x, coords.y), radius, radius)
 
         # Draw crosshair
         line_len = radius * WARP_POINT_CROSSHAIR_SCALE
         pen_width = WARP_POINT_PEN_WIDTH_ACTIVE if is_active else WARP_POINT_PEN_WIDTH_NORMAL
-        painter.setPen(QPen(QColor(WARP_POINT_COLOR[0], WARP_POINT_COLOR[1], WARP_POINT_COLOR[2]), pen_width))
-        painter.drawLine(QPointF(coords.x, coords.y - line_len), QPointF(coords.x, coords.y + line_len))
-        painter.drawLine(QPointF(coords.x - line_len, coords.y), QPointF(coords.x + line_len, coords.y))
+        painter.setPen(
+            QPen(QColor(WARP_POINT_COLOR[0], WARP_POINT_COLOR[1], WARP_POINT_COLOR[2]), pen_width)
+        )
+        painter.drawLine(
+            QPointF(coords.x, coords.y - line_len), QPointF(coords.x, coords.y + line_len)
+        )
+        painter.drawLine(
+            QPointF(coords.x - line_len, coords.y), QPointF(coords.x + line_len, coords.y)
+        )
 
     def _draw_marquee(self, painter: QPainter):
         """Draw the marquee selection rectangle (shared style via toolset.gui.common.marquee)."""
@@ -1255,7 +1366,11 @@ class IndoorMapRenderer(Base2DMapRenderer):
                     continue
                 seen_pairs.add(pair)
 
-                if filter_to_selection and src_room_id not in selected_ids and dst_room_id not in selected_ids:
+                if (
+                    filter_to_selection
+                    and src_room_id not in selected_ids
+                    and dst_room_id not in selected_ids
+                ):
                     continue
 
                 src_has_dst = dst_room_id in self._vis_matrix.get(src_room_id, set())
@@ -1345,19 +1460,48 @@ class IndoorMapRenderer(Base2DMapRenderer):
                     hook_pos = room.hook_position(hook)
                     # Color: unconnected = red, connected = green
                     if room.hooks[hook_index] is None:
-                        painter.setBrush(QColor(HOOK_COLOR_UNCONNECTED[0], HOOK_COLOR_UNCONNECTED[1], HOOK_COLOR_UNCONNECTED[2], HOOK_COLOR_UNCONNECTED[3]))
+                        painter.setBrush(
+                            QColor(
+                                HOOK_COLOR_UNCONNECTED[0],
+                                HOOK_COLOR_UNCONNECTED[1],
+                                HOOK_COLOR_UNCONNECTED[2],
+                                HOOK_COLOR_UNCONNECTED[3],
+                            )
+                        )
                         painter.setPen(
                             QPen(
-                                QColor(HOOK_PEN_COLOR_UNCONNECTED[0], HOOK_PEN_COLOR_UNCONNECTED[1], HOOK_PEN_COLOR_UNCONNECTED[2], HOOK_PEN_COLOR_UNCONNECTED[3]),
+                                QColor(
+                                    HOOK_PEN_COLOR_UNCONNECTED[0],
+                                    HOOK_PEN_COLOR_UNCONNECTED[1],
+                                    HOOK_PEN_COLOR_UNCONNECTED[2],
+                                    HOOK_PEN_COLOR_UNCONNECTED[3],
+                                ),
                                 GRID_PEN_WIDTH,
                             ),
                         )
                     else:
-                        painter.setBrush(QColor(HOOK_COLOR_CONNECTED[0], HOOK_COLOR_CONNECTED[1], HOOK_COLOR_CONNECTED[2], HOOK_COLOR_CONNECTED[3]))
-                        painter.setPen(
-                            QPen(QColor(HOOK_PEN_COLOR_CONNECTED[0], HOOK_PEN_COLOR_CONNECTED[1], HOOK_PEN_COLOR_CONNECTED[2], HOOK_PEN_COLOR_CONNECTED[3]), GRID_PEN_WIDTH),
+                        painter.setBrush(
+                            QColor(
+                                HOOK_COLOR_CONNECTED[0],
+                                HOOK_COLOR_CONNECTED[1],
+                                HOOK_COLOR_CONNECTED[2],
+                                HOOK_COLOR_CONNECTED[3],
+                            )
                         )
-                    painter.drawEllipse(QPointF(hook_pos.x, hook_pos.y), HOOK_DISPLAY_RADIUS, HOOK_DISPLAY_RADIUS)
+                        painter.setPen(
+                            QPen(
+                                QColor(
+                                    HOOK_PEN_COLOR_CONNECTED[0],
+                                    HOOK_PEN_COLOR_CONNECTED[1],
+                                    HOOK_PEN_COLOR_CONNECTED[2],
+                                    HOOK_PEN_COLOR_CONNECTED[3],
+                                ),
+                                GRID_PEN_WIDTH,
+                            ),
+                        )
+                    painter.drawEllipse(
+                        QPointF(hook_pos.x, hook_pos.y), HOOK_DISPLAY_RADIUS, HOOK_DISPLAY_RADIUS
+                    )
 
         # Draw connections (green lines for connected hooks)
         for room in self._map.rooms:
@@ -1369,7 +1513,12 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 yd = math.sin(math.radians(hook.rotation + room.rotation)) * hook.door.width / 2
                 painter.setPen(
                     QPen(
-                        QColor(CONNECTION_LINE_COLOR[0], CONNECTION_LINE_COLOR[1], CONNECTION_LINE_COLOR[2], CONNECTION_LINE_COLOR[3]),
+                        QColor(
+                            CONNECTION_LINE_COLOR[0],
+                            CONNECTION_LINE_COLOR[1],
+                            CONNECTION_LINE_COLOR[2],
+                            CONNECTION_LINE_COLOR[3],
+                        ),
                         CONNECTION_LINE_WIDTH_SCALE / self.camera.zoom(),
                     ),
                 )
@@ -1390,7 +1539,12 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 painter,
                 self._under_mouse_room,
                 ROOM_HOVER_ALPHA,
-                QColor(ROOM_HOVER_COLOR[0], ROOM_HOVER_COLOR[1], ROOM_HOVER_COLOR[2], ROOM_HOVER_COLOR[3]),
+                QColor(
+                    ROOM_HOVER_COLOR[0],
+                    ROOM_HOVER_COLOR[1],
+                    ROOM_HOVER_COLOR[2],
+                    ROOM_HOVER_COLOR[3],
+                ),
             )
 
         # Draw selection highlights
@@ -1399,7 +1553,12 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 painter,
                 room,
                 ROOM_SELECTED_ALPHA,
-                QColor(ROOM_SELECTED_COLOR[0], ROOM_SELECTED_COLOR[1], ROOM_SELECTED_COLOR[2], ROOM_SELECTED_COLOR[3]),
+                QColor(
+                    ROOM_SELECTED_COLOR[0],
+                    ROOM_SELECTED_COLOR[1],
+                    ROOM_SELECTED_COLOR[2],
+                    ROOM_SELECTED_COLOR[3],
+                ),
             )
 
         # Draw spawn point (warp point)
@@ -1498,12 +1657,17 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 # Check if we have a snap anchor from previous snap
                 if self._snap_anchor_position is not None:
                     # Calculate distance from current position to snap anchor
-                    distance_from_anchor = Vector2.from_vector3(active_room.position).distance(Vector2.from_vector3(self._snap_anchor_position))
+                    distance_from_anchor = Vector2.from_vector3(active_room.position).distance(
+                        Vector2.from_vector3(self._snap_anchor_position)
+                    )
 
                     # Dynamic disconnect threshold tied to zoom (smaller to make separation easy)
                     dynamic_disconnect = max(
                         HOOK_SNAP_DISCONNECT_BASE_THRESHOLD,
-                        HOOK_SNAP_DISCONNECT_SCALE_FACTOR * max(HOOK_SNAP_BASE_THRESHOLD, HOOK_SNAP_SCALE_FACTOR / self.camera.zoom()),
+                        HOOK_SNAP_DISCONNECT_SCALE_FACTOR
+                        * max(
+                            HOOK_SNAP_BASE_THRESHOLD, HOOK_SNAP_SCALE_FACTOR / self.camera.zoom()
+                        ),
                     )
                     # If moved beyond disconnect threshold, clear snap and allow free movement
                     if distance_from_anchor > dynamic_disconnect:
@@ -1514,8 +1678,13 @@ class IndoorMapRenderer(Base2DMapRenderer):
                         snap_result = self._find_hook_snap(active_room, active_room.position)
                         if snap_result.snapped:
                             # Check distance from current position to snap point
-                            distance_to_snap = Vector2.from_vector3(active_room.position).distance(Vector2.from_vector3(snap_result.position))
-                            snap_threshold = max(HOOK_SNAP_BASE_THRESHOLD, HOOK_SNAP_SCALE_FACTOR / self.camera.zoom())
+                            distance_to_snap = Vector2.from_vector3(active_room.position).distance(
+                                Vector2.from_vector3(snap_result.position)
+                            )
+                            snap_threshold = max(
+                                HOOK_SNAP_BASE_THRESHOLD,
+                                HOOK_SNAP_SCALE_FACTOR / self.camera.zoom(),
+                            )
 
                             # Only apply snap if within threshold
                             if distance_to_snap <= snap_threshold:
@@ -1542,7 +1711,9 @@ class IndoorMapRenderer(Base2DMapRenderer):
                     snap_result = self._find_hook_snap(active_room, active_room.position)
                     if snap_result.snapped:
                         # Check distance from current position to snap point
-                        distance_to_snap = Vector2.from_vector3(active_room.position).distance(Vector2.from_vector3(snap_result.position))
+                        distance_to_snap = Vector2.from_vector3(active_room.position).distance(
+                            Vector2.from_vector3(snap_result.position)
+                        )
                         snap_threshold = max(1.0, 2.0 / self.camera.zoom())
 
                         # Only apply snap if within threshold

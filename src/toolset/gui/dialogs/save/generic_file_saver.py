@@ -54,7 +54,9 @@ class FileSaveHandler(Generic[T]):
         failed_extractions: dict[Path, Exception] = {}
         if paths_to_write is None:
             paths_to_write = self.build_paths_to_write()
-        successfully_saved_paths: dict[T, Path] = self.determine_save_paths(paths_to_write, failed_extractions)
+        successfully_saved_paths: dict[T, Path] = self.determine_save_paths(
+            paths_to_write, failed_extractions
+        )
 
         for resource, path in successfully_saved_paths.items():
             try:
@@ -104,7 +106,9 @@ class FileSaveHandler(Generic[T]):
                 paths_to_write[resource] = file_path
 
         else:
-            RobustLogger().warning("FileSaveHandler: no resources sent with the constructor, nothing to save.")
+            RobustLogger().warning(
+                "FileSaveHandler: no resources sent with the constructor, nothing to save."
+            )
 
         return paths_to_write
 
@@ -139,12 +143,16 @@ class FileSaveHandler(Generic[T]):
         existing_files_and_folders: list[str] = []
         for path in paths_to_write.values():
             if path.exists():
-                file_relpath = str(path.relative_to(path.parents[1] if path.parent.parent.name else path.parent))
+                file_relpath = str(
+                    path.relative_to(path.parents[1] if path.parent.parent.name else path.parent)
+                )
                 existing_files_and_folders.append(file_relpath)
 
         # Determine the action to take regarding existing files/folders.
         if not existing_files_and_folders:
-            choice = QMessageBox.StandardButton.No  # Default to rename, useful when not executing the save immediately.
+            choice = (
+                QMessageBox.StandardButton.No
+            )  # Default to rename, useful when not executing the save immediately.
         else:
             choice: int = self._prompt_existence_choice(existing_files_and_folders)
 
@@ -157,8 +165,16 @@ class FileSaveHandler(Generic[T]):
                 next(iter(paths_to_write.values())).parent,
             )
             for resource, path in paths_to_write.items():
-                is_overwrite: Literal["overwriting existing file", "saving as"] = "overwriting existing file" if path.is_file() else "saving as"
-                RobustLogger().info("Extracting '%s' to '%s' and %s '%s'", path.name, path.parent, is_overwrite, path.name)
+                is_overwrite: Literal["overwriting existing file", "saving as"] = (
+                    "overwriting existing file" if path.is_file() else "saving as"
+                )
+                RobustLogger().info(
+                    "Extracting '%s' to '%s' and %s '%s'",
+                    path.name,
+                    path.parent,
+                    is_overwrite,
+                    path.name,
+                )
                 try:
                     if path.is_dir():
                         shutil.rmtree(path)
@@ -214,14 +230,30 @@ class FileSaveHandler(Generic[T]):
             ),
         )
         msg_box.setDetailedText("\n".join(existing_files_and_folders))
-        msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Abort)  # pyright: ignore[reportArgumentType]
-        yes_button, no_button = msg_box.button(QMessageBox.StandardButton.Yes), msg_box.button(QMessageBox.StandardButton.No)
-        assert yes_button is not None, "Did not call setStandardButtons with the QMessageBox yes button."
-        assert no_button is not None, "Did not call setStandardButtons with the QMessageBox yes button."
+        msg_box.setStandardButtons(
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No
+            | QMessageBox.StandardButton.Abort
+        )  # pyright: ignore[reportArgumentType]
+        yes_button, no_button = (
+            msg_box.button(QMessageBox.StandardButton.Yes),
+            msg_box.button(QMessageBox.StandardButton.No),
+        )
+        assert yes_button is not None, (
+            "Did not call setStandardButtons with the QMessageBox yes button."
+        )
+        assert no_button is not None, (
+            "Did not call setStandardButtons with the QMessageBox yes button."
+        )
         yes_button.setText(tr("Overwrite"))
         no_button.setText(tr("Auto-Rename"))
         msg_box.setDefaultButton(QMessageBox.StandardButton.Abort)
-        msg_box.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowSystemMenuHint)  # pyright: ignore[reportArgumentType]
+        msg_box.setWindowFlags(
+            Qt.WindowType.Dialog
+            | Qt.WindowType.Window
+            | Qt.WindowType.WindowStaysOnTopHint
+            | Qt.WindowType.WindowSystemMenuHint
+        )  # pyright: ignore[reportArgumentType]
         return msg_box.exec()
 
     def _handle_failed_extractions(
@@ -233,8 +265,20 @@ class FileSaveHandler(Generic[T]):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Icon.Critical)
         msg_box.setWindowTitle(tr("Failed to extract files to disk."))
-        msg_box.setText(trf("{count} files FAILED to to be saved<br><br>Press 'show details' for information.", count=len(failed_extractions)))
-        detailed_info = "\n".join(f"{file}: {exc.__class__.__name__}: {exc}" for file, exc in failed_extractions.items())
-        msg_box.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowSystemMenuHint)  # pyright: ignore[reportArgumentType]
+        msg_box.setText(
+            trf(
+                "{count} files FAILED to to be saved<br><br>Press 'show details' for information.",
+                count=len(failed_extractions),
+            )
+        )
+        detailed_info = "\n".join(
+            f"{file}: {exc.__class__.__name__}: {exc}" for file, exc in failed_extractions.items()
+        )
+        msg_box.setWindowFlags(
+            Qt.WindowType.Dialog
+            | Qt.WindowType.Window
+            | Qt.WindowType.WindowStaysOnTopHint
+            | Qt.WindowType.WindowSystemMenuHint
+        )  # pyright: ignore[reportArgumentType]
         msg_box.setDetailedText(detailed_info)
         msg_box.exec()

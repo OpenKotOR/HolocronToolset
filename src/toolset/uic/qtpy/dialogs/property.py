@@ -28,7 +28,9 @@ class Ui_Dialog(object):
         self.propertyEdit.setEnabled(False)
         self.propertyEdit.setObjectName("propertyEdit")
         self.verticalLayout.addWidget(self.propertyEdit)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem)
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setObjectName("label_2")
@@ -37,7 +39,9 @@ class Ui_Dialog(object):
         self.subpropertyEdit.setEnabled(False)
         self.subpropertyEdit.setObjectName("subpropertyEdit")
         self.verticalLayout.addWidget(self.subpropertyEdit)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem1)
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setObjectName("label_3")
@@ -46,7 +50,9 @@ class Ui_Dialog(object):
         self.costEdit.setEnabled(False)
         self.costEdit.setObjectName("costEdit")
         self.verticalLayout.addWidget(self.costEdit)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem2)
         self.label_4 = QtWidgets.QLabel(Dialog)
         self.label_4.setObjectName("label_4")
@@ -55,7 +61,9 @@ class Ui_Dialog(object):
         self.parameterEdit.setEnabled(False)
         self.parameterEdit.setObjectName("parameterEdit")
         self.verticalLayout.addWidget(self.parameterEdit)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem3)
         self.label_7 = QtWidgets.QLabel(Dialog)
         self.label_7.setObjectName("label_7")
@@ -94,13 +102,15 @@ class Ui_Dialog(object):
         self.verticalLayout_4.addLayout(self.horizontalLayout)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_4.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(Dialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(Dialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -115,4 +125,6 @@ class Ui_Dialog(object):
         self.costSelectButton.setText(_translate("Dialog", "Select"))
         self.label_6.setText(_translate("Dialog", "Parameter Values:"))
         self.parameterSelectButton.setText(_translate("Dialog", "Select"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA

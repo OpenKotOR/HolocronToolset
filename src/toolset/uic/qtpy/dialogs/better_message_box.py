@@ -20,11 +20,13 @@ class Ui_Dialog(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.iconLabel = QtWidgets.QLabel(Dialog)
         self.iconLabel.setText("")
-        self.iconLabel.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
+        self.iconLabel.setAlignment(QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
         self.iconLabel.setScaledContents(False)
         self.iconLabel.setObjectName("iconLabel")
         self.verticalLayout.addWidget(self.iconLabel)
-        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem)
         self.messageLabel = QtWidgets.QLabel(Dialog)
         self.messageLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -41,13 +43,19 @@ class Ui_Dialog(object):
         self.detailedTextWidget.setVisible(False)
         self.detailedTextWidget.setObjectName("detailedTextWidget")
         self.verticalLayout.addWidget(self.detailedTextWidget)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem1)
         self.buttonLayout = QtWidgets.QHBoxLayout()
         self.buttonLayout.setObjectName("buttonLayout")
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonLayout.addItem(spacerItem2)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonLayout.addItem(spacerItem3)
         self.verticalLayout.addLayout(self.buttonLayout)
 

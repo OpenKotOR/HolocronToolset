@@ -201,7 +201,9 @@ def save_with_characters(tmp_path):
 # ============================================================================
 
 
-def test_screenshot_aspect_ratio_preserved(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_screenshot_aspect_ratio_preserved(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that screenshot maintains aspect ratio when resized - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -231,7 +233,9 @@ def test_screenshot_aspect_ratio_preserved(qtbot: QtBot, installation: HTInstall
     if displayed_pixmap and displayed_pixmap.height() > 0:
         aspect_ratio = displayed_pixmap.width() / displayed_pixmap.height()
         expected_ratio = 640 / 480
-        assert abs(aspect_ratio - expected_ratio) < 0.01, f"Aspect ratio not preserved: {aspect_ratio} != {expected_ratio}"
+        assert abs(aspect_ratio - expected_ratio) < 0.01, (
+            f"Aspect ratio not preserved: {aspect_ratio} != {expected_ratio}"
+        )
 
 
 def test_screenshot_no_upscaling(qtbot: QtBot, installation: HTInstallation):
@@ -259,7 +263,9 @@ def test_screenshot_no_upscaling(qtbot: QtBot, installation: HTInstallation):
         assert displayed_pixmap.height() <= 100, f"Height {displayed_pixmap.height()} > 100"
 
 
-def test_screenshot_tooltip_info(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_screenshot_tooltip_info(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that screenshot tooltip shows correct information - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -282,7 +288,12 @@ def test_screenshot_tooltip_info(qtbot: QtBot, installation: HTInstallation, rea
 
     # Tooltip should contain image information
     assert len(tooltip) > 0, "Tooltip should not be empty"
-    assert "640" in tooltip or "480" in tooltip or "aspect" in tooltip.lower() or "ratio" in tooltip.lower()
+    assert (
+        "640" in tooltip
+        or "480" in tooltip
+        or "aspect" in tooltip.lower()
+        or "ratio" in tooltip.lower()
+    )
 
 
 # ============================================================================
@@ -290,7 +301,9 @@ def test_screenshot_tooltip_info(qtbot: QtBot, installation: HTInstallation, rea
 # ============================================================================
 
 
-def test_party_member_names_displayed(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_party_member_names_displayed(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that party members show actual names - REAL test with actual save."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -340,7 +353,9 @@ def test_party_member_names_displayed(qtbot: QtBot, installation: HTInstallation
     assert "Member #" not in text, "Should not show 'Member #'"
 
 
-def test_party_member_tooltips(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_party_member_tooltips(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that party members have rich tooltips - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -386,12 +401,19 @@ def test_party_member_tooltips(qtbot: QtBot, installation: HTInstallation, save_
 
     # Tooltip should contain detailed information
     assert len(tooltip) > 0, "Tooltip should not be empty"
-    assert "<html>" in tooltip.lower() or "html" in tooltip.lower() or any(keyword in tooltip.lower() for keyword in ["index", "leader", "type", "name", "hp", "fp"]), (
-        f"Tooltip should contain detailed info: {tooltip[:200]}"
-    )
+    assert (
+        "<html>" in tooltip.lower()
+        or "html" in tooltip.lower()
+        or any(
+            keyword in tooltip.lower()
+            for keyword in ["index", "leader", "type", "name", "hp", "fp"]
+        )
+    ), f"Tooltip should contain detailed info: {tooltip[:200]}"
 
 
-def test_party_member_leader_indicator(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_party_member_leader_indicator(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that party leader is visually indicated - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -457,7 +479,9 @@ def test_scrollbar_interaction_disabled(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_global_vars_compact_display(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_compact_display(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that global variables use compact display - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -476,17 +500,31 @@ def test_global_vars_compact_display(qtbot: QtBot, installation: HTInstallation,
     loc_table = editor.ui.tableWidgetLocations
 
     # Verify vertical headers are hidden for compact display
-    assert bool_table.verticalHeader().isVisible() == False, "Boolean table vertical header should be hidden"
-    assert num_table.verticalHeader().isVisible() == False, "Number table vertical header should be hidden"
-    assert str_table.verticalHeader().isVisible() == False, "String table vertical header should be hidden"
-    assert loc_table.verticalHeader().isVisible() == False, "Location table vertical header should be hidden"
+    assert bool_table.verticalHeader().isVisible() == False, (
+        "Boolean table vertical header should be hidden"
+    )
+    assert num_table.verticalHeader().isVisible() == False, (
+        "Number table vertical header should be hidden"
+    )
+    assert str_table.verticalHeader().isVisible() == False, (
+        "String table vertical header should be hidden"
+    )
+    assert loc_table.verticalHeader().isVisible() == False, (
+        "Location table vertical header should be hidden"
+    )
 
     # Verify row heights are compact (allow small tolerance for system defaults)
-    assert bool_table.verticalHeader().defaultSectionSize() <= 25, f"Row height {bool_table.verticalHeader().defaultSectionSize()} should be <= 25"
-    assert num_table.verticalHeader().defaultSectionSize() <= 25, f"Row height {num_table.verticalHeader().defaultSectionSize()} should be <= 25"
+    assert bool_table.verticalHeader().defaultSectionSize() <= 25, (
+        f"Row height {bool_table.verticalHeader().defaultSectionSize()} should be <= 25"
+    )
+    assert num_table.verticalHeader().defaultSectionSize() <= 25, (
+        f"Row height {num_table.verticalHeader().defaultSectionSize()} should be <= 25"
+    )
 
 
-def test_global_vars_column_sizing(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_column_sizing(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that global variables columns are properly sized - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -509,7 +547,10 @@ def test_global_vars_column_sizing(qtbot: QtBot, installation: HTInstallation, r
         # At least one should be set to stretch
         from qtpy.QtWidgets import QHeaderView
 
-        assert name_mode in [QHeaderView.ResizeMode.Stretch, QHeaderView.ResizeMode.Interactive] or value_mode in [
+        assert name_mode in [
+            QHeaderView.ResizeMode.Stretch,
+            QHeaderView.ResizeMode.Interactive,
+        ] or value_mode in [
             QHeaderView.ResizeMode.Stretch,
             QHeaderView.ResizeMode.Interactive,
         ], f"Column resize modes should allow stretching: name={name_mode}, value={value_mode}"
@@ -520,7 +561,9 @@ def test_global_vars_column_sizing(qtbot: QtBot, installation: HTInstallation, r
 # ============================================================================
 
 
-def test_character_names_displayed(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_names_displayed(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that characters show actual names - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -551,7 +594,9 @@ def test_character_names_displayed(qtbot: QtBot, installation: HTInstallation, s
     item = list_widget.item(0)
     assert item is not None, "Character item should exist"
     text = item.text()
-    assert "TestPlayer" in text or "Carth" in text or "player" in text or "carth" in text, f"Character name not found in: {text}"
+    assert "TestPlayer" in text or "Carth" in text or "player" in text or "carth" in text, (
+        f"Character name not found in: {text}"
+    )
     assert "Member #" not in text, "Should not show 'Member #'"
 
 
@@ -584,10 +629,14 @@ def test_equipment_editable(qtbot: QtBot, installation: HTInstallation, save_wit
         # Check equipment list exists
         equipment_list = editor.ui.listWidgetEquipment
         assert equipment_list is not None, "Equipment list should exist"
-        assert equipment_list.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu, "Equipment list should have custom context menu"
+        assert equipment_list.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu, (
+            "Equipment list should have custom context menu"
+        )
 
 
-def test_equipment_context_menu(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_equipment_context_menu(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that equipment has context menu for editing - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -616,7 +665,9 @@ def test_equipment_context_menu(qtbot: QtBot, installation: HTInstallation, save
         equipment_list = editor.ui.listWidgetEquipment
 
         # Verify context menu policy is set
-        assert equipment_list.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu, "Equipment list should have custom context menu policy"
+        assert equipment_list.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu, (
+            "Equipment list should have custom context menu policy"
+        )
 
 
 # ============================================================================
@@ -624,7 +675,9 @@ def test_equipment_context_menu(qtbot: QtBot, installation: HTInstallation, save
 # ============================================================================
 
 
-def test_skills_label_shows_character_name(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_skills_label_shows_character_name(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that skills tab label shows whose skills are displayed - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -658,7 +711,9 @@ def test_skills_label_shows_character_name(qtbot: QtBot, installation: HTInstall
         assert len(label_text) > 0, "Label should not be empty"
 
 
-def test_skills_label_tooltip(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_skills_label_tooltip(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test that skills label has tooltip with character info - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -696,7 +751,9 @@ def test_skills_label_tooltip(qtbot: QtBot, installation: HTInstallation, save_w
 # ============================================================================
 
 
-def test_inventory_shows_item_names(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_inventory_shows_item_names(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that inventory shows actual item names - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -721,7 +778,9 @@ def test_inventory_shows_item_names(qtbot: QtBot, installation: HTInstallation, 
             assert len(text) > 0, "Item name should not be empty"
 
 
-def test_inventory_item_tooltips(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_inventory_item_tooltips(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that inventory items have tooltips - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -741,7 +800,9 @@ def test_inventory_item_tooltips(qtbot: QtBot, installation: HTInstallation, rea
         if item:
             tooltip = item.toolTip()
             # Tooltip should contain item information
-            assert len(tooltip) > 0 or "test_item" in tooltip.lower(), f"Tooltip should contain item info: {tooltip}"
+            assert len(tooltip) > 0 or "test_item" in tooltip.lower(), (
+                f"Tooltip should contain item info: {tooltip}"
+            )
 
 
 # ============================================================================
@@ -778,7 +839,9 @@ def test_journal_display_format(qtbot: QtBot, installation: HTInstallation, real
         text = item.text()
 
         # Should contain readable format
-        assert "Day" in text or "State" in text or "Plot" in text.lower() or len(text) > 0, f"Should contain readable format: {text}"
+        assert "Day" in text or "State" in text or "Plot" in text.lower() or len(text) > 0, (
+            f"Should contain readable format: {text}"
+        )
 
 
 def test_journal_tooltips(qtbot, installation: HTInstallation, real_save_folder: Path):
@@ -807,7 +870,9 @@ def test_journal_tooltips(qtbot, installation: HTInstallation, real_save_folder:
             tooltip = item.toolTip()
 
             # Tooltip should contain raw values
-            assert "1" in tooltip or "2" in tooltip or len(tooltip) > 0, f"Tooltip should contain raw values: {tooltip}"
+            assert "1" in tooltip or "2" in tooltip or len(tooltip) > 0, (
+                f"Tooltip should contain raw values: {tooltip}"
+            )
 
 
 # ============================================================================
@@ -815,7 +880,9 @@ def test_journal_tooltips(qtbot, installation: HTInstallation, real_save_folder:
 # ============================================================================
 
 
-def test_save_game_editor_loads_save(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_save_game_editor_loads_save(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that save game editor can load a real save folder."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -860,7 +927,9 @@ def test_save_game_editor_loads_save(qtbot: QtBot, installation: HTInstallation,
     assert editor.ui.lineEditPCName.text() == "TestPlayer", "PC name should be set"
 
 
-def test_save_game_editor_modify_and_save(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_save_game_editor_modify_and_save(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that save game editor can modify and save data - REAL roundtrip."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -923,7 +992,9 @@ def test_save_game_editor_modify_and_save(qtbot: QtBot, installation: HTInstalla
     assert party_table2.pt_gold == 9999, "Gold should persist after save"
 
 
-def test_save_game_editor_global_vars_modify(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_save_game_editor_global_vars_modify(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test modifying global variables - REAL test."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -942,14 +1013,18 @@ def test_save_game_editor_global_vars_modify(qtbot: QtBot, installation: HTInsta
     editor._global_vars.set_boolean("TEST_BOOL", not original_bool)
 
     # Verify modification
-    assert editor._global_vars.get_boolean("TEST_BOOL") == (not original_bool), "Boolean should be modified"
+    assert editor._global_vars.get_boolean("TEST_BOOL") == (not original_bool), (
+        "Boolean should be modified"
+    )
 
     # Modify number
     original_num = editor._global_vars.get_number("TEST_NUM")
     editor._global_vars.set_number("TEST_NUM", original_num + 10)
 
     # Verify modification
-    assert editor._global_vars.get_number("TEST_NUM") == original_num + 10, "Number should be modified"
+    assert editor._global_vars.get_number("TEST_NUM") == original_num + 10, (
+        "Number should be modified"
+    )
 
 
 # ============================================================================
@@ -957,7 +1032,9 @@ def test_save_game_editor_global_vars_modify(qtbot: QtBot, installation: HTInsta
 # ============================================================================
 
 
-def test_savegameeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_savegameeditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that SaveGameEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -980,7 +1057,9 @@ def test_savegameeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, inst
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -1060,7 +1139,9 @@ def test_load_sets_normal_flag(qtbot: QtBot, installation: HTInstallation, test_
 # ============================================================================
 
 
-def test_save_preserves_extra_fields_for_save_game(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_save_preserves_extra_fields_for_save_game(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save() preserves extra fields when resource is from save game."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1093,7 +1174,9 @@ def test_save_preserves_extra_fields_for_save_game(qtbot: QtBot, installation: H
     assert saved_field_count >= original_field_count, "Extra fields should be preserved"
 
 
-def test_save_always_preserves_for_save_game_regardless_of_setting(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_save_always_preserves_for_save_game_regardless_of_setting(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save game resources always preserve fields, even if setting is disabled."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1124,7 +1207,9 @@ def test_save_always_preserves_for_save_game_regardless_of_setting(qtbot: QtBot,
     assert len(saved_gff.root.fields()) >= len(original_gff.root.fields())
 
 
-def test_save_preserves_fields_using_add_missing(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_save_preserves_fields_using_add_missing(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that add_missing() is called to preserve fields."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1154,7 +1239,9 @@ def test_save_preserves_fields_using_add_missing(qtbot: QtBot, installation: HTI
 # ============================================================================
 
 
-def test_ifo_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_ifo_editor_preserves_save_game_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that IFO editor preserves fields for save game resources."""
     # IFO files are commonly found in save games
     editor = IFOEditor(None, installation)
@@ -1182,7 +1269,9 @@ def test_ifo_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTIns
     assert len(data) > 0
 
 
-def test_git_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_git_editor_preserves_save_game_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that GIT editor preserves fields for save game resources."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1204,7 +1293,9 @@ def test_git_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTIns
     assert len(data) > 0
 
 
-def test_utc_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utc_editor_preserves_save_game_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that UTC editor preserves fields for save game resources."""
     editor = UTCEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1226,7 +1317,9 @@ def test_utc_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTIns
     assert len(data) > 0
 
 
-def test_uti_editor_preserves_save_game_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_uti_editor_preserves_save_game_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that UTI editor preserves fields for save game resources."""
     editor = UTIEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1279,7 +1372,9 @@ def test_all_gff_editors_inherit_save_game_detection(qtbot: QtBot, installation:
         assert callable(editor.save)
 
 
-def test_save_game_resource_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_save_game_resource_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test complete roundtrip: load from save -> modify -> save -> load again."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1363,13 +1458,17 @@ def test_detect_save_game_deeply_nested():
     editor = GITEditor(None, None)
 
     # Deeply nested path
-    path = Path("saves") / "000001" / "SAVEGAME.sav" / "module1.sav" / "module2.sav" / "resource.git"
+    path = (
+        Path("saves") / "000001" / "SAVEGAME.sav" / "module1.sav" / "module2.sav" / "resource.git"
+    )
 
     is_save = editor._detect_save_game_resource(path)
     assert is_save == True, "Should detect .sav in deeply nested path"
 
 
-def test_save_game_resource_without_revert_data(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_save_game_resource_without_revert_data(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save game resources still work even if _revert is None."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1398,7 +1497,9 @@ def test_save_game_resource_without_revert_data(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_saveinfo_manipulate_live_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_live_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating Xbox Live fields (LIVE1-LIVE6, LIVECONTENT)."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1432,7 +1533,9 @@ def test_saveinfo_manipulate_live_fields(qtbot: QtBot, installation: HTInstallat
     assert editor._save_info.livecontent == 42
 
 
-def test_saveinfo_manipulate_hints(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_hints(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating gameplay and story hints."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1456,7 +1559,9 @@ def test_saveinfo_manipulate_hints(qtbot: QtBot, installation: HTInstallation, r
     assert editor._save_info.story_hint == 200
 
 
-def test_saveinfo_manipulate_cheat_used(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_cheat_used(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating cheat used flag."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1478,7 +1583,9 @@ def test_saveinfo_manipulate_cheat_used(qtbot: QtBot, installation: HTInstallati
     assert editor._save_info.cheat_used is True
 
 
-def test_party_table_manipulate_influence(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_influence(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating influence values (K2 only)."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1509,7 +1616,9 @@ def test_party_table_manipulate_influence(qtbot: QtBot, installation: HTInstalla
         assert editor._party_table.pt_influence[0] == 60
 
 
-def test_party_table_manipulate_available_npcs(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_available_npcs(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating available NPCs."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1641,7 +1750,9 @@ def test_character_manipulate_attributes(qtbot, installation, save_with_characte
             assert editor._current_character.charisma == 8
 
 
-def test_character_manipulate_appearance(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_appearance(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating character appearance fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1709,7 +1820,9 @@ def test_character_manipulate_flags(qtbot, installation, save_with_characters):
                 assert editor._current_character.good_evil == 75
 
 
-def test_saveinfo_additional_fields_preserved(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_additional_fields_preserved(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that additional/unknown SaveInfo fields are preserved."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1737,7 +1850,9 @@ def test_saveinfo_additional_fields_preserved(qtbot: QtBot, installation: HTInst
     assert value == 12345
 
 
-def test_party_table_additional_fields_preserved(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_additional_fields_preserved(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that additional/unknown PartyTable fields are preserved."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1765,7 +1880,9 @@ def test_party_table_additional_fields_preserved(qtbot: QtBot, installation: HTI
     assert value == "test_value"
 
 
-def test_saveinfo_roundtrip_all_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_roundtrip_all_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test roundtrip save/load for all SaveInfo fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1813,7 +1930,9 @@ def test_saveinfo_roundtrip_all_fields(qtbot: QtBot, installation: HTInstallatio
     assert editor._save_info.livecontent == 99
 
 
-def test_party_table_roundtrip_all_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_roundtrip_all_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test roundtrip save/load for all PartyTable fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1864,7 +1983,9 @@ def test_party_table_roundtrip_all_fields(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_saveinfo_manipulate_savegame_name_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_savegame_name_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating savegame name with various values and verify roundtrip."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1906,15 +2027,21 @@ def test_saveinfo_manipulate_savegame_name_exhaustive(qtbot: QtBot, installation
         editor.load(str(real_save_folder), "TestSave", ResourceType.SAV, b"")
         QApplication.processEvents()
 
-        assert editor._save_info.savegame_name == name, f"Save name mismatch: expected '{name}', got '{editor._save_info.savegame_name}'"
-        assert editor.ui.lineEditSaveName.text() == name, f"UI save name mismatch: expected '{name}', got '{editor.ui.lineEditSaveName.text()}'"
+        assert editor._save_info.savegame_name == name, (
+            f"Save name mismatch: expected '{name}', got '{editor._save_info.savegame_name}'"
+        )
+        assert editor.ui.lineEditSaveName.text() == name, (
+            f"UI save name mismatch: expected '{name}', got '{editor.ui.lineEditSaveName.text()}'"
+        )
 
         # Verify it changed from original
         if name != original_name:
             assert editor._save_info.savegame_name != original_name
 
 
-def test_saveinfo_manipulate_area_name_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_area_name_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating area name with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1949,7 +2076,9 @@ def test_saveinfo_manipulate_area_name_exhaustive(qtbot: QtBot, installation: HT
         assert editor.ui.lineEditAreaName.text() == area
 
 
-def test_saveinfo_manipulate_last_module_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_last_module_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating last module ResRef with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1984,7 +2113,9 @@ def test_saveinfo_manipulate_last_module_exhaustive(qtbot: QtBot, installation: 
         assert editor.ui.lineEditLastModule.text() == module
 
 
-def test_saveinfo_manipulate_time_played_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_time_played_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating time played with boundary and typical values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2019,11 +2150,15 @@ def test_saveinfo_manipulate_time_played_exhaustive(qtbot: QtBot, installation: 
         editor.load(str(real_save_folder), "TestSave", ResourceType.SAV, b"")
         QApplication.processEvents()
 
-        assert editor._save_info.time_played == time_val, f"Time played mismatch: expected {time_val}, got {editor._save_info.time_played}"
+        assert editor._save_info.time_played == time_val, (
+            f"Time played mismatch: expected {time_val}, got {editor._save_info.time_played}"
+        )
         assert editor.ui.spinBoxTimePlayed.value() == time_val
 
 
-def test_saveinfo_manipulate_pc_name_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_pc_name_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating PC name (K2) with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2057,7 +2192,9 @@ def test_saveinfo_manipulate_pc_name_exhaustive(qtbot: QtBot, installation: HTIn
         assert editor.ui.lineEditPCName.text() == name
 
 
-def test_saveinfo_manipulate_portraits_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_portraits_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating all three portrait ResRefs with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2095,7 +2232,9 @@ def test_saveinfo_manipulate_portraits_exhaustive(qtbot: QtBot, installation: HT
         assert editor.ui.lineEditPortrait2.text() == port2
 
 
-def test_saveinfo_manipulate_live_fields_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_live_fields_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating all Xbox Live fields with various combinations."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2150,7 +2289,9 @@ def test_saveinfo_manipulate_live_fields_exhaustive(qtbot: QtBot, installation: 
         assert editor.ui.spinBoxLiveContent.value() == val
 
 
-def test_saveinfo_manipulate_hints_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_hints_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating gameplay and story hints with all valid values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2183,7 +2324,9 @@ def test_saveinfo_manipulate_hints_exhaustive(qtbot: QtBot, installation: HTInst
             assert editor.ui.spinBoxStoryHint.value() == story_hint
 
 
-def test_saveinfo_manipulate_cheat_used_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_manipulate_cheat_used_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating cheat used flag with both states."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2217,7 +2360,9 @@ def test_saveinfo_manipulate_cheat_used_exhaustive(qtbot: QtBot, installation: H
 # ============================================================================
 
 
-def test_party_table_manipulate_gold_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_gold_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating party gold with boundary and typical values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2252,7 +2397,9 @@ def test_party_table_manipulate_gold_exhaustive(qtbot: QtBot, installation: HTIn
         assert editor.ui.spinBoxGold.value() == gold
 
 
-def test_party_table_manipulate_xp_pool_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_xp_pool_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating XP pool with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2280,7 +2427,9 @@ def test_party_table_manipulate_xp_pool_exhaustive(qtbot: QtBot, installation: H
         assert editor.ui.spinBoxXPPool.value() == xp
 
 
-def test_party_table_manipulate_components_chemicals_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_components_chemicals_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating K2-specific components and chemicals."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2312,7 +2461,9 @@ def test_party_table_manipulate_components_chemicals_exhaustive(qtbot: QtBot, in
             assert editor.ui.spinBoxChemicals.value() == chemicals
 
 
-def test_party_table_manipulate_controlled_npc_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_controlled_npc_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating controlled NPC index with all valid values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2341,7 +2492,9 @@ def test_party_table_manipulate_controlled_npc_exhaustive(qtbot: QtBot, installa
         assert editor.ui.spinBoxControlledNPC.value() == index
 
 
-def test_party_table_manipulate_ai_follow_states_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_ai_follow_states_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating AI state and follow state with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2373,7 +2526,9 @@ def test_party_table_manipulate_ai_follow_states_exhaustive(qtbot: QtBot, instal
             assert editor.ui.spinBoxFollowState.value() == follow_state
 
 
-def test_party_table_manipulate_solo_mode_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_solo_mode_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating solo mode flag."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2398,7 +2553,9 @@ def test_party_table_manipulate_solo_mode_exhaustive(qtbot: QtBot, installation:
         assert editor.ui.checkBoxSoloMode.isChecked() == solo_mode
 
 
-def test_party_table_manipulate_influence_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_influence_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating influence values (K2) with all NPC indices."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2454,7 +2611,9 @@ def test_party_table_manipulate_influence_exhaustive(qtbot: QtBot, installation:
                 assert editor._party_table.pt_influence[npc_index] == influence
 
 
-def test_party_table_manipulate_available_npcs_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_manipulate_available_npcs_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating available NPCs for all indices with all combinations."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2512,7 +2671,9 @@ def test_party_table_manipulate_available_npcs_exhaustive(qtbot: QtBot, installa
 # ============================================================================
 
 
-def test_global_vars_manipulate_booleans_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_manipulate_booleans_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating boolean global variables with all combinations."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2554,7 +2715,9 @@ def test_global_vars_manipulate_booleans_exhaustive(qtbot: QtBot, installation: 
                 assert editor._global_vars.get_boolean(var_name) == new_state
 
 
-def test_global_vars_manipulate_numbers_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_manipulate_numbers_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating number global variables with boundary values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2601,7 +2764,9 @@ def test_global_vars_manipulate_numbers_exhaustive(qtbot: QtBot, installation: H
             assert editor._global_vars.get_number(var_name) == new_value
 
 
-def test_global_vars_manipulate_strings_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_manipulate_strings_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating string global variables with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2644,7 +2809,9 @@ def test_global_vars_manipulate_strings_exhaustive(qtbot: QtBot, installation: H
             assert editor._global_vars.get_string(var_name) == new_value
 
 
-def test_global_vars_manipulate_locations_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_manipulate_locations_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating location global variables with various coordinates."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2711,7 +2878,9 @@ def test_global_vars_manipulate_locations_exhaustive(qtbot: QtBot, installation:
 # ============================================================================
 
 
-def test_character_manipulate_hp_fp_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_hp_fp_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating character HP and FP with boundary values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2791,7 +2960,9 @@ def test_character_manipulate_hp_fp_exhaustive(qtbot: QtBot, installation: HTIns
                 assert editor._current_character.max_fp == max_fp
 
 
-def test_character_manipulate_attributes_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_attributes_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating all character attributes with boundary values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2847,7 +3018,9 @@ def test_character_manipulate_attributes_exhaustive(qtbot: QtBot, installation: 
                         assert getattr(editor.ui, ui_attr).value() == val
 
 
-def test_character_manipulate_skills_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_skills_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating all character skills with various rank values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2864,7 +3037,16 @@ def test_character_manipulate_skills_exhaustive(qtbot: QtBot, installation: HTIn
     if not editor._current_character:
         pytest.skip("No character selected")
 
-    skill_attrs = ["computer_use", "demolitions", "stealth", "awareness", "persuade", "repair", "security", "treat_injury"]
+    skill_attrs = [
+        "computer_use",
+        "demolitions",
+        "stealth",
+        "awareness",
+        "persuade",
+        "repair",
+        "security",
+        "treat_injury",
+    ]
     test_ranks = [0, 1, 5, 10, 20, 50, 100]
 
     for skill_index, skill_attr in enumerate(skill_attrs):
@@ -2907,7 +3089,9 @@ def test_character_manipulate_skills_exhaustive(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_saveinfo_complete_roundtrip_all_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_complete_roundtrip_all_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test complete roundtrip of ALL SaveInfo fields simultaneously."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3013,7 +3197,9 @@ def test_saveinfo_complete_roundtrip_all_fields(qtbot: QtBot, installation: HTIn
     assert editor._save_info.time_played != original_save_info["time_played"]
 
 
-def test_party_table_complete_roundtrip_all_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_complete_roundtrip_all_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test complete roundtrip of ALL PartyTable fields simultaneously."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3073,7 +3259,9 @@ def test_party_table_complete_roundtrip_all_fields(qtbot: QtBot, installation: H
     assert editor.ui.spinBoxJournalSortOrder.value() == 3
 
 
-def test_multiple_roundtrips_stability(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_multiple_roundtrips_stability(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test multiple save/load roundtrips to ensure stability."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3107,7 +3295,9 @@ def test_multiple_roundtrips_stability(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_saveinfo_additional_fields_preserved_roundtrip(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_additional_fields_preserved_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that additional/unknown SaveInfo fields are preserved through multiple roundtrips."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3138,10 +3328,14 @@ def test_saveinfo_additional_fields_preserved_roundtrip(qtbot: QtBot, installati
     QApplication.processEvents()
 
     for field_name, (expected_type, expected_value) in test_additional_fields.items():
-        assert field_name in editor._save_info.additional_fields, f"Additional field {field_name} not preserved"
+        assert field_name in editor._save_info.additional_fields, (
+            f"Additional field {field_name} not preserved"
+        )
         saved_type, saved_value = editor._save_info.additional_fields[field_name]
         assert saved_type == expected_type, f"Field type mismatch for {field_name}"
-        assert saved_value == expected_value, f"Field value mismatch for {field_name}: expected {expected_value}, got {saved_value}"
+        assert saved_value == expected_value, (
+            f"Field value mismatch for {field_name}: expected {expected_value}, got {saved_value}"
+        )
 
     # Perform another roundtrip to ensure stability
     editor.save()
@@ -3158,7 +3352,9 @@ def test_saveinfo_additional_fields_preserved_roundtrip(qtbot: QtBot, installati
         assert saved_value == expected_value
 
 
-def test_party_table_additional_fields_preserved_roundtrip(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_additional_fields_preserved_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that additional/unknown PartyTable fields are preserved through multiple roundtrips."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3211,7 +3407,9 @@ def test_party_table_additional_fields_preserved_roundtrip(qtbot: QtBot, install
 # ============================================================================
 
 
-def test_journal_manipulate_entries_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_journal_manipulate_entries_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test manipulating journal entries with various states and dates."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3273,7 +3471,9 @@ def test_journal_manipulate_entries_exhaustive(qtbot: QtBot, installation: HTIns
 # ============================================================================
 
 
-def test_saveinfo_party_table_combined_roundtrip(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_party_table_combined_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test roundtrip of SaveInfo and PartyTable fields together."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3311,7 +3511,9 @@ def test_saveinfo_party_table_combined_roundtrip(qtbot: QtBot, installation: HTI
     assert editor._party_table.pt_solomode is True
 
 
-def test_all_components_combined_roundtrip(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_all_components_combined_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test roundtrip of SaveInfo, PartyTable, and GlobalVars together."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3379,7 +3581,9 @@ def test_all_components_combined_roundtrip(qtbot: QtBot, installation: HTInstall
 # ============================================================================
 
 
-def test_saveinfo_empty_strings_handled(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_empty_strings_handled(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that empty strings are properly handled for all string fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3426,7 +3630,9 @@ def test_saveinfo_empty_strings_handled(qtbot: QtBot, installation: HTInstallati
     assert editor._save_info.live6 == ""
 
 
-def test_party_table_zero_values_handled(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_zero_values_handled(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that zero values are properly handled for all numeric fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3467,7 +3673,9 @@ def test_party_table_zero_values_handled(qtbot: QtBot, installation: HTInstallat
     assert editor._party_table.jnl_sort_order == 0
 
 
-def test_global_vars_empty_state_handled(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_global_vars_empty_state_handled(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that empty global vars state is properly handled."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3509,7 +3717,9 @@ def test_global_vars_empty_state_handled(qtbot: QtBot, installation: HTInstallat
 # ============================================================================
 
 
-def test_ui_tab_switching_stability(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_tab_switching_stability(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that switching between tabs doesn't corrupt data."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3559,7 +3769,9 @@ def test_ui_tab_switching_stability(qtbot: QtBot, installation: HTInstallation, 
     assert editor._party_table.pt_gold == 11111
 
 
-def test_ui_signal_connections_functional(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_signal_connections_functional(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI signal connections work correctly for all widgets."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3604,7 +3816,9 @@ def test_ui_signal_connections_functional(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_serialization_preserves_all_data(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_serialization_preserves_all_data(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that serialization preserves ALL data including edge cases."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3654,7 +3868,9 @@ def test_serialization_preserves_all_data(qtbot: QtBot, installation: HTInstalla
     assert editor2._global_vars.get_string("SERIAL_STR") == "serialization_test"
 
 
-def test_deserialization_handles_missing_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_deserialization_handles_missing_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that deserialization handles missing optional fields gracefully."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3690,7 +3906,9 @@ def test_deserialization_handles_missing_fields(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_saveinfo_boundary_values(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_boundary_values(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test SaveInfo fields with boundary values (min, max, edge cases)."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3759,7 +3977,9 @@ def test_saveinfo_boundary_values(qtbot: QtBot, installation: HTInstallation, re
         assert editor._save_info.livecontent == content
 
 
-def test_party_table_boundary_values(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_boundary_values(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test PartyTable fields with boundary values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3809,7 +4029,9 @@ def test_party_table_boundary_values(qtbot: QtBot, installation: HTInstallation,
 # ============================================================================
 
 
-def test_rapid_field_changes_stability(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_rapid_field_changes_stability(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test rapid field changes don't cause corruption."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3839,7 +4061,9 @@ def test_rapid_field_changes_stability(qtbot: QtBot, installation: HTInstallatio
     assert editor._party_table.pt_gold == 5000 + 9 * 500
 
 
-def test_concurrent_tab_modifications_stability(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_concurrent_tab_modifications_stability(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test modifying fields in different tabs without saving between doesn't corrupt."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3888,7 +4112,9 @@ def test_concurrent_tab_modifications_stability(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_character_manipulate_appearance_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_appearance_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating character appearance fields with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -3955,11 +4181,15 @@ def test_character_manipulate_appearance_exhaustive(qtbot: QtBot, installation: 
                 editor.ui.listWidgetCharacters.setCurrentRow(0)
                 QApplication.processEvents()
 
-                if editor._current_character and hasattr(editor._current_character, "appearance_id"):
+                if editor._current_character and hasattr(
+                    editor._current_character, "appearance_id"
+                ):
                     assert editor._current_character.appearance_id == appearance_type
 
 
-def test_character_manipulate_gender_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_gender_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating character gender with all valid values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4004,7 +4234,9 @@ def test_character_manipulate_gender_exhaustive(qtbot: QtBot, installation: HTIn
                     assert editor.ui.comboBoxCharGender.currentIndex() == gender_index
 
 
-def test_character_manipulate_soundset_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_soundset_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating character soundset with various values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4049,7 +4281,9 @@ def test_character_manipulate_soundset_exhaustive(qtbot: QtBot, installation: HT
                     assert editor.ui.spinBoxCharSoundset.value() == soundset
 
 
-def test_character_manipulate_flags_exhaustive(qtbot: QtBot, installation: HTInstallation, save_with_characters: Path):
+def test_character_manipulate_flags_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, save_with_characters: Path
+):
     """Test manipulating character flags (min1hp, good/evil) with all combinations."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4126,7 +4360,9 @@ def test_character_manipulate_flags_exhaustive(qtbot: QtBot, installation: HTIns
 # ============================================================================
 
 
-def test_inventory_display_format_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_inventory_display_format_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that inventory displays correctly with various item configurations."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4135,7 +4371,9 @@ def test_inventory_display_format_exhaustive(qtbot: QtBot, installation: HTInsta
     QApplication.processEvents()
 
     # Verify inventory table structure
-    assert editor.ui.tableWidgetInventory.columnCount() == 5  # Item, Count, Charges, ResRef, Upgrades
+    assert (
+        editor.ui.tableWidgetInventory.columnCount() == 5
+    )  # Item, Count, Charges, ResRef, Upgrades
 
     # Verify column headers
     headers = []
@@ -4156,7 +4394,9 @@ def test_inventory_display_format_exhaustive(qtbot: QtBot, installation: HTInsta
 # ============================================================================
 
 
-def test_journal_entry_states_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_journal_entry_states_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test journal entries with various states and verify display."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4206,7 +4446,9 @@ def test_journal_entry_states_exhaustive(qtbot: QtBot, installation: HTInstallat
             if plot_item:
                 assert entry.plot_id in plot_item.text() or plot_item.text() == entry.plot_id
             if state_item:
-                assert str(entry.state) in state_item.text() or state_item.text() == str(entry.state)
+                assert str(entry.state) in state_item.text() or state_item.text() == str(
+                    entry.state
+                )
             if date_item:
                 assert str(entry.date) in date_item.text() or date_item.text() == str(entry.date)
             if time_item:
@@ -4235,7 +4477,9 @@ def test_journal_entry_states_exhaustive(qtbot: QtBot, installation: HTInstallat
 # ============================================================================
 
 
-def test_data_integrity_after_multiple_edits(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_data_integrity_after_multiple_edits(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test data integrity after multiple edit cycles."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4268,7 +4512,9 @@ def test_data_integrity_after_multiple_edits(qtbot: QtBot, installation: HTInsta
         assert editor._party_table.pt_solomode == (cycle % 2 == 1)
 
 
-def test_field_independence_verification(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_field_independence_verification(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that modifying one field doesn't affect unrelated fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4312,7 +4558,9 @@ def test_field_independence_verification(qtbot: QtBot, installation: HTInstallat
 # ============================================================================
 
 
-def test_ui_widget_state_consistency(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_widget_state_consistency(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI widget states are consistent with data model after load."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4341,7 +4589,9 @@ def test_ui_widget_state_consistency(qtbot: QtBot, installation: HTInstallation,
     assert editor.ui.checkBoxSoloMode.isChecked() == editor._party_table.pt_solomode
 
 
-def test_data_model_ui_synchronization(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_data_model_ui_synchronization(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that data model and UI stay synchronized through multiple operations."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4379,7 +4629,9 @@ def test_data_model_ui_synchronization(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_editor_handles_missing_save_folder_gracefully(qtbot: QtBot, installation: HTInstallation, tmp_path: Path):
+def test_editor_handles_missing_save_folder_gracefully(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path
+):
     """Test that editor handles missing save folder gracefully."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4400,7 +4652,9 @@ def test_editor_handles_missing_save_folder_gracefully(qtbot: QtBot, installatio
     assert hasattr(editor, "ui")
 
 
-def test_editor_handles_corrupted_save_data_gracefully(qtbot: QtBot, installation: HTInstallation, tmp_path: Path):
+def test_editor_handles_corrupted_save_data_gracefully(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path
+):
     """Test that editor handles corrupted save data gracefully."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4429,7 +4683,9 @@ def test_editor_handles_corrupted_save_data_gracefully(qtbot: QtBot, installatio
 # ============================================================================
 
 
-def test_large_global_vars_handling(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_large_global_vars_handling(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test handling of large numbers of global variables."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4515,7 +4771,9 @@ def test_large_journal_handling(qtbot: QtBot, installation: HTInstallation, real
 # ============================================================================
 
 
-def test_all_tabs_comprehensive_modification(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_all_tabs_comprehensive_modification(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test modifying fields across ALL tabs in a single session."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4590,7 +4848,9 @@ def test_all_tabs_comprehensive_modification(qtbot: QtBot, installation: HTInsta
     assert editor._global_vars.get_string("ALL_TABS_STR") == "all_tabs_string"
 
 
-def test_field_modification_order_independence(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_field_modification_order_independence(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that field modification order doesn't affect final result."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4628,7 +4888,9 @@ def test_field_modification_order_independence(qtbot: QtBot, installation: HTIns
 # ============================================================================
 
 
-def test_ui_state_persists_through_tab_switches(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_state_persists_through_tab_switches(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI state persists correctly when switching tabs."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4667,7 +4929,9 @@ def test_ui_state_persists_through_tab_switches(qtbot: QtBot, installation: HTIn
     assert editor._save_info.time_played == 7777
 
 
-def test_ui_widget_enable_disable_states(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_widget_enable_disable_states(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI widget enable/disable states are correct."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4693,7 +4957,9 @@ def test_ui_widget_enable_disable_states(qtbot: QtBot, installation: HTInstallat
 # ============================================================================
 
 
-def test_serialization_with_extreme_values(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_serialization_with_extreme_values(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test serialization with extreme boundary values."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4726,7 +4992,9 @@ def test_serialization_with_extreme_values(qtbot: QtBot, installation: HTInstall
     assert editor._save_info.livecontent == 255
 
 
-def test_serialization_with_negative_values(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_serialization_with_negative_values(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test serialization with negative values where allowed."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4756,7 +5024,9 @@ def test_serialization_with_negative_values(qtbot: QtBot, installation: HTInstal
 # ============================================================================
 
 
-def test_saveinfo_data_model_completeness(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_data_model_completeness(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that SaveInfo data model contains all expected fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4786,7 +5056,9 @@ def test_saveinfo_data_model_completeness(qtbot: QtBot, installation: HTInstalla
     assert hasattr(editor._save_info, "additional_fields")
 
 
-def test_party_table_data_model_completeness(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_data_model_completeness(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that PartyTable data model contains all expected fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4818,7 +5090,9 @@ def test_party_table_data_model_completeness(qtbot: QtBot, installation: HTInsta
 # ============================================================================
 
 
-def test_complete_save_game_workflow(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_complete_save_game_workflow(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test complete workflow: load, modify all sections, save, verify."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4896,7 +5170,9 @@ def test_complete_save_game_workflow(qtbot: QtBot, installation: HTInstallation,
     assert editor2._global_vars.get_string("WORKFLOW_STR") == "workflow_test"
 
 
-def test_multiple_editor_instances_independence(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_multiple_editor_instances_independence(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that multiple editor instances operate independently."""
     editor1 = SaveGameEditor(None, installation)
     qtbot.addWidget(editor1)
@@ -4944,7 +5220,9 @@ def test_multiple_editor_instances_independence(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_saveinfo_field_transitions_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_saveinfo_field_transitions_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test all possible value transitions for SaveInfo fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -4976,7 +5254,9 @@ def test_saveinfo_field_transitions_exhaustive(qtbot: QtBot, installation: HTIns
             assert editor.ui.lineEditSaveName.text() == value
 
 
-def test_party_table_field_transitions_exhaustive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_party_table_field_transitions_exhaustive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test all possible value transitions for PartyTable fields."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5028,7 +5308,9 @@ def test_party_table_field_transitions_exhaustive(qtbot: QtBot, installation: HT
 # ============================================================================
 
 
-def test_data_persistence_across_editor_recreation(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_data_persistence_across_editor_recreation(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that data persists when editor is destroyed and recreated."""
     # Create, modify, save, destroy editor
     editor1 = SaveGameEditor(None, installation)
@@ -5058,7 +5340,9 @@ def test_data_persistence_across_editor_recreation(qtbot: QtBot, installation: H
     assert editor2._party_table.pt_gold == 33333
 
 
-def test_data_persistence_with_partial_saves(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_data_persistence_with_partial_saves(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that partial modifications persist correctly."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5087,7 +5371,9 @@ def test_data_persistence_with_partial_saves(qtbot: QtBot, installation: HTInsta
 # ============================================================================
 
 
-def test_ui_updates_immediately_on_data_change(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_updates_immediately_on_data_change(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI updates immediately when data model changes."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5108,7 +5394,9 @@ def test_ui_updates_immediately_on_data_change(qtbot: QtBot, installation: HTIns
     assert editor.ui.spinBoxTimePlayed.value() == 8888
 
 
-def test_ui_validation_and_constraints(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_validation_and_constraints(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI enforces validation and constraints correctly."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5136,7 +5424,9 @@ def test_ui_validation_and_constraints(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_comprehensive_assertions_all_fields(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_comprehensive_assertions_all_fields(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test with comprehensive assertions for ALL fields after modification."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5202,29 +5492,69 @@ def test_comprehensive_assertions_all_fields(qtbot: QtBot, installation: HTInsta
     QApplication.processEvents()
 
     # Comprehensive assertions for ALL fields
-    assert editor._save_info.savegame_name == test_values["savegame_name"], f"Save name mismatch: {editor._save_info.savegame_name} != {test_values['savegame_name']}"
-    assert editor._save_info.area_name == test_values["area_name"], f"Area name mismatch: {editor._save_info.area_name} != {test_values['area_name']}"
-    assert editor._save_info.last_module == test_values["last_module"], f"Last module mismatch: {editor._save_info.last_module} != {test_values['last_module']}"
-    assert editor._save_info.time_played == test_values["time_played"], f"Time played mismatch: {editor._save_info.time_played} != {test_values['time_played']}"
-    assert editor._save_info.pc_name == test_values["pc_name"], f"PC name mismatch: {editor._save_info.pc_name} != {test_values['pc_name']}"
-    assert editor._save_info.cheat_used == test_values["cheat_used"], f"Cheat used mismatch: {editor._save_info.cheat_used} != {test_values['cheat_used']}"
-    assert editor._save_info.gameplay_hint == test_values["gameplay_hint"], f"Gameplay hint mismatch: {editor._save_info.gameplay_hint} != {test_values['gameplay_hint']}"
-    assert editor._save_info.story_hint == test_values["story_hint"], f"Story hint mismatch: {editor._save_info.story_hint} != {test_values['story_hint']}"
-    assert str(editor._save_info.portrait0) == test_values["portrait0"], f"Portrait0 mismatch: {editor._save_info.portrait0} != {test_values['portrait0']}"
-    assert str(editor._save_info.portrait1) == test_values["portrait1"], f"Portrait1 mismatch: {editor._save_info.portrait1} != {test_values['portrait1']}"
-    assert str(editor._save_info.portrait2) == test_values["portrait2"], f"Portrait2 mismatch: {editor._save_info.portrait2} != {test_values['portrait2']}"
-    assert editor._save_info.live1 == test_values["live1"], f"LIVE1 mismatch: {editor._save_info.live1} != {test_values['live1']}"
-    assert editor._save_info.livecontent == test_values["livecontent"], f"LIVECONTENT mismatch: {editor._save_info.livecontent} != {test_values['livecontent']}"
-    assert editor._party_table.pt_gold == test_values["gold"], f"Gold mismatch: {editor._party_table.pt_gold} != {test_values['gold']}"
-    assert editor._party_table.pt_xp_pool == test_values["xp_pool"], f"XP pool mismatch: {editor._party_table.pt_xp_pool} != {test_values['xp_pool']}"
-    assert editor._party_table.pt_item_componen == test_values["components"], f"Components mismatch: {editor._party_table.pt_item_componen} != {test_values['components']}"
-    assert editor._party_table.pt_item_chemical == test_values["chemicals"], f"Chemicals mismatch: {editor._party_table.pt_item_chemical} != {test_values['chemicals']}"
-    assert editor._party_table.pt_solomode == test_values["solo_mode"], f"Solo mode mismatch: {editor._party_table.pt_solomode} != {test_values['solo_mode']}"
+    assert editor._save_info.savegame_name == test_values["savegame_name"], (
+        f"Save name mismatch: {editor._save_info.savegame_name} != {test_values['savegame_name']}"
+    )
+    assert editor._save_info.area_name == test_values["area_name"], (
+        f"Area name mismatch: {editor._save_info.area_name} != {test_values['area_name']}"
+    )
+    assert editor._save_info.last_module == test_values["last_module"], (
+        f"Last module mismatch: {editor._save_info.last_module} != {test_values['last_module']}"
+    )
+    assert editor._save_info.time_played == test_values["time_played"], (
+        f"Time played mismatch: {editor._save_info.time_played} != {test_values['time_played']}"
+    )
+    assert editor._save_info.pc_name == test_values["pc_name"], (
+        f"PC name mismatch: {editor._save_info.pc_name} != {test_values['pc_name']}"
+    )
+    assert editor._save_info.cheat_used == test_values["cheat_used"], (
+        f"Cheat used mismatch: {editor._save_info.cheat_used} != {test_values['cheat_used']}"
+    )
+    assert editor._save_info.gameplay_hint == test_values["gameplay_hint"], (
+        f"Gameplay hint mismatch: {editor._save_info.gameplay_hint} != {test_values['gameplay_hint']}"
+    )
+    assert editor._save_info.story_hint == test_values["story_hint"], (
+        f"Story hint mismatch: {editor._save_info.story_hint} != {test_values['story_hint']}"
+    )
+    assert str(editor._save_info.portrait0) == test_values["portrait0"], (
+        f"Portrait0 mismatch: {editor._save_info.portrait0} != {test_values['portrait0']}"
+    )
+    assert str(editor._save_info.portrait1) == test_values["portrait1"], (
+        f"Portrait1 mismatch: {editor._save_info.portrait1} != {test_values['portrait1']}"
+    )
+    assert str(editor._save_info.portrait2) == test_values["portrait2"], (
+        f"Portrait2 mismatch: {editor._save_info.portrait2} != {test_values['portrait2']}"
+    )
+    assert editor._save_info.live1 == test_values["live1"], (
+        f"LIVE1 mismatch: {editor._save_info.live1} != {test_values['live1']}"
+    )
+    assert editor._save_info.livecontent == test_values["livecontent"], (
+        f"LIVECONTENT mismatch: {editor._save_info.livecontent} != {test_values['livecontent']}"
+    )
+    assert editor._party_table.pt_gold == test_values["gold"], (
+        f"Gold mismatch: {editor._party_table.pt_gold} != {test_values['gold']}"
+    )
+    assert editor._party_table.pt_xp_pool == test_values["xp_pool"], (
+        f"XP pool mismatch: {editor._party_table.pt_xp_pool} != {test_values['xp_pool']}"
+    )
+    assert editor._party_table.pt_item_componen == test_values["components"], (
+        f"Components mismatch: {editor._party_table.pt_item_componen} != {test_values['components']}"
+    )
+    assert editor._party_table.pt_item_chemical == test_values["chemicals"], (
+        f"Chemicals mismatch: {editor._party_table.pt_item_chemical} != {test_values['chemicals']}"
+    )
+    assert editor._party_table.pt_solomode == test_values["solo_mode"], (
+        f"Solo mode mismatch: {editor._party_table.pt_solomode} != {test_values['solo_mode']}"
+    )
     assert editor._party_table.pt_controlled_npc == test_values["controlled_npc"], (
         f"Controlled NPC mismatch: {editor._party_table.pt_controlled_npc} != {test_values['controlled_npc']}"
     )
-    assert editor._party_table.pt_aistate == test_values["ai_state"], f"AI state mismatch: {editor._party_table.pt_aistate} != {test_values['ai_state']}"
-    assert editor._party_table.pt_followstate == test_values["follow_state"], f"Follow state mismatch: {editor._party_table.pt_followstate} != {test_values['follow_state']}"
+    assert editor._party_table.pt_aistate == test_values["ai_state"], (
+        f"AI state mismatch: {editor._party_table.pt_aistate} != {test_values['ai_state']}"
+    )
+    assert editor._party_table.pt_followstate == test_values["follow_state"], (
+        f"Follow state mismatch: {editor._party_table.pt_followstate} != {test_values['follow_state']}"
+    )
 
     # Also verify UI matches
     assert editor.ui.lineEditSaveName.text() == test_values["savegame_name"]
@@ -5232,7 +5562,9 @@ def test_comprehensive_assertions_all_fields(qtbot: QtBot, installation: HTInsta
     assert editor.ui.checkBoxSoloMode.isChecked() == test_values["solo_mode"]
 
 
-def test_assertion_coverage_all_data_structures(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_assertion_coverage_all_data_structures(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that assertions cover all data structures comprehensively."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5277,7 +5609,9 @@ def test_assertion_coverage_all_data_structures(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_ultimate_comprehensive_test_all_features(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ultimate_comprehensive_test_all_features(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Ultimate comprehensive test covering ALL features simultaneously."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5338,7 +5672,10 @@ def test_ultimate_comprehensive_test_all_features(qtbot: QtBot, installation: HT
     from pykotor.resource.formats.gff import GFFFieldType
 
     editor._save_info.additional_fields["ULTIMATE_EXTRA"] = (GFFFieldType.UInt32, 99999)
-    editor._party_table.additional_fields["PT_ULTIMATE_EXTRA"] = (GFFFieldType.String, "party_extra")
+    editor._party_table.additional_fields["PT_ULTIMATE_EXTRA"] = (
+        GFFFieldType.String,
+        "party_extra",
+    )
     QApplication.processEvents()
 
     # === SAVE ===
@@ -5407,7 +5744,9 @@ def test_ultimate_comprehensive_test_all_features(qtbot: QtBot, installation: HT
 # ============================================================================
 
 
-def test_repeated_save_load_cycles_stability(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_repeated_save_load_cycles_stability(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test stability through many repeated save/load cycles."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5436,7 +5775,9 @@ def test_repeated_save_load_cycles_stability(qtbot: QtBot, installation: HTInsta
         assert editor._party_table.pt_gold == 5000 + cycle * 500
 
 
-def test_concurrent_field_modifications_stability(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_concurrent_field_modifications_stability(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that concurrent modifications to multiple fields don't cause corruption."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5471,7 +5812,9 @@ def test_concurrent_field_modifications_stability(qtbot: QtBot, installation: HT
     assert editor._save_info.story_hint == 222
 
 
-def test_field_reset_and_restore_functionality(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_field_reset_and_restore_functionality(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that fields can be reset and restored correctly."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5526,7 +5869,9 @@ def test_field_reset_and_restore_functionality(qtbot: QtBot, installation: HTIns
 # ============================================================================
 
 
-def test_ui_state_after_load_comprehensive(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_state_after_load_comprehensive(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Comprehensively verify UI state matches data after load."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5569,7 +5914,9 @@ def test_ui_state_after_load_comprehensive(qtbot: QtBot, installation: HTInstall
     assert editor._party_table.pt_solomode == editor.ui.checkBoxSoloMode.isChecked()
 
 
-def test_ui_widget_properties_consistency(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_ui_widget_properties_consistency(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that UI widget properties remain consistent."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5596,7 +5943,9 @@ def test_ui_widget_properties_consistency(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_data_integrity_no_data_loss(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_data_integrity_no_data_loss(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that no data is lost during save/load cycles."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5658,7 +6007,9 @@ def test_data_integrity_no_data_loss(qtbot: QtBot, installation: HTInstallation,
     assert editor._party_table.pt_controlled_npc == initial_party_table_fields["pt_controlled_npc"]
 
 
-def test_data_integrity_type_preservation(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_data_integrity_type_preservation(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Test that data types are preserved correctly."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)
@@ -5693,7 +6044,9 @@ def test_data_integrity_type_preservation(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_final_comprehensive_verification_all_systems(qtbot: QtBot, installation: HTInstallation, real_save_folder: Path):
+def test_final_comprehensive_verification_all_systems(
+    qtbot: QtBot, installation: HTInstallation, real_save_folder: Path
+):
     """Final comprehensive verification that all systems work together."""
     editor = SaveGameEditor(None, installation)
     qtbot.addWidget(editor)

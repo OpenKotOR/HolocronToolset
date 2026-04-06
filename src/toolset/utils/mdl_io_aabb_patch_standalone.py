@@ -3,7 +3,10 @@
 Holocron prepends repo PyKotor src first; that can shadow a patched site-packages copy with an
 old editable tree. Patching **before** path setup fixes the wheel under ``site-packages``.
 """
+
 from __future__ import annotations
+
+import sys
 
 from pathlib import Path
 

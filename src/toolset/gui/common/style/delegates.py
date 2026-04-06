@@ -63,7 +63,9 @@ class HTMLDelegate(QStyledItemDelegate):
 
     def parent(self) -> QWidget:
         parent: QObject | None = super().parent()
-        assert isinstance(parent, QWidget), f"HTMLDelegate.parent() returned non-QWidget: '{parent.__class__.__name__}'"
+        assert isinstance(parent, QWidget), (
+            f"HTMLDelegate.parent() returned non-QWidget: '{parent.__class__.__name__}'"
+        )
         return parent
 
     def set_vertical_spacing(
@@ -165,7 +167,9 @@ class HTMLDelegate(QStyledItemDelegate):
 
             bottom_badge_info: dict[str, Any] | None = icon_data.get("bottom_badge")
             if (execute_action or show_tooltip) and bottom_badge_info:
-                icons.append((None, bottom_badge_info["action"], bottom_badge_info["tooltip_callable"]()))
+                icons.append(
+                    (None, bottom_badge_info["action"], bottom_badge_info["tooltip_callable"]())
+                )
             y_offset: int | None = None
             icon_width_total: int = columns * (icon_size + icon_spacing) - icon_spacing
 
@@ -241,7 +245,12 @@ class HTMLDelegate(QStyledItemDelegate):
                 else:
                     center_y = y_offset + icon_width_total + icon_spacing + radius
                 if painter:
-                    self.draw_badge(painter, QPoint(option.rect.left() + radius, center_y), radius, bottom_badge_info["text_callable"]())
+                    self.draw_badge(
+                        painter,
+                        QPoint(option.rect.left() + radius, center_y),
+                        radius,
+                        bottom_badge_info["text_callable"](),
+                    )
 
         if show_tooltip:
             QToolTip.hideText()
@@ -265,7 +274,9 @@ class HTMLDelegate(QStyledItemDelegate):
             icon: QIcon = QIcon(decoration)
             icon_size: QSize = option.decorationSize
             icon_rect: QRect = QRect(option.rect.topLeft(), icon_size)
-            icon.paint(painter, icon_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+            icon.paint(
+                painter, icon_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter
+            )
             option.rect.setLeft(icon_rect.right() + 5)  # Adjust text starting position
 
         display_data: Any = index.data(Qt.ItemDataRole.DisplayRole)
@@ -279,7 +290,9 @@ class HTMLDelegate(QStyledItemDelegate):
         painter.setClipRect(new_rect)
         display_data: Any = index.data(Qt.ItemDataRole.DisplayRole)
         if display_data:
-            doc: QTextDocument = self.create_text_document(display_data, option.font, new_rect.width())
+            doc: QTextDocument = self.create_text_document(
+                display_data, option.font, new_rect.width()
+            )
             doc_layout: QAbstractTextDocumentLayout | None = doc.documentLayout()
             if doc_layout is None:
                 RobustLogger().error("QTextDocument.documentLayout() returned None")
@@ -294,7 +307,9 @@ class HTMLDelegate(QStyledItemDelegate):
                     highlight_color = option.palette.color(QPalette.ColorRole.Mid)
                 highlight_color.setAlpha(int(highlight_color.alpha() * 0.4))
                 painter.fillRect(new_rect, highlight_color)  # Fill only new_rect for highlighting
-                ctx.palette.setColor(QPalette.ColorRole.Text, option.palette.highlightedText().color())
+                ctx.palette.setColor(
+                    QPalette.ColorRole.Text, option.palette.highlightedText().color()
+                )
             else:
                 ctx.palette.setColor(QPalette.ColorRole.Text, option.palette.text().color())
             painter.translate(new_rect.topLeft())
@@ -319,7 +334,9 @@ class HTMLDelegate(QStyledItemDelegate):
                 return super().sizeHint(option, index)
             available_width: int = viewport.width()
             available_height: int = viewport.height()
-            if isinstance(parent_widget, (QTreeView, QTreeWidget)):  # TreeView/Widget have indentation to account for.
+            if isinstance(
+                parent_widget, (QTreeView, QTreeWidget)
+            ):  # TreeView/Widget have indentation to account for.
                 depth: int = 1
                 parent_index: QModelIndex = index.parent()
                 while parent_index.isValid():
@@ -338,7 +355,9 @@ class HTMLDelegate(QStyledItemDelegate):
         max_height: float = min(natural_width / ratio, (natural_height * natural_width) / min_width)
         adjusted_width: float = max(natural_width, min_width)
         adjusted_height: float = min(natural_height, max_height)
-        final_size: QSize = QSize(int(adjusted_width), int(adjusted_height + self.custom_vertical_spacing))
+        final_size: QSize = QSize(
+            int(adjusted_width), int(adjusted_height + self.custom_vertical_spacing)
+        )
 
         icon_data: dict[str, Any] = index.data(ICONS_DATA_ROLE)
         if icon_data:
@@ -365,7 +384,9 @@ class HTMLDelegate(QStyledItemDelegate):
         if event.type() == QEvent.Type.MouseButtonRelease:
             assert isinstance(event, QMouseEvent)
             if event.button() == Qt.MouseButton.LeftButton:
-                _, handled_click = self.process_icons(None, option, index, event=event, execute_action=True)
+                _, handled_click = self.process_icons(
+                    None, option, index, event=event, execute_action=True
+                )
                 if handled_click:
                     return True
 

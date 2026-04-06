@@ -7,6 +7,7 @@ Usage:
     python -m toolset.gui.editors myfile.utc --game-path "C:/Games/KOTOR"
     python -m toolset.gui.editors --editor nss --no-installation
 """
+
 from __future__ import annotations
 
 import sys

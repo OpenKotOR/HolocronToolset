@@ -24,7 +24,9 @@ if TYPE_CHECKING:
     from pykotor.extract.file import FileResource
 
 
-def load_preview_mipmap_from_bytes(restype: ResourceType, data: bytes, target_size: int) -> TPCMipmap:
+def load_preview_mipmap_from_bytes(
+    restype: ResourceType, data: bytes, target_size: int
+) -> TPCMipmap:
     """Load a displayable preview mipmap from raw bytes + declared restype."""
     if restype == ResourceType.TPC:
         return load_tpc_preview_mipmap(data, target_size)
@@ -131,11 +133,20 @@ def qimage_to_preview_mipmap(qimg: QImage, *, target_size: int) -> TPCMipmap:
     else:
         tex_fmt = TPCTextureFormat.RGBA
         if qimg.format() != QImage.Format.Format_RGBA8888:
-            qimg = qimg.convertToFormat(QImage.Format.Format_RGBA8888, Qt.ImageConversionFlag.AutoColor)
+            qimg = qimg.convertToFormat(
+                QImage.Format.Format_RGBA8888, Qt.ImageConversionFlag.AutoColor
+            )
 
     # Scale if needed.
-    if (target_size < qimg.width() and target_size < qimg.height()) or (target_size > qimg.width() and target_size > qimg.height()):
-        qimg = qimg.scaled(target_size, target_size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+    if (target_size < qimg.width() and target_size < qimg.height()) or (
+        target_size > qimg.width() and target_size > qimg.height()
+    ):
+        qimg = qimg.scaled(
+            target_size,
+            target_size,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
 
     const_bits = qimg.constBits()
     if const_bits is None:
@@ -143,7 +154,12 @@ def qimage_to_preview_mipmap(qimg: QImage, *, target_size: int) -> TPCMipmap:
 
     bpp = 3 if tex_fmt == TPCTextureFormat.RGB else 4
     data_len = qimg.width() * qimg.height() * bpp
-    return TPCMipmap(width=qimg.width(), height=qimg.height(), tpc_format=tex_fmt, data=bytearray(const_bits.asarray(data_len)))
+    return TPCMipmap(
+        width=qimg.width(),
+        height=qimg.height(),
+        tpc_format=tex_fmt,
+        data=bytearray(const_bits.asarray(data_len)),
+    )
 
 
 def _qimage_from_bytes(data: bytes) -> QImage:

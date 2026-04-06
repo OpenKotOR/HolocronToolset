@@ -317,7 +317,9 @@ class HelpWindow(QMainWindow):
             if filepath.suffix.lower() == ".md":
                 from toolset.gui.common.palette_helpers import wrap_html_with_palette_styles
 
-                html_body: str = markdown.markdown(text, extensions=["tables", "fenced_code", "codehilite"])
+                html_body: str = markdown.markdown(
+                    text, extensions=["tables", "fenced_code", "codehilite"]
+                )
                 html: str = wrap_html_with_palette_styles(html_body, self)
             else:
                 html = text
@@ -328,7 +330,11 @@ class HelpWindow(QMainWindow):
             QMessageBox(
                 QMessageBox.Icon.Critical,
                 tr("Failed to open help file"),
-                trf("Could not access '{filepath}'.\n{error}", filepath=str(filepath), error=str((e.__class__.__name__, str(e)))),
+                trf(
+                    "Could not access '{filepath}'.\n{error}",
+                    filepath=str(filepath),
+                    error=str((e.__class__.__name__, str(e))),
+                ),
             ).exec()
 
     def on_contents_clicked(self):

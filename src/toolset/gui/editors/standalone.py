@@ -17,6 +17,7 @@ Usage examples:
     from toolset.gui.editors.standalone import launch_editor
     launch_editor("twoda", file_path="myfile.2da")
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,9 +45,19 @@ if TYPE_CHECKING:
 EDITOR_REGISTRY: dict[str, tuple[str, str, str, list[str]]] = {
     # name: (module_path, class_name, description, file_extensions)
     "are": ("toolset.gui.editors.are", "AREEditor", "Area Editor", [".are"]),
-    "bwm": ("toolset.gui.editors.bwm", "BWMEditor", "Walkmesh Editor", [".wok", ".dwk", ".pwk", ".bwm"]),
+    "bwm": (
+        "toolset.gui.editors.bwm",
+        "BWMEditor",
+        "Walkmesh Editor",
+        [".wok", ".dwk", ".pwk", ".bwm"],
+    ),
     "dlg": ("toolset.gui.editors.dlg", "DLGEditor", "Dialog Editor", [".dlg"]),
-    "erf": ("toolset.gui.editors.erf", "ERFEditor", "ERF/MOD/RIM/SAV Editor", [".erf", ".mod", ".rim", ".sav"]),
+    "erf": (
+        "toolset.gui.editors.erf",
+        "ERFEditor",
+        "ERF/MOD/RIM/SAV Editor",
+        [".erf", ".mod", ".rim", ".sav"],
+    ),
     "fac": ("toolset.gui.editors.fac", "FACEditor", "Faction Editor", [".fac"]),
     "gff": ("toolset.gui.editors.gff", "GFFEditor", "GFF Editor (Generic)", [".gff"]),
     "git": ("toolset.gui.editors.git", "GITEditor", "GIT Editor", [".git"]),
@@ -60,8 +71,18 @@ EDITOR_REGISTRY: dict[str, tuple[str, str, str, list[str]]] = {
     "savegame": ("toolset.gui.editors.savegame", "SaveGameEditor", "Save Game Editor", []),
     "ssf": ("toolset.gui.editors.ssf", "SSFEditor", "Sound Set Editor", [".ssf"]),
     "tlk": ("toolset.gui.editors.tlk", "TLKEditor", "Talk Table Editor", [".tlk"]),
-    "tpc": ("toolset.gui.editors.tpc", "TPCEditor", "Texture Editor", [".tpc", ".tga", ".png", ".jpg", ".bmp", ".dds"]),
-    "txt": ("toolset.gui.editors.txt", "TXTEditor", "Text Editor", [".txt", ".ini", ".cfg", ".2da_bak"]),
+    "tpc": (
+        "toolset.gui.editors.tpc",
+        "TPCEditor",
+        "Texture Editor",
+        [".tpc", ".tga", ".png", ".jpg", ".bmp", ".dds"],
+    ),
+    "txt": (
+        "toolset.gui.editors.txt",
+        "TXTEditor",
+        "Text Editor",
+        [".txt", ".ini", ".cfg", ".2da_bak"],
+    ),
     "twoda": ("toolset.gui.editors.twoda", "TwoDAEditor", "2DA Table Editor", [".2da"]),
     "utc": ("toolset.gui.editors.utc", "UTCEditor", "Creature Editor", [".utc", ".btc", ".bic"]),
     "utd": ("toolset.gui.editors.utd", "UTDEditor", "Door Editor", [".utd", ".btd"]),
@@ -72,28 +93,45 @@ EDITOR_REGISTRY: dict[str, tuple[str, str, str, list[str]]] = {
     "uts": ("toolset.gui.editors.uts", "UTSEditor", "Sound Editor", [".uts"]),
     "utt": ("toolset.gui.editors.utt", "UTTEditor", "Trigger Editor", [".utt", ".btt"]),
     "utw": ("toolset.gui.editors.utw", "UTWEditor", "Waypoint Editor", [".utw"]),
-    "wav": ("toolset.gui.editors.wav", "WAVEditor", "Audio Player", [".wav", ".mp3", ".ogg", ".wma"]),
+    "wav": (
+        "toolset.gui.editors.wav",
+        "WAVEditor",
+        "Audio Player",
+        [".wav", ".mp3", ".ogg", ".wma"],
+    ),
 }
 
 # Standalone non-editor apps that should support direct launch and script entry points.
 APP_REGISTRY: dict[str, tuple[str, str, str, bool]] = {
     # name: (module_path, class_name, description, requires_installation)
-    "module-designer": ("toolset.gui.windows.module_designer", "ModuleDesigner", "Module Designer", False),
-    "indoor-builder": ("toolset.gui.windows.indoor_builder.builder", "IndoorMapBuilder", "Indoor Builder", False),
+    "module-designer": (
+        "toolset.gui.windows.module_designer",
+        "ModuleDesigner",
+        "Module Designer",
+        False,
+    ),
+    "indoor-builder": (
+        "toolset.gui.windows.indoor_builder.builder",
+        "IndoorMapBuilder",
+        "Indoor Builder",
+        False,
+    ),
 }
 
 # Editors that require a game installation to function.
 # These editors call installation methods during __init__ and will fail without one.
 # When launching these standalone, the user must provide --game-path or select an installation.
-EDITORS_REQUIRING_INSTALLATION: frozenset[str] = frozenset({
-    "are",   # Needs installation for script resnames, camera 2DAs
-    "git",   # OpenGL renderer + installation-dependent setup
-    "utc",   # 2DA batch cache for appearances, classes, etc.
-    "utd",   # 2DA lookups for door types
-    "ute",   # get_relevant_resources for scripts
-    "uti",   # 2DA batch cache for item properties
-    "utp",   # 2DA cache for placeable types
-})
+EDITORS_REQUIRING_INSTALLATION: frozenset[str] = frozenset(
+    {
+        "are",  # Needs installation for script resnames, camera 2DAs
+        "git",  # OpenGL renderer + installation-dependent setup
+        "utc",  # 2DA batch cache for appearances, classes, etc.
+        "utd",  # 2DA lookups for door types
+        "ute",  # get_relevant_resources for scripts
+        "uti",  # 2DA batch cache for item properties
+        "utp",  # 2DA cache for placeable types
+    }
+)
 
 # Build a reverse mapping from file extension to editor name
 _EXTENSION_TO_EDITOR: dict[str, str] = {}
@@ -122,6 +160,7 @@ def list_editors() -> list[tuple[str, str, list[str]]]:
 # ---------------------------------------------------------------------------
 # Path Setup (mirrors toolset/__main__.py and toolset/main_init.py)
 # ---------------------------------------------------------------------------
+
 
 def _setup_paths():
     """Set up sys.path for local development (non-installed) usage.
@@ -166,6 +205,7 @@ def _setup_qt_env():
 # QApplication Setup
 # ---------------------------------------------------------------------------
 
+
 def create_standalone_app(argv: list[str] | None = None) -> QApplication:
     """Create and configure a QApplication for standalone editor use.
 
@@ -201,11 +241,13 @@ def create_standalone_app(argv: list[str] | None = None) -> QApplication:
 
     # Set up exception handling
     from toolset.main_init import on_app_crash  # noqa: PLC0415
+
     sys.excepthook = on_app_crash
 
     # Apply post-init settings (fonts, themes, etc.)
     with suppress(Exception):
         from toolset.main_settings import setup_post_init_settings  # noqa: PLC0415
+
         setup_post_init_settings()
 
     return app
@@ -214,6 +256,7 @@ def create_standalone_app(argv: list[str] | None = None) -> QApplication:
 # ---------------------------------------------------------------------------
 # Installation Setup
 # ---------------------------------------------------------------------------
+
 
 def create_installation_from_path(
     game_path: str | os.PathLike,
@@ -232,12 +275,14 @@ def create_installation_from_path(
         Configured HTInstallation instance.
     """
     from toolset.data.installation import HTInstallation  # noqa: PLC0415
+
     return HTInstallation(game_path, name, tsl=tsl)
 
 
 # ---------------------------------------------------------------------------
 # Editor Instantiation
 # ---------------------------------------------------------------------------
+
 
 def _import_editor_class(editor_name: str) -> type[Editor]:
     """Dynamically import and return the editor class for the given editor name.
@@ -298,8 +343,7 @@ def create_app(
 
     if app_name not in APP_REGISTRY:
         raise KeyError(
-            f"Unknown app: '{app_name}'. "
-            f"Available apps: {', '.join(sorted(APP_REGISTRY.keys()))}",
+            f"Unknown app: '{app_name}'. Available apps: {', '.join(sorted(APP_REGISTRY.keys()))}",
         )
 
     module_path, class_name, _, _ = APP_REGISTRY[app_name]
@@ -311,7 +355,11 @@ def create_app(
         window = app_class(parent, installation, mod_filepath)
         if hasattr(window, "enable_standalone_mode"):
             window.enable_standalone_mode()
-        if installation is not None and hasattr(window, "_installation_toolbar") and getattr(window, "_installation_toolbar", None) is not None:
+        if (
+            installation is not None
+            and hasattr(window, "_installation_toolbar")
+            and getattr(window, "_installation_toolbar", None) is not None
+        ):
             toolbar = window._installation_toolbar
             if hasattr(toolbar, "set_override_installation"):
                 toolbar.set_override_installation(installation)
@@ -370,6 +418,7 @@ def detect_editor_for_file(filepath: str | os.PathLike) -> str | None:
 # Main Launch Function
 # ---------------------------------------------------------------------------
 
+
 def launch_editor(
     editor_name: str | None = None,
     file_path: str | os.PathLike | None = None,
@@ -417,7 +466,10 @@ def launch_editor(
         try:
             installation = create_installation_from_path(game_path, tsl=tsl)
         except Exception as e:  # noqa: BLE001
-            print(f"Warning: Could not load game installation from '{game_path}': {e}", file=sys.stderr)
+            print(
+                f"Warning: Could not load game installation from '{game_path}': {e}",
+                file=sys.stderr,
+            )
             print("Continuing without installation (limited functionality).", file=sys.stderr)
 
     if installation is None and editor_name in EDITORS_REQUIRING_INSTALLATION:
@@ -433,6 +485,7 @@ def launch_editor(
         editor = create_editor(editor_name, installation=installation)
     except (KeyError, ImportError, AssertionError, AttributeError) as e:
         import traceback
+
         traceback.print_exc()
         print(f"Error creating editor: {e.__class__.__name__}: {e}", file=sys.stderr)
         if installation is None and editor_name in EDITORS_REQUIRING_INSTALLATION:
@@ -452,6 +505,7 @@ def launch_editor(
 
     # Keep reference to prevent garbage collection
     from toolset.utils.window import add_window  # noqa: PLC0415
+
     add_window(editor, show=False)  # Already shown above
 
     return app.exec()
@@ -480,7 +534,10 @@ def launch_app(
         try:
             installation = create_installation_from_path(game_path, tsl=tsl)
         except Exception as e:  # noqa: BLE001
-            print(f"Warning: Could not load game installation from '{game_path}': {e}", file=sys.stderr)
+            print(
+                f"Warning: Could not load game installation from '{game_path}': {e}",
+                file=sys.stderr,
+            )
             print("Continuing without installation (limited functionality).", file=sys.stderr)
 
     app_display_name = APP_REGISTRY[app_name][2]
@@ -509,6 +566,7 @@ def launch_app(
     window.activateWindow()
 
     from toolset.utils.window import add_window  # noqa: PLC0415
+
     add_window(window, show=False)
 
     return app.exec()
@@ -540,6 +598,7 @@ def _load_file_into_editor(editor: Editor, file_path: str | os.PathLike):
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the argument parser for the standalone editor CLI."""
     parser = argparse.ArgumentParser(
@@ -561,13 +620,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="File to open. Editor is auto-detected from extension if --editor is not given.",
     )
     parser.add_argument(
-        "--editor", "-e",
+        "--editor",
+        "-e",
         choices=sorted(EDITOR_REGISTRY.keys()),
         default=None,
         help="Editor to launch (e.g., twoda, gff, utc, nss).",
     )
     parser.add_argument(
-        "--game-path", "-g",
+        "--game-path",
+        "-g",
         default=None,
         help="Path to KotOR or TSL game installation directory.",
     )
@@ -578,7 +639,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="Specify that the game installation is TSL (The Sith Lords).",
     )
     parser.add_argument(
-        "--list", "-l",
+        "--list",
+        "-l",
         action="store_true",
         default=False,
         help="List all available editors and exit.",
@@ -681,11 +743,13 @@ def launch_app_cli(app_name: str, argv: list[str] | None = None) -> int:
 # Convenience launcher functions (for pyproject.toml entry points)
 # ---------------------------------------------------------------------------
 
+
 def _make_editor_launcher(editor_name: str) -> Callable[[], int]:
     """Create a launcher function for a specific editor.
 
     Used to generate entry point functions for pyproject.toml console_scripts.
     """
+
     def launcher() -> int:
         return launch_editor_cli(editor_name)
 
@@ -729,6 +793,7 @@ launch_wav = _make_editor_launcher("wav")
 
 def _make_app_launcher(app_name: str) -> Callable[[], int]:
     """Create a launcher function for a specific standalone app."""
+
     def launcher() -> int:
         return launch_app_cli(app_name)
 

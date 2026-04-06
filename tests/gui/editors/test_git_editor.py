@@ -54,7 +54,9 @@ except (ImportError, ModuleNotFoundError):
 absolute_file_path = pathlib.Path(__file__).resolve()
 TESTS_FILES_PATH = next(f for f in absolute_file_path.parents if f.name == "tests") / "test_files"
 TEST_FILES_FOLDER_PATH = pathlib.Path(__file__).parents[2].joinpath("test_files")
-assert TESTS_FILES_PATH == TEST_FILES_FOLDER_PATH, f"TESTS_FILES_PATH: {TESTS_FILES_PATH} does not match TEST_FILES_FOLDER_PATH: {TEST_FILES_FOLDER_PATH}"
+assert TESTS_FILES_PATH == TEST_FILES_FOLDER_PATH, (
+    f"TESTS_FILES_PATH: {TESTS_FILES_PATH} does not match TEST_FILES_FOLDER_PATH: {TEST_FILES_FOLDER_PATH}"
+)
 
 
 if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
@@ -76,7 +78,9 @@ if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
         if working_dir in sys.path:
             sys.path.remove(working_dir)
         sys.path.append(working_dir)
-    toolset_path = pathlib.Path(__file__).parents[6] / "Tools" / "HolocronToolset" / "src" / "toolset"
+    toolset_path = (
+        pathlib.Path(__file__).parents[6] / "Tools" / "HolocronToolset" / "src" / "toolset"
+    )
     if toolset_path.exists():
         working_dir = str(toolset_path.parent)
         if working_dir in sys.path:
@@ -85,7 +89,9 @@ if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
 
 
 K1_PATH = os.environ.get("K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor")
-K2_PATH = os.environ.get("K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II")
+K2_PATH = os.environ.get(
+    "K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II"
+)
 
 from pykotor.common.stream import BinaryReader
 from pykotor.extract.installation import Installation
@@ -150,7 +156,9 @@ if __name__ == "__main__":
 # ============================================================================
 
 
-def test_git_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_ui_load_build(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test GIT Editor in headless UI - loads real file and builds data."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -159,16 +167,27 @@ def test_git_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstall
     git_file = test_files_dir / "zio001.git"
     if not git_file.exists():
         # Try to get one from installation
-        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(([ResourceIdentifier("zio001", ResourceType.GIT)]))
+        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(
+            ([ResourceIdentifier("zio001", ResourceType.GIT)])
+        )
         if not git_resources:
             pytest.skip("No GIT files available for testing")
-        git_resource: ResourceResult | None = git_resources.get(ResourceIdentifier("zio001", ResourceType.GIT))
+        git_resource: ResourceResult | None = git_resources.get(
+            ResourceIdentifier("zio001", ResourceType.GIT)
+        )
         if git_resource is None:
             pytest.fail("No GIT files found with name 'zio001.git'!")
         git_data = git_resource.data
         if not git_data:
             pytest.fail(f"Could not load GIT data for 'zio001.git'!")
-        editor.load(git_resource.filepath if hasattr(git_resource, "filepath") else pathlib.Path("module.git"), git_resource.resname, ResourceType.GIT, git_data)
+        editor.load(
+            git_resource.filepath
+            if hasattr(git_resource, "filepath")
+            else pathlib.Path("module.git"),
+            git_resource.resname,
+            ResourceType.GIT,
+            git_data,
+        )
     else:
         original_data = git_file.read_bytes()
         editor.load(git_file, "zio001", ResourceType.GIT, original_data)
@@ -187,7 +206,9 @@ def test_git_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstall
     assert loaded_git is not None
 
 
-def test_giteditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_giteditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that GITEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog, get_wiki_path
     import pytest
@@ -195,7 +216,9 @@ def test_giteditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     # Check if wiki file exists - skip test if it doesn't (test environment issue)
     toolset_wiki_path, root_wiki_path = get_wiki_path()
     assert toolset_wiki_path.exists(), f"Toolset wiki path: {toolset_wiki_path} does not exist"
-    assert root_wiki_path is None or root_wiki_path.exists(), f"Root wiki path: {root_wiki_path} does not exist"
+    assert root_wiki_path is None or root_wiki_path.exists(), (
+        f"Root wiki path: {root_wiki_path} does not exist"
+    )
     wiki_file = toolset_wiki_path / "GFF-GIT.md"
     if not wiki_file.exists():
         assert root_wiki_path is not None
@@ -226,7 +249,9 @@ def test_giteditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-GIT.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-GIT.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -237,21 +262,37 @@ def test_giteditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
 # ============================================================================
 
 
-def _load_git_file_for_testing(editor: GITEditor, installation: HTInstallation, test_files_dir: pathlib.Path, filename: str = "zio001.git"):
+def _load_git_file_for_testing(
+    editor: GITEditor,
+    installation: HTInstallation,
+    test_files_dir: pathlib.Path,
+    filename: str = "zio001.git",
+):
     """Helper function to load a GIT file for testing, trying multiple sources."""
     git_file = test_files_dir / filename
     if not git_file.exists():
         # Try to get one from installation
-        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(([ResourceIdentifier(filename.replace(".git", ""), ResourceType.GIT)]))
+        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(
+            ([ResourceIdentifier(filename.replace(".git", ""), ResourceType.GIT)])
+        )
         if not git_resources:
             pytest.skip(f"No GIT files available for testing ({filename})")
-        git_resource: ResourceResult | None = git_resources.get(ResourceIdentifier(filename.replace(".git", ""), ResourceType.GIT))
+        git_resource: ResourceResult | None = git_resources.get(
+            ResourceIdentifier(filename.replace(".git", ""), ResourceType.GIT)
+        )
         if git_resource is None:
             pytest.skip(f"No GIT files found with name '{filename}'!")
         git_data = git_resource.data
         if not git_data:
             pytest.skip(f"Could not load GIT data for '{filename}'!")
-        editor.load(git_resource.filepath if hasattr(git_resource, "filepath") else pathlib.Path("module.git"), git_resource.resname, ResourceType.GIT, git_data)
+        editor.load(
+            git_resource.filepath
+            if hasattr(git_resource, "filepath")
+            else pathlib.Path("module.git"),
+            git_resource.resname,
+            ResourceType.GIT,
+            git_data,
+        )
     else:
         original_data = git_file.read_bytes()
         editor.load(git_file, filename.replace(".git", ""), ResourceType.GIT, original_data)
@@ -269,7 +310,9 @@ def _assert_angle_close(actual: float, expected: float, tolerance: float = 0.001
 # ============================================================================
 
 
-def test_git_editor_manipulate_ambient_sound_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_ambient_sound_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating ambient sound ID."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -296,7 +339,9 @@ def test_git_editor_manipulate_ambient_sound_id(qtbot: QtBot, installation: HTIn
         assert editor.git().ambient_sound_id == val
 
 
-def test_git_editor_manipulate_ambient_volume(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_ambient_volume(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating ambient volume."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -315,7 +360,9 @@ def test_git_editor_manipulate_ambient_volume(qtbot: QtBot, installation: HTInst
         assert modified_git.ambient_volume == val
 
 
-def test_git_editor_manipulate_env_audio(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_env_audio(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating environment audio index."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -334,7 +381,9 @@ def test_git_editor_manipulate_env_audio(qtbot: QtBot, installation: HTInstallat
         assert modified_git.env_audio == val
 
 
-def test_git_editor_manipulate_music_standard_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_music_standard_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating standard music ID."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -353,7 +402,9 @@ def test_git_editor_manipulate_music_standard_id(qtbot: QtBot, installation: HTI
         assert modified_git.music_standard_id == val
 
 
-def test_git_editor_manipulate_music_battle_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_music_battle_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating battle music ID."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -372,7 +423,9 @@ def test_git_editor_manipulate_music_battle_id(qtbot: QtBot, installation: HTIns
         assert modified_git.music_battle_id == val
 
 
-def test_git_editor_manipulate_music_delay(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_music_delay(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating music delay."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -391,7 +444,9 @@ def test_git_editor_manipulate_music_delay(qtbot: QtBot, installation: HTInstall
         assert modified_git.music_delay == val
 
 
-def test_git_editor_manipulate_all_area_properties_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_all_area_properties_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating all area properties simultaneously."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -419,7 +474,9 @@ def test_git_editor_manipulate_all_area_properties_combination(qtbot: QtBot, ins
     assert modified_git.music_delay == 10
 
 
-def test_git_editor_headless_manipulate_all_area_properties_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_manipulate_all_area_properties_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test manipulating all area properties simultaneously without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -448,7 +505,9 @@ def test_git_editor_headless_manipulate_all_area_properties_combination(qtbot: Q
 # ============================================================================
 
 
-def test_git_editor_manipulate_creature_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_creature_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating creature position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -475,14 +534,18 @@ def test_git_editor_manipulate_creature_position(qtbot: QtBot, installation: HTI
         # Save and verify
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "test_creature"), None)
+        modified_creature = next(
+            (c for c in modified_git.creatures if str(c.resref) == "test_creature"), None
+        )
         assert modified_creature is not None, "Creature should exist after save"
         assert abs(modified_creature.position.x - pos.x) < 0.001
         assert abs(modified_creature.position.y - pos.y) < 0.001
         assert abs(modified_creature.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_creature_bearing(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_creature_bearing(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating creature bearing/rotation."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -504,12 +567,16 @@ def test_git_editor_manipulate_creature_bearing(qtbot: QtBot, installation: HTIn
         # Save and verify
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "test_creature"), None)
+        modified_creature = next(
+            (c for c in modified_git.creatures if str(c.resref) == "test_creature"), None
+        )
         assert modified_creature is not None
         _assert_angle_close(modified_creature.bearing, bearing)
 
 
-def test_git_editor_manipulate_creature_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_creature_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating creature ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -531,7 +598,14 @@ def test_git_editor_manipulate_creature_resref(qtbot: QtBot, installation: HTIns
         data, _ = editor.build()
         modified_git = read_git(data)
         # Find creature by position since resref might be empty
-        modified_creature = next((c for c in modified_git.creatures if abs(c.position.x - 10.0) < 0.001 and abs(c.position.y - 20.0) < 0.001), None)
+        modified_creature = next(
+            (
+                c
+                for c in modified_git.creatures
+                if abs(c.position.x - 10.0) < 0.001 and abs(c.position.y - 20.0) < 0.001
+            ),
+            None,
+        )
         assert modified_creature is not None
         assert str(modified_creature.resref) == resref_str
 
@@ -541,7 +615,9 @@ def test_git_editor_manipulate_creature_resref(qtbot: QtBot, installation: HTIns
 # ============================================================================
 
 
-def test_git_editor_manipulate_door_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -570,7 +646,9 @@ def test_git_editor_manipulate_door_position(qtbot: QtBot, installation: HTInsta
         assert abs(modified_door.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_door_bearing(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_bearing(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door bearing."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -592,7 +670,9 @@ def test_git_editor_manipulate_door_bearing(qtbot: QtBot, installation: HTInstal
         assert abs(modified_door.bearing - bearing) < 0.001
 
 
-def test_git_editor_manipulate_door_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -614,7 +694,9 @@ def test_git_editor_manipulate_door_tag(qtbot: QtBot, installation: HTInstallati
         assert modified_door.tag == tag
 
 
-def test_git_editor_manipulate_door_linked_to_module(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_linked_to_module(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door linked module."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -636,7 +718,9 @@ def test_git_editor_manipulate_door_linked_to_module(qtbot: QtBot, installation:
         assert str(modified_door.linked_to_module) == module_str
 
 
-def test_git_editor_manipulate_door_linked_to(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_linked_to(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door linked to waypoint/door tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -658,7 +742,9 @@ def test_git_editor_manipulate_door_linked_to(qtbot: QtBot, installation: HTInst
         assert modified_door.linked_to == linked_str
 
 
-def test_git_editor_manipulate_door_linked_to_flags(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_linked_to_flags(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door link type flags."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -680,7 +766,9 @@ def test_git_editor_manipulate_door_linked_to_flags(qtbot: QtBot, installation: 
         assert modified_door.linked_to_flags == flag
 
 
-def test_git_editor_manipulate_door_transition_destination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_transition_destination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door transition destination LocalizedString."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -699,10 +787,14 @@ def test_git_editor_manipulate_door_transition_destination(qtbot: QtBot, install
     modified_git = read_git(data)
     modified_door = next((d for d in modified_git.doors if str(d.resref) == "test_door"), None)
     assert modified_door is not None
-    assert modified_door.transition_destination.get(Language.ENGLISH, Gender.MALE) == "Test Transition"
+    assert (
+        modified_door.transition_destination.get(Language.ENGLISH, Gender.MALE) == "Test Transition"
+    )
 
 
-def test_git_editor_manipulate_door_tweak_color(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_tweak_color(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating door tweak color (TSL only)."""
     if not installation.tsl:
         pytest.skip("Door tweak color is TSL-only feature")
@@ -741,7 +833,9 @@ def test_git_editor_manipulate_door_tweak_color(qtbot: QtBot, installation: HTIn
             assert abs(modified_door.tweak_color.b - color.b) < 0.01
 
 
-def test_git_editor_manipulate_door_all_properties_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_door_all_properties_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating all door properties simultaneously."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -773,7 +867,10 @@ def test_git_editor_manipulate_door_all_properties_combination(qtbot: QtBot, ins
     assert str(modified_door.linked_to_module) == "combo_module"
     assert modified_door.linked_to == "combo_waypoint"
     assert modified_door.linked_to_flags == GITModuleLink.ToWaypoint
-    assert modified_door.transition_destination.get(Language.ENGLISH, Gender.MALE) == "Combo Transition"
+    assert (
+        modified_door.transition_destination.get(Language.ENGLISH, Gender.MALE)
+        == "Combo Transition"
+    )
 
 
 # ============================================================================
@@ -781,7 +878,9 @@ def test_git_editor_manipulate_door_all_properties_combination(qtbot: QtBot, ins
 # ============================================================================
 
 
-def test_git_editor_manipulate_placeable_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_placeable_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating placeable position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -803,14 +902,18 @@ def test_git_editor_manipulate_placeable_position(qtbot: QtBot, installation: HT
         placeable.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_placeable = next((p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None)
+        modified_placeable = next(
+            (p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None
+        )
         assert modified_placeable is not None
         assert abs(modified_placeable.position.x - pos.x) < 0.001
         assert abs(modified_placeable.position.y - pos.y) < 0.001
         assert abs(modified_placeable.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_placeable_bearing(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_placeable_bearing(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating placeable bearing."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -827,12 +930,16 @@ def test_git_editor_manipulate_placeable_bearing(qtbot: QtBot, installation: HTI
         placeable.bearing = bearing
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_placeable = next((p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None)
+        modified_placeable = next(
+            (p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None
+        )
         assert modified_placeable is not None
         assert abs(modified_placeable.bearing - bearing) < 0.001
 
 
-def test_git_editor_manipulate_placeable_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_placeable_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating placeable ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -848,12 +955,16 @@ def test_git_editor_manipulate_placeable_resref(qtbot: QtBot, installation: HTIn
         placeable.resref = ResRef(resref_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_placeable = next((p for p in modified_git.placeables if abs(p.position.x - 20.0) < 0.001), None)
+        modified_placeable = next(
+            (p for p in modified_git.placeables if abs(p.position.x - 20.0) < 0.001), None
+        )
         assert modified_placeable is not None
         assert str(modified_placeable.resref) == resref_str
 
 
-def test_git_editor_manipulate_placeable_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_placeable_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating placeable tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -870,13 +981,17 @@ def test_git_editor_manipulate_placeable_tag(qtbot: QtBot, installation: HTInsta
         placeable.tag = tag
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_placeable = next((p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None)
+        modified_placeable = next(
+            (p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None
+        )
         assert modified_placeable is not None
         # GIT placeable instances do not serialize Tag in current schema/writer.
         assert modified_placeable.tag == ""
 
 
-def test_git_editor_manipulate_placeable_tweak_color(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_placeable_tweak_color(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating placeable tweak color (TSL only)."""
     if not installation.tsl:
         pytest.skip("Placeable tweak color is TSL-only feature")
@@ -902,7 +1017,9 @@ def test_git_editor_manipulate_placeable_tweak_color(qtbot: QtBot, installation:
         placeable.tweak_color = color
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_placeable = next((p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None)
+        modified_placeable = next(
+            (p for p in modified_git.placeables if str(p.resref) == "test_placeable"), None
+        )
         assert modified_placeable is not None
         if color is None:
             assert modified_placeable.tweak_color is None
@@ -918,7 +1035,9 @@ def test_git_editor_manipulate_placeable_tweak_color(qtbot: QtBot, installation:
 # ============================================================================
 
 
-def test_git_editor_manipulate_waypoint_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_waypoint_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating waypoint position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -927,19 +1046,27 @@ def test_git_editor_manipulate_waypoint_position(qtbot: QtBot, installation: HTI
     waypoint = GITWaypoint(30.0, 40.0, 2.0)
     waypoint.resref = ResRef("test_waypoint")
     editor.git().waypoints.append(waypoint)
-    test_positions = [Vector3(0.0, 0.0, 0.0), Vector3(300.0, 400.0, 20.0), Vector3(-150.0, -200.0, -10.0)]
+    test_positions = [
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(300.0, 400.0, 20.0),
+        Vector3(-150.0, -200.0, -10.0),
+    ]
     for pos in test_positions:
         waypoint.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None)
+        modified_waypoint = next(
+            (w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None
+        )
         assert modified_waypoint is not None
         assert abs(modified_waypoint.position.x - pos.x) < 0.001
         assert abs(modified_waypoint.position.y - pos.y) < 0.001
         assert abs(modified_waypoint.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_waypoint_bearing(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_waypoint_bearing(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating waypoint bearing."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -953,12 +1080,16 @@ def test_git_editor_manipulate_waypoint_bearing(qtbot: QtBot, installation: HTIn
         waypoint.bearing = bearing
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None)
+        modified_waypoint = next(
+            (w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None
+        )
         assert modified_waypoint is not None
         _assert_angle_close(modified_waypoint.bearing, bearing)
 
 
-def test_git_editor_manipulate_waypoint_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_waypoint_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating waypoint ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -971,12 +1102,16 @@ def test_git_editor_manipulate_waypoint_resref(qtbot: QtBot, installation: HTIns
         waypoint.resref = ResRef(resref_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_waypoint = next((w for w in modified_git.waypoints if abs(w.position.x - 30.0) < 0.001), None)
+        modified_waypoint = next(
+            (w for w in modified_git.waypoints if abs(w.position.x - 30.0) < 0.001), None
+        )
         assert modified_waypoint is not None
         assert str(modified_waypoint.resref) == resref_str
 
 
-def test_git_editor_manipulate_waypoint_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_waypoint_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating waypoint tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -990,12 +1125,16 @@ def test_git_editor_manipulate_waypoint_tag(qtbot: QtBot, installation: HTInstal
         waypoint.tag = tag
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None)
+        modified_waypoint = next(
+            (w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None
+        )
         assert modified_waypoint is not None
         assert modified_waypoint.tag == tag
 
 
-def test_git_editor_manipulate_waypoint_name(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_waypoint_name(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating waypoint name LocalizedString."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1008,12 +1147,16 @@ def test_git_editor_manipulate_waypoint_name(qtbot: QtBot, installation: HTInsta
     waypoint.name = new_name
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None)
+    modified_waypoint = next(
+        (w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None
+    )
     assert modified_waypoint is not None
     assert modified_waypoint.name.get(Language.ENGLISH, Gender.MALE) == "Test Waypoint Name"
 
 
-def test_git_editor_manipulate_waypoint_map_note(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_waypoint_map_note(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating waypoint map note."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1027,7 +1170,9 @@ def test_git_editor_manipulate_waypoint_map_note(qtbot: QtBot, installation: HTI
     waypoint.map_note = LocalizedString.from_english("Test Map Note")
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None)
+    modified_waypoint = next(
+        (w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None
+    )
     assert modified_waypoint is not None
     assert modified_waypoint.has_map_note is True
     assert modified_waypoint.map_note_enabled is True
@@ -1037,7 +1182,9 @@ def test_git_editor_manipulate_waypoint_map_note(qtbot: QtBot, installation: HTI
     waypoint.map_note_enabled = False
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None)
+    modified_waypoint = next(
+        (w for w in modified_git.waypoints if str(w.resref) == "test_waypoint"), None
+    )
     assert modified_waypoint is not None
     assert modified_waypoint.has_map_note is False
     assert modified_waypoint.map_note_enabled is False
@@ -1048,7 +1195,9 @@ def test_git_editor_manipulate_waypoint_map_note(qtbot: QtBot, installation: HTI
 # ============================================================================
 
 
-def test_git_editor_manipulate_trigger_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1056,40 +1205,56 @@ def test_git_editor_manipulate_trigger_position(qtbot: QtBot, installation: HTIn
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 3.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
-    test_positions = [Vector3(0.0, 0.0, 0.0), Vector3(400.0, 500.0, 30.0), Vector3(-200.0, -250.0, -15.0)]
+    test_positions = [
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(400.0, 500.0, 30.0),
+        Vector3(-200.0, -250.0, -15.0),
+    ]
     for pos in test_positions:
         trigger.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+        )
         assert modified_trigger is not None
         assert abs(modified_trigger.position.x - pos.x) < 0.001
         assert abs(modified_trigger.position.y - pos.y) < 0.001
         assert abs(modified_trigger.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_trigger_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
     _load_git_file_for_testing(editor, installation, test_files_dir)
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     test_resrefs = ["trigger_001", "area_trigger", "script_trigger", ""]
     for resref_str in test_resrefs:
         trigger.resref = ResRef(resref_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if abs(t.position.x - 40.0) < 0.001), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if abs(t.position.x - 40.0) < 0.001), None
+        )
         assert modified_trigger is not None
         assert str(modified_trigger.resref) == resref_str
 
 
-def test_git_editor_manipulate_trigger_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1097,19 +1262,25 @@ def test_git_editor_manipulate_trigger_tag(qtbot: QtBot, installation: HTInstall
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     test_tags = ["trigger_tag_01", "area_tag", ""]
     for tag in test_tags:
         trigger.tag = tag
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+        )
         assert modified_trigger is not None
         assert modified_trigger.tag == tag
 
 
-def test_git_editor_manipulate_trigger_geometry(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_geometry(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger geometry."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1117,19 +1288,39 @@ def test_git_editor_manipulate_trigger_geometry(qtbot: QtBot, installation: HTIn
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     test_geometries = [
-        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(10.0, 10.0, 0.0), Vector3(0.0, 10.0, 0.0)],
-        [Vector3(0.0, 0.0, 0.0), Vector3(20.0, 0.0, 0.0), Vector3(20.0, 10.0, 0.0), Vector3(0.0, 10.0, 0.0)],
-        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, -5.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(8.0, 8.0, 0.0), Vector3(2.0, 8.0, 0.0)],
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(10.0, 0.0, 0.0),
+            Vector3(10.0, 10.0, 0.0),
+            Vector3(0.0, 10.0, 0.0),
+        ],
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(20.0, 0.0, 0.0),
+            Vector3(20.0, 10.0, 0.0),
+            Vector3(0.0, 10.0, 0.0),
+        ],
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(5.0, -5.0, 0.0),
+            Vector3(10.0, 0.0, 0.0),
+            Vector3(8.0, 8.0, 0.0),
+            Vector3(2.0, 8.0, 0.0),
+        ],
     ]
     for geom_points in test_geometries:
         trigger.geometry.points.clear()
         trigger.geometry.extend(geom_points)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+        )
         assert modified_trigger is not None
         assert len(modified_trigger.geometry) == len(geom_points)
         for i, point in enumerate(geom_points):
@@ -1140,7 +1331,9 @@ def test_git_editor_manipulate_trigger_geometry(qtbot: QtBot, installation: HTIn
             assert abs(modified_point.z - point.z) < 0.001
 
 
-def test_git_editor_manipulate_trigger_linked_to_module(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_linked_to_module(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger linked module."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1148,19 +1341,25 @@ def test_git_editor_manipulate_trigger_linked_to_module(qtbot: QtBot, installati
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     test_modules = ["module_002", "trigger_module", ""]
     for module_str in test_modules:
         trigger.linked_to_module = ResRef(module_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+        )
         assert modified_trigger is not None
         assert str(modified_trigger.linked_to_module) == module_str
 
 
-def test_git_editor_manipulate_trigger_linked_to(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_linked_to(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger linked to waypoint/door tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1168,19 +1367,25 @@ def test_git_editor_manipulate_trigger_linked_to(qtbot: QtBot, installation: HTI
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     test_linked = ["wp_destination", "door_exit", ""]
     for linked_str in test_linked:
         trigger.linked_to = linked_str
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+        )
         assert modified_trigger is not None
         assert modified_trigger.linked_to == linked_str
 
 
-def test_git_editor_manipulate_trigger_linked_to_flags(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_linked_to_flags(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger link type flags."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1188,19 +1393,25 @@ def test_git_editor_manipulate_trigger_linked_to_flags(qtbot: QtBot, installatio
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     test_flags = [GITModuleLink.NoLink, GITModuleLink.ToDoor, GITModuleLink.ToWaypoint]
     for flag in test_flags:
         trigger.linked_to_flags = flag
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+        modified_trigger = next(
+            (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+        )
         assert modified_trigger is not None
         assert modified_trigger.linked_to_flags == flag
 
 
-def test_git_editor_manipulate_trigger_transition_destination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_trigger_transition_destination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating trigger transition destination LocalizedString."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1208,15 +1419,22 @@ def test_git_editor_manipulate_trigger_transition_destination(qtbot: QtBot, inst
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     trigger = GITTrigger(40.0, 50.0, 0.0)
     trigger.resref = ResRef("test_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     new_transition = LocalizedString.from_english("Trigger Transition")
     trigger.transition_destination = new_transition
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_trigger = next((t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None)
+    modified_trigger = next(
+        (t for t in modified_git.triggers if str(t.resref) == "test_trigger"), None
+    )
     assert modified_trigger is not None
-    assert modified_trigger.transition_destination.get(Language.ENGLISH, Gender.MALE) == "Trigger Transition"
+    assert (
+        modified_trigger.transition_destination.get(Language.ENGLISH, Gender.MALE)
+        == "Trigger Transition"
+    )
 
 
 # ============================================================================
@@ -1224,7 +1442,9 @@ def test_git_editor_manipulate_trigger_transition_destination(qtbot: QtBot, inst
 # ============================================================================
 
 
-def test_git_editor_manipulate_encounter_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_encounter_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating encounter position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1232,40 +1452,56 @@ def test_git_editor_manipulate_encounter_position(qtbot: QtBot, installation: HT
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     encounter = GITEncounter(50.0, 60.0, 4.0)
     encounter.resref = ResRef("test_encounter")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)])
+    encounter.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)]
+    )
     editor.git().encounters.append(encounter)
-    test_positions = [Vector3(0.0, 0.0, 0.0), Vector3(500.0, 600.0, 40.0), Vector3(-250.0, -300.0, -20.0)]
+    test_positions = [
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(500.0, 600.0, 40.0),
+        Vector3(-250.0, -300.0, -20.0),
+    ]
     for pos in test_positions:
         encounter.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_encounter = next((e for e in modified_git.encounters if str(e.resref) == "test_encounter"), None)
+        modified_encounter = next(
+            (e for e in modified_git.encounters if str(e.resref) == "test_encounter"), None
+        )
         assert modified_encounter is not None
         assert abs(modified_encounter.position.x - pos.x) < 0.001
         assert abs(modified_encounter.position.y - pos.y) < 0.001
         assert abs(modified_encounter.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_encounter_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_encounter_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating encounter ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
     _load_git_file_for_testing(editor, installation, test_files_dir)
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     encounter = GITEncounter(50.0, 60.0, 0.0)
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)])
+    encounter.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)]
+    )
     editor.git().encounters.append(encounter)
     test_resrefs = ["encounter_001", "combat_zone", "spawn_area", ""]
     for resref_str in test_resrefs:
         encounter.resref = ResRef(resref_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_encounter = next((e for e in modified_git.encounters if abs(e.position.x - 50.0) < 0.001), None)
+        modified_encounter = next(
+            (e for e in modified_git.encounters if abs(e.position.x - 50.0) < 0.001), None
+        )
         assert modified_encounter is not None
         assert str(modified_encounter.resref) == resref_str
 
 
-def test_git_editor_manipulate_encounter_geometry(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_encounter_geometry(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating encounter geometry."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1273,18 +1509,34 @@ def test_git_editor_manipulate_encounter_geometry(qtbot: QtBot, installation: HT
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     encounter = GITEncounter(50.0, 60.0, 0.0)
     encounter.resref = ResRef("test_encounter")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)])
+    encounter.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)]
+    )
     editor.git().encounters.append(encounter)
     test_geometries = [
-        [Vector3(0.0, 0.0, 0.0), Vector3(30.0, 0.0, 0.0), Vector3(30.0, 30.0, 0.0), Vector3(0.0, 30.0, 0.0)],
-        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(15.0, 8.66, 0.0), Vector3(10.0, 17.32, 0.0), Vector3(0.0, 17.32, 0.0), Vector3(-5.0, 8.66, 0.0)],
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(30.0, 0.0, 0.0),
+            Vector3(30.0, 30.0, 0.0),
+            Vector3(0.0, 30.0, 0.0),
+        ],
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(10.0, 0.0, 0.0),
+            Vector3(15.0, 8.66, 0.0),
+            Vector3(10.0, 17.32, 0.0),
+            Vector3(0.0, 17.32, 0.0),
+            Vector3(-5.0, 8.66, 0.0),
+        ],
     ]
     for geom_points in test_geometries:
         encounter.geometry.points.clear()
         encounter.geometry.extend(geom_points)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_encounter = next((e for e in modified_git.encounters if str(e.resref) == "test_encounter"), None)
+        modified_encounter = next(
+            (e for e in modified_git.encounters if str(e.resref) == "test_encounter"), None
+        )
         assert modified_encounter is not None
         assert len(modified_encounter.geometry) == len(geom_points)
         for i, point in enumerate(geom_points):
@@ -1295,7 +1547,9 @@ def test_git_editor_manipulate_encounter_geometry(qtbot: QtBot, installation: HT
             assert abs(modified_point.z - point.z) < 0.001
 
 
-def test_git_editor_manipulate_encounter_spawn_points(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_encounter_spawn_points(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating encounter spawn points."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1303,7 +1557,9 @@ def test_git_editor_manipulate_encounter_spawn_points(qtbot: QtBot, installation
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     encounter = GITEncounter(50.0, 60.0, 0.0)
     encounter.resref = ResRef("test_encounter")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)])
+    encounter.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)]
+    )
     editor.git().encounters.append(encounter)
     spawn1 = GITEncounterSpawnPoint(52.0, 62.0, 0.0)
     spawn1.orientation = 0.0
@@ -1313,7 +1569,9 @@ def test_git_editor_manipulate_encounter_spawn_points(qtbot: QtBot, installation
     encounter.spawn_points.append(spawn2)
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_encounter = next((e for e in modified_git.encounters if str(e.resref) == "test_encounter"), None)
+    modified_encounter = next(
+        (e for e in modified_git.encounters if str(e.resref) == "test_encounter"), None
+    )
     assert modified_encounter is not None
     assert len(modified_encounter.spawn_points) == 2
     assert abs(modified_encounter.spawn_points[0].x - 52.0) < 0.001
@@ -1324,7 +1582,9 @@ def test_git_editor_manipulate_encounter_spawn_points(qtbot: QtBot, installation
     assert abs(modified_encounter.spawn_points[1].orientation - math.pi / 2) < 0.001
 
 
-def test_git_editor_headless_encounter_manipulations(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_encounter_manipulations(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test comprehensive encounter manipulations without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1332,7 +1592,14 @@ def test_git_editor_headless_encounter_manipulations(qtbot: QtBot, installation:
     qtbot.waitUntil(lambda: editor._git is not None, timeout=2000)
     encounter = GITEncounter(300.0, 400.0, 30.0)
     encounter.resref = ResRef("hd_encounter")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(25.0, 0.0, 0.0), Vector3(25.0, 25.0, 0.0), Vector3(0.0, 25.0, 0.0)])
+    encounter.geometry.extend(
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(25.0, 0.0, 0.0),
+            Vector3(25.0, 25.0, 0.0),
+            Vector3(0.0, 25.0, 0.0),
+        ]
+    )
     spawn1 = GITEncounterSpawnPoint(310.0, 410.0, 30.0)
     spawn1.orientation = math.pi / 3
     encounter.spawn_points.append(spawn1)
@@ -1342,7 +1609,9 @@ def test_git_editor_headless_encounter_manipulations(qtbot: QtBot, installation:
     editor.git().encounters.append(encounter)
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_encounter = next((e for e in modified_git.encounters if str(e.resref) == "hd_encounter"), None)
+    modified_encounter = next(
+        (e for e in modified_git.encounters if str(e.resref) == "hd_encounter"), None
+    )
     assert modified_encounter is not None
     assert len(modified_encounter.geometry) == 4
     assert len(modified_encounter.spawn_points) == 2
@@ -1355,7 +1624,9 @@ def test_git_editor_headless_encounter_manipulations(qtbot: QtBot, installation:
 # ============================================================================
 
 
-def test_git_editor_manipulate_sound_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_sound_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating sound position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1364,19 +1635,27 @@ def test_git_editor_manipulate_sound_position(qtbot: QtBot, installation: HTInst
     sound = GITSound(60.0, 70.0, 5.0)
     sound.resref = ResRef("test_sound")
     editor.git().sounds.append(sound)
-    test_positions = [Vector3(0.0, 0.0, 0.0), Vector3(600.0, 700.0, 50.0), Vector3(-300.0, -350.0, -25.0)]
+    test_positions = [
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(600.0, 700.0, 50.0),
+        Vector3(-300.0, -350.0, -25.0),
+    ]
     for pos in test_positions:
         sound.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_sound = next((s for s in modified_git.sounds if str(s.resref) == "test_sound"), None)
+        modified_sound = next(
+            (s for s in modified_git.sounds if str(s.resref) == "test_sound"), None
+        )
         assert modified_sound is not None
         assert abs(modified_sound.position.x - pos.x) < 0.001
         assert abs(modified_sound.position.y - pos.y) < 0.001
         assert abs(modified_sound.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_sound_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_sound_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating sound ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1389,12 +1668,16 @@ def test_git_editor_manipulate_sound_resref(qtbot: QtBot, installation: HTInstal
         sound.resref = ResRef(resref_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_sound = next((s for s in modified_git.sounds if abs(s.position.x - 60.0) < 0.001), None)
+        modified_sound = next(
+            (s for s in modified_git.sounds if abs(s.position.x - 60.0) < 0.001), None
+        )
         assert modified_sound is not None
         assert str(modified_sound.resref) == resref_str
 
 
-def test_git_editor_manipulate_sound_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_sound_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating sound tag."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1408,7 +1691,9 @@ def test_git_editor_manipulate_sound_tag(qtbot: QtBot, installation: HTInstallat
         sound.tag = tag
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_sound = next((s for s in modified_git.sounds if str(s.resref) == "test_sound"), None)
+        modified_sound = next(
+            (s for s in modified_git.sounds if str(s.resref) == "test_sound"), None
+        )
         assert modified_sound is not None
         # GIT sound instances do not serialize Tag in current schema/writer.
         assert modified_sound.tag == ""
@@ -1419,7 +1704,9 @@ def test_git_editor_manipulate_sound_tag(qtbot: QtBot, installation: HTInstallat
 # ============================================================================
 
 
-def test_git_editor_manipulate_store_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_store_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating store position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1428,19 +1715,27 @@ def test_git_editor_manipulate_store_position(qtbot: QtBot, installation: HTInst
     store = GITStore(70.0, 80.0, 6.0)
     store.resref = ResRef("test_store")
     editor.git().stores.append(store)
-    test_positions = [Vector3(0.0, 0.0, 0.0), Vector3(700.0, 800.0, 60.0), Vector3(-350.0, -400.0, -30.0)]
+    test_positions = [
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(700.0, 800.0, 60.0),
+        Vector3(-350.0, -400.0, -30.0),
+    ]
     for pos in test_positions:
         store.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_store = next((s for s in modified_git.stores if str(s.resref) == "test_store"), None)
+        modified_store = next(
+            (s for s in modified_git.stores if str(s.resref) == "test_store"), None
+        )
         assert modified_store is not None
         assert abs(modified_store.position.x - pos.x) < 0.001
         assert abs(modified_store.position.y - pos.y) < 0.001
         assert abs(modified_store.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_store_bearing(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_store_bearing(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating store bearing."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1454,12 +1749,16 @@ def test_git_editor_manipulate_store_bearing(qtbot: QtBot, installation: HTInsta
         store.bearing = bearing
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_store = next((s for s in modified_git.stores if str(s.resref) == "test_store"), None)
+        modified_store = next(
+            (s for s in modified_git.stores if str(s.resref) == "test_store"), None
+        )
         assert modified_store is not None
         _assert_angle_close(modified_store.bearing, bearing)
 
 
-def test_git_editor_manipulate_store_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_store_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating store ResRef."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1472,12 +1771,16 @@ def test_git_editor_manipulate_store_resref(qtbot: QtBot, installation: HTInstal
         store.resref = ResRef(resref_str)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_store = next((s for s in modified_git.stores if abs(s.position.x - 70.0) < 0.001), None)
+        modified_store = next(
+            (s for s in modified_git.stores if abs(s.position.x - 70.0) < 0.001), None
+        )
         assert modified_store is not None
         assert str(modified_store.resref) == resref_str
 
 
-def test_git_editor_headless_store_manipulations(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_store_manipulations(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test comprehensive store manipulations without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1489,7 +1792,9 @@ def test_git_editor_headless_store_manipulations(qtbot: QtBot, installation: HTI
     editor.git().stores.append(store)
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_store = next((s for s in modified_git.stores if str(s.resref) == "headless_store"), None)
+    modified_store = next(
+        (s for s in modified_git.stores if str(s.resref) == "headless_store"), None
+    )
     assert modified_store is not None
     assert abs(modified_store.bearing - math.pi / 3) < 0.001
     assert abs(modified_store.position.x - 400.0) < 0.001
@@ -1500,7 +1805,9 @@ def test_git_editor_headless_store_manipulations(qtbot: QtBot, installation: HTI
 # ============================================================================
 
 
-def test_git_editor_manipulate_camera_position(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_position(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera position."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1509,19 +1816,27 @@ def test_git_editor_manipulate_camera_position(qtbot: QtBot, installation: HTIns
     camera = GITCamera(80.0, 90.0, 7.0)
     camera.camera_id = editor.git().next_camera_id() if editor.git().cameras else 0
     editor.git().cameras.append(camera)
-    test_positions = [Vector3(0.0, 0.0, 0.0), Vector3(800.0, 900.0, 70.0), Vector3(-400.0, -450.0, -35.0)]
+    test_positions = [
+        Vector3(0.0, 0.0, 0.0),
+        Vector3(800.0, 900.0, 70.0),
+        Vector3(-400.0, -450.0, -35.0),
+    ]
     for pos in test_positions:
         camera.position = pos
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_camera = next((c for c in modified_git.cameras if c.camera_id == camera.camera_id), None)
+        modified_camera = next(
+            (c for c in modified_git.cameras if c.camera_id == camera.camera_id), None
+        )
         assert modified_camera is not None
         assert abs(modified_camera.position.x - pos.x) < 0.001
         assert abs(modified_camera.position.y - pos.y) < 0.001
         assert abs(modified_camera.position.z - pos.z) < 0.001
 
 
-def test_git_editor_manipulate_camera_orientation(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_orientation(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera orientation (quaternion)."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1540,7 +1855,9 @@ def test_git_editor_manipulate_camera_orientation(qtbot: QtBot, installation: HT
         camera.orientation = orientation
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_camera = next((c for c in modified_git.cameras if c.camera_id == camera.camera_id), None)
+        modified_camera = next(
+            (c for c in modified_git.cameras if c.camera_id == camera.camera_id), None
+        )
         assert modified_camera is not None
         assert abs(modified_camera.orientation.x - orientation.x) < 0.01
         assert abs(modified_camera.orientation.y - orientation.y) < 0.01
@@ -1548,7 +1865,9 @@ def test_git_editor_manipulate_camera_orientation(qtbot: QtBot, installation: HT
         assert abs(modified_camera.orientation.w - orientation.w) < 0.01
 
 
-def test_git_editor_manipulate_camera_fov(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_fov(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera field of view."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1562,12 +1881,16 @@ def test_git_editor_manipulate_camera_fov(qtbot: QtBot, installation: HTInstalla
         camera.fov = fov
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_camera = next((c for c in modified_git.cameras if c.camera_id == camera.camera_id), None)
+        modified_camera = next(
+            (c for c in modified_git.cameras if c.camera_id == camera.camera_id), None
+        )
         assert modified_camera is not None
         assert abs(modified_camera.fov - fov) < 0.001
 
 
-def test_git_editor_manipulate_camera_height(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_height(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera height."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1581,12 +1904,16 @@ def test_git_editor_manipulate_camera_height(qtbot: QtBot, installation: HTInsta
         camera.height = height
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_camera = next((c for c in modified_git.cameras if c.camera_id == camera.camera_id), None)
+        modified_camera = next(
+            (c for c in modified_git.cameras if c.camera_id == camera.camera_id), None
+        )
         assert modified_camera is not None
         assert abs(modified_camera.height - height) < 0.001
 
 
-def test_git_editor_manipulate_camera_mic_range(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_mic_range(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera microphone range."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1600,12 +1927,16 @@ def test_git_editor_manipulate_camera_mic_range(qtbot: QtBot, installation: HTIn
         camera.mic_range = mic_range
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_camera = next((c for c in modified_git.cameras if c.camera_id == camera.camera_id), None)
+        modified_camera = next(
+            (c for c in modified_git.cameras if c.camera_id == camera.camera_id), None
+        )
         assert modified_camera is not None
         assert abs(modified_camera.mic_range - mic_range) < 0.001
 
 
-def test_git_editor_manipulate_camera_pitch(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_pitch(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera pitch."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1619,12 +1950,16 @@ def test_git_editor_manipulate_camera_pitch(qtbot: QtBot, installation: HTInstal
         camera.pitch = pitch
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_camera = next((c for c in modified_git.cameras if c.camera_id == camera.camera_id), None)
+        modified_camera = next(
+            (c for c in modified_git.cameras if c.camera_id == camera.camera_id), None
+        )
         assert modified_camera is not None
         assert abs(modified_camera.pitch - pitch) < 0.001
 
 
-def test_git_editor_manipulate_camera_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_manipulate_camera_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating camera ID."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1648,7 +1983,9 @@ def test_git_editor_manipulate_camera_id(qtbot: QtBot, installation: HTInstallat
 # ============================================================================
 
 
-def test_git_editor_visibility_toggle_creatures(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_creatures(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling creature visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1662,7 +1999,9 @@ def test_git_editor_visibility_toggle_creatures(qtbot: QtBot, installation: HTIn
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_doors(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_doors(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling door visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1676,7 +2015,9 @@ def test_git_editor_visibility_toggle_doors(qtbot: QtBot, installation: HTInstal
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_placeables(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_placeables(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling placeable visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1690,7 +2031,9 @@ def test_git_editor_visibility_toggle_placeables(qtbot: QtBot, installation: HTI
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_waypoints(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_waypoints(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling waypoint visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1704,7 +2047,9 @@ def test_git_editor_visibility_toggle_waypoints(qtbot: QtBot, installation: HTIn
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_triggers(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_triggers(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling trigger visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1718,7 +2063,9 @@ def test_git_editor_visibility_toggle_triggers(qtbot: QtBot, installation: HTIns
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_encounters(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_encounters(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling encounter visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1732,7 +2079,9 @@ def test_git_editor_visibility_toggle_encounters(qtbot: QtBot, installation: HTI
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_sounds(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_sounds(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling sound visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1746,7 +2095,9 @@ def test_git_editor_visibility_toggle_sounds(qtbot: QtBot, installation: HTInsta
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_stores(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_stores(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling store visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1760,7 +2111,9 @@ def test_git_editor_visibility_toggle_stores(qtbot: QtBot, installation: HTInsta
     editor.update_visibility()
 
 
-def test_git_editor_visibility_toggle_cameras(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_toggle_cameras(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling camera visibility checkbox."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1774,7 +2127,9 @@ def test_git_editor_visibility_toggle_cameras(qtbot: QtBot, installation: HTInst
     editor.update_visibility()
 
 
-def test_git_editor_toggle_room_boundaries(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_toggle_room_boundaries(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling room boundary/label overlay in the 2D renderer."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1787,7 +2142,9 @@ def test_git_editor_toggle_room_boundaries(qtbot: QtBot, installation: HTInstall
     assert editor.ui.renderArea.show_room_boundaries is (not original)
 
 
-def test_git_editor_toggle_show_grid(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_toggle_show_grid(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test toggling world-space grid in the 2D renderer."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1800,7 +2157,9 @@ def test_git_editor_toggle_show_grid(qtbot: QtBot, installation: HTInstallation,
     assert editor.ui.renderArea.show_grid is (not original)
 
 
-def test_git_editor_visibility_double_click_exclusive(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_visibility_double_click_exclusive(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that double-clicking visibility checkbox unchecks all others."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1821,7 +2180,9 @@ def test_git_editor_visibility_double_click_exclusive(qtbot: QtBot, installation
 # ============================================================================
 
 
-def test_git_editor_filter_by_text(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_filter_by_text(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test filtering instances by text."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1845,7 +2206,9 @@ def test_git_editor_filter_by_text(qtbot: QtBot, installation: HTInstallation, t
     assert "creature_01" in editor.ui.renderArea.instance_filter.lower()
 
 
-def test_git_editor_filter_empty(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_filter_empty(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that empty filter shows all instances."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1856,7 +2219,9 @@ def test_git_editor_filter_empty(qtbot: QtBot, installation: HTInstallation, tes
     assert editor.ui.renderArea.instance_filter == ""
 
 
-def test_git_editor_filter_case_insensitive(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_filter_case_insensitive(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that filter is case insensitive."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1877,7 +2242,9 @@ def test_git_editor_filter_case_insensitive(qtbot: QtBot, installation: HTInstal
 # ============================================================================
 
 
-def test_git_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1909,7 +2276,9 @@ def test_git_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     assert saved_git.music_delay == original_git.music_delay
 
 
-def test_git_editor_headless_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test that save/load roundtrip preserves all data exactly without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1941,7 +2310,9 @@ def test_git_editor_headless_save_load_roundtrip_identity(qtbot: QtBot, installa
     assert saved_git.music_delay == original_git.music_delay
 
 
-def test_git_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_save_load_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1968,7 +2339,9 @@ def test_git_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, install
     # Verify modifications preserved
     assert editor.git().ambient_sound_id == 100
     assert editor.git().ambient_volume == 75
-    modified_creature = next((c for c in editor.git().creatures if str(c.resref) == "test_roundtrip"), None)
+    modified_creature = next(
+        (c for c in editor.git().creatures if str(c.resref) == "test_roundtrip"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.position.x - 100.0) < 0.001
     assert abs(modified_creature.bearing - math.pi / 4) < 0.001
@@ -1985,7 +2358,9 @@ def test_git_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, install
     assert len(saved_git2.doors) == len(saved_git1.doors)
 
 
-def test_git_editor_headless_save_load_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_save_load_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test save/load roundtrip with modifications preserves changes without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2012,7 +2387,9 @@ def test_git_editor_headless_save_load_roundtrip_with_modifications(qtbot: QtBot
     # Verify modifications preserved
     assert editor.git().ambient_sound_id == 100
     assert editor.git().ambient_volume == 75
-    modified_creature = next((c for c in editor.git().creatures if str(c.resref) == "hd_roundtrip"), None)
+    modified_creature = next(
+        (c for c in editor.git().creatures if str(c.resref) == "hd_roundtrip"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.position.x - 100.0) < 0.001
     assert abs(modified_creature.bearing - math.pi / 4) < 0.001
@@ -2029,7 +2406,9 @@ def test_git_editor_headless_save_load_roundtrip_with_modifications(qtbot: QtBot
     assert len(saved_git2.doors) == len(saved_git1.doors)
 
 
-def test_git_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2058,7 +2437,9 @@ def test_git_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInst
         assert editor.git().ambient_volume == 20 + cycle
 
 
-def test_git_editor_headless_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test multiple save/load cycles preserve data correctly without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2092,7 +2473,9 @@ def test_git_editor_headless_multiple_save_load_cycles(qtbot: QtBot, installatio
 # ============================================================================
 
 
-def test_git_editor_move_creature(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_move_creature(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test moving a creature instance."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2109,14 +2492,18 @@ def test_git_editor_move_creature(qtbot: QtBot, installation: HTInstallation, te
     editor._controls.undo_stack.push(MoveCommand(creature, old_position, new_position))
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "test_move"), None)
+    modified_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "test_move"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.position.x - 100.0) < 0.001
     assert abs(modified_creature.position.y - 200.0) < 0.001
     assert abs(modified_creature.position.z - 10.0) < 0.001
 
 
-def test_git_editor_rotate_creature(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_rotate_creature(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test rotating a creature instance."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2134,12 +2521,16 @@ def test_git_editor_rotate_creature(qtbot: QtBot, installation: HTInstallation, 
     editor._controls.undo_stack.push(RotateCommand(creature, old_bearing, new_bearing))
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "test_rotate"), None)
+    modified_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "test_rotate"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.bearing - math.pi / 2) < 0.001
 
 
-def test_git_editor_delete_creature(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_delete_creature(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test deleting a creature instance."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2160,7 +2551,9 @@ def test_git_editor_delete_creature(qtbot: QtBot, installation: HTInstallation, 
     assert len(modified_git.creatures) == initial_count
 
 
-def test_git_editor_duplicate_creature(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_duplicate_creature(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test duplicating a creature instance."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2183,12 +2576,16 @@ def test_git_editor_duplicate_creature(qtbot: QtBot, installation: HTInstallatio
     data, _ = editor.build()
     modified_git = read_git(data)
     assert len(modified_git.creatures) == initial_count + 2
-    duplicated_creature = next((c for c in modified_git.creatures if abs(c.position.x - 30.0) < 0.001), None)
+    duplicated_creature = next(
+        (c for c in modified_git.creatures if abs(c.position.x - 30.0) < 0.001), None
+    )
     assert duplicated_creature is not None
     assert abs(duplicated_creature.bearing - math.pi / 4) < 0.001
 
 
-def test_git_editor_headless_instance_manipulations(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_instance_manipulations(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test move, rotate, delete operations without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2205,7 +2602,9 @@ def test_git_editor_headless_instance_manipulations(qtbot: QtBot, installation: 
     creature.bearing = math.pi / 4
     data, _ = editor.build()
     modified_git = read_git(data)
-    modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "hd_manip"), None)
+    modified_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "hd_manip"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.position.x - 650.0) < 0.001
     assert abs(modified_creature.bearing - math.pi / 4) < 0.001
@@ -2221,7 +2620,9 @@ def test_git_editor_headless_instance_manipulations(qtbot: QtBot, installation: 
 # ============================================================================
 
 
-def test_git_editor_add_all_instance_types(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_add_all_instance_types(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test adding one of each instance type."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2253,11 +2654,15 @@ def test_git_editor_add_all_instance_types(qtbot: QtBot, installation: HTInstall
     editor.git().waypoints.append(waypoint)
     trigger = GITTrigger(50.0, 50.0, 0.0)
     trigger.resref = ResRef("all_types_trigger")
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)])
+    trigger.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(5.0, 0.0, 0.0), Vector3(2.5, 5.0, 0.0)]
+    )
     editor.git().triggers.append(trigger)
     encounter = GITEncounter(60.0, 60.0, 0.0)
     encounter.resref = ResRef("all_types_encounter")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)])
+    encounter.geometry.extend(
+        [Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(5.0, 10.0, 0.0)]
+    )
     editor.git().encounters.append(encounter)
     sound = GITSound(70.0, 70.0, 0.0)
     sound.resref = ResRef("all_types_sound")
@@ -2325,7 +2730,9 @@ def test_git_editor_headless_empty_git_file(qtbot: QtBot, installation: HTInstal
     assert len(empty_git.cameras) == 0
 
 
-def test_git_editor_max_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_max_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test setting fields to maximum values."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2343,7 +2750,9 @@ def test_git_editor_max_values(qtbot: QtBot, installation: HTInstallation, test_
     assert modified_git.env_audio == 255
 
 
-def test_git_editor_min_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_min_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test setting fields to minimum values."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2362,7 +2771,9 @@ def test_git_editor_min_values(qtbot: QtBot, installation: HTInstallation, test_
     assert modified_git.env_audio == 0
 
 
-def test_git_editor_empty_strings(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_empty_strings(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test handling of empty strings in text fields."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2377,16 +2788,22 @@ def test_git_editor_empty_strings(qtbot: QtBot, installation: HTInstallation, te
     editor.git().doors.append(door)
     data, _ = editor.build()
     modified_git = read_git(data)
-    empty_resref_creature = next((c for c in modified_git.creatures if abs(c.position.x - 10.0) < 0.001), None)
+    empty_resref_creature = next(
+        (c for c in modified_git.creatures if abs(c.position.x - 10.0) < 0.001), None
+    )
     assert empty_resref_creature is not None
     assert str(empty_resref_creature.resref) == ""
-    empty_resref_door = next((d for d in modified_git.doors if abs(d.position.x - 20.0) < 0.001), None)
+    empty_resref_door = next(
+        (d for d in modified_git.doors if abs(d.position.x - 20.0) < 0.001), None
+    )
     assert empty_resref_door is not None
     assert str(empty_resref_door.resref) == ""
     assert empty_resref_door.tag == ""
 
 
-def test_git_editor_extreme_positions(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_extreme_positions(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test handling of extreme position values."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2404,7 +2821,9 @@ def test_git_editor_extreme_positions(qtbot: QtBot, installation: HTInstallation
         editor.git().creatures.append(creature)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_creature = next((c for c in modified_git.creatures if abs(c.position.x - pos.x) < 0.1), None)
+        modified_creature = next(
+            (c for c in modified_git.creatures if abs(c.position.x - pos.x) < 0.1), None
+        )
         assert modified_creature is not None
         assert abs(modified_creature.position.x - pos.x) < 0.001
         assert abs(modified_creature.position.y - pos.y) < 0.001
@@ -2412,7 +2831,9 @@ def test_git_editor_extreme_positions(qtbot: QtBot, installation: HTInstallation
         editor.git().creatures.remove(creature)
 
 
-def test_git_editor_extreme_bearings(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_extreme_bearings(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test handling of extreme bearing values."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2426,7 +2847,10 @@ def test_git_editor_extreme_bearings(qtbot: QtBot, installation: HTInstallation,
         editor.git().creatures.append(creature)
         data, _ = editor.build()
         modified_git = read_git(data)
-        modified_creature = next((c for c in modified_git.creatures if str(c.resref) == f"bearing_{abs(int(bearing))}"), None)
+        modified_creature = next(
+            (c for c in modified_git.creatures if str(c.resref) == f"bearing_{abs(int(bearing))}"),
+            None,
+        )
         assert modified_creature is not None
         # Bearings may be normalized, so just check it saved
         assert isinstance(modified_creature.bearing, (int, float))
@@ -2438,7 +2862,9 @@ def test_git_editor_extreme_bearings(qtbot: QtBot, installation: HTInstallation,
 # ============================================================================
 
 
-def test_git_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_gff_roundtrip_comparison(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test GFF roundtrip comparison like resource tests."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2472,7 +2898,9 @@ def test_git_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInsta
     assert new_git.music_delay == original_git.music_delay
 
 
-def test_git_editor_gff_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_gff_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2494,13 +2922,17 @@ def test_git_editor_gff_roundtrip_with_modifications(qtbot: QtBot, installation:
     modified_git = read_git(data)
     assert modified_git.ambient_sound_id == 150
     assert modified_git.ambient_volume == 80
-    modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "mod_gff_test"), None)
+    modified_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "mod_gff_test"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.position.x - 200.0) < 0.001
     assert abs(modified_creature.bearing - math.pi / 3) < 0.001
 
 
-def test_git_editor_headless_gff_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_gff_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test GFF roundtrip with modifications still produces valid GFF without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2522,13 +2954,17 @@ def test_git_editor_headless_gff_roundtrip_with_modifications(qtbot: QtBot, inst
     modified_git = read_git(data)
     assert modified_git.ambient_sound_id == 150
     assert modified_git.ambient_volume == 80
-    modified_creature = next((c for c in modified_git.creatures if str(c.resref) == "hd_mod_gff"), None)
+    modified_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "hd_mod_gff"), None
+    )
     assert modified_creature is not None
     assert abs(modified_creature.position.x - 200.0) < 0.001
     assert abs(modified_creature.bearing - math.pi / 3) < 0.001
 
 
-def test_git_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_comprehensive_gff_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Comprehensive test that validates ALL GFF fields are preserved through editor roundtrip."""
     from pykotor.resource.formats.gff import GFFFieldType
     from pykotor.resource.formats.gff.gff_data import GFFStruct, GFFList
@@ -2560,18 +2996,24 @@ def test_git_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTIn
                 from pykotor.common.language import LocalizedString
 
                 locstr = struct.acquire(label, LocalizedString.from_invalid())
-                locstr_tuples = sorted((lang.value, gender.value, str(text)) for lang, gender, text in locstr)
+                locstr_tuples = sorted(
+                    (lang.value, gender.value, str(text)) for lang, gender, text in locstr
+                )
                 fields[full_label] = ("LocalizedString", locstr.stringref, tuple(locstr_tuples))
             else:
                 fields[full_label] = (field_type.name, value)
         return fields
 
     ignored_root_fields = {"KTGameVerIndex", "KTInfoDate", "KTInfoVersion"}
-    original_fields = {k: v for k, v in get_all_fields(original_gff.root).items() if k not in ignored_root_fields}
+    original_fields = {
+        k: v for k, v in get_all_fields(original_gff.root).items() if k not in ignored_root_fields
+    }
     editor.load(git_file, git_file.stem, ResourceType.GIT, original_data)
     new_data, _ = editor.build()
     new_gff = read_gff(new_data)
-    new_fields = {k: v for k, v in get_all_fields(new_gff.root).items() if k not in ignored_root_fields}
+    new_fields = {
+        k: v for k, v in get_all_fields(new_gff.root).items() if k not in ignored_root_fields
+    }
     all_labels = set(original_fields.keys()) | set(new_fields.keys())
     mismatches = []
     missing_in_new = []
@@ -2592,14 +3034,18 @@ def test_git_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTIn
     if missing_in_new:
         error_msg.append(f"Fields missing in roundtrip output: {missing_in_new}")
     if mismatches:
-        mismatch_details = "\n".join([f"  {label}: original={orig} -> new={new}" for label, orig, new in mismatches[:20]])
+        mismatch_details = "\n".join(
+            [f"  {label}: original={orig} -> new={new}" for label, orig, new in mismatches[:20]]
+        )
         if len(mismatches) > 20:
             mismatch_details += f"\n  ... and {len(mismatches) - 20} more"
         error_msg.append(f"Field value mismatches:\n{mismatch_details}")
     assert not error_msg, f"GFF roundtrip validation failed:\n" + "\n".join(error_msg)
 
 
-def test_git_editor_headless_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_comprehensive_gff_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Comprehensive test that validates ALL GFF fields are preserved through editor roundtrip without UI."""
     from pykotor.resource.formats.gff import GFFFieldType
     from pykotor.resource.formats.gff.gff_data import GFFStruct, GFFList
@@ -2631,18 +3077,24 @@ def test_git_editor_headless_comprehensive_gff_roundtrip(qtbot: QtBot, installat
                 from pykotor.common.language import LocalizedString
 
                 locstr = struct.acquire(label, LocalizedString.from_invalid())
-                locstr_tuples = sorted((lang.value, gender.value, str(text)) for lang, gender, text in locstr)
+                locstr_tuples = sorted(
+                    (lang.value, gender.value, str(text)) for lang, gender, text in locstr
+                )
                 fields[full_label] = ("LocalizedString", locstr.stringref, tuple(locstr_tuples))
             else:
                 fields[full_label] = (field_type.name, value)
         return fields
 
     ignored_root_fields = {"KTGameVerIndex", "KTInfoDate", "KTInfoVersion"}
-    original_fields = {k: v for k, v in get_all_fields(original_gff.root).items() if k not in ignored_root_fields}
+    original_fields = {
+        k: v for k, v in get_all_fields(original_gff.root).items() if k not in ignored_root_fields
+    }
     editor.load(git_file, git_file.stem, ResourceType.GIT, original_data)
     new_data, _ = editor.build()
     new_gff = read_gff(new_data)
-    new_fields = {k: v for k, v in get_all_fields(new_gff.root).items() if k not in ignored_root_fields}
+    new_fields = {
+        k: v for k, v in get_all_fields(new_gff.root).items() if k not in ignored_root_fields
+    }
     all_labels = set(original_fields.keys()) | set(new_fields.keys())
     mismatches = []
     missing_in_new = []
@@ -2663,7 +3115,9 @@ def test_git_editor_headless_comprehensive_gff_roundtrip(qtbot: QtBot, installat
     if missing_in_new:
         error_msg.append(f"Fields missing in roundtrip output: {missing_in_new}")
     if mismatches:
-        mismatch_details = "\n".join([f"  {label}: original={orig} -> new={new}" for label, orig, new in mismatches[:20]])
+        mismatch_details = "\n".join(
+            [f"  {label}: original={orig} -> new={new}" for label, orig, new in mismatches[:20]]
+        )
         if len(mismatches) > 20:
             mismatch_details += f"\n  ... and {len(mismatches) - 20} more"
         error_msg.append(f"Field value mismatches:\n{mismatch_details}")
@@ -2675,7 +3129,9 @@ def test_git_editor_headless_comprehensive_gff_roundtrip(qtbot: QtBot, installat
 # ============================================================================
 
 
-def test_git_editor_all_area_properties_and_instances_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_all_area_properties_and_instances_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating all area properties and multiple instance types simultaneously."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2717,14 +3173,28 @@ def test_git_editor_all_area_properties_and_instances_combination(qtbot: QtBot, 
     trigger = GITTrigger(500.0, 500.0, 0.0)
     trigger.resref = ResRef("combo_trigger")
     trigger.tag = "combo_trigger_tag"
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(10.0, 0.0, 0.0), Vector3(10.0, 10.0, 0.0), Vector3(0.0, 10.0, 0.0)])
+    trigger.geometry.extend(
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(10.0, 0.0, 0.0),
+            Vector3(10.0, 10.0, 0.0),
+            Vector3(0.0, 10.0, 0.0),
+        ]
+    )
     trigger.linked_to_module = ResRef("combo_module")
     trigger.linked_to = "combo_waypoint"
     trigger.linked_to_flags = GITModuleLink.ToWaypoint
     editor.git().triggers.append(trigger)
     encounter = GITEncounter(600.0, 600.0, 0.0)
     encounter.resref = ResRef("combo_encounter")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(20.0, 0.0, 0.0), Vector3(20.0, 20.0, 0.0), Vector3(0.0, 20.0, 0.0)])
+    encounter.geometry.extend(
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(20.0, 0.0, 0.0),
+            Vector3(20.0, 20.0, 0.0),
+            Vector3(0.0, 20.0, 0.0),
+        ]
+    )
     spawn = GITEncounterSpawnPoint(610.0, 610.0, 0.0)
     spawn.orientation = math.pi / 4
     encounter.spawn_points.append(spawn)
@@ -2756,7 +3226,9 @@ def test_git_editor_all_area_properties_and_instances_combination(qtbot: QtBot, 
     assert modified_git.music_battle_id == 85
     assert modified_git.music_delay == 15
     # Verify creatures
-    combo_creature = next((c for c in modified_git.creatures if str(c.resref) == "combo_creature"), None)
+    combo_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "combo_creature"), None
+    )
     assert combo_creature is not None
     assert abs(combo_creature.position.x - 100.0) < 0.001
     assert abs(combo_creature.bearing - math.pi / 4) < 0.001
@@ -2769,17 +3241,23 @@ def test_git_editor_all_area_properties_and_instances_combination(qtbot: QtBot, 
     assert combo_door.linked_to == "combo_waypoint"
     assert combo_door.linked_to_flags == GITModuleLink.ToWaypoint
     # Verify placeables
-    combo_placeable = next((p for p in modified_git.placeables if str(p.resref) == "combo_placeable"), None)
+    combo_placeable = next(
+        (p for p in modified_git.placeables if str(p.resref) == "combo_placeable"), None
+    )
     assert combo_placeable is not None
     _assert_angle_close(combo_placeable.bearing, math.pi)
     # Verify waypoints
-    combo_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "combo_waypoint"), None)
+    combo_waypoint = next(
+        (w for w in modified_git.waypoints if str(w.resref) == "combo_waypoint"), None
+    )
     assert combo_waypoint is not None
     assert combo_waypoint.tag == "combo_waypoint_tag"
     assert combo_waypoint.name.get(Language.ENGLISH, Gender.MALE) == "Combo Waypoint"
     _assert_angle_close(combo_waypoint.bearing, 3 * math.pi / 2)
     # Verify triggers
-    combo_trigger = next((t for t in modified_git.triggers if str(t.resref) == "combo_trigger"), None)
+    combo_trigger = next(
+        (t for t in modified_git.triggers if str(t.resref) == "combo_trigger"), None
+    )
     assert combo_trigger is not None
     assert combo_trigger.tag == "combo_trigger_tag"
     assert len(combo_trigger.geometry) == 4
@@ -2787,7 +3265,9 @@ def test_git_editor_all_area_properties_and_instances_combination(qtbot: QtBot, 
     assert combo_trigger.linked_to == "combo_waypoint"
     assert combo_trigger.linked_to_flags == GITModuleLink.ToWaypoint
     # Verify encounters
-    combo_encounter = next((e for e in modified_git.encounters if str(e.resref) == "combo_encounter"), None)
+    combo_encounter = next(
+        (e for e in modified_git.encounters if str(e.resref) == "combo_encounter"), None
+    )
     assert combo_encounter is not None
     assert len(combo_encounter.geometry) == 4
     assert len(combo_encounter.spawn_points) == 1
@@ -2809,7 +3289,9 @@ def test_git_editor_all_area_properties_and_instances_combination(qtbot: QtBot, 
     assert abs(combo_camera.pitch - math.pi / 8) < 0.001
 
 
-def test_git_editor_headless_all_properties_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_headless_all_properties_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Headless variant: Test manipulating all area properties and instance types simultaneously without UI."""
     editor = GITEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2839,11 +3321,25 @@ def test_git_editor_headless_all_properties_combination(qtbot: QtBot, installati
     trigger = GITTrigger(1300.0, 1400.0, 130.0)
     trigger.resref = ResRef("hd_combo_trig")
     trigger.tag = "headless_combo_trigger_tag"
-    trigger.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(15.0, 0.0, 0.0), Vector3(15.0, 15.0, 0.0), Vector3(0.0, 15.0, 0.0)])
+    trigger.geometry.extend(
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(15.0, 0.0, 0.0),
+            Vector3(15.0, 15.0, 0.0),
+            Vector3(0.0, 15.0, 0.0),
+        ]
+    )
     editor.git().triggers.append(trigger)
     encounter = GITEncounter(1400.0, 1500.0, 140.0)
     encounter.resref = ResRef("hd_combo_enc")
-    encounter.geometry.extend([Vector3(0.0, 0.0, 0.0), Vector3(25.0, 0.0, 0.0), Vector3(25.0, 25.0, 0.0), Vector3(0.0, 25.0, 0.0)])
+    encounter.geometry.extend(
+        [
+            Vector3(0.0, 0.0, 0.0),
+            Vector3(25.0, 0.0, 0.0),
+            Vector3(25.0, 25.0, 0.0),
+            Vector3(0.0, 25.0, 0.0),
+        ]
+    )
     spawn = GITEncounterSpawnPoint(1410.0, 1510.0, 140.0)
     spawn.orientation = math.pi / 5
     encounter.spawn_points.append(spawn)
@@ -2869,19 +3365,27 @@ def test_git_editor_headless_all_properties_combination(qtbot: QtBot, installati
     assert modified_git.ambient_volume == 95
     assert modified_git.env_audio == 15
     # Verify instances
-    combo_creature = next((c for c in modified_git.creatures if str(c.resref) == "hd_combo_cre"), None)
+    combo_creature = next(
+        (c for c in modified_git.creatures if str(c.resref) == "hd_combo_cre"), None
+    )
     assert combo_creature is not None
     _assert_angle_close(combo_creature.bearing, math.pi / 5)
     combo_door = next((d for d in modified_git.doors if str(d.resref) == "hd_combo_door"), None)
     assert combo_door is not None
     assert combo_door.tag == "headless_combo_door_tag"
-    combo_waypoint = next((w for w in modified_git.waypoints if str(w.resref) == "hd_combo_wp"), None)
+    combo_waypoint = next(
+        (w for w in modified_git.waypoints if str(w.resref) == "hd_combo_wp"), None
+    )
     assert combo_waypoint is not None
     assert combo_waypoint.tag == "headless_combo_waypoint_tag"
-    combo_trigger = next((t for t in modified_git.triggers if str(t.resref) == "hd_combo_trig"), None)
+    combo_trigger = next(
+        (t for t in modified_git.triggers if str(t.resref) == "hd_combo_trig"), None
+    )
     assert combo_trigger is not None
     assert len(combo_trigger.geometry) == 4
-    combo_encounter = next((e for e in modified_git.encounters if str(e.resref) == "hd_combo_enc"), None)
+    combo_encounter = next(
+        (e for e in modified_git.encounters if str(e.resref) == "hd_combo_enc"), None
+    )
     assert combo_encounter is not None
     assert len(combo_encounter.spawn_points) == 1
     combo_sound = next((s for s in modified_git.sounds if str(s.resref) == "hd_combo_snd"), None)
@@ -2916,16 +3420,27 @@ def test_git_editor_undo_redo_with_keyboard_shortcuts(
     git_file = test_files_dir / "zio001.git"
     if not git_file.exists():
         # Try to get one from installation
-        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(([ResourceIdentifier("zio001", ResourceType.GIT)]))
+        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(
+            ([ResourceIdentifier("zio001", ResourceType.GIT)])
+        )
         if not git_resources:
             pytest.skip("No GIT files available for testing")
-        git_resource: ResourceResult | None = git_resources.get(ResourceIdentifier("zio001", ResourceType.GIT))
+        git_resource: ResourceResult | None = git_resources.get(
+            ResourceIdentifier("zio001", ResourceType.GIT)
+        )
         if git_resource is None:
             pytest.fail("No GIT files found with name 'zio001.git'!")
         git_data = git_resource.data
         if not git_data:
             pytest.fail(f"Could not load GIT data for 'zio001.git'!")
-        editor.load(git_resource.filepath if hasattr(git_resource, "filepath") else pathlib.Path("module.git"), git_resource.resname, ResourceType.GIT, git_data)
+        editor.load(
+            git_resource.filepath
+            if hasattr(git_resource, "filepath")
+            else pathlib.Path("module.git"),
+            git_resource.resname,
+            ResourceType.GIT,
+            git_data,
+        )
     else:
         original_data = git_file.read_bytes()
         editor.load(git_file, "zio001", ResourceType.GIT, original_data)
@@ -2957,7 +3472,9 @@ def test_git_editor_undo_redo_with_keyboard_shortcuts(
     assert creature in editor.git().creatures
 
     # Verify undo stack has a command
-    assert editor._controls.undo_stack.canUndo(), "Undo stack should have a command after adding creature"
+    assert editor._controls.undo_stack.canUndo(), (
+        "Undo stack should have a command after adding creature"
+    )
     assert not editor._controls.undo_stack.canRedo(), "Redo stack should be empty before undo"
 
     # Show the editor to ensure it can receive keyboard events
@@ -2977,25 +3494,35 @@ def test_git_editor_undo_redo_with_keyboard_shortcuts(
         QApplication.processEvents()
 
     # Verify creature was removed (undone)
-    assert len(editor.git().creatures) == initial_creature_count, "Creature should be removed after undo"
+    assert len(editor.git().creatures) == initial_creature_count, (
+        "Creature should be removed after undo"
+    )
     assert creature not in editor.git().creatures, "Creature should not be in GIT after undo"
     assert not editor._controls.undo_stack.canUndo(), "Undo stack should be empty after undo"
     assert editor._controls.undo_stack.canRedo(), "Redo stack should have a command after undo"
 
     # Test REDO via keyboard shortcut (Ctrl+Shift+Z)
-    qtbot.keyClick(editor, Qt.Key.Key_Z, modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+    qtbot.keyClick(
+        editor,
+        Qt.Key.Key_Z,
+        modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier,
+    )
     # Use multiple processEvents calls instead of QtBot.wait() to avoid access violations
     for _ in range(5):
         QApplication.processEvents()
 
     # Verify creature was re-added (redone)
-    assert len(editor.git().creatures) == initial_creature_count + 1, "Creature should be re-added after redo"
+    assert len(editor.git().creatures) == initial_creature_count + 1, (
+        "Creature should be re-added after redo"
+    )
     assert creature in editor.git().creatures, "Creature should be in GIT after redo"
     assert editor._controls.undo_stack.canUndo(), "Undo stack should have a command after redo"
     assert not editor._controls.undo_stack.canRedo(), "Redo stack should be empty after redo"
 
 
-def test_git_editor_undo_redo_with_menu_actions(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_undo_redo_with_menu_actions(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test undo/redo functionality using menu actions."""
     from pykotor.resource.generics.git import GITCreature
     from pykotor.common.misc import ResRef
@@ -3008,16 +3535,27 @@ def test_git_editor_undo_redo_with_menu_actions(qtbot: QtBot, installation: HTIn
     git_file = test_files_dir / "zio001.git"
     if not git_file.exists():
         # Try to get one from installation
-        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(([ResourceIdentifier("zio001", ResourceType.GIT)]))
+        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(
+            ([ResourceIdentifier("zio001", ResourceType.GIT)])
+        )
         if not git_resources:
             pytest.skip("No GIT files available for testing")
-        git_resource: ResourceResult | None = git_resources.get(ResourceIdentifier("zio001", ResourceType.GIT))
+        git_resource: ResourceResult | None = git_resources.get(
+            ResourceIdentifier("zio001", ResourceType.GIT)
+        )
         if git_resource is None:
             pytest.fail("No GIT files found with name 'zio001.git'!")
         git_data = git_resource.data
         if not git_data:
             pytest.fail(f"Could not load GIT data for 'zio001.git'!")
-        editor.load(git_resource.filepath if hasattr(git_resource, "filepath") else pathlib.Path("module.git"), git_resource.resname, ResourceType.GIT, git_data)
+        editor.load(
+            git_resource.filepath
+            if hasattr(git_resource, "filepath")
+            else pathlib.Path("module.git"),
+            git_resource.resname,
+            ResourceType.GIT,
+            git_data,
+        )
     else:
         original_data = git_file.read_bytes()
         editor.load(git_file, "zio001", ResourceType.GIT, original_data)
@@ -3073,7 +3611,9 @@ def test_git_editor_undo_redo_with_menu_actions(qtbot: QtBot, installation: HTIn
     assert not editor._controls.undo_stack.canRedo()
 
 
-def test_git_editor_undo_redo_multiple_operations(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_git_editor_undo_redo_multiple_operations(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test undo/redo with multiple operations in sequence."""
     from pykotor.resource.generics.git import GITCreature, GITWaypoint
     from pykotor.common.misc import ResRef
@@ -3086,16 +3626,27 @@ def test_git_editor_undo_redo_multiple_operations(qtbot: QtBot, installation: HT
     # Load a GIT file
     git_file = test_files_dir / "zio001.git"
     if not git_file.exists():
-        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(([ResourceIdentifier("zio001", ResourceType.GIT)]))
+        git_resources: dict[ResourceIdentifier, ResourceResult | None] = installation.resources(
+            ([ResourceIdentifier("zio001", ResourceType.GIT)])
+        )
         if not git_resources:
             pytest.skip("No GIT files available for testing")
-        git_resource: ResourceResult | None = git_resources.get(ResourceIdentifier("zio001", ResourceType.GIT))
+        git_resource: ResourceResult | None = git_resources.get(
+            ResourceIdentifier("zio001", ResourceType.GIT)
+        )
         if git_resource is None:
             pytest.fail("No GIT files found with name 'zio001.git'!")
         git_data = git_resource.data
         if not git_data:
             pytest.fail(f"Could not load GIT data for 'zio001.git'!")
-        editor.load(git_resource.filepath if hasattr(git_resource, "filepath") else pathlib.Path("module.git"), git_resource.resname, ResourceType.GIT, git_data)
+        editor.load(
+            git_resource.filepath
+            if hasattr(git_resource, "filepath")
+            else pathlib.Path("module.git"),
+            git_resource.resname,
+            ResourceType.GIT,
+            git_data,
+        )
     else:
         original_data = git_file.read_bytes()
         editor.load(git_file, "zio001", ResourceType.GIT, original_data)
@@ -3172,7 +3723,11 @@ def test_git_editor_undo_redo_multiple_operations(qtbot: QtBot, installation: HT
     assert creature1 not in editor.git().creatures
 
     # Redo creature1
-    qtbot.keyClick(editor, Qt.Key.Key_Z, modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+    qtbot.keyClick(
+        editor,
+        Qt.Key.Key_Z,
+        modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier,
+    )
     # Use multiple processEvents calls instead of QtBot.wait() to avoid access violations
     for _ in range(3):
         QApplication.processEvents()
@@ -3180,7 +3735,11 @@ def test_git_editor_undo_redo_multiple_operations(qtbot: QtBot, installation: HT
     assert creature1 in editor.git().creatures
 
     # Redo creature2
-    qtbot.keyClick(editor, Qt.Key.Key_Z, modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+    qtbot.keyClick(
+        editor,
+        Qt.Key.Key_Z,
+        modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier,
+    )
     # Use multiple processEvents calls instead of QtBot.wait() to avoid access violations
     for _ in range(3):
         QApplication.processEvents()
@@ -3188,7 +3747,11 @@ def test_git_editor_undo_redo_multiple_operations(qtbot: QtBot, installation: HT
     assert creature2 in editor.git().creatures
 
     # Redo waypoint
-    qtbot.keyClick(editor, Qt.Key.Key_Z, modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+    qtbot.keyClick(
+        editor,
+        Qt.Key.Key_Z,
+        modifier=Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier,
+    )
     # Use multiple processEvents calls instead of QtBot.wait() to avoid access violations
     for _ in range(3):
         QApplication.processEvents()

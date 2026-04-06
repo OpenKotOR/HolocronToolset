@@ -145,13 +145,18 @@ class VerboseEventTracer(QObject):
             QEvent.Type.PolishRequest,
         }
         if event_type in important_types:
-            self.logger.warning("!!! IMPORTANT VISIBILITY EVENT: %s on %s", event_type_name, obj_name)
+            self.logger.warning(
+                "!!! IMPORTANT VISIBILITY EVENT: %s on %s", event_type_name, obj_name
+            )
         return False
 
 
 def qt_cleanup():
     """Cleanup so we can exit."""
-    RobustLogger().debug("Closing/destroy all windows from TOOLSET_WINDOWS list, (%s to handle)...", len(TOOLSET_WINDOWS))
+    RobustLogger().debug(
+        "Closing/destroy all windows from TOOLSET_WINDOWS list, (%s to handle)...",
+        len(TOOLSET_WINDOWS),
+    )
     for window in TOOLSET_WINDOWS:
         window.close()
         window.destroy()
@@ -179,7 +184,12 @@ def _should_enable_profiling() -> bool:
     """
     env_enable = os.environ.get("TOOLSET_PROFILE", "").lower().strip() in ("1", "true", "yes", "on")
     cli_enable = "--profile" in sys.argv
-    env_disable = os.environ.get("TOOLSET_DISABLE_PROFILE", "").lower().strip() in ("1", "true", "yes", "on")
+    env_disable = os.environ.get("TOOLSET_DISABLE_PROFILE", "").lower().strip() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    )
     cli_disable = "--no-profile" in sys.argv
     return (env_enable or cli_enable) and not (env_disable or cli_disable)
 
@@ -207,7 +217,9 @@ def _save_profile_stats(profiler: cProfile.Profile, output_path: Path):
             stats.print_stats()
 
         RobustLogger().info("Profile statistics saved:")
-        RobustLogger().info(f"  - Binary: {output_path} (use with snakeviz: snakeviz {output_path})")
+        RobustLogger().info(
+            f"  - Binary: {output_path} (use with snakeviz: snakeviz {output_path})"
+        )
         RobustLogger().info(f"  - Text: {txt_path} (human-readable)")
     except Exception as e:
         RobustLogger().error(f"Failed to save profile statistics: {e}")
@@ -219,7 +231,11 @@ def _prune_old_profiles(
 ):
     """Keep only the newest `max_profiles` profile files (prof+txt)."""
     try:
-        profs = sorted(profile_dir.glob("toolset_profile_*.prof"), key=lambda p: p.stat().st_mtime, reverse=True)
+        profs = sorted(
+            profile_dir.glob("toolset_profile_*.prof"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
         if len(profs) <= max_profiles:
             return
         for stale_prof in profs[max_profiles:]:
@@ -229,7 +245,9 @@ def _prune_old_profiles(
             with suppress(Exception):
                 if txt.exists():
                     txt.unlink()
-        RobustLogger().info("Pruned old profile files, kept newest %s (dir=%s)", max_profiles, profile_dir)
+        RobustLogger().info(
+            "Pruned old profile files, kept newest %s (dir=%s)", max_profiles, profile_dir
+        )
     except Exception as e:  # noqa: BLE001
         RobustLogger().warning(f"Failed to prune old profile files: {e}")
 
@@ -256,8 +274,12 @@ def main():
         profiler.enable()
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         profile_output_path = profile_dir / f"toolset_profile_{timestamp}.prof"
-        RobustLogger().info(f"Profiling enabled. Statistics will be saved to: {profile_output_path}")
-        RobustLogger().info("To disable profiling, set TOOLSET_DISABLE_PROFILE=1 or use --no-profile flag")
+        RobustLogger().info(
+            f"Profiling enabled. Statistics will be saved to: {profile_output_path}"
+        )
+        RobustLogger().info(
+            "To disable profiling, set TOOLSET_DISABLE_PROFILE=1 or use --no-profile flag"
+        )
         RobustLogger().info("Profiling will capture all function calls and execution times")
 
     app = ToolsetApplication(sys.argv)
@@ -352,7 +374,9 @@ def main():
             trace_events_budget,
         )
     else:
-        RobustLogger().debug("TRACE: Event filter disabled (set TOOLSET_TRACE_EVENTS=1 to sample events)")
+        RobustLogger().debug(
+            "TRACE: Event filter disabled (set TOOLSET_TRACE_EVENTS=1 to sample events)"
+        )
 
     RobustLogger().debug("TRACE: About to call app.exec()")
     exit_code = app.exec()

@@ -20,7 +20,9 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.renderArea = WalkmeshRenderer(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.renderArea.sizePolicy().hasHeightForWidth())
@@ -133,4 +135,6 @@ class Ui_MainWindow(object):
         self.actionCenterCamera.setText(_translate("MainWindow", "Center Camera"))
         self.actionShowRoomBoundaries.setText(_translate("MainWindow", "Show Room Boundaries"))
         self.actionShowGrid.setText(_translate("MainWindow", "Show Grid"))
+
+
 from toolset.gui.widgets.renderer.walkmesh import WalkmeshRenderer

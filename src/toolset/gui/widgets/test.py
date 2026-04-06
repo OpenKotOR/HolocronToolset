@@ -115,7 +115,9 @@ class ResourceList(MainWindowList):
         self.setupSignals()
 
         self.modules_model: ResourceModel = ResourceModel()
-        self.modules_model.proxy_model().setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.modules_model.proxy_model().setFilterCaseSensitivity(
+            Qt.CaseSensitivity.CaseInsensitive
+        )
         self.ui.resourceTree.setModel(self.modules_model.proxy_model())  # pyright: ignore[reportArgumentType]
         self.ui.resourceTree.sortByColumn(0, Qt.SortOrder.AscendingOrder)  # pyright: ignore[reportArgumentType]
         self.section_model: QStandardItemModel = QStandardItemModel()
@@ -168,7 +170,9 @@ class ResourceList(MainWindowList):
     ):
         index = self.ui.resourceTree.indexAt(event.pos())  # type: ignore[arg-type]
         if index.isValid():
-            model_index: QModelIndex = cast("QSortFilterProxyModel", self.ui.resourceTree.model()).mapToSource(index)  # pyright: ignore[reportArgumentType]
+            model_index: QModelIndex = cast(
+                "QSortFilterProxyModel", self.ui.resourceTree.model()
+            ).mapToSource(index)  # pyright: ignore[reportArgumentType]
             item: ResourceStandardItem | QStandardItem | None = cast(
                 "QStandardItemModel",
                 cast("QSortFilterProxyModel", self.ui.resourceTree.model()).sourceModel(),
@@ -224,7 +228,9 @@ class ResourceList(MainWindowList):
         """
         all_resources: list[QStandardItem] = self.modules_model.all_resources_items()
         resource_set: set[FileResource] = set(resources)
-        resource_item_map: dict[FileResource, ResourceStandardItem] = {item.resource: item for item in all_resources if isinstance(item, ResourceStandardItem)}
+        resource_item_map: dict[FileResource, ResourceStandardItem] = {
+            item.resource: item for item in all_resources if isinstance(item, ResourceStandardItem)
+        }
         for resource in resource_set:
             if resource in resource_item_map:
                 resource_item_map[resource].resource = resource
@@ -253,7 +259,9 @@ class ResourceList(MainWindowList):
         self,
         resource: FileResource,
     ):
-        model: ResourceModel = cast("QSortFilterProxyModel", self.ui.resourceTree.model()).sourceModel()  # type: ignore[attribute-access]
+        model: ResourceModel = cast(
+            "QSortFilterProxyModel", self.ui.resourceTree.model()
+        ).sourceModel()  # type: ignore[attribute-access]
         assert isinstance(model, ResourceModel)
 
         def select(parent, child):
@@ -333,7 +341,9 @@ class ResourceList(MainWindowList):
         if all(resource.restype().contents == "gff" for resource in resources):
             gff_editor_action: QAction | None = menu.addAction("Open with GFF Editor")
             assert gff_editor_action is not None, "GFF editor action should not be None"
-            gff_editor_action.triggered.connect(lambda: self.request_open_resource.emit(resources, False))
+            gff_editor_action.triggered.connect(
+                lambda: self.request_open_resource.emit(resources, False)
+            )
         menu.addSeparator()
         builder: ResourceItems = ResourceItems(resources=resources)
 
@@ -447,7 +457,9 @@ class ResourceModel(QStandardItemModel):
         ----
             The category item for the resource.
         """
-        chosen_category: str = resource_type.category if custom_category is None else custom_category
+        chosen_category: str = (
+            resource_type.category if custom_category is None else custom_category
+        )
         if chosen_category not in self._category_items:
             category_item: QStandardItem = QStandardItem(chosen_category)
             assert category_item is not None, "Category item should not be None"
@@ -526,7 +538,11 @@ class ResourceModel(QStandardItemModel):
         ----
             A list of all QStandardItem objects in the model that represent resource files.
         """
-        resources = (category.child(i, 0) for category in self._category_items.values() for i in range(category.rowCount()))
+        resources = (
+            category.child(i, 0)
+            for category in self._category_items.values()
+            for i in range(category.rowCount())
+        )
         return [item for item in resources if item is not None]
 
     def remove_unused_categories(self):
@@ -550,7 +566,9 @@ class TextureList(MainWindowList):
     request_refresh: Signal = Signal()  # pyright: ignore[reportPrivateImportUsage]
     icon_loaded: Signal = Signal(object)  # pyright: ignore[reportPrivateImportUsage]
 
-    BLANK_IMAGE: QImage = QImage(bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888)
+    BLANK_IMAGE: QImage = QImage(
+        bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888
+    )
 
     def __init__(self, parent: QWidget):
         """Initialize the texture list."""
@@ -575,7 +593,9 @@ class TextureList(MainWindowList):
         self.section_model: QStandardItemModel = QStandardItemModel()
         self.ui.sectionCombo.setModel(self.section_model)  # type: ignore[arg-type]
 
-        self._executor: ProcessPoolExecutor = ProcessPoolExecutor(max_workers=GlobalSettings().maxChildProcesses)
+        self._executor: ProcessPoolExecutor = ProcessPoolExecutor(
+            max_workers=GlobalSettings().maxChildProcesses
+        )
 
         self.ui.resourceList.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)  # pyright: ignore[reportArgumentType]
         self.ui.resourceList.customContextMenuRequested.connect(self.show_context_menu)
@@ -601,7 +621,9 @@ class TextureList(MainWindowList):
         """Show the context menu for the texture list."""
         menu = QMenu(self)
         reload_action = menu.addAction("Reload")
-        assert reload_action is not None, "TextureList.show_context_menu: Could not find reload action"
+        assert reload_action is not None, (
+            "TextureList.show_context_menu: Could not find reload action"
+        )
         reload_action.triggered.connect(self.on_reload_clicked)
         action = menu.exec(self.ui.resourceList.mapToGlobal(position))  # pyright: ignore[reportArgumentType, reportCallIssue]
         if action != reload_action:
@@ -614,7 +636,9 @@ class TextureList(MainWindowList):
             return
         section_name: str = self.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
         item = self.texture_models[section_name].itemFromIndex(source_index)
-        assert item is not None, "TextureList.show_context_menu: Could not find item in the texture model"
+        assert item is not None, (
+            "TextureList.show_context_menu: Could not find item in the texture model"
+        )
         self.offload_texture_load(item, reload=True)
 
     def resizeEvent(
@@ -646,7 +670,9 @@ class TextureList(MainWindowList):
         source_index: QModelIndex = self.map_to_source_index(proxy_index, model)  # pyright: ignore[reportArgumentType]
         section_name: str = self.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
         item: QStandardItem | None = self.texture_models[section_name].itemFromIndex(source_index)
-        assert item is not None, f"Could not find item in the texture model for row {source_index.row()}"
+        assert item is not None, (
+            f"Could not find item in the texture model for row {source_index.row()}"
+        )
         self.offload_texture_load(item, reload=False)
 
     def set_resources(self, resources: list[FileResource]):
@@ -672,7 +698,10 @@ class TextureList(MainWindowList):
         items: list[QStandardItem],
     ):
         """Set the sections to be displayed in the texture list combobox."""
-        current_sections: set[str] = {self.ui.sectionCombo.itemData(i, Qt.ItemDataRole.UserRole) for i in range(self.ui.sectionCombo.count())}
+        current_sections: set[str] = {
+            self.ui.sectionCombo.itemData(i, Qt.ItemDataRole.UserRole)
+            for i in range(self.ui.sectionCombo.count())
+        }
         new_sections: set[str] = {item.data(Qt.ItemDataRole.UserRole) for item in items}
 
         # Remove sections that are no longer present
@@ -714,8 +743,16 @@ class TextureList(MainWindowList):
             - Invalid source indexes are logged as warnings and excluded from the result.
         """
         model = resource_list.model()
-        assert model is not None, "TextureList.get_selected_source_indexes: Could not find model for view"
-        return [source_index for source_index in (cls.map_to_source_index(index, model) for index in resource_list.selectedIndexes()) if source_index.isValid()]
+        assert model is not None, (
+            "TextureList.get_selected_source_indexes: Could not find model for view"
+        )
+        return [
+            source_index
+            for source_index in (
+                cls.map_to_source_index(index, model) for index in resource_list.selectedIndexes()
+            )
+            if source_index.isValid()
+        ]
 
     @staticmethod
     def map_to_source_index(
@@ -840,7 +877,9 @@ class TextureList(MainWindowList):
         for index in visible_indexes:
             item = self.texture_models[section_name].itemFromIndex(index)
             if item is None:
-                RobustLogger().warning("Could not find item in the texture model for row %d", index.row())
+                RobustLogger().warning(
+                    "Could not find item in the texture model for row %d", index.row()
+                )
                 continue
             self.offload_texture_load(item, reload=False)
 
@@ -854,7 +893,9 @@ class TextureList(MainWindowList):
         """Queue the loading of an icon for a given item."""
         section_name: str = self.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
         resource: Any = item.data(Qt.ItemDataRole.UserRole + 1)
-        assert isinstance(resource, FileResource), f"Expected FileResource, got {type(resource).__name__}"
+        assert isinstance(resource, FileResource), (
+            f"Expected FileResource, got {type(resource).__name__}"
+        )
         if reload:
             self._loading_resources.discard(resource)
         if resource in self._loading_resources:
@@ -862,11 +903,15 @@ class TextureList(MainWindowList):
         self._loading_resources.add(resource)
         row = item.row()
         try:
-            future = self._executor.submit(get_image_from_resource, (section_name, row), resource, desired_mipmap)
+            future = self._executor.submit(
+                get_image_from_resource, (section_name, row), resource, desired_mipmap
+            )
         except BrokenProcessPool as e:
             RobustLogger().warning("Process pool is broken, recreating...", exc_info=e)
             self._executor = ProcessPoolExecutor(max_workers=GlobalSettings().maxChildProcesses)
-            future = self._executor.submit(get_image_from_resource, (section_name, row), resource, desired_mipmap)
+            future = self._executor.submit(
+                get_image_from_resource, (section_name, row), resource, desired_mipmap
+            )
         future.add_done_callback(self.icon_loaded.emit)
 
     def on_icon_loaded(

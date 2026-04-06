@@ -93,7 +93,9 @@ class SaveGameEditor(Editor):
             self.ui.setupUi(self)
         except ImportError:
             # UI file not yet generated - needs to be compiled from savegame.ui
-            raise ImportError("UI file not generated. Run UI compiler on src/ui/editors/savegame.ui first.")
+            raise ImportError(
+                "UI file not generated. Run UI compiler on src/ui/editors/savegame.ui first."
+            )
         self._setup_menus()
         self._add_help_action()
         self._setup_signals()
@@ -212,9 +214,13 @@ class SaveGameEditor(Editor):
         self.ui.treeViewCachedModules.doubleClicked.connect(self.on_open_module_resource)
 
         # Advanced/Raw signals: combo switches GFF source; list double-click opens resource
-        self.ui.comboAdvancedGffSource.currentIndexChanged.connect(self._on_advanced_gff_source_changed)
+        self.ui.comboAdvancedGffSource.currentIndexChanged.connect(
+            self._on_advanced_gff_source_changed
+        )
         self.ui.stackedWidgetAdvanced.currentChanged.connect(self._on_advanced_stack_changed)
-        self.ui.listWidgetAdvancedResources.itemDoubleClicked.connect(self.on_open_advanced_resource)
+        self.ui.listWidgetAdvancedResources.itemDoubleClicked.connect(
+            self.on_open_advanced_resource
+        )
 
         # GFF editors for SaveInfo and PartyTable (embedded in Advanced tab)
         self._gff_editor_saveinfo: GFFEditor | None = None
@@ -562,7 +568,10 @@ class SaveGameEditor(Editor):
 
         # Party members - show actual character names with rich information
         # Sort members: leader first, then by index
-        sorted_members = sorted(self._party_table.pt_members, key=lambda m: (not m.is_leader, m.index if m.index >= 0 else 999))
+        sorted_members = sorted(
+            self._party_table.pt_members,
+            key=lambda m: (not m.is_leader, m.index if m.index >= 0 else 999),
+        )
 
         self.ui.listWidgetPartyMembers.clear()
         for member in sorted_members:
@@ -584,7 +593,9 @@ class SaveGameEditor(Editor):
 
             self.ui.listWidgetPartyMembers.addItem(item)
 
-    def _resolve_localized_string(self, localized_string: LocalizedString | str | None, fallback: str = "") -> str:
+    def _resolve_localized_string(
+        self, localized_string: LocalizedString | str | None, fallback: str = ""
+    ) -> str:
         """Resolve a LocalizedString to actual text using the installation's talktable.
 
         Args:
@@ -757,7 +768,9 @@ class SaveGameEditor(Editor):
         # Basic Information
         lines.append("<b>Basic Information</b><br>")
         lines.append(f"<b>Index:</b> {member.index}<br>")
-        lines.append(f"<b>Type:</b> {'Player Character' if member.index == -1 else 'Companion'}<br>")
+        lines.append(
+            f"<b>Type:</b> {'Player Character' if member.index == -1 else 'Companion'}<br>"
+        )
         lines.append(f"<b>Is Leader:</b> {'Yes' if member.is_leader else 'No'}<br>")
 
         # Get character UTC if available
@@ -769,7 +782,9 @@ class SaveGameEditor(Editor):
                     pc_name_to_match = self._save_info.pc_name.strip()
                     for res_id, candidate_char in self._nested_capsule.cached_characters.items():
                         if candidate_char.first_name:
-                            resolved_name = self._resolve_localized_string(candidate_char.first_name, "").strip()
+                            resolved_name = self._resolve_localized_string(
+                                candidate_char.first_name, ""
+                            ).strip()
                             if resolved_name == pc_name_to_match:
                                 char = candidate_char
                                 break
@@ -845,16 +860,36 @@ class SaveGameEditor(Editor):
             low_color.setGreen(int(low_color.green() * 0.3))
             low_color.setBlue(int(low_color.blue() * 0.3))
 
-            hp_color = high_color.name() if hp_percent > 50 else medium_color.name() if hp_percent > 25 else low_color.name()
-            fp_color = high_color.name() if fp_percent > 50 else medium_color.name() if fp_percent > 25 else low_color.name()
-            lines.append(f"<b>HP:</b> <span style='color: {hp_color}'>{char.current_hp}/{char.max_hp}</span> ({hp_percent:.1f}%)<br>")
-            lines.append(f"<b>FP:</b> <span style='color: {fp_color}'>{char.fp}/{char.max_fp}</span> ({fp_percent:.1f}%)<br>")
+            hp_color = (
+                high_color.name()
+                if hp_percent > 50
+                else medium_color.name()
+                if hp_percent > 25
+                else low_color.name()
+            )
+            fp_color = (
+                high_color.name()
+                if fp_percent > 50
+                else medium_color.name()
+                if fp_percent > 25
+                else low_color.name()
+            )
+            lines.append(
+                f"<b>HP:</b> <span style='color: {hp_color}'>{char.current_hp}/{char.max_hp}</span> ({hp_percent:.1f}%)<br>"
+            )
+            lines.append(
+                f"<b>FP:</b> <span style='color: {fp_color}'>{char.fp}/{char.max_fp}</span> ({fp_percent:.1f}%)<br>"
+            )
 
             # Attributes
             lines.append("<hr>")
             lines.append("<b>Attributes</b><br>")
-            lines.append(f"<b>STR:</b> {char.strength} | <b>DEX:</b> {char.dexterity} | <b>CON:</b> {char.constitution}<br>")
-            lines.append(f"<b>INT:</b> {char.intelligence} | <b>WIS:</b> {char.wisdom} | <b>CHA:</b> {char.charisma}<br>")
+            lines.append(
+                f"<b>STR:</b> {char.strength} | <b>DEX:</b> {char.dexterity} | <b>CON:</b> {char.constitution}<br>"
+            )
+            lines.append(
+                f"<b>INT:</b> {char.intelligence} | <b>WIS:</b> {char.wisdom} | <b>CHA:</b> {char.charisma}<br>"
+            )
 
             # Classes
             if char.classes:
@@ -862,7 +897,11 @@ class SaveGameEditor(Editor):
                 lines.append("<b>Classes</b><br>")
                 class_names = []
                 for cls in char.classes:
-                    class_name = self._get_class_name(cls.class_id) if self._installation else f"Class {cls.class_id}"
+                    class_name = (
+                        self._get_class_name(cls.class_id)
+                        if self._installation
+                        else f"Class {cls.class_id}"
+                    )
                     class_names.append(f"{class_name} (Level {cls.class_level})")
                 lines.append(", ".join(class_names) + "<br>")
 
@@ -958,7 +997,9 @@ class SaveGameEditor(Editor):
         try:
             from toolset.data.installation import HTInstallation
 
-            classes: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_CLASSES)
+            classes: TwoDA | None = self._installation.ht_get_cache_2da(
+                HTInstallation.TwoDA_CLASSES
+            )
             if classes and 0 <= class_id < classes.get_height():
                 return classes.get_cell(class_id, "label")
         except Exception:
@@ -1015,7 +1056,9 @@ class SaveGameEditor(Editor):
         try:
             from toolset.data.installation import HTInstallation
 
-            genders: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_GENDERS)
+            genders: TwoDA | None = self._installation.ht_get_cache_2da(
+                HTInstallation.TwoDA_GENDERS
+            )
             if genders and 0 <= gender_id < genders.get_height():
                 constant = genders.get_cell(gender_id, "constant")
                 if constant:
@@ -1078,7 +1121,9 @@ class SaveGameEditor(Editor):
                 influence_item = QTableWidgetItem(str(influence_list[row]))
             else:
                 influence_item = QTableWidgetItem("0")
-            influence_item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+            influence_item.setTextAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+            )
             self.ui.tableWidgetInfluence.setItem(row, 1, influence_item)
 
     def _populate_pazaak_summary(self):
@@ -1086,10 +1131,18 @@ class SaveGameEditor(Editor):
         if not self._party_table:
             return
 
-        cards_count = len(self._party_table.pt_pazaakcards) if self._party_table.pt_pazaakcards else 0
-        decks_count = len(self._party_table.pt_pazaakdecks) if self._party_table.pt_pazaakdecks else 0
-        self.ui.textEditPazaakCards.setPlainText(f"Pazaak Cards: {cards_count} entries (GFF List - edit in Advanced/Raw tab)")
-        self.ui.textEditPazaakDecks.setPlainText(f"Pazaak Decks: {decks_count} entries (GFF List - edit in Advanced/Raw tab)")
+        cards_count = (
+            len(self._party_table.pt_pazaakcards) if self._party_table.pt_pazaakcards else 0
+        )
+        decks_count = (
+            len(self._party_table.pt_pazaakdecks) if self._party_table.pt_pazaakdecks else 0
+        )
+        self.ui.textEditPazaakCards.setPlainText(
+            f"Pazaak Cards: {cards_count} entries (GFF List - edit in Advanced/Raw tab)"
+        )
+        self.ui.textEditPazaakDecks.setPlainText(
+            f"Pazaak Decks: {decks_count} entries (GFF List - edit in Advanced/Raw tab)"
+        )
 
     def _populate_ui_messages_summary(self):
         """Populate UI messages summary."""
@@ -1097,19 +1150,33 @@ class SaveGameEditor(Editor):
             return
 
         fb_count = len(self._party_table.pt_fb_msg_list) if self._party_table.pt_fb_msg_list else 0
-        dlg_count = len(self._party_table.pt_dlg_msg_list) if self._party_table.pt_dlg_msg_list else 0
-        tut_size = len(self._party_table.pt_tut_wnd_shown) if self._party_table.pt_tut_wnd_shown else 0
-        self.ui.textEditFBMsgList.setPlainText(f"Feedback Messages: {fb_count} entries (GFF List - edit in Advanced/Raw tab)")
-        self.ui.textEditDlgMsgList.setPlainText(f"Dialog Messages: {dlg_count} entries (GFF List - edit in Advanced/Raw tab)")
-        self.ui.lineEditTutWndShown.setText(f"Binary data: {tut_size} bytes (edit in Advanced/Raw tab)")
+        dlg_count = (
+            len(self._party_table.pt_dlg_msg_list) if self._party_table.pt_dlg_msg_list else 0
+        )
+        tut_size = (
+            len(self._party_table.pt_tut_wnd_shown) if self._party_table.pt_tut_wnd_shown else 0
+        )
+        self.ui.textEditFBMsgList.setPlainText(
+            f"Feedback Messages: {fb_count} entries (GFF List - edit in Advanced/Raw tab)"
+        )
+        self.ui.textEditDlgMsgList.setPlainText(
+            f"Dialog Messages: {dlg_count} entries (GFF List - edit in Advanced/Raw tab)"
+        )
+        self.ui.lineEditTutWndShown.setText(
+            f"Binary data: {tut_size} bytes (edit in Advanced/Raw tab)"
+        )
 
     def _populate_cost_multipliers_summary(self):
         """Populate cost multipliers summary."""
         if not self._party_table:
             return
 
-        cost_count = len(self._party_table.pt_cost_mult_lis) if self._party_table.pt_cost_mult_lis else 0
-        self.ui.textEditCostMultipliers.setPlainText(f"Cost Multipliers: {cost_count} entries (GFF List - edit in Advanced/Raw tab)")
+        cost_count = (
+            len(self._party_table.pt_cost_mult_lis) if self._party_table.pt_cost_mult_lis else 0
+        )
+        self.ui.textEditCostMultipliers.setPlainText(
+            f"Cost Multipliers: {cost_count} entries (GFF List - edit in Advanced/Raw tab)"
+        )
 
     def update_party_table_from_ui(self):
         """Update PartyTable data structure from UI."""
@@ -1253,7 +1320,9 @@ class SaveGameEditor(Editor):
         self.ui.tableWidgetStrings.setWordWrap(True)  # Wrap for long strings
         header = self.ui.tableWidgetStrings.horizontalHeader()
         header.setStretchLastSection(True)  # Value column stretches
-        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)  # Name column fits content
+        header.setSectionResizeMode(
+            0, QHeaderView.ResizeMode.ResizeToContents
+        )  # Name column fits content
         # Set minimum width for name column to prevent it from being too narrow
         self.ui.tableWidgetStrings.setColumnWidth(0, 200)
         for row, (name, value) in enumerate(self._global_vars.global_strings):
@@ -1390,7 +1459,9 @@ class SaveGameEditor(Editor):
 
         # cached_characters is a dict[ResourceIdentifier, UTC], so iterate over values
         # Sort by resname for consistent ordering
-        sorted_chars = sorted(self._nested_capsule.cached_characters.items(), key=lambda x: str(x[0].resname).lower())
+        sorted_chars = sorted(
+            self._nested_capsule.cached_characters.items(), key=lambda x: str(x[0].resname).lower()
+        )
 
         for res_id, char in sorted_chars:
             # Use the same name formatting as Party tab
@@ -1408,7 +1479,10 @@ class SaveGameEditor(Editor):
 
             item = QListWidgetItem(display_name)
             item.setData(Qt.ItemDataRole.UserRole, char)
-            item.setData(Qt.ItemDataRole.UserRole + 1, "NPC" if resname_lower.startswith("availnpc") else "Other")
+            item.setData(
+                Qt.ItemDataRole.UserRole + 1,
+                "NPC" if resname_lower.startswith("availnpc") else "Other",
+            )
             # Add tooltip with additional info
             tooltip = f"ResRef: {res_id.resname}\nTag: {char.tag or 'N/A'}\nType: {'Companion' if resname_lower.startswith('availnpc') else 'Other'}"
             item.setToolTip(tooltip)
@@ -1445,7 +1519,9 @@ class SaveGameEditor(Editor):
                             return
                 # If not found, use first character as fallback
                 if self._nested_capsule.cached_characters:
-                    self._current_character = next(iter(self._nested_capsule.cached_characters.values()))
+                    self._current_character = next(
+                        iter(self._nested_capsule.cached_characters.values())
+                    )
                     self.populate_character_details(self._current_character)
                     return
             self._current_character = None
@@ -1503,8 +1579,12 @@ class SaveGameEditor(Editor):
         self.ui.spinBoxCharCHA.setValue(char.charisma if hasattr(char, "charisma") else 10)
 
         # Appearance
-        self.ui.spinBoxCharPortraitId.setValue(char.portrait_id if hasattr(char, "portrait_id") else 0)
-        self.ui.spinBoxCharAppearanceType.setValue(char.appearance_id if hasattr(char, "appearance_id") else 0)
+        self.ui.spinBoxCharPortraitId.setValue(
+            char.portrait_id if hasattr(char, "portrait_id") else 0
+        )
+        self.ui.spinBoxCharAppearanceType.setValue(
+            char.appearance_id if hasattr(char, "appearance_id") else 0
+        )
         self.ui.spinBoxCharSoundset.setValue(char.soundset if hasattr(char, "soundset") else 0)
 
         # Gender
@@ -1522,7 +1602,16 @@ class SaveGameEditor(Editor):
         self._populate_character_feats(char)
 
         # Skills (individual attributes) - add label showing whose skills these are
-        skill_attrs = ["computer_use", "demolitions", "stealth", "awareness", "persuade", "repair", "security", "treat_injury"]
+        skill_attrs = [
+            "computer_use",
+            "demolitions",
+            "stealth",
+            "awareness",
+            "persuade",
+            "repair",
+            "security",
+            "treat_injury",
+        ]
         self.ui.tableWidgetSkills.setRowCount(len(SKILL_NAMES))
 
         # Update skills label with character name - make it clear whose skills are displayed
@@ -1570,7 +1659,9 @@ class SaveGameEditor(Editor):
 
         # Set up context menu for equipment list
         self.ui.listWidgetEquipment.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.ui.listWidgetEquipment.customContextMenuRequested.connect(self.on_equipment_context_menu)
+        self.ui.listWidgetEquipment.customContextMenuRequested.connect(
+            self.on_equipment_context_menu
+        )
 
         # Populate equipment list
         for slot, item in char.equipment.items():
@@ -1610,7 +1701,11 @@ class SaveGameEditor(Editor):
 
         for row, cls in enumerate(classes):
             # Class name
-            class_name = self._get_class_name(cls.class_id) if self._installation else f"Class {cls.class_id}"
+            class_name = (
+                self._get_class_name(cls.class_id)
+                if self._installation
+                else f"Class {cls.class_id}"
+            )
             class_item = QTableWidgetItem(class_name or f"Class {cls.class_id}")
             class_item.setFlags(class_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
             self.ui.tableWidgetCharClasses.setItem(row, 0, class_item)
@@ -1621,10 +1716,14 @@ class SaveGameEditor(Editor):
             self.ui.tableWidgetCharClasses.setItem(row, 1, level_item)
 
             # Powers count
-            powers_count = len(cls.known_spells) if hasattr(cls, "known_spells") and cls.known_spells else 0
+            powers_count = (
+                len(cls.known_spells) if hasattr(cls, "known_spells") and cls.known_spells else 0
+            )
             powers_item = QTableWidgetItem(str(powers_count))
             powers_item.setFlags(powers_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
-            powers_item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+            powers_item.setTextAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+            )
             self.ui.tableWidgetCharClasses.setItem(row, 2, powers_item)
 
     def _populate_character_feats(self, char: UTC):
@@ -1639,7 +1738,9 @@ class SaveGameEditor(Editor):
                 try:
                     from toolset.data.installation import HTInstallation
 
-                    feats_2da: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_FEATS)
+                    feats_2da: TwoDA | None = self._installation.ht_get_cache_2da(
+                        HTInstallation.TwoDA_FEATS
+                    )
                     if feats_2da and 0 <= feat_id < feats_2da.get_height():
                         feat_name = feats_2da.get_cell(feat_id, "label") or feat_name
                 except Exception:
@@ -1705,7 +1806,16 @@ class SaveGameEditor(Editor):
             self._current_character.gender = self.ui.comboBoxCharGender.currentIndex()
 
         # Update skills (individual attributes)
-        skill_attrs = ["computer_use", "demolitions", "stealth", "awareness", "persuade", "repair", "security", "treat_injury"]
+        skill_attrs = [
+            "computer_use",
+            "demolitions",
+            "stealth",
+            "awareness",
+            "persuade",
+            "repair",
+            "security",
+            "treat_injury",
+        ]
         for row in range(min(self.ui.tableWidgetSkills.rowCount(), len(skill_attrs))):
             rank_item = self.ui.tableWidgetSkills.item(row, 1)
             if rank_item:
@@ -1717,7 +1827,9 @@ class SaveGameEditor(Editor):
 
         # Update classes (level only - class ID and powers are read-only for now)
         if hasattr(self._current_character, "classes"):
-            for row in range(min(len(self._current_character.classes), self.ui.tableWidgetCharClasses.rowCount())):
+            for row in range(
+                min(len(self._current_character.classes), self.ui.tableWidgetCharClasses.rowCount())
+            ):
                 level_item = self.ui.tableWidgetCharClasses.item(row, 1)
                 if level_item:
                     try:
@@ -1774,7 +1886,9 @@ class SaveGameEditor(Editor):
         similar to how the UTC editor handles equipment editing.
         """
         if not self._current_character or not self._installation:
-            QMessageBox.warning(self, "Cannot Edit Equipment", "Character or installation data is not available.")
+            QMessageBox.warning(
+                self, "Cannot Edit Equipment", "Character or installation data is not available."
+            )
             return
 
         data = item.data(Qt.ItemDataRole.UserRole)
@@ -1802,12 +1916,16 @@ class SaveGameEditor(Editor):
             flat_locations.extend(location_list)
 
         if not flat_locations:
-            QMessageBox.warning(self, tr("No Items Found"), tr("No UTI resources found in the installation."))
+            QMessageBox.warning(
+                self, tr("No Items Found"), tr("No UTI resources found in the installation.")
+            )
             return
 
         # Open file selection window
         selection_window = FileSelectionWindow(flat_locations, self._installation)
-        selection_window.setWindowTitle(f"Select Item for {slot.name if hasattr(slot, 'name') else f'Slot {slot.value}'}")
+        selection_window.setWindowTitle(
+            f"Select Item for {slot.name if hasattr(slot, 'name') else f'Slot {slot.value}'}"
+        )
 
         if selection_window.exec():
             selected_resources = selection_window.selected_resources()
@@ -1825,7 +1943,11 @@ class SaveGameEditor(Editor):
                 self.populate_character_details(self._current_character)
 
                 # Show confirmation
-                QMessageBox.information(self, tr("Equipment Updated"), trf("Equipment slot updated to: {new_resref}", new_resref=new_resref))
+                QMessageBox.information(
+                    self,
+                    tr("Equipment Updated"),
+                    trf("Equipment slot updated to: {new_resref}", new_resref=new_resref),
+                )
 
     def on_equipment_context_menu(self, position: QPoint):
         """Handle context menu for equipment list."""
@@ -1867,7 +1989,12 @@ class SaveGameEditor(Editor):
             self.populate_character_details(self._current_character)
 
             QMessageBox.information(
-                self, tr("Equipment Removed"), trf("Equipment removed from {slot_name}.", slot_name=slot.name if hasattr(slot, "name") else f"Slot {slot.value}"),
+                self,
+                tr("Equipment Removed"),
+                trf(
+                    "Equipment removed from {slot_name}.",
+                    slot_name=slot.name if hasattr(slot, "name") else f"Slot {slot.value}",
+                ),
             )
 
     # ==================== Inventory Methods ====================
@@ -1923,7 +2050,9 @@ class SaveGameEditor(Editor):
             max_charges = getattr(item, "max_charges", 0)
             charges_text = f"{charges}/{max_charges}" if max_charges > 0 else str(charges)
             charges_item = QTableWidgetItem(charges_text)
-            charges_item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+            charges_item.setTextAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+            )
             charges_item.setToolTip(f"Charges: {charges} / Max: {max_charges}")
             self.ui.tableWidgetInventory.setItem(row, 2, charges_item)
 
@@ -1938,7 +2067,9 @@ class SaveGameEditor(Editor):
             upgrades = getattr(item, "upgrades", 0)
             upgrades_text = str(upgrades) if upgrades > 0 else "0"
             upgrades_item = QTableWidgetItem(upgrades_text)
-            upgrades_item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+            upgrades_item.setTextAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+            )
             upgrades_item.setToolTip(f"Upgrades: {upgrades}")
             self.ui.tableWidgetInventory.setItem(row, 4, upgrades_item)
 
@@ -2049,7 +2180,9 @@ class SaveGameEditor(Editor):
                         lines.append(f"<b>Tag:</b> {uti.tag}<br>")
                     if uti.base_item is not None:
                         base_item_name = (
-                            self._installation.get_item_base_name(uti.base_item) if hasattr(self._installation, "get_item_base_name") else f"Base Item {uti.base_item}"
+                            self._installation.get_item_base_name(uti.base_item)
+                            if hasattr(self._installation, "get_item_base_name")
+                            else f"Base Item {uti.base_item}"
                         )
                         lines.append(f"<b>Base Item:</b> {base_item_name}<br>")
                     if uti.cost:
@@ -2065,7 +2198,9 @@ class SaveGameEditor(Editor):
             return
 
         # Update inventory items from UI
-        for row in range(min(len(self._nested_capsule.inventory), self.ui.tableWidgetInventory.rowCount())):
+        for row in range(
+            min(len(self._nested_capsule.inventory), self.ui.tableWidgetInventory.rowCount())
+        ):
             item = self._nested_capsule.inventory[row]
 
             # Update stack size
@@ -2112,7 +2247,9 @@ class SaveGameEditor(Editor):
             from pykotor.resource.formats.gff import GFFList
             from pykotor.resource.generics.uti import dismantle_uti
 
-            inventory_list: GFFList = self._nested_capsule.inventory_gff.root.set_list("ItemList", GFFList())
+            inventory_list: GFFList = self._nested_capsule.inventory_gff.root.set_list(
+                "ItemList", GFFList()
+            )
             inventory_list.clear()
             for uti in self._nested_capsule.inventory:
                 uti_gff = dismantle_uti(uti, game=self._nested_capsule.game, use_deprecated=True)
@@ -2149,7 +2286,9 @@ class SaveGameEditor(Editor):
             try:
                 from toolset.data.installation import HTInstallation
 
-                plot_2da: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PLOT)
+                plot_2da: TwoDA | None = self._installation.ht_get_cache_2da(
+                    HTInstallation.TwoDA_PLOT
+                )
                 if plot_2da is not None:
                     for i in range(plot_2da.get_height()):
                         label = plot_2da.get_cell(i, "label")
@@ -2184,7 +2323,9 @@ class SaveGameEditor(Editor):
                 state_display = "Not Started"
 
             state_item = QTableWidgetItem(state_display)
-            state_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+            state_item.setTextAlignment(
+                Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter
+            )
             self.ui.tableWidgetJournal.setItem(row, 1, state_item)
 
             # Date - format as days
@@ -2272,7 +2413,9 @@ class SaveGameEditor(Editor):
             # Validate data size matches expected dimensions
             expected_data_size = tga_image.width * tga_image.height * 4  # RGBA = 4 bytes per pixel
             if len(tga_image.data) < expected_data_size:
-                raise ValueError(f"TGA data size mismatch: expected {expected_data_size} bytes, got {len(tga_image.data)} bytes")
+                raise ValueError(
+                    f"TGA data size mismatch: expected {expected_data_size} bytes, got {len(tga_image.data)} bytes"
+                )
 
             # Convert RGBA data to QImage
             # TGA data is in RGBA format after read_tga processes it
@@ -2292,7 +2435,9 @@ class SaveGameEditor(Editor):
                 raise ValueError("Failed to create QImage from TGA data")
 
             if qimage.width() != tga_image.width or qimage.height() != tga_image.height:
-                raise ValueError(f"QImage dimension mismatch: expected {tga_image.width}x{tga_image.height}, got {qimage.width()}x{qimage.height()}")
+                raise ValueError(
+                    f"QImage dimension mismatch: expected {tga_image.width}x{tga_image.height}, got {qimage.width()}x{qimage.height()}"
+                )
 
             # Store original pixmap and size for resize handling
             self._screenshot_original_pixmap = QPixmap.fromImage(qimage)
@@ -2404,13 +2549,20 @@ class SaveGameEditor(Editor):
 
         # Scale the pixmap with high-quality transformation
         # SmoothTransformation uses bilinear filtering for best quality
-        scaled_pixmap = self._screenshot_original_pixmap.scaled(display_width, display_height, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        scaled_pixmap = self._screenshot_original_pixmap.scaled(
+            display_width,
+            display_height,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
 
         # Validate scaled pixmap
         if scaled_pixmap.isNull():
             from loggerplus import RobustLogger
 
-            RobustLogger().warning(f"Failed to scale screenshot: {display_width}x{display_height} from {original_width}x{original_height}")
+            RobustLogger().warning(
+                f"Failed to scale screenshot: {display_width}x{display_height} from {original_width}x{original_height}"
+            )
             return
 
         # Update the label
@@ -2424,7 +2576,9 @@ class SaveGameEditor(Editor):
         # Use actual display size to maintain aspect ratio in layout
         self.ui.labelScreenshotPreview.setMinimumSize(display_width, display_height)
 
-    def _update_screenshot_tooltip(self, display_width: int | None = None, display_height: int | None = None):
+    def _update_screenshot_tooltip(
+        self, display_width: int | None = None, display_height: int | None = None
+    ):
         """Update tooltip with screenshot information.
 
         Args:
@@ -2477,7 +2631,11 @@ class SaveGameEditor(Editor):
 
         # Add scale factor if different from original
         if display_width != orig_w or display_height != orig_h:
-            scale_factor = min(display_width / orig_w, display_height / orig_h) if orig_w > 0 and orig_h > 0 else 1.0
+            scale_factor = (
+                min(display_width / orig_w, display_height / orig_h)
+                if orig_w > 0 and orig_h > 0
+                else 1.0
+            )
             tooltip_lines.append(f"<b>Scale:</b> {scale_factor * 100:.1f}%")
 
         tooltip = "<br>".join(tooltip_lines)
@@ -2499,7 +2657,10 @@ class SaveGameEditor(Editor):
                 self._update_screenshot_display()
             elif event.type() == QEvent.Type.Enter:
                 # Mouse entered - ensure tooltip is up to date
-                if self._screenshot_original_pixmap and not self._screenshot_original_pixmap.isNull():
+                if (
+                    self._screenshot_original_pixmap
+                    and not self._screenshot_original_pixmap.isNull()
+                ):
                     self._update_screenshot_tooltip()
 
         return super().eventFilter(obj, event)
@@ -2597,7 +2758,13 @@ class SaveGameEditor(Editor):
             module_id, res_id = data
             # TODO: Extract resource from nested module ERF
             QMessageBox.information(
-                self, tr("Nested Resource"), trf("Opening nested resource {resname} from module {module}", resname=str(res_id.resname), module=str(module_id.resname)),
+                self,
+                tr("Nested Resource"),
+                trf(
+                    "Opening nested resource {resname} from module {module}",
+                    resname=str(res_id.resname),
+                    module=str(module_id.resname),
+                ),
             )
             return
 
@@ -2612,6 +2779,7 @@ class SaveGameEditor(Editor):
             utc = self._nested_capsule.cached_characters[res_id]
             try:
                 from pykotor.resource.generics.utc import bytes_utc
+
                 resource_data = bytes_utc(utc, self._nested_capsule.game)
             except Exception:  # noqa: BLE001
                 resource_data = None
@@ -2620,7 +2788,10 @@ class SaveGameEditor(Editor):
             QMessageBox.warning(
                 self,
                 tr("Cannot Open Resource"),
-                trf("Resource data for {resname} is not available for opening.", resname=str(res_id.resname)),
+                trf(
+                    "Resource data for {resname} is not available for opening.",
+                    resname=str(res_id.resname),
+                ),
             )
             return
 
@@ -2635,7 +2806,11 @@ class SaveGameEditor(Editor):
                 parent_window=self,
             )
         except Exception as e:
-            QMessageBox.critical(self, tr("Error Opening Resource"), trf("Failed to open resource:\n{error}", error=str(e)))
+            QMessageBox.critical(
+                self,
+                tr("Error Opening Resource"),
+                trf("Failed to open resource:\n{error}", error=str(e)),
+            )
 
     # ==================== Reputation Methods ====================
 
@@ -2728,13 +2903,19 @@ class SaveGameEditor(Editor):
         """Embed GFF editors (reused from gff.py), load SaveInfo/PartyTable GFF, and list other resources."""
         self._ensure_gff_editors_embedded()
         if self._save_info is not None and self._gff_editor_saveinfo is not None:
-            self._gff_editor_saveinfo.load("", "savenfo", ResourceType.RES, self._save_info.to_gff_bytes())
+            self._gff_editor_saveinfo.load(
+                "", "savenfo", ResourceType.RES, self._save_info.to_gff_bytes()
+            )
         if self._party_table is not None and self._gff_editor_partytable is not None:
-            self._gff_editor_partytable.load("", "partytable", ResourceType.RES, self._party_table.to_gff_bytes())
+            self._gff_editor_partytable.load(
+                "", "partytable", ResourceType.RES, self._party_table.to_gff_bytes()
+            )
         # Other resources list
         self.ui.listWidgetAdvancedResources.clear()
         if self._nested_capsule and self._nested_capsule.other_resources:
-            for res_id in sorted(self._nested_capsule.other_resources.keys(), key=lambda x: str(x.resname)):
+            for res_id in sorted(
+                self._nested_capsule.other_resources.keys(), key=lambda x: str(x.resname)
+            ):
                 item_text = f"{res_id.resname} ({res_id.restype})"
                 item = QListWidgetItem(item_text)
                 item.setData(Qt.ItemDataRole.UserRole, res_id)
@@ -2757,7 +2938,11 @@ class SaveGameEditor(Editor):
     def on_open_advanced_resource(self, item: QListWidgetItem):
         """Open advanced resource in appropriate editor."""
         res_id = item.data(Qt.ItemDataRole.UserRole)
-        if not res_id or not self._nested_capsule or res_id not in self._nested_capsule.other_resources:
+        if (
+            not res_id
+            or not self._nested_capsule
+            or res_id not in self._nested_capsule.other_resources
+        ):
             return
 
         resource_data = self._nested_capsule.other_resources[res_id]
@@ -2772,7 +2957,11 @@ class SaveGameEditor(Editor):
                 parent_window=self,
             )
         except Exception as e:
-            QMessageBox.critical(self, tr("Error Opening Resource"), trf("Failed to open resource:\n{error}", error=str(e)))
+            QMessageBox.critical(
+                self,
+                tr("Error Opening Resource"),
+                trf("Failed to open resource:\n{error}", error=str(e)),
+            )
 
     # ==================== Tool Methods ====================
 
@@ -2830,6 +3019,7 @@ class SaveGameEditor(Editor):
                 "Error",
                 f"Failed to rebuild cached modules:\n{e}",
             )
+
 
 if __name__ == "__main__":
     import sys

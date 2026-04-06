@@ -66,7 +66,11 @@ class TLKEditor(Editor):
         parent: QWidget | None,
         installation: HTInstallation | None = None,
     ):
-        supported: list[ResourceType] = [ResourceType.TLK, ResourceType.TLK_XML, ResourceType.TLK_JSON]
+        supported: list[ResourceType] = [
+            ResourceType.TLK,
+            ResourceType.TLK_XML,
+            ResourceType.TLK_JSON,
+        ]
         super().__init__(parent, "TLK Editor", "none", supported, supported, installation)
 
         from toolset.uic.qtpy.editors.tlk import Ui_MainWindow
@@ -175,7 +179,9 @@ class TLKEditor(Editor):
         # Handle auto-detect action
         auto_detect_action = QAction(tr("Auto-detect (slower)"), self)
         auto_detect_action.setCheckable(True)
-        auto_detect_action.triggered.connect(lambda _checked=None: self.on_language_selected("auto_detect"))
+        auto_detect_action.triggered.connect(
+            lambda _checked=None: self.on_language_selected("auto_detect")
+        )
         self.ui.menuLanguage.addAction(auto_detect_action)
         self._auto_detect_action = auto_detect_action
 
@@ -186,7 +192,9 @@ class TLKEditor(Editor):
         for language in Language:
             action = QAction(language.name.replace("_", " "), self)
             action.setCheckable(True)
-            action.triggered.connect(lambda _checked=None, lang=language: self.on_language_selected(lang))
+            action.triggered.connect(
+                lambda _checked=None, lang=language: self.on_language_selected(lang)
+            )
             self.ui.menuLanguage.addAction(action)
             self._language_actions[language] = action
 
@@ -323,7 +331,9 @@ class TLKEditor(Editor):
             from pykotor.tools.reference_finder import ReferenceSearchResult
 
             # Use find_strref_references which returns detailed results with field paths
-            strref_results: list[StrRefSearchResult] = find_strref_references(self._installation, stringref)
+            strref_results: list[StrRefSearchResult] = find_strref_references(
+                self._installation, stringref
+            )
 
             # Convert StrRefSearchResult to ReferenceSearchResult for consistent display
             reference_results: list[ReferenceSearchResult] = []
@@ -377,7 +387,10 @@ class TLKEditor(Editor):
                 QMessageBox(
                     QMessageBox.Icon.Information,
                     tr("No resources found"),
-                    trf("There are no references to this tlk entry (stringref {stringref})", stringref=stringref),
+                    trf(
+                        "There are no references to this tlk entry (stringref {stringref})",
+                        stringref=stringref,
+                    ),
                     parent=self,
                 ).exec()
                 return
@@ -386,7 +399,12 @@ class TLKEditor(Editor):
             results_dialog.show()
             results_dialog.activateWindow()
             results_dialog.setWindowTitle(
-                trf("{count} results for stringref '{stringref}' in {path}", count=len(results_list), stringref=stringref, path=str(self._installation.path())),
+                trf(
+                    "{count} results for stringref '{stringref}' in {path}",
+                    count=len(results_list),
+                    stringref=stringref,
+                    path=str(self._installation.path()),
+                ),
             )
             add_window(results_dialog)
             results_dialog.sig_searchresults_selected.connect(self.handle_results_selection)
@@ -549,7 +567,9 @@ class LoaderDialog(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinMaxButtonsHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         self._progress_bar = self.ui.progressBar
@@ -642,6 +662,7 @@ class LoaderWorker(QThread):
 
     def run(self):
         self.load_data()
+
 
 if __name__ == "__main__":
     import sys

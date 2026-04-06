@@ -20,7 +20,9 @@ class Ui_ApplicationSettingsWidget(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.resetAttributesButton = QtWidgets.QPushButton(ApplicationSettingsWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(10)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.resetAttributesButton.sizePolicy().hasHeightForWidth())
@@ -28,7 +30,9 @@ class Ui_ApplicationSettingsWidget(object):
         self.resetAttributesButton.setMaximumSize(QtCore.QSize(16777215, 50))
         self.resetAttributesButton.setObjectName("resetAttributesButton")
         self.verticalLayout_4.addWidget(self.resetAttributesButton)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_4.addItem(spacerItem)
         self.verticalLayout.addLayout(self.verticalLayout_4)
         self.scrollArea = QtWidgets.QScrollArea(ApplicationSettingsWidget)
@@ -94,12 +98,22 @@ class Ui_ApplicationSettingsWidget(object):
 
     def retranslateUi(self, ApplicationSettingsWidget):
         _translate = QtCore.QCoreApplication.translate
-        ApplicationSettingsWidget.setWindowTitle(_translate("ApplicationSettingsWidget", "Application Settings"))
-        self.resetAttributesButton.setText(_translate("ApplicationSettingsWidget", "Reset All on this Page"))
-        self.groupBoxFontSettings.setTitle(_translate("ApplicationSettingsWidget", "Global Font Settings"))
-        self.currentFontLabel.setText(_translate("ApplicationSettingsWidget", "Current Font: Default"))
+        ApplicationSettingsWidget.setWindowTitle(
+            _translate("ApplicationSettingsWidget", "Application Settings")
+        )
+        self.resetAttributesButton.setText(
+            _translate("ApplicationSettingsWidget", "Reset All on this Page")
+        )
+        self.groupBoxFontSettings.setTitle(
+            _translate("ApplicationSettingsWidget", "Global Font Settings")
+        )
+        self.currentFontLabel.setText(
+            _translate("ApplicationSettingsWidget", "Current Font: Default")
+        )
         self.fontButton.setText(_translate("ApplicationSettingsWidget", "Select Font..."))
-        self.groupBoxEnvVariables.setTitle(_translate("ApplicationSettingsWidget", "Environment Variables"))
+        self.groupBoxEnvVariables.setTitle(
+            _translate("ApplicationSettingsWidget", "Environment Variables")
+        )
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("ApplicationSettingsWidget", "Variable"))
         item = self.tableWidget.horizontalHeaderItem(1)
@@ -107,5 +121,9 @@ class Ui_ApplicationSettingsWidget(object):
         self.addButton.setText(_translate("ApplicationSettingsWidget", "Add"))
         self.editButton.setText(_translate("ApplicationSettingsWidget", "Edit"))
         self.removeButton.setText(_translate("ApplicationSettingsWidget", "Remove"))
-        self.groupBoxMiscSettings.setTitle(_translate("ApplicationSettingsWidget", "Miscellaneous Settings"))
-        self.groupBoxAASettings.setTitle(_translate("ApplicationSettingsWidget", "Experimental settings (may cause app crashes)"))
+        self.groupBoxMiscSettings.setTitle(
+            _translate("ApplicationSettingsWidget", "Miscellaneous Settings")
+        )
+        self.groupBoxAASettings.setTitle(
+            _translate("ApplicationSettingsWidget", "Experimental settings (may cause app crashes)")
+        )

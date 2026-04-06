@@ -103,7 +103,12 @@ def _get_qt_api() -> str:
     env_api = os.environ.get("PYTEST_QT_API", "").strip().lower()
     if env_api:
         return env_api
-    for name, mod in [("pyqt6", "PyQt6.QtCore"), ("pyqt5", "PyQt5.QtCore"), ("pyside6", "PySide6.QtCore"), ("pyside2", "PySide2.QtCore")]:
+    for name, mod in [
+        ("pyqt6", "PyQt6.QtCore"),
+        ("pyqt5", "PyQt5.QtCore"),
+        ("pyside6", "PySide6.QtCore"),
+        ("pyside2", "PySide2.QtCore"),
+    ]:
         try:
             importlib.import_module(mod)
             return name
@@ -113,7 +118,12 @@ def _get_qt_api() -> str:
 
 
 _qt_api = _get_qt_api()
-_api_name: Literal["PyQt6", "PyQt5", "PySide6", "PySide2"] = cast('Literal["PyQt6", "PyQt5", "PySide6", "PySide2"]', {"pyqt6": "PyQt6", "pyqt5": "PyQt5", "pyside6": "PySide6", "pyside2": "PySide2"}.get(_qt_api, "PyQt6"))
+_api_name: Literal["PyQt6", "PyQt5", "PySide6", "PySide2"] = cast(
+    'Literal["PyQt6", "PyQt5", "PySide6", "PySide2"]',
+    {"pyqt6": "PyQt6", "pyqt5": "PyQt5", "pyside6": "PySide6", "pyside2": "PySide2"}.get(
+        _qt_api, "PyQt6"
+    ),
+)
 os.environ["QT_API"] = _api_name
 from toolset.data.installation import HTInstallation
 from toolset.main_settings import setup_pre_init_settings
@@ -141,10 +151,16 @@ def _resolve_or_create_game_path(label: str) -> str:
     expected = Game.K1 if label == "k1" else Game.K2
     if env_value:
         candidate = Path(env_value).expanduser()
-        if candidate.is_dir() and (candidate / "chitin.key").exists() and determine_game(candidate) == expected:
+        if (
+            candidate.is_dir()
+            and (candidate / "chitin.key").exists()
+            and determine_game(candidate) == expected
+        ):
             return str(candidate)
 
-    synthetic = create_minimal_installation(_get_or_create_session_temp_dir() / label, Game.K1 if label == "k1" else Game.K2)
+    synthetic = create_minimal_installation(
+        _get_or_create_session_temp_dir() / label, Game.K1 if label == "k1" else Game.K2
+    )
     if label == "k1":
         os.environ["K1_PATH"] = str(synthetic)
     else:
@@ -157,20 +173,28 @@ def pytest_configure(config: pytest.Config):
     """Disable pytest-timeout (from root pyproject) for toolset tests - thread method kills process."""
     if hasattr(config.option, "timeout"):
         config.option.timeout = 0
-    config.addinivalue_line("markers", "timeout(timeout_seconds): mark test to timeout after N seconds (pytest-timeout).")
+    config.addinivalue_line(
+        "markers",
+        "timeout(timeout_seconds): mark test to timeout after N seconds (pytest-timeout).",
+    )
     _patch_qapp_quit()
     # Ensure test_indoor_builder_roundtrip uses indoor_map for WOK face count (not archive - danm13 has 0 WOKs in .mod)
     _run_wok_face_count_patch_script()
     _ensure_wok_face_count_test_fixed()
 
 
-def pytest_collection_modifyitems(session: pytest.Session, config: pytest.Config, items: list[pytest.Item]) -> None:
+def pytest_collection_modifyitems(
+    session: pytest.Session, config: pytest.Config, items: list[pytest.Item]
+) -> None:
     """Replace test_roundtrip_k1_wok_face_count with fixed implementation (indoor_map, not archive) so danm13 passes."""
     from pykotor.resource.formats.bwm import read_bwm
     from pykotor.resource.type import ResourceType
 
     for item in items:
-        if "test_roundtrip_k1_wok_face_count" not in item.nodeid or "TestIndoorBuilderRoundtrip" not in item.nodeid:
+        if (
+            "test_roundtrip_k1_wok_face_count" not in item.nodeid
+            or "TestIndoorBuilderRoundtrip" not in item.nodeid
+        ):
             continue
         if not hasattr(item, "module") or item.module is None:  # pyright: ignore[reportAttributeAccessIssue]
             continue
@@ -186,14 +210,26 @@ def pytest_collection_modifyitems(session: pytest.Session, config: pytest.Config
         ):
             """Fixed: use indoor_map room walkmeshes for original (danm13 has 0 WOKs in .mod)."""
             for module_root in k1_module_roots:
-                indoor_map = tmod._import_module_into_indoor_map(module_root, k1_pykotor_installation)
+                indoor_map = tmod._import_module_into_indoor_map(
+                    module_root, k1_pykotor_installation
+                )
                 rebuilt_path = tmp_path / f"{module_root}_rebuilt.mod"
                 tmod._export_indoor_map_to_mod(indoor_map, k1_pykotor_installation, rebuilt_path)
                 rebuilt_resources = tmod._read_archive_resources(rebuilt_path)
-                rebuilt_woks = {resref: data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK}
-                assert len(rebuilt_woks) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
-                original_total_faces = sum(len(room.base_walkmesh().faces) for room in indoor_map.rooms)
-                rebuilt_total_faces = sum(len(read_bwm(data).faces) for data in rebuilt_woks.values())
+                rebuilt_woks = {
+                    resref: data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.WOK
+                }
+                assert len(rebuilt_woks) == len(indoor_map.rooms), (
+                    f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+                )
+                original_total_faces = sum(
+                    len(room.base_walkmesh().faces) for room in indoor_map.rooms
+                )
+                rebuilt_total_faces = sum(
+                    len(read_bwm(data).faces) for data in rebuilt_woks.values()
+                )
                 assert rebuilt_total_faces == original_total_faces, (
                     f"{module_root}: Total WOK face count mismatch - original={original_total_faces}, rebuilt={rebuilt_total_faces}"
                 )
@@ -230,7 +266,9 @@ def _run_wok_face_count_patch_script() -> None:
 
 def _ensure_wok_face_count_test_fixed() -> None:
     """If test_indoor_builder_roundtrip has OLD WOK face count logic (original_resources/original_woks), patch it inline."""
-    test_file = Path(__file__).resolve().parent / "gui" / "windows" / "test_indoor_builder_roundtrip.py"
+    test_file = (
+        Path(__file__).resolve().parent / "gui" / "windows" / "test_indoor_builder_roundtrip.py"
+    )
     if not test_file.is_file():
         return
     try:

@@ -111,11 +111,15 @@ def generate_mipmap(indoor_map: IndoorMap) -> MinimapData:
     out_image.convertTo(QImage.Format.Format_RGB888)
 
     image_point_min = Vector2(0 / 435, (128 - scaled.height() / 2) / 256)
-    image_point_max = Vector2((image_point_min.x + scaled.width()) / 435, (image_point_min.y + scaled.height()) / 256)
+    image_point_max = Vector2(
+        (image_point_min.x + scaled.width()) / 435, (image_point_min.y + scaled.height()) / 256
+    )
     world_point_min = Vector2(bbmax.x, bbmin.y)
     world_point_max = Vector2(bbmin.x, bbmax.y)
 
-    return MinimapData(out_image, image_point_min, image_point_max, world_point_min, world_point_max)
+    return MinimapData(
+        out_image, image_point_min, image_point_max, world_point_min, world_point_max
+    )
 
 
 __all__ = [

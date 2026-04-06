@@ -108,7 +108,6 @@ from toolset.gui.common.status_bar_utils import format_status_bar_keys_and_butto
 from toolset.gui.common.walkmesh_materials import get_walkmesh_material_colors
 from toolset.gui.dialogs.asyncloader import AsyncLoader
 from toolset.gui.editor.base import Editor
-from toolset.gui.widgets.installation_toolbar import InstallationToolbar
 from toolset.gui.widgets.settings.installations import GlobalSettings
 from toolset.gui.windows.help import HelpWindow
 from toolset.gui.windows.indoor_builder.constants import (
@@ -226,7 +225,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
 
         # Module kit management (lazy loading)
         # ModuleKitManager handles converting game modules to kit-like components
-        self._module_kit_manager: ModuleKitManager | None = None if installation is None else ModuleKitManager(installation)
+        self._module_kit_manager: ModuleKitManager | None = (
+            None if installation is None else ModuleKitManager(installation)
+        )
         self._current_module_kit: ModuleKit | None = None
 
         # Undo/Redo stack
@@ -244,7 +245,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         # Add a missing "Open .mod" action at runtime (UI code is generated; do not edit it).
         self._action_open_mod: QAction = QAction(tr("Open .mod..."), self)
         self._action_open_mod.setShortcut("Ctrl+Shift+O")
-        self._action_open_mod.setStatusTip(tr("Open a built module (.mod) and load its embedded indoor map"))
+        self._action_open_mod.setStatusTip(
+            tr("Open a built module (.mod) and load its embedded indoor map")
+        )
         # Put it right after "Open" in File menu and toolbar.
         try:
             self.ui.menuFile.insertAction(self.ui.actionSave, self._action_open_mod)
@@ -281,7 +284,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         # so selecting the active installation doesn't trigger an AsyncLoader, then sync
         # the toolbar combo so toolbarInstallationCombo reflects the current installation.
         if self._installation is not None and self._installation_toolbar is not None:
-            self._installation_toolbar._installation_cache[self._installation.name] = self._installation
+            self._installation_toolbar._installation_cache[self._installation.name] = (
+                self._installation
+            )
             self._installation_toolbar._in_update = True
             try:
                 idx = self._installation_toolbar.installationCombo.findData(self._installation.name)
@@ -331,7 +336,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             self._setup_modules()
             self._sync_toolbar_installation_from_left()
             self._refresh_window_title()
-            if self._pending_module_after_installation is not None and isinstance(self._installation, HTInstallation):
+            if self._pending_module_after_installation is not None and isinstance(
+                self._installation, HTInstallation
+            ):
                 mod = self._pending_module_after_installation
                 self._pending_module_after_installation = None
                 QTimer.singleShot(0, lambda: self.load_module_from_name(mod))
@@ -362,7 +369,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             if idx >= 0:
                 combo.setCurrentIndex(idx)
 
-    def _resolve_installation_and_module_from_path(self, file_path: Path) -> tuple[str | None, str | None]:
+    def _resolve_installation_and_module_from_path(
+        self, file_path: Path
+    ) -> tuple[str | None, str | None]:
         """If file_path is a .mod under a configured installation's Modules dir, return (installation_name, module_root); else (None, None)."""
         try:
             resolved: Path = file_path.resolve()
@@ -436,7 +445,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         # Default to Module Designer (keybind) page
         dialog.ui.settingsStack.setCurrentWidget(dialog.page_dict["Module Designer"])
         dialog.previous_page = "Module Designer"
-        items: list[QTreeWidgetItem] = dialog.ui.settingsTree.findItems("Module Designer", Qt.MatchFlag.MatchExactly | Qt.MatchFlag.MatchRecursive, 0,)
+        items: list[QTreeWidgetItem] = dialog.ui.settingsTree.findItems(
+            "Module Designer",
+            Qt.MatchFlag.MatchExactly | Qt.MatchFlag.MatchRecursive,
+            0,
+        )
         if items:
             dialog.ui.settingsTree.setCurrentItem(items[0])
         dialog.exec()
@@ -494,9 +507,17 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         accent2 = ok_color  # Green for success
         accent3 = QColor(link_color)  # Purple variant for keys
         if accent3.lightness() < 128:
-            accent3 = QColor(min(255, accent3.red() + 50), min(255, accent3.green() + 20), min(255, accent3.blue() + 100))
+            accent3 = QColor(
+                min(255, accent3.red() + 50),
+                min(255, accent3.green() + 20),
+                min(255, accent3.blue() + 100),
+            )
         else:
-            accent3 = QColor(min(200, accent3.red() + 30), min(200, accent3.green() + 10), min(200, accent3.blue() + 50))
+            accent3 = QColor(
+                min(200, accent3.red() + 30),
+                min(200, accent3.green() + 10),
+                min(200, accent3.blue() + 50),
+            )
 
         return {
             "info": info_color.name(),
@@ -541,8 +562,12 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         self.ui.actionDeselectAll.triggered.connect(self.deselect_all)
 
         # View menu
-        self.ui.actionZoomIn.triggered.connect(lambda: self.ui.mapRenderer.zoom_in_camera(ZOOM_STEP_FACTOR))
-        self.ui.actionZoomOut.triggered.connect(lambda: self.ui.mapRenderer.zoom_in_camera(1.0 / ZOOM_STEP_FACTOR))
+        self.ui.actionZoomIn.triggered.connect(
+            lambda: self.ui.mapRenderer.zoom_in_camera(ZOOM_STEP_FACTOR)
+        )
+        self.ui.actionZoomOut.triggered.connect(
+            lambda: self.ui.mapRenderer.zoom_in_camera(1.0 / ZOOM_STEP_FACTOR)
+        )
         self.ui.actionResetView.triggered.connect(self.reset_view)
         self.ui.actionCenterOnSelection.triggered.connect(self.center_on_selection)
 
@@ -590,7 +615,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
 
         # Top-toolbar installation/module workflow (sync with left panel, open module)
         self._toolbar_installation_syncing = False
-        self.ui.toolbarInstallationCombo.currentIndexChanged.connect(self._on_toolbar_installation_changed)
+        self.ui.toolbarInstallationCombo.currentIndexChanged.connect(
+            self._on_toolbar_installation_changed
+        )
         self.ui.toolbarOpenModuleButton.clicked.connect(self._on_toolbar_open_module_clicked)
         self.ui.toolbarRefreshModulesButton.clicked.connect(self._setup_modules)
         # (Toolbar sync is done in __init__ after _setup_signals, not via a one-shot timer.)
@@ -675,7 +702,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         self.ui.mapRenderer.set_material_colors(self._material_colors)
         self.ui.mapRenderer.set_colorize_materials(self._colorize_materials)
 
-        self.ui.materialList.currentItemChanged.connect(lambda _old, _new=None: self._refresh_status_bar())
+        self.ui.materialList.currentItemChanged.connect(
+            lambda _old, _new=None: self._refresh_status_bar()
+        )
         connect_indoor_paint_control_signals(
             enable_paint_check=self.ui.enablePaintCheck,
             colorize_check=self.ui.colorizeMaterialsCheck,
@@ -696,11 +725,17 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         # Update action enabled states
         self._undo_stack.canUndoChanged.connect(self.ui.actionUndo.setEnabled)
         self._undo_stack.canRedoChanged.connect(self.ui.actionRedo.setEnabled)
-        self._undo_stack.cleanChanged.connect(self._refresh_window_title)  # Update title when clean state changes
+        self._undo_stack.cleanChanged.connect(
+            self._refresh_window_title
+        )  # Update title when clean state changes
 
         # Update action text with command names
-        self._undo_stack.undoTextChanged.connect(lambda text: self.ui.actionUndo.setText(f"{tr('Undo')} {text}" if text else tr("Undo")))
-        self._undo_stack.redoTextChanged.connect(lambda text: self.ui.actionRedo.setText(f"{tr('Redo')} {text}" if text else tr("Redo")))
+        self._undo_stack.undoTextChanged.connect(
+            lambda text: self.ui.actionUndo.setText(f"{tr('Undo')} {text}" if text else tr("Undo"))
+        )
+        self._undo_stack.redoTextChanged.connect(
+            lambda text: self.ui.actionRedo.setText(f"{tr('Redo')} {text}" if text else tr("Redo"))
+        )
 
         # Initial state
         self.ui.actionUndo.setEnabled(False)
@@ -745,7 +780,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         self._refresh_status_bar()
 
     def _reset_selected_walkmesh(self):
-        rooms = [room for room in self.ui.mapRenderer.selected_rooms() if room.walkmesh_override is not None]
+        rooms = [
+            room
+            for room in self.ui.mapRenderer.selected_rooms()
+            if room.walkmesh_override is not None
+        ]
         if not rooms:
             return
         cmd = ResetWalkmeshCommand(rooms, self._invalidate_rooms)
@@ -785,13 +824,20 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         no_kit_prompt = QMessageBox(self)
         no_kit_prompt.setIcon(QMessageBox.Icon.Warning)
         no_kit_prompt.setWindowTitle(tr("No Kits Available"))
-        no_kit_prompt.setText(tr("No kits were detected, would you like to open the Kit downloader?"))
-        no_kit_prompt.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        no_kit_prompt.setText(
+            tr("No kits were detected, would you like to open the Kit downloader?")
+        )
+        no_kit_prompt.setStandardButtons(
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
         no_kit_prompt.setDefaultButton(QMessageBox.StandardButton.No)
 
         # Use exec() for proper modal behavior in GUI mode
         result = no_kit_prompt.exec()
-        if result == QMessageBox.StandardButton.Yes or no_kit_prompt.clickedButton() == QMessageBox.StandardButton.Yes:
+        if (
+            result == QMessageBox.StandardButton.Yes
+            or no_kit_prompt.clickedButton() == QMessageBox.StandardButton.Yes
+        ):
             self.open_kit_downloader()
 
     def _setup_modules(self):
@@ -1042,7 +1088,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         elif not self._filepath:
             title = trf("{name} - Indoor Map Builder", name=self._installation.name)
         else:
-            title = trf("{path} - {name} - Indoor Map Builder", path=self._filepath, name=self._installation.name)
+            title = trf(
+                "{path} - {name} - Indoor Map Builder",
+                path=self._filepath,
+                name=self._installation.name,
+            )
 
         # Add asterisk if there are unsaved changes (use isClean() instead of canUndo())
         # isClean() tracks whether the document matches the saved state
@@ -1091,7 +1141,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
 
         self._blender_log_view = QPlainTextEdit(container)
         self._blender_log_view.setReadOnly(True)
-        self._blender_log_view.setPlaceholderText(tr("Blender log output will appear here once the IPC bridge starts…"))
+        self._blender_log_view.setPlaceholderText(
+            tr("Blender log output will appear here once the IPC bridge starts…")
+        )
         layout.addWidget(self._blender_log_view, 1)
 
         return container
@@ -1145,7 +1197,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
 
             from loggerplus import RobustLogger
 
-            RobustLogger().debug(f"[Blender][Indoor Map Builder] Material changed for {object_name} (model: {model_name})")
+            RobustLogger().debug(
+                f"[Blender][Indoor Map Builder] Material changed for {object_name} (model: {model_name})"
+            )
 
             # Find the room that uses this model
             room: IndoorMapRoom | None = None
@@ -1180,7 +1234,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
                         if result.success:
                             from loggerplus import RobustLogger
 
-                            RobustLogger().info(f"[Blender][Indoor Map Builder] Exported updated MDL to {temp_mdl.name}")
+                            RobustLogger().info(
+                                f"[Blender][Indoor Map Builder] Exported updated MDL to {temp_mdl.name}"
+                            )
                             # Reload the model in the renderer
                             self.ui.mapRenderer.invalidate_rooms([room])
                             self.ui.mapRenderer.update()
@@ -1246,7 +1302,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         """Handle selection changes from Blender."""
 
         def _apply():
-            rooms: list[IndoorMapRoom] = [room for room_id in instance_ids if (room := self._room_id_lookup.get(room_id)) is not None]
+            rooms: list[IndoorMapRoom] = [
+                room
+                for room_id in instance_ids
+                if (room := self._room_id_lookup.get(room_id)) is not None
+            ]
             if rooms:
                 self.ui.mapRenderer.select_rooms(rooms)
 
@@ -1275,13 +1335,18 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             QMessageBox.warning(
                 self,
                 tr("Blender Connection Error"),
-                tr("Failed to connect to Blender. Please check that Blender is running and kotorblender is installed."),
+                tr(
+                    "Failed to connect to Blender. Please check that Blender is running and kotorblender is installed."
+                ),
             )
 
     def _on_blender_module_loaded(self):
         """Called when indoor map is loaded in Blender."""
         super()._on_blender_module_loaded()
-        QTimer.singleShot(0, lambda: self._blender_progress_dialog.hide() if self._blender_progress_dialog else None)
+        QTimer.singleShot(
+            0,
+            lambda: self._blender_progress_dialog.hide() if self._blender_progress_dialog else None,
+        )
         self._refresh_room_id_lookup()
 
     def _on_blender_mode_stopped(self):
@@ -1335,7 +1400,10 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
     def _refresh_status_bar(
         self,
         screen: QPoint | Vector2 | None = None,
-        buttons: set[int | Qt.MouseButton] | set[Qt.MouseButton] | set[Qt.MouseButton | int] | None = None,
+        buttons: set[int | Qt.MouseButton]
+        | set[Qt.MouseButton]
+        | set[Qt.MouseButton | int]
+        | None = None,
         keys: set[int | Qt.Key] | set[Qt.Key] | set[Qt.Key | int] | set[QKeySequence] | None = None,
     ):
         self._update_status_bar(screen, buttons, keys)
@@ -1343,7 +1411,10 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
     def _update_status_bar(
         self,
         screen: QPoint | Vector2 | None = None,
-        buttons: set[int | Qt.MouseButton] | set[Qt.MouseButton] | set[Qt.MouseButton | int] | None = None,
+        buttons: set[int | Qt.MouseButton]
+        | set[Qt.MouseButton]
+        | set[Qt.MouseButton | int]
+        | None = None,
         keys: set[int | Qt.Key] | set[Qt.Key] | set[Qt.Key | int] | set[QKeySequence] | None = None,
     ):
         """Rich status bar mirroring Module Designer style."""
@@ -1352,7 +1423,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         # Resolve screen coords
         if screen is None:
             _cursor = self.cursor()
-            cursor_pos = _cursor.position().toPoint() if hasattr(_cursor, "position") else _cursor.pos()  # pyright: ignore[reportAttributeAccessIssue]
+            cursor_pos = (
+                _cursor.position().toPoint() if hasattr(_cursor, "position") else _cursor.pos()
+            )  # pyright: ignore[reportAttributeAccessIssue]
             screen_qp = renderer.mapFromGlobal(cursor_pos)
             screen_vec = Vector2(screen_qp.x(), screen_qp.y())
         else:
@@ -1417,7 +1490,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
 
         # Keys/buttons (sorted with modifiers first)
         colors = self._get_semantic_colors()
-        self._keys_label.setText(format_status_bar_keys_and_buttons(keys, buttons, self._emoji_style, colors["accent3"], colors["accent2"]))  # pyright: ignore[reportArgumentType]
+        self._keys_label.setText(
+            format_status_bar_keys_and_buttons(
+                keys, buttons, self._emoji_style, colors["accent3"], colors["accent2"]
+            )
+        )  # pyright: ignore[reportArgumentType]
 
         # Mode/status line (reuse colors from above)
         mode_parts: list[str] = []
@@ -1434,7 +1511,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         self._mode_label.setText(
             '<b><span style="{style}">ℹ</span>&nbsp;Status:</b> {body}'.format(
                 style=self._emoji_style,
-                body=" | ".join(mode_parts) if mode_parts else f"<span style='color:{colors['muted']}'><i>Idle</i></span>",
+                body=" | ".join(mode_parts)
+                if mode_parts
+                else f"<span style='color:{colors['muted']}'><i>Idle</i></span>",
             ),
         )
 
@@ -1474,14 +1553,15 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             return
         path = Path(filepath)
         saving_as_mod: bool = (
-            (selected_filter and (".mod" in selected_filter))
-            or path.suffix.lower() == ".mod"
-        )
+            selected_filter and (".mod" in selected_filter)
+        ) or path.suffix.lower() == ".mod"
         if saving_as_mod:
             path = path.with_suffix(".mod") if path.suffix.lower() != ".mod" else path
             if not isinstance(self._installation, HTInstallation):
                 QMessageBox.warning(
-                    self, tr("No Installation"), tr("Please select an installation first."),
+                    self,
+                    tr("No Installation"),
+                    tr("Please select an installation first."),
                 )
                 return
 
@@ -1512,7 +1592,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
                 self,
                 tr("Unsaved Changes"),
                 tr("You have unsaved changes. Do you want to save before creating a new map?"),
-                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Save
+                | QMessageBox.StandardButton.Discard
+                | QMessageBox.StandardButton.Cancel,
             )
             if result == QMessageBox.StandardButton.Save:
                 self.save()
@@ -1533,17 +1615,23 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
                 self,
                 tr("Unsaved Changes"),
                 tr("You have unsaved changes. Do you want to save before opening another map?"),
-                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Save
+                | QMessageBox.StandardButton.Discard
+                | QMessageBox.StandardButton.Cancel,
             )
             if result == QMessageBox.StandardButton.Save:
                 self.save()
             elif result == QMessageBox.StandardButton.Cancel:
                 return
 
-        filepath, _ = QFileDialog.getOpenFileName(self, tr("Open Map"), "", "Indoor Map File (*.indoor)")
+        filepath, _ = QFileDialog.getOpenFileName(
+            self, tr("Open Map"), "", "Indoor Map File (*.indoor)"
+        )
         if filepath and str(filepath).strip():
             try:
-                missing_rooms = self._map.load(Path(filepath).read_bytes(), self._kits, self._module_kit_manager)
+                missing_rooms = self._map.load(
+                    Path(filepath).read_bytes(), self._kits, self._module_kit_manager
+                )
                 self._map.rebuild_room_connections()
                 self.ui.mapRenderer._bwm_surface_cache.clear()
                 self._filepath = filepath
@@ -1569,13 +1657,17 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         installation (if needed) and loads the module. We do not support embedded .indoor
         payloads; the map must be reconstructible from real module resources.
         """
-        filepath, _ = QFileDialog.getOpenFileName(self, tr("Open Module"), "", "Module (*.mod);;All Files (*)")
+        filepath, _ = QFileDialog.getOpenFileName(
+            self, tr("Open Module"), "", "Module (*.mod);;All Files (*)"
+        )
         if not filepath or not str(filepath).strip():
             return
 
         mod_path = Path(filepath)
         if not mod_path.is_file():
-            QMessageBox.warning(self, tr("Invalid File"), trf("File not found:\n{mod_path}", mod_path=mod_path))
+            QMessageBox.warning(
+                self, tr("Invalid File"), trf("File not found:\n{mod_path}", mod_path=mod_path)
+            )
             return
 
         inst_name, module_root = self._resolve_installation_and_module_from_path(mod_path)
@@ -1590,7 +1682,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             return
 
         if self._installation_toolbar is None:
-            QMessageBox.warning(self, tr("No Installation"), tr("Please select an installation first."))
+            QMessageBox.warning(
+                self, tr("No Installation"), tr("Please select an installation first.")
+            )
             return
 
         left = self._installation_toolbar.installation_combo
@@ -1610,7 +1704,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
                 break
         else:
             self._pending_module_after_installation = None
-            QMessageBox.warning(self, tr("Cannot Open Module"), tr("Resolved installation is not in the list."))
+            QMessageBox.warning(
+                self, tr("Cannot Open Module"), tr("Resolved installation is not in the list.")
+            )
 
     def _show_missing_rooms_dialog(
         self,
@@ -1623,16 +1719,36 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         missing_components = [r for r in missing_rooms if r.reason == "component_missing"]
 
         room_count: int = len(missing_rooms)
-        missing_kit_names: set[str] = {r.kit_name for r in missing_rooms if r.reason == "kit_missing"}
-        missing_component_pairs: set[tuple[str, str]] = {(r.kit_name, r.component_name) for r in missing_rooms if r.reason == "component_missing" and r.component_name}
+        missing_kit_names: set[str] = {
+            r.kit_name for r in missing_rooms if r.reason == "kit_missing"
+        }
+        missing_component_pairs: set[tuple[str, str]] = {
+            (r.kit_name, r.component_name)
+            for r in missing_rooms
+            if r.reason == "component_missing" and r.component_name
+        }
 
         main_parts: list[str] = []
         if missing_kit_names:
             kit_list: str = ", ".join(f"'{name}'" for name in sorted(missing_kit_names))
-            main_parts.append(trf("Missing kit{plural}: {kits}", plural="s" if len(missing_kit_names) != 1 else "", kits=kit_list))
+            main_parts.append(
+                trf(
+                    "Missing kit{plural}: {kits}",
+                    plural="s" if len(missing_kit_names) != 1 else "",
+                    kits=kit_list,
+                )
+            )
         if missing_component_pairs:
-            component_list: str = ", ".join(f"'{comp}' ({kit})" for kit, comp in sorted(missing_component_pairs))
-            main_parts.append(trf("Missing component{plural}: {components}", plural="s" if len(missing_component_pairs) != 1 else "", components=component_list))
+            component_list: str = ", ".join(
+                f"'{comp}' ({kit})" for kit, comp in sorted(missing_component_pairs)
+            )
+            main_parts.append(
+                trf(
+                    "Missing component{plural}: {components}",
+                    plural="s" if len(missing_component_pairs) != 1 else "",
+                    components=component_list,
+                )
+            )
 
         main_text = trf(
             "{count} room{plural} failed to load.\n\n{details}",
@@ -1666,7 +1782,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             QMessageBox.Icon.Warning,
             tr("Some Rooms Failed to Load"),
             main_text,
-            flags=Qt.WindowType.Dialog | Qt.WindowType.WindowTitleHint | Qt.WindowType.WindowCloseButtonHint,
+            flags=Qt.WindowType.Dialog
+            | Qt.WindowType.WindowTitleHint
+            | Qt.WindowType.WindowCloseButtonHint,
         )
         msg_box.setDetailedText("\n".join(detailed_lines))
         msg_box.exec()
@@ -1679,7 +1797,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
 
     def build_map(self):
         if not isinstance(self._installation, HTInstallation):
-            QMessageBox.warning(self, tr("No Installation"), tr("Please select an installation first."))
+            QMessageBox.warning(
+                self, tr("No Installation"), tr("Please select an installation first.")
+            )
             return
         path: Path = self._installation.module_path() / f"{self._map.module_id}.mod"
 
@@ -1720,7 +1840,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
                 self,
                 tr("Unsaved Changes"),
                 tr("You have unsaved changes. Do you want to save before loading a module?"),
-                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Save
+                | QMessageBox.StandardButton.Discard
+                | QMessageBox.StandardButton.Cancel,
             )
             if result == QMessageBox.StandardButton.Save:
                 self.save()
@@ -1789,7 +1911,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             QMessageBox(
                 QMessageBox.Icon.Critical,
                 tr("Failed to load module"),
-                trf("Failed to load module '{module}': {error}", module=module_name, error=str((e.__class__.__name__, str(e)))),
+                trf(
+                    "Failed to load module '{module}': {error}",
+                    module=module_name,
+                    error=str((e.__class__.__name__, str(e))),
+                ),
             ).exec()
             return False
 
@@ -1891,7 +2017,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
         center_indoor_camera_on_selected_rooms(self.ui.mapRenderer)
 
     def _content_bounds(self):
-        return aabb_from_points((float(room.position.x), float(room.position.y)) for room in self._map.rooms)
+        return aabb_from_points(
+            (float(room.position.x), float(room.position.y)) for room in self._map.rooms
+        )
 
     def _selection_bounds(self):
         return aabb_from_points(
@@ -1979,7 +2107,12 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             settings=_navigation_settings(),
         )
 
-        if not handled_cam and (self._painting_walkmesh or Qt.Key.Key_Shift in keys) and Qt.MouseButton.LeftButton in buttons and Qt.Key.Key_Control not in keys:
+        if (
+            not handled_cam
+            and (self._painting_walkmesh or Qt.Key.Key_Shift in keys)
+            and Qt.MouseButton.LeftButton in buttons
+            and Qt.Key.Key_Control not in keys
+        ):
             self._apply_paint_at_screen(screen)
             return
 
@@ -2086,7 +2219,11 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             self._sync_rooms_to_blender_if_enabled(rooms)
 
     def _sync_rooms_to_blender_if_enabled(self, rooms: list[IndoorMapRoom]) -> None:
-        if not self.is_blender_mode() or self._blender_controller is None or self._transform_sync_in_progress:
+        if (
+            not self.is_blender_mode()
+            or self._blender_controller is None
+            or self._transform_sync_in_progress
+        ):
             return
         for room in rooms:
             self.sync_room_to_blender(room)
@@ -2190,7 +2327,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             old_materials.append(self._paint_stroke_originals.get((room, face_index), new_material))
             new_materials.append(new_material)
 
-        cmd = PaintWalkmeshCommand(rooms, face_indices, old_materials, new_materials, self._invalidate_rooms)
+        cmd = PaintWalkmeshCommand(
+            rooms, face_indices, old_materials, new_materials, self._invalidate_rooms
+        )
         self._undo_stack.push(cmd)
         self._refresh_window_title()
 
@@ -2202,7 +2341,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
     ):
         # Use event keys; fallback to current keyboard modifiers for reliable Ctrl+scroll zoom
         ctrl_from_keys = Qt.Key.Key_Control in keys
-        ctrl_from_mods = bool(QApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
+        ctrl_from_mods = bool(
+            QApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier
+        )
 
         def zoom_factor_from_wheel(delta_y: float) -> float:
             # Fractional sensitivity (e.g. 0.03 = 3% per step); scale by delta so one click ~120 gives one step
@@ -2363,17 +2504,25 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             key_save=Qt.Key.Key_S,
             key_new=Qt.Key.Key_N,
             key_open=Qt.Key.Key_O,
-            on_escape=lambda: cancel_indoor_operations_and_clear_selection(renderer, cancel_operations=self._cancel_all_operations),
+            on_escape=lambda: cancel_indoor_operations_and_clear_selection(
+                renderer, cancel_operations=self._cancel_all_operations
+            ),
             on_toggle_snap_grid=lambda: toggle_check_widget(self.ui.snapToGridCheck),  # pyright: ignore[reportArgumentType]
             on_toggle_snap_hooks=lambda: toggle_check_widget(self.ui.snapToHooksCheck),  # pyright: ignore[reportArgumentType]
-            on_rotate_selected=lambda: run_if_any_indoor_rooms_selected(renderer, lambda: self._rotate_selected(self.ui.rotSnapSpin.value())),  # pyright: ignore[reportArgumentType]
-            on_flip_selected=lambda: run_if_any_indoor_rooms_selected(renderer, lambda: self._flip_selected(True, False)),  # pyright: ignore[reportArgumentType]
+            on_rotate_selected=lambda: run_if_any_indoor_rooms_selected(
+                renderer, lambda: self._rotate_selected(self.ui.rotSnapSpin.value())
+            ),  # pyright: ignore[reportArgumentType]
+            on_flip_selected=lambda: run_if_any_indoor_rooms_selected(
+                renderer, lambda: self._flip_selected(True, False)
+            ),  # pyright: ignore[reportArgumentType]
             on_select_all=self.select_all,
             on_delete_selected=self.delete_selected,
             on_cancel_placement=self._clear_placement_mode,
             on_toggle_paint=lambda: toggle_check_widget(self.ui.enablePaintCheck),  # pyright: ignore[reportArgumentType]
             on_reset_view=self.reset_view,
-            on_refresh=lambda: cancel_indoor_operations_and_refresh(renderer, cancel_operations=self._cancel_all_operations),
+            on_refresh=lambda: cancel_indoor_operations_and_refresh(
+                renderer, cancel_operations=self._cancel_all_operations
+            ),
             key_zoom_in=(),
             key_zoom_out=(),
             on_zoom_in=lambda: self.ui.mapRenderer.zoom_in_camera(ZOOM_STEP_FACTOR),
@@ -2409,7 +2558,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
             # Process events to allow renderer to stop gracefully
             QApplication.processEvents()
         except Exception:
-            RobustLogger().warning("Failed to stop renderer timer during closeEvent - it may have already been stopped or not initialized.")
+            RobustLogger().warning(
+                "Failed to stop renderer timer during closeEvent - it may have already been stopped or not initialized."
+            )
 
         # Disconnect all signals to prevent callbacks after destruction
         try:
@@ -2432,7 +2583,9 @@ class IndoorMapBuilder(Editor, BlenderEditorMixin):
                 renderer.sig_warp_moved.disconnect()
                 renderer.sig_marquee_select.disconnect()
             except Exception:
-                RobustLogger().warning("Failed to disconnect renderer signals during closeEvent - they may have already been disconnected.")
+                RobustLogger().warning(
+                    "Failed to disconnect renderer signals during closeEvent - they may have already been disconnected."
+                )
 
             # Disconnect undo stack signals
             if self._undo_stack is not None:

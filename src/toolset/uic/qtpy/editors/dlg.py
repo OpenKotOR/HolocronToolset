@@ -39,7 +39,9 @@ class Ui_MainWindow(object):
         self.rightDockWidget.setMinimumSize(QtCore.QSize(310, 100))
         self.rightDockWidget.setBaseSize(QtCore.QSize(310, 100))
         self.rightDockWidget.setFloating(False)
-        self.rightDockWidget.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea|QtCore.Qt.RightDockWidgetArea)
+        self.rightDockWidget.setAllowedAreas(
+            QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea
+        )
         self.rightDockWidget.setObjectName("rightDockWidget")
         self.scrollArea_rightDock = QtWidgets.QScrollArea()
         self.scrollArea_rightDock.setWidgetResizable(True)
@@ -62,7 +64,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setSpacing(2)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.script1Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.script1Label.sizePolicy().hasHeightForWidth())
@@ -81,7 +85,9 @@ class Ui_MainWindow(object):
         self.script1ResrefEdit.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.script1ResrefEdit.setObjectName("script1ResrefEdit")
         self.horizontalLayout.addWidget(self.script1ResrefEdit)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout_scripts.addLayout(self.horizontalLayout)
         self.horizontalLayout_script1Params = QtWidgets.QHBoxLayout()
@@ -132,7 +138,9 @@ class Ui_MainWindow(object):
         self.script1Param4Spin.setObjectName("script1Param4Spin")
         self.horizontalLayout_script1Params.addWidget(self.script1Param4Spin)
         self.script1Param5Spin = GFFFieldSpinBox(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.script1Param5Spin.sizePolicy().hasHeightForWidth())
@@ -142,10 +150,14 @@ class Ui_MainWindow(object):
         self.script1Param5Spin.setMaximum(2147483647)
         self.script1Param5Spin.setObjectName("script1Param5Spin")
         self.horizontalLayout_script1Params.addWidget(self.script1Param5Spin)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_script1Params.addItem(spacerItem1)
         self.script1Param6Edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.script1Param6Edit.sizePolicy().hasHeightForWidth())
@@ -158,7 +170,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setSpacing(2)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.script2Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.script2Label.sizePolicy().hasHeightForWidth())
@@ -172,7 +186,9 @@ class Ui_MainWindow(object):
         self.script2ResrefEdit.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.script2ResrefEdit.setObjectName("script2ResrefEdit")
         self.horizontalLayout_2.addWidget(self.script2ResrefEdit)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_2.addItem(spacerItem2)
         self.verticalLayout_scripts.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_script2Params = QtWidgets.QHBoxLayout()
@@ -235,10 +251,14 @@ class Ui_MainWindow(object):
         self.script2Param5Spin.setMaximum(2147483647)
         self.script2Param5Spin.setObjectName("script2Param5Spin")
         self.horizontalLayout_script2Params.addWidget(self.script2Param5Spin)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_script2Params.addItem(spacerItem3)
         self.script2Param6Edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.script2Param6Edit.sizePolicy().hasHeightForWidth())
@@ -254,7 +274,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setSpacing(2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.conditional1Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conditional1Label.sizePolicy().hasHeightForWidth())
@@ -270,7 +292,9 @@ class Ui_MainWindow(object):
         self.condition1NotCheckbox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.condition1NotCheckbox.setObjectName("condition1NotCheckbox")
         self.horizontalLayout_3.addWidget(self.condition1NotCheckbox)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_3.addItem(spacerItem4)
         self.verticalLayout_conditions.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_condition1Params = QtWidgets.QHBoxLayout()
@@ -332,7 +356,9 @@ class Ui_MainWindow(object):
         self.condition1Param5Spin.setObjectName("condition1Param5Spin")
         self.horizontalLayout_condition1Params.addWidget(self.condition1Param5Spin)
         self.condition1Param6Edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.condition1Param6Edit.sizePolicy().hasHeightForWidth())
@@ -344,7 +370,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setSpacing(2)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.conditional2Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conditional2Label.sizePolicy().hasHeightForWidth())
@@ -360,7 +388,9 @@ class Ui_MainWindow(object):
         self.condition2NotCheckbox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.condition2NotCheckbox.setObjectName("condition2NotCheckbox")
         self.horizontalLayout_4.addWidget(self.condition2NotCheckbox)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_4.addItem(spacerItem5)
         self.verticalLayout_conditions.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
@@ -426,7 +456,9 @@ class Ui_MainWindow(object):
         self.condition2Param5Spin.setObjectName("condition2Param5Spin")
         self.horizontalLayout_condition2Params.addWidget(self.condition2Param5Spin)
         self.condition2Param6Edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.condition2Param6Edit.sizePolicy().hasHeightForWidth())
@@ -444,7 +476,9 @@ class Ui_MainWindow(object):
         self.curAnimsLabel.setObjectName("curAnimsLabel")
         self.verticalLayout_anims.addWidget(self.curAnimsLabel, 0, QtCore.Qt.AlignVCenter)
         self.animsList = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.animsList.sizePolicy().hasHeightForWidth())
@@ -475,7 +509,9 @@ class Ui_MainWindow(object):
         self.expressionSelect.setObjectName("expressionSelect")
         self.formLayout_anims.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.expressionSelect)
         self.emotionLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.emotionLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.emotionLabel.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.emotionLabel.setObjectName("emotionLabel")
         self.formLayout_anims.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.emotionLabel)
         self.verticalLayout_anims.addLayout(self.formLayout_anims)
@@ -495,7 +531,9 @@ class Ui_MainWindow(object):
         self.soundCheckbox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.soundCheckbox.setMaximumSize(QtCore.QSize(250, 16777215))
         self.soundCheckbox.setObjectName("soundCheckbox")
-        self.verticalLayout_2.addWidget(self.soundCheckbox, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_2.addWidget(
+            self.soundCheckbox, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop
+        )
         self.formLayout_sound.setLayout(0, QtWidgets.QFormLayout.LabelRole, self.verticalLayout_2)
         self.verticalLayout_sound = QtWidgets.QVBoxLayout()
         self.verticalLayout_sound.setSpacing(4)
@@ -506,7 +544,9 @@ class Ui_MainWindow(object):
         self.soundButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.soundButton.setObjectName("soundButton")
         self.verticalLayout_sound.addWidget(self.soundButton)
-        self.formLayout_sound.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.verticalLayout_sound)
+        self.formLayout_sound.setLayout(
+            0, QtWidgets.QFormLayout.FieldRole, self.verticalLayout_sound
+        )
         self.verticalLayout_voice = QtWidgets.QVBoxLayout()
         self.verticalLayout_voice.setObjectName("verticalLayout_voice")
         self.voiceComboBox = FilterComboBox(self.scrollAreaWidgetContents)
@@ -515,7 +555,9 @@ class Ui_MainWindow(object):
         self.voiceButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.voiceButton.setObjectName("voiceButton")
         self.verticalLayout_voice.addWidget(self.voiceButton)
-        self.formLayout_sound.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.verticalLayout_voice)
+        self.formLayout_sound.setLayout(
+            2, QtWidgets.QFormLayout.FieldRole, self.verticalLayout_voice
+        )
         self.voiceLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.voiceLabel.setObjectName("voiceLabel")
         self.formLayout_sound.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.voiceLabel)
@@ -645,7 +687,9 @@ class Ui_MainWindow(object):
         self.topDockWidget = QtWidgets.QDockWidget(MainWindow)
         self.topDockWidget.setBaseSize(QtCore.QSize(845, 151))
         self.topDockWidget.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.topDockWidget.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea|QtCore.Qt.TopDockWidgetArea)
+        self.topDockWidget.setAllowedAreas(
+            QtCore.Qt.BottomDockWidgetArea | QtCore.Qt.TopDockWidgetArea
+        )
         self.topDockWidget.setObjectName("topDockWidget")
         self.topDockWidgetContents = QtWidgets.QWidget()
         self.topDockWidgetContents.setObjectName("topDockWidgetContents")
@@ -665,10 +709,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setSpacing(0)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem6 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_5.addItem(spacerItem6)
         self.addStuntButton = QtWidgets.QPushButton(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.addStuntButton.sizePolicy().hasHeightForWidth())
@@ -677,7 +725,9 @@ class Ui_MainWindow(object):
         self.addStuntButton.setObjectName("addStuntButton")
         self.horizontalLayout_5.addWidget(self.addStuntButton)
         self.editStuntButton = QtWidgets.QPushButton(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.editStuntButton.sizePolicy().hasHeightForWidth())
@@ -685,14 +735,18 @@ class Ui_MainWindow(object):
         self.editStuntButton.setObjectName("editStuntButton")
         self.horizontalLayout_5.addWidget(self.editStuntButton)
         self.removeStuntButton = QtWidgets.QPushButton(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.removeStuntButton.sizePolicy().hasHeightForWidth())
         self.removeStuntButton.setSizePolicy(sizePolicy)
         self.removeStuntButton.setObjectName("removeStuntButton")
         self.horizontalLayout_5.addWidget(self.removeStuntButton)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem7 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_5.addItem(spacerItem7)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.gridLayout_5.addLayout(self.verticalLayout, 0, 3, 1, 1)
@@ -705,7 +759,9 @@ class Ui_MainWindow(object):
         self.convoTypeLabel.setObjectName("convoTypeLabel")
         self.gridLayout_3.addWidget(self.convoTypeLabel, 0, 0, 1, 1, QtCore.Qt.AlignRight)
         self.conversationSelect = QtWidgets.QComboBox(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationSelect.sizePolicy().hasHeightForWidth())
@@ -721,7 +777,9 @@ class Ui_MainWindow(object):
         self.computerTypeLabel.setObjectName("computerTypeLabel")
         self.gridLayout_3.addWidget(self.computerTypeLabel, 1, 0, 1, 1, QtCore.Qt.AlignRight)
         self.computerSelect = QtWidgets.QComboBox(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.computerSelect.sizePolicy().hasHeightForWidth())
@@ -734,7 +792,9 @@ class Ui_MainWindow(object):
         self.delayReplyLabel.setObjectName("delayReplyLabel")
         self.gridLayout_3.addWidget(self.delayReplyLabel, 2, 0, 1, 1, QtCore.Qt.AlignRight)
         self.replyDelaySpin = GFFFieldSpinBox(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.replyDelaySpin.sizePolicy().hasHeightForWidth())
@@ -747,7 +807,9 @@ class Ui_MainWindow(object):
         self.delayEntryLabel.setObjectName("delayEntryLabel")
         self.gridLayout_3.addWidget(self.delayEntryLabel, 3, 0, 1, 1, QtCore.Qt.AlignRight)
         self.entryDelaySpin = GFFFieldSpinBox(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.entryDelaySpin.sizePolicy().hasHeightForWidth())
@@ -760,14 +822,18 @@ class Ui_MainWindow(object):
         self.voiceOverIDLabel.setObjectName("voiceOverIDLabel")
         self.gridLayout_3.addWidget(self.voiceOverIDLabel, 4, 0, 1, 1, QtCore.Qt.AlignRight)
         self.voIdEdit = QtWidgets.QLineEdit(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.voIdEdit.sizePolicy().hasHeightForWidth())
         self.voIdEdit.setSizePolicy(sizePolicy)
         self.voIdEdit.setObjectName("voIdEdit")
         self.gridLayout_3.addWidget(self.voIdEdit, 4, 1, 1, 1)
-        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem8 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout_3.addItem(spacerItem8, 5, 1, 1, 1)
         self.gridLayout_5.addLayout(self.gridLayout_3, 0, 1, 1, 1)
         self.gridLayout_2 = QtWidgets.QGridLayout()
@@ -791,7 +857,9 @@ class Ui_MainWindow(object):
         self.onEndEdit.setObjectName("onEndEdit")
         self.gridLayout_2.addWidget(self.onEndEdit, 1, 1, 1, 1)
         self.cameraModelLabel = QtWidgets.QLabel(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cameraModelLabel.sizePolicy().hasHeightForWidth())
@@ -799,7 +867,9 @@ class Ui_MainWindow(object):
         self.cameraModelLabel.setObjectName("cameraModelLabel")
         self.gridLayout_2.addWidget(self.cameraModelLabel, 2, 0, 1, 1, QtCore.Qt.AlignRight)
         self.convoEndsScriptLabel = QtWidgets.QLabel(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.convoEndsScriptLabel.sizePolicy().hasHeightForWidth())
@@ -807,7 +877,9 @@ class Ui_MainWindow(object):
         self.convoEndsScriptLabel.setObjectName("convoEndsScriptLabel")
         self.gridLayout_2.addWidget(self.convoEndsScriptLabel, 1, 0, 1, 1, QtCore.Qt.AlignRight)
         self.convoAbortsScriptLabel = QtWidgets.QLabel(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.convoAbortsScriptLabel.sizePolicy().hasHeightForWidth())
@@ -815,18 +887,24 @@ class Ui_MainWindow(object):
         self.convoAbortsScriptLabel.setObjectName("convoAbortsScriptLabel")
         self.gridLayout_2.addWidget(self.convoAbortsScriptLabel, 0, 0, 1, 1, QtCore.Qt.AlignRight)
         self.ambientTrackLabel = QtWidgets.QLabel(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ambientTrackLabel.sizePolicy().hasHeightForWidth())
         self.ambientTrackLabel.setSizePolicy(sizePolicy)
         self.ambientTrackLabel.setObjectName("ambientTrackLabel")
         self.gridLayout_2.addWidget(self.ambientTrackLabel, 4, 0, 1, 1, QtCore.Qt.AlignRight)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem9 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout_2.addItem(spacerItem9, 5, 1, 1, 1)
         self.gridLayout_5.addLayout(self.gridLayout_2, 0, 2, 1, 1)
         self.widget = QtWidgets.QWidget(self.topDockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
@@ -838,49 +916,73 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setContentsMargins(0, 10, 10, 0)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.animatedCutCheckbox = QtWidgets.QCheckBox(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.animatedCutCheckbox.sizePolicy().hasHeightForWidth())
         self.animatedCutCheckbox.setSizePolicy(sizePolicy)
         self.animatedCutCheckbox.setObjectName("animatedCutCheckbox")
-        self.gridLayout_4.addWidget(self.animatedCutCheckbox, 3, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.gridLayout_4.addWidget(
+            self.animatedCutCheckbox, 3, 0, 1, 1, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
+        )
         self.unequipHandsCheckbox = QtWidgets.QCheckBox(self.widget)
         self.unequipHandsCheckbox.setObjectName("unequipHandsCheckbox")
-        self.gridLayout_4.addWidget(self.unequipHandsCheckbox, 0, 0, 1, 1, QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
+        self.gridLayout_4.addWidget(
+            self.unequipHandsCheckbox, 0, 0, 1, 1, QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter
+        )
         self.unequipAllCheckbox = QtWidgets.QCheckBox(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.unequipAllCheckbox.sizePolicy().hasHeightForWidth())
         self.unequipAllCheckbox.setSizePolicy(sizePolicy)
         self.unequipAllCheckbox.setObjectName("unequipAllCheckbox")
-        self.gridLayout_4.addWidget(self.unequipAllCheckbox, 1, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.gridLayout_4.addWidget(
+            self.unequipAllCheckbox, 1, 0, 1, 1, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
+        )
         self.oldHitCheckbox = QtWidgets.QCheckBox(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.oldHitCheckbox.sizePolicy().hasHeightForWidth())
         self.oldHitCheckbox.setSizePolicy(sizePolicy)
         self.oldHitCheckbox.setObjectName("oldHitCheckbox")
-        self.gridLayout_4.addWidget(self.oldHitCheckbox, 4, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.gridLayout_4.addWidget(
+            self.oldHitCheckbox, 4, 0, 1, 1, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
+        )
         self.skippableCheckbox = QtWidgets.QCheckBox(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.skippableCheckbox.sizePolicy().hasHeightForWidth())
         self.skippableCheckbox.setSizePolicy(sizePolicy)
         self.skippableCheckbox.setObjectName("skippableCheckbox")
-        self.gridLayout_4.addWidget(self.skippableCheckbox, 2, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_4.addWidget(
+            self.skippableCheckbox, 2, 0, 1, 1, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
+        )
+        spacerItem10 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout_4.addItem(spacerItem10, 5, 0, 1, 1)
         self.gridLayout_5.addWidget(self.widget, 0, 0, 1, 1)
-        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem11 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.gridLayout_5.addItem(spacerItem11, 0, 4, 1, 1)
         self.topDockWidget.setWidget(self.topDockWidgetContents)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(4), self.topDockWidget)
         self.dockWidget = QtWidgets.QDockWidget(MainWindow)
-        self.dockWidget.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea|QtCore.Qt.TopDockWidgetArea)
+        self.dockWidget.setAllowedAreas(
+            QtCore.Qt.BottomDockWidgetArea | QtCore.Qt.TopDockWidgetArea
+        )
         self.dockWidget.setObjectName("dockWidget")
         self.dockWidgetContents = QtWidgets.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
@@ -889,9 +991,13 @@ class Ui_MainWindow(object):
         self.plotIndexLabel = QtWidgets.QLabel(self.dockWidgetContents)
         self.plotIndexLabel.setObjectName("plotIndexLabel")
         self.gridLayout.addWidget(self.plotIndexLabel, 3, 2, 1, 1, QtCore.Qt.AlignRight)
-        spacerItem12 = QtWidgets.QSpacerItem(788, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem12 = QtWidgets.QSpacerItem(
+            788, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.gridLayout.addItem(spacerItem12, 3, 4, 1, 1)
-        spacerItem13 = QtWidgets.QSpacerItem(788, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem13 = QtWidgets.QSpacerItem(
+            788, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.gridLayout.addItem(spacerItem13, 2, 4, 1, 1)
         self.speakerEditLabel = QtWidgets.QLabel(self.dockWidgetContents)
         self.speakerEditLabel.setObjectName("speakerEditLabel")
@@ -900,7 +1006,9 @@ class Ui_MainWindow(object):
         self.plotIndexCombo.setObjectName("plotIndexCombo")
         self.gridLayout.addWidget(self.plotIndexCombo, 3, 3, 1, 1)
         self.listenerTagLabel = QtWidgets.QLabel(self.dockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.listenerTagLabel.sizePolicy().hasHeightForWidth())
@@ -913,13 +1021,17 @@ class Ui_MainWindow(object):
         self.questEntryLabel = QtWidgets.QLabel(self.dockWidgetContents)
         self.questEntryLabel.setObjectName("questEntryLabel")
         self.gridLayout.addWidget(self.questEntryLabel, 2, 2, 1, 1, QtCore.Qt.AlignRight)
-        spacerItem14 = QtWidgets.QSpacerItem(788, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem14 = QtWidgets.QSpacerItem(
+            788, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.gridLayout.addItem(spacerItem14, 1, 4, 1, 1)
         self.plotXpPercentLabel = QtWidgets.QLabel(self.dockWidgetContents)
         self.plotXpPercentLabel.setObjectName("plotXpPercentLabel")
         self.gridLayout.addWidget(self.plotXpPercentLabel, 3, 0, 1, 1)
         self.listenerEdit = QtWidgets.QLineEdit(self.dockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.listenerEdit.sizePolicy().hasHeightForWidth())
@@ -929,7 +1041,9 @@ class Ui_MainWindow(object):
         self.listenerEdit.setObjectName("listenerEdit")
         self.gridLayout.addWidget(self.listenerEdit, 1, 1, 1, 1)
         self.questEdit = QtWidgets.QLineEdit(self.dockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.questEdit.sizePolicy().hasHeightForWidth())
@@ -939,7 +1053,9 @@ class Ui_MainWindow(object):
         self.questEdit.setObjectName("questEdit")
         self.gridLayout.addWidget(self.questEdit, 1, 3, 1, 1)
         self.speakerEdit = QtWidgets.QLineEdit(self.dockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.speakerEdit.sizePolicy().hasHeightForWidth())
@@ -954,7 +1070,9 @@ class Ui_MainWindow(object):
         self.questEntrySpin.setObjectName("questEntrySpin")
         self.gridLayout.addWidget(self.questEntrySpin, 2, 3, 1, 1)
         self.plotXpSpin = QtWidgets.QDoubleSpinBox(self.dockWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.plotXpSpin.sizePolicy().hasHeightForWidth())
@@ -963,7 +1081,9 @@ class Ui_MainWindow(object):
         self.plotXpSpin.setMaximumSize(QtCore.QSize(250, 16777215))
         self.plotXpSpin.setObjectName("plotXpSpin")
         self.gridLayout.addWidget(self.plotXpSpin, 3, 1, 1, 1)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem15 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout.addItem(spacerItem15, 4, 3, 1, 1)
         self.plotIndexLabel.raise_()
         self.speakerEditLabel.raise_()
@@ -1016,91 +1136,226 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "DLGEditor"))
         self.rightDockWidget.setWindowTitle(_translate("MainWindow", "Node Fields"))
         self.commentsEdit.setPlaceholderText(_translate("MainWindow", "Comments"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comment (GFF: Comment): Developer-only notes stored in the node. The game ignores\n"
-"            this field entirely. Use it to document your dialogue structure, tag nodes for\n"
-"            scripting, or leave notes for other modders. Comments are preserved when saving the DLG."))
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comment (GFF: Comment): Developer-only notes stored in the node. The game ignores\n"
+                "            this field entirely. Use it to document your dialogue structure, tag nodes for\n"
+                "            scripting, or leave notes for other modders. Comments are preserved when saving the DLG.",
+            )
+        )
         self.script1Label.setText(_translate("MainWindow", "Script #1:"))
-        self.script1ResrefEdit.setToolTip(_translate("MainWindow", "Script (GFF: Script): Action script run when this node is reached. Executes\n"
-"              after text/voice plays. Use for granting items, updating variables, or triggering\n"
-"              cutscenes. ResRef must be a valid .ncs script. Params below are passed as (int int int\n"
-"              int int string)."))
-        self.script1Param1Spin.setToolTip(_translate("MainWindow", "ActionParam1 (GFF: ActionParam1): First integer argument passed to the action\n"
-"              script. Scripts receive params as (nParam1, nParam2, nParam3, nParam4, nParam5,\n"
-"              sParam). Common uses: quest IDs, item resrefs as IDs, or custom flags. Range: INT32\n"
-"              (-2147483648 to 2147483647)."))
-        self.script1Param2Spin.setToolTip(_translate("MainWindow", "ActionParam2 (GFF: ActionParam2): Second integer argument for the action\n"
-"              script. INT32 range."))
-        self.script1Param3Spin.setToolTip(_translate("MainWindow", "ActionParam3 (GFF: ActionParam3): Third integer argument for the action script.\n"
-"              INT32 range."))
-        self.script1Param4Spin.setToolTip(_translate("MainWindow", "ActionParam4 (GFF: ActionParam4): Fourth integer argument for the action\n"
-"              script. INT32 range."))
-        self.script1Param5Spin.setToolTip(_translate("MainWindow", "ActionParam5 (GFF: ActionParam5): Fifth integer argument for the action script.\n"
-"              INT32 range."))
-        self.script1Param6Edit.setToolTip(_translate("MainWindow", "ActionParamStrA (GFF: ActionParamStrA): String argument passed to the action\n"
-"              script. Use for ResRefs, object tags, or custom text. Script receives as sParam."))
+        self.script1ResrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Script (GFF: Script): Action script run when this node is reached. Executes\n"
+                "              after text/voice plays. Use for granting items, updating variables, or triggering\n"
+                "              cutscenes. ResRef must be a valid .ncs script. Params below are passed as (int int int\n"
+                "              int int string).",
+            )
+        )
+        self.script1Param1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParam1 (GFF: ActionParam1): First integer argument passed to the action\n"
+                "              script. Scripts receive params as (nParam1, nParam2, nParam3, nParam4, nParam5,\n"
+                "              sParam). Common uses: quest IDs, item resrefs as IDs, or custom flags. Range: INT32\n"
+                "              (-2147483648 to 2147483647).",
+            )
+        )
+        self.script1Param2Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParam2 (GFF: ActionParam2): Second integer argument for the action\n"
+                "              script. INT32 range.",
+            )
+        )
+        self.script1Param3Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParam3 (GFF: ActionParam3): Third integer argument for the action script.\n"
+                "              INT32 range.",
+            )
+        )
+        self.script1Param4Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParam4 (GFF: ActionParam4): Fourth integer argument for the action\n"
+                "              script. INT32 range.",
+            )
+        )
+        self.script1Param5Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParam5 (GFF: ActionParam5): Fifth integer argument for the action script.\n"
+                "              INT32 range.",
+            )
+        )
+        self.script1Param6Edit.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParamStrA (GFF: ActionParamStrA): String argument passed to the action\n"
+                "              script. Use for ResRefs, object tags, or custom text. Script receives as sParam.",
+            )
+        )
         self.script2Label.setText(_translate("MainWindow", "Script #2:"))
-        self.script2ResrefEdit.setToolTip(_translate("MainWindow", "Script2 (GFF: Script2): Secondary action script. KotOR supports two scripts per\n"
-"              node; both run when the node is reached. Same param structure as Script. Use for\n"
-"              modular or conditional logic."))
-        self.script2Param5Spin.setToolTip(_translate("MainWindow", "ActionParam5b (GFF: ActionParam5b): Fifth integer for Script2. INT32 range."))
+        self.script2ResrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Script2 (GFF: Script2): Secondary action script. KotOR supports two scripts per\n"
+                "              node; both run when the node is reached. Same param structure as Script. Use for\n"
+                "              modular or conditional logic.",
+            )
+        )
+        self.script2Param5Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ActionParam5b (GFF: ActionParam5b): Fifth integer for Script2. INT32 range.",
+            )
+        )
         self.conditional1Label.setText(_translate("MainWindow", "Conditional #1:"))
-        self.condition1ResrefEdit.setToolTip(_translate("MainWindow", "Active (GFF: Active): Condition script that determines if this link is shown.\n"
-"              Must return TRUE (non-zero) for the link to appear. Empty = always show. Params below\n"
-"              are passed to the script. Logic combines with Condition #2 (AND/OR)."))
+        self.condition1ResrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Active (GFF: Active): Condition script that determines if this link is shown.\n"
+                "              Must return TRUE (non-zero) for the link to appear. Empty = always show. Params below\n"
+                "              are passed to the script. Logic combines with Condition #2 (AND/OR).",
+            )
+        )
         self.condition1NotCheckbox.setText(_translate("MainWindow", "Not"))
-        self.condition1NotCheckbox.setToolTip(_translate("MainWindow", "Not (GFF: Not): Inverts the Active condition result. When checked, the link is\n"
-"              shown only when the script returns FALSE. Use for hide-if-met logic."))
-        self.condition1Param1Spin.setToolTip(_translate("MainWindow", "Param1 (GFF: Param1): First integer passed to the Active condition script.\n"
-"              INT32 range."))
-        self.condition1Param2Spin.setToolTip(_translate("MainWindow", "Param2 (GFF: Param2): Second integer passed to the Active condition script.\n"
-"              Script must return TRUE for the link to be shown. INT32 range."))
-        self.condition1Param3Spin.setToolTip(_translate("MainWindow", "Param3 (GFF: Param3): Third integer for the Active condition script. INT32\n"
-"              range."))
-        self.condition1Param4Spin.setToolTip(_translate("MainWindow", "Param4 (GFF: Param4): Fourth integer for the Active condition script. INT32\n"
-"              range."))
-        self.condition1Param5Spin.setToolTip(_translate("MainWindow", "Param5 (GFF: Param5): Fifth integer for the Active condition script. INT32\n"
-"              range."))
-        self.condition1Param6Edit.setToolTip(_translate("MainWindow", "ParamStrA (GFF: ParamStrA): String argument for the Active condition script.\n"
-"              Use for tags, ResRefs, or custom data."))
+        self.condition1NotCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Not (GFF: Not): Inverts the Active condition result. When checked, the link is\n"
+                "              shown only when the script returns FALSE. Use for hide-if-met logic.",
+            )
+        )
+        self.condition1Param1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Param1 (GFF: Param1): First integer passed to the Active condition script.\n"
+                "              INT32 range.",
+            )
+        )
+        self.condition1Param2Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Param2 (GFF: Param2): Second integer passed to the Active condition script.\n"
+                "              Script must return TRUE for the link to be shown. INT32 range.",
+            )
+        )
+        self.condition1Param3Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Param3 (GFF: Param3): Third integer for the Active condition script. INT32\n"
+                "              range.",
+            )
+        )
+        self.condition1Param4Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Param4 (GFF: Param4): Fourth integer for the Active condition script. INT32\n"
+                "              range.",
+            )
+        )
+        self.condition1Param5Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Param5 (GFF: Param5): Fifth integer for the Active condition script. INT32\n"
+                "              range.",
+            )
+        )
+        self.condition1Param6Edit.setToolTip(
+            _translate(
+                "MainWindow",
+                "ParamStrA (GFF: ParamStrA): String argument for the Active condition script.\n"
+                "              Use for tags, ResRefs, or custom data.",
+            )
+        )
         self.conditional2Label.setText(_translate("MainWindow", "Conditional #2:"))
-        self.condition2ResrefEdit.setToolTip(_translate("MainWindow", "Active2 (GFF: Active2): Second condition script for links. Combined with\n"
-"              Condition #1 via Logic (AND/OR). KotOR 2 extension. Params use Param1b-5b, ParamStrB."))
+        self.condition2ResrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Active2 (GFF: Active2): Second condition script for links. Combined with\n"
+                "              Condition #1 via Logic (AND/OR). KotOR 2 extension. Params use Param1b-5b, ParamStrB.",
+            )
+        )
         self.condition2NotCheckbox.setText(_translate("MainWindow", "Not"))
         self.curAnimsLabel.setText(_translate("MainWindow", "Current Animations"))
         self.addAnimButton.setText(_translate("MainWindow", "Add"))
         self.removeAnimButton.setText(_translate("MainWindow", "Remove"))
         self.editAnimButton.setText(_translate("MainWindow", "Edit"))
-        self.emotionSelect.setToolTip(_translate("MainWindow", "Emotion (GFF: Emotion): Emotion ID from appearance.2da or similar. Plays on the\n"
-"              speaker. Used for gesture/emotion animations during dialogue."))
+        self.emotionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Emotion (GFF: Emotion): Emotion ID from appearance.2da or similar. Plays on the\n"
+                "              speaker. Used for gesture/emotion animations during dialogue.",
+            )
+        )
         self.expressionLabel.setText(_translate("MainWindow", "Expression:"))
-        self.expressionSelect.setToolTip(_translate("MainWindow", "FacialAnim (GFF: FacialAnim): Expression ID from expressions.2da. Plays on the\n"
-"              speaker during this node. Index into the 2DA row."))
+        self.expressionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "FacialAnim (GFF: FacialAnim): Expression ID from expressions.2da. Plays on the\n"
+                "              speaker during this node. Index into the 2DA row.",
+            )
+        )
         self.emotionLabel.setText(_translate("MainWindow", "Emotion:"))
         self.soundLabel.setText(_translate("MainWindow", "Sound:"))
-        self.soundCheckbox.setToolTip(_translate("MainWindow", "SoundExists (GFF: SoundExists): BYTE. When checked (0x80), the engine treats\n"
-"                the Sound/VO as present and waits for playback. Default 0x80. Affects WaitFlags and\n"
-"                timing. LoadDialogBase."))
+        self.soundCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "SoundExists (GFF: SoundExists): BYTE. When checked (0x80), the engine treats\n"
+                "                the Sound/VO as present and waits for playback. Default 0x80. Affects WaitFlags and\n"
+                "                timing. LoadDialogBase.",
+            )
+        )
         self.soundCheckbox.setText(_translate("MainWindow", "Exists"))
-        self.soundComboBox.setToolTip(_translate("MainWindow", "Sound (GFF: Sound): ResRef of a WAV played during this node. Overrides\n"
-"                VO_ResRef if both exist. Used for ambient or non-voice sounds. LoadDialogBase\n"
-"                prefers Sound over VO_ResRef when valid."))
+        self.soundComboBox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Sound (GFF: Sound): ResRef of a WAV played during this node. Overrides\n"
+                "                VO_ResRef if both exist. Used for ambient or non-voice sounds. LoadDialogBase\n"
+                "                prefers Sound over VO_ResRef when valid.",
+            )
+        )
         self.soundButton.setText(_translate("MainWindow", "Play"))
-        self.voiceComboBox.setToolTip(_translate("MainWindow", "VO_ResRef (GFF: VO_ResRef): Voice-over WAV ResRef. Plays when this node is\n"
-"                reached. Used if Sound is empty. LoadDialogBase."))
+        self.voiceComboBox.setToolTip(
+            _translate(
+                "MainWindow",
+                "VO_ResRef (GFF: VO_ResRef): Voice-over WAV ResRef. Plays when this node is\n"
+                "                reached. Used if Sound is empty. LoadDialogBase.",
+            )
+        )
         self.voiceButton.setText(_translate("MainWindow", "Play"))
         self.voiceLabel.setText(_translate("MainWindow", "Voice:"))
         self.cameraIdLabel.setText(_translate("MainWindow", "Camera ID:"))
-        self.cameraIdSpin.setToolTip(_translate("MainWindow", "CameraID (GFF: CameraID): Index of a static camera in the CameraModel. Only used\n"
-"            when Camera Angle is Static Camera (6). Engine ignores this when angle is not 6. INT32.\n"
-"            See LoadDialogCamera."))
+        self.cameraIdSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "CameraID (GFF: CameraID): Index of a static camera in the CameraModel. Only used\n"
+                "            when Camera Angle is Static Camera (6). Engine ignores this when angle is not 6. INT32.\n"
+                "            See LoadDialogCamera.",
+            )
+        )
         self.cameraAnimLabel.setText(_translate("MainWindow", "Camera Animation:"))
-        self.cameraAnimSpin.setToolTip(_translate("MainWindow", "CameraAnimation (GFF: CameraAnimation): Index into the CameraModel for animated\n"
-"            cutscene cameras. WORD 0-65535. Used when CameraAngle is Animated Camera (4). Leave 0\n"
-"            for default."))
+        self.cameraAnimSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "CameraAnimation (GFF: CameraAnimation): Index into the CameraModel for animated\n"
+                "            cutscene cameras. WORD 0-65535. Used when CameraAngle is Animated Camera (4). Leave 0\n"
+                "            for default.",
+            )
+        )
         self.cameraAngleLabel.setText(_translate("MainWindow", "Camera Angle:"))
-        self.cameraAngleSelect.setToolTip(_translate("MainWindow", "CameraAngle (GFF: CameraAngle): DWORD. 0=Auto, 1=Face, 2=Shoulder, 3=Wide Shot,\n"
-"            4=Animated Camera, 5=unused, 6=Static Camera. Only angle 6 uses CameraID.\n"
-"            LoadDialogCamera."))
+        self.cameraAngleSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "CameraAngle (GFF: CameraAngle): DWORD. 0=Auto, 1=Face, 2=Shoulder, 3=Wide Shot,\n"
+                "            4=Animated Camera, 5=unused, 6=Static Camera. Only angle 6 uses CameraID.\n"
+                "            LoadDialogCamera.",
+            )
+        )
         self.cameraAngleSelect.setItemText(0, _translate("MainWindow", "Auto"))
         self.cameraAngleSelect.setItemText(1, _translate("MainWindow", "Face"))
         self.cameraAngleSelect.setItemText(2, _translate("MainWindow", "Shoulder"))
@@ -1109,74 +1364,164 @@ class Ui_MainWindow(object):
         self.cameraAngleSelect.setItemText(5, _translate("MainWindow", "(DO NOT USE THIS ENTRY)"))
         self.cameraAngleSelect.setItemText(6, _translate("MainWindow", "Static Camera"))
         self.cameraVidEffectLabel.setText(_translate("MainWindow", "Camera Video Effect:"))
-        self.cameraEffectSelect.setToolTip(_translate("MainWindow", "CamVidEffect (GFF: CamVidEffect): Video effect ID from a 2DA. INT32. -1 = no\n"
-"            effect. Applied during this node\'s camera shot."))
+        self.cameraEffectSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "CamVidEffect (GFF: CamVidEffect): Video effect ID from a 2DA. INT32. -1 = no\n"
+                "            effect. Applied during this node's camera shot.",
+            )
+        )
         self.nodeUnskippableCheckbox.setText(_translate("MainWindow", "Node Unskippable"))
-        self.nodeUnskippableCheckbox.setToolTip(_translate("MainWindow", "NodeUnskippable (GFF): When checked, the player cannot skip this node\'s\n"
-"            voice/text. Use for critical story moments. Overrides file-level Skippable."))
+        self.nodeUnskippableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "NodeUnskippable (GFF): When checked, the player cannot skip this node's\n"
+                "            voice/text. Use for critical story moments. Overrides file-level Skippable.",
+            )
+        )
         self.nodeIdLabel.setText(_translate("MainWindow", "Node ID:"))
-        self.nodeIdSpin.setToolTip(_translate("MainWindow", "NodeID (GFF: NodeID): Unique identifier for this node. Used by scripts and\n"
-"              external references. INT32. Modders can use this to target specific nodes in scripts."))
+        self.nodeIdSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "NodeID (GFF: NodeID): Unique identifier for this node. Used by scripts and\n"
+                "              external references. INT32. Modders can use this to target specific nodes in scripts.",
+            )
+        )
         self.alienRaceNodeLabel.setText(_translate("MainWindow", "Alien Race Node:"))
-        self.alienRaceNodeSpin.setToolTip(_translate("MainWindow", "AlienRaceNode (GFF: AlienRaceNode): Index for alien-race-specific dialogue\n"
-"              variants. Used with alien language/translation systems. INT32."))
+        self.alienRaceNodeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "AlienRaceNode (GFF: AlienRaceNode): Index for alien-race-specific dialogue\n"
+                "              variants. Used with alien language/translation systems. INT32.",
+            )
+        )
         self.postProcNodeLabel.setText(_translate("MainWindow", "Post Proc Node:"))
-        self.postProcSpin.setToolTip(_translate("MainWindow", "PostProcNode (GFF: PostProcNode): Post-processing node index for special\n"
-"              dialogue effects. INT32. See PostProcOwner at file level."))
+        self.postProcSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "PostProcNode (GFF: PostProcNode): Post-processing node index for special\n"
+                "              dialogue effects. INT32. See PostProcOwner at file level.",
+            )
+        )
         self.delayNodeLabel.setText(_translate("MainWindow", "Delay:"))
-        self.delaySpin.setToolTip(_translate("MainWindow", "Delay (GFF: Delay): Milliseconds before text appears. DWORD. 0xFFFFFFFF (-1) =\n"
-"              auto-calculated from voice/sound or DelayEntry/DelayReply. Engine: LoadDialogBase."))
+        self.delaySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Delay (GFF: Delay): Milliseconds before text appears. DWORD. 0xFFFFFFFF (-1) =\n"
+                "              auto-calculated from voice/sound or DelayEntry/DelayReply. Engine: LoadDialogBase.",
+            )
+        )
         self.logicLabel.setText(_translate("MainWindow", "Logic:"))
-        self.logicSpin.setToolTip(_translate("MainWindow", "Logic (GFF: Logic): For links, combines Condition #1 and #2: 0=AND (both must\n"
-"              pass), 1=OR (either passes). KotOR 2 extension. INT32."))
+        self.logicSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Logic (GFF: Logic): For links, combines Condition #1 and #2: 0=AND (both must\n"
+                "              pass), 1=OR (either passes). KotOR 2 extension. INT32.",
+            )
+        )
         self.waitFlagsLabel.setText(_translate("MainWindow", "Wait Flags:"))
-        self.waitFlagSpin.setToolTip(_translate("MainWindow", "WaitFlags (GFF: WaitFlags): Bitmask controlling when the dialogue advances.\n"
-"              DWORD. Bit 2=wait for sound/VO; bit 4=use explicit Delay; bit 0x10=Delay is set.\n"
-"              Engine derives behavior from Sound/VO presence and Delay. See LoadDialogBase."))
+        self.waitFlagSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "WaitFlags (GFF: WaitFlags): Bitmask controlling when the dialogue advances.\n"
+                "              DWORD. Bit 2=wait for sound/VO; bit 4=use explicit Delay; bit 0x10=Delay is set.\n"
+                "              Engine derives behavior from Sound/VO presence and Delay. See LoadDialogBase.",
+            )
+        )
         self.fadeTypeLabel.setText(_translate("MainWindow", "Fade Type:"))
-        self.fadeTypeSpin.setToolTip(_translate("MainWindow", "FadeType (GFF: FadeType): Screen fade for this node. BYTE 0-255. 0=None,\n"
-"              1=FadeIn, 2=FadeOut. Values 1-2 clear FadeDelay/FadeLength. Engine: LoadDialogBase @\n"
-"              0x0059f5f0."))
+        self.fadeTypeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "FadeType (GFF: FadeType): Screen fade for this node. BYTE 0-255. 0=None,\n"
+                "              1=FadeIn, 2=FadeOut. Values 1-2 clear FadeDelay/FadeLength. Engine: LoadDialogBase @\n"
+                "              0x0059f5f0.",
+            )
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuTools.setTitle(_translate("MainWindow", "Tools"))
         self.topDockWidget.setWindowTitle(_translate("MainWindow", "File Globals"))
         self.cutsceneModelLabel.setText(_translate("MainWindow", "Cutscene Model"))
-        self.stuntList.setToolTip(_translate("MainWindow", "StuntList (GFF): Custom models for dialogue participants. Each stunt maps\n"
-"           Participant tag to StuntModel ResRef. Used for cutscenes with non-standard character\n"
-"           models (e.g. droids, creatures). Participant must match a creature/npc tag in the\n"
-"           dialogue."))
+        self.stuntList.setToolTip(
+            _translate(
+                "MainWindow",
+                "StuntList (GFF): Custom models for dialogue participants. Each stunt maps\n"
+                "           Participant tag to StuntModel ResRef. Used for cutscenes with non-standard character\n"
+                "           models (e.g. droids, creatures). Participant must match a creature/npc tag in the\n"
+                "           dialogue.",
+            )
+        )
         self.addStuntButton.setText(_translate("MainWindow", "Add"))
         self.editStuntButton.setText(_translate("MainWindow", "Edit"))
         self.removeStuntButton.setText(_translate("MainWindow", "Remove"))
         self.convoTypeLabel.setText(_translate("MainWindow", "Conversation Type:"))
-        self.conversationSelect.setToolTip(_translate("MainWindow", "ConversationType (GFF: ConversationType): 0=Human (cinematic, voice), 1=Computer\n"
-"           (terminal UI), 2=Other (bark strings). Engine uses ReadFieldINT. See LoadDialog @\n"
-"           0x005a2ae0."))
+        self.conversationSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "ConversationType (GFF: ConversationType): 0=Human (cinematic, voice), 1=Computer\n"
+                "           (terminal UI), 2=Other (bark strings). Engine uses ReadFieldINT. See LoadDialog @\n"
+                "           0x005a2ae0.",
+            )
+        )
         self.conversationSelect.setItemText(0, _translate("MainWindow", "Human"))
         self.conversationSelect.setItemText(1, _translate("MainWindow", "Computer"))
         self.conversationSelect.setItemText(2, _translate("MainWindow", "Type 3"))
         self.conversationSelect.setItemText(3, _translate("MainWindow", "Type 4"))
         self.conversationSelect.setItemText(4, _translate("MainWindow", "Type 5"))
         self.computerTypeLabel.setText(_translate("MainWindow", "Computer Type:"))
-        self.computerSelect.setToolTip(_translate("MainWindow", "ComputerType (GFF: ComputerType): BYTE. 0=Modern (green terminal), 1=Ancient\n"
-"           (orange/red). Used when ConversationType is Computer. See LoadDialog."))
+        self.computerSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "ComputerType (GFF: ComputerType): BYTE. 0=Modern (green terminal), 1=Ancient\n"
+                "           (orange/red). Used when ConversationType is Computer. See LoadDialog.",
+            )
+        )
         self.computerSelect.setItemText(0, _translate("MainWindow", "Modern"))
         self.computerSelect.setItemText(1, _translate("MainWindow", "Ancient"))
         self.delayReplyLabel.setText(_translate("MainWindow", "Delay before Reply:"))
-        self.replyDelaySpin.setToolTip(_translate("MainWindow", "DelayReply (GFF: DelayReply): Default delay in ms before player reply options\n"
-"           appear. DWORD 0-4294967295. Used when node Delay is 0xFFFFFFFF. LoadDialog."))
+        self.replyDelaySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "DelayReply (GFF: DelayReply): Default delay in ms before player reply options\n"
+                "           appear. DWORD 0-4294967295. Used when node Delay is 0xFFFFFFFF. LoadDialog.",
+            )
+        )
         self.delayEntryLabel.setText(_translate("MainWindow", "Delay before Entry:"))
-        self.entryDelaySpin.setToolTip(_translate("MainWindow", "DelayEntry (GFF: DelayEntry): Default delay in ms before NPC entry lines appear.\n"
-"           DWORD 0-4294967295. Used when node Delay is 0xFFFFFFFF. LoadDialog."))
+        self.entryDelaySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "DelayEntry (GFF: DelayEntry): Default delay in ms before NPC entry lines appear.\n"
+                "           DWORD 0-4294967295. Used when node Delay is 0xFFFFFFFF. LoadDialog.",
+            )
+        )
         self.voiceOverIDLabel.setText(_translate("MainWindow", "Voiceover ID:"))
-        self.ambientTrackCombo.setToolTip(_translate("MainWindow", "AmbientTrack (GFF: AmbientTrack): ResRef of background music loop during dialogue.\n"
-"           Leave blank for default. LoadDialog."))
-        self.cameraModelSelect.setToolTip(_translate("MainWindow", "CameraModel (GFF: CameraModel): ResRef of MDL defining camera positions for\n"
-"           cinematic dialogue. Required for Animated/Static camera angles. LoadDialog."))
-        self.onAbortCombo.setToolTip(_translate("MainWindow", "EndConverAbort (GFF: EndConverAbort): Script run when the conversation is aborted\n"
-"           (player exits early). ResRef of .ncs. LoadDialog."))
-        self.onEndEdit.setToolTip(_translate("MainWindow", "EndConversation (GFF: EndConversation): Script run when the conversation ends\n"
-"           normally. ResRef of .ncs. LoadDialog."))
+        self.ambientTrackCombo.setToolTip(
+            _translate(
+                "MainWindow",
+                "AmbientTrack (GFF: AmbientTrack): ResRef of background music loop during dialogue.\n"
+                "           Leave blank for default. LoadDialog.",
+            )
+        )
+        self.cameraModelSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "CameraModel (GFF: CameraModel): ResRef of MDL defining camera positions for\n"
+                "           cinematic dialogue. Required for Animated/Static camera angles. LoadDialog.",
+            )
+        )
+        self.onAbortCombo.setToolTip(
+            _translate(
+                "MainWindow",
+                "EndConverAbort (GFF: EndConverAbort): Script run when the conversation is aborted\n"
+                "           (player exits early). ResRef of .ncs. LoadDialog.",
+            )
+        )
+        self.onEndEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "EndConversation (GFF: EndConversation): Script run when the conversation ends\n"
+                "           normally. ResRef of .ncs. LoadDialog.",
+            )
+        )
         self.cameraModelLabel.setText(_translate("MainWindow", "Camera Model:"))
         self.convoEndsScriptLabel.setText(_translate("MainWindow", "Conversation Ends:"))
         self.convoAbortsScriptLabel.setText(_translate("MainWindow", "Conversation Aborts:"))
@@ -1185,10 +1530,15 @@ class Ui_MainWindow(object):
         self.unequipHandsCheckbox.setText(_translate("MainWindow", "Unequip Hands"))
         self.unequipAllCheckbox.setText(_translate("MainWindow", "Unequip All"))
         self.oldHitCheckbox.setText(_translate("MainWindow", "Old Hit Check"))
-        self.skippableCheckbox.setToolTip(_translate("MainWindow", "Skippable (GFF: Skippable): BYTE. When checked, the player can skip dialogue\n"
-"            lines. Default 1. When unchecked, dialogue is unskippable (e.g. cutscenes). LoadDialog."))
+        self.skippableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Skippable (GFF: Skippable): BYTE. When checked, the player can skip dialogue\n"
+                "            lines. Default 1. When unchecked, dialogue is unskippable (e.g. cutscenes). LoadDialog.",
+            )
+        )
         self.skippableCheckbox.setText(_translate("MainWindow", "Skippable"))
-        self.plotIndexLabel.setWhatsThis(_translate("MainWindow", "GFF Field \"PlotIndex\" Int32"))
+        self.plotIndexLabel.setWhatsThis(_translate("MainWindow", 'GFF Field "PlotIndex" Int32'))
         self.plotIndexLabel.setText(_translate("MainWindow", "Plot Index:"))
         self.speakerEditLabel.setText(_translate("MainWindow", "Speaker Tag:"))
         self.listenerTagLabel.setText(_translate("MainWindow", "Listener Tag:"))
@@ -1203,6 +1553,8 @@ class Ui_MainWindow(object):
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionReloadTree.setText(_translate("MainWindow", "Reload Tree"))
         self.actionUnfocus.setText(_translate("MainWindow", "Unfocus Tree"))
+
+
 from toolset.gui.editors.dlg import DLGTreeView
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.spinbox import GFFFieldSpinBox

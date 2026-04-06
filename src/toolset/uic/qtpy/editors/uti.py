@@ -28,7 +28,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_preview = QtWidgets.QVBoxLayout()
         self.verticalLayout_preview.setObjectName("verticalLayout_preview")
         self.previewRenderer = ModelRenderer(self.tab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.previewRenderer.sizePolicy().hasHeightForWidth())
@@ -41,7 +43,9 @@ class Ui_MainWindow(object):
         self.itemModelInfoGroupBox = QtWidgets.QGroupBox(self.tab)
         self.itemModelInfoGroupBox.setCheckable(True)
         self.itemModelInfoGroupBox.setChecked(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.itemModelInfoGroupBox.sizePolicy().hasHeightForWidth())
@@ -223,7 +227,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout_3)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_2.addItem(spacerItem)
         self.addPropertyButton = QtWidgets.QPushButton(self.tab_2)
         self.addPropertyButton.setMaximumSize(QtCore.QSize(20, 16777215))
@@ -233,7 +239,9 @@ class Ui_MainWindow(object):
         self.removePropertyButton.setMaximumSize(QtCore.QSize(20, 16777215))
         self.removePropertyButton.setObjectName("removePropertyButton")
         self.verticalLayout_2.addWidget(self.removePropertyButton)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_2.addItem(spacerItem1)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
@@ -294,117 +302,240 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.itemModelInfoGroupBox.setTitle(_translate("MainWindow", "Model Info"))
-        self.itemModelInfoSummaryLabel.setToolTip(_translate("MainWindow", "Summary of the item\'s 3D model. Expand to see full model path and texture\n"
-"                 info. Display-only; change Base Item or Model Variation to change the model. Not\n"
-"                 stored in the GFF."))
+        self.itemModelInfoSummaryLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Summary of the item's 3D model. Expand to see full model path and texture\n"
+                "                 info. Display-only; change Base Item or Model Variation to change the model. Not\n"
+                "                 stored in the GFF.",
+            )
+        )
         self.nameLabel.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocalizedName). CExoLocString. The displayed name of the item in\n"
-"                inventory, stores, and dialogue. Engine reads via ReadFieldCExoLocString in\n"
-"                CSWSItem::LoadDataFromGff. Modders: set a custom name or leave\n"
-"                empty to use the base item\'s default from baseitems.2da. Shown in the item\n"
-"                description panel and store/container UI."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocalizedName). CExoLocString. The displayed name of the item in\n"
+                "                inventory, stores, and dialogue. Engine reads via ReadFieldCExoLocString in\n"
+                "                CSWSItem::LoadDataFromGff. Modders: set a custom name or leave\n"
+                "                empty to use the base item's default from baseitems.2da. Shown in the item\n"
+                "                description panel and store/container UI.",
+            )
+        )
         self.tagLabel.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for this item when placed in\n"
-"                the module. Engine reads via ReadFieldCExoString in LoadDataFromGff. Scripts use\n"
-"                GetItemByTag to target this item. Modders: leave blank for\n"
-"                stackable/generic items; set a tag for scripted references. Duplicate tags in the\n"
-"                same area can cause wrong item to be targeted."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
-"                they stay in sync. Use when you need to reference this item by tag in scripts; keep\n"
-"                Tag unique per area."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for this item when placed in\n"
+                "                the module. Engine reads via ReadFieldCExoString in LoadDataFromGff. Scripts use\n"
+                "                GetItemByTag to target this item. Modders: leave blank for\n"
+                "                stackable/generic items; set a tag for scripted references. Duplicate tags in the\n"
+                "                same area can cause wrong item to be targeted.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
+                "                they stay in sync. Use when you need to reference this item by tag in scripts; keep\n"
+                "                Tag unique per area.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.resrefLabel.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) of this\n"
-"                item template; .uti extension implied. The engine stores ResRefs in 16 bytes. When\n"
-"                the game loads an item it uses this to find the UTI\n"
-"                file. Modders: must match the .uti filename; used by stores, loot tables, and\n"
-"                GiveItem. Mismatch can cause missing or wrong item data."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
-"                16 characters). ResRef should match the UTI filename for the game to load the item\n"
-"                correctly."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) of this\n"
+                "                item template; .uti extension implied. The engine stores ResRefs in 16 bytes. When\n"
+                "                the game loads an item it uses this to find the UTI\n"
+                "                file. Modders: must match the .uti filename; used by stores, loot tables, and\n"
+                "                GiveItem. Mismatch can cause missing or wrong item data.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
+                "                16 characters). ResRef should match the UTI filename for the game to load the item\n"
+                "                correctly.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
         self.descriptionLabel.setText(_translate("MainWindow", "Description:"))
-        self.descEdit.setToolTip(_translate("MainWindow", "Description (GFF: DescIdentified). CExoLocString. Shown when the player\n"
-"                examines an identified item. Engine reads via ReadFieldCExoLocString in\n"
-"                LoadDataFromGff. \"Description\" (unidentified) is also read;\n"
-"                DescIdentified is the main one shown after identification. Modders: use for lore,\n"
-"                usage hints, or flavor text."))
+        self.descEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Description (GFF: DescIdentified). CExoLocString. Shown when the player\n"
+                "                examines an identified item. Engine reads via ReadFieldCExoLocString in\n"
+                '                LoadDataFromGff. "Description" (unidentified) is also read;\n'
+                "                DescIdentified is the main one shown after identification. Modders: use for lore,\n"
+                "                usage hints, or flavor text.",
+            )
+        )
         self.baseItemLabel.setText(_translate("MainWindow", "Base Item:"))
-        self.baseSelect.setToolTip(_translate("MainWindow", "Base Item (GFF: BaseItem). INT32. Engine reads via ReadFieldINT in\n"
-"              LoadDataFromGff. Row index into baseitems.2da; determines category\n"
-"              (weapon, armor, usable), equip slots, model type, and default stats. Modders: must be\n"
-"              a valid row; invalid indices can cause load failures or wrong visuals. Changing this\n"
-"              changes the item\'s core behavior (e.g. blaster vs. lightsaber)."))
+        self.baseSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Base Item (GFF: BaseItem). INT32. Engine reads via ReadFieldINT in\n"
+                "              LoadDataFromGff. Row index into baseitems.2da; determines category\n"
+                "              (weapon, armor, usable), equip slots, model type, and default stats. Modders: must be\n"
+                "              a valid row; invalid indices can cause load failures or wrong visuals. Changing this\n"
+                "              changes the item's core behavior (e.g. blaster vs. lightsaber).",
+            )
+        )
         self.costLabel.setText(_translate("MainWindow", "Cost:"))
-        self.costSpin.setToolTip(_translate("MainWindow", "Cost (GFF: Cost). Base sale/purchase price in credits. Stored as DWORD\n"
-"              (0–4294967295); UI caps at 2147483647. The engine does not read this field in\n"
-"              LoadDataFromGff; it is written by SaveItem when saving. Store and\n"
-"              barter typically use base item pricing plus AddCost (which the engine does read).\n"
-"              Modders: set for toolset consistency and documentation; to affect in-game price, use\n"
-"              Additional Cost. 0 = free. Very high values may display oddly in some UIs."))
+        self.costSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Cost (GFF: Cost). Base sale/purchase price in credits. Stored as DWORD\n"
+                "              (0–4294967295); UI caps at 2147483647. The engine does not read this field in\n"
+                "              LoadDataFromGff; it is written by SaveItem when saving. Store and\n"
+                "              barter typically use base item pricing plus AddCost (which the engine does read).\n"
+                "              Modders: set for toolset consistency and documentation; to affect in-game price, use\n"
+                "              Additional Cost. 0 = free. Very high values may display oddly in some UIs.",
+            )
+        )
         self.addCostLabel.setText(_translate("MainWindow", "Additional Cost:"))
-        self.additionalCostSpin.setToolTip(_translate("MainWindow", "Additional Cost (GFF: AddCost). DWORD. Engine reads via ReadFieldDWORD in\n"
-"              LoadDataFromGff. Extra credits added to base cost; combined with\n"
-"              base item pricing for final store price. Modders: increase for upgraded or\n"
-"              high-property items. Valid range 0–4294967295; UI caps at 2147483647."))
+        self.additionalCostSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Additional Cost (GFF: AddCost). DWORD. Engine reads via ReadFieldDWORD in\n"
+                "              LoadDataFromGff. Extra credits added to base cost; combined with\n"
+                "              base item pricing for final store price. Modders: increase for upgraded or\n"
+                "              high-property items. Valid range 0–4294967295; UI caps at 2147483647.",
+            )
+        )
         self.upgradeLvlLabel.setText(_translate("MainWindow", "Upgrade Level:"))
-        self.upgradeSpin.setToolTip(_translate("MainWindow", "Upgrade Level (GFF: Upgrades). DWORD in engine (ReadFieldDWORD in\n"
-"              LoadDataFromGff). K1: bitfield for which upgrade slots are filled.\n"
-"              K2: often used as upgrade tier (0–255). UI shows 0–255. Modders: must match base item;\n"
-"              invalid values can break upgrade slots or display."))
+        self.upgradeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Upgrade Level (GFF: Upgrades). DWORD in engine (ReadFieldDWORD in\n"
+                "              LoadDataFromGff). K1: bitfield for which upgrade slots are filled.\n"
+                "              K2: often used as upgrade tier (0–255). UI shows 0–255. Modders: must match base item;\n"
+                "              invalid values can break upgrade slots or display.",
+            )
+        )
         self.labelPlot.setText(_translate("MainWindow", "Plot:"))
-        self.plotCheckbox.setToolTip(_translate("MainWindow", "Plot (GFF: Plot). Boolean. If set, the item cannot be dropped or sold. Engine\n"
-"              reads via ReadFieldCExoString/BOOL in LoadDataFromGff. Used for key quest items."))
+        self.plotCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Plot (GFF: Plot). Boolean. If set, the item cannot be dropped or sold. Engine\n"
+                "              reads via ReadFieldCExoString/BOOL in LoadDataFromGff. Used for key quest items.",
+            )
+        )
         self.labelCharges.setText(_translate("MainWindow", "Charges:"))
-        self.chargesSpin.setToolTip(_translate("MainWindow", "Charges (GFF: Charges). Number of uses remaining for usable items (e.g.\n"
-"              medpacs). Engine reads in LoadDataFromGff."))
+        self.chargesSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Charges (GFF: Charges). Number of uses remaining for usable items (e.g.\n"
+                "              medpacs). Engine reads in LoadDataFromGff.",
+            )
+        )
         self.labelStack.setText(_translate("MainWindow", "Stack Size:"))
-        self.stackSpin.setToolTip(_translate("MainWindow", "Stack Size (GFF: StackSize). Number of items in this stack. Engine reads in\n"
-"              LoadDataFromGff."))
+        self.stackSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Stack Size (GFF: StackSize). Number of items in this stack. Engine reads in\n"
+                "              LoadDataFromGff.",
+            )
+        )
         self.labelModelVar.setText(_translate("MainWindow", "Model Variation:"))
-        self.modelVarSpin.setToolTip(_translate("MainWindow", "Model Variation (GFF: ModelVariation). Picks which model variant is used for\n"
-"              this base item. Affects 3D preview."))
+        self.modelVarSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Model Variation (GFF: ModelVariation). Picks which model variant is used for\n"
+                "              this base item. Affects 3D preview.",
+            )
+        )
         self.labelBodyVar.setText(_translate("MainWindow", "Body Variation:"))
-        self.bodyVarSpin.setToolTip(_translate("MainWindow", "Body Variation. Body part variant for the model."))
+        self.bodyVarSpin.setToolTip(
+            _translate("MainWindow", "Body Variation. Body part variant for the model.")
+        )
         self.labelTextureVar.setText(_translate("MainWindow", "Texture Variation:"))
-        self.textureVarSpin.setToolTip(_translate("MainWindow", "Texture Variation (GFF: TextureVar). Texture variant for the model. Affects 3D\n"
-"              preview."))
+        self.textureVarSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Texture Variation (GFF: TextureVar). Texture variant for the model. Affects 3D\n"
+                "              preview.",
+            )
+        )
         self.iconGroupBox.setTitle(_translate("MainWindow", "Icon"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "General"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "General")
+        )
         self.availPropLabel.setText(_translate("MainWindow", "Available Properties"))
-        self.availPropLabel.setToolTip(_translate("MainWindow", "Available properties from itemprops.2da (and related 2DAs). Add properties to\n"
-"              define enchantments, damage bonuses, and special effects. The engine reads assigned\n"
-"              properties from GFF PropertiesList; each entry has PropertyName (WORD), Subtype\n"
-"              (WORD),\n"
-"              CostTable (BYTE), CostValue (WORD), Param1, Param1Value, ChanceAppear (BYTE), Useable\n"
-"              (BYTE).\n"
-"              Use the arrow buttons to assign."))
-        self.addPropertyButton.setToolTip(_translate("MainWindow", "Add the selected available property to this item. Appends an entry to the GFF\n"
-"              PropertiesList; the engine reads these in LoadDataFromGff. Use Edit\n"
-"              Property to set Subtype, CostValue, Param1, Param1Value, ChanceAppear, etc."))
+        self.availPropLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Available properties from itemprops.2da (and related 2DAs). Add properties to\n"
+                "              define enchantments, damage bonuses, and special effects. The engine reads assigned\n"
+                "              properties from GFF PropertiesList; each entry has PropertyName (WORD), Subtype\n"
+                "              (WORD),\n"
+                "              CostTable (BYTE), CostValue (WORD), Param1, Param1Value, ChanceAppear (BYTE), Useable\n"
+                "              (BYTE).\n"
+                "              Use the arrow buttons to assign.",
+            )
+        )
+        self.addPropertyButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Add the selected available property to this item. Appends an entry to the GFF\n"
+                "              PropertiesList; the engine reads these in LoadDataFromGff. Use Edit\n"
+                "              Property to set Subtype, CostValue, Param1, Param1Value, ChanceAppear, etc.",
+            )
+        )
         self.addPropertyButton.setText(_translate("MainWindow", "->"))
-        self.removePropertyButton.setToolTip(_translate("MainWindow", "Remove the selected property from this item. Deletes the entry from the GFF\n"
-"              PropertiesList. The item will no longer have that enchantment or effect in-game."))
+        self.removePropertyButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Remove the selected property from this item. Deletes the entry from the GFF\n"
+                "              PropertiesList. The item will no longer have that enchantment or effect in-game.",
+            )
+        )
         self.removePropertyButton.setText(_translate("MainWindow", "<-"))
         self.propertyLabel.setText(_translate("MainWindow", "Assigned Properties"))
-        self.propertyLabel.setToolTip(_translate("MainWindow", "Assigned properties (GFF: PropertiesList). The engine reads this list in\n"
-"              LoadDataFromGff via GetList(\"PropertiesList\"); each element has\n"
-"              PropertyName (WORD), Subtype (WORD), CostTable (BYTE), CostValue (WORD), Param1,\n"
-"              Param1Value (BYTE), ChanceAppear (BYTE), Useable (BYTE). Edit Property to adjust\n"
-"              values. Order can affect display and some game logic."))
-        self.assignedPropertiesList.setToolTip(_translate("MainWindow", "List of item properties on this item. Each row is one entry in GFF\n"
-"              PropertiesList. Select a row and click Edit Property to change Subtype, CostValue,\n"
-"              Param1, Param1Value, ChanceAppear, and other fields. The game applies these effects\n"
-"              when the item is equipped or used."))
-        self.editPropertyButton.setToolTip(_translate("MainWindow", "Open the property editor for the selected assigned property. Lets you set\n"
-"              Subtype, CostTable, CostValue, Param1, Param1Value, ChanceAppear (0–100), Useable, and\n"
-"              other fields. Required for configuring damage types, bonuses, and effect parameters."))
+        self.propertyLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Assigned properties (GFF: PropertiesList). The engine reads this list in\n"
+                '              LoadDataFromGff via GetList("PropertiesList"); each element has\n'
+                "              PropertyName (WORD), Subtype (WORD), CostTable (BYTE), CostValue (WORD), Param1,\n"
+                "              Param1Value (BYTE), ChanceAppear (BYTE), Useable (BYTE). Edit Property to adjust\n"
+                "              values. Order can affect display and some game logic.",
+            )
+        )
+        self.assignedPropertiesList.setToolTip(
+            _translate(
+                "MainWindow",
+                "List of item properties on this item. Each row is one entry in GFF\n"
+                "              PropertiesList. Select a row and click Edit Property to change Subtype, CostValue,\n"
+                "              Param1, Param1Value, ChanceAppear, and other fields. The game applies these effects\n"
+                "              when the item is equipped or used.",
+            )
+        )
+        self.editPropertyButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Open the property editor for the selected assigned property. Lets you set\n"
+                "              Subtype, CostTable, CostValue, Param1, Param1Value, ChanceAppear (0–100), Useable, and\n"
+                "              other fields. Required for configuring damage types, bonuses, and effect parameters.",
+            )
+        )
         self.editPropertyButton.setText(_translate("MainWindow", "Edit Property"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Properties"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer notes only—the game engine never\n"
-"            reads or displays this. Use for mod documentation, credits, or internal notes. No length\n"
-"            limit in GFF."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Properties")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer notes only—the game engine never\n"
+                "            reads or displays this. Use for mod documentation, credits, or internal notes. No length\n"
+                "            limit in GFF.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -412,6 +543,8 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from toolset.gui.widgets.renderer.model import ModelRenderer

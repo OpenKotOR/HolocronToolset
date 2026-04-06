@@ -53,8 +53,7 @@ class TransformInteractionState:
         self.is_drag_rotating_spawn = False
 
     def finalize_undo_actions(self):
-        """Commits active transforms to the undo stack. To be called on mouse release.
-        """
+        """Commits active transforms to the undo stack. To be called on mouse release."""
         from toolset.gui.editors.git.undo import (
             MoveCommand,
             RotateCommand,
@@ -72,7 +71,9 @@ class TransformInteractionState:
                 elif not old_position:
                     RobustLogger().debug(f"No old position for {instance.resref}")
                 else:
-                    RobustLogger().debug(f"TransformInteractionState: Positions identical - no MoveCommand for {instance.resref}")
+                    RobustLogger().debug(
+                        f"TransformInteractionState: Positions identical - no MoveCommand for {instance.resref}"
+                    )
 
             self.initial_positions.clear()
             self.is_drag_moving = False
@@ -80,14 +81,18 @@ class TransformInteractionState:
         # Rotating generic instances
         if self.is_drag_rotating:
             for instance, old_rotation in self.initial_rotations.items():
-                new_rotation = instance.orientation if isinstance(instance, GITCamera) else instance.bearing
+                new_rotation = (
+                    instance.orientation if isinstance(instance, GITCamera) else instance.bearing
+                )
                 if old_rotation and new_rotation != old_rotation:
                     RobustLogger().debug("TransformInteractionState: Pushing RotateCommand")
                     self.undo_stack.push(RotateCommand(instance, old_rotation, new_rotation))
                 elif not old_rotation:
                     RobustLogger().debug(f"No old rotation for {instance.resref}")
                 else:
-                    RobustLogger().debug(f"TransformInteractionState: Rotations identical - no RotateCommand for {instance.resref}")
+                    RobustLogger().debug(
+                        f"TransformInteractionState: Rotations identical - no RotateCommand for {instance.resref}"
+                    )
 
             self.initial_rotations.clear()
             self.is_drag_rotating = False
@@ -97,7 +102,9 @@ class TransformInteractionState:
             for spawn, old_pos in self.initial_spawn_positions.items():
                 new_pos = Vector3(spawn.x, spawn.y, spawn.z)
                 if new_pos != old_pos:
-                    self.undo_stack.push(SpawnPointMoveCommand(spawn, old_pos, new_pos, self.editor))
+                    self.undo_stack.push(
+                        SpawnPointMoveCommand(spawn, old_pos, new_pos, self.editor)
+                    )
 
             self.initial_spawn_positions.clear()
             self.is_drag_moving_spawn = False
@@ -107,7 +114,9 @@ class TransformInteractionState:
             for spawn, old_rot in self.initial_spawn_rotations.items():
                 new_rot = float(spawn.orientation)
                 if new_rot != old_rot:
-                    self.undo_stack.push(SpawnPointRotateCommand(spawn, old_rot, new_rot, self.editor))
+                    self.undo_stack.push(
+                        SpawnPointRotateCommand(spawn, old_rot, new_rot, self.editor)
+                    )
 
             self.initial_spawn_rotations.clear()
             self.is_drag_rotating_spawn = False

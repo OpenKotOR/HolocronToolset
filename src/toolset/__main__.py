@@ -27,6 +27,7 @@ def _patch_mdl_io_before_path_setup() -> None:
 
 _patch_mdl_io_before_path_setup()
 
+
 # Set up paths BEFORE importing anything that might import loggerplus (which depends on utility)
 # This is critical for both frozen and non-frozen builds
 def setup_paths():
@@ -37,7 +38,10 @@ def setup_paths():
     paths_to_add = [
         file_path.parent.parent,  # ./Tools/HolocronToolset/src/
         repo_root / "Tools" / "KotorDiff" / "src",  # ./Tools/KotorDiff/src/
-        repo_root / "Libraries" / "PyKotor" / "src",  # ./Libraries/PyKotor/src/ (contains both pykotor and utility namespaces)
+        repo_root
+        / "Libraries"
+        / "PyKotor"
+        / "src",  # ./Libraries/PyKotor/src/ (contains both pykotor and utility namespaces)
     ]
 
     for path in paths_to_add:

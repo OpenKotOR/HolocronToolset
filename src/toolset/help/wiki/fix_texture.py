@@ -1,4 +1,3 @@
-import re
 content = open("wiki/Texture-Formats.md", encoding="utf-8").read()
 
 idx1 = content.find("PyKotor reads both variants via")

@@ -106,7 +106,9 @@ def test_editor_help_dialog_creation(qtbot: QtBot):
     assert dialog.isVisible() is False  # Not shown yet
 
 
-def test_editor_help_dialog_load_existing_file(qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_help_dialog_load_existing_file(
+    qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test loading an existing wiki file."""
     # Create a test wiki file
     wiki_dir = tmp_path / "wiki"
@@ -124,7 +126,9 @@ def test_editor_help_dialog_load_existing_file(qtbot: QtBot, tmp_path: Path, mon
         assert "Test Document" in html or "test" in html.lower()
 
 
-def test_editor_help_dialog_load_nonexistent_file(qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_help_dialog_load_nonexistent_file(
+    qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test loading a non-existent wiki file shows error."""
     wiki_dir = tmp_path / "wiki"
     wiki_dir.mkdir()
@@ -139,7 +143,9 @@ def test_editor_help_dialog_load_nonexistent_file(qtbot: QtBot, tmp_path: Path, 
         assert "nonexistent.md" in html
 
 
-def test_editor_help_dialog_markdown_rendering(qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_help_dialog_markdown_rendering(
+    qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that markdown is properly rendered to HTML."""
     wiki_dir = tmp_path / "wiki"
     wiki_dir.mkdir()
@@ -356,10 +362,14 @@ def test_editor_add_help_action_no_wiki_file_skips(qtbot: QtBot, installation: H
         doc_actions_after = [a for a in help_menu_after.actions() if "Documentation" in a.text()]
 
     # Since TXTEditor has None in mapping, Documentation action count should be same
-    assert len(doc_actions_after) == len(doc_actions_before), "TXTEditor with None wiki file should not add Documentation action"
+    assert len(doc_actions_after) == len(doc_actions_before), (
+        "TXTEditor with None wiki file should not add Documentation action"
+    )
 
 
-def test_editor_add_help_action_multiple_calls_idempotent(qtbot: QtBot, installation: HTInstallation):
+def test_editor_add_help_action_multiple_calls_idempotent(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that calling _add_help_action multiple times is idempotent."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -394,7 +404,9 @@ def test_editor_add_help_action_multiple_calls_idempotent(qtbot: QtBot, installa
     assert help_menu_after is not None
     doc_actions_after = [a for a in help_menu_after.actions() if "Documentation" in a.text()]
     # Should be truly idempotent - same count as before
-    assert len(doc_actions_after) == initial_count, f"Expected {initial_count} Documentation action(s), got {len(doc_actions_after)} (should be idempotent)"
+    assert len(doc_actions_after) == initial_count, (
+        f"Expected {initial_count} Documentation action(s), got {len(doc_actions_after)} (should be idempotent)"
+    )
 
 
 # ============================================================================
@@ -402,7 +414,9 @@ def test_editor_add_help_action_multiple_calls_idempotent(qtbot: QtBot, installa
 # ============================================================================
 
 
-def test_editor_show_help_dialog_opens_dialog(qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_show_help_dialog_opens_dialog(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that _show_help_dialog opens a non-blocking dialog."""
     # Create test wiki
     wiki_dir = tmp_path / "wiki"
@@ -425,7 +439,9 @@ def test_editor_show_help_dialog_opens_dialog(qtbot: QtBot, installation: HTInst
         assert dialog.isVisible()
 
 
-def test_editor_help_action_triggered_opens_dialog(qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_help_action_triggered_opens_dialog(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that clicking help action opens dialog."""
     # Create test wiki
     wiki_dir = tmp_path / "wiki"
@@ -544,9 +560,13 @@ def test_editor_wiki_map_has_all_editors():
 def test_editor_wiki_map_values_are_strings_or_none():
     """Test that all values in EDITOR_WIKI_MAP are strings or None."""
     for editor_name, wiki_file in EDITOR_WIKI_MAP.items():
-        assert wiki_file is None or isinstance(wiki_file, str), f"{editor_name} has invalid wiki_file type: {type(wiki_file)}"
+        assert wiki_file is None or isinstance(wiki_file, str), (
+            f"{editor_name} has invalid wiki_file type: {type(wiki_file)}"
+        )
         if wiki_file is not None:
-            assert wiki_file.endswith(".md"), f"{editor_name} wiki_file should end with .md: {wiki_file}"
+            assert wiki_file.endswith(".md"), (
+                f"{editor_name} wiki_file should end with .md: {wiki_file}"
+            )
 
 
 def test_editor_wiki_map_files_exist():
@@ -589,7 +609,9 @@ def test_editor_wiki_map_files_exist():
 def test_dlg_editor_uses_correct_wiki_file():
     """Test that DLGEditor uses GFF-DLG.md, not GFF-File-Format.md."""
     assert "DLGEditor" in EDITOR_WIKI_MAP
-    assert EDITOR_WIKI_MAP["DLGEditor"] == "GFF-DLG.md", f"DLGEditor should use 'GFF-DLG.md', not '{EDITOR_WIKI_MAP['DLGEditor']}'"
+    assert EDITOR_WIKI_MAP["DLGEditor"] == "GFF-DLG.md", (
+        f"DLGEditor should use 'GFF-DLG.md', not '{EDITOR_WIKI_MAP['DLGEditor']}'"
+    )
 
 
 def test_gff_specific_editors_use_specific_files():
@@ -616,7 +638,9 @@ def test_gff_specific_editors_use_specific_files():
     for editor_name, expected_file in specific_gff_editors.items():
         if editor_name in EDITOR_WIKI_MAP:
             actual_file = EDITOR_WIKI_MAP[editor_name]
-            assert actual_file == expected_file, f"{editor_name} should use '{expected_file}', not '{actual_file}'"
+            assert actual_file == expected_file, (
+                f"{editor_name} should use '{expected_file}', not '{actual_file}'"
+            )
 
 
 def test_generic_gff_editors_use_generic_file():
@@ -630,7 +654,9 @@ def test_generic_gff_editors_use_generic_file():
     for editor_name, expected_file in generic_gff_editors.items():
         if editor_name in EDITOR_WIKI_MAP:
             actual_file = EDITOR_WIKI_MAP[editor_name]
-            assert actual_file == expected_file, f"{editor_name} should use '{expected_file}', not '{actual_file}'"
+            assert actual_file == expected_file, (
+                f"{editor_name} should use '{expected_file}', not '{actual_file}'"
+            )
 
 
 # ============================================================================
@@ -638,7 +664,9 @@ def test_generic_gff_editors_use_generic_file():
 # ============================================================================
 
 
-def test_f1_shortcut_opens_help(qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_f1_shortcut_opens_help(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that F1 shortcut opens help dialog."""
     from qtpy.QtWidgets import QShortcut
 
@@ -717,7 +745,9 @@ def test_editor_setup_menus_alias(qtbot: QtBot, installation: HTInstallation):
 # ============================================================================
 
 
-def test_editor_help_dialog_handles_invalid_markdown(qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_help_dialog_handles_invalid_markdown(
+    qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that dialog handles invalid markdown gracefully."""
     wiki_dir = tmp_path / "wiki"
     wiki_dir.mkdir()
@@ -734,7 +764,9 @@ def test_editor_help_dialog_handles_invalid_markdown(qtbot: QtBot, tmp_path: Pat
         assert dialog is not None
 
 
-def test_editor_help_dialog_handles_unicode_content(qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_editor_help_dialog_handles_unicode_content(
+    qtbot: QtBot, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that dialog handles unicode content correctly."""
     wiki_dir = tmp_path / "wiki"
     wiki_dir.mkdir()
@@ -755,7 +787,9 @@ def test_editor_help_dialog_handles_unicode_content(qtbot: QtBot, tmp_path: Path
 # ============================================================================
 
 
-def test_full_help_workflow(qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_full_help_workflow(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test the complete workflow: editor -> help menu -> dialog -> content."""
     # Create test wiki with actual content
     wiki_dir = tmp_path / "wiki"
@@ -817,7 +851,9 @@ ARE files define static area properties.
         assert "ARE" in html or "area" in html.lower()
 
 
-def test_help_dialog_can_be_opened_multiple_times(qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch):
+def test_help_dialog_can_be_opened_multiple_times(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path, monkeypatch: MonkeyPatch
+):
     """Test that multiple help dialogs can be opened (non-blocking)."""
     wiki_dir = tmp_path / "wiki"
     wiki_dir.mkdir()

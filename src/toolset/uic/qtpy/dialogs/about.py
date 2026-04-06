@@ -30,7 +30,9 @@ class Ui_Dialog(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.aboutLabel = QtWidgets.QLabel(self.verticalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.aboutLabel.sizePolicy().hasHeightForWidth())
@@ -44,7 +46,9 @@ class Ui_Dialog(object):
         self.closeButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.closeButton.setObjectName("closeButton")
         self.horizontalLayout_2.addWidget(self.closeButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -54,17 +58,24 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "About"))
-        self.aboutLabel.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\n"
-"          font-weight:600;\">Holocron Toolset</span><br/>Version\n"
-"          X.X.X<br/>Copyright (c) 2022 Nicholas Hugi</p><p><a\n"
-"          href=\"https://sketchfab.com/3d-models/sith-holocron-star-wars-cb3d49a6261a4913817e8e00d6ab6e43\"><span\n"
-"          style=\" text-decoration: underline; color:#0000ff;\">Holocron Image\n"
-"          Source<br/></span></a><a\n"
-"          href=\"https://deadlystream.com/files/file/1982-holocron-toolset/\"><span\n"
-"          style=\" text-decoration: underline; color:#0000ff;\">Deadlystream\n"
-"          Page<br/></span></a><a\n"
-"          href=\"https://github.com/OpenKotOR/PyKotor\"><span style=\"\n"
-"          text-decoration: underline;\n"
-"          color:#0000ff;\">Github</span></a></p></body></html>"))
+        self.aboutLabel.setText(
+            _translate(
+                "Dialog",
+                '<html><head/><body><p><span style=" font-size:10pt;\n'
+                '          font-weight:600;">Holocron Toolset</span><br/>Version\n'
+                "          X.X.X<br/>Copyright (c) 2022 Nicholas Hugi</p><p><a\n"
+                '          href="https://sketchfab.com/3d-models/sith-holocron-star-wars-cb3d49a6261a4913817e8e00d6ab6e43"><span\n'
+                '          style=" text-decoration: underline; color:#0000ff;">Holocron Image\n'
+                "          Source<br/></span></a><a\n"
+                '          href="https://deadlystream.com/files/file/1982-holocron-toolset/"><span\n'
+                '          style=" text-decoration: underline; color:#0000ff;">Deadlystream\n'
+                "          Page<br/></span></a><a\n"
+                '          href="https://github.com/OpenKotOR/PyKotor"><span style="\n'
+                "          text-decoration: underline;\n"
+                '          color:#0000ff;">Github</span></a></p></body></html>',
+            )
+        )
         self.closeButton.setText(_translate("Dialog", "Close"))
+
+
 import resources_rc

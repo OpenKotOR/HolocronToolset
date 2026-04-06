@@ -95,7 +95,9 @@ class Ui_LYTEditorWidget(object):
         self.deleteBtn.setObjectName("deleteBtn")
         self.buttonLayout.addWidget(self.deleteBtn)
         self.mainLayout.addLayout(self.buttonLayout)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.mainLayout.addItem(spacerItem)
 
         self.retranslateUi(LYTEditorWidget)

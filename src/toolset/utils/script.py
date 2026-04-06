@@ -84,10 +84,13 @@ def ht_decompile_script(
     ncs_decompiler_path = Path(global_settings.ncsDecompilerPath)
     if (
         not ncs_decompiler_path.name
-        or ncs_decompiler_path.suffix.lower() != ".exe"  # TODO: require something with Xoreos-tools on unix and make this nt-specific.
+        or ncs_decompiler_path.suffix.lower()
+        != ".exe"  # TODO: require something with Xoreos-tools on unix and make this nt-specific.
         or not ncs_decompiler_path.is_file()
     ):
-        lookup_path, _filter = QFileDialog.getOpenFileName(None, "Select the NCS Decompiler executable")
+        lookup_path, _filter = QFileDialog.getOpenFileName(
+            None, "Select the NCS Decompiler executable"
+        )
         ncs_decompiler_path = Path(lookup_path)
         if not ncs_decompiler_path.is_file():
             global_settings.ncsDecompilerPath = ""
@@ -116,11 +119,15 @@ def ht_decompile_script(
         reg_spoofer = NoOpRegistrySpoofer()
     try:
         with reg_spoofer:
-            stdout, stderr = extCompiler.decompile_script(tempCompiledPath, temp_decompiled_path, gameEnum)
+            stdout, stderr = extCompiler.decompile_script(
+                tempCompiledPath, temp_decompiled_path, gameEnum
+            )
     except PermissionError as e:
         handle_permission_error(reg_spoofer, extCompiler, installation_path, e)
         # Attempt to decompile anyway.
-        stdout, stderr = extCompiler.decompile_script(tempCompiledPath, temp_decompiled_path, gameEnum)
+        stdout, stderr = extCompiler.decompile_script(
+            tempCompiledPath, temp_decompiled_path, gameEnum
+        )
     except Exception:
         log.exception("Exception in extCompiler.decompile_script() call.")
         raise
@@ -180,10 +187,16 @@ def ht_compile_script(
 
     if os.name == "posix" or return_value == QMessageBox.StandardButton.Yes:
         log.debug("user chose Yes, compiling with builtin")
-        return bytes(bytes_ncs(compile_nss(source, Game.K2 if tsl else Game.K1, library_lookup=[extract_path])))
+        return bytes(
+            bytes_ncs(
+                compile_nss(source, Game.K2 if tsl else Game.K1, library_lookup=[extract_path])
+            )
+        )
     if return_value == QMessageBox.StandardButton.No:
         log.debug("user chose No, compiling with nwnnsscomp")
-        return _execute_nwnnsscomp_compile(global_settings, extract_path, source, installation_path, tsl=tsl)
+        return _execute_nwnnsscomp_compile(
+            global_settings, extract_path, source, installation_path, tsl=tsl
+        )
     if return_value is not None:  # user cancelled
         log.debug("user exited")
         return None
@@ -219,7 +232,10 @@ def _prompt_additional_include_dirs(  # noqa: PLR0913
 
         # Copy the include files at the path to the compilation working dir.
         for file in include_path.rglob("*"):
-            if file.stem.lower() not in source_nss_lowercase and file.stem.lower() not in stderr.lower():
+            if (
+                file.stem.lower() not in source_nss_lowercase
+                and file.stem.lower() not in stderr.lower()
+            ):
                 continue  # Skip any files in the include_path that aren't referenced by the script (faster)
 
             if ResourceIdentifier.from_path(file).restype != ResourceType.NSS:
@@ -278,7 +294,15 @@ def _execute_nwnnsscomp_compile(
             raise  # TODO(th3w1zard1): return something ignorable.
         else:
             if stderr:
-                stdout, stderr = _prompt_additional_include_dirs(extCompiler, source, stderr, tempSourcePath, tempCompiledPath, extract_path, gameEnum)
+                stdout, stderr = _prompt_additional_include_dirs(
+                    extCompiler,
+                    source,
+                    stderr,
+                    tempSourcePath,
+                    tempCompiledPath,
+                    extract_path,
+                    gameEnum,
+                )
             if stderr:
                 raise ValueError(f"{stdout}\n{stderr}")
 
@@ -310,7 +334,9 @@ def _execute_nwnnsscomp_compile(
     if not tempCompiledPath.is_file():
         import errno
 
-        raise FileNotFoundError(errno.ENOENT, "Could not find the temp compiled script!", str(tempCompiledPath))  # noqa: TRY003, EM102
+        raise FileNotFoundError(
+            errno.ENOENT, "Could not find the temp compiled script!", str(tempCompiledPath)
+        )  # noqa: TRY003, EM102
     return tempCompiledPath.read_bytes()
 
 
@@ -348,9 +374,15 @@ def _prompt_user_for_compiler_option() -> int:
     # Set the message box properties
     msgBox.setIcon(QMessageBox.Icon.Question)
     msgBox.setWindowTitle("Choose a NCS compiler")
-    msgBox.setText("Would you like to use 'nwnnsscomp.exe' or Holocron Toolset's built-in compiler?")
+    msgBox.setText(
+        "Would you like to use 'nwnnsscomp.exe' or Holocron Toolset's built-in compiler?"
+    )
     msgBox.setInformativeText("Choose one of the options below:")
-    msgBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Abort)
+    msgBox.setStandardButtons(
+        QMessageBox.StandardButton.Yes
+        | QMessageBox.StandardButton.No
+        | QMessageBox.StandardButton.Abort
+    )
     msgBox.setDefaultButton(QMessageBox.StandardButton.Abort)
 
     # Set the button text

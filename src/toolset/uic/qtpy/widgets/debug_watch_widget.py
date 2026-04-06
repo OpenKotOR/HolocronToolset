@@ -50,7 +50,9 @@ class Ui_DebugWatchWidget(object):
     def retranslateUi(self, DebugWatchWidget):
         _translate = QtCore.QCoreApplication.translate
         DebugWatchWidget.setWindowTitle(_translate("DebugWatchWidget", "Watch Expressions"))
-        self.expressionInput.setPlaceholderText(_translate("DebugWatchWidget", "Enter expression to watch..."))
+        self.expressionInput.setPlaceholderText(
+            _translate("DebugWatchWidget", "Enter expression to watch...")
+        )
         self.addButton.setText(_translate("DebugWatchWidget", "Add Watch"))
         item = self.table.horizontalHeaderItem(0)
         item.setText(_translate("DebugWatchWidget", "Expression"))

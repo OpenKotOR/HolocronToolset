@@ -15,168 +15,170 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1180, 690)
-        MainWindow.setStyleSheet("\n"
-"    /* VS Code-like main window styling */\n"
-"    QMainWindow {\n"
-"    background-color: palette(window);\n"
-"    color: palette(windowText);\n"
-"    }\n"
-"\n"
-"    /* Tab widget pane styling */\n"
-"    QTabWidget::pane {\n"
-"    border: none;\n"
-"    background-color: palette(base);\n"
-"    }\n"
-"\n"
-"    /* Tab bar styling - VS Code style */\n"
-"    QTabBar::tab {\n"
-"    background-color: palette(dark);\n"
-"    color: palette(text);\n"
-"    padding: 8px 16px;\n"
-"    border: none;\n"
-"    border-top-left-radius: 4px;\n"
-"    border-top-right-radius: 4px;\n"
-"    margin-right: 1px;\n"
-"    }\n"
-"    QTabBar::tab:selected {\n"
-"    background-color: palette(base);\n"
-"    color: palette(text);\n"
-"    }\n"
-"    QTabBar::tab:hover:!selected {\n"
-"    background-color: palette(mid);\n"
-"    }\n"
-"\n"
-"    /* Input field styling */\n"
-"    QLineEdit, QTextEdit {\n"
-"    background-color: palette(base);\n"
-"    color: palette(text);\n"
-"    border: 1px solid palette(mid);\n"
-"    padding: 4px 6px;\n"
-"    border-radius: 3px;\n"
-"    selection-background-color: palette(highlight);\n"
-"    selection-color: palette(highlighted-text);\n"
-"    }\n"
-"    QLineEdit:focus, QTextEdit:focus {\n"
-"    border: 1px solid palette(highlight);\n"
-"    }\n"
-"\n"
-"    /* Button styling */\n"
-"    QPushButton {\n"
-"    background-color: palette(button);\n"
-"    color: palette(buttonText);\n"
-"    border: 1px solid palette(mid);\n"
-"    padding: 5px 12px;\n"
-"    border-radius: 3px;\n"
-"    min-width: 60px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"    background-color: palette(light);\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"    background-color: palette(dark);\n"
-"    }\n"
-"    QPushButton:disabled {\n"
-"    color: palette(mid);\n"
-"    }\n"
-"\n"
-"    /* VS Code-like scrollbar styling */\n"
-"    QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"    width: 14px;\n"
-"    margin: 0;\n"
-"    }\n"
-"    QScrollBar::handle:vertical {\n"
-"    background-color: palette(mid);\n"
-"    border-radius: 4px;\n"
-"    min-height: 30px;\n"
-"    margin: 2px;\n"
-"    }\n"
-"    QScrollBar::handle:vertical:hover {\n"
-"    background-color: palette(dark);\n"
-"    }\n"
-"    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    height: 0;\n"
-"    background: none;\n"
-"    }\n"
-"\n"
-"    QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"    height: 14px;\n"
-"    margin: 0;\n"
-"    }\n"
-"    QScrollBar::handle:horizontal {\n"
-"    background-color: palette(mid);\n"
-"    border-radius: 4px;\n"
-"    min-width: 30px;\n"
-"    margin: 2px;\n"
-"    }\n"
-"    QScrollBar::handle:horizontal:hover {\n"
-"    background-color: palette(dark);\n"
-"    }\n"
-"    QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"    width: 0;\n"
-"    background: none;\n"
-"    }\n"
-"\n"
-"    /* Tree widget styling */\n"
-"    QTreeWidget, QListWidget {\n"
-"    background-color: palette(base);\n"
-"    color: palette(text);\n"
-"    border: none;\n"
-"    alternate-background-color: palette(alternate-base);\n"
-"    }\n"
-"    QTreeWidget::item, QListWidget::item {\n"
-"    padding: 4px 2px;\n"
-"    }\n"
-"    QTreeWidget::item:hover, QListWidget::item:hover {\n"
-"    background-color: palette(alternate-base);\n"
-"    }\n"
-"    QTreeWidget::item:selected, QListWidget::item:selected {\n"
-"    background-color: palette(highlight);\n"
-"    color: palette(highlighted-text);\n"
-"    }\n"
-"\n"
-"    /* Tooltip styling - VS Code like */\n"
-"    QToolTip {\n"
-"    background-color: palette(window);\n"
-"    color: palette(window-text);\n"
-"    border: 1px solid palette(mid);\n"
-"    border-radius: 4px;\n"
-"    padding: 6px 10px;\n"
-"    }\n"
-"\n"
-"    /* Splitter styling */\n"
-"    QSplitter::handle {\n"
-"    background-color: palette(mid);\n"
-"    }\n"
-"    QSplitter::handle:horizontal {\n"
-"    width: 2px;\n"
-"    }\n"
-"    QSplitter::handle:vertical {\n"
-"    height: 2px;\n"
-"    }\n"
-"\n"
-"    /* Menu styling */\n"
-"    QMenuBar {\n"
-"    background-color: palette(window);\n"
-"    color: palette(window-text);\n"
-"    }\n"
-"    QMenuBar::item:selected {\n"
-"    background-color: palette(highlight);\n"
-"    color: palette(highlighted-text);\n"
-"    }\n"
-"    QMenu {\n"
-"    background-color: palette(window);\n"
-"    color: palette(window-text);\n"
-"    border: 1px solid palette(mid);\n"
-"    }\n"
-"    QMenu::item:selected {\n"
-"    background-color: palette(highlight);\n"
-"    color: palette(highlighted-text);\n"
-"    }\n"
-"   ")
+        MainWindow.setStyleSheet(
+            "\n"
+            "    /* VS Code-like main window styling */\n"
+            "    QMainWindow {\n"
+            "    background-color: palette(window);\n"
+            "    color: palette(windowText);\n"
+            "    }\n"
+            "\n"
+            "    /* Tab widget pane styling */\n"
+            "    QTabWidget::pane {\n"
+            "    border: none;\n"
+            "    background-color: palette(base);\n"
+            "    }\n"
+            "\n"
+            "    /* Tab bar styling - VS Code style */\n"
+            "    QTabBar::tab {\n"
+            "    background-color: palette(dark);\n"
+            "    color: palette(text);\n"
+            "    padding: 8px 16px;\n"
+            "    border: none;\n"
+            "    border-top-left-radius: 4px;\n"
+            "    border-top-right-radius: 4px;\n"
+            "    margin-right: 1px;\n"
+            "    }\n"
+            "    QTabBar::tab:selected {\n"
+            "    background-color: palette(base);\n"
+            "    color: palette(text);\n"
+            "    }\n"
+            "    QTabBar::tab:hover:!selected {\n"
+            "    background-color: palette(mid);\n"
+            "    }\n"
+            "\n"
+            "    /* Input field styling */\n"
+            "    QLineEdit, QTextEdit {\n"
+            "    background-color: palette(base);\n"
+            "    color: palette(text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    padding: 4px 6px;\n"
+            "    border-radius: 3px;\n"
+            "    selection-background-color: palette(highlight);\n"
+            "    selection-color: palette(highlighted-text);\n"
+            "    }\n"
+            "    QLineEdit:focus, QTextEdit:focus {\n"
+            "    border: 1px solid palette(highlight);\n"
+            "    }\n"
+            "\n"
+            "    /* Button styling */\n"
+            "    QPushButton {\n"
+            "    background-color: palette(button);\n"
+            "    color: palette(buttonText);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    padding: 5px 12px;\n"
+            "    border-radius: 3px;\n"
+            "    min-width: 60px;\n"
+            "    }\n"
+            "    QPushButton:hover {\n"
+            "    background-color: palette(light);\n"
+            "    }\n"
+            "    QPushButton:pressed {\n"
+            "    background-color: palette(dark);\n"
+            "    }\n"
+            "    QPushButton:disabled {\n"
+            "    color: palette(mid);\n"
+            "    }\n"
+            "\n"
+            "    /* VS Code-like scrollbar styling */\n"
+            "    QScrollBar:vertical {\n"
+            "    border: none;\n"
+            "    background-color: transparent;\n"
+            "    width: 14px;\n"
+            "    margin: 0;\n"
+            "    }\n"
+            "    QScrollBar::handle:vertical {\n"
+            "    background-color: palette(mid);\n"
+            "    border-radius: 4px;\n"
+            "    min-height: 30px;\n"
+            "    margin: 2px;\n"
+            "    }\n"
+            "    QScrollBar::handle:vertical:hover {\n"
+            "    background-color: palette(dark);\n"
+            "    }\n"
+            "    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "    height: 0;\n"
+            "    background: none;\n"
+            "    }\n"
+            "\n"
+            "    QScrollBar:horizontal {\n"
+            "    border: none;\n"
+            "    background-color: transparent;\n"
+            "    height: 14px;\n"
+            "    margin: 0;\n"
+            "    }\n"
+            "    QScrollBar::handle:horizontal {\n"
+            "    background-color: palette(mid);\n"
+            "    border-radius: 4px;\n"
+            "    min-width: 30px;\n"
+            "    margin: 2px;\n"
+            "    }\n"
+            "    QScrollBar::handle:horizontal:hover {\n"
+            "    background-color: palette(dark);\n"
+            "    }\n"
+            "    QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+            "    width: 0;\n"
+            "    background: none;\n"
+            "    }\n"
+            "\n"
+            "    /* Tree widget styling */\n"
+            "    QTreeWidget, QListWidget {\n"
+            "    background-color: palette(base);\n"
+            "    color: palette(text);\n"
+            "    border: none;\n"
+            "    alternate-background-color: palette(alternate-base);\n"
+            "    }\n"
+            "    QTreeWidget::item, QListWidget::item {\n"
+            "    padding: 4px 2px;\n"
+            "    }\n"
+            "    QTreeWidget::item:hover, QListWidget::item:hover {\n"
+            "    background-color: palette(alternate-base);\n"
+            "    }\n"
+            "    QTreeWidget::item:selected, QListWidget::item:selected {\n"
+            "    background-color: palette(highlight);\n"
+            "    color: palette(highlighted-text);\n"
+            "    }\n"
+            "\n"
+            "    /* Tooltip styling - VS Code like */\n"
+            "    QToolTip {\n"
+            "    background-color: palette(window);\n"
+            "    color: palette(window-text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    border-radius: 4px;\n"
+            "    padding: 6px 10px;\n"
+            "    }\n"
+            "\n"
+            "    /* Splitter styling */\n"
+            "    QSplitter::handle {\n"
+            "    background-color: palette(mid);\n"
+            "    }\n"
+            "    QSplitter::handle:horizontal {\n"
+            "    width: 2px;\n"
+            "    }\n"
+            "    QSplitter::handle:vertical {\n"
+            "    height: 2px;\n"
+            "    }\n"
+            "\n"
+            "    /* Menu styling */\n"
+            "    QMenuBar {\n"
+            "    background-color: palette(window);\n"
+            "    color: palette(window-text);\n"
+            "    }\n"
+            "    QMenuBar::item:selected {\n"
+            "    background-color: palette(highlight);\n"
+            "    color: palette(highlighted-text);\n"
+            "    }\n"
+            "    QMenu {\n"
+            "    background-color: palette(window);\n"
+            "    color: palette(window-text);\n"
+            "    border: 1px solid palette(mid);\n"
+            "    }\n"
+            "    QMenu::item:selected {\n"
+            "    background-color: palette(highlight);\n"
+            "    color: palette(highlighted-text);\n"
+            "    }\n"
+            "   "
+        )
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.vboxlytCentralWidget = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -184,7 +186,9 @@ class Ui_MainWindow(object):
         self.middleTopHorizLyt = QtWidgets.QHBoxLayout()
         self.middleTopHorizLyt.setObjectName("middleTopHorizLyt")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -192,7 +196,9 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.middleTopHorizLyt.addWidget(self.label)
         self.gameSelector = QtWidgets.QComboBox(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.gameSelector.sizePolicy().hasHeightForWidth())
@@ -223,14 +229,16 @@ class Ui_MainWindow(object):
         self.vertLytPanelTabs = QtWidgets.QVBoxLayout(self.outputTab)
         self.vertLytPanelTabs.setObjectName("vertLytPanelTabs")
         self.outputEdit = QtWidgets.QPlainTextEdit(self.outputTab)
-        self.outputEdit.setStyleSheet("QPlainTextEdit {\n"
-"             background-color: palette(base);\n"
-"             color: palette(text);\n"
-"             border: none;\n"
-"             padding: 8px;\n"
-"             selection-background-color: palette(highlight);\n"
-"             selection-color: palette(highlighted-text);\n"
-"             }")
+        self.outputEdit.setStyleSheet(
+            "QPlainTextEdit {\n"
+            "             background-color: palette(base);\n"
+            "             color: palette(text);\n"
+            "             border: none;\n"
+            "             padding: 8px;\n"
+            "             selection-background-color: palette(highlight);\n"
+            "             selection-color: palette(highlighted-text);\n"
+            "             }"
+        )
         self.outputEdit.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.outputEdit.setTabChangesFocus(True)
         self.outputEdit.setReadOnly(True)
@@ -318,18 +326,20 @@ class Ui_MainWindow(object):
         self.lineEdit.setObjectName("lineEdit")
         self.fileExplorerLayout.addWidget(self.lineEdit)
         self.fileExplorerView = RobustTreeView(self.fileExplorerContents)
-        self.fileExplorerView.setStyleSheet("QTreeView {\n"
-"         background-color: palette(base);\n"
-"         color: palette(text);\n"
-"         border: none;\n"
-"         }\n"
-"         QTreeView::item {\n"
-"         padding: 4px;\n"
-"         }\n"
-"         QTreeView::item:selected {\n"
-"         background-color: palette(highlight);\n"
-"         color: palette(highlightedText);\n"
-"         }")
+        self.fileExplorerView.setStyleSheet(
+            "QTreeView {\n"
+            "         background-color: palette(base);\n"
+            "         color: palette(text);\n"
+            "         border: none;\n"
+            "         }\n"
+            "         QTreeView::item {\n"
+            "         padding: 4px;\n"
+            "         }\n"
+            "         QTreeView::item:selected {\n"
+            "         background-color: palette(highlight);\n"
+            "         color: palette(highlightedText);\n"
+            "         }"
+        )
         self.fileExplorerView.setObjectName("fileExplorerView")
         self.fileExplorerLayout.addWidget(self.fileExplorerView)
         self.fileSearchEdit = QtWidgets.QLineEdit(self.fileExplorerContents)
@@ -586,29 +596,50 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "NSS Editor"))
         self.label.setText(_translate("MainWindow", "Installation Type:"))
-        self.gameSelector.setToolTip(_translate("MainWindow", "This determines what constants to use for your IDE and\n"
-"          impacts the PyKotor compiler (if used)"))
+        self.gameSelector.setToolTip(
+            _translate(
+                "MainWindow",
+                "This determines what constants to use for your IDE and\n"
+                "          impacts the PyKotor compiler (if used)",
+            )
+        )
         self.gameSelector.setItemText(0, _translate("MainWindow", "K1"))
         self.gameSelector.setItemText(1, _translate("MainWindow", "TSL"))
-        self.outputEdit.setWhatsThis(_translate("MainWindow", "Output Window for the NWScript Editor"))
-        self.outputEdit.setPlaceholderText(_translate("MainWindow", "Important errors and logs will appear here."))
-        self.panelTabs.setTabText(self.panelTabs.indexOf(self.outputTab), _translate("MainWindow", "Output"))
-        self.panelTabs.setTabText(self.panelTabs.indexOf(self.terminalTab), _translate("MainWindow", "Terminal"))
+        self.outputEdit.setWhatsThis(
+            _translate("MainWindow", "Output Window for the NWScript Editor")
+        )
+        self.outputEdit.setPlaceholderText(
+            _translate("MainWindow", "Important errors and logs will appear here.")
+        )
+        self.panelTabs.setTabText(
+            self.panelTabs.indexOf(self.outputTab), _translate("MainWindow", "Output")
+        )
+        self.panelTabs.setTabText(
+            self.panelTabs.indexOf(self.terminalTab), _translate("MainWindow", "Terminal")
+        )
         item = self.debugTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Variable"))
         item = self.debugTable.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Value"))
         item = self.debugTable.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Type"))
-        self.panelTabs.setTabText(self.panelTabs.indexOf(self.debugTab), _translate("MainWindow", "Debug"))
+        self.panelTabs.setTabText(
+            self.panelTabs.indexOf(self.debugTab), _translate("MainWindow", "Debug")
+        )
         self.findResultsTree.headerItem().setText(0, _translate("MainWindow", "File"))
         self.findResultsTree.headerItem().setText(1, _translate("MainWindow", "Line"))
         self.findResultsTree.headerItem().setText(2, _translate("MainWindow", "Content"))
-        self.panelTabs.setTabText(self.panelTabs.indexOf(self.findResultsTab), _translate("MainWindow", "Find Results"))
-        self.panelTabs.setTabText(self.panelTabs.indexOf(self.outlineTab), _translate("MainWindow", "Outline"))
+        self.panelTabs.setTabText(
+            self.panelTabs.indexOf(self.findResultsTab), _translate("MainWindow", "Find Results")
+        )
+        self.panelTabs.setTabText(
+            self.panelTabs.indexOf(self.outlineTab), _translate("MainWindow", "Outline")
+        )
         self.functionSearchEdit.setPlaceholderText(_translate("MainWindow", "Search functions..."))
         self.constantSearchEdit.setPlaceholderText(_translate("MainWindow", "Search constants..."))
-        self.panelTabs.setTabText(self.panelTabs.indexOf(self.learnTab), _translate("MainWindow", "Constants"))
+        self.panelTabs.setTabText(
+            self.panelTabs.indexOf(self.learnTab), _translate("MainWindow", "Constants")
+        )
         self.fileExplorerDock.setWindowTitle(_translate("MainWindow", "File Explorer"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Address Bar"))
         self.fileSearchEdit.setPlaceholderText(_translate("MainWindow", "Search files..."))
@@ -701,7 +732,9 @@ class Ui_MainWindow(object):
         self.actionFormat_Code.setShortcut(_translate("MainWindow", "Ctrl+Shift+F"))
         self.actionAnalyze_Code.setText(_translate("MainWindow", "Analyze Code"))
         self.actionAnalyze_Code.setShortcut(_translate("MainWindow", "Ctrl+Shift+A"))
-        self.actionGenerate_Documentation.setText(_translate("MainWindow", "Generate Documentation"))
+        self.actionGenerate_Documentation.setText(
+            _translate("MainWindow", "Generate Documentation")
+        )
         self.actionGenerate_Documentation.setShortcut(_translate("MainWindow", "Ctrl+Shift+D"))
         self.actionExport_to_HTML.setText(_translate("MainWindow", "Export to HTML"))
         self.actionExport_to_HTML.setShortcut(_translate("MainWindow", "Ctrl+Shift+E"))
@@ -727,5 +760,7 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionK1.setText(_translate("MainWindow", "K1"))
         self.actionTSL.setText(_translate("MainWindow", "TSL"))
+
+
 from toolset.gui.common.widgets.code_editor import CodeEditor
 from utility.gui.qt.widgets.itemviews.treeview import RobustTreeView

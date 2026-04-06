@@ -202,8 +202,13 @@ class UpdateCheckThread(QThread):
         *,
         use_beta_channel: bool,
     ) -> dict[str, Any]:
-        result: Exception | dict[str, Any] = get_remote_toolset_update_info(use_beta_channel=use_beta_channel, silent=self.silent)
-        print(f"<SDM> [get_latest_version_info scope] {'edge_info' if use_beta_channel else 'master_info'}: ", result)
+        result: Exception | dict[str, Any] = get_remote_toolset_update_info(
+            use_beta_channel=use_beta_channel, silent=self.silent
+        )
+        print(
+            f"<SDM> [get_latest_version_info scope] {'edge_info' if use_beta_channel else 'master_info'}: ",
+            result,
+        )
 
         if not isinstance(result, dict):
             if self.silent:
@@ -245,13 +250,17 @@ class ToolWindow(QMainWindow):
         self.original_palette: QPalette = self.palette()
         self.theme_manager: ThemeManager = ThemeManager(self.original_style)
         # Apply both theme and style on initialization
-        self.theme_manager._apply_theme_and_style(self.settings.selectedTheme, self.settings.selectedStyle)
+        self.theme_manager._apply_theme_and_style(
+            self.settings.selectedTheme, self.settings.selectedStyle
+        )
 
         # UI state management
         self.previous_game_combo_index: int = 0
         self._mouse_move_pos: QPoint | None = None
         self._is_changing_installation: bool = False
-        self._preparing_resources: bool = False  # Guard to prevent multiple simultaneous preparations
+        self._preparing_resources: bool = (
+            False  # Guard to prevent multiple simultaneous preparations
+        )
 
         # Dialog management (lazy-loaded)
         self._theme_dialog: ThemeSelectorDialog | None = None
@@ -328,7 +337,10 @@ class ToolWindow(QMainWindow):
         watched_dirs = {os.path.normpath(path).lower() for path in self._file_watcher.directories()}
         paths_to_watch: list[Path]
         if recursive:
-            paths_to_watch = [directory_path, *(path for path in directory_path.rglob("*") if path.is_dir())]
+            paths_to_watch = [
+                directory_path,
+                *(path for path in directory_path.rglob("*") if path.is_dir()),
+            ]
         else:
             paths_to_watch = [directory_path]
 
@@ -383,8 +395,16 @@ class ToolWindow(QMainWindow):
         module_path, override_path = roots
         normalized_path = os.path.normpath(path).lower()
 
-        module_match = module_path in normalized_path if contains_match else normalized_path == module_path or normalized_path.startswith(module_path)
-        override_match = override_path in normalized_path if contains_match else normalized_path == override_path or normalized_path.startswith(override_path)
+        module_match = (
+            module_path in normalized_path
+            if contains_match
+            else normalized_path == module_path or normalized_path.startswith(module_path)
+        )
+        override_match = (
+            override_path in normalized_path
+            if contains_match
+            else normalized_path == override_path or normalized_path.startswith(override_path)
+        )
 
         if module_match:
             self._append_unique_path(self._pending_module_changes, normalized_path)
@@ -393,11 +413,15 @@ class ToolWindow(QMainWindow):
 
         self._watcher_debounce_timer.start()
 
-    def _refresh_pending_changes(self, pending_paths: list[str], *, label: str, refresh_func: Callable[..., Any]) -> None:
+    def _refresh_pending_changes(
+        self, pending_paths: list[str], *, label: str, refresh_func: Callable[..., Any]
+    ) -> None:
         """Run refresh callback for pending paths and clear the tracked queue."""
         if not pending_paths:
             return
-        RobustLogger().info("Auto-refreshing %s list due to %d file changes", label, len(pending_paths))
+        RobustLogger().info(
+            "Auto-refreshing %s list due to %d file changes", label, len(pending_paths)
+        )
         refresh_func(reload=True)
         pending_paths.clear()
 
@@ -420,7 +444,11 @@ class ToolWindow(QMainWindow):
             companion_modules = [f"{module_root}_s.rim"]
             if self.active.game().is_k2():
                 companion_modules.append(f"{module_root}_dlg.erf")
-            related_modules.extend(module_lookup[companion.lower()] for companion in companion_modules if companion.lower() in module_lookup)
+            related_modules.extend(
+                module_lookup[companion.lower()]
+                for companion in companion_modules
+                if companion.lower() in module_lookup
+            )
 
         for related_module in related_modules:
             try:
@@ -440,14 +468,20 @@ class ToolWindow(QMainWindow):
         try:
             self.active.reload_override_file(changed_override_path)
         except Exception:  # noqa: BLE001
-            RobustLogger().exception("Failed to reload watched override file '%s'", changed_override_path)
+            RobustLogger().exception(
+                "Failed to reload watched override file '%s'", changed_override_path
+            )
             return
 
-        current_directory = self.ui.overrideWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+        current_directory = self.ui.overrideWidget.ui.sectionCombo.currentData(
+            Qt.ItemDataRole.UserRole
+        )
         changed_path = Path(changed_override_path)
         rel_directory_str = "."
         try:
-            rel_directory_str = changed_path.parent.relative_to(self.active.override_path()).as_posix()
+            rel_directory_str = changed_path.parent.relative_to(
+                self.active.override_path()
+            ).as_posix()
         except ValueError:
             rel_directory_str = "."
         current_directory_str = str(current_directory or ".")
@@ -479,13 +513,15 @@ class ToolWindow(QMainWindow):
     @Slot(str)
     def _on_file_system_event(self, path: str, *, is_directory: bool) -> None:
         """Unified handler for file system change events (both directories and files).
-        
+
         Args:
             path: The file system path that changed
             is_directory: True if the event is for a directory change, False for file change
         """
         event_type = "directory" if is_directory else "file"
-        RobustLogger().debug("File watcher detected %s change: %s", event_type, os.path.normpath(path))
+        RobustLogger().debug(
+            "File watcher detected %s change: %s", event_type, os.path.normpath(path)
+        )
         self._queue_watcher_change(path, contains_match=not is_directory)
 
     @Slot(str)
@@ -531,7 +567,9 @@ class ToolWindow(QMainWindow):
 
         changed_path = Path(path)
         if changed_path.exists() and changed_path.is_file():
-            watched_files = {os.path.normpath(file_path).lower() for file_path in self._file_watcher.files()}
+            watched_files = {
+                os.path.normpath(file_path).lower() for file_path in self._file_watcher.files()
+            }
             if normalized_path not in watched_files:
                 self._file_watcher.addPath(str(changed_path))
 
@@ -548,7 +586,14 @@ class ToolWindow(QMainWindow):
         has_module_file_modifications = bool(self._pending_module_file_modifications)
         has_override_file_modifications = bool(self._pending_override_file_modifications)
 
-        if not any((has_module_changes, has_override_changes, has_module_file_modifications, has_override_file_modifications)):
+        if not any(
+            (
+                has_module_changes,
+                has_override_changes,
+                has_module_file_modifications,
+                has_override_file_modifications,
+            )
+        ):
             return
 
         # Check if window is active/focused
@@ -567,7 +612,9 @@ class ToolWindow(QMainWindow):
                 has_override_file_modifications,
             )
 
-    def _pending_change_details(self, *, has_module_changes: bool, has_override_changes: bool) -> str:
+    def _pending_change_details(
+        self, *, has_module_changes: bool, has_override_changes: bool
+    ) -> str:
         """Build detailed refresh-dialog text listing changed files by section."""
         changed_files: list[str] = []
         sections: tuple[tuple[bool, str, list[str]], ...] = (
@@ -582,7 +629,9 @@ class ToolWindow(QMainWindow):
         return "\n".join(changed_files)
 
     @staticmethod
-    def _changed_sections_text(*, has_module_changes: bool, has_override_changes: bool, local_tr: Callable[[str], str]) -> str:
+    def _changed_sections_text(
+        *, has_module_changes: bool, has_override_changes: bool, local_tr: Callable[[str], str]
+    ) -> str:
         """Build localized changed-section summary text for refresh prompt."""
         changes_desc: list[str] = []
         if has_module_changes:
@@ -595,13 +644,23 @@ class ToolWindow(QMainWindow):
         """Show a dialog asking the user if they want to refresh after file changes."""
         from toolset.gui.common.localization import translate as local_tr
 
-        changed_files_text = self._pending_change_details(has_module_changes=has_module_changes, has_override_changes=has_override_changes)
-        changes_desc_text = self._changed_sections_text(has_module_changes=has_module_changes, has_override_changes=has_override_changes, local_tr=local_tr)
+        changed_files_text = self._pending_change_details(
+            has_module_changes=has_module_changes, has_override_changes=has_override_changes
+        )
+        changes_desc_text = self._changed_sections_text(
+            has_module_changes=has_module_changes,
+            has_override_changes=has_override_changes,
+            local_tr=local_tr,
+        )
 
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle(local_tr("File Changes Detected"))
         msg_box.setText(
-            local_tr("Changes were detected in the following directories:") + "\n" + changes_desc_text + "\n\n" + local_tr("Would you like to refresh the file lists?"),
+            local_tr("Changes were detected in the following directories:")
+            + "\n"
+            + changes_desc_text
+            + "\n\n"
+            + local_tr("Would you like to refresh the file lists?"),
         )
         msg_box.setDetailedText(changed_files_text)
         msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
@@ -633,18 +692,26 @@ class ToolWindow(QMainWindow):
     ) -> None:
         """Auto-refresh the appropriate lists based on detected changes."""
         if has_module_changes:
-            self._refresh_pending_changes(self._pending_module_changes, label="module", refresh_func=self.refresh_module_list)
+            self._refresh_pending_changes(
+                self._pending_module_changes, label="module", refresh_func=self.refresh_module_list
+            )
             self._pending_module_file_modifications.clear()
         elif has_module_file_modifications:
             self._refresh_pending_module_file_modifications()
 
         if has_override_changes:
-            self._refresh_pending_changes(self._pending_override_changes, label="override", refresh_func=self.refresh_override_list)
+            self._refresh_pending_changes(
+                self._pending_override_changes,
+                label="override",
+                refresh_func=self.refresh_override_list,
+            )
             self._pending_override_file_modifications.clear()
         elif has_override_file_modifications:
             self._refresh_pending_override_file_modifications()
 
-    def _set_sections_preserving_selection(self, resource_widget: ResourceList, items: list[QStandardItem]) -> None:
+    def _set_sections_preserving_selection(
+        self, resource_widget: ResourceList, items: list[QStandardItem]
+    ) -> None:
         """Replace combo-box sections while preserving the current selection when possible."""
         section_combo = resource_widget.ui.sectionCombo
         previous_selection = section_combo.currentData(Qt.ItemDataRole.UserRole)
@@ -729,7 +796,9 @@ class ToolWindow(QMainWindow):
         # Configure button size policies
         refresh_button.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)  # type: ignore[arg-type]
         designer_button.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)  # type: ignore[arg-type]
-        level_builder_button.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)  # type: ignore[arg-type]
+        level_builder_button.setSizePolicy(
+            QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred
+        )  # type: ignore[arg-type]
 
         # Create vertical button stack layout
         stack_button_layout = QVBoxLayout()
@@ -817,7 +886,9 @@ class ToolWindow(QMainWindow):
         def open_module_designer(*args) -> ModuleDesigner | None:
             """Open the module designer."""
             assert self.active is not None
-            module_data = self.ui.modulesWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+            module_data = self.ui.modulesWidget.ui.sectionCombo.currentData(
+                Qt.ItemDataRole.UserRole
+            )
             module_path: Path | None = None
             if module_data:
                 module_path = self.active.module_path() / Path(str(module_data))
@@ -828,12 +899,16 @@ class ToolWindow(QMainWindow):
                     mod_filepath=module_path,
                 )
             except TypeError as exc:
-                RobustLogger().warning(f"ModuleDesigner signature mismatch: {exc}. Falling back without module path.")
+                RobustLogger().warning(
+                    f"ModuleDesigner signature mismatch: {exc}. Falling back without module path."
+                )
                 designer_window = ModuleDesigner(None, self.active)
                 if module_path is not None:
                     QTimer.singleShot(33, lambda: designer_window.open_module(module_path))
 
-            designer_window.setWindowIcon(cast("QApplication", QApplication.instance()).windowIcon())
+            designer_window.setWindowIcon(
+                cast("QApplication", QApplication.instance()).windowIcon()
+            )
             add_window(designer_window)
 
         self.ui.specialActionButton.clicked.connect(open_module_designer)
@@ -841,12 +916,17 @@ class ToolWindow(QMainWindow):
         def open_indoor_map_builder_with_module(*args) -> IndoorMapBuilder | None:
             """Open the Indoor Map Builder with the selected module."""
             assert self.active is not None
-            module_data = self.ui.modulesWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+            module_data = self.ui.modulesWidget.ui.sectionCombo.currentData(
+                Qt.ItemDataRole.UserRole
+            )
             if not module_data:
                 from toolset.gui.common.localization import translate as tr
+
                 self._show_warning_message(
                     tr("No Module Selected"),
-                    tr("Please select a module from the Modules tab before opening the Level Builder."),
+                    tr(
+                        "Please select a module from the Modules tab before opening the Level Builder."
+                    ),
                 )
                 return None
 
@@ -860,7 +940,9 @@ class ToolWindow(QMainWindow):
             add_window(builder)
 
             # Load the selected module (use QTimer to ensure window is fully initialized)
-            QTimer.singleShot(33, lambda: builder.load_module_from_name(module_name))  # Load the module after the window is fully initialized
+            QTimer.singleShot(
+                33, lambda: builder.load_module_from_name(module_name)
+            )  # Load the module after the window is fully initialized
 
             return builder
 
@@ -873,14 +955,18 @@ class ToolWindow(QMainWindow):
             )
 
         self.ui.extractButton.clicked.connect(extract_resources)
-        self.ui.openButton.clicked.connect(lambda checked=False: self.get_active_resource_widget().on_resource_double_clicked(None))
+        self.ui.openButton.clicked.connect(
+            lambda checked=False: self.get_active_resource_widget().on_resource_double_clicked(None)
+        )
 
         self.ui.openAction.triggered.connect(self.open_from_file)
         self.ui.actionSettings.triggered.connect(self.open_settings_dialog)
         self.ui.actionExit.triggered.connect(lambda *args: (self.close() and None) or None)
 
         self._connect_new_resource_actions()
-        self.ui.actionCloneModule.triggered.connect(lambda: add_window(CloneModuleDialog(self, self.active, self.installations)))  # type: ignore[arg-type]
+        self.ui.actionCloneModule.triggered.connect(
+            lambda: add_window(CloneModuleDialog(self, self.active, self.installations))
+        )  # type: ignore[arg-type]
 
         self.ui.actionModuleDesigner.triggered.connect(self.open_module_designer)
         self.ui.actionEditTLK.triggered.connect(self.open_active_talktable)
@@ -943,7 +1029,11 @@ class ToolWindow(QMainWindow):
             (self.ui.actionNewSSF, SSFEditor),
         )
         for action, editor_class in action_editor_pairs:
-            action.triggered.connect(lambda checked=False, cls=editor_class: add_window(cast("Any", cls)(self, self.active)))
+            action.triggered.connect(
+                lambda checked=False, cls=editor_class: add_window(
+                    cast("Any", cls)(self, self.active)
+                )
+            )
 
     def _connect_discord_actions(self) -> None:
         """Connect Discord menu actions to their destination URLs."""
@@ -955,7 +1045,9 @@ class ToolWindow(QMainWindow):
         for action, url in action_links:
             action.triggered.connect(lambda checked=False, target=url: open_link(target))
 
-    def _set_kotor_action_icon(self, action: QAction, icon_name: str, version: str, *, enabled: bool) -> None:
+    def _set_kotor_action_icon(
+        self, action: QAction, icon_name: str, version: str, *, enabled: bool
+    ) -> None:
         """Set K1/K2 icon variant and enabled-state for a menu action."""
         icon_path = f":/images/icons/k{version}/{icon_name}.png"
         action.setIcon(QIcon(QPixmap(icon_path)))
@@ -979,13 +1071,16 @@ class ToolWindow(QMainWindow):
             checked: Whether the action was checked (from triggered signal, ignored).
         """
         if self._theme_dialog is None or not self._theme_dialog.isVisible():
-            current_theme = self.settings.selectedTheme or "sourcegraph-dark"
-            current_style = self.settings.selectedStyle or "Fusion"
+            selected_theme = self.settings.selectedTheme
+            selected_style = self.settings.selectedStyle
+            current_theme = selected_theme if selected_theme else "sourcegraph-dark"
+            current_style = "Fusion" if selected_style is None else selected_style
             available_themes = sorted(set(self.theme_manager.get_available_themes()))
             available_styles = list(self.theme_manager.get_default_styles())
 
             self._theme_dialog = ThemeSelectorDialog(
                 parent=self,
+                theme_manager=self.theme_manager,
                 available_themes=available_themes,
                 available_styles=available_styles,
                 current_theme=current_theme,
@@ -1194,7 +1289,9 @@ class ToolWindow(QMainWindow):
     ):
         assert self.active is not None
         for resource in resources:
-            _filepath, _editor = open_resource_editor(resource, self.active, self, gff_specialized=use_specialized_editor)
+            _filepath, _editor = open_resource_editor(
+                resource, self.active, self, gff_specialized=use_specialized_editor
+            )
         if resources:
             return
         if not isinstance(resource_widget, ResourceList):
@@ -1208,8 +1305,12 @@ class ToolWindow(QMainWindow):
         res_ident = ResourceIdentifier.from_path(erf_filepath)
         if not res_ident.restype:
             return
-        erf_resource = FileResource(res_ident.resname, res_ident.restype, os.path.getsize(erf_filepath), 0x0, erf_filepath)  # noqa: PTH202
-        _filepath, _editor = open_resource_editor(erf_resource, self.active, self, gff_specialized=use_specialized_editor)
+        erf_resource = FileResource(
+            res_ident.resname, res_ident.restype, os.path.getsize(erf_filepath), 0x0, erf_filepath
+        )  # noqa: PTH202
+        _filepath, _editor = open_resource_editor(
+            erf_resource, self.active, self, gff_specialized=use_specialized_editor
+        )
 
     def populate_recent_files_menu(
         self,
@@ -1261,7 +1362,10 @@ class ToolWindow(QMainWindow):
 
         resources: list[FileResource] = self.active.module_resources(module_file)
         module_file_name = PurePath(module_file).name
-        if self.settings.joinRIMsTogether and ((is_rim_file(module_file) or is_erf_file(module_file)) and not module_file_name.lower().endswith(("_s.rim", "_dlg.erf"))):
+        if self.settings.joinRIMsTogether and (
+            (is_rim_file(module_file) or is_erf_file(module_file))
+            and not module_file_name.lower().endswith(("_s.rim", "_dlg.erf"))
+        ):
             side_rim = f"{PurePath(module_file).stem}_s.rim"
             if side_rim in available_modules:
                 self.active.reload_module(side_rim)
@@ -1286,7 +1390,10 @@ class ToolWindow(QMainWindow):
             self.refresh_module_list()
         else:
             self.active.reload_module(changed_file)
-            if self.ui.modulesWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole) == changed_file:
+            if (
+                self.ui.modulesWidget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+                == changed_file
+            ):
                 self.on_module_reload(changed_file)
 
     def on_module_refresh(self):  # noqa: FBT001, FBT002
@@ -1298,7 +1405,9 @@ class ToolWindow(QMainWindow):
         new_save_dir: str,
     ):
         assert self.active is not None, "No active installation selected"
-        self.ui.savesWidget.modules_model.invisibleRootItem().removeRows(0, self.ui.savesWidget.modules_model.rowCount())  # pyright: ignore[reportOptionalMemberAccess]
+        self.ui.savesWidget.modules_model.invisibleRootItem().removeRows(
+            0, self.ui.savesWidget.modules_model.rowCount()
+        )  # pyright: ignore[reportOptionalMemberAccess]
         new_save_dir_path = Path(new_save_dir)
         if new_save_dir_path not in self.active.saves:
             self.active.load_saves()
@@ -1323,7 +1432,11 @@ class ToolWindow(QMainWindow):
                 found_resource = False
                 for i in range(category_item.rowCount()):
                     item = category_item.child(i)
-                    if item is not None and isinstance(item, ResourceStandardItem) and item.resource == resource:
+                    if (
+                        item is not None
+                        and isinstance(item, ResourceStandardItem)
+                        and item.resource == resource
+                    ):
                         item.resource = resource
                         found_resource = True
                         break
@@ -1382,7 +1495,9 @@ class ToolWindow(QMainWindow):
             model: ResourceModel = saves_widget.modules_model
             proxy_model: QStandardItemModel | QAbstractItemModel | None = tree_view.model()
             if proxy_model is None or not isinstance(proxy_model, QSortFilterProxyModel):
-                RobustLogger().error(f"Proxy model not found or not a QSortFilterProxyModel: {proxy_model.__class__.__name__}")
+                RobustLogger().error(
+                    f"Proxy model not found or not a QSortFilterProxyModel: {proxy_model.__class__.__name__}"
+                )
                 return
 
             for index in selected_indexes:
@@ -1403,7 +1518,9 @@ class ToolWindow(QMainWindow):
                     RobustLogger().debug(f"Looking for save folder: {save_name}")
 
                     # Get current save location from combo box
-                    current_save_location_str: str | None = saves_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+                    current_save_location_str: str | None = (
+                        saves_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+                    )
                     if not current_save_location_str:
                         RobustLogger().warning("No save location selected")
                         continue
@@ -1411,7 +1528,9 @@ class ToolWindow(QMainWindow):
                     current_save_location = Path(current_save_location_str)
 
                     # Find the save path
-                    save_paths: dict[Path, list[FileResource]] = self.active.saves.get(current_save_location, {})
+                    save_paths: dict[Path, list[FileResource]] = self.active.saves.get(
+                        current_save_location, {}
+                    )
                     for save_path in save_paths:
                         # Match on the folder name (last part of path)
                         if save_path.name == save_name or save_name in str(save_path):
@@ -1449,6 +1568,7 @@ class ToolWindow(QMainWindow):
 
         except Exception as e:
             from toolset.gui.common.localization import translate as tr, translate_format as trf
+
             self._show_error_message(
                 tr("Error Opening Save Editor"),
                 trf("Failed to open save editor:\n{error}", error=str(e)),
@@ -1486,7 +1606,9 @@ class ToolWindow(QMainWindow):
         else:
             rel_folderpath = file_or_folder_path.relative_to(self.active.override_path())
             self.active.load_override(str(rel_folderpath))
-        self.ui.overrideWidget.set_resources(self.active.override_resources(str(rel_folderpath) if rel_folderpath.name else None))
+        self.ui.overrideWidget.set_resources(
+            self.active.override_resources(str(rel_folderpath) if rel_folderpath.name else None)
+        )
 
     def on_override_refresh(self):
         self.refresh_override_list(reload=True)
@@ -1505,7 +1627,9 @@ class ToolWindow(QMainWindow):
     ):
         RobustLogger().debug(f"TRACE: change_active_installation({index}) called")
         if self._is_changing_installation:
-            RobustLogger().debug(f"Skipping change_active_installation({index}) - installation change already in progress")
+            RobustLogger().debug(
+                f"Skipping change_active_installation({index}) - installation change already in progress"
+            )
             return
 
         self._is_changing_installation = True
@@ -1567,11 +1691,17 @@ class ToolWindow(QMainWindow):
         # Check if path is valid
         if not path or not path.strip() or not Path(path).exists() or not Path(path).is_dir():
             if path and path.strip():
-                QMessageBox(QMessageBox.Icon.Warning, trf("Installation '{path}' not found", path=path), tr("Select another path now.")).exec()
+                QMessageBox(
+                    QMessageBox.Icon.Warning,
+                    trf("Installation '{path}' not found", path=path),
+                    tr("Select another path now."),
+                ).exec()
 
             # Prompt user for installation directory
             default_dir = "Knights of the Old Republic II" if tsl else "swkotor"
-            path = QFileDialog.getExistingDirectory(self, trf("Select the game directory for {name}", name=name), default_dir)
+            path = QFileDialog.getExistingDirectory(
+                self, trf("Select the game directory for {name}", name=name), default_dir
+            )
 
         # Return to previous selection if no path provided
         if not path or not path.strip():
@@ -1630,7 +1760,9 @@ class ToolWindow(QMainWindow):
                 self.ui.gameCombo.blockSignals(False)
                 return
             self.active = installation_loader.value
-            assert self.active is not None, "Active installation should not be None here after loading"
+            assert self.active is not None, (
+                "Active installation should not be None here after loading"
+            )
             self.installations[name] = self.active
         else:
             self.active = active
@@ -1651,13 +1783,19 @@ class ToolWindow(QMainWindow):
         self._preparing_resources = True
         try:
 
-            def prepare_task(loader: AsyncLoader | None = None) -> tuple[list[QStandardItem] | None, ...]:
-                """Prepare resource lists for modules, overrides, and textures."""
-                return (
-                    self._get_modules_list(reload=False),
-                    self._get_override_list(reload=False),
-                    self._get_texture_pack_list(),
-                )
+            def prepare_task(
+                loader: AsyncLoader | None = None,
+            ) -> tuple[list[QStandardItem] | None, ...]:
+                """Prepare resource lists for modules, overrides, textures, and stream audio."""
+                modules = self._get_modules_list(reload=False)
+                override = self._get_override_list(reload=False)
+                textures = self._get_texture_pack_list()
+                # Pre-warm stream audio caches while the progress dialog is still open,
+                # so refresh_core_list (called after dialog close) returns instantly.
+                assert self.active is not None
+                _music = self.active._streammusic  # noqa: SLF001
+                _voice = self.active._streamwaves  # noqa: SLF001
+                return (modules, override, textures)
 
             prepare_loader = AsyncLoader(
                 self,
@@ -1713,10 +1851,10 @@ class ToolWindow(QMainWindow):
         assert self.active is not None, "Active installation should not be None here after loading"
 
         self.update_menus()
-        RobustLogger().info(f"Successfully loaded installation: {self.active.name}")
+        print(f"Successfully loaded installation: {self.active.name}")
 
         # Update settings and cache
-        name = self.active.name
+        name: str = self.active.name
         self.settings.installations()[name].path = str(self.active.path())
         self.installations[name] = self.active
 
@@ -1756,10 +1894,14 @@ class ToolWindow(QMainWindow):
     ):
         assert self.active is not None
         # Open relevant tab then select resource in the tree
-        if os.path.commonpath([selection.filepath(), self.active.module_path()]) == str(self.active.module_path()):
+        if os.path.commonpath([selection.filepath(), self.active.module_path()]) == str(
+            self.active.module_path()
+        ):
             self.ui.resourceTabs.setCurrentIndex(1)
             self.select_resource(self.ui.modulesWidget, selection)
-        elif os.path.commonpath([selection.filepath(), self.active.override_path()]) == str(self.active.override_path()):
+        elif os.path.commonpath([selection.filepath(), self.active.override_path()]) == str(
+            self.active.override_path()
+        ):
             self.ui.resourceTabs.setCurrentIndex(2)
             self.select_resource(self.ui.overrideWidget, selection)
         elif is_bif_file(selection.filepath().name):
@@ -1797,7 +1939,11 @@ class ToolWindow(QMainWindow):
                 if qtpy.QT5
                 else event.globalPosition().toPoint()  # pyright: ignore[reportAttributeAccessIssue]  # type: ignore[attr-defined]
             )
-            self.move(self.mapFromGlobal(self.mapToGlobal(self.pos()) + (globalPos - self._mouse_move_pos)))
+            self.move(
+                self.mapFromGlobal(
+                    self.mapToGlobal(self.pos()) + (globalPos - self._mouse_move_pos)
+                )
+            )
             self._mouse_move_pos = globalPos
 
     def mousePressEvent(
@@ -1840,7 +1986,9 @@ class ToolWindow(QMainWindow):
                 filepath = url.toLocalFile()
                 _resref, restype = ResourceIdentifier.from_path(filepath).unpack()
                 if not restype.is_valid():
-                    RobustLogger().debug(f"Not processing dragged-in item '{filepath}'. Unsupported restype '{restype}'.")
+                    RobustLogger().debug(
+                        f"Not processing dragged-in item '{filepath}'. Unsupported restype '{restype}'."
+                    )
                     continue
             except Exception:  # noqa: BLE001, PERF203
                 RobustLogger().exception("Could not process dragged-in item.")
@@ -1867,20 +2015,31 @@ class ToolWindow(QMainWindow):
                 filepath: str = url.toLocalFile()
                 resname, restype = ResourceIdentifier.from_path(filepath).unpack()
                 if not restype or not restype.is_valid():
-                    RobustLogger().debug(f"Not loading dropped file '{filepath}'. Unsupported restype '{restype}'.")
+                    RobustLogger().debug(
+                        f"Not loading dropped file '{filepath}'. Unsupported restype '{restype}'."
+                    )
                     continue
                 resource = FileResource(resname, restype, os.path.getsize(filepath), 0x0, filepath)  # noqa: PTH202
-                editor_filepath, editor = open_resource_editor(resource, self.active, self, gff_specialized=GlobalSettings().gffSpecializedEditors)
+                editor_filepath, editor = open_resource_editor(
+                    resource,
+                    self.active,
+                    self,
+                    gff_specialized=GlobalSettings().gffSpecializedEditors,
+                )
             except Exception:  # noqa: BLE001, PERF203
                 RobustLogger().exception("Could not process dropped file.")
                 e.ignore()
             else:
                 if editor_filepath is not None:
-                    RobustLogger().debug(f"Dropped file '{editor_filepath!s}' processed successfully.")
+                    RobustLogger().debug(
+                        f"Dropped file '{editor_filepath!s}' processed successfully."
+                    )
                     e.accept()
                     return
                 if editor is None:
-                    RobustLogger().warning(f"Dropped file '{filepath}' could not be processed. No editor nor filepath returned.")
+                    RobustLogger().warning(
+                        f"Dropped file '{filepath}' could not be processed. No editor nor filepath returned."
+                    )
                     e.ignore()
                     return
 
@@ -1920,7 +2079,9 @@ class ToolWindow(QMainWindow):
             ),
             enabled=active_required,
         )
-        self._set_actions_enabled((self.ui.actionKotorDiff, self.ui.actionTSLPatchDataEditor), enabled=True)
+        self._set_actions_enabled(
+            (self.ui.actionKotorDiff, self.ui.actionTSLPatchDataEditor), enabled=True
+        )
 
     def debounce_module_designer_load(self):
         """Prevents users from spamming the start button, which could easily result in a bad crash."""
@@ -1945,7 +2106,9 @@ class ToolWindow(QMainWindow):
         try:
             designer_window = ModuleDesigner(None, self.active, mod_filepath=selected_module)  # pyright: ignore[call-arg]
         except TypeError as exc:
-            RobustLogger().warning(f"ModuleDesigner signature mismatch: {exc}. Falling back without module path.")
+            RobustLogger().warning(
+                f"ModuleDesigner signature mismatch: {exc}. Falling back without module path."
+            )
             designer_window = ModuleDesigner(None, self.active)
             if selected_module is not None:
                 QTimer.singleShot(33, lambda: designer_window.open_module(selected_module))
@@ -1971,7 +2134,9 @@ class ToolWindow(QMainWindow):
                 "Reload the installations?",
                 "You appear to have made changes to your installations, would you like to reload?",
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             ).exec()
             == QMessageBox.StandardButton.Yes
         ):
@@ -1998,7 +2163,9 @@ class ToolWindow(QMainWindow):
                 # flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
             ).exec()
             return
-        resource = FileResource("dialog", ResourceType.TLK, os.path.getsize(c_filepath), 0x0, c_filepath)  # noqa: PTH202
+        resource = FileResource(
+            "dialog", ResourceType.TLK, os.path.getsize(c_filepath), 0x0, c_filepath
+        )  # noqa: PTH202
         open_resource_editor(resource, self.active, self)
 
     @Slot(bool)
@@ -2023,7 +2190,9 @@ class ToolWindow(QMainWindow):
                 QMessageBox.Icon.Critical,
                 "global.jrl not found",
                 "Could not open the journal editor: 'global.jrl' not found.",
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             ).exec()
             return
         relevant: list[LocationResult] = journal_resources[jrl_ident]
@@ -2204,7 +2373,9 @@ class ToolWindow(QMainWindow):
         res_ident: ResourceIdentifier = ResourceIdentifier.from_path(erf_filepath)
         if not res_ident.restype:
             return
-        erf_file_resource = FileResource(res_ident.resname, res_ident.restype, os.path.getsize(erf_filepath), 0x0, erf_filepath)  # noqa: PTH202
+        erf_file_resource = FileResource(
+            res_ident.resname, res_ident.restype, os.path.getsize(erf_filepath), 0x0, erf_filepath
+        )  # noqa: PTH202
         _filepath, _editor = open_resource_editor(
             erf_file_resource,
             self.active,
@@ -2259,7 +2430,9 @@ class ToolWindow(QMainWindow):
         subfolder: str = "."
         for folder_name in self.active.override_list():
             folder_path = self.active.override_path() / folder_name
-            if os.path.commonpath([resource.filepath(), folder_path]) == str(folder_path) and len(subfolder) < len(folder_path.name):
+            if os.path.commonpath([resource.filepath(), folder_path]) == str(folder_path) and len(
+                subfolder
+            ) < len(folder_path.name):
                 subfolder = folder_name
         self.change_override_folder(subfolder)
 
@@ -2360,13 +2533,18 @@ class ToolWindow(QMainWindow):
                 self.active._modules_loaded = False  # pyright: ignore[reportPrivateUsage]
                 self.active.load_modules()
             except Exception:  # noqa: BLE001  # pylint: disable=broad-exception-caught
-                RobustLogger().exception("Failed to reload the list of modules (load_modules function)")
+                RobustLogger().exception(
+                    "Failed to reload the list of modules (load_modules function)"
+                )
 
         try:
             area_names: dict[str, str | None] = self.active.module_names()
         except Exception:  # noqa: BLE001  # pylint: disable=broad-exception-caught
             RobustLogger().exception("Failed to get the list of area names from the modules!")
-            area_names = {k: (str(v[0].filepath()) if v else "unknown filepath") for k, v in self.active._modules.items()}
+            area_names = {
+                k: (str(v[0].filepath()) if v else "unknown filepath")
+                for k, v in self.active._modules.items()
+            }
 
         def sort_algo(module_file_name: str) -> str:
             """Sorts the modules in the modulesCombo combobox."""
@@ -2378,7 +2556,9 @@ class ToolWindow(QMainWindow):
                 elif self.settings.moduleSortOption == 0:  # "Sort by filename":
                     sort_str = ""
                 elif self.settings.moduleSortOption == 1:  # "Sort by humanized area name":
-                    sort_str = (area_names.get(module_file_name, "y") or "unknown_area_name").lower()
+                    sort_str = (
+                        area_names.get(module_file_name, "y") or "unknown_area_name"
+                    ).lower()
                 else:  # alternate mod id that attempts to match to filename.
                     assert self.active is not None, "self.active is None"
                     sort_str = self.active.module_id(module_file_name, use_alternate=True)
@@ -2415,7 +2595,9 @@ class ToolWindow(QMainWindow):
 
                 modules.append(item)
             except Exception:  # noqa: PERF203, BLE001
-                RobustLogger().exception(f"Unexpected exception thrown while parsing module '{module_name}', skipping...")
+                RobustLogger().exception(
+                    f"Unexpected exception thrown while parsing module '{module_name}', skipping..."
+                )
         return modules
 
     def change_override_folder(
@@ -2519,27 +2701,40 @@ class ToolWindow(QMainWindow):
                     write_erf(read_erf(c_filepath), r_save_filepath)
                     _show_saved_info(tr("Module Saved"), "Module saved to '{r_save_filepath}'")
                 else:
-                    module.rim_to_mod(r_save_filepath, self.active.module_path(), module_name, self.active.game())
-                    _show_saved_info(tr("Module Built"), "Module built from relevant RIMs/ERFs and saved to '{r_save_filepath}'")
+                    module.rim_to_mod(
+                        r_save_filepath, self.active.module_path(), module_name, self.active.game()
+                    )
+                    _show_saved_info(
+                        tr("Module Built"),
+                        "Module built from relevant RIMs/ERFs and saved to '{r_save_filepath}'",
+                    )
                 return
 
-            erf_or_rim: ERF | RIM = read_erf(c_filepath) if is_any_erf_type_file(c_filepath) else read_rim(c_filepath)
+            erf_or_rim: ERF | RIM = (
+                read_erf(c_filepath) if is_any_erf_type_file(c_filepath) else read_rim(c_filepath)
+            )
             if is_rim_file(r_save_filepath):
                 if isinstance(erf_or_rim, ERF):
                     erf_or_rim = erf_or_rim.to_rim()
                 write_rim(erf_or_rim, r_save_filepath)
-                _show_saved_info(tr("RIM Saved"), "Resource Image File saved to '{r_save_filepath}'")
+                _show_saved_info(
+                    tr("RIM Saved"), "Resource Image File saved to '{r_save_filepath}'"
+                )
 
             elif is_any_erf_type_file(r_save_filepath):
                 if isinstance(erf_or_rim, RIM):
                     erf_or_rim = erf_or_rim.to_erf()
                 erf_or_rim.erf_type = ERFType.from_extension(r_save_filepath)
                 write_erf(erf_or_rim, r_save_filepath)
-                _show_saved_info(tr("ERF Saved"), "Encapsulated Resource File saved to '{r_save_filepath}'")
+                _show_saved_info(
+                    tr("ERF Saved"), "Encapsulated Resource File saved to '{r_save_filepath}'"
+                )
 
         except Exception as e:  # noqa: BLE001  # pylint: disable=broad-exception-caught
             RobustLogger().exception("Error extracting capsule file '%s'", module_name)
-            self._show_error_message(tr("Error saving capsule file"), str((e.__class__.__name__, str(e))))
+            self._show_error_message(
+                tr("Error saving capsule file"), str((e.__class__.__name__, str(e)))
+            )
 
     def build_extract_save_paths(
         self,
@@ -2581,7 +2776,9 @@ class ToolWindow(QMainWindow):
             main_save_path: Path = base_path
             if resource.restype() == ResourceType.TPC and self.ui.tpcDecompileCheckbox.isChecked():
                 main_save_path = main_save_path.with_suffix(".tga")
-            elif resource.restype() == ResourceType.MDL and self.ui.mdlDecompileCheckbox.isChecked():
+            elif (
+                resource.restype() == ResourceType.MDL and self.ui.mdlDecompileCheckbox.isChecked()
+            ):
                 main_save_path = main_save_path.with_suffix(".mdl.ascii")
             else:
                 main_save_path = main_save_path.with_suffix(f".{identifier.restype.extension}")
@@ -2638,7 +2835,9 @@ class ToolWindow(QMainWindow):
             if folder_path is None or paths_to_write is None:
                 return
             failed_savepath_handlers: dict[Path, Exception] = {}
-            resource_save_paths: dict[FileResource, Path] = FileSaveHandler(selected_resources).determine_save_paths(
+            resource_save_paths: dict[FileResource, Path] = FileSaveHandler(
+                selected_resources
+            ).determine_save_paths(
                 paths_to_write,
                 failed_savepath_handlers,
             )
@@ -2688,8 +2887,11 @@ class ToolWindow(QMainWindow):
                 return
 
             from toolset.gui.common.extraction_feedback import show_extraction_results
+
             show_extraction_results(self, resource_save_paths, loader.errors, folder_path)
-        elif isinstance(resource_widget, ResourceList) and is_capsule_file(resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)):
+        elif isinstance(resource_widget, ResourceList) and is_capsule_file(
+            resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
+        ):
             module_name = resource_widget.ui.sectionCombo.currentData(Qt.ItemDataRole.UserRole)
             self._save_capsule_from_tool_ui(module_name)
 
@@ -2745,7 +2947,9 @@ class ToolWindow(QMainWindow):
         data: SOURCE_TYPES,
     ) -> bytearray:
         assert self.active is not None
-        mdx_resource_lookup: ResourceResult | None = self.active.resource(resource.resname(), ResourceType.MDX)
+        mdx_resource_lookup: ResourceResult | None = self.active.resource(
+            resource.resname(), ResourceType.MDX
+        )
         if mdx_resource_lookup is None:
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), repr(resource))
         mdxData: bytes = mdx_resource_lookup.data
@@ -2767,7 +2971,9 @@ class ToolWindow(QMainWindow):
         textures_and_lightmaps = set(iterate_textures(data)) | set(iterate_lightmaps(data))
         main_subfolder = folderpath / f"model_{resource.resname()}"
 
-        all_locresults: dict[str, dict[ResourceIdentifier, list[LocationResult]]] = defaultdict(lambda: defaultdict(list))
+        all_locresults: dict[str, dict[ResourceIdentifier, list[LocationResult]]] = defaultdict(
+            lambda: defaultdict(list)
+        )
         seen_resources.setdefault(
             "all_locresults",
             all_locresults,
@@ -2778,8 +2984,12 @@ class ToolWindow(QMainWindow):
             location_results = all_locresults.get(item) or self._locate_texture(item)
             all_locresults[item] = location_results
 
-            if not self._process_texture(item, tex_type, location_results, resource, main_subfolder, seen_resources, loader):
-                loader.errors.append(ValueError(f"Missing {tex_type} '{item}' for model '{resource.identifier()}'"))
+            if not self._process_texture(
+                item, tex_type, location_results, resource, main_subfolder, seen_resources, loader
+            ):
+                loader.errors.append(
+                    ValueError(f"Missing {tex_type} '{item}' for model '{resource.identifier()}'")
+                )
 
     def _locate_texture(
         self,
@@ -2787,7 +2997,10 @@ class ToolWindow(QMainWindow):
     ) -> dict[ResourceIdentifier, list[LocationResult]]:
         assert self.active is not None, "self.active is None in _locate_texture"
         return self.active.locations(
-            [ResourceIdentifier(resname=texture, restype=rt) for rt in (ResourceType.TPC, ResourceType.TGA)],
+            [
+                ResourceIdentifier(resname=texture, restype=rt)
+                for rt in (ResourceType.TPC, ResourceType.TGA)
+            ],
             [
                 SearchLocation.OVERRIDE,
                 SearchLocation.TEXTURES_GUI,
@@ -2818,9 +3031,13 @@ class ToolWindow(QMainWindow):
                 try:
                     self._save_texture(location, resident, subfolder, seen_resources)
                 except Exception as e:  # noqa: BLE001  # pylint: disable=broad-exception-caught
-                    RobustLogger().exception(f"Failed to save {tex_type} '{resident}' ({texture}) for model '{resource.identifier()}'")
+                    RobustLogger().exception(
+                        f"Failed to save {tex_type} '{resident}' ({texture}) for model '{resource.identifier()}'"
+                    )
                     loader.errors.append(
-                        ValueError(f"Failed to save {tex_type} '{resident}' ({texture}) for model '{resource.identifier()}':<br>    {e.__class__.__name__}: {e}"),
+                        ValueError(
+                            f"Failed to save {tex_type} '{resident}' ({texture}) for model '{resource.identifier()}':<br>    {e.__class__.__name__}: {e}"
+                        ),
                     )
 
         return bool(location_results)
@@ -2844,10 +3061,16 @@ class ToolWindow(QMainWindow):
         subfolder: Path,
         seen_resources: dict[LocationResult, Path],
     ):
-        file_format = ResourceType.TGA if self.ui.tpcDecompileCheckbox.isChecked() else ResourceType.TPC
-        seen_resources[location] = savepath = subfolder / f"{resident.resname}.{file_format.extension}"
+        file_format = (
+            ResourceType.TGA if self.ui.tpcDecompileCheckbox.isChecked() else ResourceType.TPC
+        )
+        seen_resources[location] = savepath = (
+            subfolder / f"{resident.resname}.{file_format.extension}"
+        )
 
-        if self.ui.tpcTxiCheckbox.isChecked() or (resident.restype == ResourceType.TPC and self.ui.tpcDecompileCheckbox.isChecked()):
+        if self.ui.tpcTxiCheckbox.isChecked() or (
+            resident.restype == ResourceType.TPC and self.ui.tpcDecompileCheckbox.isChecked()
+        ):
             tpc = read_tpc(location.filepath, location.offset, location.size)
             subfolder.mkdir(parents=True, exist_ok=True)
             if self.ui.tpcTxiCheckbox.isChecked():

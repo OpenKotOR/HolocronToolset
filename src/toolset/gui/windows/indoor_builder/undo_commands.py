@@ -41,7 +41,12 @@ def _snapshot_map_settings(indoor_map: IndoorMap) -> _MapSettingsSnapshot:
     """Copy current map settings for undo/redo. Caller must not mutate returned refs."""
     return (
         deepcopy(indoor_map.name),
-        Color(indoor_map.lighting.r, indoor_map.lighting.g, indoor_map.lighting.b, indoor_map.lighting.a),
+        Color(
+            indoor_map.lighting.r,
+            indoor_map.lighting.g,
+            indoor_map.lighting.b,
+            indoor_map.lighting.a,
+        ),
         indoor_map.module_id,
         indoor_map.skybox,
         indoor_map.target_game_type,
@@ -130,7 +135,9 @@ class DeleteRoomsCommand(QUndoCommand):
         self.rooms: list[IndoorMapRoom] = rooms.copy()
         self._invalidate_cb: Callable[[list[IndoorMapRoom]], None] | None = invalidate_cb
         # Store indices for proper re-insertion order
-        self.indices: list[int] = [indoor_map.rooms.index(r) for r in rooms if r in indoor_map.rooms]
+        self.indices: list[int] = [
+            indoor_map.rooms.index(r) for r in rooms if r in indoor_map.rooms
+        ]
 
     def undo(self):
         # Re-add rooms in original order
@@ -279,12 +286,18 @@ class DuplicateRoomsCommand(QUndoCommand):
             component_copy = deepcopy(room.component)
             new_room = IndoorMapRoom(
                 component_copy,
-                Vector3(room.position.x + offset.x, room.position.y + offset.y, room.position.z + offset.z),
+                Vector3(
+                    room.position.x + offset.x,
+                    room.position.y + offset.y,
+                    room.position.z + offset.z,
+                ),
                 room.rotation,
                 flip_x=room.flip_x,
                 flip_y=room.flip_y,
             )
-            new_room.walkmesh_override = deepcopy(room.walkmesh_override) if room.walkmesh_override is not None else None
+            new_room.walkmesh_override = (
+                deepcopy(room.walkmesh_override) if room.walkmesh_override is not None else None
+            )
             # Initialize hooks connections list to match hooks length
             new_room.hooks = [None] * len(component_copy.hooks)
             self.duplicates.append(new_room)
@@ -373,7 +386,10 @@ class ResetWalkmeshCommand(QUndoCommand):
         super().__init__(f"Reset Walkmesh ({len(rooms)} Room(s))")
         self.rooms: list[IndoorMapRoom] = rooms
         self._invalidate_cb: Callable[[list[IndoorMapRoom]], None] = invalidate_cb
-        self._previous_overrides: list[BWM | None] = [None if room.walkmesh_override is None else deepcopy(room.walkmesh_override) for room in rooms]
+        self._previous_overrides: list[BWM | None] = [
+            None if room.walkmesh_override is None else deepcopy(room.walkmesh_override)
+            for room in rooms
+        ]
 
     def undo(self):
         for room, previous in zip(self.rooms, self._previous_overrides):
@@ -414,14 +430,18 @@ class MergeRoomsCommand(QUndoCommand):
         self._invalidate_cb: Callable[[list[IndoorMapRoom]], None] | None = invalidate_cb
         # Snapshot ordering for fully idempotent undo/redo.
         self._before_rooms: list[IndoorMapRoom] = indoor_map.rooms.copy()
-        self._merge_indices: list[int] = [self._before_rooms.index(r) for r in rooms if r in self._before_rooms]
+        self._merge_indices: list[int] = [
+            self._before_rooms.index(r) for r in rooms if r in self._before_rooms
+        ]
         if len(self._merge_indices) < 2:
             raise ValueError("Cannot merge: fewer than 2 selected rooms are present in the map.")
         self._insert_index: int = min(self._merge_indices)
 
         # Create the merged room
         self.merged_room: IndoorMapRoom = self._create_merged_room(rooms)
-        after_rooms: list[IndoorMapRoom] = [r for r in self._before_rooms if r not in self.original_rooms]
+        after_rooms: list[IndoorMapRoom] = [
+            r for r in self._before_rooms if r not in self.original_rooms
+        ]
         after_rooms.insert(self._insert_index, self.merged_room)
         self._after_rooms: list[IndoorMapRoom] = after_rooms
 
@@ -478,9 +498,15 @@ class MergeRoomsCommand(QUndoCommand):
             # Copy each face, translating from world coords to centroid-local coords
             for face in world_bwm.faces:
                 # Create a new face with vertices relative to centroid
-                new_v1 = Vector3(face.v1.x - centroid.x, face.v1.y - centroid.y, face.v1.z - centroid.z)
-                new_v2 = Vector3(face.v2.x - centroid.x, face.v2.y - centroid.y, face.v2.z - centroid.z)
-                new_v3 = Vector3(face.v3.x - centroid.x, face.v3.y - centroid.y, face.v3.z - centroid.z)
+                new_v1 = Vector3(
+                    face.v1.x - centroid.x, face.v1.y - centroid.y, face.v1.z - centroid.z
+                )
+                new_v2 = Vector3(
+                    face.v2.x - centroid.x, face.v2.y - centroid.y, face.v2.z - centroid.z
+                )
+                new_v3 = Vector3(
+                    face.v3.x - centroid.x, face.v3.y - centroid.y, face.v3.z - centroid.z
+                )
 
                 new_face = BWMFace(new_v1, new_v2, new_v3)
                 new_face.material = face.material

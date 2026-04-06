@@ -209,7 +209,9 @@ class RobustTreeView(QTreeView):
     ) -> None:
         modifiers: Qt.KeyboardModifier = event.modifiers()
         response: bool | None = None
-        if bool(modifiers & Qt.KeyboardModifier.ShiftModifier) and bool(modifiers & Qt.KeyboardModifier.ControlModifier):
+        if bool(modifiers & Qt.KeyboardModifier.ShiftModifier) and bool(
+            modifiers & Qt.KeyboardModifier.ControlModifier
+        ):
             response = self._wheel_changes_item_spacing(event)
         elif bool(modifiers & Qt.KeyboardModifier.ControlModifier):
             response = self._wheel_changes_text_size(event)
@@ -217,7 +219,11 @@ class RobustTreeView(QTreeView):
             response = self._wheel_changes_horizontal_scroll(event)
         elif bool(modifiers & Qt.KeyboardModifier.AltModifier):
             response = self._wheel_changes_indent_size(event)
-        elif (not int(modifiers or Qt.KeyboardModifier.NoModifier)) if qtpy.QT5 else (modifiers != Qt.KeyboardModifier.NoModifier):  # pyright: ignore[reportArgumentType]
+        elif (
+            (not int(modifiers or Qt.KeyboardModifier.NoModifier))
+            if qtpy.QT5
+            else (modifiers != Qt.KeyboardModifier.NoModifier)
+        ):  # pyright: ignore[reportArgumentType]
             response = self._wheel_changes_vertical_scroll(event)
         if response is not True:
             super().wheelEvent(event)
@@ -284,9 +290,17 @@ class RobustTreeView(QTreeView):
 
         if self.verticalScrollMode() == QAbstractItemView.ScrollMode.ScrollPerItem:
             if qtpy.QT5:
-                action = vert_scroll_bar.SliderSingleStepSub if direction == "up" else vert_scroll_bar.SliderSingleStepAdd  # pyright: ignore[reportAttributeAccessIssue]
+                action = (
+                    vert_scroll_bar.SliderSingleStepSub
+                    if direction == "up"
+                    else vert_scroll_bar.SliderSingleStepAdd
+                )  # pyright: ignore[reportAttributeAccessIssue]
             else:
-                action = vert_scroll_bar.SliderAction.SliderSingleStepSub if direction == "up" else vert_scroll_bar.SliderAction.SliderSingleStepAdd
+                action = (
+                    vert_scroll_bar.SliderAction.SliderSingleStepSub
+                    if direction == "up"
+                    else vert_scroll_bar.SliderAction.SliderSingleStepAdd
+                )
             for _ in range(step_size):
                 vert_scroll_bar.triggerAction(action)
         else:
@@ -479,7 +493,9 @@ class RobustTreeView(QTreeView):
 
         self._add_simple_action(self.tools_menu, "Repaint", self.repaint)
         self._add_simple_action(self.tools_menu, "Update", self.update)
-        self._add_simple_action(self.tools_menu, "Resize Column To Contents", lambda: self.resizeColumnToContents(0))
+        self._add_simple_action(
+            self.tools_menu, "Resize Column To Contents", lambda: self.resizeColumnToContents(0)
+        )
         self._add_simple_action(self.tools_menu, "Update Geometries", self.updateGeometries)
         self._add_simple_action(self.tools_menu, "Reset", self.reset)
 
@@ -487,7 +503,11 @@ class RobustTreeView(QTreeView):
         from toolset.gui.common.localization import translate as tr
 
         self.help_menu: _QMenu | None = self.header_menu.addMenu(tr("Help"))  # pyright: ignore[reportAttributeAccessIssue]
-        whats_this_action = QAction(self.style().standardIcon(QStyle.StandardPixmap.SP_TitleBarContextHelpButton), tr("What's This?"), self)  # pyright: ignore[reportOptionalMemberAccess]
+        whats_this_action = QAction(
+            self.style().standardIcon(QStyle.StandardPixmap.SP_TitleBarContextHelpButton),
+            tr("What's This?"),
+            self,
+        )  # pyright: ignore[reportOptionalMemberAccess]
         whats_this_action.triggered.connect(QWhatsThis.enterWhatsThisMode)
         whats_this_action.setToolTip(tr("Enter 'What's This?' mode."))
         self.help_menu.addAction(whats_this_action)  # pyright: ignore[reportOptionalMemberAccess]
@@ -509,7 +529,9 @@ class RobustTreeView(QTreeView):
         settings_key: str,
     ):
         action = QAction(title, self)
-        action.triggered.connect(lambda: self._handle_color_action(current_color_func, title, settings_key))
+        action.triggered.connect(
+            lambda: self._handle_color_action(current_color_func, title, settings_key)
+        )
         menu.addAction(action)
 
     def _handle_color_action(
@@ -559,7 +581,9 @@ class RobustTreeView(QTreeView):
 
         # Infer param_type if not provided
         if param_type is None:
-            param_type = bool if options is None else type(next(iter(options.values()))) if options else bool
+            param_type = (
+                bool if options is None else type(next(iter(options.values()))) if options else bool
+            )
 
         if param_type is bool:
             action.setCheckable(True)
@@ -574,14 +598,20 @@ class RobustTreeView(QTreeView):
                     # If evaluation fails, return the string as-is
                     return value
 
-            initial_value = convert_string_to_type(self.settings.get(settings_key, current_state_func()))
+            initial_value = convert_string_to_type(
+                self.settings.get(settings_key, current_state_func())
+            )
             action.setChecked(initial_value)
             set_func(initial_value)  # Apply the initial value from settings
-            action.toggled.connect(lambda checked: [set_func(checked), self.settings.set(settings_key, checked)])
+            action.toggled.connect(
+                lambda checked: [set_func(checked), self.settings.set(settings_key, checked)]
+            )
         elif param_type is int:
             action.triggered.connect(lambda: self._handle_int_action(set_func, title, settings_key))
         else:
-            action.triggered.connect(lambda: self._handle_non_bool_action(set_func, title, options, settings_key))
+            action.triggered.connect(
+                lambda: self._handle_non_bool_action(set_func, title, options, settings_key)
+            )
         menu.addAction(action)
 
     def _add_exclusive_menu_action(  # noqa: PLR0913
@@ -602,7 +632,14 @@ class RobustTreeView(QTreeView):
             action = QAction(option_name, self)
             action.setCheckable(True)
             action.setChecked(initial_value == option_value)
-            action.triggered.connect(lambda checked, val=option_value: [set_func(val), self.settings.set(settings_key, val)] if checked else None)
+            action.triggered.connect(
+                lambda checked, val=option_value: [
+                    set_func(val),
+                    self.settings.set(settings_key, val),
+                ]
+                if checked
+                else None
+            )
             sub_menu.addAction(action)  # pyright: ignore[reportOptionalMemberAccess]
             actionGroup.addAction(action)
 
@@ -660,7 +697,9 @@ class RobustTreeView(QTreeView):
         settings_key: str,
     ):
         items = list(options.keys())
-        item, ok = QInputDialog.getItem(self, f"Select {title}", f"Select {title}:", items, 0, False)
+        item, ok = QInputDialog.getItem(
+            self, f"Select {title}", f"Select {title}:", items, 0, False
+        )
         if ok and item:
             value = options[item]
             func(value)
@@ -689,7 +728,9 @@ class RobustTreeView(QTreeView):
 
             # Additional properties
             checkStateData = index.data(Qt.ItemDataRole.CheckStateRole)
-            option.checkState = Qt.CheckState.Unchecked if checkStateData is None else checkStateData
+            option.checkState = (
+                Qt.CheckState.Unchecked if checkStateData is None else checkStateData
+            )
             option.decorationPosition = QStyleOptionViewItem.Position.Top
             option.decorationAlignment = Qt.AlignmentFlag.AlignCenter
             option.displayAlignment = Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
@@ -722,7 +763,9 @@ class RobustTreeView(QTreeView):
         if not isinstance(index_or_item, QModelIndex):
             return f"(Unknown index/item: {index_or_item})"
         if not index_or_item.isValid():
-            return f"(invalid index at row '{index_or_item.row()}', column '{index_or_item.column()}')"
+            return (
+                f"(invalid index at row '{index_or_item.row()}', column '{index_or_item.column()}')"
+            )
 
         item = self.model().itemFromIndex(index_or_item)  # pyright: ignore[reportOptionalMemberAccess, reportAttributeAccessIssue]
         if item is None:
@@ -815,7 +858,11 @@ class TreeSettings:
     ):
         org_name = get_qsettings_organization("HolocronToolsetV4")
         self.robust_tree_settings: QSettings = QSettings(org_name, "RobustTreeView")
-        self.settings: QSettings = self.robust_tree_settings if settings_name == "RobustTreeView" else QSettings(org_name, settings_name)
+        self.settings: QSettings = (
+            self.robust_tree_settings
+            if settings_name == "RobustTreeView"
+            else QSettings(org_name, settings_name)
+        )
 
     def get(
         self,

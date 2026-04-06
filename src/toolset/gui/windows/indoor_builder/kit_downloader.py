@@ -32,7 +32,9 @@ class KitDownloader(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinMaxButtonsHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         from toolset.uic.qtpy.dialogs.indoor_downloader import Ui_Dialog
@@ -47,7 +49,9 @@ class KitDownloader(QDialog):
         self._setup_downloads()
 
     def _setup_downloads(self):
-        update_info_data: Exception | dict[str, Any] = get_remote_toolset_update_info(use_beta_channel=GlobalSettings().useBetaChannel)
+        update_info_data: Exception | dict[str, Any] = get_remote_toolset_update_info(
+            use_beta_channel=GlobalSettings().useBetaChannel
+        )
         try:
             if not isinstance(update_info_data, dict):
                 raise update_info_data  # type: ignore[reportUnnecessaryIsInstance]
@@ -62,19 +66,27 @@ class KitDownloader(QDialog):
                     try:
                         local_kit_dict = json.loads(kit_path.read_text())
                     except Exception as e:  # noqa: BLE001
-                        print((e.__class__.__name__, str(e)), "\n in _setup_downloads for kit update check")
+                        print(
+                            (e.__class__.__name__, str(e)),
+                            "\n in _setup_downloads for kit update check",
+                        )
                         button.setText("Missing JSON - click to redownload.")
                         button.setEnabled(True)
                     else:
                         local_kit_version = str(local_kit_dict["version"])
                         retrieved_kit_version = str(kit_dict["version"])
-                        if is_remote_version_newer(local_kit_version, retrieved_kit_version) is not False:
+                        if (
+                            is_remote_version_newer(local_kit_version, retrieved_kit_version)
+                            is not False
+                        ):
                             button.setText("Update Available")
                             button.setEnabled(True)
                 else:
                     button = QPushButton("Download")
                 button.clicked.connect(
-                    lambda _=None, kit_dict=kit_dict, button=button: self._download_button_pressed(button, kit_dict),
+                    lambda _=None, kit_dict=kit_dict, button=button: self._download_button_pressed(
+                        button, kit_dict
+                    ),
                 )
 
                 layout: QFormLayout | None = self.ui.groupBox.layout()  # type: ignore[union-attr, assignment]  # pyright: ignore[reportAssignmentType]
@@ -90,7 +102,9 @@ class KitDownloader(QDialog):
                 error_msg,
                 QMessageBox.StandardButton.Ok,
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
             err_msg_box.setWindowIcon(self.windowIcon())
             err_msg_box.exec()
@@ -131,7 +145,9 @@ class KitDownloader(QDialog):
         kits_path.mkdir(parents=True, exist_ok=True)
         kits_zip_path = Path("kits.zip")
 
-        update_info_data: Exception | dict[str, Any] = get_remote_toolset_update_info(use_beta_channel=GlobalSettings().useBetaChannel)
+        update_info_data: Exception | dict[str, Any] = get_remote_toolset_update_info(
+            use_beta_channel=GlobalSettings().useBetaChannel
+        )
 
         if isinstance(update_info_data, Exception):
             print(f"Failed to get update info: {update_info_data}")
@@ -204,7 +220,9 @@ class KitDownloader(QDialog):
                 self.ui.downloadAllButton.setText("Download All Failed")
                 self.ui.downloadAllButton.setEnabled(True)
         else:
-            loader = AsyncLoader(self, "Downloading All Kits...", task, "Failed to download all kits.")
+            loader = AsyncLoader(
+                self, "Downloading All Kits...", task, "Failed to download all kits."
+            )
             if loader.exec():
                 self.ui.downloadAllButton.setText("Download All Complete")
                 self._refresh_kit_buttons()
@@ -229,7 +247,9 @@ class KitDownloader(QDialog):
         kits_path.mkdir(parents=True, exist_ok=True)
         kits_zip_path: Path = Path("kits.zip")
 
-        update_info_data: Exception | dict[str, Any] = get_remote_toolset_update_info(use_beta_channel=GlobalSettings().useBetaChannel)
+        update_info_data: Exception | dict[str, Any] = get_remote_toolset_update_info(
+            use_beta_channel=GlobalSettings().useBetaChannel
+        )
 
         if isinstance(update_info_data, Exception):
             print(f"Failed to get update info: {update_info_data}")

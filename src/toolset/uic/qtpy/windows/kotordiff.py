@@ -160,7 +160,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Create Patcher INI From Diff - Holocron Toolset"))
+        MainWindow.setWindowTitle(
+            _translate("MainWindow", "Create Patcher INI From Diff - Holocron Toolset")
+        )
         self.pathGroup.setTitle(_translate("MainWindow", "Paths"))
         self.path1Label.setText(_translate("MainWindow", "Path 1 (Mine/Modified):"))
         self.path1InstallationRadio.setText(_translate("MainWindow", "Use Installation"))

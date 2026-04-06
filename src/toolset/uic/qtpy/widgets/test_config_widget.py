@@ -25,7 +25,9 @@ class Ui_TestConfigWidget(object):
         self.eventGroup = QtWidgets.QGroupBox(TestConfigWidget)
         self.eventGroup.setObjectName("eventGroup")
         self.eventLayout = QtWidgets.QFormLayout(self.eventGroup)
-        self.eventLayout.setLabelAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.eventLayout.setLabelAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.eventLayout.setObjectName("eventLayout")
         self.eventTypeLabel = QtWidgets.QLabel(self.eventGroup)
         self.eventTypeLabel.setObjectName("eventTypeLabel")
@@ -47,7 +49,9 @@ class Ui_TestConfigWidget(object):
         self.mockGroup = QtWidgets.QGroupBox(TestConfigWidget)
         self.mockGroup.setObjectName("mockGroup")
         self.mockLayout = QtWidgets.QFormLayout(self.mockGroup)
-        self.mockLayout.setLabelAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mockLayout.setLabelAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.mockLayout.setObjectName("mockLayout")
         self.lastAttackerLabel = QtWidgets.QLabel(self.mockGroup)
         self.lastAttackerLabel.setObjectName("lastAttackerLabel")
@@ -74,7 +78,9 @@ class Ui_TestConfigWidget(object):
         self.eventTargetEdit.setObjectName("eventTargetEdit")
         self.mockLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.eventTargetEdit)
         self.mainLayout.addWidget(self.mockGroup)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.mainLayout.addItem(spacerItem)
 
         self.retranslateUi(TestConfigWidget)
@@ -90,14 +96,22 @@ class Ui_TestConfigWidget(object):
         self.customEventLabel.setText(_translate("TestConfigWidget", "Custom Event Number:"))
         self.mockGroup.setTitle(_translate("TestConfigWidget", "Mock Engine Function Values"))
         self.lastAttackerLabel.setText(_translate("TestConfigWidget", "GetLastAttacker():"))
-        self.lastAttackerEdit.setPlaceholderText(_translate("TestConfigWidget", "OBJECT_INVALID (default: 0)"))
+        self.lastAttackerEdit.setPlaceholderText(
+            _translate("TestConfigWidget", "OBJECT_INVALID (default: 0)")
+        )
         self.lastAttackerEdit.setText(_translate("TestConfigWidget", "0"))
         self.lastPerceivedLabel.setText(_translate("TestConfigWidget", "GetLastPerceived():"))
-        self.lastPerceivedEdit.setPlaceholderText(_translate("TestConfigWidget", "OBJECT_INVALID (default: 0)"))
+        self.lastPerceivedEdit.setPlaceholderText(
+            _translate("TestConfigWidget", "OBJECT_INVALID (default: 0)")
+        )
         self.lastPerceivedEdit.setText(_translate("TestConfigWidget", "0"))
         self.eventCreatorLabel.setText(_translate("TestConfigWidget", "GetEventCreator():"))
-        self.eventCreatorEdit.setPlaceholderText(_translate("TestConfigWidget", "OBJECT_SELF (default: 1)"))
+        self.eventCreatorEdit.setPlaceholderText(
+            _translate("TestConfigWidget", "OBJECT_SELF (default: 1)")
+        )
         self.eventCreatorEdit.setText(_translate("TestConfigWidget", "1"))
         self.eventTargetLabel.setText(_translate("TestConfigWidget", "GetEventTarget():"))
-        self.eventTargetEdit.setPlaceholderText(_translate("TestConfigWidget", "OBJECT_SELF (default: 1)"))
+        self.eventTargetEdit.setPlaceholderText(
+            _translate("TestConfigWidget", "OBJECT_SELF (default: 1)")
+        )
         self.eventTargetEdit.setText(_translate("TestConfigWidget", "1"))

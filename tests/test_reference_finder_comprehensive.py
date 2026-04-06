@@ -77,7 +77,17 @@ class TestFindScriptReferencesComprehensive:
             assert result.file_resource is not None
             assert result.field_path is not None
             assert result.matched_value is not None
-            assert result.file_type in {"UTC", "UTD", "UTP", "UTT", "ARE", "IFO", "NCS", "DLG", "GIT"}
+            assert result.file_type in {
+                "UTC",
+                "UTD",
+                "UTP",
+                "UTT",
+                "ARE",
+                "IFO",
+                "NCS",
+                "DLG",
+                "GIT",
+            }
             # Verify matched value matches search term (case-insensitive)
             assert result.matched_value.lower() == "k_ai_master"
 
@@ -121,8 +131,12 @@ class TestFindScriptReferencesComprehensive:
         )
         assert isinstance(results, list), "Results should be a list"
         for result in results:
-            assert "k_ai" in result.matched_value.lower(), "Matched value should contain the search term"
-            assert isinstance(result, ReferenceSearchResult), "Result should be a ReferenceSearchResult"
+            assert "k_ai" in result.matched_value.lower(), (
+                "Matched value should contain the search term"
+            )
+            assert isinstance(result, ReferenceSearchResult), (
+                "Result should be a ReferenceSearchResult"
+            )
 
     @pytest.mark.comprehensive
     def test_find_script_references_case_sensitive_exact(self, installation: HTInstallation):
@@ -173,7 +187,10 @@ class TestFindScriptReferencesComprehensive:
         # Verify file patterns are respected
         for result in results_modules:
             filename = result.file_resource.filename().lower()
-            assert filename.endswith(".mod") or "module" in str(result.file_resource.filepath()).lower()
+            assert (
+                filename.endswith(".mod")
+                or "module" in str(result.file_resource.filepath()).lower()
+            )
 
     @pytest.mark.comprehensive
     def test_find_script_references_file_types_filter(self, installation: HTInstallation):
@@ -356,7 +373,10 @@ class TestFindTagReferencesComprehensive:
         assert isinstance(results, list)
         for result in results:
             filename = result.file_resource.filename().lower()
-            assert filename.endswith(".mod") or "module" in str(result.file_resource.filepath()).lower()
+            assert (
+                filename.endswith(".mod")
+                or "module" in str(result.file_resource.filepath()).lower()
+            )
 
 
 class TestFindTemplateResRefReferencesComprehensive:
@@ -376,7 +396,10 @@ class TestFindTemplateResRefReferencesComprehensive:
         for result in results:
             assert isinstance(result, ReferenceSearchResult)
             assert result.file_resource is not None
-            assert result.field_path in {"TemplateResRef", "InventoryRes"} or "ItemList" in result.field_path
+            assert (
+                result.field_path in {"TemplateResRef", "InventoryRes"}
+                or "ItemList" in result.field_path
+            )
             assert result.matched_value.lower() == "p_hk47"
             assert result.file_type in {"UTC", "UTD", "UTP", "UTT", "UTI", "UTM"}
 
@@ -396,7 +419,9 @@ class TestFindTemplateResRefReferencesComprehensive:
         if itemlist_results:
             for result in itemlist_results:
                 assert "ItemList" in result.field_path
-                assert "InventoryRes" in result.field_path or result.field_path.endswith("InventoryRes")
+                assert "InventoryRes" in result.field_path or result.field_path.endswith(
+                    "InventoryRes"
+                )
 
 
 class TestFindConversationReferencesComprehensive:
@@ -530,7 +555,9 @@ class TestReferenceSearchOptionsDialogComprehensive:
         assert dialog.get_case_sensitive() is False
         assert dialog.get_file_pattern() is None
 
-    def test_dialog_initialization_custom_defaults(self, qtbot: QtBot, installation: HTInstallation):
+    def test_dialog_initialization_custom_defaults(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test dialog initialization with custom default values."""
         dialog = ReferenceSearchOptions(
             None,
@@ -646,7 +673,9 @@ class TestReferenceSearchOptionsDialogComprehensive:
 class TestFileResultsDialogComprehensive:
     """Exhaustive tests for FileResults dialog with ReferenceSearchResult objects."""
 
-    def test_file_results_with_reference_search_results(self, qtbot: QtBot, installation: HTInstallation):
+    def test_file_results_with_reference_search_results(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test FileResults dialog with ReferenceSearchResult objects."""
         # Get real resources from installation
         resources = list(installation)
@@ -802,7 +831,9 @@ class TestUTCEditorFindReferences:
         # Verify context menu policy is set
         assert tag_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_utc_editor_template_resref_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utc_editor_template_resref_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTC editor template resref field context menu has Find References."""
         from toolset.gui.editors.utc import UTCEditor
 
@@ -814,7 +845,9 @@ class TestUTCEditorFindReferences:
         # Verify context menu policy is set
         assert resref_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_utc_editor_conversation_field_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utc_editor_conversation_field_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTC editor conversation field context menu has Find References."""
         from toolset.gui.editors.utc import UTCEditor
 
@@ -826,7 +859,9 @@ class TestUTCEditorFindReferences:
         # Verify context menu policy is set
         assert conversation_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_utc_editor_all_script_fields_have_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utc_editor_all_script_fields_have_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test all UTC editor script fields have Find References context menu."""
         from toolset.gui.editors.utc import UTCEditor
 
@@ -881,7 +916,9 @@ class TestUTDEditorFindReferences:
         tag_field = editor.ui.tagEdit
         assert tag_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_utd_editor_conversation_field_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utd_editor_conversation_field_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTD editor conversation field context menu has Find References."""
         from toolset.gui.editors.utd import UTDEditor
 
@@ -915,7 +952,9 @@ class TestUTPEditorFindReferences:
         tag_field = editor.ui.tagEdit
         assert tag_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_utp_editor_conversation_field_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utp_editor_conversation_field_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTP editor conversation field context menu has Find References."""
         from toolset.gui.editors.utp import UTPEditor
 
@@ -963,7 +1002,9 @@ class TestUTIEditorFindReferences:
         tag_field = editor.ui.tagEdit
         assert tag_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_uti_editor_template_resref_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_uti_editor_template_resref_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTI editor template resref field context menu has Find References."""
         from toolset.gui.editors.uti import UTIEditor
 
@@ -987,7 +1028,9 @@ class TestAREEditorFindReferences:
         script_field = editor.ui.onEnterSelect
         assert script_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_are_editor_all_script_fields_have_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_are_editor_all_script_fields_have_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test all ARE editor script fields have Find References context menu."""
         from toolset.gui.editors.are import AREEditor
 
@@ -1009,7 +1052,9 @@ class TestAREEditorFindReferences:
 class TestIFOEditorFindReferences:
     """Exhaustive tests for IFO editor Find References functionality."""
 
-    def test_ifo_editor_script_fields_have_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_ifo_editor_script_fields_have_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test IFO editor script fields have Find References context menu."""
         from toolset.gui.editors.ifo import IFOEditor
 
@@ -1028,7 +1073,9 @@ class TestIFOEditorFindReferences:
 class TestHTInstallationReferenceSearch:
     """Exhaustive tests for HTInstallation reference search functionality."""
 
-    def test_build_file_context_menu_with_reference_search(self, qtbot: QtBot, installation: HTInstallation):
+    def test_build_file_context_menu_with_reference_search(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test build_file_context_menu with reference search enabled."""
         from qtpy.QtWidgets import QMenu, QLineEdit
 
@@ -1054,7 +1101,9 @@ class TestHTInstallationReferenceSearch:
         find_refs_actions = [a for a in menu.actions() if "Find References" in a.text()]
         assert len(find_refs_actions) > 0
 
-    def test_build_file_context_menu_without_reference_search(self, qtbot: QtBot, installation: HTInstallation):
+    def test_build_file_context_menu_without_reference_search(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test build_file_context_menu without reference search."""
         from qtpy.QtWidgets import QMenu, QLineEdit
 
@@ -1077,7 +1126,9 @@ class TestHTInstallationReferenceSearch:
         find_refs_actions = [a for a in menu.actions() if "Find References" in a.text()]
         assert len(find_refs_actions) == 0
 
-    def test_setup_file_context_menu_with_reference_search(self, qtbot: QtBot, installation: HTInstallation):
+    def test_setup_file_context_menu_with_reference_search(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test setup_file_context_menu with reference search enabled."""
         from qtpy.QtWidgets import QLineEdit
         from pykotor.resource.type import ResourceType
@@ -1105,7 +1156,9 @@ class TestHTInstallationReferenceSearch:
 class TestReferenceSearchIntegration:
     """Integration tests that actually execute reference searches through UI."""
 
-    def test_utc_editor_find_references_through_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utc_editor_find_references_through_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTC editor Find References through context menu (without showing dialogs)."""
         from toolset.gui.editors.utc import UTCEditor
         from qtpy.QtWidgets import QMenu
@@ -1187,7 +1240,9 @@ class TestReferenceSearchIntegration:
         assert hasattr(editor, "_find_dialog_references_in_installation")
         assert callable(editor._find_dialog_references_in_installation)
 
-    def test_nss_editor_find_all_references_method(self, qtbot: QtBot, installation: HTInstallation):
+    def test_nss_editor_find_all_references_method(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test NSS editor Find All References method."""
         from toolset.gui.editors.nss import NSSEditor
 
@@ -1305,7 +1360,9 @@ class TestReferenceSearchEdgeCases:
         # Should return empty list when no file types specified
         assert isinstance(results, list)
 
-    def test_reference_search_options_empty_file_pattern(self, qtbot: QtBot, installation: HTInstallation):
+    def test_reference_search_options_empty_file_pattern(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test ReferenceSearchOptions with empty file pattern."""
         dialog = ReferenceSearchOptions(None, default_file_pattern="")
         qtbot.addWidget(dialog)

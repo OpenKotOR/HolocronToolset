@@ -1,4 +1,5 @@
 """Shared utilities for extraction feedback dialogs."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -33,7 +34,9 @@ def show_extraction_results(
         failed_extractions_dict: dict[Path, Exception] = {}
     elif isinstance(failed_extractions, list):
         # Convert list to a dict with dummy paths for display
-        failed_extractions_dict = {Path(f"<unknown {i}>"): exc for i, exc in enumerate(failed_extractions)}
+        failed_extractions_dict = {
+            Path(f"<unknown {i}>"): exc for i, exc in enumerate(failed_extractions)
+        }
     else:
         failed_extractions_dict = failed_extractions
 
@@ -71,7 +74,12 @@ def show_extraction_results(
         QMessageBox.Icon.Information,
         title,
         summary,
-        flags=(Qt.WindowType.Dialog | Qt.WindowType.WindowTitleHint | Qt.WindowType.WindowCloseButtonHint | Qt.WindowType.WindowStaysOnTopHint),
+        flags=(
+            Qt.WindowType.Dialog
+            | Qt.WindowType.WindowTitleHint
+            | Qt.WindowType.WindowCloseButtonHint
+            | Qt.WindowType.WindowStaysOnTopHint
+        ),
     )
 
     # Add detailed information

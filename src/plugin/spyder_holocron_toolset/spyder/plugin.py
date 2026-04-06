@@ -387,7 +387,9 @@ class HolocronToolset(SpyderPluginV2):
                 data = json.load(f)
                 installations = data.get("installations", [])
                 for installation in installations:
-                    self.tool_window.add_installation(installation["name"], installation["path"], installation["tsl"])
+                    self.tool_window.add_installation(
+                        installation["name"], installation["path"], installation["tsl"]
+                    )
 
     def load_installations(self):
         """Load installations from configuration file."""
@@ -397,12 +399,17 @@ class HolocronToolset(SpyderPluginV2):
                 data = json.load(f)
                 installations = data.get("installations", [])
                 for installation in installations:
-                    self.tool_window.add_installation(installation["name"], installation["path"], installation["tsl"])
+                    self.tool_window.add_installation(
+                        installation["name"], installation["path"], installation["tsl"]
+                    )
 
     def save_installations(self):
         conf_file = get_conf_path(self.CONF_FILE)
         data: dict[str, list[dict[str, Any]]] = {
-            "installations": [{"name": name, "path": inst.path(), "tsl": inst.tsl} for name, inst in self.tool_window.installations.items()],
+            "installations": [
+                {"name": name, "path": inst.path(), "tsl": inst.tsl}
+                for name, inst in self.tool_window.installations.items()
+            ],
         }
         with open(conf_file, "w") as f:
             json.dump(data, f)
@@ -438,7 +445,11 @@ class HolocronToolset(SpyderPluginV2):
         return self.tool_window.get_installations()
 
     def show_about_dialog(self):
-        QMessageBox.about(self.main, _("About Holocron Toolset"), _("Holocron Toolset is a KotOR modding toolset for Spyder."))
+        QMessageBox.about(
+            self.main,
+            _("About Holocron Toolset"),
+            _("Holocron Toolset is a KotOR modding toolset for Spyder."),
+        )
 
     # --- Preferences API
     # ------------------------------------------------------------------------

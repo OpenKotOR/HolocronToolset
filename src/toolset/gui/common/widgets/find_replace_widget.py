@@ -26,7 +26,9 @@ class FindReplaceWidget(QWidget):
     """VS Code-style inline find/replace bar that appears above the editor."""
 
     find_requested = Signal(str, bool, bool, bool)  # text, case_sensitive, whole_words, regex
-    replace_requested = Signal(str, str, bool, bool, bool)  # find, replace, case_sensitive, whole_words, regex
+    replace_requested = Signal(
+        str, str, bool, bool, bool
+    )  # find, replace, case_sensitive, whole_words, regex
     replace_all_requested = Signal(str, str, bool, bool, bool)
     close_requested = Signal()
     find_next_requested = Signal()
@@ -145,7 +147,9 @@ class FindReplaceWidget(QWidget):
                 self._on_find_previous()
             else:
                 self._on_find_next()
-        elif event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_H:
+        elif (
+            event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_H
+        ):
             self.toggle_replace()
         else:
             super().keyPressEvent(event)
@@ -202,7 +206,9 @@ class FindReplaceWidget(QWidget):
         """Update the replace all button enabled state."""
         has_find_text = bool(self.find_input.text())
         has_replace_text = bool(self.replace_input.text())
-        self.replace_all_button.setEnabled(has_find_text and has_replace_text)  # or .setDisabled(not has_find_text or not has_replace_text)
+        self.replace_all_button.setEnabled(
+            has_find_text and has_replace_text
+        )  # or .setDisabled(not has_find_text or not has_replace_text)
 
     def _on_find_next(self):
         """Emit find next signal."""

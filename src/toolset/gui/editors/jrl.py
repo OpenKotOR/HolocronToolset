@@ -115,7 +115,9 @@ class JRLEditor(Editor):
         self.ui.entryXpSpin.editingFinished.connect(self.on_value_updated)
         from toolset.gui.common.localization import translate as tr
 
-        self.ui.entryXpSpin.setToolTip(tr("The game multiplies the value set here by 1000 to calculate actual XP to award."))
+        self.ui.entryXpSpin.setToolTip(
+            tr("The game multiplies the value set here by 1000 to calculate actual XP to award.")
+        )
         self.ui.entryEndCheck.clicked.connect(self.on_value_updated)
 
         # Register delete shortcut on both the editor and tree view to ensure it works
@@ -141,7 +143,9 @@ class JRLEditor(Editor):
 
     def _show_no_tag_warning(self):
         """Show a warning message when a quest has no tag set."""
-        QMessageBox(QMessageBox.Icon.Warning, "No Tag", "This quest has no tag set.", parent=self).exec()
+        QMessageBox(
+            QMessageBox.Icon.Warning, "No Tag", "This quest has no tag set.", parent=self
+        ).exec()
 
     def _setup_installation(self, installation: HTInstallation):
         if not hasattr(self, "ui"):
@@ -164,7 +168,10 @@ class JRLEditor(Editor):
             QMessageBox(
                 QMessageBox.Icon.Warning,
                 tr("Missing 2DA"),
-                trf("'{file}.2da' is missing from your installation. Please reinstall your game, this should be in the read-only bifs.", file=HTInstallation.TwoDA_PLANETS),
+                trf(
+                    "'{file}.2da' is missing from your installation. Please reinstall your game, this should be in the read-only bifs.",
+                    file=HTInstallation.TwoDA_PLANETS,
+                ),
             ).exec()
             return
 
@@ -181,9 +188,14 @@ class JRLEditor(Editor):
         self.ui.categoryPlanetSelect.clear()
         self.ui.categoryPlanetSelect.setPlaceholderText("[Unset]")
         for row in planets:
-            text = self._installation.talktable().string(row.get_integer("name", 0)) or row.get_string("label").replace("_", " ").title()
+            text = (
+                self._installation.talktable().string(row.get_integer("name", 0))
+                or row.get_string("label").replace("_", " ").title()
+            )
             self.ui.categoryPlanetSelect.addItem(text)
-        self.ui.categoryPlanetSelect.set_context(planets, self._installation, HTInstallation.TwoDA_PLANETS)
+        self.ui.categoryPlanetSelect.set_context(
+            planets, self._installation, HTInstallation.TwoDA_PLANETS
+        )
 
     def load(
         self,
@@ -230,7 +242,9 @@ class JRLEditor(Editor):
         if self._installation is None:
             text: str = f"[{entryItem.data().entry_id}] {entryItem.data().text}"
         else:
-            text: str = f"[{entryItem.data().entry_id}] {self._installation.string(entryItem.data().text)}"
+            text: str = (
+                f"[{entryItem.data().entry_id}] {self._installation.string(entryItem.data().text)}"
+            )
 
         # Use QPalette for text colors instead of hardcoded values
         palette: QPalette = self.palette()
@@ -241,7 +255,11 @@ class JRLEditor(Editor):
             if not end_color.isValid() or end_color == QColor(0, 0, 0):
                 # Fallback: use a slightly adjusted WindowText color
                 base_color = palette.color(QPalette.ColorRole.WindowText)
-                end_color = QColor(min(255, base_color.red() + 50), max(0, base_color.green() - 30), max(0, base_color.blue() - 30))
+                end_color = QColor(
+                    min(255, base_color.red() + 50),
+                    max(0, base_color.green() - 30),
+                    max(0, base_color.blue() - 30),
+                )
             entryItem.setForeground(end_color)
         else:
             # Normal entries use standard WindowText color from palette
@@ -265,7 +283,9 @@ class JRLEditor(Editor):
     def change_quest_name(self):
         """Opens a LocalizedStringDialog for editing the name of the selected quest."""
         assert self._installation is not None, "Installation is None"
-        dialog = LocalizedStringDialog(self, self._installation, self.ui.categoryNameEdit.locstring())
+        dialog = LocalizedStringDialog(
+            self, self._installation, self.ui.categoryNameEdit.locstring()
+        )
         if dialog.exec():
             self.ui.categoryNameEdit.set_installation(self._installation)
             self.on_value_updated()
@@ -467,35 +487,63 @@ class JRLEditor(Editor):
             data = item.data()
 
             if isinstance(data, JRLQuest):
-                menu.addAction("Rename Quest...").triggered.connect(lambda: self.change_quest_name())
+                menu.addAction("Rename Quest...").triggered.connect(
+                    lambda: self.change_quest_name()
+                )
                 menu.addSeparator()
-                menu.addAction("Add Entry").triggered.connect(lambda: self.add_entry(item, JRLEntry()))
-                menu.addAction("Duplicate Quest").triggered.connect(lambda: self._duplicate_quest(item))
+                menu.addAction("Add Entry").triggered.connect(
+                    lambda: self.add_entry(item, JRLEntry())
+                )
+                menu.addAction("Duplicate Quest").triggered.connect(
+                    lambda: self._duplicate_quest(item)
+                )
                 menu.addAction("Remove Quest").triggered.connect(lambda: self.remove_quest(item))
                 menu.addSeparator()
                 sort_menu = menu.addMenu("Sort Entries")
-                sort_menu.addAction("By ID (Ascending)").triggered.connect(lambda: self._sort_entries(item, ascending=True))
-                sort_menu.addAction("By ID (Descending)").triggered.connect(lambda: self._sort_entries(item, ascending=False))
-                menu.addAction("Move Quest Up").triggered.connect(lambda: self._move_quest(item, -1))
-                menu.addAction("Move Quest Down").triggered.connect(lambda: self._move_quest(item, +1))
+                sort_menu.addAction("By ID (Ascending)").triggered.connect(
+                    lambda: self._sort_entries(item, ascending=True)
+                )
+                sort_menu.addAction("By ID (Descending)").triggered.connect(
+                    lambda: self._sort_entries(item, ascending=False)
+                )
+                menu.addAction("Move Quest Up").triggered.connect(
+                    lambda: self._move_quest(item, -1)
+                )
+                menu.addAction("Move Quest Down").triggered.connect(
+                    lambda: self._move_quest(item, +1)
+                )
                 menu.addSeparator()
                 menu.addAction("Copy Tag").triggered.connect(lambda: self._copy_quest_tag(item))
                 if hasattr(self, "_installation") and self._installation is not None:
                     menu.addSeparator()
-                    menu.addAction("Find Scripts...").triggered.connect(lambda: self._find_quest_scripts(item))
-                    menu.addAction("Find Dialogs...").triggered.connect(lambda: self._find_quest_dialogs(item))
-                    menu.addAction("Find All Tag References...").triggered.connect(lambda: self._find_quest_all(item))
+                    menu.addAction("Find Scripts...").triggered.connect(
+                        lambda: self._find_quest_scripts(item)
+                    )
+                    menu.addAction("Find Dialogs...").triggered.connect(
+                        lambda: self._find_quest_dialogs(item)
+                    )
+                    menu.addAction("Find All Tag References...").triggered.connect(
+                        lambda: self._find_quest_all(item)
+                    )
                 # Always show Add Quest at bottom for easy discoverability
                 menu.addSeparator()
                 menu.addAction("Add Quest").triggered.connect(lambda: self.add_quest(JRLQuest()))
 
             elif isinstance(data, JRLEntry):
-                menu.addAction("Edit Entry Text...").triggered.connect(lambda: self.change_entry_text())
-                menu.addAction("Duplicate Entry").triggered.connect(lambda: self._duplicate_entry(item))
+                menu.addAction("Edit Entry Text...").triggered.connect(
+                    lambda: self.change_entry_text()
+                )
+                menu.addAction("Duplicate Entry").triggered.connect(
+                    lambda: self._duplicate_entry(item)
+                )
                 menu.addAction("Remove Entry").triggered.connect(lambda: self.remove_entry(item))
                 menu.addSeparator()
-                menu.addAction("Move Entry Up").triggered.connect(lambda: self._move_entry(item, -1))
-                menu.addAction("Move Entry Down").triggered.connect(lambda: self._move_entry(item, +1))
+                menu.addAction("Move Entry Up").triggered.connect(
+                    lambda: self._move_entry(item, -1)
+                )
+                menu.addAction("Move Entry Down").triggered.connect(
+                    lambda: self._move_entry(item, +1)
+                )
         else:
             menu.addAction("Add Quest").triggered.connect(lambda: self.add_quest(JRLQuest()))
 
@@ -526,7 +574,11 @@ class JRLEditor(Editor):
                     self.ui.journalTree.setRowHidden(erow, quest_item.index(), False)
                 continue
 
-            quest_name = self._installation.string(quest.name, "") if hasattr(self, "_installation") and self._installation else ""
+            quest_name = (
+                self._installation.string(quest.name, "")
+                if hasattr(self, "_installation") and self._installation
+                else ""
+            )
             quest_tag = quest.tag or ""
             quest_matches = text in quest_name.lower() or text in quest_tag.lower()
 
@@ -536,14 +588,20 @@ class JRLEditor(Editor):
                 if entry_item is None:
                     continue
                 entry: JRLEntry = entry_item.data()
-                entry_text = self._installation.string(entry.text, "") if hasattr(self, "_installation") and self._installation else ""
+                entry_text = (
+                    self._installation.string(entry.text, "")
+                    if hasattr(self, "_installation") and self._installation
+                    else ""
+                )
                 entry_id_str = str(entry.entry_id)
                 ematch = text in entry_text.lower() or text in entry_id_str
                 hide_entry = False
                 if mode == "all_levels":
                     hide_entry = not (quest_matches or ematch)
                 elif mode == "quest_only":
-                    hide_entry = False  # show all entries if quest matches; hide quest handled below
+                    hide_entry = (
+                        False  # show all entries if quest matches; hide quest handled below
+                    )
                 else:  # smart
                     hide_entry = not ematch and not quest_matches
                 self.ui.journalTree.setRowHidden(erow, quest_item.index(), hide_entry)
@@ -712,6 +770,7 @@ class JRLEditor(Editor):
         result = self._model.itemFromIndex(index)
         assert result is not None, f"Could not find journalTree index '{index}'"
         return result
+
 
 if __name__ == "__main__":
     import sys

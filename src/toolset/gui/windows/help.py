@@ -133,7 +133,9 @@ class HelpWindow(QMainWindow):
             self._setup_contents_rec_xml(item, child)
 
     def check_for_updates(self):
-        remote_info: dict[str, Any] | Exception = get_remote_toolset_update_info(use_beta_channel=GlobalSettings().useBetaChannel)
+        remote_info: dict[str, Any] | Exception = get_remote_toolset_update_info(
+            use_beta_channel=GlobalSettings().useBetaChannel
+        )
         try:
             if not isinstance(remote_info, dict):
                 raise remote_info
@@ -146,7 +148,11 @@ class HelpWindow(QMainWindow):
                 title = "Update available"
                 text = "A newer version of the help book is available for download, would you like to download it?"
             else:
-                RobustLogger().debug("No help booklet updates available, using version %s (latest version: %s)", self.version, new_version)
+                RobustLogger().debug(
+                    "No help booklet updates available, using version %s (latest version: %s)",
+                    self.version,
+                    new_version,
+                )
                 return
         except Exception as e:  # noqa: BLE001
             error_msg = str((e.__class__.__name__, str(e))).replace("\n", "<br>")
@@ -158,7 +164,9 @@ class HelpWindow(QMainWindow):
                 error_msg,
                 QMessageBox.StandardButton.Ok,
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
             err_msg_box.setWindowIcon(self.windowIcon())
             err_msg_box.exec()
@@ -168,7 +176,9 @@ class HelpWindow(QMainWindow):
                 title,
                 text,
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
             new_help_msg_box.setWindowIcon(self.windowIcon())
             new_help_msg_box.addButton(QMessageBox.StandardButton.Yes)
@@ -179,7 +189,9 @@ class HelpWindow(QMainWindow):
                 def task():
                     self._download_update()
 
-                loader = AsyncLoader(self, "Download newer help files...", task, "Failed to update.")
+                loader = AsyncLoader(
+                    self, "Download newer help files...", task, "Failed to update."
+                )
                 if loader.exec():
                     self._setup_contents()
 
@@ -187,7 +199,9 @@ class HelpWindow(QMainWindow):
         help_path = get_help_path()
         help_path.mkdir(parents=True, exist_ok=True)
         help_zip_path = help_path.parent / "help.zip"
-        download_github_file("th3w1zard1/PyKotor", help_zip_path, "/Tools/HolocronToolset/downloads/help.zip")
+        download_github_file(
+            "th3w1zard1/PyKotor", help_zip_path, "/Tools/HolocronToolset/downloads/help.zip"
+        )
 
         # Extract the ZIP file
         with zipfile.ZipFile(help_zip_path) as zip_file:
@@ -392,7 +406,9 @@ class HelpWindow(QMainWindow):
             if filepath.suffix.lower() == ".md":
                 from toolset.gui.common.palette_helpers import wrap_html_with_palette_styles
 
-                html_body: str = markdown.markdown(text, extensions=["tables", "fenced_code", "codehilite"])
+                html_body: str = markdown.markdown(
+                    text, extensions=["tables", "fenced_code", "codehilite"]
+                )
                 html: str = wrap_html_with_palette_styles(html_body, self)
             else:
                 html = text
@@ -403,7 +419,11 @@ class HelpWindow(QMainWindow):
             msg_box = QMessageBox(
                 QMessageBox.Icon.Critical,
                 tr("Failed to open help file"),
-                trf("Could not access '{filepath}'.\n{error}", filepath=str(filepath), error=str((e.__class__.__name__, str(e)))),
+                trf(
+                    "Could not access '{filepath}'.\n{error}",
+                    filepath=str(filepath),
+                    error=str((e.__class__.__name__, str(e))),
+                ),
             )
             msg_box.setWindowIcon(self.windowIcon())
             msg_box.exec()

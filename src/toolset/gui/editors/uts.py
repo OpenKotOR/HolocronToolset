@@ -98,10 +98,18 @@ class UTSEditor(Editor):
         ]:
             signal.connect(handler)
 
-        for signal in (self.ui.styleOnceRadio.toggled, self.ui.styleSeamlessRadio.toggled, self.ui.styleRepeatRadio.toggled):
+        for signal in (
+            self.ui.styleOnceRadio.toggled,
+            self.ui.styleSeamlessRadio.toggled,
+            self.ui.styleRepeatRadio.toggled,
+        ):
             signal.connect(self.change_style)
 
-        for signal in (self.ui.playRandomRadio.toggled, self.ui.playSpecificRadio.toggled, self.ui.playEverywhereRadio.toggled):
+        for signal in (
+            self.ui.playRandomRadio.toggled,
+            self.ui.playSpecificRadio.toggled,
+            self.ui.playEverywhereRadio.toggled,
+        ):
             signal.connect(self.change_play)
 
     def _setup_installation(self, installation: HTInstallation):
@@ -231,7 +239,11 @@ class UTSEditor(Editor):
 
     def _apply_play_mode_from_uts(self, uts: UTS) -> None:
         """Update play mode radio buttons from UTS playback fields."""
-        for radio in (self.ui.playRandomRadio, self.ui.playSpecificRadio, self.ui.playEverywhereRadio):
+        for radio in (
+            self.ui.playRandomRadio,
+            self.ui.playSpecificRadio,
+            self.ui.playEverywhereRadio,
+        ):
             radio.setChecked(False)
 
         if uts.random_range_x != 0 and uts.random_range_y != 0:
@@ -315,7 +327,11 @@ class UTSEditor(Editor):
         if data:
             self.play_byte_source_media(data)
             return True
-        QMessageBox(QMessageBox.Icon.Critical, "Could not find audio file", f"Could not find audio resource '{resname}'.")
+        QMessageBox(
+            QMessageBox.Icon.Critical,
+            "Could not find audio file",
+            f"Could not find audio resource '{resname}'.",
+        )
 
     def add_sound(self):
         item = QListWidgetItem("new sound")
@@ -361,6 +377,7 @@ class UTSEditor(Editor):
 
     def closeEvent(self, e: QCloseEvent):
         self.player.stop()
+
 
 if __name__ == "__main__":
     import sys

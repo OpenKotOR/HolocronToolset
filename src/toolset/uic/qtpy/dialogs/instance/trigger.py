@@ -90,13 +90,15 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.hintLabel)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(Dialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(Dialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -109,4 +111,6 @@ class Ui_Dialog(object):
         self.labelLinkFlags.setText(_translate("Dialog", "Link type"))
         self.labelLinkedMod.setText(_translate("Dialog", "Linked module"))
         self.labelTrans.setText(_translate("Dialog", "Transition TLK strref"))
-        self.hintLabel.setText(_translate("Dialog", "Edit trigger geometry using the editor geometry mode."))
+        self.hintLabel.setText(
+            _translate("Dialog", "Edit trigger geometry using the editor geometry mode.")
+        )

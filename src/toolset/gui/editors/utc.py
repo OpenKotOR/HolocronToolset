@@ -9,7 +9,18 @@ from typing import TYPE_CHECKING, Sequence
 
 from qtpy.QtCore import QSettings, Qt
 from qtpy.QtGui import QImage, QPixmap, QTransform
-from qtpy.QtWidgets import QApplication, QComboBox, QLineEdit, QListWidgetItem, QMenu, QMessageBox, QPlainTextEdit, QSplitter, QVBoxLayout, QWidget
+from qtpy.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QLineEdit,
+    QListWidgetItem,
+    QMenu,
+    QMessageBox,
+    QPlainTextEdit,
+    QSplitter,
+    QVBoxLayout,
+    QWidget,
+)
 
 from loggerplus import RobustLogger
 from pykotor.common.language import Gender, Language
@@ -44,7 +55,12 @@ if TYPE_CHECKING:
 
     from pykotor.common.language import LocalizedString
     from pykotor.extract.capsule import LazyCapsule
-    from pykotor.extract.file import FileResource, LocationResult, ResourceIdentifier, ResourceResult
+    from pykotor.extract.file import (
+        FileResource,
+        LocationResult,
+        ResourceIdentifier,
+        ResourceResult,
+    )
     from pykotor.resource.formats.ltr.ltr_data import LTR
     from pykotor.resource.formats.tpc.tpc_data import TPC, TPCMipmap
     from pykotor.resource.formats.twoda.twoda_data import TwoDA
@@ -163,7 +179,9 @@ class UTCEditor(Editor):
 
         portrait = self._get_portrait_resref()
         file_menu = context_menu.addMenu("File...")
-        assert file_menu is not None, f"`file_menu = context_menu.addMenu('File...')` {file_menu.__class__.__name__}: {file_menu}"
+        assert file_menu is not None, (
+            f"`file_menu = context_menu.addMenu('File...')` {file_menu.__class__.__name__}: {file_menu}"
+        )
         locations: dict[ResourceIdentifier, list[LocationResult]] = self._installation.locations(
             ([portrait], [ResourceType.TGA, ResourceType.TPC]),
             order=[
@@ -175,16 +193,22 @@ class UTCEditor(Editor):
                 SearchLocation.CHITIN,
             ],
         )
-        flat_locations: list[LocationResult] = [item for sublist in locations.values() for item in sublist]
+        flat_locations: list[LocationResult] = [
+            item for sublist in locations.values() for item in sublist
+        ]
         if flat_locations:
             for location in flat_locations:
-                display_path_str: str = str(location.filepath.relative_to(self._installation.path()))
+                display_path_str: str = str(
+                    location.filepath.relative_to(self._installation.path())
+                )
                 loc_menu = file_menu.addMenu(display_path_str)
                 resource_menu_builder = ResourceItems(resources=[location])
                 resource_menu_builder.build_menu(loc_menu)
 
             action = file_menu.addAction("Details...")
-            assert action is not None, f"`action = file_menu.addAction('Details...')` {action.__class__.__name__}: {action}"
+            assert action is not None, (
+                f"`action = file_menu.addAction('Details...')` {action.__class__.__name__}: {action}"
+            )
             action.triggered.connect(lambda: self._open_details(flat_locations))
 
         context_menu.exec(self.ui.portraitPicture.mapToGlobal(position))  # pyright: ignore[reportCallIssue, reportArgumentType]  # type: ignore[call-overload]
@@ -192,8 +216,12 @@ class UTCEditor(Editor):
     def _get_portrait_resref(self) -> str:
         index: int = self.ui.portraitSelect.currentIndex()
         alignment: int = self.ui.alignmentSlider.value()
-        portraits: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PORTRAITS)
-        assert portraits is not None, f"portraits = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PORTRAITS) {portraits}: {portraits}"
+        portraits: TwoDA | None = self._installation.ht_get_cache_2da(
+            HTInstallation.TwoDA_PORTRAITS
+        )
+        assert portraits is not None, (
+            f"portraits = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PORTRAITS) {portraits}: {portraits}"
+        )
         result: str = portraits.get_cell(index, "baseresref")
         portrait_variants: tuple[tuple[bool, str], ...] = (
             (40 >= alignment > 30, "baseresrefe"),
@@ -228,7 +256,9 @@ class UTCEditor(Editor):
         text: str,
     ):
         clipboard: QClipboard | None = QApplication.clipboard()
-        assert clipboard is not None, f"`clipboard = QApplication.clipboard()` {clipboard.__class__.__name__}: {clipboard}"
+        assert clipboard is not None, (
+            f"`clipboard = QApplication.clipboard()` {clipboard.__class__.__name__}: {clipboard}"
+        )
         clipboard.setText(text)
 
     def _script_combo_boxes(self) -> list:
@@ -252,7 +282,10 @@ class UTCEditor(Editor):
         ]
 
     def _script_widget_values(self, utc: UTC) -> list[tuple[object, str]]:
-        return [(widget, str(getattr(utc, utc_attr))) for widget, utc_attr in self._script_widget_attr_pairs()]
+        return [
+            (widget, str(getattr(utc, utc_attr)))
+            for widget, utc_attr in self._script_widget_attr_pairs()
+        ]
 
     def _set_combo_box_max_lengths(self, combo_boxes: Sequence[QComboBox], length: int):
         for combo_box in combo_boxes:
@@ -286,7 +319,9 @@ class UTCEditor(Editor):
         for signal, handler in signal_connections:
             signal.connect(handler)
 
-        self.ui.alignmentSlider.valueChanged.connect(lambda: self.portrait_changed(self.ui.portraitSelect.currentIndex()))
+        self.ui.alignmentSlider.valueChanged.connect(
+            lambda: self.portrait_changed(self.ui.portraitSelect.currentIndex())
+        )
         self.ui.alignmentSlider.valueChanged.connect(self.update3dPreview)
 
         # Class level tooltips are set in utc.ui with full GFF/modder description
@@ -295,7 +330,11 @@ class UTCEditor(Editor):
             (self.ui.actionSaveUnusedFields, "saveUnusedFields"),
             (self.ui.actionAlwaysSaveK2Fields, "alwaysSaveK2Fields"),
         ):
-            action.triggered.connect(lambda _checked=False, a=action, name=setting_name: setattr(self.settings, name, a.isChecked()))
+            action.triggered.connect(
+                lambda _checked=False, a=action, name=setting_name: setattr(
+                    self.settings, name, a.isChecked()
+                )
+            )
 
     def _setup_installation(  # noqa: C901, PLR0912, PLR0915
         self,
@@ -351,14 +390,20 @@ class UTCEditor(Editor):
         classes: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_CLASSES)
         races: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_RACES)
 
-        def _setup_select_from_2da(widget, twoda: TwoDA | None, twoda_name: str, column_name: str, transform=None) -> None:
+        def _setup_select_from_2da(
+            widget, twoda: TwoDA | None, twoda_name: str, column_name: str, transform=None
+        ) -> None:
             if twoda is None:
                 return
             widget.set_context(twoda, self._installation, twoda_name)
             values = twoda.get_column(column_name)
-            widget.set_items([transform(value) for value in values] if transform is not None else values)
+            widget.set_items(
+                [transform(value) for value in values] if transform is not None else values
+            )
 
-        def _populate_checkable_list_from_2da(list_widget, twoda: TwoDA, name_column: str, text_transform=None) -> None:
+        def _populate_checkable_list_from_2da(
+            list_widget, twoda: TwoDA, name_column: str, text_transform=None
+        ) -> None:
             """Populate a QListWidget with checkable items from a TwoDA.
 
             Args:
@@ -371,7 +416,11 @@ class UTCEditor(Editor):
             list_widget.clear()
             for item in twoda:
                 stringref: int = item.get_integer("name", 0)
-                text: str = installation.talktable().string(stringref) if stringref else item.get_string(name_column)
+                text: str = (
+                    installation.talktable().string(stringref)
+                    if stringref
+                    else item.get_string(name_column)
+                )
                 if text_transform:
                     text = text_transform(text)
                 text = text or f"[Unused {name_column.title()} ID: {item.label()}]"
@@ -383,12 +432,22 @@ class UTCEditor(Editor):
             list_widget.setSortingEnabled(True)
             list_widget.sortItems(Qt.SortOrder.AscendingOrder)  # pyright: ignore[reportArgumentType]
 
-        _setup_select_from_2da(self.ui.appearanceSelect, appearances, HTInstallation.TwoDA_APPEARANCES, "label")
-        _setup_select_from_2da(self.ui.soundsetSelect, soundsets, HTInstallation.TwoDA_SOUNDSETS, "label")
-        _setup_select_from_2da(self.ui.portraitSelect, portraits, HTInstallation.TwoDA_PORTRAITS, "baseresref")
-        _setup_select_from_2da(self.ui.subraceSelect, subraces, HTInstallation.TwoDA_SUBRACES, "label")
+        _setup_select_from_2da(
+            self.ui.appearanceSelect, appearances, HTInstallation.TwoDA_APPEARANCES, "label"
+        )
+        _setup_select_from_2da(
+            self.ui.soundsetSelect, soundsets, HTInstallation.TwoDA_SOUNDSETS, "label"
+        )
+        _setup_select_from_2da(
+            self.ui.portraitSelect, portraits, HTInstallation.TwoDA_PORTRAITS, "baseresref"
+        )
+        _setup_select_from_2da(
+            self.ui.subraceSelect, subraces, HTInstallation.TwoDA_SUBRACES, "label"
+        )
         _setup_select_from_2da(self.ui.speedSelect, speeds, HTInstallation.TwoDA_SPEEDS, "label")
-        _setup_select_from_2da(self.ui.factionSelect, factions, HTInstallation.TwoDA_FACTIONS, "label")
+        _setup_select_from_2da(
+            self.ui.factionSelect, factions, HTInstallation.TwoDA_FACTIONS, "label"
+        )
         _setup_select_from_2da(
             self.ui.genderSelect,
             genders,
@@ -396,13 +455,19 @@ class UTCEditor(Editor):
             "constant",
             transform=lambda label: label.replace("_", " ").title().replace("Gender ", ""),
         )
-        _setup_select_from_2da(self.ui.perceptionSelect, perceptions, HTInstallation.TwoDA_PERCEPTIONS, "label")
+        _setup_select_from_2da(
+            self.ui.perceptionSelect, perceptions, HTInstallation.TwoDA_PERCEPTIONS, "label"
+        )
 
         if classes is not None:  # sourcery skip: extract-method
-            self.ui.class1Select.set_context(classes, self._installation, HTInstallation.TwoDA_CLASSES)
+            self.ui.class1Select.set_context(
+                classes, self._installation, HTInstallation.TwoDA_CLASSES
+            )
             self.ui.class1Select.set_items(classes.get_column("label"))
 
-            self.ui.class2Select.set_context(classes, self._installation, HTInstallation.TwoDA_CLASSES)
+            self.ui.class2Select.set_context(
+                classes, self._installation, HTInstallation.TwoDA_CLASSES
+            )
             self.ui.class2Select.clear()
             self.ui.class2Select.setPlaceholderText(tr("[Unset]"))
             for label in classes.get_column("label"):  # pyright: ignore[reportArgumentType]
@@ -423,7 +488,10 @@ class UTCEditor(Editor):
                 self.ui.powerList,
                 powers,
                 "label",
-                text_transform=lambda t: t.replace("_", " ").replace("XXX", "").replace("\n", "").title(),
+                text_transform=lambda t: t.replace("_", " ")
+                .replace("XXX", "")
+                .replace("\n", "")
+                .title(),
             )
 
         self.ui.noBlockCheckbox.setVisible(installation.tsl)
@@ -432,7 +500,12 @@ class UTCEditor(Editor):
 
         # Setup context menus for script fields with reference search enabled
         for field in self._script_combo_boxes():
-            self._installation.setup_file_context_menu(field, [ResourceType.NSS, ResourceType.NCS], enable_reference_search=True, reference_search_type="script")
+            self._installation.setup_file_context_menu(
+                field,
+                [ResourceType.NSS, ResourceType.NCS],
+                enable_reference_search=True,
+                reference_search_type="script",
+            )
             append_reference_search_tooltip(field, "script")
 
     def load(
@@ -555,9 +628,20 @@ class UTCEditor(Editor):
             "powerList",
             "[Modded Power ID: {id_value}]",
         )
-        self.relevant_script_resnames: list[str] = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)}))
+        self.relevant_script_resnames: list[str] = sorted(
+            iter(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.NCS, self._filepath
+                    )
+                }
+            )
+        )
 
-        dlg_resources: set[FileResource] = self._installation.get_relevant_resources(ResourceType.DLG, self._filepath)
+        dlg_resources: set[FileResource] = self._installation.get_relevant_resources(
+            ResourceType.DLG, self._filepath
+        )
         dlg_resnames_set: set[str] = {res.resname().lower() for res in dlg_resources}
         dlg_resnames_sorted: list[str] = sorted(dlg_resnames_set)
         self.ui.conversationEdit.populate_combo_box(dlg_resnames_sorted)
@@ -591,7 +675,9 @@ class UTCEditor(Editor):
         """Updates the Comments tab title with a notification badge if comments are not blank."""
         comments = self.ui.comments.toPlainText()
         if comments:
-            self.ui.tabWidget.setTabText(self.ui.tabWidget.indexOf(self.ui.commentsTab), "Comments *")  # pyright: ignore[reportArgumentType]
+            self.ui.tabWidget.setTabText(
+                self.ui.tabWidget.indexOf(self.ui.commentsTab), "Comments *"
+            )  # pyright: ignore[reportArgumentType]
         else:
             self.ui.tabWidget.setTabText(self.ui.tabWidget.indexOf(self.ui.commentsTab), "Comments")  # pyright: ignore[reportArgumentType]
 
@@ -614,7 +700,9 @@ class UTCEditor(Editor):
         """Set all checkable items in a list widget to unchecked state."""
         for i in range(list_widget.count()):
             item: QListWidgetItem | None = list_widget.item(i)
-            assert item is not None, f"{self.__class__.__name__}.ui.{list_name}.item({i}) {item.__class__.__name__}: {item}"
+            assert item is not None, (
+                f"{self.__class__.__name__}.ui.{list_name}.item({i}) {item.__class__.__name__}: {item}"
+            )
             item.setCheckState(Qt.CheckState.Unchecked)  # pyright: ignore[reportArgumentType]
 
     def _apply_checked_ids_to_list(
@@ -722,14 +810,18 @@ class UTCEditor(Editor):
         utc.feats = []
         for i in range(self.ui.featList.count()):
             item = self.ui.featList.item(i)  # pyright: ignore[reportAssignmentType]
-            assert item is not None, f"{self.__class__.__name__}.ui.featList.item({i}) {item.__class__.__name__}: {item}"
+            assert item is not None, (
+                f"{self.__class__.__name__}.ui.featList.item({i}) {item.__class__.__name__}: {item}"
+            )
             if item.checkState() == Qt.CheckState.Checked:
                 utc.feats.append(item.data(Qt.ItemDataRole.UserRole))
 
         powers: list[int] = utc.classes[-1].powers
         for i in range(self.ui.powerList.count()):
             item = self.ui.powerList.item(i)  # pyright: ignore[reportAssignmentType]
-            assert item is not None, f"{self.__class__.__name__}.ui.powerList.item({i}) {item.__class__.__name__}: {item}"
+            assert item is not None, (
+                f"{self.__class__.__name__}.ui.powerList.item({i}) {item.__class__.__name__}: {item}"
+            )
             if item.checkState() == Qt.CheckState.Checked:
                 powers.append(item.data(Qt.ItemDataRole.UserRole))
 
@@ -750,7 +842,9 @@ class UTCEditor(Editor):
         self.update_item_count()
 
     def randomize_first_name(self):
-        ltr_resname: Literal["humanf", "humanm"] = "humanf" if self.ui.genderSelect.currentIndex() == 1 else "humanm"
+        ltr_resname: Literal["humanf", "humanm"] = (
+            "humanf" if self.ui.genderSelect.currentIndex() == 1 else "humanm"
+        )
         locstring: LocalizedString = self.ui.firstnameEdit.locstring()
         ltr: LTR = read_ltr(self._installation.resource(ltr_resname, ResourceType.LTR).data)  # pyright: ignore[reportOptionalMemberAccess]
         locstring.stringref = -1
@@ -784,7 +878,9 @@ class UTCEditor(Editor):
         """
         index: int = self.ui.portraitSelect.currentIndex()
         if index == 0:
-            image = QImage(bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888)
+            image = QImage(
+                bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888
+            )
             pixmap: QPixmap = QPixmap.fromImage(image)
         else:
             pixmap = self._build_pixmap(index)
@@ -812,11 +908,17 @@ class UTCEditor(Editor):
             4. Converting the texture to a QPixmap.
         """
         alignment: int = self.ui.alignmentSlider.value()
-        portraits: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PORTRAITS)
-        assert portraits is not None, f"portraits = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PORTRAITS) {portraits.__class__.__name__}: {portraits}"
+        portraits: TwoDA | None = self._installation.ht_get_cache_2da(
+            HTInstallation.TwoDA_PORTRAITS
+        )
+        assert portraits is not None, (
+            f"portraits = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_PORTRAITS) {portraits.__class__.__name__}: {portraits}"
+        )
         portrait: str = portraits.get_cell(index, "baseresref")
 
-        if 40 >= alignment > 30 and portraits.get_cell(index, "baseresrefe"):  # TODO(th3w1zard1): document these magic numbers  # noqa: FIX002, PLR2004, TD003
+        if 40 >= alignment > 30 and portraits.get_cell(
+            index, "baseresrefe"
+        ):  # TODO(th3w1zard1): document these magic numbers  # noqa: FIX002, PLR2004, TD003
             portrait = portraits.get_cell(index, "baseresrefe")
         elif 30 >= alignment > 20 and portraits.get_cell(index, "baseresrefve"):  # noqa: PLR2004
             portrait = portraits.get_cell(index, "baseresrefve")
@@ -831,7 +933,9 @@ class UTCEditor(Editor):
             if texture.format().is_dxt():
                 texture.decode()
             mipmap: TPCMipmap = texture.get(0, 0)
-            image = QImage(bytes(mipmap.data), mipmap.width, mipmap.height, texture.format().to_qimage_format())
+            image = QImage(
+                bytes(mipmap.data), mipmap.width, mipmap.height, texture.format().to_qimage_format()
+            )
             return QPixmap.fromImage(image).transformed(QTransform().scale(1, -1))
 
         image = QImage(bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888)
@@ -854,7 +958,11 @@ class UTCEditor(Editor):
         data: bytes | None = None
 
         if not resname:
-            QMessageBox(QMessageBox.Icon.Critical, "Invalid Dialog Reference", "Conversation field cannot be blank.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Critical,
+                "Invalid Dialog Reference",
+                "Conversation field cannot be blank.",
+            ).exec()
             return
 
         search: ResourceResult | None = self._installation.resource(resname, ResourceType.DLG)
@@ -875,7 +983,9 @@ class UTCEditor(Editor):
             resname, restype, filepath, data = search  # pyright: ignore[reportAssignmentType]
 
         if data is None or filepath is None:
-            print(f"Data/filepath cannot be None in self.edit_conversation() relevance: (resname={resname}, restype={restype!r}, filepath={filepath!r})")
+            print(
+                f"Data/filepath cannot be None in self.edit_conversation() relevance: (resname={resname}, restype={restype!r}, filepath={filepath!r})"
+            )
             return
 
         open_resource_editor(filepath, resname, ResourceType.DLG, data, self._installation, self)
@@ -898,9 +1008,15 @@ class UTCEditor(Editor):
             # search the capsules inside the .sav outer capsule.
             # self._filepath represents the outer capsule
             # res.filepath() is potentially a nested capsule.
-            capsules_to_search = [Capsule(res.filepath()) for res in Capsule(self._filepath) if is_capsule_file(res.filename()) and res.inside_capsule]
+            capsules_to_search = [
+                Capsule(res.filepath())
+                for res in Capsule(self._filepath)
+                if is_capsule_file(res.filename()) and res.inside_capsule
+            ]
         elif is_capsule_file(self._filepath):
-            capsules_to_search = Module.get_capsules_tuple_matching(self._installation, self._filepath.name)
+            capsules_to_search = Module.get_capsules_tuple_matching(
+                self._installation, self._filepath.name
+            )
         inventory_editor = InventoryEditor(
             self,
             self._installation,
@@ -979,10 +1095,14 @@ class UTCEditor(Editor):
         self.update3dPreview()
 
     def update_feat_summary(self):
-        self.ui.featSummaryEdit.setPlainText(self._checked_list_summary(self.ui.featList, "featList"))
+        self.ui.featSummaryEdit.setPlainText(
+            self._checked_list_summary(self.ui.featList, "featList")
+        )
 
     def update_power_summary(self):
-        self.ui.powerSummaryEdit.setPlainText(self._checked_list_summary(self.ui.powerList, "powerList"))
+        self.ui.powerSummaryEdit.setPlainText(
+            self._checked_list_summary(self.ui.powerList, "powerList")
+        )
 
     def update3dPreview(self):
         """Updates the 3D preview and model info.
@@ -1057,18 +1177,26 @@ class UTCEditor(Editor):
                     if source_location is not None:
                         # source_location is a SearchLocation (or None) recorded by SceneBase
                         try:
-                            info_lines.append(f"{indent}  └─ SearchLocation: {self._format_search_order([source_location])}")
+                            info_lines.append(
+                                f"{indent}  └─ SearchLocation: {self._format_search_order([source_location])}"
+                            )
                         except Exception:  # noqa: BLE001
                             info_lines.append(f"{indent}  └─ SearchLocation: {source_location}")
                 else:
                     search_order = tex_info.get("search_order", [])
-                    search_str = self._format_search_order(search_order) if search_order else "Unknown"
+                    search_str = (
+                        self._format_search_order(search_order) if search_order else "Unknown"
+                    )
                     info_lines.append(f"{indent}Renderer: ❌ Not found")
                     info_lines.append(f"{indent}  └─ Searched: {search_str}")
 
             # Get body model and texture
-            appearance_2da: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_APPEARANCES)
-            baseitems_2da: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_BASEITEMS)
+            appearance_2da: TwoDA | None = self._installation.ht_get_cache_2da(
+                HTInstallation.TwoDA_APPEARANCES
+            )
+            baseitems_2da: TwoDA | None = self._installation.ht_get_cache_2da(
+                HTInstallation.TwoDA_BASEITEMS
+            )
             heads_2da: TwoDA | None = self._installation.ht_get_cache_2da("heads")
 
             body_model, body_texture = creature.get_body_model(
@@ -1079,7 +1207,9 @@ class UTCEditor(Editor):
             )
             if body_model:
                 info_lines.append(f"Body Model: '{body_model}'")
-                body_mdl: ResourceResult | None = self._installation.resource(body_model, ResourceType.MDL)
+                body_mdl: ResourceResult | None = self._installation.resource(
+                    body_model, ResourceType.MDL
+                )
                 if body_mdl:
                     try:
                         mdl_path = body_mdl.filepath.relative_to(self._installation.path())
@@ -1105,7 +1235,9 @@ class UTCEditor(Editor):
             )
             if head_model:
                 info_lines.append(f"Head Model: '{head_model}'")
-                head_mdl: ResourceResult | None = self._installation.resource(head_model, ResourceType.MDL)
+                head_mdl: ResourceResult | None = self._installation.resource(
+                    head_model, ResourceType.MDL
+                )
                 if head_mdl:
                     try:
                         mdl_path = head_mdl.filepath.relative_to(self._installation.path())
@@ -1216,7 +1348,9 @@ class UTCEditor(Editor):
             RobustLogger().debug("_on_textures_loaded: No texture_lookup_info available yet")
             return
 
-        RobustLogger().debug(f"_on_textures_loaded: Found {len(texture_lookup_info)} textures with lookup info")
+        RobustLogger().debug(
+            f"_on_textures_loaded: Found {len(texture_lookup_info)} textures with lookup info"
+        )
 
         # Get current model info text and update the texture section
         current_text = self.ui.modelInfoLabel.text()
@@ -1257,7 +1391,9 @@ class UTCEditor(Editor):
                             # Prefer the exact SearchLocation recorded by the renderer (no extra lookups).
                             if source_location is not None:
                                 try:
-                                    new_lines.append(f"    └─ SearchLocation: {self._format_search_order([source_location])}")
+                                    new_lines.append(
+                                        f"    └─ SearchLocation: {self._format_search_order([source_location])}"
+                                    )
                                 except Exception:  # noqa: BLE001
                                     new_lines.append(f"    └─ SearchLocation: {source_location}")
                             else:
@@ -1270,7 +1406,9 @@ class UTCEditor(Editor):
                             new_lines.append(f"  {tex_name}: ✓ Loaded")
                     else:
                         search_order = lookup_info.get("search_order", [])
-                        search_str = self._format_search_order(search_order) if search_order else "Unknown"
+                        search_str = (
+                            self._format_search_order(search_order) if search_order else "Unknown"
+                        )
                         if restype:
                             new_lines.append(f"  {tex_name} ({restype}): ❌ Not found")
                         else:

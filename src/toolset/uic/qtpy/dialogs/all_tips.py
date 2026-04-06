@@ -28,7 +28,9 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.textEdit)
         self.buttonLayout = QtWidgets.QHBoxLayout()
         self.buttonLayout.setObjectName("buttonLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonLayout.addItem(spacerItem)
         self.closeButton = QtWidgets.QPushButton(Dialog)
         font = QtGui.QFont()
@@ -40,7 +42,7 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.buttonLayout)
 
         self.retranslateUi(Dialog)
-        self.closeButton.clicked.connect(Dialog.accept) # type: ignore
+        self.closeButton.clicked.connect(Dialog.accept)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

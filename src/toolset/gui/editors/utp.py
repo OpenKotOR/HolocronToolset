@@ -64,7 +64,9 @@ class UTPEditor(Editor):
         self.globalSettings: GlobalSettings = GlobalSettings()
         self._utp: UTP = UTP()
         self._ui_ready: bool = False
-        super().__init__(parent, "Placeable Editor", "placeable", supported, supported, installation)
+        super().__init__(
+            parent, "Placeable Editor", "placeable", supported, supported, installation
+        )
 
         if installation is not None:
             self._placeables2DA: TwoDA | None = installation.ht_get_cache_2da("placeables")
@@ -148,7 +150,9 @@ class UTPEditor(Editor):
             ("on_user_defined", self.ui.onUserDefinedSelect),
         ]
 
-    def _script_value_pairs(self, utp: UTP) -> list[tuple[QLineEdit | QComboBox | QPlainTextEdit, ResRef]]:
+    def _script_value_pairs(
+        self, utp: UTP
+    ) -> list[tuple[QLineEdit | QComboBox | QPlainTextEdit, ResRef]]:
         """Map script widgets to UTP script values for load/populate operations."""
         return [(field, getattr(utp, attr_name)) for attr_name, field in self._script_attr_fields()]
 
@@ -156,7 +160,9 @@ class UTPEditor(Editor):
         self,
         widget: QLineEdit | QComboBox | QPlainTextEdit,
         resource_types: list[ResourceType],
-        reference_type: Literal["script", "conversation", "tag", "template_resref", "resref", "quest"],
+        reference_type: Literal[
+            "script", "conversation", "tag", "template_resref", "resref", "quest"
+        ],
         tooltip_text: str,
         *,
         set_max_length: bool = False,
@@ -206,7 +212,9 @@ class UTPEditor(Editor):
         appearances: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_PLACEABLES)
         factions: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_FACTIONS)
 
-        self.ui.appearanceSelect.set_context(appearances, installation, HTInstallation.TwoDA_PLACEABLES)
+        self.ui.appearanceSelect.set_context(
+            appearances, installation, HTInstallation.TwoDA_PLACEABLES
+        )
         self.ui.factionSelect.set_context(factions, installation, HTInstallation.TwoDA_FACTIONS)
 
         if appearances is not None:
@@ -310,11 +318,24 @@ class UTPEditor(Editor):
         self.ui.difficultyModSpin.setValue(utp.unlock_diff_mod)
 
         assert self._installation is not None
-        self.relevant_script_resnames = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)}))
+        self.relevant_script_resnames = sorted(
+            iter(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.NCS, self._filepath
+                    )
+                }
+            )
+        )
 
         for field in self._script_fields():
             field.populate_combo_box(self.relevant_script_resnames)
-        self.ui.conversationEdit.populate_combo_box(sorted(res.resname() for res in self._installation.get_relevant_resources(ResourceType.DLG)))
+        self.ui.conversationEdit.populate_combo_box(
+            sorted(
+                res.resname() for res in self._installation.get_relevant_resources(ResourceType.DLG)
+            )
+        )
 
         # Scripts
         for field, value in self._script_value_pairs(utp):
@@ -389,7 +410,9 @@ class UTPEditor(Editor):
     def update_item_count(self):
         from toolset.gui.common.localization import trf
 
-        self.ui.inventoryCountLabel.setText(trf("Total Items: {count}", count=len(self._utp.inventory)))
+        self.ui.inventoryCountLabel.setText(
+            trf("Total Items: {count}", count=len(self._utp.inventory))
+        )
 
     def change_name(self):
         if self._installation is None:
@@ -416,7 +439,11 @@ class UTPEditor(Editor):
         data, filepath = None, None
 
         if not resname or not resname.strip():
-            QMessageBox(QMessageBox.Icon.Critical, "Failed to open DLG Editor", "Conversation field cannot be blank.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Critical,
+                "Failed to open DLG Editor",
+                "Conversation field cannot be blank.",
+            ).exec()
             return
 
         assert self._installation is not None
@@ -440,7 +467,9 @@ class UTPEditor(Editor):
             resname, restype, filepath, data = search
 
         if data is not None:
-            open_resource_editor(filepath, resname, ResourceType.DLG, data, self._installation, self)
+            open_resource_editor(
+                filepath, resname, ResourceType.DLG, data, self._installation, self
+            )
 
     def open_inventory(self):
         """Opens inventory editor for the module.
@@ -458,8 +487,15 @@ class UTPEditor(Editor):
         capsules: list[Capsule] = []
         with suppress(Exception):
             root: str = Module.filepath_to_root(self._filepath)
-            moduleNames: list[str] = [path for path in self._installation.module_names() if root in path and path != self._filepath]
-            newCapsules: list[Capsule] = [Capsule(self._installation.module_path() / mod_filename) for mod_filename in moduleNames]
+            moduleNames: list[str] = [
+                path
+                for path in self._installation.module_names()
+                if root in path and path != self._filepath
+            ]
+            newCapsules: list[Capsule] = [
+                Capsule(self._installation.module_path() / mod_filename)
+                for mod_filename in moduleNames
+            ]
             capsules.extend(newCapsules)
 
         inventoryEditor = InventoryEditor(
@@ -530,10 +566,14 @@ class UTPEditor(Editor):
             self.ui.modelInfoLabel.setText("\n".join(info_lines))
             return
 
-        modelname: str = placeable.get_model(utp, self._installation, placeables=self._placeables2DA)
+        modelname: str = placeable.get_model(
+            utp, self._installation, placeables=self._placeables2DA
+        )
 
         if not modelname or not modelname.strip():
-            RobustLogger().warning("Placeable '%s.%s' has no model to render!", self._resname, self._restype)
+            RobustLogger().warning(
+                "Placeable '%s.%s' has no model to render!", self._resname, self._restype
+            )
             self.ui.previewRenderer.clear_model()
             info_lines.append("❌ Model lookup failed")
             if self._placeables2DA is not None:
@@ -545,7 +585,9 @@ class UTPEditor(Editor):
                             modelname_col = "[empty]"
                     else:
                         modelname_col = "[column missing]"
-                    info_lines.append(f"placeables.2da row {utp.appearance_id}: 'modelname' = '{modelname_col}'")
+                    info_lines.append(
+                        f"placeables.2da row {utp.appearance_id}: 'modelname' = '{modelname_col}'"
+                    )
                 except (IndexError, KeyError):
                     info_lines.append(f"⚠️ placeables.2da row {utp.appearance_id} not found")
             self.ui.modelInfoLabel.setText("\n".join(info_lines))
@@ -609,7 +651,11 @@ class UTPEditor(Editor):
         if len(info_lines) > 1 and mdl is not None and mdx is not None:
             # Show model name and source in summary
             try:
-                mdl_rel = mdl.filepath.relative_to(self._installation.path()) if self._installation else str(mdl.filepath)
+                mdl_rel = (
+                    mdl.filepath.relative_to(self._installation.path())
+                    if self._installation
+                    else str(mdl.filepath)
+                )
                 summary = f"{modelname} → {mdl_rel}"
             except (ValueError, AttributeError):
                 summary = f"{modelname} → {mdl.filepath}"
@@ -655,7 +701,9 @@ class UTPEditor(Editor):
             RobustLogger().debug("_on_textures_loaded: No texture_lookup_info available yet")
             return
 
-        RobustLogger().debug(f"_on_textures_loaded: Found {len(texture_lookup_info)} textures with lookup info")
+        RobustLogger().debug(
+            f"_on_textures_loaded: Found {len(texture_lookup_info)} textures with lookup info"
+        )
 
         # Get current model info text and update the texture section
         current_text = self.ui.modelInfoLabel.text()
@@ -692,7 +740,9 @@ class UTPEditor(Editor):
                             new_lines.append(f"  {tex_name}: ✓ Loaded")
                     else:
                         search_order = lookup_info.get("search_order", [])
-                        search_str = self._format_search_order(search_order) if search_order else "Unknown"
+                        search_str = (
+                            self._format_search_order(search_order) if search_order else "Unknown"
+                        )
                         new_lines.append(f"  {tex_name}: ❌ Not found")
                         new_lines.append(f"    └─ Searched: {search_str}")
             elif skip_old_texture_section and line.startswith("  "):

@@ -10,15 +10,19 @@ from utility.gui.qt.widgets.theme import ThemeSelectorDialog as UtilityThemeSele
 if TYPE_CHECKING:
     from qtpy.QtWidgets import QWidget
 
+    from toolset.gui.common.style.theme_manager import ThemeManager
+
 
 class ThemeSelectorDialog(UtilityThemeSelectorDialog):
     """Toolset theme selector: utility dialog with Toolset localization and optional theme manager.
+
     Prefer importing from utility.gui.qt.widgets.theme for new code.
     """
 
     def __init__(
         self,
         parent: QWidget | None = None,
+        theme_manager: ThemeManager | None = None,
         available_themes: list[str] | None = None,
         available_styles: list[str] | None = None,
         current_theme: str | None = None,
@@ -26,7 +30,7 @@ class ThemeSelectorDialog(UtilityThemeSelectorDialog):
     ):
         super().__init__(
             parent=parent,
-            theme_manager=None,
+            theme_manager=theme_manager,
             available_themes=available_themes,
             available_styles=available_styles,
             current_theme=current_theme,

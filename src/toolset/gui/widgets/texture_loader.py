@@ -107,7 +107,9 @@ class TextureLoaderProcess(multiprocessing.Process):
                     continue
                 except Exception as e:
                     # Log error but don't crash the process - continue processing other requests
-                    RobustLogger().error(f"TextureLoaderProcess error processing request: {e}\n{traceback.format_exc()}")
+                    RobustLogger().error(
+                        f"TextureLoaderProcess error processing request: {e}\n{traceback.format_exc()}"
+                    )
                     # Continue the loop instead of crashing
 
         except Exception as e:

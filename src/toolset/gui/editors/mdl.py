@@ -53,7 +53,13 @@ class MDLEditor(Editor):
 
     def _setup_signals(self): ...
 
-    def load(self, filepath: os.PathLike | str, resref: str, restype: ResourceType, data: bytes | bytearray):
+    def load(
+        self,
+        filepath: os.PathLike | str,
+        resref: str,
+        restype: ResourceType,
+        data: bytes | bytearray,
+    ):
         """Loads a model resource and its associated data.
 
         Args:
@@ -73,13 +79,17 @@ class MDLEditor(Editor):
         super().load(p_filepath, resref, restype, data)
 
         try:
-            from toolset.utils.mdl_io_aabb_patch_standalone import apply_force_io_mdl_walkmesh_disk_fix
+            from toolset.utils.mdl_io_aabb_patch_standalone import (
+                apply_force_io_mdl_walkmesh_disk_fix,
+            )
 
             apply_force_io_mdl_walkmesh_disk_fix()
         except Exception:
             pass
         try:
-            from toolset.utils.mdl_io_aabb_monkeypatch import ensure_mdl_binary_reader_walkmesh_fixed
+            from toolset.utils.mdl_io_aabb_monkeypatch import (
+                ensure_mdl_binary_reader_walkmesh_fixed,
+            )
 
             ensure_mdl_binary_reader_walkmesh_fixed()
         except Exception:
@@ -92,7 +102,11 @@ class MDLEditor(Editor):
             mdl_data = data
             mdl_filepath = p_filepath.with_suffix(".mdl")
             mdx_filepath = p_filepath.with_suffix(".mdx")
-            if p_filepath.suffix.lower() == ".mdl" and mdx_filepath.exists() and mdx_filepath.is_file():
+            if (
+                p_filepath.suffix.lower() == ".mdl"
+                and mdx_filepath.exists()
+                and mdx_filepath.is_file()
+            ):
                 mdx_data = mdx_filepath.read_bytes()
             elif is_any_erf_type_file(p_filepath.name):
                 erf = read_erf(filepath)
@@ -101,10 +115,16 @@ class MDLEditor(Editor):
                 rim = read_rim(filepath)
                 mdx_data = rim.get(resref, ResourceType.MDX)
             elif is_bif_file(p_filepath.name):
-                mdx_data = self._installation.resource(resref, ResourceType.MDX, [SearchLocation.CHITIN]).data
+                mdx_data = self._installation.resource(
+                    resref, ResourceType.MDX, [SearchLocation.CHITIN]
+                ).data
         elif restype == ResourceType.MDX:
             mdx_data = data
-            if p_filepath.suffix.lower() == ".mdx" and mdl_filepath.exists() and mdl_filepath.is_file():
+            if (
+                p_filepath.suffix.lower() == ".mdx"
+                and mdl_filepath.exists()
+                and mdl_filepath.is_file()
+            ):
                 mdl_data = mdl_filepath.read_bytes()
             elif is_any_erf_type_file(p_filepath.name):
                 erf = read_erf(filepath)
@@ -113,10 +133,14 @@ class MDLEditor(Editor):
                 rim = read_rim(filepath)
                 mdl_data = rim.get(resref, ResourceType.MDL)
             elif is_bif_file(p_filepath.name):
-                mdl_data = self._installation.resource(resref, ResourceType.MDL, [SearchLocation.CHITIN]).data
+                mdl_data = self._installation.resource(
+                    resref, ResourceType.MDL, [SearchLocation.CHITIN]
+                ).data
 
         if mdl_data is None or mdx_data is None:
-            QMessageBox(QMessageBox.Icon.Critical, f"Could not find the '{p_filepath.stem}' MDL/MDX", "").exec()
+            QMessageBox(
+                QMessageBox.Icon.Critical, f"Could not find the '{p_filepath.stem}' MDL/MDX", ""
+            ).exec()
             return
 
         # Patch site-packages io_mdl if an older pykotor wheel is installed, then reload so
@@ -179,6 +203,7 @@ class MDLEditor(Editor):
         super().new()
         self._mdl = MDL()
         self.ui.modelRenderer.clear_model()
+
 
 if __name__ == "__main__":
     import sys

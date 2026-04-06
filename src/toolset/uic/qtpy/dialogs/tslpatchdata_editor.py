@@ -47,7 +47,7 @@ class Ui_Dialog(object):
         self.filesLabel.setObjectName("filesLabel")
         self.leftLayout.addWidget(self.filesLabel)
         self.fileTree = QtWidgets.QTreeWidget(self.leftPanel)
-        self.fileTree.setHeaderLabels(['File', 'Type', 'Status'])
+        self.fileTree.setHeaderLabels(["File", "Type", "Status"])
         self.fileTree.setObjectName("fileTree")
         self.leftLayout.addWidget(self.fileTree)
         self.fileBtnLayout = QtWidgets.QHBoxLayout()
@@ -117,7 +117,9 @@ class Ui_Dialog(object):
         self.confirmOverwritesCheck.setObjectName("confirmOverwritesCheck")
         self.installOptionsLayout.addWidget(self.confirmOverwritesCheck)
         self.generalLayout.addWidget(self.installOptionsGroup)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.generalLayout.addItem(spacerItem)
         self.configTabs.addTab(self.generalTab, "")
         self.twodaMemoryTab = QtWidgets.QWidget()
@@ -160,7 +162,7 @@ class Ui_Dialog(object):
         self.twodaTokensLabel.setObjectName("twodaTokensLabel")
         self.twodaRightLayout.addWidget(self.twodaTokensLabel)
         self.twodaTokensTree = QtWidgets.QTreeWidget(self.twodaRightWidget)
-        self.twodaTokensTree.setHeaderLabels(['Token Name', 'Column', 'Row Label', 'Used By'])
+        self.twodaTokensTree.setHeaderLabels(["Token Name", "Column", "Row Label", "Used By"])
         self.twodaTokensTree.setObjectName("twodaTokensTree")
         self.twodaRightLayout.addWidget(self.twodaTokensTree)
         self.tokenBtnLayout = QtWidgets.QHBoxLayout()
@@ -190,7 +192,7 @@ class Ui_Dialog(object):
         self.tlkStrrefDescLabel.setObjectName("tlkStrrefDescLabel")
         self.tlkStrrefLayout.addWidget(self.tlkStrrefDescLabel)
         self.tlkStringTree = QtWidgets.QTreeWidget(self.tlkStrrefTab)
-        self.tlkStringTree.setHeaderLabels(['Token Name', 'String', 'Used By'])
+        self.tlkStringTree.setHeaderLabels(["Token Name", "String", "Used By"])
         self.tlkStringTree.setObjectName("tlkStringTree")
         self.tlkStrrefLayout.addWidget(self.tlkStringTree)
         self.tlkBtnLayout = QtWidgets.QHBoxLayout()
@@ -207,7 +209,9 @@ class Ui_Dialog(object):
         self.openTlkEditorBtn = QtWidgets.QPushButton(self.tlkStrrefTab)
         self.openTlkEditorBtn.setObjectName("openTlkEditorBtn")
         self.tlkBtnLayout.addWidget(self.openTlkEditorBtn)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.tlkBtnLayout.addItem(spacerItem1)
         self.tlkStrrefLayout.addLayout(self.tlkBtnLayout)
         self.configTabs.addTab(self.tlkStrrefTab, "")
@@ -248,7 +252,7 @@ class Ui_Dialog(object):
         self.gffFieldsTreeLabel.setObjectName("gffFieldsTreeLabel")
         self.gffRightLayout.addWidget(self.gffFieldsTreeLabel)
         self.gffFieldsTree = QtWidgets.QTreeWidget(self.gffRightWidget)
-        self.gffFieldsTree.setHeaderLabels(['Field Path', 'Old Value', 'New Value', 'Type'])
+        self.gffFieldsTree.setHeaderLabels(["Field Path", "Old Value", "New Value", "Type"])
         self.gffFieldsTree.setObjectName("gffFieldsTree")
         self.gffRightLayout.addWidget(self.gffFieldsTree)
         self.gffBtnLayout = QtWidgets.QHBoxLayout()
@@ -256,7 +260,9 @@ class Ui_Dialog(object):
         self.openGffEditorBtn = QtWidgets.QPushButton(self.gffRightWidget)
         self.openGffEditorBtn.setObjectName("openGffEditorBtn")
         self.gffBtnLayout.addWidget(self.openGffEditorBtn)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.gffBtnLayout.addItem(spacerItem2)
         self.gffRightLayout.addLayout(self.gffBtnLayout)
         self.gffFieldsLayout.addWidget(self.gffSplitter)
@@ -284,7 +290,9 @@ class Ui_Dialog(object):
         self.removeScriptBtn = QtWidgets.QPushButton(self.scriptsTab)
         self.removeScriptBtn.setObjectName("removeScriptBtn")
         self.scriptBtnLayout.addWidget(self.removeScriptBtn)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.scriptBtnLayout.addItem(spacerItem3)
         self.scriptsLayout.addLayout(self.scriptBtnLayout)
         self.configTabs.addTab(self.scriptsTab, "")
@@ -306,14 +314,18 @@ class Ui_Dialog(object):
         self.refreshPreviewBtn = QtWidgets.QPushButton(self.iniPreviewTab)
         self.refreshPreviewBtn.setObjectName("refreshPreviewBtn")
         self.iniPreviewBtnLayout.addWidget(self.refreshPreviewBtn)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.iniPreviewBtnLayout.addItem(spacerItem4)
         self.iniPreviewLayout.addLayout(self.iniPreviewBtnLayout)
         self.configTabs.addTab(self.iniPreviewTab, "")
         self.mainLayout.addWidget(self.mainSplitter)
         self.buttonLayout = QtWidgets.QHBoxLayout()
         self.buttonLayout.setObjectName("buttonLayout")
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonLayout.addItem(spacerItem5)
         self.generateBtn = QtWidgets.QPushButton(Dialog)
         self.generateBtn.setObjectName("generateBtn")
@@ -349,12 +361,22 @@ class Ui_Dialog(object):
         self.modAuthorLabel.setText(_translate("Dialog", "Author:"))
         self.descriptionLabel.setText(_translate("Dialog", "Description:"))
         self.installOptionsGroup.setTitle(_translate("Dialog", "Installation Options"))
-        self.installToOverrideCheck.setText(_translate("Dialog", "Install files to Override folder"))
+        self.installToOverrideCheck.setText(
+            _translate("Dialog", "Install files to Override folder")
+        )
         self.backupFilesCheck.setText(_translate("Dialog", "Backup original files"))
-        self.confirmOverwritesCheck.setText(_translate("Dialog", "Confirm before overwriting files"))
-        self.configTabs.setTabText(self.configTabs.indexOf(self.generalTab), _translate("Dialog", "General"))
+        self.confirmOverwritesCheck.setText(
+            _translate("Dialog", "Confirm before overwriting files")
+        )
+        self.configTabs.setTabText(
+            self.configTabs.indexOf(self.generalTab), _translate("Dialog", "General")
+        )
         self.twodaMemoryLabel.setText(_translate("Dialog", "<b>2DA Memory Tokens:</b>"))
-        self.twodaMemoryDescLabel.setText(_translate("Dialog", "Track row numbers in 2DA files that will change during installation."))
+        self.twodaMemoryDescLabel.setText(
+            _translate(
+                "Dialog", "Track row numbers in 2DA files that will change during installation."
+            )
+        )
         self.twodaListLabel.setText(_translate("Dialog", "2DA Files:"))
         self.add2daBtn.setText(_translate("Dialog", "Add 2DA Memory Token"))
         self.twodaTokensLabel.setText(_translate("Dialog", "Memory Tokens:"))
@@ -363,33 +385,49 @@ class Ui_Dialog(object):
         self.addTokenBtn.setText(_translate("Dialog", "Add Token"))
         self.editTokenBtn.setText(_translate("Dialog", "Edit Token"))
         self.removeTokenBtn.setText(_translate("Dialog", "Remove Token"))
-        self.configTabs.setTabText(self.configTabs.indexOf(self.twodaMemoryTab), _translate("Dialog", "2DA Memory"))
+        self.configTabs.setTabText(
+            self.configTabs.indexOf(self.twodaMemoryTab), _translate("Dialog", "2DA Memory")
+        )
         self.tlkStrrefLabel.setText(_translate("Dialog", "<b>TLK String References:</b>"))
-        self.tlkStrrefDescLabel.setText(_translate("Dialog", "Manage string references that will be added to dialog.tlk."))
+        self.tlkStrrefDescLabel.setText(
+            _translate("Dialog", "Manage string references that will be added to dialog.tlk.")
+        )
         self.tlkStringTree.headerItem().setText(0, _translate("Dialog", "Token Name"))
         self.tlkStringTree.headerItem().setText(1, _translate("Dialog", "String"))
         self.addTlkStrBtn.setText(_translate("Dialog", "Add TLK String"))
         self.editTlkStrBtn.setText(_translate("Dialog", "Edit String"))
         self.removeTlkStrBtn.setText(_translate("Dialog", "Remove String"))
         self.openTlkEditorBtn.setText(_translate("Dialog", "Open TLK Editor"))
-        self.configTabs.setTabText(self.configTabs.indexOf(self.tlkStrrefTab), _translate("Dialog", "TLK StrRef"))
+        self.configTabs.setTabText(
+            self.configTabs.indexOf(self.tlkStrrefTab), _translate("Dialog", "TLK StrRef")
+        )
         self.gffFieldsLabel.setText(_translate("Dialog", "<b>GFF Field Modifications:</b>"))
-        self.gffFieldsDescLabel.setText(_translate("Dialog", "View and edit fields that will be modified in GFF files."))
+        self.gffFieldsDescLabel.setText(
+            _translate("Dialog", "View and edit fields that will be modified in GFF files.")
+        )
         self.gffFileListLabel.setText(_translate("Dialog", "Modified GFF Files:"))
         self.gffFieldsTreeLabel.setText(_translate("Dialog", "Field Modifications:"))
         self.gffFieldsTree.headerItem().setText(0, _translate("Dialog", "Field Path"))
         self.gffFieldsTree.headerItem().setText(1, _translate("Dialog", "Old Value"))
         self.gffFieldsTree.headerItem().setText(2, _translate("Dialog", "New Value"))
         self.openGffEditorBtn.setText(_translate("Dialog", "Open in GFF Editor"))
-        self.configTabs.setTabText(self.configTabs.indexOf(self.gffFieldsTab), _translate("Dialog", "GFF Fields"))
+        self.configTabs.setTabText(
+            self.configTabs.indexOf(self.gffFieldsTab), _translate("Dialog", "GFF Fields")
+        )
         self.scriptsLabel.setText(_translate("Dialog", "<b>Scripts:</b>"))
-        self.scriptsDescLabel.setText(_translate("Dialog", "Compiled scripts (.ncs) that will be installed."))
+        self.scriptsDescLabel.setText(
+            _translate("Dialog", "Compiled scripts (.ncs) that will be installed.")
+        )
         self.addScriptBtn.setText(_translate("Dialog", "Add Script"))
         self.removeScriptBtn.setText(_translate("Dialog", "Remove Script"))
-        self.configTabs.setTabText(self.configTabs.indexOf(self.scriptsTab), _translate("Dialog", "Scripts"))
+        self.configTabs.setTabText(
+            self.configTabs.indexOf(self.scriptsTab), _translate("Dialog", "Scripts")
+        )
         self.iniPreviewLabel.setText(_translate("Dialog", "<b>changes.ini Preview:</b>"))
         self.refreshPreviewBtn.setText(_translate("Dialog", "Refresh Preview"))
-        self.configTabs.setTabText(self.configTabs.indexOf(self.iniPreviewTab), _translate("Dialog", "INI Preview"))
+        self.configTabs.setTabText(
+            self.configTabs.indexOf(self.iniPreviewTab), _translate("Dialog", "INI Preview")
+        )
         self.generateBtn.setText(_translate("Dialog", "Generate TSLPatchData"))
         self.previewBtn.setText(_translate("Dialog", "Preview INI"))
         self.saveBtn.setText(_translate("Dialog", "Save Configuration"))

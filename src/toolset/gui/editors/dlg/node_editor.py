@@ -115,7 +115,11 @@ class Connection(QGraphicsPathItem):
         q_app_style: QApplication | None = cast("Optional[QApplication]", QApplication.style())
         if q_app_style is None:
             raise RuntimeError("QApplication style is not available?")
-        self.setPen(QPen(q_app_style.palette().color(QPalette.ColorRole.Highlight), 3, Qt.PenStyle.SolidLine))
+        self.setPen(
+            QPen(
+                q_app_style.palette().color(QPalette.ColorRole.Highlight), 3, Qt.PenStyle.SolidLine
+            )
+        )
         super().hoverEnterEvent(event)
 
     def hoverLeaveEvent(
@@ -125,7 +129,9 @@ class Connection(QGraphicsPathItem):
         q_app_style: QApplication | None = cast("Optional[QApplication]", QApplication.style())
         if q_app_style is None:
             raise RuntimeError("QApplication style is not available?")
-        self.setPen(QPen(q_app_style.palette().color(QPalette.ColorRole.Text), 2, Qt.PenStyle.SolidLine))
+        self.setPen(
+            QPen(q_app_style.palette().color(QPalette.ColorRole.Text), 2, Qt.PenStyle.SolidLine)
+        )
         super().hoverLeaveEvent(event)
 
     def animate_path_update(self):
@@ -209,14 +215,24 @@ class Node(QGraphicsRectItem):
         # Add new attributes
         self.resize_handle_size: int = 10
         self.is_resizing: bool = False
-        self.resize_edge: Literal["topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"] | None = None
+        self.resize_edge: (
+            Literal[
+                "topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"
+            ]
+            | None
+        ) = None
         self.min_size: QSizeF = QSizeF(100, 60)
         assert isinstance(self, QObject)
         self.animation: QPropertyAnimation = QPropertyAnimation(self, b"geometry")
         self.animation.setDuration(200)
 
         # Add resize cursors
-        self.edge_cursors: dict[Literal["topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"], Qt.CursorShape] = {
+        self.edge_cursors: dict[
+            Literal[
+                "topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"
+            ],
+            Qt.CursorShape,
+        ] = {
             "top": Qt.CursorShape.SizeVerCursor,
             "bottom": Qt.CursorShape.SizeVerCursor,
             "left": Qt.CursorShape.SizeHorCursor,
@@ -337,12 +353,22 @@ class Node(QGraphicsRectItem):
             super().mousePressEvent(event)
             return
 
-        edge: Literal["topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"] | None = self.get_resize_edge(event.pos())
+        edge: (
+            Literal[
+                "topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"
+            ]
+            | None
+        ) = self.get_resize_edge(event.pos())
         if edge is None:
             super().mousePressEvent(event)
             return
         self.is_resizing = True
-        self.resize_edge: Literal["topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"] | None = edge
+        self.resize_edge: (
+            Literal[
+                "topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"
+            ]
+            | None
+        ) = edge
         event.accept()
         super().mousePressEvent(event)
 
@@ -367,7 +393,12 @@ class Node(QGraphicsRectItem):
             return
 
         # Update cursor based on edge
-        edge: Literal["topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"] | None = self.get_resize_edge(event.pos())
+        edge: (
+            Literal[
+                "topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"
+            ]
+            | None
+        ) = self.get_resize_edge(event.pos())
         if edge is not None and edge in self.edge_cursors:
             self.setCursor(self.edge_cursors[edge])
         else:
@@ -430,15 +461,26 @@ class Node(QGraphicsRectItem):
     def get_resize_edge(  # noqa: PLR0911
         self,
         pos: QPointF,
-    ) -> Literal["topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"] | None:
+    ) -> (
+        Literal[
+            "topleft", "topright", "bottomleft", "bottomright", "left", "right", "top", "bottom"
+        ]
+        | None
+    ):
         rect: QRectF = self.rect()
         margin: int = self.resize_handle_size
 
         edge_checks: dict[str, bool] = {
             "topleft": QRectF(rect.topLeft(), QSizeF(margin, margin)).contains(pos),
-            "topright": QRectF(rect.topRight().x() - margin, rect.top(), margin, margin).contains(pos),
-            "bottomleft": QRectF(rect.bottomLeft().x(), rect.bottom() - margin, margin, margin).contains(pos),
-            "bottomright": QRectF(rect.bottomRight().x() - margin, rect.bottom() - margin, margin, margin).contains(pos),
+            "topright": QRectF(rect.topRight().x() - margin, rect.top(), margin, margin).contains(
+                pos
+            ),
+            "bottomleft": QRectF(
+                rect.bottomLeft().x(), rect.bottom() - margin, margin, margin
+            ).contains(pos),
+            "bottomright": QRectF(
+                rect.bottomRight().x() - margin, rect.bottom() - margin, margin, margin
+            ).contains(pos),
             "left": pos.x() <= rect.left() + margin,
             "right": pos.x() >= rect.right() - margin,
             "top": pos.y() <= rect.top() + margin,
@@ -964,7 +1006,9 @@ class DialogueNodeEditor(QGraphicsView):
         event: QMouseEvent,
     ):
         if event.button() == Qt.MouseButton.MiddleButton:
-            self._pan_last_pos = event.position() if hasattr(event, "position") else QPointF(event.pos())  # pyright: ignore[reportAttributeAccessIssue]
+            self._pan_last_pos = (
+                event.position() if hasattr(event, "position") else QPointF(event.pos())
+            )  # pyright: ignore[reportAttributeAccessIssue]
             event.accept()
             return
         super().mousePressEvent(event)
@@ -974,7 +1018,9 @@ class DialogueNodeEditor(QGraphicsView):
         event: QMouseEvent,
     ):
         if self._pan_last_pos is not None and event.buttons() & Qt.MouseButton.MiddleButton:
-            cur_pos: QPointF = event.position() if hasattr(event, "position") else QPointF(event.pos())  # pyright: ignore[reportAttributeAccessIssue]
+            cur_pos: QPointF = (
+                event.position() if hasattr(event, "position") else QPointF(event.pos())
+            )  # pyright: ignore[reportAttributeAccessIssue]
             delta: QPointF = cur_pos - self._pan_last_pos
             self._pan_last_pos = cur_pos
             h_bar = self.horizontalScrollBar()
@@ -1054,7 +1100,9 @@ class DialogueNodeEditor(QGraphicsView):
         if not self.editor:
             return
 
-        selected: list[Node] = [item for item in self.scene.selectedItems() if isinstance(item, Node)]
+        selected: list[Node] = [
+            item for item in self.scene.selectedItems() if isinstance(item, Node)
+        ]
         if not selected:
             return
 
@@ -1166,11 +1214,18 @@ class DialogueNodeEditor(QGraphicsView):
         node: Node,
     ) -> list[Node]:
         """Get all nodes connected to this node's inputs."""
-        return [conn.start_port.parent_node for port in node.input_ports for conn in port.connections if conn.start_port.parent_node != node]
+        return [
+            conn.start_port.parent_node
+            for port in node.input_ports
+            for conn in port.connections
+            if conn.start_port.parent_node != node
+        ]
 
     def align_horizontal(self):
         """Align selected nodes horizontally."""
-        selected: list[Node] = [item for item in self.scene.selectedItems() if isinstance(item, Node)]
+        selected: list[Node] = [
+            item for item in self.scene.selectedItems() if isinstance(item, Node)
+        ]
         if not selected:
             return
 
@@ -1181,7 +1236,9 @@ class DialogueNodeEditor(QGraphicsView):
 
     def align_vertical(self):
         """Align selected nodes vertically."""
-        selected: list[Node] = [item for item in self.scene.selectedItems() if isinstance(item, Node)]
+        selected: list[Node] = [
+            item for item in self.scene.selectedItems() if isinstance(item, Node)
+        ]
         if not selected:
             return
 

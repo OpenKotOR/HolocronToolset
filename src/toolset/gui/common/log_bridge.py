@@ -8,10 +8,10 @@ from qtpy.QtCore import QObject, Signal  # pyright: ignore[reportPrivateImportUs
 
 # Log level to CSS/text color name for use in rich text (theme-friendly)
 LEVEL_COLORS: dict[int, str] = {
-    logging.DEBUG: "#6b9080",      # muted cyan/teal
-    logging.INFO: "inherit",       # default text
-    logging.WARNING: "#b0892a",    # amber
-    logging.ERROR: "#c53030",     # red
+    logging.DEBUG: "#6b9080",  # muted cyan/teal
+    logging.INFO: "inherit",  # default text
+    logging.WARNING: "#b0892a",  # amber
+    logging.ERROR: "#c53030",  # red
     logging.CRITICAL: "#9b2c2c",  # strong red
 }
 

@@ -53,7 +53,11 @@ class ComboBox2DA(QComboBox):
             text_color: QColor = self.palette().color(QPalette.ColorRole.Text)
             painter.setPen(QPen(text_color))
             text_rect: QtCore.QRect = self.rect().adjusted(2, 0, 0, 0)
-            painter.drawText(text_rect, int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), self.placeholderText())
+            painter.drawText(
+                text_rect,
+                int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
+                self.placeholderText(),
+            )
             painter.end()
 
     def currentIndex(self) -> int:
@@ -134,7 +138,11 @@ class ComboBox2DA(QComboBox):
 
     def on_context_menu(self, point: QPoint):
         menu: QMenu = QMenu(self)
-        if self._installation is not None and self._resname is not None and self._this2DA is not None:
+        if (
+            self._installation is not None
+            and self._resname is not None
+            and self._this2DA is not None
+        ):
             open_action = QAction(f"Open '{self._resname}.2da' in 2DAEditor", self)
             assert open_action is not None, "Failed to create 'Open in 2DAEditor' action."
             open_action.triggered.connect(self.open_in_2da_editor)
@@ -144,7 +152,9 @@ class ComboBox2DA(QComboBox):
             row_index = self.currentIndex()
             if row_index >= 0:
                 find_refs_action = QAction("Find References...", self)
-                find_refs_action.triggered.connect(lambda checked=False: self._find_2da_row_references(row_index))
+                find_refs_action.triggered.connect(
+                    lambda checked=False: self._find_2da_row_references(row_index)
+                )
                 menu.addAction(find_refs_action)
 
         toggle_sort_action = QAction("Toggle Sorting", self)
@@ -178,7 +188,9 @@ class ComboBox2DA(QComboBox):
         self.enable_sort() if self._sort_alphabetically else self.disable_sort()
 
     def update_tool_tip(self):
-        row_index_display = f"<b>Row Index:</b> {self.currentIndex()}<br>" if self.currentIndex() != -1 else ""
+        row_index_display = (
+            f"<b>Row Index:</b> {self.currentIndex()}<br>" if self.currentIndex() != -1 else ""
+        )
         if self._resname and self._this2DA:
             tooltip_text = f"<b>Filename:</b> {self._resname}.2da<br>{row_index_display}<br><i>Right-click for more options.</i>"
         else:
@@ -228,13 +240,23 @@ class ComboBox2DA(QComboBox):
             error_msg: str = str((e.__class__.__name__, str(e))).replace("\n", "<br>")
             from toolset.gui.common.localization import translate as tr, trf
 
-            QMessageBox(QMessageBox.Icon.Critical, tr("Failed to load file."), trf("Failed to open or load file data.<br>{error}", error=error_msg)).exec()
+            QMessageBox(
+                QMessageBox.Icon.Critical,
+                tr("Failed to load file."),
+                trf("Failed to open or load file data.<br>{error}", error=error_msg),
+            ).exec()
             return
         else:
             editor.jump_to_row(self.currentIndex())
         from toolset.gui.common.localization import translate as tr, trf
 
-        editor.setWindowTitle(trf("{resname}.2da - 2DAEditor({name})", resname=self._resname, name=self._installation.name))
+        editor.setWindowTitle(
+            trf(
+                "{resname}.2da - 2DAEditor({name})",
+                resname=self._resname,
+                name=self._installation.name,
+            )
+        )
         add_window(editor)
         editor.show()
         editor.activateWindow()
@@ -264,7 +286,9 @@ class ComboBox2DA(QComboBox):
         from toolset.utils.window import add_window
 
         # Get the row label/text for searching
-        row_label = self._this2DA.get_cell(row_index, 0) if row_index < self._this2DA.get_height() else ""
+        row_label = (
+            self._this2DA.get_cell(row_index, 0) if row_index < self._this2DA.get_height() else ""
+        )
 
         # Also check for stringref values in this row
         strref_values: list[int] = []
@@ -340,7 +364,9 @@ class ComboBox2DA(QComboBox):
             )
 
             assert self._installation is not None, "Installation is not set"
-            assert isinstance(self._installation, HTInstallation), "Installation is not an HTInstallation"
+            assert isinstance(self._installation, HTInstallation), (
+                "Installation is not an HTInstallation"
+            )
 
             def search_strref_fn() -> list[ReferenceSearchResult]:
                 all_strref_results: list[ReferenceSearchResult] = []
@@ -352,7 +378,9 @@ class ComboBox2DA(QComboBox):
                                 field_path = location.field_path
                                 byte_offset = None
                             elif isinstance(location, TwoDARefLocation):
-                                field_path = f"Row {location.row_index}, Column '{location.column_name}'"
+                                field_path = (
+                                    f"Row {location.row_index}, Column '{location.column_name}'"
+                                )
                                 byte_offset = None
                             elif isinstance(location, SSFRefLocation):
                                 field_path = f"Sound index SSFSound({location.sound.value})"
@@ -404,13 +432,19 @@ class ComboBox2DA(QComboBox):
                 QMessageBox(
                     QMessageBox.Icon.Information,
                     tr("No references found"),
-                    trf("No references found for 2DA row {row_index} in '{resname}.2da'", row_index=row_index, resname=self._resname),
+                    trf(
+                        "No references found for 2DA row {row_index} in '{resname}.2da'",
+                        row_index=row_index,
+                        resname=self._resname,
+                    ),
                     parent=self,
                 ).exec()
                 return
 
             assert self._installation is not None, "Installation is not set"
-            assert isinstance(self._installation, HTInstallation), "Installation is not an HTInstallation"
+            assert isinstance(self._installation, HTInstallation), (
+                "Installation is not an HTInstallation"
+            )
 
             results_dialog = FileResults(self, all_results, self._installation)
             results_dialog.show()
@@ -437,6 +471,10 @@ class ComboBox2DA(QComboBox):
                 QMessageBox(
                     QMessageBox.Icon.Information,
                     tr("No searchable data"),
-                    trf("Row {row_index} in '{resname}.2da' has no searchable label or stringref values.", row_index=row_index, resname=self._resname),
+                    trf(
+                        "Row {row_index} in '{resname}.2da' has no searchable label or stringref values.",
+                        row_index=row_index,
+                        resname=self._resname,
+                    ),
                     parent=self,
                 ).exec()

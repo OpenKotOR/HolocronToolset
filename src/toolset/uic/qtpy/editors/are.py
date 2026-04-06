@@ -62,7 +62,9 @@ class Ui_MainWindow(object):
         self.cameraStyleSelect = ComboBox2DA(self.groupBox_7)
         self.cameraStyleSelect.setObjectName("cameraStyleSelect")
         self.horizontalLayout_16.addWidget(self.cameraStyleSelect)
-        spacerItem = QtWidgets.QSpacerItem(32, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            32, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_16.addItem(spacerItem)
         self.formLayout_7.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_16)
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout()
@@ -71,7 +73,9 @@ class Ui_MainWindow(object):
         self.envmapEdit.setMaxLength(16)
         self.envmapEdit.setObjectName("envmapEdit")
         self.horizontalLayout_17.addWidget(self.envmapEdit)
-        spacerItem1 = QtWidgets.QSpacerItem(32, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            32, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_17.addItem(spacerItem1)
         self.formLayout_7.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_17)
         self.label_23 = QtWidgets.QLabel(self.groupBox_7)
@@ -128,7 +132,9 @@ class Ui_MainWindow(object):
         self.formLayout_9.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.stealthLossSpin)
         self.verticalLayout_7.addLayout(self.formLayout_9)
         self.verticalLayout_8.addWidget(self.groupBox_9)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 23, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 23, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_8.addItem(spacerItem2)
         self.tabWidget.addTab(self.tab, "")
         self.tab_6 = QtWidgets.QWidget()
@@ -253,7 +259,9 @@ class Ui_MainWindow(object):
         self.gridLayout_7.addLayout(self.formLayout_10, 0, 0, 1, 1)
         self.verticalLayout_9.addWidget(self.groupBox_10)
         self.minimapRenderer = WalkmeshRenderer(self.tab_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.minimapRenderer.sizePolicy().hasHeightForWidth())
@@ -265,7 +273,9 @@ class Ui_MainWindow(object):
         self.minimapRenderer.setMinimumSize(QtCore.QSize(0, 250))
         self.minimapRenderer.setObjectName("minimapRenderer")
         self.verticalLayout_9.addWidget(self.minimapRenderer)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 171, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            20, 171, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_9.addItem(spacerItem3)
         self.tabWidget.addTab(self.tab_6, "")
         self.tab_3 = QtWidgets.QWidget()
@@ -397,11 +407,15 @@ class Ui_MainWindow(object):
         self.shadowsSpin.setObjectName("shadowsSpin")
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.shadowsSpin)
         self.verticalLayout_4.addLayout(self.formLayout_4)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_4.addItem(spacerItem4)
         self.horizontalLayout_10.addWidget(self.groupBox_5)
         self.verticalLayout_5.addLayout(self.horizontalLayout_10)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 19, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem5 = QtWidgets.QSpacerItem(
+            20, 19, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_5.addItem(spacerItem5)
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -587,7 +601,9 @@ class Ui_MainWindow(object):
         self.formLayout_2.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_8)
         self.gridLayout_3.addLayout(self.formLayout_2, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.dirtGroup)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 21, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem6 = QtWidgets.QSpacerItem(
+            20, 21, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem6)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_4 = QtWidgets.QWidget()
@@ -621,7 +637,9 @@ class Ui_MainWindow(object):
         self.onUserDefinedSelect.setObjectName("onUserDefinedSelect")
         self.formLayout_12.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.onUserDefinedSelect)
         self.verticalLayout_10.addLayout(self.formLayout_12)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 287, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem7 = QtWidgets.QSpacerItem(
+            20, 287, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_10.addItem(spacerItem7)
         self.tabWidget.addTab(self.tab_4, "")
         self.tab_5 = QtWidgets.QWidget()
@@ -670,137 +688,266 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.groupBox_7.setTitle(_translate("MainWindow", "Basic"))
         self.label_20.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: Name). CExoLocString. Localized display name\n"
-"                   shown on the minimap and area label. Modders: use StrRef or\n"
-"                   string for the area name players see; leave empty to fall back\n"
-"                   to area ResRef."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: Name). CExoLocString. Localized display name\n"
+                "                   shown on the minimap and area label. Modders: use StrRef or\n"
+                "                   string for the area name players see; leave empty to fall back\n"
+                "                   to area ResRef.",
+            )
+        )
         self.label_21.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for script\n"
-"                   references (GetAreaByTag, GetNearestObjectByTag, etc.). Engine\n"
-"                   lowercases on load. Modders: must be unique per module; used\n"
-"                   by scripting to find this area."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate Tag from ResRef. Copies the area ResRef into\n"
-"                   the Tag field so they stay in sync. Use when you need\n"
-"                   GetAreaByTag or other script references; keep Tag unique per\n"
-"                   module."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for script\n"
+                "                   references (GetAreaByTag, GetNearestObjectByTag, etc.). Engine\n"
+                "                   lowercases on load. Modders: must be unique per module; used\n"
+                "                   by scripting to find this area.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate Tag from ResRef. Copies the area ResRef into\n"
+                "                   the Tag field so they stay in sync. Use when you need\n"
+                "                   GetAreaByTag or other script references; keep Tag unique per\n"
+                "                   module.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_22.setText(_translate("MainWindow", "Camera:"))
-        self.cameraStyleSelect.setToolTip(_translate("MainWindow", "Camera (GFF: CameraStyle). INT32. Index into\n"
-"                   camerastyle.2da. Controls camera behavior when entering this\n"
-"                   area. Default 0. Modders: use 2DA row index; affects\n"
-"                   third-person camera angle and controls."))
-        self.envmapEdit.setToolTip(_translate("MainWindow", "Default Envmap (GFF: DefaultEnvMap). CResRef. Cube map\n"
-"                   texture for environment reflections. Max 16 chars. Modders:\n"
-"                   use .tpc/.tga ResRef; leave blank for default; affects\n"
-"                   reflective surfaces in area."))
+        self.cameraStyleSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Camera (GFF: CameraStyle). INT32. Index into\n"
+                "                   camerastyle.2da. Controls camera behavior when entering this\n"
+                "                   area. Default 0. Modders: use 2DA row index; affects\n"
+                "                   third-person camera angle and controls.",
+            )
+        )
+        self.envmapEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Default Envmap (GFF: DefaultEnvMap). CResRef. Cube map\n"
+                "                   texture for environment reflections. Max 16 chars. Modders:\n"
+                "                   use .tpc/.tga ResRef; leave blank for default; affects\n"
+                "                   reflective surfaces in area.",
+            )
+        )
         self.label_23.setText(_translate("MainWindow", "Default Envmap:"))
         self.groupBox_8.setTitle(_translate("MainWindow", "Advanced"))
-        self.disableTransitCheck.setToolTip(_translate("MainWindow", "Disable Transit (GFF: DisableTransit). BYTE. Prevents area\n"
-"               transitions (doors, triggers) from loading new modules. Modders: use\n"
-"               for cutscene-only or inescapable areas."))
+        self.disableTransitCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Disable Transit (GFF: DisableTransit). BYTE. Prevents area\n"
+                "               transitions (doors, triggers) from loading new modules. Modders: use\n"
+                "               for cutscene-only or inescapable areas.",
+            )
+        )
         self.disableTransitCheck.setText(_translate("MainWindow", "Disable Transit"))
-        self.unescapableCheck.setToolTip(_translate("MainWindow", "Unescapable (GFF: Unescapable). BYTE 0/1. Area cannot be left\n"
-"               via normal transitions; player is trapped. Engine reads via\n"
-"               ReadFieldBYTE in CSWSArea::LoadProperties from AreaProperties.\n"
-"               Modders: use for boss arenas or scripted sequences; escape requires\n"
-"               scripted transition."))
+        self.unescapableCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Unescapable (GFF: Unescapable). BYTE 0/1. Area cannot be left\n"
+                "               via normal transitions; player is trapped. Engine reads via\n"
+                "               ReadFieldBYTE in CSWSArea::LoadProperties from AreaProperties.\n"
+                "               Modders: use for boss arenas or scripted sequences; escape requires\n"
+                "               scripted transition.",
+            )
+        )
         self.unescapableCheck.setText(_translate("MainWindow", "Unescapable"))
         self.label_24.setText(_translate("MainWindow", "Alpha Test:"))
-        self.alphaTestSpin.setToolTip(_translate("MainWindow", "Alpha Test (GFF: AlphaTest). FLOAT. Transparency cutoff for\n"
-"                 rendering; pixels below this are discarded. LoadAreaHeader\n"
-"                 ReadFieldFLOAT default 0.2. Typical 0.0–1.0. Modders: lower = more\n"
-"                 transparent; higher = more opaque. Affects water, particles,\n"
-"                 foliage."))
+        self.alphaTestSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Alpha Test (GFF: AlphaTest). FLOAT. Transparency cutoff for\n"
+                "                 rendering; pixels below this are discarded. LoadAreaHeader\n"
+                "                 ReadFieldFLOAT default 0.2. Typical 0.0–1.0. Modders: lower = more\n"
+                "                 transparent; higher = more opaque. Affects water, particles,\n"
+                "                 foliage.",
+            )
+        )
         self.groupBox_9.setTitle(_translate("MainWindow", "Stealth XP Bonus"))
-        self.stealthCheck.setToolTip(_translate("MainWindow", "Enabled (GFF: StealthXPEnabled). BYTE. When on, area grants\n"
-"               stealth XP for successful sneaking; Max caps it, Loss is deducted when\n"
-"               detected. Modders: use for stealth-focused areas."))
+        self.stealthCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Enabled (GFF: StealthXPEnabled). BYTE. When on, area grants\n"
+                "               stealth XP for successful sneaking; Max caps it, Loss is deducted when\n"
+                "               detected. Modders: use for stealth-focused areas.",
+            )
+        )
         self.stealthCheck.setText(_translate("MainWindow", "Enabled"))
         self.label_25.setText(_translate("MainWindow", "Max:"))
-        self.stealthMaxSpin.setToolTip(_translate("MainWindow", "Max (GFF: StealthXPMax). DWORD. Maximum stealth XP pool for\n"
-"                 this area. Engine reads via ReadFieldDWORD in\n"
-"                 CSWSArea::LoadProperties from AreaProperties struct. Valid\n"
-"                 0–4294967295; UI caps at 2147483647. Modders: enable Stealth XP\n"
-"                 first; player gains XP up to this cap while sneaking undetected;\n"
-"                 if current exceeds max on load, engine clamps current to max."))
+        self.stealthMaxSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max (GFF: StealthXPMax). DWORD. Maximum stealth XP pool for\n"
+                "                 this area. Engine reads via ReadFieldDWORD in\n"
+                "                 CSWSArea::LoadProperties from AreaProperties struct. Valid\n"
+                "                 0–4294967295; UI caps at 2147483647. Modders: enable Stealth XP\n"
+                "                 first; player gains XP up to this cap while sneaking undetected;\n"
+                "                 if current exceeds max on load, engine clamps current to max.",
+            )
+        )
         self.label_26.setText(_translate("MainWindow", "Loss:"))
-        self.stealthLossSpin.setToolTip(_translate("MainWindow", "Loss (GFF: StealthXPLoss). DWORD. Stealth XP deducted when\n"
-"                 the player is detected. Engine reads via ReadFieldDWORD in\n"
-"                 CSWSArea::LoadProperties from AreaProperties. Valid 0–4294967295;\n"
-"                 UI caps at 2147483647. Modders: higher = harsher penalty for being\n"
-"                 spotted; 0 = no loss on detection."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
+        self.stealthLossSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Loss (GFF: StealthXPLoss). DWORD. Stealth XP deducted when\n"
+                "                 the player is detected. Engine reads via ReadFieldDWORD in\n"
+                "                 CSWSArea::LoadProperties from AreaProperties. Valid 0–4294967295;\n"
+                "                 UI caps at 2147483647. Modders: higher = harsher penalty for being\n"
+                "                 spotted; 0 = no loss on detection.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
         self.label_34.setText(_translate("MainWindow", "North Axis:"))
-        self.mapAxisSelect.setToolTip(_translate("MainWindow", "North Axis (GFF: NorthAxis in Map struct). INT32. Which direction\n"
-"              is north on the minimap: 0=Positive Y, 1=Negative Y, 2=Positive X,\n"
-"              3=Negative X. K1 LoadAreaHeader default 0. Modders: match to area layout\n"
-"              so minimap orientation is correct."))
+        self.mapAxisSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "North Axis (GFF: NorthAxis in Map struct). INT32. Which direction\n"
+                "              is north on the minimap: 0=Positive Y, 1=Negative Y, 2=Positive X,\n"
+                "              3=Negative X. K1 LoadAreaHeader default 0. Modders: match to area layout\n"
+                "              so minimap orientation is correct.",
+            )
+        )
         self.mapAxisSelect.setItemText(0, _translate("MainWindow", "Positive Y"))
         self.mapAxisSelect.setItemText(1, _translate("MainWindow", "Negative Y"))
         self.mapAxisSelect.setItemText(2, _translate("MainWindow", "Positive X"))
         self.mapAxisSelect.setItemText(3, _translate("MainWindow", "Negative X"))
         self.label_35.setText(_translate("MainWindow", "Map Zoom:"))
-        self.mapZoomSpin.setToolTip(_translate("MainWindow", "Map Zoom (GFF: MapZoom in Map struct). INT32. Minimap zoom level.\n"
-"              K1 LoadAreaHeader ReadFieldINT default 1 when missing. Modders: 1 =\n"
-"              default; higher = zoomed out; 0 may disable map."))
+        self.mapZoomSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Zoom (GFF: MapZoom in Map struct). INT32. Minimap zoom level.\n"
+                "              K1 LoadAreaHeader ReadFieldINT default 1 when missing. Modders: 1 =\n"
+                "              default; higher = zoomed out; 0 may disable map.",
+            )
+        )
         self.label_40.setText(_translate("MainWindow", "Map Res X"))
-        self.mapResXSpin.setToolTip(_translate("MainWindow", "Map Res X (GFF: MapResX in Map struct). INT32. Horizontal\n"
-"              resolution of minimap texture. K1 LoadAreaHeader ReadFieldINT default 0;\n"
-"              0 disables minimap. Modders: use positive value (e.g. 256–512) for\n"
-"              functional map."))
+        self.mapResXSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Res X (GFF: MapResX in Map struct). INT32. Horizontal\n"
+                "              resolution of minimap texture. K1 LoadAreaHeader ReadFieldINT default 0;\n"
+                "              0 disables minimap. Modders: use positive value (e.g. 256–512) for\n"
+                "              functional map.",
+            )
+        )
         self.groupBox_10.setTitle(_translate("MainWindow", "Coordinates"))
         self.label_27.setText(_translate("MainWindow", "Map Point 1:"))
-        self.mapImageX1Spin.setToolTip(_translate("MainWindow", "Map Point 1 X (image space). First corner of the minimap\n"
-"                   image in texture coordinates. Used with Map Point 2 and World\n"
-"                   Point 1/2 to map area world position to the minimap. Modders:\n"
-"                   align with area bounds so the player icon appears correctly."))
-        self.mapImageY1Spin.setToolTip(_translate("MainWindow", "Map Point 1 Y (image space). First corner of the minimap\n"
-"                   image in texture coordinates. Pairs with Map Point 1 X and\n"
-"                   World Point 1 to define the mapping. Modders: keep consistent\n"
-"                   with North Axis and map resolution."))
+        self.mapImageX1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Point 1 X (image space). First corner of the minimap\n"
+                "                   image in texture coordinates. Used with Map Point 2 and World\n"
+                "                   Point 1/2 to map area world position to the minimap. Modders:\n"
+                "                   align with area bounds so the player icon appears correctly.",
+            )
+        )
+        self.mapImageY1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Point 1 Y (image space). First corner of the minimap\n"
+                "                   image in texture coordinates. Pairs with Map Point 1 X and\n"
+                "                   World Point 1 to define the mapping. Modders: keep consistent\n"
+                "                   with North Axis and map resolution.",
+            )
+        )
         self.label_28.setText(_translate("MainWindow", "Map Point 2:"))
         self.label_29.setText(_translate("MainWindow", "World Point 1:"))
         self.label_30.setText(_translate("MainWindow", "World Point 2:"))
-        self.mapWorldX1Spin.setToolTip(_translate("MainWindow", "World Point 1 X. World-space X coordinate corresponding\n"
-"                   to Map Point 1. The engine uses Point 1 and Point 2 (image +\n"
-"                   world) to transform player position onto the minimap. Modders:\n"
-"                   use your area\'s walkmesh bounds."))
-        self.mapWorldY1Spin.setToolTip(_translate("MainWindow", "World Point 1 Y. World-space Y coordinate corresponding\n"
-"                   to Map Point 1. Defines one corner of the area region mapped\n"
-"                   to the minimap texture. Modders: match area geometry."))
-        self.mapImageX2Spin.setToolTip(_translate("MainWindow", "Map Point 2 X (image space). Second corner of the\n"
-"                   minimap image. With Point 1 defines the image rectangle used\n"
-"                   for the area. Modders: typically opposite corner from Point 1."))
-        self.mapImageY2Spin.setToolTip(_translate("MainWindow", "Map Point 2 Y (image space). Second corner of the\n"
-"                   minimap image. With Map Point 2 X and World Point 2 defines\n"
-"                   the full mapping from world to minimap. Modders: ensure Point\n"
-"                   2 is opposite Point 1 for correct scaling."))
-        self.mapWorldX2Spin.setToolTip(_translate("MainWindow", "World Point 2 X. World-space X for the second corner.\n"
-"                   With World Point 1 defines the area region in world units;\n"
-"                   engine maps this rectangle to the map image rectangle.\n"
-"                   Modders: use area bounds."))
-        self.mapWorldY2Spin.setToolTip(_translate("MainWindow", "World Point 2 Y. World-space Y for the second corner.\n"
-"                   Completes the world rectangle (Point 1 to Point 2) that is\n"
-"                   mapped onto the minimap. Modders: opposite corner from World\n"
-"                   Point 1 for correct display."))
+        self.mapWorldX1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "World Point 1 X. World-space X coordinate corresponding\n"
+                "                   to Map Point 1. The engine uses Point 1 and Point 2 (image +\n"
+                "                   world) to transform player position onto the minimap. Modders:\n"
+                "                   use your area's walkmesh bounds.",
+            )
+        )
+        self.mapWorldY1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "World Point 1 Y. World-space Y coordinate corresponding\n"
+                "                   to Map Point 1. Defines one corner of the area region mapped\n"
+                "                   to the minimap texture. Modders: match area geometry.",
+            )
+        )
+        self.mapImageX2Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Point 2 X (image space). Second corner of the\n"
+                "                   minimap image. With Point 1 defines the image rectangle used\n"
+                "                   for the area. Modders: typically opposite corner from Point 1.",
+            )
+        )
+        self.mapImageY2Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Point 2 Y (image space). Second corner of the\n"
+                "                   minimap image. With Map Point 2 X and World Point 2 defines\n"
+                "                   the full mapping from world to minimap. Modders: ensure Point\n"
+                "                   2 is opposite Point 1 for correct scaling.",
+            )
+        )
+        self.mapWorldX2Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "World Point 2 X. World-space X for the second corner.\n"
+                "                   With World Point 1 defines the area region in world units;\n"
+                "                   engine maps this rectangle to the map image rectangle.\n"
+                "                   Modders: use area bounds.",
+            )
+        )
+        self.mapWorldY2Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "World Point 2 Y. World-space Y for the second corner.\n"
+                "                   Completes the world rectangle (Point 1 to Point 2) that is\n"
+                "                   mapped onto the minimap. Modders: opposite corner from World\n"
+                "                   Point 1 for correct display.",
+            )
+        )
         self.label_32.setText(_translate("MainWindow", "X"))
         self.label_33.setText(_translate("MainWindow", "Y"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "Map"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "Map")
+        )
         self.groupBox_3.setTitle(_translate("MainWindow", "Fog"))
-        self.fogEnabledCheck.setToolTip(_translate("MainWindow", "Enabled (GFF: SunFogOn). BYTE. Enables distance fog. Modders:\n"
-"               use with Near/Far to define fog start/end distances; affects\n"
-"               visibility and atmosphere."))
+        self.fogEnabledCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Enabled (GFF: SunFogOn). BYTE. Enables distance fog. Modders:\n"
+                "               use with Near/Far to define fog start/end distances; affects\n"
+                "               visibility and atmosphere.",
+            )
+        )
         self.fogEnabledCheck.setText(_translate("MainWindow", "Enabled"))
         self.label_12.setText(_translate("MainWindow", "Near Distance:"))
-        self.fogNearSpin.setToolTip(_translate("MainWindow", "Near Distance (GFF: SunFogNear). FLOAT. Distance where fog\n"
-"                 begins. K1 LoadAreaHeader ReadFieldFLOAT default 10000.0; engine\n"
-"                 clamps negative to 0. Modders: lower = fog starts closer; pair\n"
-"                 with SunFogFar."))
+        self.fogNearSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Near Distance (GFF: SunFogNear). FLOAT. Distance where fog\n"
+                "                 begins. K1 LoadAreaHeader ReadFieldFLOAT default 10000.0; engine\n"
+                "                 clamps negative to 0. Modders: lower = fog starts closer; pair\n"
+                "                 with SunFogFar.",
+            )
+        )
         self.label_13.setText(_translate("MainWindow", "Far Distance:"))
-        self.fogFarSpin.setToolTip(_translate("MainWindow", "Far Distance (GFF: SunFogFar). FLOAT. Distance where fog\n"
-"                 reaches full density. Engine default 10000.0; clamps negative to\n"
-"                 0. Modders: must be > Near for visible fog; larger = fog\n"
-"                 extends farther."))
+        self.fogFarSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Far Distance (GFF: SunFogFar). FLOAT. Distance where fog\n"
+                "                 reaches full density. Engine default 10000.0; clamps negative to\n"
+                "                 0. Modders: must be > Near for visible fog; larger = fog\n"
+                "                 extends farther.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Color:"))
         self.groupBox_6.setTitle(_translate("MainWindow", "Lighting"))
         self.label_16.setText(_translate("MainWindow", "Ambient:"))
@@ -808,93 +955,215 @@ class Ui_MainWindow(object):
         self.label_18.setText(_translate("MainWindow", "Dynamic:"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Weather Effects"))
         self.label_17.setText(_translate("MainWindow", "Wind:"))
-        self.windPowerSelect.setToolTip(_translate("MainWindow", "Wind (GFF: WindPower). INT32. 0=None, 1=Weak, 2=Strong.\n"
-"                   K1 LoadAreaHeader; overridden to 0 if area flags disable\n"
-"                   weather. Modders: affects particle and foliage animation."))
+        self.windPowerSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Wind (GFF: WindPower). INT32. 0=None, 1=Weak, 2=Strong.\n"
+                "                   K1 LoadAreaHeader; overridden to 0 if area flags disable\n"
+                "                   weather. Modders: affects particle and foliage animation.",
+            )
+        )
         self.windPowerSelect.setItemText(0, _translate("MainWindow", "None"))
         self.windPowerSelect.setItemText(1, _translate("MainWindow", "Weak"))
         self.windPowerSelect.setItemText(2, _translate("MainWindow", "Strong"))
-        self.rainCheck.setToolTip(_translate("MainWindow", "Rain (GFF: ChanceRain). K2 only. Enables rain chance.\n"
-"                 Modders: use with ChanceRain for weather probability."))
+        self.rainCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Rain (GFF: ChanceRain). K2 only. Enables rain chance.\n"
+                "                 Modders: use with ChanceRain for weather probability.",
+            )
+        )
         self.rainCheck.setText(_translate("MainWindow", "Rain"))
-        self.snowCheck.setToolTip(_translate("MainWindow", "Snow (GFF: ChanceSnow). K2 only. Enables snow chance."))
+        self.snowCheck.setToolTip(
+            _translate("MainWindow", "Snow (GFF: ChanceSnow). K2 only. Enables snow chance.")
+        )
         self.snowCheck.setText(_translate("MainWindow", "Snow"))
-        self.lightningCheck.setToolTip(_translate("MainWindow", "Lightning (GFF: ChanceLightning). Enables lightning chance.\n"
-"                 K1 LoadAreaHeader overrides to 0 if area flags disable weather."))
+        self.lightningCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Lightning (GFF: ChanceLightning). Enables lightning chance.\n"
+                "                 K1 LoadAreaHeader overrides to 0 if area flags disable weather.",
+            )
+        )
         self.lightningCheck.setText(_translate("MainWindow", "Lightning"))
         self.groupBox_5.setTitle(_translate("MainWindow", "Shadows"))
-        self.shadowsCheck.setToolTip(_translate("MainWindow", "Enabled (GFF: SunShadows). BYTE. Enables dynamic shadows in\n"
-"                 the area. Modders: combine with Opacity for shadow darkness."))
+        self.shadowsCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Enabled (GFF: SunShadows). BYTE. Enables dynamic shadows in\n"
+                "                 the area. Modders: combine with Opacity for shadow darkness.",
+            )
+        )
         self.shadowsCheck.setText(_translate("MainWindow", "Enabled"))
         self.label_15.setText(_translate("MainWindow", "Opacity:"))
-        self.shadowsSpin.setToolTip(_translate("MainWindow", "Opacity (GFF: ShadowOpacity). BYTE. Shadow darkness\n"
-"                   0–255. K1 LoadAreaHeader ReadFieldBYTE. Modders: 0 =\n"
-"                   invisible; 255 = fully opaque; typical 128–255."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Weather"))
+        self.shadowsSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Opacity (GFF: ShadowOpacity). BYTE. Shadow darkness\n"
+                "                   0–255. K1 LoadAreaHeader ReadFieldBYTE. Modders: 0 =\n"
+                "                   invisible; 255 = fully opaque; typical 128–255.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Weather")
+        )
         self.groupBox.setTitle(_translate("MainWindow", "Grass"))
         self.label.setText(_translate("MainWindow", "Texture:"))
-        self.grassTextureEdit.setToolTip(_translate("MainWindow", "Texture (GFF: Grass_TexName). CResRef. Grass texture; engine\n"
-"                 uses \"grass\" if invalid. Max 16 chars. Modders:\n"
-"                 .tpc/.tga ResRef for grass appearance."))
+        self.grassTextureEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Texture (GFF: Grass_TexName). CResRef. Grass texture; engine\n"
+                '                 uses "grass" if invalid. Max 16 chars. Modders:\n'
+                "                 .tpc/.tga ResRef for grass appearance.",
+            )
+        )
         self.label_2.setText(_translate("MainWindow", "Diffuse:"))
         self.grassEmissiveLabel.setText(_translate("MainWindow", "Emissive:"))
         self.label_4.setText(_translate("MainWindow", "Ambient:"))
         self.label_5.setText(_translate("MainWindow", "Density:"))
         self.label_6.setText(_translate("MainWindow", "Size:"))
         self.label_7.setText(_translate("MainWindow", "Probability:"))
-        self.grassDensitySpin.setToolTip(_translate("MainWindow", "Density (GFF: Grass_Density). FLOAT. Grass patch density. K1\n"
-"                 LoadAreaHeader ReadFieldFLOAT default 0.0. Modders: higher = more\n"
-"                 grass; 0 disables grass."))
-        self.grassSizeSpin.setToolTip(_translate("MainWindow", "Size (GFF: Grass_QuadSize). FLOAT. Size of each grass quad.\n"
-"                 Engine default 0.0. Modders: affects grass patch scale; pair with\n"
-"                 Density for coverage."))
-        self.grassProbULSpin.setToolTip(_translate("MainWindow", "UL (GFF: Grass_Prob_UL). Upper-left quadrant grass\n"
-"                   probability. FLOAT 0.0–1.0. Modders: controls placement\n"
-"                   distribution across quadrants."))
-        self.grassProbURSpin.setToolTip(_translate("MainWindow", "UR (GFF: Grass_Prob_UR). Upper-right quadrant\n"
-"                   probability."))
-        self.grassProbLLSpin.setToolTip(_translate("MainWindow", "LL (GFF: Grass_Prob_LL). Lower-left quadrant\n"
-"                   probability."))
-        self.grassProbLRSpin.setToolTip(_translate("MainWindow", "LR (GFF: Grass_Prob_LR). Lower-right quadrant\n"
-"                   probability."))
+        self.grassDensitySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Density (GFF: Grass_Density). FLOAT. Grass patch density. K1\n"
+                "                 LoadAreaHeader ReadFieldFLOAT default 0.0. Modders: higher = more\n"
+                "                 grass; 0 disables grass.",
+            )
+        )
+        self.grassSizeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Size (GFF: Grass_QuadSize). FLOAT. Size of each grass quad.\n"
+                "                 Engine default 0.0. Modders: affects grass patch scale; pair with\n"
+                "                 Density for coverage.",
+            )
+        )
+        self.grassProbULSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "UL (GFF: Grass_Prob_UL). Upper-left quadrant grass\n"
+                "                   probability. FLOAT 0.0–1.0. Modders: controls placement\n"
+                "                   distribution across quadrants.",
+            )
+        )
+        self.grassProbURSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "UR (GFF: Grass_Prob_UR). Upper-right quadrant\n                   probability.",
+            )
+        )
+        self.grassProbLLSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "LL (GFF: Grass_Prob_LL). Lower-left quadrant\n                   probability.",
+            )
+        )
+        self.grassProbLRSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "LR (GFF: Grass_Prob_LR). Lower-right quadrant\n                   probability.",
+            )
+        )
         self.dirtGroup.setTitle(_translate("MainWindow", "Dirt"))
         self.label_8.setText(_translate("MainWindow", "Color:"))
         self.label_9.setText(_translate("MainWindow", "Formula:"))
         self.label_10.setText(_translate("MainWindow", "Function:"))
         self.label_11.setText(_translate("MainWindow", "Size:"))
-        self.dirtFormula1Spin.setToolTip(_translate("MainWindow", "Formula 1 (GFF: DirtyFormulaOne). INT32. K2 only.\n"
-"                   Terrain dirt formula parameter. Modders: experimental; affects\n"
-"                   dirt/snow overlay calculation."))
-        self.dirtFormula2Spin.setToolTip(_translate("MainWindow", "Formula 2 (GFF: DirtyFormulaTwo). INT32. K2 only."))
-        self.dirtFormula3Spin.setToolTip(_translate("MainWindow", "Formula 3 (GFF: DirtyFormulaThre). INT32. K2 only. Note:\n"
-"                   GFF field name typo \"Thre\" in engine."))
-        self.dirtFunction1Spin.setToolTip(_translate("MainWindow", "Function 1 (GFF: DirtyFuncOne). INT32. K2 only. Terrain\n"
-"                   dirt function parameter."))
-        self.dirtFunction2Spin.setToolTip(_translate("MainWindow", "Function 2 (GFF: DirtyFuncTwo). INT32. K2 only."))
-        self.dirtFunction3Spin.setToolTip(_translate("MainWindow", "Function 3 (GFF: DirtyFuncThree). INT32. K2 only."))
-        self.dirtSize1Spin.setToolTip(_translate("MainWindow", "Size 1 (GFF: DirtySizeOne). INT32. K2 only. Terrain dirt\n"
-"                   size parameter."))
-        self.dirtSize2Spin.setToolTip(_translate("MainWindow", "Size 2 (GFF: DirtySizeTwo). INT32. K2 only."))
-        self.dirtSize3Spin.setToolTip(_translate("MainWindow", "Size 3 (GFF: DirtySizeThree). INT32. K2 only."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Terrain"))
+        self.dirtFormula1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Formula 1 (GFF: DirtyFormulaOne). INT32. K2 only.\n"
+                "                   Terrain dirt formula parameter. Modders: experimental; affects\n"
+                "                   dirt/snow overlay calculation.",
+            )
+        )
+        self.dirtFormula2Spin.setToolTip(
+            _translate("MainWindow", "Formula 2 (GFF: DirtyFormulaTwo). INT32. K2 only.")
+        )
+        self.dirtFormula3Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Formula 3 (GFF: DirtyFormulaThre). INT32. K2 only. Note:\n"
+                '                   GFF field name typo "Thre" in engine.',
+            )
+        )
+        self.dirtFunction1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Function 1 (GFF: DirtyFuncOne). INT32. K2 only. Terrain\n"
+                "                   dirt function parameter.",
+            )
+        )
+        self.dirtFunction2Spin.setToolTip(
+            _translate("MainWindow", "Function 2 (GFF: DirtyFuncTwo). INT32. K2 only.")
+        )
+        self.dirtFunction3Spin.setToolTip(
+            _translate("MainWindow", "Function 3 (GFF: DirtyFuncThree). INT32. K2 only.")
+        )
+        self.dirtSize1Spin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Size 1 (GFF: DirtySizeOne). INT32. K2 only. Terrain dirt\n"
+                "                   size parameter.",
+            )
+        )
+        self.dirtSize2Spin.setToolTip(
+            _translate("MainWindow", "Size 2 (GFF: DirtySizeTwo). INT32. K2 only.")
+        )
+        self.dirtSize3Spin.setToolTip(
+            _translate("MainWindow", "Size 3 (GFF: DirtySizeThree). INT32. K2 only.")
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Terrain")
+        )
         self.label_36.setText(_translate("MainWindow", "OnEnter:"))
-        self.onEnterSelect.setToolTip(_translate("MainWindow", "OnEnter (GFF: OnEnter). CResRef. Script fired when creature enters\n"
-"              area. Modders: use for spawn triggers, ambushes, or area-specific logic."))
+        self.onEnterSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnEnter (GFF: OnEnter). CResRef. Script fired when creature enters\n"
+                "              area. Modders: use for spawn triggers, ambushes, or area-specific logic.",
+            )
+        )
         self.label_37.setText(_translate("MainWindow", "OnExit:"))
         self.label_38.setText(_translate("MainWindow", "OnHearbeat:"))
         self.label_39.setText(_translate("MainWindow", "OnUserDefined:"))
-        self.onExitSelect.setToolTip(_translate("MainWindow", "OnExit (GFF: OnExit). CResRef. Script fired when creature leaves\n"
-"              area."))
-        self.onHeartbeatSelect.setToolTip(_translate("MainWindow", "OnHeartbeat (GFF: OnHeartbeat). CResRef. Script fired every 6\n"
-"              seconds while area is loaded. Modders: use for periodic checks, ambient\n"
-"              effects, or respawn logic."))
-        self.onUserDefinedSelect.setToolTip(_translate("MainWindow", "OnUserDefined (GFF: OnUserDefined). CResRef. Script fired on\n"
-"              user-defined events. Modders: triggered via AssignCommand or similar;\n"
-"              use for custom triggers."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Scripts"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comments). CExoString. Developer notes; not used by\n"
-"            engine. Modders: document area purpose, credits, or notes for other modders."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Comments"))
+        self.onExitSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnExit (GFF: OnExit). CResRef. Script fired when creature leaves\n"
+                "              area.",
+            )
+        )
+        self.onHeartbeatSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnHeartbeat (GFF: OnHeartbeat). CResRef. Script fired every 6\n"
+                "              seconds while area is loaded. Modders: use for periodic checks, ambient\n"
+                "              effects, or respawn logic.",
+            )
+        )
+        self.onUserDefinedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnUserDefined (GFF: OnUserDefined). CResRef. Script fired on\n"
+                "              user-defined events. Modders: triggered via AssignCommand or similar;\n"
+                "              use for custom triggers.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Scripts")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comments). CExoString. Developer notes; not used by\n"
+                "            engine. Modders: document area purpose, credits, or notes for other modders.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Comments")
+        )
         self.menuNew.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -902,6 +1171,8 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.color import ColorEdit
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit

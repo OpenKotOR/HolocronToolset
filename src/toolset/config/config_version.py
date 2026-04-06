@@ -2,6 +2,7 @@
 
 Used when matching or displaying Holocron Toolset version from git tags (e.g. v1.2.3-toolset).
 """
+
 from __future__ import annotations
 
 
@@ -10,8 +11,12 @@ def version_to_toolset_tag(
 ) -> str:
     major_minor_patch_count = 2
     if version.count(".") == major_minor_patch_count:
-        second_dot_index: int = version.find(".", version.find(".") + 1)  # Find the index of the second dot
-        version = version[:second_dot_index] + version[second_dot_index + 1 :]  # Remove the second dot by slicing and concatenating
+        second_dot_index: int = version.find(
+            ".", version.find(".") + 1
+        )  # Find the index of the second dot
+        version = (
+            version[:second_dot_index] + version[second_dot_index + 1 :]
+        )  # Remove the second dot by slicing and concatenating
     return f"v{version}-toolset"
 
 

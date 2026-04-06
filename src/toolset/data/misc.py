@@ -25,7 +25,9 @@ class ControlItem:
 
     def satisfied(
         self,
-        buttons: set[Qt.MouseButton] | set[int] | set[Qt.MouseButton | int],  # Do NOT send None here!
+        buttons: set[Qt.MouseButton]
+        | set[int]
+        | set[Qt.MouseButton | int],  # Do NOT send None here!
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
         *,
         exact_keys_and_buttons: bool = False,
@@ -62,7 +64,11 @@ class ControlItem:
 
         if not debug_log:
             return bool(mouse_satisfied and keys_satisfied)
-        needed_mouse: list[str] = [get_qt_button_string(btn) for btn in iter(self.mouse)] if self.mouse is not None else ["None"]
+        needed_mouse: list[str] = (
+            [get_qt_button_string(btn) for btn in iter(self.mouse)]
+            if self.mouse is not None
+            else ["None"]
+        )
         user_pressing_mouse: list[str] = [get_qt_button_string(btn) for btn in iter(buttons)]
         needed_keys: list[str] = [get_qt_key_string(key) for key in iter(self.keys)]
         user_pressing_keys: list[str] = [get_qt_key_string(key) for key in iter(keys)]

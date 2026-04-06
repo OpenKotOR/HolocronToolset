@@ -74,7 +74,9 @@ class Ui_Dialog(object):
         self.mainLayout.addLayout(self.positionLayout)
         self.buttonLayout = QtWidgets.QHBoxLayout()
         self.buttonLayout.setObjectName("buttonLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonLayout.addItem(spacerItem)
         self.okButton = QtWidgets.QPushButton(Dialog)
         self.okButton.setDefault(True)
@@ -86,8 +88,8 @@ class Ui_Dialog(object):
         self.mainLayout.addLayout(self.buttonLayout)
 
         self.retranslateUi(Dialog)
-        self.okButton.clicked.connect(Dialog.accept) # type: ignore
-        self.cancelButton.clicked.connect(Dialog.reject) # type: ignore
+        self.okButton.clicked.connect(Dialog.accept)  # type: ignore
+        self.cancelButton.clicked.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

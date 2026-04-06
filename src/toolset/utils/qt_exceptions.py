@@ -133,14 +133,21 @@ def install_qt_signal_slot_safety_net() -> None:  # noqa: C901
             if any(p.kind is inspect.Parameter.VAR_POSITIONAL for p in sig.parameters.values()):
                 max_positional_args = None
             else:
-                max_positional_args = sum(1 for p in sig.parameters.values() if p.kind in (inspect.Parameter.POSITIONAL_ONLY, inspect.Parameter.POSITIONAL_OR_KEYWORD))
+                max_positional_args = sum(
+                    1
+                    for p in sig.parameters.values()
+                    if p.kind
+                    in (inspect.Parameter.POSITIONAL_ONLY, inspect.Parameter.POSITIONAL_OR_KEYWORD)
+                )
         except Exception:  # noqa: BLE001
             # If we can't introspect the callable, fall back to passing the original args through.
             max_positional_args = None
 
         def wrapped(*args, **kwargs):  # noqa: ANN001
             try:
-                call_args: tuple[Any, ...] = args if max_positional_args is None else args[:max_positional_args]
+                call_args: tuple[Any, ...] = (
+                    args if max_positional_args is None else args[:max_positional_args]
+                )
                 return slot(*call_args, **kwargs)
             except Exception:  # noqa: BLE001
                 # Route to global handler and swallow so Qt can continue running.
@@ -197,7 +204,9 @@ def install_qt_signal_slot_safety_net() -> None:  # noqa: C901
         connect.__toolset_patched__ = True  # type: ignore[attr-defined]
         pyqtBoundSignal.connect = connect  # pyright: ignore[reportAssignmentType]  # type: ignore[assignment]
         pyqtBoundSignal.disconnect = disconnect  # pyright: ignore[reportAssignmentType]  # type: ignore[assignment]
-        RobustLogger().debug("Installed Qt signal safety net for PyQt (pyqtBoundSignal.connect/disconnect)")
+        RobustLogger().debug(
+            "Installed Qt signal safety net for PyQt (pyqtBoundSignal.connect/disconnect)"
+        )
         return
 
     # --- PySide ---
@@ -237,7 +246,9 @@ def install_qt_signal_slot_safety_net() -> None:  # noqa: C901
         connect.__toolset_patched__ = True  # type: ignore[attr-defined]
         SignalInstance.connect = connect  # type: ignore[assignment]
         SignalInstance.disconnect = disconnect  # type: ignore[assignment]
-        RobustLogger().debug("Installed Qt signal safety net for PySide (SignalInstance.connect/disconnect)")
+        RobustLogger().debug(
+            "Installed Qt signal safety net for PySide (SignalInstance.connect/disconnect)"
+        )
         return
 
     RobustLogger().warning("Qt signal safety net: unknown Qt binding; no patch applied")

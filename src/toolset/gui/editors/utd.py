@@ -64,7 +64,9 @@ class UTDEditor(Editor):
         """
         supported: list[ResourceType] = [ResourceType.UTD]
         self.global_settings: GlobalSettings = GlobalSettings()
-        self._genericdoors_2da: TwoDA | None = installation.ht_get_cache_2da("genericdoors") if installation is not None else None
+        self._genericdoors_2da: TwoDA | None = (
+            installation.ht_get_cache_2da("genericdoors") if installation is not None else None
+        )
         self._utd: UTD = UTD()
         self.ui: Ui_MainWindow | None = None
         super().__init__(parent, "Door Editor", "door", supported, supported, installation)
@@ -160,13 +162,18 @@ class UTDEditor(Editor):
         self,
         widget: QPlainTextEdit | QLineEdit | QComboBox,
         resource_types: list[ResourceType],
-        reference_type: Literal['script', 'tag', 'template_resref', 'conversation', 'resref', 'quest'] | None,
+        reference_type: Literal[
+            "script", "tag", "template_resref", "conversation", "resref", "quest"
+        ]
+        | None,
         tooltip_text: str,
         *,
         set_max_length: bool = False,
     ) -> None:
         """Configure context menu reference search behavior for a widget."""
-        assert self._installation is not None, "Installation must be set up before configuring reference fields."
+        assert self._installation is not None, (
+            "Installation must be set up before configuring reference fields."
+        )
         self._installation.setup_file_context_menu(
             widget,
             resource_types,
@@ -207,8 +214,12 @@ class UTDEditor(Editor):
         appearances: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_DOORS)
         factions: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_FACTIONS)
 
-        self.ui.appearanceSelect.set_context(appearances, self._installation, HTInstallation.TwoDA_DOORS)
-        self.ui.factionSelect.set_context(factions, self._installation, HTInstallation.TwoDA_FACTIONS)
+        self.ui.appearanceSelect.set_context(
+            appearances, self._installation, HTInstallation.TwoDA_DOORS
+        )
+        self.ui.factionSelect.set_context(
+            factions, self._installation, HTInstallation.TwoDA_FACTIONS
+        )
 
         if appearances is not None:
             self.ui.appearanceSelect.set_items(appearances.get_column("label"))
@@ -322,11 +333,29 @@ class UTDEditor(Editor):
         for field, value in self._script_value_pairs(utd):
             field.set_combo_box_text(str(value))
 
-        self.relevant_script_resnames: list[str] = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)}))
+        self.relevant_script_resnames: list[str] = sorted(
+            iter(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.NCS, self._filepath
+                    )
+                }
+            )
+        )
         for field in self._script_fields():
             field.populate_combo_box(self.relevant_script_resnames)
         self.ui.conversationEdit.populate_combo_box(
-            sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.DLG, self._filepath)})),
+            sorted(
+                iter(
+                    {
+                        res.resname().lower()
+                        for res in self._installation.get_relevant_resources(
+                            ResourceType.DLG, self._filepath
+                        )
+                    }
+                )
+            ),
         )  # noqa: E501
 
         # Comments
@@ -428,7 +457,11 @@ class UTDEditor(Editor):
         filepath: os.PathLike | None = None
 
         if not resname or not resname.strip():
-            QMessageBox(QMessageBox.Icon.Critical, "Failed to open DLG Editor", "Conversation field cannot be blank.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Critical,
+                "Failed to open DLG Editor",
+                "Conversation field cannot be blank.",
+            ).exec()
             return
 
         search: ResourceResult | None = self._installation.resource(resname, ResourceType.DLG)
@@ -452,7 +485,9 @@ class UTDEditor(Editor):
             resname, filepath, data = search.resname, search.filepath, search.data
 
         if data is not None:
-            open_resource_editor(filepath, resname, ResourceType.DLG, data, self._installation, self)
+            open_resource_editor(
+                filepath, resname, ResourceType.DLG, data, self._installation, self
+            )
 
     def toggle_preview(self):
         self.global_settings.showPreviewUTP = not self.global_settings.showPreviewUTP
@@ -522,7 +557,9 @@ class UTDEditor(Editor):
             return
 
         try:
-            modelname: str = door.get_model(utd, self._installation, genericdoors=self._genericdoors_2da)
+            modelname: str = door.get_model(
+                utd, self._installation, genericdoors=self._genericdoors_2da
+            )
         except (IndexError, ValueError) as e:
             # Fallback: Invalid appearance_id or missing genericdoors.2da - clear the model
             self.ui.previewRenderer.clear_model()
@@ -535,7 +572,9 @@ class UTDEditor(Editor):
                         modelname_col = "[empty]"
                 else:
                     modelname_col = "[column missing]"
-                info_lines.append(f"genericdoors.2da row {utd.appearance_id}: 'modelname' = '{modelname_col}'")
+                info_lines.append(
+                    f"genericdoors.2da row {utd.appearance_id}: 'modelname' = '{modelname_col}'"
+                )
             except (IndexError, KeyError):
                 pass
             self.ui.modelInfoLabel.setText("\n".join(info_lines))
@@ -550,9 +589,17 @@ class UTDEditor(Editor):
             pass
 
         # Use same search order as renderer for consistency
-        model_search_order: list[SearchLocation] = [SearchLocation.OVERRIDE, SearchLocation.MODULES, SearchLocation.CHITIN]
-        mdl: ResourceResult | None = self._installation.resource(modelname, ResourceType.MDL, model_search_order)
-        mdx: ResourceResult | None = self._installation.resource(modelname, ResourceType.MDX, model_search_order)
+        model_search_order: list[SearchLocation] = [
+            SearchLocation.OVERRIDE,
+            SearchLocation.MODULES,
+            SearchLocation.CHITIN,
+        ]
+        mdl: ResourceResult | None = self._installation.resource(
+            modelname, ResourceType.MDL, model_search_order
+        )
+        mdx: ResourceResult | None = self._installation.resource(
+            modelname, ResourceType.MDX, model_search_order
+        )
 
         if mdl is not None and mdx is not None:
             self.ui.previewRenderer.set_model(mdl.data, mdx.data)
@@ -600,7 +647,11 @@ class UTDEditor(Editor):
         if len(info_lines) > 1 and mdl is not None and mdx is not None:
             # Show model name and source in summary
             try:
-                mdl_rel = os.path.relpath(mdl.filepath, self._installation.path()) if self._installation else str(mdl.filepath)
+                mdl_rel = (
+                    os.path.relpath(mdl.filepath, self._installation.path())
+                    if self._installation
+                    else str(mdl.filepath)
+                )
                 summary = f"{modelname} → {mdl_rel}"
             except (ValueError, AttributeError):
                 summary = f"{modelname} → {mdl.filepath}"
@@ -637,7 +688,9 @@ class UTDEditor(Editor):
             RobustLogger().debug("_on_textures_loaded: No texture_lookup_info available yet")
             return
 
-        RobustLogger().debug(f"_on_textures_loaded: Found {len(texture_lookup_info)} textures with lookup info")
+        RobustLogger().debug(
+            f"_on_textures_loaded: Found {len(texture_lookup_info)} textures with lookup info"
+        )
 
         # Get current model info text and update the texture section
         current_text = self.ui.modelInfoLabel.text()
@@ -674,7 +727,9 @@ class UTDEditor(Editor):
                             new_lines.append(f"  {tex_name}: ✓ Loaded")
                     else:
                         search_order = lookup_info.get("search_order", [])
-                        search_str = self._format_search_order(search_order) if search_order else "Unknown"
+                        search_str = (
+                            self._format_search_order(search_order) if search_order else "Unknown"
+                        )
                         new_lines.append(f"  {tex_name}: ❌ Not found")
                         new_lines.append(f"    └─ Searched: {search_str}")
             elif skip_old_texture_section and line.startswith("  "):
@@ -732,6 +787,7 @@ class UTDEditor(Editor):
         except (ValueError, AttributeError):
             pass
         return None
+
 
 if __name__ == "__main__":
     import sys

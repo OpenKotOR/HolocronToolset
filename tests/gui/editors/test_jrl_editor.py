@@ -17,7 +17,15 @@ import pytest
 from qtpy.QtCore import Qt, QPoint
 from qtpy.QtGui import QStandardItem, QGuiApplication
 from qtpy.QtTest import QTest
-from qtpy.QtWidgets import QApplication, QMenu, QComboBox, QDoubleSpinBox, QSpinBox, QTreeView, QLineEdit
+from qtpy.QtWidgets import (
+    QApplication,
+    QMenu,
+    QComboBox,
+    QDoubleSpinBox,
+    QSpinBox,
+    QTreeView,
+    QLineEdit,
+)
 from toolset.gui.editors.jrl import JRLEditor
 from toolset.data.installation import HTInstallation
 from pykotor.resource.generics.jrl import JRLQuest, JRLEntry, JRLQuestPriority, JRL, read_jrl
@@ -63,7 +71,9 @@ if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
         add_sys_path(toolset_path.parent)
 
 K1_PATH = os.environ.get("K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor")
-K2_PATH = os.environ.get("K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II")
+K2_PATH = os.environ.get(
+    "K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II"
+)
 
 from pykotor.common.stream import BinaryReader  # pyright: ignore[reportMissingImports]
 from pykotor.extract.installation import Installation  # pyright: ignore[reportMissingImports]
@@ -210,7 +220,9 @@ def set_spin_value(qtbot: QtBot, spin_box: QSpinBox | QDoubleSpinBox, value: flo
 # ============================================================================
 
 
-def test_jrl_editor_manipulate_quest_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_quest_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating quest tag field using real user interactions."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -254,7 +266,9 @@ def test_jrl_editor_manipulate_quest_tag(qtbot: QtBot, installation: HTInstallat
     QApplication.processEvents()
 
     # Verify UI updated after selection (checking control states)
-    assert editor.ui.questPages.currentIndex() == 0, "Should be on category page after quest selection"
+    assert editor.ui.questPages.currentIndex() == 0, (
+        "Should be on category page after quest selection"
+    )
     assert editor.ui.categoryTag.text() == "original_tag", "Tag field should show original tag"
     assert editor.ui.categoryTag.isEnabled(), "Tag field should be enabled when quest selected"
     assert editor.ui.categoryPlotSelect.isEnabled(), "Plot select should be enabled"
@@ -266,7 +280,9 @@ def test_jrl_editor_manipulate_quest_tag(qtbot: QtBot, installation: HTInstallat
 
     # Verify UI control state after typing
     assert editor.ui.categoryTag.text() == "modified_tag", "Tag field should show modified tag"
-    assert editor.ui.categoryTag.hasFocus() or not editor.ui.categoryTag.hasFocus(), "Focus state may vary"
+    assert editor.ui.categoryTag.hasFocus() or not editor.ui.categoryTag.hasFocus(), (
+        "Focus state may vary"
+    )
 
     # Save and verify
     data, _ = editor.build()
@@ -287,14 +303,18 @@ def test_jrl_editor_manipulate_quest_tag(qtbot: QtBot, installation: HTInstallat
     QApplication.processEvents()
 
     # Verify all UI controls show correct state after reload
-    assert editor.ui.categoryTag.text() == "modified_tag", "Tag field should show modified tag after reload"
+    assert editor.ui.categoryTag.text() == "modified_tag", (
+        "Tag field should show modified tag after reload"
+    )
     assert editor.ui.questPages.currentIndex() == 0, "Should be on category page"
     assert editor.ui.categoryTag.isEnabled(), "Tag field should be enabled"
     assert editor.ui.categoryPlotSelect.isEnabled(), "Plot select should be enabled"
     assert editor.ui.categoryPlanetSelect.isEnabled(), "Planet select should be enabled"
 
 
-def test_jrl_editor_manipulate_quest_plot_index(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_quest_plot_index(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating quest plot index using real user interactions."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -339,7 +359,9 @@ def test_jrl_editor_manipulate_quest_plot_index(qtbot: QtBot, installation: HTIn
             QApplication.processEvents()
 
             # Verify UI control state
-            assert editor.ui.categoryPlotSelect.currentIndex() == idx, f"Plot select should be at index {idx}"
+            assert editor.ui.categoryPlotSelect.currentIndex() == idx, (
+                f"Plot select should be at index {idx}"
+            )
             assert editor.ui.categoryPlotSelect.isEnabled(), "Plot select should remain enabled"
             assert editor.ui.questPages.currentIndex() == 0, "Should stay on category page"
 
@@ -350,10 +372,14 @@ def test_jrl_editor_manipulate_quest_plot_index(qtbot: QtBot, installation: HTIn
             assert modified_jrl.quests[-1].plot_index == idx, f"Quest plot index should be {idx}"
 
             # Verify UI still shows correct state
-            assert editor.ui.categoryPlotSelect.currentIndex() == idx, "UI should still show selected index"
+            assert editor.ui.categoryPlotSelect.currentIndex() == idx, (
+                "UI should still show selected index"
+            )
 
 
-def test_jrl_editor_manipulate_quest_planet_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_quest_planet_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating quest planet ID using real user interactions."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -387,13 +413,20 @@ def test_jrl_editor_manipulate_quest_planet_id(qtbot: QtBot, installation: HTIns
     # Verify UI state
     assert editor.ui.questPages.currentIndex() == 0, "Should be on category page"
     assert editor.ui.categoryPlanetSelect.isEnabled(), "Planet select should be enabled"
-    assert editor.ui.categoryPlanetSelect.currentIndex() >= 0, "Planet select should have valid index"
+    assert editor.ui.categoryPlanetSelect.currentIndex() >= 0, (
+        "Planet select should have valid index"
+    )
 
     # Test various planet IDs using real user interactions
     # For ComboBox2DA: currentIndex() returns 2DA row index, and planet_id = currentIndex() - 1
     # So 2DA row index = planet_id + 1
     # Note: planet_id = -1 maps to row_index = 0, but JRL format defaults PlanetID to 0, so -1 may not be properly supported
-    test_planet_ids: list[int] = [0, 1, 2, 3]  # Skip -1 as it may not be properly supported by the format
+    test_planet_ids: list[int] = [
+        0,
+        1,
+        2,
+        3,
+    ]  # Skip -1 as it may not be properly supported by the format
     for planet_id in test_planet_ids:
         # Calculate 2DA row index (which is what ComboBox2DA uses)
         row_index = planet_id + 1
@@ -409,7 +442,9 @@ def test_jrl_editor_manipulate_quest_planet_id(qtbot: QtBot, installation: HTIns
             QApplication.processEvents()
 
             # Verify UI control state - ComboBox2DA.currentIndex() returns 2DA row index
-            assert editor.ui.categoryPlanetSelect.currentIndex() == row_index, f"Planet select should be at 2DA row index {row_index}"
+            assert editor.ui.categoryPlanetSelect.currentIndex() == row_index, (
+                f"Planet select should be at 2DA row index {row_index}"
+            )
             assert editor.ui.categoryPlanetSelect.isEnabled(), "Planet select should remain enabled"
             assert editor.ui.questPages.currentIndex() == 0, "Should stay on category page"
 
@@ -417,10 +452,14 @@ def test_jrl_editor_manipulate_quest_planet_id(qtbot: QtBot, installation: HTIns
             data, _ = editor.build()
             modified_jrl = read_jrl(data)
             assert len(modified_jrl.quests) > 0, "Should have quests"
-            assert modified_jrl.quests[-1].planet_id == planet_id, f"Quest planet ID should be {planet_id}"
+            assert modified_jrl.quests[-1].planet_id == planet_id, (
+                f"Quest planet ID should be {planet_id}"
+            )
 
             # Verify UI still shows correct state
-            assert editor.ui.categoryPlanetSelect.currentIndex() == row_index, "UI should still show selected 2DA row index"
+            assert editor.ui.categoryPlanetSelect.currentIndex() == row_index, (
+                "UI should still show selected 2DA row index"
+            )
 
 
 def test_jrl_editor_manipulate_quest_priority(
@@ -461,7 +500,9 @@ def test_jrl_editor_manipulate_quest_priority(
     # Verify UI state
     assert editor.ui.questPages.currentIndex() == 0, "Should be on category page"
     assert editor.ui.categoryPrioritySelect.isEnabled(), "Priority select should be enabled"
-    assert editor.ui.categoryPrioritySelect.currentIndex() >= 0, "Priority select should have valid index"
+    assert editor.ui.categoryPrioritySelect.currentIndex() >= 0, (
+        "Priority select should have valid index"
+    )
 
     # Test all priority levels using real user interactions
     for priority in JRLQuestPriority:
@@ -470,7 +511,9 @@ def test_jrl_editor_manipulate_quest_priority(
         QApplication.processEvents()
 
         # Verify UI control state
-        assert editor.ui.categoryPrioritySelect.currentIndex() == priority.value, f"Priority select should be at {priority.value}"
+        assert editor.ui.categoryPrioritySelect.currentIndex() == priority.value, (
+            f"Priority select should be at {priority.value}"
+        )
         assert editor.ui.categoryPrioritySelect.isEnabled(), "Priority select should remain enabled"
         assert editor.ui.questPages.currentIndex() == 0, "Should stay on category page"
 
@@ -481,7 +524,9 @@ def test_jrl_editor_manipulate_quest_priority(
         assert modified_jrl.quests[-1].priority == priority, f"Quest priority should be {priority}"
 
         # Verify UI still shows correct state
-        assert editor.ui.categoryPrioritySelect.currentIndex() == priority.value, "UI should still show selected priority"
+        assert editor.ui.categoryPrioritySelect.currentIndex() == priority.value, (
+            "UI should still show selected priority"
+        )
 
 
 def test_jrl_editor_manipulate_quest_comment(
@@ -504,7 +549,9 @@ def test_jrl_editor_manipulate_quest_comment(
 
     # Verify UI controls exist
     assert editor.ui.categoryCommentEdit is not None, "Comment edit should exist"
-    assert editor.ui.categoryCommentEdit.isEnabled() or not editor.ui.categoryCommentEdit.isEnabled(), "Comment edit enabled state"
+    assert (
+        editor.ui.categoryCommentEdit.isEnabled() or not editor.ui.categoryCommentEdit.isEnabled()
+    ), "Comment edit enabled state"
 
     quest = JRLQuest()
     quest.name = LocalizedString.from_english("Comment Test")
@@ -523,7 +570,9 @@ def test_jrl_editor_manipulate_quest_comment(
     # Verify UI state
     assert editor.ui.questPages.currentIndex() == 0, "Should be on category page"
     assert editor.ui.categoryCommentEdit.isEnabled(), "Comment edit should be enabled"
-    assert editor.ui.categoryCommentEdit.toPlainText() == "Original comment", "Comment should show original text"
+    assert editor.ui.categoryCommentEdit.toPlainText() == "Original comment", (
+        "Comment should show original text"
+    )
 
     # Modify comment using keyboard (real user interaction)
     test_comments = ["Modified comment", "Multi\nline\ncomment", "", "Special chars !@#$%"]
@@ -531,7 +580,11 @@ def test_jrl_editor_manipulate_quest_comment(
         # Type comment using keyboard
         editor.ui.categoryCommentEdit.setFocus()
         QApplication.processEvents()
-        qtbot.keyClick(editor.ui.categoryCommentEdit, Qt.Key.Key_A, modifier=Qt.KeyboardModifier.ControlModifier)
+        qtbot.keyClick(
+            editor.ui.categoryCommentEdit,
+            Qt.Key.Key_A,
+            modifier=Qt.KeyboardModifier.ControlModifier,
+        )
         QApplication.processEvents()
         qtbot.keyClick(editor.ui.categoryCommentEdit, Qt.Key.Key_Delete)
         QApplication.processEvents()
@@ -539,7 +592,9 @@ def test_jrl_editor_manipulate_quest_comment(
         QApplication.processEvents()
 
         # Verify UI control state
-        assert editor.ui.categoryCommentEdit.toPlainText() == comment, f"Comment should show '{comment}'"
+        assert editor.ui.categoryCommentEdit.toPlainText() == comment, (
+            f"Comment should show '{comment}'"
+        )
         assert editor.ui.categoryCommentEdit.isEnabled(), "Comment edit should remain enabled"
         assert editor.ui.questPages.currentIndex() == 0, "Should stay on category page"
 
@@ -550,7 +605,9 @@ def test_jrl_editor_manipulate_quest_comment(
         assert modified_jrl.quests[-1].comment == comment, f"Quest comment should be '{comment}'"
 
         # Verify UI still shows correct state
-        assert editor.ui.categoryCommentEdit.toPlainText() == comment, "UI should still show typed comment"
+        assert editor.ui.categoryCommentEdit.toPlainText() == comment, (
+            "UI should still show typed comment"
+        )
 
 
 # ============================================================================
@@ -558,7 +615,9 @@ def test_jrl_editor_manipulate_quest_comment(
 # ============================================================================
 
 
-def test_jrl_editor_manipulate_entry_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_entry_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating entry ID using real user interactions."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -574,7 +633,9 @@ def test_jrl_editor_manipulate_entry_id(qtbot: QtBot, installation: HTInstallati
 
     # Verify UI controls exist
     assert editor.ui.entryIdSpin is not None, "Entry ID spin should exist"
-    assert editor.ui.entryIdSpin.isEnabled() or not editor.ui.entryIdSpin.isEnabled(), "Entry ID spin enabled state"
+    assert editor.ui.entryIdSpin.isEnabled() or not editor.ui.entryIdSpin.isEnabled(), (
+        "Entry ID spin enabled state"
+    )
 
     quest = JRLQuest()
     quest.name = LocalizedString.from_english("Entry Test Quest")
@@ -627,14 +688,18 @@ def test_jrl_editor_manipulate_entry_id(qtbot: QtBot, installation: HTInstallati
         modified_jrl = read_jrl(data)
         assert len(modified_jrl.quests) > 0, "Should have quests"
         assert len(modified_jrl.quests[-1].entries) > 0, "Should have entries"
-        assert modified_jrl.quests[-1].entries[-1].entry_id == entry_id, f"Entry ID should be {entry_id}"
+        assert modified_jrl.quests[-1].entries[-1].entry_id == entry_id, (
+            f"Entry ID should be {entry_id}"
+        )
         assert f"[{entry_id}]" in entry_item.text(), f"Entry item text should contain [{entry_id}]"
 
         # Verify UI still shows correct state
         assert editor.ui.entryIdSpin.value() == entry_id, "UI should still show entered ID"
 
 
-def test_jrl_editor_manipulate_entry_xp_percentage(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_entry_xp_percentage(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating entry XP percentage using real user interactions."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -650,7 +715,9 @@ def test_jrl_editor_manipulate_entry_xp_percentage(qtbot: QtBot, installation: H
 
     # Verify UI controls exist
     assert editor.ui.entryXpSpin is not None, "Entry XP spin should exist"
-    assert editor.ui.entryXpSpin.isEnabled() or not editor.ui.entryXpSpin.isEnabled(), "Entry XP spin enabled state"
+    assert editor.ui.entryXpSpin.isEnabled() or not editor.ui.entryXpSpin.isEnabled(), (
+        "Entry XP spin enabled state"
+    )
 
     quest = JRLQuest()
     quest.name = LocalizedString.from_english("XP Test Quest")
@@ -703,13 +770,19 @@ def test_jrl_editor_manipulate_entry_xp_percentage(qtbot: QtBot, installation: H
         modified_jrl = read_jrl(data)
         assert len(modified_jrl.quests) > 0, "Should have quests"
         assert len(modified_jrl.quests[-1].entries) > 0, "Should have entries"
-        assert abs(modified_jrl.quests[-1].entries[-1].xp_percentage - xp) < 0.001, f"Entry XP should be {xp}"
+        assert abs(modified_jrl.quests[-1].entries[-1].xp_percentage - xp) < 0.001, (
+            f"Entry XP should be {xp}"
+        )
 
         # Verify UI still shows correct state
-        assert abs(editor.ui.entryXpSpin.value() - xp) < 0.001, "UI should still show entered XP value"
+        assert abs(editor.ui.entryXpSpin.value() - xp) < 0.001, (
+            "UI should still show entered XP value"
+        )
 
 
-def test_jrl_editor_manipulate_entry_end_flag(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_entry_end_flag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating entry end flag using real user interactions."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -725,7 +798,9 @@ def test_jrl_editor_manipulate_entry_end_flag(qtbot: QtBot, installation: HTInst
 
     # Verify UI controls exist
     assert editor.ui.entryEndCheck is not None, "Entry end check should exist"
-    assert editor.ui.entryEndCheck.isEnabled() or not editor.ui.entryEndCheck.isEnabled(), "Entry end check enabled state"
+    assert editor.ui.entryEndCheck.isEnabled() or not editor.ui.entryEndCheck.isEnabled(), (
+        "Entry end check enabled state"
+    )
 
     quest = JRLQuest()
     quest.name = LocalizedString.from_english("End Flag Test")
@@ -758,7 +833,9 @@ def test_jrl_editor_manipulate_entry_end_flag(qtbot: QtBot, installation: HTInst
     # Verify UI state
     assert editor.ui.questPages.currentIndex() == 1, "Should be on entry page"
     assert editor.ui.entryEndCheck.isEnabled(), "Entry end check should be enabled"
-    assert editor.ui.entryEndCheck.isChecked() is False, "Entry end check should be unchecked initially"
+    assert editor.ui.entryEndCheck.isChecked() is False, (
+        "Entry end check should be unchecked initially"
+    )
     assert editor.ui.entryIdSpin.isEnabled(), "Entry ID spin should be enabled"
     assert editor.ui.entryXpSpin.isEnabled(), "Entry XP spin should be enabled"
 
@@ -767,7 +844,9 @@ def test_jrl_editor_manipulate_entry_end_flag(qtbot: QtBot, installation: HTInst
     QApplication.processEvents()
 
     # Verify UI control state after clicking
-    assert editor.ui.entryEndCheck.isChecked() is True, "Entry end check should be checked after click"
+    assert editor.ui.entryEndCheck.isChecked() is True, (
+        "Entry end check should be checked after click"
+    )
     assert editor.ui.entryEndCheck.isEnabled(), "Entry end check should remain enabled"
     assert editor.ui.questPages.currentIndex() == 1, "Should stay on entry page"
 
@@ -783,7 +862,9 @@ def test_jrl_editor_manipulate_entry_end_flag(qtbot: QtBot, installation: HTInst
     QApplication.processEvents()
 
     # Verify UI control state
-    assert editor.ui.entryEndCheck.isChecked() is False, "Entry end check should be unchecked after second click"
+    assert editor.ui.entryEndCheck.isChecked() is False, (
+        "Entry end check should be unchecked after second click"
+    )
     assert editor.ui.entryEndCheck.isEnabled(), "Entry end check should remain enabled"
 
     data, _ = editor.build()
@@ -1004,7 +1085,9 @@ def test_jrl_editor_remove_multiple_entries(qtbot: QtBot, installation: HTInstal
 # ============================================================================
 
 
-def test_jrl_editor_change_quest_name_via_dialog(qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch):
+def test_jrl_editor_change_quest_name_via_dialog(
+    qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch
+):
     """Test changing quest name via localized string dialog."""
     from toolset.gui.editors import jrl as jrl_module
 
@@ -1037,7 +1120,9 @@ def test_jrl_editor_change_quest_name_via_dialog(qtbot: QtBot, installation: HTI
     assert "Renamed Quest" in quest_item.text() or "[Unnamed]" not in quest_item.text()
 
 
-def test_jrl_editor_change_entry_text_via_dialog(qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch):
+def test_jrl_editor_change_entry_text_via_dialog(
+    qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch
+):
     """Test changing entry text via localized string dialog."""
     from toolset.gui.editors import jrl as jrl_module
 
@@ -1502,7 +1587,9 @@ def test_jrl_editor_delete_shortcut_entry(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_jrl_editor_manipulate_all_quest_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_all_quest_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating all quest fields simultaneously."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1548,7 +1635,9 @@ def test_jrl_editor_manipulate_all_quest_fields_combination(qtbot: QtBot, instal
     assert quest_data.comment == "Combined test comment"
 
 
-def test_jrl_editor_manipulate_all_entry_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_manipulate_all_entry_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test manipulating all entry fields simultaneously."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1593,7 +1682,9 @@ def test_jrl_editor_manipulate_all_entry_fields_combination(qtbot: QtBot, instal
     assert "[99]" in entry_item.text()
 
 
-def test_jrl_editor_complex_workflow(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_complex_workflow(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test a complex workflow with multiple operations."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1665,7 +1756,9 @@ def test_jrl_editor_complex_workflow(qtbot: QtBot, installation: HTInstallation,
 # ============================================================================
 
 
-def test_jrl_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1698,7 +1791,9 @@ def test_jrl_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
         assert len(saved_quest.entries) == len(orig_quest.entries)
 
 
-def test_jrl_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_save_load_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1766,7 +1861,9 @@ def test_jrl_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, install
     assert saved_jrl2.quests[-1].entries[-1].entry_id == saved_jrl1.quests[-1].entries[-1].entry_id
 
 
-def test_jrl_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1955,7 +2052,9 @@ def test_jrl_editor_multiple_entries_same_id(qtbot: QtBot, installation: HTInsta
 # ============================================================================
 
 
-def test_jrl_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_gff_roundtrip_comparison(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test GFF roundtrip comparison like resource tests."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1981,7 +2080,9 @@ def test_jrl_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInsta
         assert len(orig_categories) == len(new_categories)
 
 
-def test_jrl_editor_gff_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_gff_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2101,7 +2202,9 @@ def test_jrl_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-JRL.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-JRL.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present
     assert len(html) > 100, "Help dialog should contain content"
@@ -2116,7 +2219,9 @@ def test_jrl_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
 # ============================================================================
 
 
-def test_jrl_editor_comprehensive_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_comprehensive_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Comprehensive test that validates ALL fields are preserved through editor roundtrip."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2292,7 +2397,9 @@ def test_jrl_editor_repeated_priority_changes(qtbot: QtBot, installation: HTInst
 # ============================================================================
 
 
-def test_jrl_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_headless_ui_load_build(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test JRL Editor in headless UI - loads real file and builds data."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2626,7 +2733,10 @@ def test_jrl_editor_unicode_characters(qtbot: QtBot, installation: HTInstallatio
     data, _ = editor.build()
     saved_jrl = read_jrl(data)
     assert saved_jrl.quests[0].name.get(Language.ENGLISH, Gender.MALE) == "Unicode Test: 测试 🎮"
-    assert saved_jrl.quests[0].entries[0].text.get(Language.ENGLISH, Gender.MALE) == "Entry: エントリ 🎯"
+    assert (
+        saved_jrl.quests[0].entries[0].text.get(Language.ENGLISH, Gender.MALE)
+        == "Entry: エントリ 🎯"
+    )
 
 
 # ============================================================================
@@ -2793,7 +2903,12 @@ def test_jrl_editor_load_from_installation(qtbot: QtBot, installation: HTInstall
         pytest.skip(f"Could not load JRL data for {jrl_resource.resname}")
 
     # Load from installation
-    editor.load(jrl_resource.filepath if hasattr(jrl_resource, "filepath") else pathlib.Path("global.jrl"), jrl_resource.resname, ResourceType.JRL, jrl_data.data)
+    editor.load(
+        jrl_resource.filepath if hasattr(jrl_resource, "filepath") else pathlib.Path("global.jrl"),
+        jrl_resource.resname,
+        ResourceType.JRL,
+        jrl_data.data,
+    )
 
     # Verify loaded
     assert editor._model.rowCount() >= 0
@@ -2878,7 +2993,9 @@ def test_jrl_editor_refresh_entry_item(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_jrl_editor_complete_workflow(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_jrl_editor_complete_workflow(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test complete workflow: load, modify, save, reload, verify."""
     editor = JRLEditor(None, installation)
     qtbot.addWidget(editor)

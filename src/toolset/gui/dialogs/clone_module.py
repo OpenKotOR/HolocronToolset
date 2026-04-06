@@ -138,8 +138,12 @@ class CloneModuleDialog(QDialog):
             QMessageBox(
                 QMessageBox.Icon.Information,
                 tr("This may take a while"),
-                tr("You have selected to create copies of the texture. This process may add a few extra minutes to the waiting time."),
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                tr(
+                    "You have selected to create copies of the texture. This process may add a few extra minutes to the waiting time."
+                ),
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             ).exec()
 
         if not AsyncLoader(self, "Creating module", task, "Failed to create module").exec():

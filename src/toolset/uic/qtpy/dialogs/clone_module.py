@@ -68,7 +68,9 @@ class Ui_Dialog(object):
         self.prefixEdit.setMaxLength(3)
         self.prefixEdit.setObjectName("prefixEdit")
         self.verticalLayout_4.addWidget(self.prefixEdit)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_4.addItem(spacerItem)
         self.gridLayout.addLayout(self.verticalLayout_4, 3, 1, 1, 1)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
@@ -93,7 +95,9 @@ class Ui_Dialog(object):
         self.verticalLayout_6.addLayout(self.gridLayout)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem1)
         self.createButton = QtWidgets.QPushButton(Dialog)
         self.createButton.setObjectName("createButton")

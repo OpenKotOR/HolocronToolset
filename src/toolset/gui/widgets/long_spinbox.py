@@ -84,7 +84,10 @@ class LongSpinBox(QAbstractSpinBox):  # pyright: ignore[reportGeneralTypeIssues]
 
     def stepEnabled(self):
         if hasattr(QAbstractSpinBox, "StepEnabledFlag"):
-            return QAbstractSpinBox.StepEnabledFlag.StepUpEnabled | QAbstractSpinBox.StepEnabledFlag.StepDownEnabled
+            return (
+                QAbstractSpinBox.StepEnabledFlag.StepUpEnabled
+                | QAbstractSpinBox.StepEnabledFlag.StepDownEnabled
+            )
         if qtpy.API_NAME == "PyQt5":
             return self.StepUpEnabled | self.StepDownEnabled
         return QAbstractSpinBox.StepUpEnabled | QAbstractSpinBox.StepDownEnabled

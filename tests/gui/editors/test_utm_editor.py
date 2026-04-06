@@ -28,7 +28,9 @@ if TYPE_CHECKING:
 # ============================================================================
 
 
-def test_utm_editor_manipulate_name_locstring(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_name_locstring(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating name LocalizedString field."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -49,14 +51,21 @@ def test_utm_editor_manipulate_name_locstring(qtbot: QtBot, installation: HTInst
     data, _ = editor.build()
     modified_utm = read_utm(data)
     assert modified_utm.name.get(Language.ENGLISH, Gender.MALE) == "Modified Merchant Name"
-    assert modified_utm.name.get(Language.ENGLISH, Gender.MALE) != original_utm.name.get(Language.ENGLISH, Gender.MALE)
+    assert modified_utm.name.get(Language.ENGLISH, Gender.MALE) != original_utm.name.get(
+        Language.ENGLISH, Gender.MALE
+    )
 
     # Load back and verify
     editor.load(utm_file, "m_chano", ResourceType.UTM, data)
-    assert editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Merchant Name"
+    assert (
+        editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE)
+        == "Modified Merchant Name"
+    )
 
 
-def test_utm_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating tag field."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -83,7 +92,9 @@ def test_utm_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation, t
     assert editor.ui.tagEdit.text() == "modified_tag"
 
 
-def test_utm_editor_manipulate_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating resref field."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -108,7 +119,9 @@ def test_utm_editor_manipulate_resref(qtbot: QtBot, installation: HTInstallation
     assert editor.ui.resrefEdit.text() == "modified_resref"
 
 
-def test_utm_editor_manipulate_id_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_id_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating ID spin box."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -135,7 +148,9 @@ def test_utm_editor_manipulate_id_spin(qtbot: QtBot, installation: HTInstallatio
         assert editor.ui.idSpin.value() == val
 
 
-def test_utm_editor_manipulate_markup_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_markup_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating markup spin boxes."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -163,7 +178,9 @@ def test_utm_editor_manipulate_markup_spins(qtbot: QtBot, installation: HTInstal
         assert modified_utm.mark_down == val
 
 
-def test_utm_editor_manipulate_on_open_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_on_open_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on open script field."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -188,7 +205,9 @@ def test_utm_editor_manipulate_on_open_script(qtbot: QtBot, installation: HTInst
     assert editor.ui.onOpenEdit.text() == "test_on_open"
 
 
-def test_utm_editor_manipulate_store_flag_select(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_store_flag_select(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating store flag combo box."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -229,7 +248,9 @@ def test_utm_editor_manipulate_store_flag_select(qtbot: QtBot, installation: HTI
 # ============================================================================
 
 
-def test_utm_editor_manipulate_comments(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_comments(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating comments field."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -268,7 +289,9 @@ def test_utm_editor_manipulate_comments(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_utm_editor_manipulate_all_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_manipulate_all_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all fields simultaneously."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -313,7 +336,9 @@ def test_utm_editor_manipulate_all_fields_combination(qtbot: QtBot, installation
 # ============================================================================
 
 
-def test_utm_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -346,7 +371,9 @@ def test_utm_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     assert editor.ui.resrefEdit.text() == str(original_utm.resref)
 
 
-def test_utm_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_save_load_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -396,7 +423,9 @@ def test_utm_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, install
     assert saved_utm2.comment == saved_utm1.comment
 
 
-def test_utm_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -435,7 +464,9 @@ def test_utm_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInst
 # ============================================================================
 
 
-def test_utm_editor_minimum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_minimum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all fields to minimum values."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -467,7 +498,9 @@ def test_utm_editor_minimum_values(qtbot: QtBot, installation: HTInstallation, t
     assert str(modified_utm.on_open) == ""
 
 
-def test_utm_editor_maximum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_maximum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all fields to maximum values."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -524,7 +557,9 @@ def test_utm_editor_empty_strings(qtbot: QtBot, installation: HTInstallation, te
     assert modified_utm.comment == ""
 
 
-def test_utm_editor_special_characters_in_text_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_special_characters_in_text_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in text fields."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -556,7 +591,9 @@ def test_utm_editor_special_characters_in_text_fields(qtbot: QtBot, installation
 # ============================================================================
 
 
-def test_utm_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_gff_roundtrip_comparison(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip comparison like resource tests.
 
     Note: This test compares UTM objects functionally rather than raw GFF structures,
@@ -599,7 +636,9 @@ def test_utm_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInsta
         assert new_item.droppable == orig_item.droppable
 
 
-def test_utm_editor_gff_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_gff_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -692,7 +731,9 @@ def test_utm_editor_new_file_all_defaults(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_utm_editor_generate_tag_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_generate_tag_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test tag generation button functionality."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -714,7 +755,9 @@ def test_utm_editor_generate_tag_button(qtbot: QtBot, installation: HTInstallati
     assert generated_tag
 
 
-def test_utm_editor_generate_resref_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_generate_resref_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test resref generation button functionality."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -736,7 +779,9 @@ def test_utm_editor_generate_resref_button(qtbot: QtBot, installation: HTInstall
     assert generated_resref
 
 
-def test_utm_editor_inventory_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utm_editor_inventory_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test inventory button exists and is connected."""
     editor = UTMEditor(None, installation)
     qtbot.addWidget(editor)
@@ -757,7 +802,9 @@ def test_utm_editor_inventory_button(qtbot: QtBot, installation: HTInstallation,
 # ============================================================================
 
 
-def test_utmeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_utmeditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that UTMEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -779,7 +826,9 @@ def test_utmeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-UTM.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-UTM.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"

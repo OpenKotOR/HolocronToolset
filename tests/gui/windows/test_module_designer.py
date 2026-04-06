@@ -34,6 +34,7 @@ if TYPE_CHECKING:
 
 mesh_mod = importlib.import_module("pykotor.gl.models.mesh")
 if not hasattr(mesh_mod, "Mesh"):
+
     class _TestMeshShim:  # pragma: no cover - import compatibility shim
         pass
 
@@ -97,7 +98,9 @@ def _stub_room(name: str) -> SimpleNamespace:
 
 
 class _DummyMainRenderer:
-    def set_vis_overlay_data(self, room_positions: dict[int, Vector3], vis_matrix: dict[int, set[int]]) -> None:
+    def set_vis_overlay_data(
+        self, room_positions: dict[int, Vector3], vis_matrix: dict[int, set[int]]
+    ) -> None:
         pass
 
 
@@ -190,6 +193,7 @@ def test_vis_matrix_hover_highlights_row_and_column(qtbot):
     matrix = designer.ui.visMatrix
     # Use a base color dark enough that lighter(112/118/128) is visibly different (offscreen often gives #fff)
     from PyQt6.QtGui import QColor
+
     base = QColor(0xE0, 0xE0, 0xE0)
     pal = matrix.palette()
     pal.setColor(pal.ColorRole.Base, base)
@@ -213,8 +217,12 @@ def test_vis_matrix_hover_highlights_row_and_column(qtbot):
     assert top_level_item_1 is not None, "top_level_item_1 is None"
     row1_col3 = top_level_item_1.background(3).color().name()
     assert row1_col3 is not None, "row1_col3 is None"
-    assert row0_col1 != base_color, f"row0_col1 is not different from base_color: {row0_col1} != {base_color}"
-    assert row1_col3 != base_color, f"row1_col3 is not different from base_color: {row1_col3} != {base_color}"
+    assert row0_col1 != base_color, (
+        f"row0_col1 is not different from base_color: {row0_col1} != {base_color}"
+    )
+    assert row1_col3 != base_color, (
+        f"row1_col3 is not different from base_color: {row1_col3} != {base_color}"
+    )
 
 
 @pytest.mark.slow
@@ -281,9 +289,13 @@ def test_module_designer_free_cam_forward_movement(
     distance_moved = math.sqrt(dx * dx + dy * dy + dz * dz)
 
     if renderer_type == "pyopengl" and distance_moved <= 0.5:
-        pytest.xfail(f"[{renderer_type}] Free-cam forward movement did not exceed threshold (moved {distance_moved:.3f} units)")
+        pytest.xfail(
+            f"[{renderer_type}] Free-cam forward movement did not exceed threshold (moved {distance_moved:.3f} units)"
+        )
 
-    assert distance_moved > 0.5, f"Expected camera to move forward in free-cam when holding W, but it only moved {distance_moved:.3f} units"
+    assert distance_moved > 0.5, (
+        f"Expected camera to move forward in free-cam when holding W, but it only moved {distance_moved:.3f} units"
+    )
 
 
 MODULE_PARAM = pytest.mark.parametrize("module_name", PREFERRED_MODULES, indirect=True)
@@ -323,7 +335,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     if "module_name" not in metafunc.fixturenames or "module_designer" not in metafunc.fixturenames:
         return
     markers = getattr(metafunc.function, "pytestmark", [])
-    if not any(getattr(m, "name", None) == "parametrize_modules_from_installation" for m in markers):
+    if not any(
+        getattr(m, "name", None) == "parametrize_modules_from_installation" for m in markers
+    ):
         return
     available = _get_available_module_names_at_collection()
     metafunc.parametrize("module_name", available, indirect=True)
@@ -432,12 +446,16 @@ def module_name(request: pytest.FixtureRequest, available_module_names: list[str
     if name is None:
         return available_module_names[0]
     if name not in available_module_names:
-        pytest.skip(f"Module '{name}' not present in installation (available: {available_module_names})")
+        pytest.skip(
+            f"Module '{name}' not present in installation (available: {available_module_names})"
+        )
     return name
 
 
 @pytest.fixture
-def module_mod_path(tmp_path_factory: pytest.TempPathFactory, installation: HTInstallation, module_name: str) -> Path:
+def module_mod_path(
+    tmp_path_factory: pytest.TempPathFactory, installation: HTInstallation, module_name: str
+) -> Path:
     """Create (or reuse) a .mod file for the specified module."""
     global _MODULE_MOD_CACHE_DIR
 
@@ -527,7 +545,9 @@ def module_designer(
     _wait_for_designer_ready(qtbot, designer)
 
     # Verify the renderer type was set correctly
-    assert renderer.renderer_type == renderer_type, f"Unexpected renderer type: {renderer.renderer_type}"
+    assert renderer.renderer_type == renderer_type, (
+        f"Unexpected renderer type: {renderer.renderer_type}"
+    )
 
     yield designer
 
@@ -559,7 +579,9 @@ def _position_camera_to_view_scene(designer: ModuleDesigner) -> None:
         camera.x = entry_pos.x
         camera.y = entry_pos.y
         camera.z = entry_pos.z + 1.7  # Eye level (approx human height)
-        print(f"[Test] Camera positioned at entry point: ({camera.x:.1f}, {camera.y:.1f}, {camera.z:.1f})")
+        print(
+            f"[Test] Camera positioned at entry point: ({camera.x:.1f}, {camera.y:.1f}, {camera.z:.1f})"
+        )
     except Exception:
         # Fall back to center of layout rooms
         if scene.layout and scene.layout.rooms:
@@ -572,7 +594,9 @@ def _position_camera_to_view_scene(designer: ModuleDesigner) -> None:
             camera.x = sum_x / count
             camera.y = sum_y / count
             camera.z = (sum_z / count) + 1.7
-            print(f"[Test] Camera positioned at room center: ({camera.x:.1f}, {camera.y:.1f}, {camera.z:.1f})")
+            print(
+                f"[Test] Camera positioned at room center: ({camera.x:.1f}, {camera.y:.1f}, {camera.z:.1f})"
+            )
         else:
             # Last resort: origin
             camera.x, camera.y, camera.z = 0.0, 0.0, 1.7
@@ -584,7 +608,9 @@ def _position_camera_to_view_scene(designer: ModuleDesigner) -> None:
     camera.distance = 20.0  # Orbit away from the focus point
     camera.fov = 90.0  # Wide field of view
 
-    print(f"[Test] Camera orientation: yaw={camera.yaw:.2f}, pitch={camera.pitch:.2f} rad, fov={camera.fov:.0f}")
+    print(
+        f"[Test] Camera orientation: yaw={camera.yaw:.2f}, pitch={camera.pitch:.2f} rad, fov={camera.fov:.0f}"
+    )
 
 
 def _rotate_camera_360(designer: ModuleDesigner, qtbot: QtBot, num_steps: int = 16) -> None:
@@ -604,7 +630,9 @@ def _rotate_camera_360(designer: ModuleDesigner, qtbot: QtBot, num_steps: int = 
     target_pitch = (math.pi / 2) + math.radians(5.0)
     camera.pitch = target_pitch
 
-    print(f"[Test] Rotating camera 360 degrees horizontally in {num_steps} steps (pitch={camera.pitch:.2f})...")
+    print(
+        f"[Test] Rotating camera 360 degrees horizontally in {num_steps} steps (pitch={camera.pitch:.2f})..."
+    )
 
     for i in range(num_steps):
         # Calculate yaw for this step (full 360 degree rotation)
@@ -684,7 +712,9 @@ def _wait_for_designer_ready(qtbot: QtBot, designer: ModuleDesigner, timeout: in
     assert scene.layout is not None, "Layout should be loaded after Phase 2"
     git_instances: int = len(list(scene.git.instances()))
     layout_rooms: int = len(scene.layout.rooms)
-    print(f"[Test] Phase 2 complete: GIT has {git_instances} instances, Layout has {layout_rooms} rooms after {time.time() - start_time:.1f}s")
+    print(
+        f"[Test] Phase 2 complete: GIT has {git_instances} instances, Layout has {layout_rooms} rooms after {time.time() - start_time:.1f}s"
+    )
 
     # Phase 2.5: Position camera to view the scene
     print("[Test] Phase 2.5: Positioning camera...")
@@ -718,12 +748,16 @@ def _wait_for_designer_ready(qtbot: QtBot, designer: ModuleDesigner, timeout: in
         # Log status periodically (every 2 seconds)
         current_time: float = time.time()
         if current_time - last_status_time >= 2.0:
-            print(f"[Test]   Textures: {loaded_textures} loaded, {pending_textures} pending | Models: {loaded_models} loaded, {pending_models} pending")
+            print(
+                f"[Test]   Textures: {loaded_textures} loaded, {pending_textures} pending | Models: {loaded_models} loaded, {pending_models} pending"
+            )
             last_status_time = current_time
 
         # Check if we've exceeded timeout
         if current_time - start_time > timeout_seconds:
-            print(f"[Test] WARNING: Timeout reached with {pending_textures} textures and {pending_models} models still pending!")
+            print(
+                f"[Test] WARNING: Timeout reached with {pending_textures} textures and {pending_models} models still pending!"
+            )
             return True  # Return True to exit the wait, will check status below
 
         return pending_textures == 0 and pending_models == 0
@@ -768,7 +802,9 @@ def _wait_for_designer_ready(qtbot: QtBot, designer: ModuleDesigner, timeout: in
     final_models: int = len(scene.models)
     final_objects: int = len(scene.objects)
     total_time: float = time.time() - start_time
-    print(f"[Test] Module designer ready after {total_time:.1f}s: {final_textures} textures, {final_models} models, {final_objects} objects")
+    print(
+        f"[Test] Module designer ready after {total_time:.1f}s: {final_textures} textures, {final_models} models, {final_objects} objects"
+    )
 
 
 def _first_movable_instance(designer: ModuleDesigner) -> GITInstance | None:
@@ -781,7 +817,9 @@ def _first_movable_instance(designer: ModuleDesigner) -> GITInstance | None:
 
 @pytest.mark.slow
 @pytest.mark.parametrize_modules_from_installation
-def test_module_designer_baseline_fps(qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str):
+def test_module_designer_baseline_fps(
+    qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str
+):
     """Ensure the renderer sustains the expected baseline FPS.
 
     This test:
@@ -795,12 +833,18 @@ def test_module_designer_baseline_fps(qtbot: QtBot, module_designer: ModuleDesig
     renderer: ModuleRenderer = module_designer.ui.mainRenderer
     scene: Scene = renderer.scene  # noqa: SLF001  # pyright: ignore[reportAssignmentType]
     assert scene is not None, "Scene should be initialized by fixture"
-    assert renderer.renderer_type == renderer_type, f"Renderer type mismatch: expected {renderer_type}, got {renderer.renderer_type}"
+    assert renderer.renderer_type == renderer_type, (
+        f"Renderer type mismatch: expected {renderer_type}, got {renderer.renderer_type}"
+    )
 
     # Log initial state
     print(f"\n[FPS Test] Starting FPS test with {renderer_type} renderer on module {module_name}")
-    print(f"[FPS Test] Initial state: {len(scene.textures)} textures, {len(scene.models)} models, {len(scene.objects)} objects")
-    print(f"[FPS Test] Pending: {len(scene._pending_texture_futures)} textures, {len(scene._pending_model_futures)} models")
+    print(
+        f"[FPS Test] Initial state: {len(scene.textures)} textures, {len(scene.models)} models, {len(scene.objects)} objects"
+    )
+    print(
+        f"[FPS Test] Pending: {len(scene._pending_texture_futures)} textures, {len(scene._pending_model_futures)} models"
+    )
 
     # Warm-up period: render frames until async loading is mostly complete
     print("[FPS Test] Warm-up phase: processing remaining async resources...")
@@ -823,9 +867,13 @@ def test_module_designer_baseline_fps(qtbot: QtBot, module_designer: ModuleDesig
 
         # Status update every 5 seconds
         if warmup_frames % 300 == 0:
-            print(f"[FPS Test]   Warm-up: {warmup_frames} frames, {pending} resources pending, {elapsed:.1f}s elapsed")
+            print(
+                f"[FPS Test]   Warm-up: {warmup_frames} frames, {pending} resources pending, {elapsed:.1f}s elapsed"
+            )
 
-    print(f"[FPS Test] Warm-up complete: {warmup_frames} frames in {time.time() - warmup_start:.1f}s")
+    print(
+        f"[FPS Test] Warm-up complete: {warmup_frames} frames in {time.time() - warmup_start:.1f}s"
+    )
     print(f"[FPS Test] Post warm-up: {len(scene.textures)} textures, {len(scene.models)} models")
 
     # Reset stats for actual measurement
@@ -851,12 +899,18 @@ def test_module_designer_baseline_fps(qtbot: QtBot, module_designer: ModuleDesig
     print(f"[FPS Test] Measured {frame_count} frames in {measure_elapsed:.1f}s = {fps:.1f} FPS")
 
     if fps < MIN_EXPECTED_FPS:
-        pytest.xfail(f"[{renderer_type}] Measured FPS {fps:.2f} < {MIN_EXPECTED_FPS:.0f}; renderer still CPU bound")
-    assert fps >= MIN_EXPECTED_FPS, f"[{renderer_type}] FPS {fps:.2f} below minimum {MIN_EXPECTED_FPS:.0f}"
+        pytest.xfail(
+            f"[{renderer_type}] Measured FPS {fps:.2f} < {MIN_EXPECTED_FPS:.0f}; renderer still CPU bound"
+        )
+    assert fps >= MIN_EXPECTED_FPS, (
+        f"[{renderer_type}] FPS {fps:.2f} below minimum {MIN_EXPECTED_FPS:.0f}"
+    )
 
 
 @pytest.mark.parametrize_modules_from_installation
-def test_module_designer_move_and_undo(qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str):
+def test_module_designer_move_and_undo(
+    qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str
+):
     """Moving instances should push undo/redo commands reliably for both renderers."""
 
     renderer: ModuleRenderer = module_designer.ui.mainRenderer
@@ -867,7 +921,11 @@ def test_module_designer_move_and_undo(qtbot: QtBot, module_designer: ModuleDesi
         pytest.skip("No movable instances present in test module")
 
     module_designer.set_selection([instance])
-    original: tuple[float, float, float] = (instance.position.x, instance.position.y, instance.position.z)
+    original: tuple[float, float, float] = (
+        instance.position.x,
+        instance.position.y,
+        instance.position.z,
+    )
 
     module_designer.move_selected(1.0, 0.5, no_z_coord=True)
     assert instance.position.x != original[0] or instance.position.y != original[1]
@@ -877,11 +935,15 @@ def test_module_designer_move_and_undo(qtbot: QtBot, module_designer: ModuleDesi
     assert instance.position.y == pytest.approx(original[1])
 
     module_designer.undo_stack.redo()
-    assert instance.position.x != pytest.approx(original[0]) or instance.position.y != pytest.approx(original[1])
+    assert instance.position.x != pytest.approx(
+        original[0]
+    ) or instance.position.y != pytest.approx(original[1])
 
 
 @pytest.mark.parametrize_modules_from_installation
-def test_module_designer_delete_and_restore(qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str):
+def test_module_designer_delete_and_restore(
+    qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str
+):
     """Deleting an instance should remove it from the scene until undo restores it for both renderers."""
 
     renderer: ModuleRenderer = module_designer.ui.mainRenderer
@@ -903,7 +965,9 @@ def test_module_designer_delete_and_restore(qtbot: QtBot, module_designer: Modul
 
 
 @pytest.mark.parametrize_modules_from_installation
-def test_module_designer_instance_list_sync(qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str):
+def test_module_designer_instance_list_sync(
+    qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str
+):
     """Resource tree and instance list should remain synchronised with selections for both renderers."""
 
     renderer: ModuleRenderer = module_designer.ui.mainRenderer
@@ -924,7 +988,9 @@ def test_module_designer_instance_list_sync(qtbot: QtBot, module_designer: Modul
 
 
 @pytest.mark.parametrize_modules_from_installation
-def test_module_designer_resource_tree_selection(qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str):
+def test_module_designer_resource_tree_selection(
+    qtbot: QtBot, module_designer: ModuleDesigner, module_name: str, renderer_type: str
+):
     """Selecting in the resource tree should highlight the item in the instance list for both renderers."""
 
     renderer: ModuleRenderer = module_designer.ui.mainRenderer
@@ -964,7 +1030,9 @@ def test_blender_transform_remote_move_is_undoable(qtbot: QtBot, module_designer
     module_designer._refresh_instance_id_lookup()  # noqa: SLF001
     assert id(instance) in module_designer._instance_id_lookup  # noqa: SLF001
 
-    original_position: Vector3 = Vector3(instance.position.x, instance.position.y, instance.position.z)
+    original_position: Vector3 = Vector3(
+        instance.position.x, instance.position.y, instance.position.z
+    )
     original_bearing = getattr(instance, "bearing", 0.0)
 
     module_designer._on_blender_transform_changed(  # noqa: SLF001
@@ -994,7 +1062,9 @@ def test_blender_transform_remote_move_is_undoable(qtbot: QtBot, module_designer
     # Now undo the position command
     module_designer.undo_stack.undo()
     QApplication.processEvents()
-    assert instance.position.x == pytest.approx(original_position.x), f"Position after undo: {instance.position.x}, expected: {original_position.x}"
+    assert instance.position.x == pytest.approx(original_position.x), (
+        f"Position after undo: {instance.position.x}, expected: {original_position.x}"
+    )
 
     # Redo both commands (position first, then rotation)
     module_designer.undo_stack.redo()
@@ -1063,7 +1133,15 @@ def test_blender_add_and_remove_instance(qtbot, module_designer: ModuleDesigner)
     qtbot.waitUntil(_instance_added, timeout=5000)
     assert len(module_designer.git().instances()) == original_count + 1
 
-    new_instance: GITInstance | None = cast("GITInstance | None", next(inst for inst in module_designer.git().instances() if inst is not template and str(cast("GITInstance", inst).resref) == serialized["resref"]))
+    new_instance: GITInstance | None = cast(
+        "GITInstance | None",
+        next(
+            inst
+            for inst in module_designer.git().instances()
+            if inst is not template
+            and str(cast("GITInstance", inst).resref) == serialized["resref"]
+        ),
+    )
     if new_instance is None:
         pytest.skip("No new instance present in test module")
 
@@ -1078,7 +1156,9 @@ def test_blender_add_and_remove_instance(qtbot, module_designer: ModuleDesigner)
     assert len(module_designer.git().instances()) == original_count
 
 
-def test_blender_fallback_session_written(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, module_designer: ModuleDesigner):
+def test_blender_fallback_session_written(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, module_designer: ModuleDesigner
+):
     sessions_root: Path = tmp_path / "ipc_sessions"
     monkeypatch.setattr(module_designer_mod.tempfile, "gettempdir", lambda: str(sessions_root))
 
@@ -1110,7 +1190,9 @@ def test_blender_transform_position_only(qtbot: QtBot, module_designer: ModuleDe
     module_designer._refresh_instance_id_lookup()  # noqa: SLF001
     assert id(instance) in module_designer._instance_id_lookup  # noqa: SLF001
 
-    original_position: Vector3 = Vector3(instance.position.x, instance.position.y, instance.position.z)
+    original_position: Vector3 = Vector3(
+        instance.position.x, instance.position.y, instance.position.z
+    )
     new_x: float = original_position.x + 3.0
     new_y: float = original_position.y - 2.0
     new_z: float = original_position.z + 1.5
@@ -1123,7 +1205,11 @@ def test_blender_transform_position_only(qtbot: QtBot, module_designer: ModuleDe
 
     def _position_changed() -> bool:
         QApplication.processEvents()
-        return abs(instance.position.x - new_x) < 0.001 and abs(instance.position.y - new_y) < 0.001 and abs(instance.position.z - new_z) < 0.001
+        return (
+            abs(instance.position.x - new_x) < 0.001
+            and abs(instance.position.y - new_y) < 0.001
+            and abs(instance.position.z - new_z) < 0.001
+        )
 
     qtbot.waitUntil(_position_changed, timeout=5000)
     assert instance.position.x == pytest.approx(new_x)
@@ -1172,7 +1258,9 @@ def test_blender_transform_rotation_euler_only(qtbot: QtBot, module_designer: Mo
 def test_blender_transform_camera_quaternion(qtbot: QtBot, module_designer: ModuleDesigner):
     """Test transform change with camera quaternion rotation."""
     git_resource: GIT = module_designer.git()
-    camera: GITCamera | None = next((inst for inst in git_resource.instances() if isinstance(inst, GITCamera)), None)
+    camera: GITCamera | None = next(
+        (inst for inst in git_resource.instances() if isinstance(inst, GITCamera)), None
+    )
     if camera is None:
         pytest.skip("No camera instances present in test module")
 
@@ -1193,7 +1281,14 @@ def test_blender_transform_camera_quaternion(qtbot: QtBot, module_designer: Modu
     module_designer._on_blender_transform_changed(  # noqa: SLF001
         id(camera),
         None,  # No position change
-        {"quaternion": {"x": new_orientation.x, "y": new_orientation.y, "z": new_orientation.z, "w": new_orientation.w}},
+        {
+            "quaternion": {
+                "x": new_orientation.x,
+                "y": new_orientation.y,
+                "z": new_orientation.z,
+                "w": new_orientation.w,
+            }
+        },
     )
 
     def _orientation_changed() -> bool:
@@ -1265,7 +1360,9 @@ def test_blender_property_tweak_color_update(qtbot: QtBot, module_designer: Modu
 
     from pykotor.common.misc import Color
 
-    original_color: int | None = placeable.tweak_color.bgr_integer() if placeable.tweak_color else None
+    original_color: int | None = (
+        placeable.tweak_color.bgr_integer() if placeable.tweak_color else None
+    )
     new_color_bgr: int = 0xFF00FF  # Magenta
 
     module_designer._on_blender_instance_updated(  # noqa: SLF001
@@ -1311,7 +1408,10 @@ def test_blender_selection_changed_single(qtbot: QtBot, module_designer: ModuleD
 
     def _selection_changed() -> bool:
         QApplication.processEvents()
-        return len(module_designer.selected_instances) == 1 and module_designer.selected_instances[0] is instance
+        return (
+            len(module_designer.selected_instances) == 1
+            and module_designer.selected_instances[0] is instance
+        )
 
     qtbot.waitUntil(_selection_changed, timeout=5000)
     assert len(module_designer.selected_instances) == 1
@@ -1321,7 +1421,10 @@ def test_blender_selection_changed_single(qtbot: QtBot, module_designer: ModuleD
 def test_blender_selection_changed_multiple(qtbot: QtBot, module_designer: ModuleDesigner):
     """Test selection change event with multiple instances."""
     git_resource: GIT = module_designer.git()
-    instances: list[GITInstance] = cast("list[GITInstance]", [inst for inst in git_resource.instances() if not isinstance(inst, GITCamera)][:3])
+    instances: list[GITInstance] = cast(
+        "list[GITInstance]",
+        [inst for inst in git_resource.instances() if not isinstance(inst, GITCamera)][:3],
+    )
     if len(instances) < 2:
         pytest.skip("Not enough instances for multiple selection test")
 
@@ -1379,14 +1482,18 @@ def test_blender_context_menu_requested(qtbot: QtBot, module_designer: ModuleDes
 
     # Track if context menu was triggered
     context_menu_called: bool = False
-    original_show_context_menu: Callable[[list[GITInstance]], QMenu | None] = module_designer.show_context_menu  # pyright: ignore[reportAttributeAccessIssue]
+    original_show_context_menu: Callable[[list[GITInstance]], QMenu | None] = (
+        module_designer.show_context_menu
+    )  # pyright: ignore[reportAttributeAccessIssue]
 
     def _tracked_show_context_menu(instances):
         nonlocal context_menu_called
         context_menu_called = True
         return original_show_context_menu(instances)
 
-    module_designer.show_context_menu = module_designer._show_final_context_menu = _tracked_show_context_menu  # pyright: ignore[reportAttributeAccessIssue]
+    module_designer.show_context_menu = module_designer._show_final_context_menu = (
+        _tracked_show_context_menu  # pyright: ignore[reportAttributeAccessIssue]
+    )
 
     # Simulate context menu request from Blender
     module_designer._on_blender_context_menu_requested([id(instance)])  # noqa: SLF001
@@ -1406,7 +1513,11 @@ def test_blender_property_multiple_updates(qtbot: QtBot, module_designer: Module
     """Test multiple property updates in a single event."""
     git_resource: GIT = module_designer.git()
     instance: GITInstance | None = next(
-        (inst for inst in git_resource.instances() if isinstance(inst, _RESREF_CLASSES) and isinstance(inst, _TAG_CLASSES)),
+        (
+            inst
+            for inst in git_resource.instances()
+            if isinstance(inst, _RESREF_CLASSES) and isinstance(inst, _TAG_CLASSES)
+        ),
         None,
     )
     if instance is None:
@@ -1475,13 +1586,19 @@ def test_blender_instance_added_with_all_properties(qtbot: QtBot, module_designe
     qtbot.waitUntil(_instance_added, timeout=5000)
     assert len(module_designer.git().instances()) == original_count + 1
 
-    new_instance = next(inst for inst in module_designer.git().instances() if inst is not template and str(getattr(inst, "resref", "")) == serialized["resref"])
+    new_instance = next(
+        inst
+        for inst in module_designer.git().instances()
+        if inst is not template and str(getattr(inst, "resref", "")) == serialized["resref"]
+    )
     assert new_instance.position.x == pytest.approx(serialized["position"]["x"])
     assert new_instance.position.y == pytest.approx(serialized["position"]["y"])
     assert str(getattr(new_instance, "resref", "")) == serialized["resref"]
 
 
-def test_blender_transform_ignores_unchanged_position(qtbot: QtBot, module_designer: ModuleDesigner):
+def test_blender_transform_ignores_unchanged_position(
+    qtbot: QtBot, module_designer: ModuleDesigner
+):
     """Test that transform change with same position doesn't create undo command."""
     instance: GITInstance | None = _first_movable_instance(module_designer)
     if instance is None:

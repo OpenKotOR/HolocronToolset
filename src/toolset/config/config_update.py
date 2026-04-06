@@ -51,7 +51,9 @@ def fetch_update_info(
     timeout: int = 15,
 ) -> dict[str, Any]:
     if requests is None:
-        raise ImportError("The 'requests' module is not installed. Please install it to enable update checking functionality. You can install it with: pip install requests")
+        raise ImportError(
+            "The 'requests' module is not installed. Please install it to enable update checking functionality. You can install it with: pip install requests"
+        )
     req = requests.get(
         update_link,
         timeout=timeout,
@@ -80,7 +82,11 @@ def get_remote_toolset_update_info(
         base64_content: str = file_data["content"]
         decoded_content: bytes = base64.b64decode(base64_content)
         decoded_content_str: str = decoded_content.decode(encoding="utf-8")
-        json_data_match: re.Match[str] | None = re.search(r"<---JSON_START--->\s*\#\s*(.*?)\s*\#\s*<---JSON_END--->", decoded_content_str, flags=re.DOTALL)
+        json_data_match: re.Match[str] | None = re.search(
+            r"<---JSON_START--->\s*\#\s*(.*?)\s*\#\s*<---JSON_END--->",
+            decoded_content_str,
+            flags=re.DOTALL,
+        )
 
         if not json_data_match:
             raise ValueError(f"JSON data not found or markers are incorrect: {json_data_match}")  # noqa: TRY301
@@ -89,7 +95,9 @@ def get_remote_toolset_update_info(
         cleaned_json_str: str = _clean_json_trailing_commas(json_str)
         remote_info: dict[str, Any] = json.loads(cleaned_json_str)
         if not isinstance(remote_info, dict):
-            raise TypeError(f"Expected remote_info to be a dict, instead got type {remote_info.__class__.__name__}")  # noqa: TRY301
+            raise TypeError(
+                f"Expected remote_info to be a dict, instead got type {remote_info.__class__.__name__}"
+            )  # noqa: TRY301
     except ImportError as e:
         # Handle missing requests module specifically
         err_msg: str = str((e.__class__.__name__, str(e)))
@@ -138,7 +146,9 @@ def is_remote_version_newer(
 
         version_check = version.parse(remote_version) > version.parse(local_version)
     if version_check is None:
-        RobustLogger().warning(f"Version string might be malformed, attempted 'packaging.version.parse({local_version}) > packaging.version.parse({remote_version})'")
+        RobustLogger().warning(
+            f"Version string might be malformed, attempted 'packaging.version.parse({local_version}) > packaging.version.parse({remote_version})'"
+        )
         with suppress(Exception):
             from distutils.version import LooseVersion
 

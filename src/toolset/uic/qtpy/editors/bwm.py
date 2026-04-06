@@ -48,9 +48,7 @@ class Ui_MainWindow(object):
         self.renderArea.setMouseTracking(True)
         self.renderArea.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.renderArea.setAutoFillBackground(False)
-        self.renderArea.setStyleSheet("QWidget {\n"
-"            background: #000000;\n"
-"            }")
+        self.renderArea.setStyleSheet("QWidget {\n            background: #000000;\n            }")
         self.renderArea.setObjectName("renderArea")
         self.gridLayout.addWidget(self.renderArea, 0, 0, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -115,4 +113,6 @@ class Ui_MainWindow(object):
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionShowRoomBoundaries.setText(_translate("MainWindow", "Show Room Boundaries"))
         self.actionShowGrid.setText(_translate("MainWindow", "Show Grid"))
+
+
 from toolset.gui.widgets.renderer.walkmesh import WalkmeshRenderer

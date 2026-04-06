@@ -98,7 +98,9 @@ def test_ltr_editor_manipulate_single_character(qtbot: QtBot, installation: HTIn
         assert editor.ltr._singles.get_end(test_char) == end_val
 
 
-def test_ltr_editor_manipulate_multiple_single_characters(qtbot: QtBot, installation: HTInstallation):
+def test_ltr_editor_manipulate_multiple_single_characters(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test manipulating multiple single characters."""
     editor = LTREditor(None, installation)
     qtbot.addWidget(editor)
@@ -174,7 +176,9 @@ def test_ltr_editor_manipulate_double_character(qtbot: QtBot, installation: HTIn
         assert editor.ltr._doubles[0].get_end(char) == end_val
 
 
-def test_ltr_editor_manipulate_multiple_double_characters(qtbot: QtBot, installation: HTInstallation):
+def test_ltr_editor_manipulate_multiple_double_characters(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test manipulating multiple double character combinations."""
     editor = LTREditor(None, installation)
     qtbot.addWidget(editor)
@@ -636,7 +640,9 @@ def test_ltr_editor_manipulate_all_character_types(qtbot: QtBot, installation: H
 # ============================================================================
 
 
-def test_ltreditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_ltreditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that LTREditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -658,13 +664,17 @@ def test_ltreditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'LTR-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'LTR-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
 
 
-def test_ltr_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_ltr_editor_headless_ui_load_build(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test LTR Editor in headless UI - loads real file and builds data."""
     editor = LTREditor(None, installation)
     qtbot.addWidget(editor)
@@ -683,7 +693,12 @@ def test_ltr_editor_headless_ui_load_build(qtbot: QtBot, installation: HTInstall
         ltr_data = ltr_resource_result.data
         if not ltr_data:
             pytest.skip(f"Could not load LTR data for {ltr_resource.identifier()}")
-        editor.load(ltr_resource.filepath if hasattr(ltr_resource, "filepath") else Path("module.ltr"), ltr_resource.resname, ResourceType.LTR, ltr_data)
+        editor.load(
+            ltr_resource.filepath if hasattr(ltr_resource, "filepath") else Path("module.ltr"),
+            ltr_resource.resname,
+            ResourceType.LTR,
+            ltr_data,
+        )
     else:
         ltr_file = ltr_files[0]
         original_data = ltr_file.read_bytes()
@@ -907,7 +922,9 @@ def test_ltr_editor_header_context_menu_auto_fit(qtbot: QtBot, installation: HTI
             assert editor.auto_resize_enabled != initial_state or editor.auto_resize_enabled is True
 
 
-def test_ltr_editor_header_context_menu_alternate_colors(qtbot: QtBot, installation: HTInstallation):
+def test_ltr_editor_header_context_menu_alternate_colors(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test header context menu alternate row colors action."""
     editor = LTREditor(None, installation)
     qtbot.addWidget(editor)
@@ -1078,7 +1095,9 @@ def test_ltr_editor_generate_name_consistency(qtbot: QtBot, installation: HTInst
     assert len(set(names)) > 0
 
 
-def test_ltr_editor_generate_name_with_modified_probabilities(qtbot: QtBot, installation: HTInstallation):
+def test_ltr_editor_generate_name_with_modified_probabilities(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test name generation after modifying character probabilities."""
     editor = LTREditor(None, installation)
     qtbot.addWidget(editor)

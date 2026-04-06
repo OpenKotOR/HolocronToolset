@@ -130,7 +130,9 @@ class InstallationToolbar(QWidget):
                 spec = self._specs[i]
                 self._path_row_index[spec.key] = i
                 label.setText(f"{spec.label}:")
-                edit.setPlaceholderText("Optional folder path..." if not spec.required else "Required folder path...")
+                edit.setPlaceholderText(
+                    "Optional folder path..." if not spec.required else "Required folder path..."
+                )
                 edit.setToolTip(spec.tooltip)
                 edit.textChanged.connect(self._emit_current_state)
                 browse.clicked.connect(lambda _=False, key=spec.key: self._browse_for_path(key))
@@ -144,7 +146,9 @@ class InstallationToolbar(QWidget):
 
         self.ui.modeFullRadio.toggled.connect(self._on_mode_toggled)
         self.ui.modeFolderRadio.toggled.connect(self._on_mode_toggled)
-        self.ui.installationCombo.currentIndexChanged.connect(self._on_installation_selection_changed)
+        self.ui.installationCombo.currentIndexChanged.connect(
+            self._on_installation_selection_changed
+        )
         self.ui.reloadBtn.clicked.connect(self.reload_installations)
         self.ui.manageBtn.clicked.connect(self._open_installations_settings)
 
@@ -171,7 +175,10 @@ class InstallationToolbar(QWidget):
 
     def reload_installations(self) -> None:
         current_key = self.ui.installationCombo.currentData()
-        self._saved_installations = {name: {"path": config.path, "tsl": config.tsl, "name": name} for name, config in self._settings.installations().items()}
+        self._saved_installations = {
+            name: {"path": config.path, "tsl": config.tsl, "name": name}
+            for name, config in self._settings.installations().items()
+        }
         self._in_update = True
         try:
             self.ui.installationCombo.clear()
@@ -206,14 +213,22 @@ class InstallationToolbar(QWidget):
         open_manage_installations_dialog(self, on_save=self.reload_installations)
 
     def _on_mode_toggled(self, _checked: bool) -> None:
-        use_paths = self.ui.modeFolderRadio.isChecked() and bool(self._specs) and not self._requires_installation
+        use_paths = (
+            self.ui.modeFolderRadio.isChecked()
+            and bool(self._specs)
+            and not self._requires_installation
+        )
         self.ui.pathsWidget.setVisible(use_paths)
         self._emit_current_state()
 
     def _on_installation_selection_changed(self, _index: int) -> None:
         if self._in_update:
             return
-        use_paths = self.ui.modeFolderRadio.isChecked() and bool(self._specs) and not self._requires_installation
+        use_paths = (
+            self.ui.modeFolderRadio.isChecked()
+            and bool(self._specs)
+            and not self._requires_installation
+        )
         if use_paths:
             self._emit_current_state()
             return
@@ -298,7 +313,9 @@ class InstallationToolbar(QWidget):
             return installation
         except Exception as exc:  # noqa: BLE001
             self._log.exception("Failed to create installation '%s': %s", cache_key, exc)
-            QMessageBox.warning(self, "Invalid Installation", f"Could not load installation '{cache_key}'.")
+            QMessageBox.warning(
+                self, "Invalid Installation", f"Could not load installation '{cache_key}'."
+            )
             return None
 
     def get_folder_paths(self) -> dict[str, Path | None]:
@@ -315,7 +332,11 @@ class InstallationToolbar(QWidget):
         return result
 
     def _emit_current_state(self) -> None:
-        use_paths = self.ui.modeFolderRadio.isChecked() and bool(self._specs) and not self._requires_installation
+        use_paths = (
+            self.ui.modeFolderRadio.isChecked()
+            and bool(self._specs)
+            and not self._requires_installation
+        )
         selected_installation = None if use_paths else self._get_selected_installation()
         self.installation_changed.emit(selected_installation)
         if use_paths:

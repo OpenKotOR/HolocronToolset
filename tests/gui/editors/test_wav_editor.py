@@ -79,7 +79,9 @@ def sample_wav_data() -> bytes:
     wav_bytes.write(struct.pack("<H", 1))  # Audio format (PCM)
     wav_bytes.write(struct.pack("<H", num_channels))
     wav_bytes.write(struct.pack("<I", sample_rate))
-    wav_bytes.write(struct.pack("<I", sample_rate * num_channels * bits_per_sample // 8))  # Byte rate
+    wav_bytes.write(
+        struct.pack("<I", sample_rate * num_channels * bits_per_sample // 8)
+    )  # Byte rate
     wav_bytes.write(struct.pack("<H", num_channels * bits_per_sample // 8))  # Block align
     wav_bytes.write(struct.pack("<H", bits_per_sample))
 
@@ -321,17 +323,23 @@ class TestPlaybackControls:
         """Test that play button exists and can be clicked."""
         assert wav_editor.ui.playButton is not None
         # Just verify it doesn't crash when clicked (no media loaded)
-        qtbot.mouseClick(wav_editor.ui.playButton, pytest.importorskip("qtpy.QtCore").Qt.MouseButton.LeftButton)
+        qtbot.mouseClick(
+            wav_editor.ui.playButton, pytest.importorskip("qtpy.QtCore").Qt.MouseButton.LeftButton
+        )
 
     def test_pause_button_exists_and_clickable(self, wav_editor: WAVEditor, qtbot: QtBot):
         """Test that pause button exists and can be clicked."""
         assert wav_editor.ui.pauseButton is not None
-        qtbot.mouseClick(wav_editor.ui.pauseButton, pytest.importorskip("qtpy.QtCore").Qt.MouseButton.LeftButton)
+        qtbot.mouseClick(
+            wav_editor.ui.pauseButton, pytest.importorskip("qtpy.QtCore").Qt.MouseButton.LeftButton
+        )
 
     def test_stop_button_exists_and_clickable(self, wav_editor: WAVEditor, qtbot: QtBot):
         """Test that stop button exists and can be clicked."""
         assert wav_editor.ui.stopButton is not None
-        qtbot.mouseClick(wav_editor.ui.stopButton, pytest.importorskip("qtpy.QtCore").Qt.MouseButton.LeftButton)
+        qtbot.mouseClick(
+            wav_editor.ui.stopButton, pytest.importorskip("qtpy.QtCore").Qt.MouseButton.LeftButton
+        )
 
     def test_time_slider_exists(self, wav_editor: WAVEditor):
         """Test that time slider exists."""
@@ -477,7 +485,9 @@ class TestSaveLoadRoundtrip:
 
         assert saved_data == sample_mp3_data
 
-    def test_multiple_load_save_cycles(self, wav_editor: WAVEditor, sample_wav_data: bytes, qtbot: QtBot):
+    def test_multiple_load_save_cycles(
+        self, wav_editor: WAVEditor, sample_wav_data: bytes, qtbot: QtBot
+    ):
         """Test multiple load/save cycles preserve data."""
         original_data = sample_wav_data
 
@@ -492,7 +502,9 @@ class TestSaveLoadRoundtrip:
             wav_editor.mediaPlayer.player.stop()  # pyright: ignore[reportAttributeAccessIssue]
             QApplication.processEvents()
 
-    def test_load_different_formats_sequentially(self, wav_editor: WAVEditor, sample_wav_data: bytes, sample_mp3_data: bytes):
+    def test_load_different_formats_sequentially(
+        self, wav_editor: WAVEditor, sample_wav_data: bytes, sample_mp3_data: bytes
+    ):
         """Test loading different formats sequentially."""
         # Load WAV
         wav_editor.load(Path("test.wav"), "test", ResourceType.WAV, sample_wav_data)
@@ -597,7 +609,9 @@ class TestWindowClose:
 class TestIntegration:
     """Integration tests for full workflows."""
 
-    def test_full_workflow_new_to_save(self, wav_editor: WAVEditor, sample_wav_data: bytes, tmp_path: Path):
+    def test_full_workflow_new_to_save(
+        self, wav_editor: WAVEditor, sample_wav_data: bytes, tmp_path: Path
+    ):
         """Test full workflow from new file to save."""
         # Start fresh
         wav_editor.new()
@@ -617,7 +631,9 @@ class TestIntegration:
         output_path.write_bytes(data)
         assert output_path.read_bytes() == sample_wav_data
 
-    def test_format_switching(self, wav_editor: WAVEditor, sample_wav_data: bytes, sample_mp3_data: bytes):
+    def test_format_switching(
+        self, wav_editor: WAVEditor, sample_wav_data: bytes, sample_mp3_data: bytes
+    ):
         """Test switching between different audio formats."""
         # Load WAV
         wav_editor.load(Path("test.wav"), "test", ResourceType.WAV, sample_wav_data)
@@ -714,7 +730,9 @@ class TestResourceTypeHandling:
         wav_editor.load(Path("test.mp3"), "test", ResourceType.MP3, sample_mp3_data)
         assert wav_editor._restype == ResourceType.MP3
 
-    def test_resource_type_preserved_after_load(self, wav_editor: WAVEditor, sample_wav_data: bytes):
+    def test_resource_type_preserved_after_load(
+        self, wav_editor: WAVEditor, sample_wav_data: bytes
+    ):
         """Test resource type is preserved in editor state."""
         wav_editor.load(Path("test.wav"), "test", ResourceType.WAV, sample_wav_data)
 

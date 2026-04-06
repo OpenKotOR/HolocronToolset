@@ -4,6 +4,7 @@ Unit Tests for PTH Editor - testing EVERY possible manipulation.
 Each test focuses on a specific manipulation and validates save/load roundtrips.
 Following the ARE editor test pattern for comprehensive coverage.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -677,7 +678,9 @@ def test_ptheditor_editor_help_dialog_opens_correct_file(qtbot, installation: HT
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-PTH.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-PTH.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"

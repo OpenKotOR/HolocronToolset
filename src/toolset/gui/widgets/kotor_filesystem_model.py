@@ -125,11 +125,15 @@ class TreeItem:
         if self.parent is None:
             return -1
         if not hasattr(self.parent, "children"):
-            raise RuntimeError(f"INVALID parent item! Parent items must expose a children list, but parent was: '{self.parent.__class__.__name__}'")
+            raise RuntimeError(
+                f"INVALID parent item! Parent items must expose a children list, but parent was: '{self.parent.__class__.__name__}'"
+            )
         parent_children = self.parent.children
         if self not in parent_children:
             parent_path = getattr(self.parent, "path", "<virtual>")
-            RobustLogger().warning(f"parent '{parent_path}' has orphaned the item '{self.path}' without warning!")
+            RobustLogger().warning(
+                f"parent '{parent_path}' has orphaned the item '{self.path}' without warning!"
+            )
             return -1
         return parent_children.index(self)
 
@@ -189,7 +193,11 @@ class DirItem(TreeItem):
             self.children = []
         self._children_loaded = True
         for child in self.children:
-            model.setData(model.index(self.children.index(child), 0, idx), child.iconData(), Qt.ItemDataRole.DecorationRole)
+            model.setData(
+                model.index(self.children.index(child), 0, idx),
+                child.iconData(),
+                Qt.ItemDataRole.DecorationRole,
+            )
         return self.children
 
     def child(self, row: int) -> TreeItem | None:
@@ -363,7 +371,11 @@ class CategoryItem(DirItem):
 
         self._children_loaded = True
         for child in self.children:
-            model.setData(model.index(self.children.index(child), 0, idx), child.iconData(), Qt.ItemDataRole.DecorationRole)
+            model.setData(
+                model.index(self.children.index(child), 0, idx),
+                child.iconData(),
+                Qt.ItemDataRole.DecorationRole,
+            )
 
         return self.children
 
@@ -425,7 +437,10 @@ class CapsuleItem(DirItem, FileItem):
             model.endRemoveRows()
         print(f"{self.__class__.__name__}({self.path}).load_children, row={self.row()}")
         children: list[NestedCapsuleItem | CapsuleChildItem] = [
-            NestedCapsuleItem(res, self) if is_capsule_file(res.filename()) else CapsuleChildItem(res, self) for res in LazyCapsule(self.resource.filepath())
+            NestedCapsuleItem(res, self)
+            if is_capsule_file(res.filename())
+            else CapsuleChildItem(res, self)
+            for res in LazyCapsule(self.resource.filepath())
         ]
         if children:
             model.beginInsertRows(idx, 0, len(children) - 1)
@@ -466,10 +481,19 @@ class ResourceFileSystemTreeView(RobustTreeView):
         self._add_exclusive_menu_action(
             rootMenu,
             "Resize Mode",
-            lambda: next((header.sectionResizeMode(i) for i in range(self.parent().fs_model.columnCount())), QHeaderView.ResizeMode.ResizeToContents),
-            lambda mode: [header.setSectionResizeMode(i, mode) for i in range(self.parent().fs_model.columnCount())]
+            lambda: next(
+                (header.sectionResizeMode(i) for i in range(self.parent().fs_model.columnCount())),
+                QHeaderView.ResizeMode.ResizeToContents,
+            ),
+            lambda mode: [
+                header.setSectionResizeMode(i, mode)
+                for i in range(self.parent().fs_model.columnCount())
+            ]
             if qtpy.QT5
-            else lambda mode: [header.setSectionResizeMode(i, QHeaderView.ResizeMode(mode)) for i in range(header.count())],
+            else lambda mode: [
+                header.setSectionResizeMode(i, QHeaderView.ResizeMode(mode))
+                for i in range(header.count())
+            ],
             {
                 "Custom": QHeaderView.ResizeMode.Custom,
                 "Fixed": QHeaderView.ResizeMode.Fixed,
@@ -502,7 +526,11 @@ class ResourceFileSystemWidget(QWidget):
         parent: QWidget | None = None,
         *,
         view: RobustTreeView | None = None,
-        model: PyFileSystemModel | QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | None = None,
+        model: PyFileSystemModel
+        | QFileSystemModel
+        | KotorFileSystemModel
+        | ResourceFileSystemModel
+        | None = None,
     ):
         super().__init__(parent)
 
@@ -514,7 +542,9 @@ class ResourceFileSystemWidget(QWidget):
         # Setup the view and model.
         if view is None:
             # Replace the default tree view with our custom one
-            self.fsTreeView: ResourceFileSystemTreeView | RobustTreeView = ResourceFileSystemTreeView(self, use_columns=True)
+            self.fsTreeView: ResourceFileSystemTreeView | RobustTreeView = (
+                ResourceFileSystemTreeView(self, use_columns=True)
+            )
             # Remove the default tree view and add our custom one
             self.ui.mainLayout.removeWidget(self.ui.fsTreeView)
             self.ui.fsTreeView.deleteLater()
@@ -526,7 +556,9 @@ class ResourceFileSystemWidget(QWidget):
             self.ui.fsTreeView.deleteLater()
             self.ui.mainLayout.addWidget(self.fsTreeView)
 
-        self.fs_model: QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel = KotorFileSystemModel(self) if model is None else model
+        self.fs_model: (
+            QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel
+        ) = KotorFileSystemModel(self) if model is None else model
         self.fsTreeView.setModel(self.fs_model)
 
         # Store references for easier access
@@ -611,7 +643,9 @@ class ResourceFileSystemWidget(QWidget):
         print(f"onItemExpanded, row={idx.row()}, col={idx.column()}")
         self.fsTreeView.debounce_layout_changed(pre_change_emit=True)
         item = idx.internalPointer()
-        if isinstance(item, DirItem) and isinstance(self.fs_model, (KotorFileSystemModel, ResourceFileSystemModel, QFileSystemModel)):
+        if isinstance(item, DirItem) and isinstance(
+            self.fs_model, (KotorFileSystemModel, ResourceFileSystemModel, QFileSystemModel)
+        ):
             item.loadChildren(self.fs_model)
         self.refresh_item(item)
         self.fsTreeView.debounce_layout_changed(pre_change_emit=False)
@@ -625,34 +659,61 @@ class ResourceFileSystemWidget(QWidget):
         self.refresh_item(item)
         self.fsTreeView.debounce_layout_changed(pre_change_emit=False)
 
-    def model(self) -> QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel:
+    def model(
+        self,
+    ) -> QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel:
         return self.fs_model
 
     def fileSystemModelDoubleClick(self, idx: QModelIndex):
         item: ResourceItem | DirItem = idx.internalPointer()
-        print(f"<SDM> [fileSystemModelDoubleClick scope] {item.__class__.__name__}: ", repr(item.resource if isinstance(item, ResourceItem) else item.path))
+        print(
+            f"<SDM> [fileSystemModelDoubleClick scope] {item.__class__.__name__}: ",
+            repr(item.resource if isinstance(item, ResourceItem) else item.path),
+        )
 
         if isinstance(item, ResourceItem) and item.path.exists() and item.path.is_file():
-            mw: ToolWindow = next((w for w in QApplication.topLevelWidgets() if isinstance(w, QMainWindow) and w.__class__.__name__ == "ToolWindow"), None)  # pyright: ignore[reportAssignmentType]
+            mw: ToolWindow = next(
+                (
+                    w
+                    for w in QApplication.topLevelWidgets()
+                    if isinstance(w, QMainWindow) and w.__class__.__name__ == "ToolWindow"
+                ),
+                None,
+            )  # pyright: ignore[reportAssignmentType]
             print("<SDM> [fileSystemModelDoubleClick scope] ToolWindow: ", mw)
             if mw is None:
                 return
-            open_resource_editor_from_path(item.path, installation=mw.active, gff_specialized=GlobalSettings().gffSpecializedEditors)
+            open_resource_editor_from_path(
+                item.path,
+                installation=mw.active,
+                gff_specialized=GlobalSettings().gffSpecializedEditors,
+            )
         elif isinstance(item, DirItem):
-            if not item.children and isinstance(self.fs_model, (KotorFileSystemModel, ResourceFileSystemModel, QFileSystemModel)):
+            if not item.children and isinstance(
+                self.fs_model, (KotorFileSystemModel, ResourceFileSystemModel, QFileSystemModel)
+            ):
                 item.loadChildren(self.fs_model)
             self.fsTreeView.expand(idx)
         else:
             raise TypeError("Unsupported tree item type")
 
-    def setItemIcon(self, idx: QModelIndex, icon: QIcon | QStyle.StandardPixmap | str | QPixmap | QImage):
+    def setItemIcon(
+        self, idx: QModelIndex, icon: QIcon | QStyle.StandardPixmap | str | QPixmap | QImage
+    ):
         if isinstance(icon, QStyle.StandardPixmap):
             q_style = QApplication.style()
             assert q_style is not None
             icon = q_style.standardIcon(icon)
 
         elif isinstance(icon, str):
-            icon = QIcon(QPixmap(icon).scaled(32, 32, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+            icon = QIcon(
+                QPixmap(icon).scaled(
+                    32,
+                    32,
+                    Qt.AspectRatioMode.KeepAspectRatio,
+                    Qt.TransformationMode.SmoothTransformation,
+                )
+            )
 
         elif isinstance(icon, QImage):
             icon = QIcon(QPixmap.fromImage(icon))
@@ -675,11 +736,15 @@ class ResourceFileSystemWidget(QWidget):
         f = self.fs_model.filter()
         print("<SDM> [toggleHiddenFiles scope] f: ", f)
 
-        self.fs_model.setFilter(f & ~QDir.Filter.Hidden if bool(f & QDir.Filter.Hidden) else f | QDir.Filter.Hidden)  # pyright: ignore[reportArgumentType]
+        self.fs_model.setFilter(
+            f & ~QDir.Filter.Hidden if bool(f & QDir.Filter.Hidden) else f | QDir.Filter.Hidden
+        )  # pyright: ignore[reportArgumentType]
 
     def refresh_item(self, item: TreeItem, depth: int = 1):
         """Refresh the given TreeItem and its children up to the specified depth."""
-        model: QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel = self.fs_model
+        model: (
+            QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel
+        ) = self.fs_model
         if not isinstance(item, TreeItem):
             raise TypeError(f"Expected a TreeItem, got {type(item).__name__}")
         index: QModelIndex = model.indexFromItem(item)
@@ -689,7 +754,9 @@ class ResourceFileSystemWidget(QWidget):
 
     def refresh_item_recursive(self, item: TreeItem, depth: int):
         """Recursively refresh the given TreeItem and its children up to the specified depth."""
-        model: QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel = self.fs_model
+        model: (
+            QFileSystemModel | KotorFileSystemModel | ResourceFileSystemModel | PyFileSystemModel
+        ) = self.fs_model
 
         index: QModelIndex = model.indexFromItem(item)  # pyright: ignore[reportAttributeAccessIssue]
         if not index.isValid():
@@ -720,10 +787,14 @@ class ResourceFileSystemWidget(QWidget):
         m = QMenu(self)
         sm = m.addMenu("Sort by")
         for i, t in enumerate(["Name", "Size", "Type", "Date Modified"]):
-            sm.addAction(t).triggered.connect(lambda i=i: self.fsTreeView.sortByColumn(i, Qt.SortOrder.AscendingOrder))  # pyright: ignore[reportOptionalMemberAccess]
+            sm.addAction(t).triggered.connect(
+                lambda i=i: self.fsTreeView.sortByColumn(i, Qt.SortOrder.AscendingOrder)
+            )  # pyright: ignore[reportOptionalMemberAccess]
             print("<SDM> [onEmptySpaceContextMenu scope] i: ", i)
 
-        m.addAction("Refresh").triggered.connect(lambda *args, **kwargs: self.fs_model.reloadModelData())  # pyright: ignore[reportOptionalMemberAccess]
+        m.addAction("Refresh").triggered.connect(
+            lambda *args, **kwargs: self.fs_model.reloadModelData()
+        )  # pyright: ignore[reportOptionalMemberAccess]
         nm: _QMenu | None = m.addMenu("New")  # pyright: ignore[reportAttributeAccessIssue, reportAssignmentType]
 
         nm.addAction("Folder").triggered.connect(self.create_root_folder)  # pyright: ignore[reportOptionalMemberAccess]
@@ -739,7 +810,12 @@ class ResourceFileSystemWidget(QWidget):
             m.exec(self.fsTreeView.viewport().mapToGlobal(point))  # pyright: ignore[reportAttributeAccessIssue, reportOptionalMemberAccess]
 
     def on_header_context_menu(self, point: QPoint):
-        print(f"<SDM> [{self.__class__.__name__}.onHeaderContextMenu scope] point.x", point.x(), "y:", point.y())
+        print(
+            f"<SDM> [{self.__class__.__name__}.onHeaderContextMenu scope] point.x",
+            point.x(),
+            "y:",
+            point.y(),
+        )
         m = QMenu(self)
         td = m.addAction("Advanced")
 
@@ -775,7 +851,11 @@ class ResourceFileSystemWidget(QWidget):
         if not resources:
             return
         mw: ToolWindow | None = next(  # pyright: ignore[reportAssignmentType]
-            (w for w in QApplication.topLevelWidgets() if isinstance(w, QMainWindow) and w.__class__.__name__ == "ToolWindow"),
+            (
+                w
+                for w in QApplication.topLevelWidgets()
+                if isinstance(w, QMainWindow) and w.__class__.__name__ == "ToolWindow"
+            ),
             None,
         )
         active_installation: HTInstallation | None = None if mw is None else mw.active
@@ -783,16 +863,30 @@ class ResourceFileSystemWidget(QWidget):
         print("<SDM> [fileSystemModelContextMenu scope] m: ", m)
 
         m.addAction("Open").triggered.connect(
-            lambda: [open_resource_editor_from_path(r.filepath(), installation=active_installation, gff_specialized=GlobalSettings().gffSpecializedEditors) for r in resources],
+            lambda: [
+                open_resource_editor_from_path(
+                    r.filepath(),
+                    installation=active_installation,
+                    gff_specialized=GlobalSettings().gffSpecializedEditors,
+                )
+                for r in resources
+            ],
         )  # pyright: ignore[reportOptionalMemberAccess]
 
         if all(r.restype().contents == "gff" for r in resources):
             m.addAction("Open with GFF Editor").triggered.connect(
-                lambda: [open_resource_editor_from_path(r.filepath(), installation=active_installation, open_as_generic_gff=True) for r in resources],
+                lambda: [
+                    open_resource_editor_from_path(
+                        r.filepath(), installation=active_installation, open_as_generic_gff=True
+                    )
+                    for r in resources
+                ],
             )  # pyright: ignore[reportOptionalMemberAccess]
 
         m.addSeparator()
-        ResourceItems(resources=list(resources), viewport=lambda: self.parent()).run_context_menu(point, installation=active_installation, menu=m)
+        ResourceItems(resources=list(resources), viewport=lambda: self.parent()).run_context_menu(
+            point, installation=active_installation, menu=m
+        )
         print("<SDM> [fileSystemModelContextMenu scope] resources: ", resources)
         self.fs_model.reloadModelData()
 
@@ -862,7 +956,12 @@ class KotorFileSystemModel(QAbstractItemModel):
         self._headers: list[str] = ["Name", "Size", "Path", "Offset", "Last Modified"]
         self._detailed_headers: list[str] = [*self._headers]
         self._detailed_headers.extend(h for h in self.COLUMN_TO_STAT_MAP if h not in self._headers)
-        self._filter: QDir.Filter | int = QDir.Filter.AllEntries | QDir.Filter.NoDotAndDotDot | QDir.Filter.AllDirs | QDir.Filter.Files
+        self._filter: QDir.Filter | int = (
+            QDir.Filter.AllEntries
+            | QDir.Filter.NoDotAndDotDot
+            | QDir.Filter.AllDirs
+            | QDir.Filter.Files
+        )
         self._thumbnail_cache: dict[str, QIcon] = {}
         self._thumbnail_cache_order: list[str] = []
         self._thumbnail_cache_limit: int = 512
@@ -953,7 +1052,9 @@ class KotorFileSystemModel(QAbstractItemModel):
         path = file.filepath() if isinstance(file, FileResource) else file
         cls = (
             NestedCapsuleItem
-            if is_capsule_file(path) and not path.exists() and any(p.exists() and p.is_file() for p in path.parents)
+            if is_capsule_file(path)
+            and not path.exists()
+            and any(p.exists() and p.is_file() for p in path.parents)
             else CapsuleItem
             if isinstance(file, FileResource) or is_capsule_file(path)
             else DirItem
@@ -1075,7 +1176,9 @@ class KotorFileSystemModel(QAbstractItemModel):
                 if tpc.convert(TPCTextureFormat.RGB):
                     img = QImage(tpc.get().data, tpc.width, tpc.height, QImage.Format.Format_RGB888)
                 else:
-                    img = QImage(tpc.get().data, tpc.width, tpc.height, QImage.Format.Format_RGBA8888)
+                    img = QImage(
+                        tpc.get().data, tpc.width, tpc.height, QImage.Format.Format_RGBA8888
+                    )
                 pixmap = QPixmap.fromImage(img)
             else:
                 pixmap = QPixmap()
@@ -1087,7 +1190,12 @@ class KotorFileSystemModel(QAbstractItemModel):
             return None
 
         size = 128
-        scaled = pixmap.scaled(size, size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        scaled = pixmap.scaled(
+            size,
+            size,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
         icon = QIcon(scaled)
         self._thumbnail_cache[cache_key] = icon
         self._thumbnail_cache_order.append(cache_key)
@@ -1155,9 +1263,13 @@ class KotorFileSystemModel(QAbstractItemModel):
             item = item.parent
         return item
 
-    def headerData(self, section: int, orientation: Qt.Orientation, role: int = Qt.ItemDataRole.DisplayRole) -> str | None:
+    def headerData(
+        self, section: int, orientation: Qt.Orientation, role: int = Qt.ItemDataRole.DisplayRole
+    ) -> str | None:
         if role == Qt.ItemDataRole.DisplayRole and orientation == Qt.Orientation.Horizontal:
-            return self._detailed_headers[section] if self._detailed_view else self._headers[section]
+            return (
+                self._detailed_headers[section] if self._detailed_view else self._headers[section]
+            )
         return None
 
     def parent(self, index: QModelIndex) -> QModelIndex:
@@ -1213,29 +1325,43 @@ class KotorFileSystemModel(QAbstractItemModel):
         item: FileItem | DirItem | InstallationItem = index.internalPointer()
         column_name = self._detailed_headers[index.column()]
         stat_attr = self.COLUMN_TO_STAT_MAP.get(column_name)
-        if (stat_attr is not None or column_name in ("Size on Disk", "Size Ratio")) and isinstance(item, ResourceItem):
+        if (stat_attr is not None or column_name in ("Size on Disk", "Size Ratio")) and isinstance(
+            item, ResourceItem
+        ):
             return self.get_detailed_from_stat(index, item)
         if column_name == "Name":
-            return item.data() if isinstance(item, InstallationItem) else (item.path.name if isinstance(item, DirItem) else item.resource.filename())
+            return (
+                item.data()
+                if isinstance(item, InstallationItem)
+                else (item.path.name if isinstance(item, DirItem) else item.resource.filename())
+            )
         if column_name == "Path":
             return self._format_item_path(item)
         if column_name == "Offset":
             return "0x0" if isinstance(item, DirItem) else f"{hex(item.resource.offset())}"
         if column_name == "Size":
-            return "" if isinstance(item, DirItem) else self.human_readable_size(item.resource.size())
+            return (
+                "" if isinstance(item, DirItem) else self.human_readable_size(item.resource.size())
+            )
         return "N/A"
 
     def get_default_data(self, index: QModelIndex) -> str:
         item: ResourceItem | DirItem | InstallationItem = index.internalPointer()
         column_name = self._headers[index.column()]
         if column_name == "Name":
-            return item.data() if isinstance(item, InstallationItem) else (item.path.name if isinstance(item, DirItem) else item.resource.filename())
+            return (
+                item.data()
+                if isinstance(item, InstallationItem)
+                else (item.path.name if isinstance(item, DirItem) else item.resource.filename())
+            )
         if column_name == "Path":
             return self._format_item_path(item)
         if column_name == "Offset":
             return "0x0" if isinstance(item, DirItem) else f"{hex(item.resource.offset())}"
         if column_name == "Size":
-            return "" if isinstance(item, DirItem) else self.human_readable_size(item.resource.size())
+            return (
+                "" if isinstance(item, DirItem) else self.human_readable_size(item.resource.size())
+            )
         return "N/A"
 
     def sort(self, column: int, order: Qt.SortOrder = Qt.SortOrder.AscendingOrder):  # noqa: C901
@@ -1245,7 +1371,9 @@ class KotorFileSystemModel(QAbstractItemModel):
                 return (1, "", list_index)  # Sort None items last
 
             is_dir = isinstance(item, DirItem)
-            column_name = self._detailed_headers[column] if self._detailed_view else self._headers[column]
+            column_name = (
+                self._detailed_headers[column] if self._detailed_view else self._headers[column]
+            )
 
             if column_name == "Size":
                 assert isinstance(item, (DirItem, ResourceItem))
@@ -1259,19 +1387,33 @@ class KotorFileSystemModel(QAbstractItemModel):
                     key_value = item.path.name if isinstance(item, DirItem) else item.path.name  # noqa: PTH119
                     key_value = key_value.lower()
                 elif column_name == "Path":
-                    key_value = str(item.path if isinstance(item, DirItem) else item.path.relative_to(self.rootPath()))  # pyright: ignore[reportCallIssue, reportArgumentType]
+                    key_value = str(
+                        item.path
+                        if isinstance(item, DirItem)
+                        else item.path.relative_to(self.rootPath())
+                    )  # pyright: ignore[reportCallIssue, reportArgumentType]
                 elif column_name == "Offset":
                     assert isinstance(item, (DirItem, ResourceItem))
-                    key_value = "0x0" if isinstance(item, DirItem) else f"{hex(item.resource.offset())}"
+                    key_value = (
+                        "0x0" if isinstance(item, DirItem) else f"{hex(item.resource.offset())}"
+                    )
                 else:
                     key_value = "N/A"
-                key: tuple[Literal[0, 1], str] = (0 if is_dir else 1, key_value)  # Directories first, then by the appropriate column value
+                key: tuple[Literal[0, 1], str] = (
+                    0 if is_dir else 1,
+                    key_value,
+                )  # Directories first, then by the appropriate column value
 
             return (*key, list_index)
 
         def sort_items(items: list[TreeItem | None]):
-            items_copy: list[tuple[TreeItem | None, int]] = [(item, i) for i, item in enumerate(items)]
-            items_copy.sort(key=lambda x: get_sort_key(x[0], x[1]), reverse=(order == Qt.SortOrder.DescendingOrder))
+            items_copy: list[tuple[TreeItem | None, int]] = [
+                (item, i) for i, item in enumerate(items)
+            ]
+            items_copy.sort(
+                key=lambda x: get_sort_key(x[0], x[1]),
+                reverse=(order == Qt.SortOrder.DescendingOrder),
+            )
             for item in items_copy:
                 if isinstance(item, DirItem):
                     sort_items(item.children)

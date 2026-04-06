@@ -82,7 +82,12 @@ class TextureBrowser(QWidget):
 
         for name, pixmap in self.textures.items():
             # Create scaled icon
-            scaled = pixmap.scaled(64, 64, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            scaled = pixmap.scaled(
+                64,
+                64,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
             icon = QIcon(scaled)
 
             # Create list item
@@ -137,7 +142,9 @@ class TextureBrowser(QWidget):
         for url in mime_data.urls():
             if url.isLocalFile():
                 file_path = url.toLocalFile()
-                if isinstance(file_path, str) and file_path.lower().endswith((".tga", ".dds", ".jpg", ".png", ".bmp")):
+                if isinstance(file_path, str) and file_path.lower().endswith(
+                    (".tga", ".dds", ".jpg", ".png", ".bmp")
+                ):
                     self.import_texture(file_path)
         event.acceptProposedAction()
 

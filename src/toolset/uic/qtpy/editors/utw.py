@@ -92,7 +92,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18.addWidget(self.noteChangeButton)
         self.formLayout.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_18)
         self.verticalLayout_2.addLayout(self.formLayout)
-        spacerItem = QtWidgets.QSpacerItem(320, 85, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            320, 85, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_2.addItem(spacerItem)
         self.tabWidget.addTab(self.tab_2, "")
         self.commentsTab = QtWidgets.QWidget()
@@ -140,44 +142,100 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocalizedName). CExoLocString. Display name on area\n"
-"                map and travel menu. Default when missing: empty. Modders:\n"
-"                descriptive name (e.g. \"Dantooine - Jedi Enclave\"); scripts target\n"
-"                by Tag, not name."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocalizedName). CExoLocString. Display name on area\n"
+                "                map and travel menu. Default when missing: empty. Modders:\n"
+                '                descriptive name (e.g. "Dantooine - Jedi Enclave"); scripts target\n'
+                "                by Tag, not name.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique waypoint identifier for\n"
-"                scripts and transitions. Default when missing: \"\". Modders: keep\n"
-"                unique per module; GetObjectByTag and doors/triggers use this."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate Tag from ResRef. Copies Template ResRef into Tag so\n"
-"                they stay in sync for script targeting."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique waypoint identifier for\n"
+                '                scripts and transitions. Default when missing: "". Modders: keep\n'
+                "                unique per module; GetObjectByTag and doors/triggers use this.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate Tag from ResRef. Copies Template ResRef into Tag so\n"
+                "                they stay in sync for script targeting.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "ResRef (GFF: TemplateResRef). CResRef. Waypoint template\n"
-"                resource reference; .utw implied. Default when missing: blank.\n"
-"                Modders: max 16 chars; must match .utw filename or area load fails."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Generate ResRef from Tag. Copies Tag into Template ResRef (max\n"
-"                16 chars); ResRef must match .utw filename."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "ResRef (GFF: TemplateResRef). CResRef. Waypoint template\n"
+                "                resource reference; .utw implied. Default when missing: blank.\n"
+                "                Modders: max 16 chars; must match .utw filename or area load fails.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate ResRef from Tag. Copies Tag into Template ResRef (max\n"
+                "                16 chars); ResRef must match .utw filename.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
-        self.isNoteCheckbox.setToolTip(_translate("MainWindow", "Is a Map Note (GFF: HasMapNote). BYTE. Waypoint shows custom text on\n"
-"            area map. Default when missing: 0. Modders: set 1 to enable; MapNote and\n"
-"            MapNoteEnabled only read when this is set."))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
+        self.isNoteCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Is a Map Note (GFF: HasMapNote). BYTE. Waypoint shows custom text on\n"
+                "            area map. Default when missing: 0. Modders: set 1 to enable; MapNote and\n"
+                "            MapNoteEnabled only read when this is set.",
+            )
+        )
         self.isNoteCheckbox.setText(_translate("MainWindow", "Is a Map Note"))
-        self.noteEnabledCheckbox.setToolTip(_translate("MainWindow", "Map Note is Enabled (GFF: MapNoteEnabled). BYTE. Map note pin\n"
-"            initially visible. Default when missing: 0. Modders: only when Is a Map Note\n"
-"            is set; 1 = visible, 0 = hidden (scripts can toggle)."))
+        self.noteEnabledCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Note is Enabled (GFF: MapNoteEnabled). BYTE. Map note pin\n"
+                "            initially visible. Default when missing: 0. Modders: only when Is a Map Note\n"
+                "            is set; 1 = visible, 0 = hidden (scripts can toggle).",
+            )
+        )
         self.noteEnabledCheckbox.setText(_translate("MainWindow", "Map Note is Enabled"))
         self.label.setText(_translate("MainWindow", "Map Note:"))
-        self.noteEdit.setToolTip(_translate("MainWindow", "Map Note (GFF: MapNote). CExoLocString. Text shown on area\n"
-"                map. Default when missing: empty. Modders: only read when Is a Map\n"
-"                Note is set; use for quest hints or location labels."))
-        self.noteChangeButton.setToolTip(_translate("MainWindow", "Edit Map Note. Opens localized string editor for Map Note\n"
-"                (GFF: MapNote); supports multiple languages."))
+        self.noteEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Map Note (GFF: MapNote). CExoLocString. Text shown on area\n"
+                "                map. Default when missing: empty. Modders: only read when Is a Map\n"
+                "                Note is set; use for quest hints or location labels.",
+            )
+        )
+        self.noteChangeButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Edit Map Note. Opens localized string editor for Map Note\n"
+                "                (GFF: MapNote); supports multiple languages.",
+            )
+        )
         self.noteChangeButton.setText(_translate("MainWindow", "..."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Advanced"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer comment; not used by\n"
-"            the game engine. Default when missing: \"\". Modders: toolset only."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Advanced")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer comment; not used by\n"
+                '            the game engine. Default when missing: "". Modders: toolset only.',
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -185,4 +243,6 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit

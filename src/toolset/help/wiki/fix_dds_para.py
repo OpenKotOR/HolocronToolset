@@ -1,4 +1,5 @@
 """Fix the missing backticks in the DDS implementation paragraph."""
+
 content = open("wiki/Texture-Formats.md", encoding="utf-8").read()
 
 old_para = (
@@ -77,4 +78,4 @@ if old_para in content:
 else:
     print("Not found - printing current paragraph start:")
     idx = content.find("PyKotor reads both variants")
-    print(repr(content[idx:idx+500]))
+    print(repr(content[idx : idx + 500]))

@@ -99,7 +99,9 @@ class Ui_MainWindow(object):
         self.snapSeparator.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.snapSeparator.setObjectName("snapSeparator")
         self.horizontalLayout_2.addWidget(self.snapSeparator)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_2.addItem(spacerItem)
         self.toolbarFrameLayout.addLayout(self.horizontalLayout_2)
         self.toolbarSecondaryLayout = QtWidgets.QHBoxLayout()
@@ -118,25 +120,27 @@ class Ui_MainWindow(object):
         self.sceneOptionsFrameLayout.addWidget(self.sceneOptionsLabel)
         self.lockInstancesCheck = QtWidgets.QCheckBox(self.sceneOptionsFrame)
         self.lockInstancesCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.lockInstancesCheck.setStyleSheet("QCheckbox { spacing: 0px; }\n"
-"                QCheckBox::indicator {\n"
-"                image: url(:/images/icons/lock.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }")
+        self.lockInstancesCheck.setStyleSheet(
+            "QCheckbox { spacing: 0px; }\n"
+            "                QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/lock.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }"
+        )
         self.lockInstancesCheck.setText("")
         self.lockInstancesCheck.setChecked(False)
         self.lockInstancesCheck.setObjectName("lockInstancesCheck")
@@ -144,33 +148,35 @@ class Ui_MainWindow(object):
         self.cursorCheck = QtWidgets.QCheckBox(self.sceneOptionsFrame)
         self.cursorCheck.setMaximumSize(QtCore.QSize(28, 16777215))
         self.cursorCheck.setChecked(True)
-        self.cursorCheck.setStyleSheet("QCheckbox {\n"
-"                spacing: 0px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator {\n"
-"                image: url(:/images/icons/cursor.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.cursorCheck.setStyleSheet(
+            "QCheckbox {\n"
+            "                spacing: 0px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/cursor.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.cursorCheck.setText("")
         self.cursorCheck.setChecked(True)
         self.cursorCheck.setObjectName("cursorCheck")
@@ -201,66 +207,70 @@ class Ui_MainWindow(object):
         self.renderOptionsFrameLayout.addWidget(self.renderOptionsLabel)
         self.backfaceCheck = QtWidgets.QCheckBox(self.renderOptionsFrame)
         self.backfaceCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.backfaceCheck.setStyleSheet("QCheckbox {\n"
-"                spacing: 0px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator {\n"
-"                image: url(:/images/icons/backface.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.backfaceCheck.setStyleSheet(
+            "QCheckbox {\n"
+            "                spacing: 0px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/backface.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.backfaceCheck.setText("")
         self.backfaceCheck.setChecked(True)
         self.backfaceCheck.setObjectName("backfaceCheck")
         self.renderOptionsFrameLayout.addWidget(self.backfaceCheck)
         self.lightmapCheck = QtWidgets.QCheckBox(self.renderOptionsFrame)
         self.lightmapCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.lightmapCheck.setStyleSheet("QCheckbox {\n"
-"                spacing: 0px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator {\n"
-"                image: url(:/images/icons/lightmap.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.lightmapCheck.setStyleSheet(
+            "QCheckbox {\n"
+            "                spacing: 0px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/lightmap.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.lightmapCheck.setText("")
         self.lightmapCheck.setChecked(True)
         self.lightmapCheck.setObjectName("lightmapCheck")
@@ -279,265 +289,283 @@ class Ui_MainWindow(object):
         self.visibilityFiltersFrameLayout.addWidget(self.visibilityFiltersLabel)
         self.viewCreatureCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewCreatureCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewCreatureCheck.setStyleSheet("QCheckbox {\n"
-"                spacing: 0px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/creature.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewCreatureCheck.setStyleSheet(
+            "QCheckbox {\n"
+            "                spacing: 0px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/creature.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewCreatureCheck.setText("")
         self.viewCreatureCheck.setChecked(True)
         self.viewCreatureCheck.setObjectName("viewCreatureCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewCreatureCheck)
         self.viewDoorCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewDoorCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewDoorCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/door.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewDoorCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/door.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewDoorCheck.setText("")
         self.viewDoorCheck.setChecked(True)
         self.viewDoorCheck.setObjectName("viewDoorCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewDoorCheck)
         self.viewPlaceableCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewPlaceableCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewPlaceableCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/placeable.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewPlaceableCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/placeable.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewPlaceableCheck.setText("")
         self.viewPlaceableCheck.setChecked(True)
         self.viewPlaceableCheck.setObjectName("viewPlaceableCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewPlaceableCheck)
         self.viewStoreCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewStoreCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewStoreCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/merchant.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewStoreCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/merchant.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewStoreCheck.setText("")
         self.viewStoreCheck.setChecked(True)
         self.viewStoreCheck.setObjectName("viewStoreCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewStoreCheck)
         self.viewSoundCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewSoundCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewSoundCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/sound.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewSoundCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/sound.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewSoundCheck.setText("")
         self.viewSoundCheck.setChecked(True)
         self.viewSoundCheck.setObjectName("viewSoundCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewSoundCheck)
         self.viewWaypointCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewWaypointCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewWaypointCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/waypoint.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewWaypointCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/waypoint.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewWaypointCheck.setText("")
         self.viewWaypointCheck.setChecked(True)
         self.viewWaypointCheck.setObjectName("viewWaypointCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewWaypointCheck)
         self.viewCameraCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewCameraCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewCameraCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/camera.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewCameraCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/camera.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewCameraCheck.setText("")
         self.viewCameraCheck.setChecked(True)
         self.viewCameraCheck.setObjectName("viewCameraCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewCameraCheck)
         self.viewEncounterCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewEncounterCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewEncounterCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/encounter.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewEncounterCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/encounter.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewEncounterCheck.setText("")
         self.viewEncounterCheck.setChecked(True)
         self.viewEncounterCheck.setObjectName("viewEncounterCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.viewEncounterCheck)
         self.viewTriggerCheck = QtWidgets.QCheckBox(self.visibilityFiltersFrame)
         self.viewTriggerCheck.setMaximumSize(QtCore.QSize(28, 16777215))
-        self.viewTriggerCheck.setStyleSheet("QCheckBox::indicator {\n"
-"                image: url(:/images/icons/k1/trigger.png);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.0);\n"
-"                width: 26px;\n"
-"                height: 26px;\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:unchecked:hover {\n"
-"                background: rgba(30, 144, 255, 0.2);\n"
-"                border: 1px solid rgba(30, 144, 255, 0.4);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked {\n"
-"                background: rgba(30, 144, 255, 0.4);\n"
-"                border:1px solid rgba(30, 144, 255, 0.6);\n"
-"                }\n"
-"\n"
-"                QCheckBox::indicator:checked:hover {\n"
-"                background: rgba(30, 144, 255, 0.5);\n"
-"                border:1px solid rgba(30, 144, 255, 0.7);\n"
-"                }\n"
-"\n"
-"               ")
+        self.viewTriggerCheck.setStyleSheet(
+            "QCheckBox::indicator {\n"
+            "                image: url(:/images/icons/k1/trigger.png);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.0);\n"
+            "                width: 26px;\n"
+            "                height: 26px;\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:unchecked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.2);\n"
+            "                border: 1px solid rgba(30, 144, 255, 0.4);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked {\n"
+            "                background: rgba(30, 144, 255, 0.4);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.6);\n"
+            "                }\n"
+            "\n"
+            "                QCheckBox::indicator:checked:hover {\n"
+            "                background: rgba(30, 144, 255, 0.5);\n"
+            "                border:1px solid rgba(30, 144, 255, 0.7);\n"
+            "                }\n"
+            "\n"
+            "               "
+        )
         self.viewTriggerCheck.setText("")
         self.viewTriggerCheck.setChecked(True)
         self.viewTriggerCheck.setObjectName("viewTriggerCheck")
@@ -547,7 +575,9 @@ class Ui_MainWindow(object):
         self.pickHiddenCheck.setObjectName("pickHiddenCheck")
         self.visibilityFiltersFrameLayout.addWidget(self.pickHiddenCheck)
         self.toolbarSecondaryLayout.addWidget(self.visibilityFiltersFrame)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.toolbarSecondaryLayout.addItem(spacerItem1)
         self.toolbarFrameLayout.addLayout(self.toolbarSecondaryLayout)
         self.verticalLayout.addWidget(self.toolbarFrame)
@@ -707,10 +737,14 @@ class Ui_MainWindow(object):
         self.walkmeshFaceLayout.setObjectName("walkmeshFaceLayout")
         self.faceMaterialLabel = QtWidgets.QLabel(self.walkmeshFacePropsBox)
         self.faceMaterialLabel.setObjectName("faceMaterialLabel")
-        self.walkmeshFaceLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.faceMaterialLabel)
+        self.walkmeshFaceLayout.setWidget(
+            0, QtWidgets.QFormLayout.LabelRole, self.faceMaterialLabel
+        )
         self.faceMaterialCombo = QtWidgets.QComboBox(self.walkmeshFacePropsBox)
         self.faceMaterialCombo.setObjectName("faceMaterialCombo")
-        self.walkmeshFaceLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.faceMaterialCombo)
+        self.walkmeshFaceLayout.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.faceMaterialCombo
+        )
         self.faceWalkLabel = QtWidgets.QLabel(self.walkmeshFacePropsBox)
         self.faceWalkLabel.setObjectName("faceWalkLabel")
         self.walkmeshFaceLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.faceWalkLabel)
@@ -720,11 +754,15 @@ class Ui_MainWindow(object):
         self.walkmeshFaceLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.faceWalkCheck)
         self.faceWalkCheckLabel = QtWidgets.QLabel(self.walkmeshFacePropsBox)
         self.faceWalkCheckLabel.setObjectName("faceWalkCheckLabel")
-        self.walkmeshFaceLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.faceWalkCheckLabel)
+        self.walkmeshFaceLayout.setWidget(
+            2, QtWidgets.QFormLayout.LabelRole, self.faceWalkCheckLabel
+        )
         self.faceWalkCheckCheck = QtWidgets.QCheckBox(self.walkmeshFacePropsBox)
         self.faceWalkCheckCheck.setText("")
         self.faceWalkCheckCheck.setObjectName("faceWalkCheckCheck")
-        self.walkmeshFaceLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.faceWalkCheckCheck)
+        self.walkmeshFaceLayout.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.faceWalkCheckCheck
+        )
         self.faceLosLabel = QtWidgets.QLabel(self.walkmeshFacePropsBox)
         self.faceLosLabel.setObjectName("faceLosLabel")
         self.walkmeshFaceLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.faceLosLabel)
@@ -733,7 +771,9 @@ class Ui_MainWindow(object):
         self.faceLosCheck.setObjectName("faceLosCheck")
         self.walkmeshFaceLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.faceLosCheck)
         self.walkmeshTabLayout.addWidget(self.walkmeshFacePropsBox)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.walkmeshTabLayout.addItem(spacerItem2)
         self.leftPanel.addTab(self.walkmeshTab, "")
         self.visTab = QtWidgets.QWidget()
@@ -759,7 +799,9 @@ class Ui_MainWindow(object):
         self.visClearAllButton.setObjectName("visClearAllButton")
         self.visButtonsLayout.addWidget(self.visClearAllButton)
         self.visTabLayout.addLayout(self.visButtonsLayout)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.visTabLayout.addItem(spacerItem3)
         self.leftPanel.addTab(self.visTab, "")
         self.horizontalLayout.addWidget(self.leftPanel)
@@ -859,7 +901,9 @@ class Ui_MainWindow(object):
         self.propertiesLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.propBearingSpin)
         self.propOpenBlueprintBtn = QtWidgets.QPushButton(self.propertiesGroup)
         self.propOpenBlueprintBtn.setObjectName("propOpenBlueprintBtn")
-        self.propertiesLayout.setWidget(6, QtWidgets.QFormLayout.SpanningRole, self.propOpenBlueprintBtn)
+        self.propertiesLayout.setWidget(
+            6, QtWidgets.QFormLayout.SpanningRole, self.propOpenBlueprintBtn
+        )
         self.instancePanelLayout.addWidget(self.propertiesGroup)
         self.rightPanel.addTab(self.instancesTab, "")
         self.layoutTab = QtWidgets.QWidget()
@@ -952,7 +996,9 @@ class Ui_MainWindow(object):
         self.buildIndoorButton = QtWidgets.QPushButton(self.layoutTab)
         self.buildIndoorButton.setObjectName("buildIndoorButton")
         self.layoutTabLayout.addWidget(self.buildIndoorButton)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.layoutTabLayout.addItem(spacerItem4)
         self.rightPanel.addTab(self.layoutTab, "")
         self.horizontalLayout.addWidget(self.rightPanel)
@@ -1027,34 +1073,55 @@ class Ui_MainWindow(object):
         self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Y"))
         self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
         self.modeLabelWidget.setText(_translate("MainWindow", "Mode:"))
-        self.modeSelector.setToolTip(_translate("MainWindow", "Switch editor mode (Layout builds rooms, Object places GIT\n"
-"             instances,\n"
-"             Walkmesh edits walk surfaces)"))
+        self.modeSelector.setToolTip(
+            _translate(
+                "MainWindow",
+                "Switch editor mode (Layout builds rooms, Object places GIT\n"
+                "             instances,\n"
+                "             Walkmesh edits walk surfaces)",
+            )
+        )
         self.modeSelector.setItemText(0, _translate("MainWindow", "Object Mode"))
         self.modeSelector.setItemText(1, _translate("MainWindow", "Layout Mode"))
         self.modeSelector.setItemText(2, _translate("MainWindow", "Walkmesh Mode"))
         self.toolSelectBtn.setText(_translate("MainWindow", "Select (F1)"))
-        self.toolSelectBtn.setToolTip(_translate("MainWindow", "Select tool — click to select instances [F1]"))
+        self.toolSelectBtn.setToolTip(
+            _translate("MainWindow", "Select tool — click to select instances [F1]")
+        )
         self.toolMoveBtn.setText(_translate("MainWindow", "Move (F2)"))
-        self.toolMoveBtn.setToolTip(_translate("MainWindow", "Move tool — drag to translate selected instances [F2]"))
+        self.toolMoveBtn.setToolTip(
+            _translate("MainWindow", "Move tool — drag to translate selected instances [F2]")
+        )
         self.toolRotateBtn.setText(_translate("MainWindow", "Rotate (F3)"))
-        self.toolRotateBtn.setToolTip(_translate("MainWindow", "Rotate tool — drag to rotate selected instances [F3]"))
+        self.toolRotateBtn.setToolTip(
+            _translate("MainWindow", "Rotate tool — drag to rotate selected instances [F3]")
+        )
         self.snapCheck.setText(_translate("MainWindow", "Snap"))
-        self.snapCheck.setToolTip(_translate("MainWindow", "Enable grid snapping for move/place (Object mode)"))
+        self.snapCheck.setToolTip(
+            _translate("MainWindow", "Enable grid snapping for move/place (Object mode)")
+        )
         self.snapSizeSpin.setSuffix(_translate("MainWindow", " m"))
         self.snapSizeSpin.setToolTip(_translate("MainWindow", "Grid snap increment (meters)"))
         self.rotSnapCheck.setText(_translate("MainWindow", "Rot Snap"))
-        self.rotSnapCheck.setToolTip(_translate("MainWindow", "Enable rotation snapping (Object mode)"))
+        self.rotSnapCheck.setToolTip(
+            _translate("MainWindow", "Enable rotation snapping (Object mode)")
+        )
         self.rotSnapDegreeSpin.setSuffix(_translate("MainWindow", "°"))
-        self.rotSnapDegreeSpin.setToolTip(_translate("MainWindow", "Rotation snap increment (degrees)"))
+        self.rotSnapDegreeSpin.setToolTip(
+            _translate("MainWindow", "Rotation snap increment (degrees)")
+        )
         self.sceneOptionsLabel.setText(_translate("MainWindow", "Scene"))
         self.lockInstancesCheck.setToolTip(_translate("MainWindow", "Lock all instances in place"))
         self.cursorCheck.setToolTip(_translate("MainWindow", "Display cursor at mouse"))
-        self.roomBoundariesCheck.setToolTip(_translate("MainWindow", "Show room boundary boxes and room labels in 2D view"))
+        self.roomBoundariesCheck.setToolTip(
+            _translate("MainWindow", "Show room boundary boxes and room labels in 2D view")
+        )
         self.roomBoundariesCheck.setText(_translate("MainWindow", "Rooms"))
         self.flatGridCheck.setToolTip(_translate("MainWindow", "Show world-space grid in 2D view"))
         self.flatGridCheck.setText(_translate("MainWindow", "Grid"))
-        self.walkmeshEdgesCheck.setToolTip(_translate("MainWindow", "Show walkmesh edges in 2D view (Object/Walkmesh modes)"))
+        self.walkmeshEdgesCheck.setToolTip(
+            _translate("MainWindow", "Show walkmesh edges in 2D view (Object/Walkmesh modes)")
+        )
         self.walkmeshEdgesCheck.setText(_translate("MainWindow", "Walkmesh edges"))
         self.renderOptionsLabel.setText(_translate("MainWindow", "Render"))
         self.backfaceCheck.setToolTip(_translate("MainWindow", "Enable backface culling"))
@@ -1069,21 +1136,34 @@ class Ui_MainWindow(object):
         self.viewCameraCheck.setToolTip(_translate("MainWindow", "Cameras"))
         self.viewEncounterCheck.setToolTip(_translate("MainWindow", "Encounters"))
         self.viewTriggerCheck.setToolTip(_translate("MainWindow", "Triggers"))
-        self.pickHiddenCheck.setToolTip(_translate("MainWindow", "Allow selecting instances that are hidden by type (e.g.\n"
-"                creatures when Creatures is unchecked)"))
+        self.pickHiddenCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Allow selecting instances that are hidden by type (e.g.\n"
+                "                creatures when Creatures is unchecked)",
+            )
+        )
         self.pickHiddenCheck.setText(_translate("MainWindow", "Pick hidden"))
         self.resourceSearchEdit.setPlaceholderText(_translate("MainWindow", "Search resources..."))
-        self.leftPanel.setTabText(self.leftPanel.indexOf(self.resourceTab), _translate("MainWindow", "Resources"))
+        self.leftPanel.setTabText(
+            self.leftPanel.indexOf(self.resourceTab), _translate("MainWindow", "Resources")
+        )
         self.lytTree.headerItem().setText(0, _translate("MainWindow", "Layout Elements"))
         self.modelLabel.setText(_translate("MainWindow", "Model:"))
         self.browseModelButton.setText(_translate("MainWindow", "..."))
         self.positionLabel.setText(_translate("MainWindow", "Position:"))
         self.rotationLabel.setText(_translate("MainWindow", "Rotation:"))
-        self.lytElementTabs.setTabText(self.lytElementTabs.indexOf(self.roomTab), _translate("MainWindow", "Room"))
+        self.lytElementTabs.setTabText(
+            self.lytElementTabs.indexOf(self.roomTab), _translate("MainWindow", "Room")
+        )
         self.roomNameLabel.setText(_translate("MainWindow", "Room:"))
         self.doorNameLabel.setText(_translate("MainWindow", "Door:"))
-        self.lytElementTabs.setTabText(self.lytElementTabs.indexOf(self.doorHookTab), _translate("MainWindow", "Door Hook"))
-        self.leftPanel.setTabText(self.leftPanel.indexOf(self.lytTab), _translate("MainWindow", "Layout"))
+        self.lytElementTabs.setTabText(
+            self.lytElementTabs.indexOf(self.doorHookTab), _translate("MainWindow", "Door Hook")
+        )
+        self.leftPanel.setTabText(
+            self.leftPanel.indexOf(self.lytTab), _translate("MainWindow", "Layout")
+        )
         self.walkmeshPainterBox.setTitle(_translate("MainWindow", "Walkmesh Painter"))
         self.enablePaintCheck.setText(_translate("MainWindow", "Enable Painting (P)"))
         self.colorizeMaterialsCheck.setText(_translate("MainWindow", "Colorize Materials"))
@@ -1093,13 +1173,22 @@ class Ui_MainWindow(object):
         self.faceWalkLabel.setText(_translate("MainWindow", "Walkable:"))
         self.faceWalkCheckLabel.setText(_translate("MainWindow", "Walk Check:"))
         self.faceLosLabel.setText(_translate("MainWindow", "Line of Sight:"))
-        self.leftPanel.setTabText(self.leftPanel.indexOf(self.walkmeshTab), _translate("MainWindow", "Walkmesh"))
-        self.visInfoLabel.setText(_translate("MainWindow", "Room-to-room visibility matrix. Check rooms that should be visible\n"
-"              from each other."))
+        self.leftPanel.setTabText(
+            self.leftPanel.indexOf(self.walkmeshTab), _translate("MainWindow", "Walkmesh")
+        )
+        self.visInfoLabel.setText(
+            _translate(
+                "MainWindow",
+                "Room-to-room visibility matrix. Check rooms that should be visible\n"
+                "              from each other.",
+            )
+        )
         self.visMatrix.headerItem().setText(0, _translate("MainWindow", "Room"))
         self.visSetAllButton.setText(_translate("MainWindow", "Set All Visible"))
         self.visClearAllButton.setText(_translate("MainWindow", "Clear All"))
-        self.leftPanel.setTabText(self.leftPanel.indexOf(self.visTab), _translate("MainWindow", "VIS"))
+        self.leftPanel.setTabText(
+            self.leftPanel.indexOf(self.visTab), _translate("MainWindow", "VIS")
+        )
         self.instanceSearchEdit.setPlaceholderText(_translate("MainWindow", "Search instances..."))
         self.propertiesGroup.setTitle(_translate("MainWindow", "Selected Instance"))
         self.propResRefLabel.setText(_translate("MainWindow", "ResRef:"))
@@ -1111,7 +1200,9 @@ class Ui_MainWindow(object):
         self.label2.setText(_translate("MainWindow", "Z:"))
         self.label3.setText(_translate("MainWindow", "Bearing°:"))
         self.propOpenBlueprintBtn.setText(_translate("MainWindow", "Open Blueprint..."))
-        self.rightPanel.setTabText(self.rightPanel.indexOf(self.instancesTab), _translate("MainWindow", "Instances"))
+        self.rightPanel.setTabText(
+            self.rightPanel.indexOf(self.instancesTab), _translate("MainWindow", "Instances")
+        )
         self.indoorPreviewBox.setTitle(_translate("MainWindow", "Preview"))
         self.indoorKitsGroupBox.setTitle(_translate("MainWindow", "Kits"))
         self.indoorModulesGroupBox.setTitle(_translate("MainWindow", "Modules"))
@@ -1124,8 +1215,12 @@ class Ui_MainWindow(object):
         self.rotSnapLabel.setText(_translate("MainWindow", "Rotation Snap:"))
         self.rotSnapSpin.setSuffix(_translate("MainWindow", "°"))
         self.buildIndoorButton.setText(_translate("MainWindow", "Build Module (.mod)"))
-        self.buildIndoorButton.setToolTip(_translate("MainWindow", "Compile the indoor layout into a playable .mod file"))
-        self.rightPanel.setTabText(self.rightPanel.indexOf(self.layoutTab), _translate("MainWindow", "Indoor"))
+        self.buildIndoorButton.setToolTip(
+            _translate("MainWindow", "Compile the indoor layout into a playable .mod file")
+        )
+        self.rightPanel.setTabText(
+            self.rightPanel.indexOf(self.layoutTab), _translate("MainWindow", "Indoor")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionSave.setText(_translate("MainWindow", "Save GIT"))
@@ -1140,7 +1235,9 @@ class Ui_MainWindow(object):
         self.actionImportTexture.setText(_translate("MainWindow", "Import Texture"))
         self.actionImportTexture.setToolTip(_translate("MainWindow", "Import a custom texture"))
         self.actionGenerateWalkmesh.setText(_translate("MainWindow", "Generate Walkmesh"))
-        self.actionGenerateWalkmesh.setToolTip(_translate("MainWindow", "Generate walkmesh from room layout"))
+        self.actionGenerateWalkmesh.setToolTip(
+            _translate("MainWindow", "Generate walkmesh from room layout")
+        )
         self.actionInstructions.setText(_translate("MainWindow", "Instructions"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
@@ -1148,6 +1245,8 @@ class Ui_MainWindow(object):
         self.actionExit.setShortcut(_translate("MainWindow", "Alt+F4"))
         self.actionHide3DView.setText(_translate("MainWindow", "Hide 3D View"))
         self.actionHide2DView.setText(_translate("MainWindow", "Hide 2D View"))
+
+
 from toolset.gui.widgets.renderer.module import ModuleRenderer
 from toolset.gui.widgets.renderer.walkmesh import WalkmeshRenderer
 from toolset.gui.windows.indoor_builder.renderer import IndoorMapRenderer

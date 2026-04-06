@@ -316,7 +316,9 @@ class TestBlenderDetection:
 
         source_dir = tmp_path / "io_scene_kotor"
         source_dir.mkdir()
-        (source_dir / "__init__.py").write_text("bl_info = {'version': (4, 0, 4)}", encoding="utf-8")
+        (source_dir / "__init__.py").write_text(
+            "bl_info = {'version': (4, 0, 4)}", encoding="utf-8"
+        )
 
         monkeypatch.setenv("KOTORBLENDER_SOURCE_PATH", str(source_dir))
 
@@ -473,7 +475,12 @@ class TestIPCSerialization:
 
             def serialize(self) -> dict[str, float]:
                 """Serialize to JSON-compatible dict."""
-                return {"x": float(self.x), "y": float(self.y), "z": float(self.z), "w": float(self.w)}
+                return {
+                    "x": float(self.x),
+                    "y": float(self.y),
+                    "z": float(self.z),
+                    "w": float(self.w),
+                }
 
         test_cases = [
             (0.0, 0.0, 0.0, 1.0),
@@ -808,7 +815,18 @@ class TestIPCSerialization:
     def test_serialize_git_complete(self):
         """Test complete GIT serialization with all instance types."""
         from toolset.blender.serializers import serialize_git
-        from pykotor.resource.generics.git import GIT, GITCamera, GITCreature, GITDoor, GITEncounter, GITPlaceable, GITSound, GITStore, GITTrigger, GITWaypoint
+        from pykotor.resource.generics.git import (
+            GIT,
+            GITCamera,
+            GITCreature,
+            GITDoor,
+            GITEncounter,
+            GITPlaceable,
+            GITSound,
+            GITStore,
+            GITTrigger,
+            GITWaypoint,
+        )
         from utility.common.geometry import Vector3, Vector4
 
         git = GIT()
@@ -1454,9 +1472,21 @@ class TestBlenderEditorController:
         # Simulate events
         from unittest.mock import Mock
 
-        controller._on_selection_changed(IPCEvent(method="selection_changed", params={"selected": ["obj1"]}))
-        controller._on_transform_changed(IPCEvent(method="transform_changed", params={"name": "obj1", "position": {"x": 1}, "rotation": {}}))
-        controller._on_instance_added(IPCEvent(method="instance_added", params={"instance": {"type": "GITCreature", "resref": "test_creature"}}))
+        controller._on_selection_changed(
+            IPCEvent(method="selection_changed", params={"selected": ["obj1"]})
+        )
+        controller._on_transform_changed(
+            IPCEvent(
+                method="transform_changed",
+                params={"name": "obj1", "position": {"x": 1}, "rotation": {}},
+            )
+        )
+        controller._on_instance_added(
+            IPCEvent(
+                method="instance_added",
+                params={"instance": {"type": "GITCreature", "resref": "test_creature"}},
+            )
+        )
 
         assert len(selection_calls) == 1
         assert len(transform_calls) == 1
@@ -1590,7 +1620,10 @@ class TestBlenderEditorMixin:
 
         with patch("toolset.blender.integration.get_blender_settings") as mock_settings:
             mock_settings.return_value.get_blender_info.return_value = blender_info
-            with patch("toolset.gui.dialogs.blender_choice.show_blender_choice_dialog", return_value=("blender", False)):
+            with patch(
+                "toolset.gui.dialogs.blender_choice.show_blender_choice_dialog",
+                return_value=("blender", False),
+            ):
                 use_blender, returned_info = check_blender_and_ask(Mock(), "Module Designer")
 
         assert use_blender is True
@@ -1600,7 +1633,10 @@ class TestBlenderEditorMixin:
         """Test cancelled Blender choice returns no info."""
         from toolset.blender.integration import check_blender_and_ask
 
-        with patch("toolset.gui.dialogs.blender_choice.show_blender_choice_dialog", return_value=("cancelled", False)):
+        with patch(
+            "toolset.gui.dialogs.blender_choice.show_blender_choice_dialog",
+            return_value=("cancelled", False),
+        ):
             use_blender, returned_info = check_blender_and_ask(Mock(), "Module Designer")
 
         assert use_blender is False
@@ -1771,7 +1807,9 @@ class TestMockIPCServer:
         client.connect(timeout=2.0)
 
         commands = BlenderCommands(client)
-        object_name = commands.add_instance({"type": "GITCreature", "position": {"x": 0, "y": 0, "z": 0}})
+        object_name = commands.add_instance(
+            {"type": "GITCreature", "position": {"x": 0, "y": 0, "z": 0}}
+        )
 
         assert object_name == "instance_obj_001"
 
@@ -1859,7 +1897,10 @@ class TestMockIPCServer:
         response = client.send_command("ping", timeout=0.1)
 
         assert response.success is False
-        assert "Not connected" in str(response.error or "") or "timeout" in str(response.error or "").lower()
+        assert (
+            "Not connected" in str(response.error or "")
+            or "timeout" in str(response.error or "").lower()
+        )
 
     def test_client_connection_timeout(self):
         """Test connection timeout handling."""

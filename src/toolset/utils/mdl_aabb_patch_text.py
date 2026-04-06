@@ -2,6 +2,7 @@
 
 Used by ``sitecustomize`` and ``pykotor_mdl_aabb_hotfix``. No pykotor import.
 """
+
 from __future__ import annotations
 
 import re

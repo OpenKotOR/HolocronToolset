@@ -148,7 +148,9 @@ class Ui_MainWindow(object):
         self.respawnCountSpin.setObjectName("respawnCountSpin")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.respawnCountSpin)
         self.verticalLayout_2.addLayout(self.formLayout_2)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_2.addItem(spacerItem)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_5 = QtWidgets.QWidget()
@@ -173,7 +175,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.creatureTable)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem1)
         self.removeCreatureButton = QtWidgets.QPushButton(self.tab_5)
         self.removeCreatureButton.setObjectName("removeCreatureButton")
@@ -266,84 +270,173 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocalizedName). CExoLocString. Display name for the encounter;\n"
-"                read via ReadFieldCExoLocString in ReadEncounterFromGff. Not shown to players at\n"
-"                runtime—used by toolset for organization. Modders: optional; leave empty if not\n"
-"                needed."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocalizedName). CExoLocString. Display name for the encounter;\n"
+                "                read via ReadFieldCExoLocString in ReadEncounterFromGff. Not shown to players at\n"
+                "                runtime—used by toolset for organization. Modders: optional; leave empty if not\n"
+                "                needed.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for scripts; GetObjectByTag\n"
-"                uses this. Must be unique per module if scripts reference it. Modders: set a\n"
-"                descriptive tag (e.g. \"enc_sith_ambush\"); leave empty if no script reference.\n"
-"                Duplicate tags in the same area can cause wrong object to be targeted."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
-"                they stay in sync. Scripts reference encounters by Tag. Keep Tag unique per area."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for scripts; GetObjectByTag\n"
+                "                uses this. Must be unique per module if scripts reference it. Modders: set a\n"
+                '                descriptive tag (e.g. "enc_sith_ambush"); leave empty if no script reference.\n'
+                "                Duplicate tags in the same area can cause wrong object to be targeted.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
+                "                they stay in sync. Scripts reference encounters by Tag. Keep Tag unique per area.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: TemplateResRef). ResRef (max 16 chars). When the area\n"
-"                loads, the engine uses this to find the UTE template. Modders: match the UTE\n"
-"                filename (without .ute); keep under 16 characters."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
-"                16 characters). ResRef should match the UTE filename."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: TemplateResRef). ResRef (max 16 chars). When the area\n"
+                "                loads, the engine uses this to find the UTE template. Modders: match the UTE\n"
+                "                filename (without .ute); keep under 16 characters.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
+                "                16 characters). ResRef should match the UTE filename.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_39.setText(_translate("MainWindow", "Difficulty:"))
-        self.difficultySelect.setToolTip(_translate("MainWindow", "Difficulty (GFF: DifficultyIndex). INT32 index into encdifficulty.2da.\n"
-"              Determines encounter scaling and difficulty modifiers. Engine reads via ReadFieldINT\n"
-"              in LoadEncounter; uses VALUE from encdifficulty.2da when present. Modders: choose a\n"
-"              row from encdifficulty.2da; -1 uses default."))
+        self.difficultySelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Difficulty (GFF: DifficultyIndex). INT32 index into encdifficulty.2da.\n"
+                "              Determines encounter scaling and difficulty modifiers. Engine reads via ReadFieldINT\n"
+                "              in LoadEncounter; uses VALUE from encdifficulty.2da when present. Modders: choose a\n"
+                "              row from encdifficulty.2da; -1 uses default.",
+            )
+        )
         self.label_40.setText(_translate("MainWindow", "Min Creatures:"))
-        self.minCreatureSpin.setToolTip(_translate("MainWindow", "Min Creatures (GFF: RecCreatures). INT32. Recommended minimum creatures to\n"
-"              spawn; engine uses this with difficulty to select from CreatureList. Engine reads via\n"
-"              ReadFieldINT in LoadEncounter. Modders: valid range 0–32767; typical 1–5. Must be\n"
-"              <= Max Creatures."))
+        self.minCreatureSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Min Creatures (GFF: RecCreatures). INT32. Recommended minimum creatures to\n"
+                "              spawn; engine uses this with difficulty to select from CreatureList. Engine reads via\n"
+                "              ReadFieldINT in LoadEncounter. Modders: valid range 0–32767; typical 1–5. Must be\n"
+                "              <= Max Creatures.",
+            )
+        )
         self.label_41.setText(_translate("MainWindow", "Max Creatures:"))
-        self.maxCreatureSpin.setToolTip(_translate("MainWindow", "Max Creatures (GFF: MaxCreatures). INT32. Maximum creatures that can spawn from\n"
-"              this encounter. Engine reads via ReadFieldINT in LoadEncounter. Modders: valid range\n"
-"              0–32767; typical 1–10. Must be >= Min Creatures."))
+        self.maxCreatureSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max Creatures (GFF: MaxCreatures). INT32. Maximum creatures that can spawn from\n"
+                "              this encounter. Engine reads via ReadFieldINT in LoadEncounter. Modders: valid range\n"
+                "              0–32767; typical 1–10. Must be >= Min Creatures.",
+            )
+        )
         self.label_42.setText(_translate("MainWindow", "Spawn Option:"))
-        self.spawnSelect.setToolTip(_translate("MainWindow", "Spawn Option (GFF: SpawnOption). Single Shot = spawns once when triggered;\n"
-"              Continuous = can respawn (if Respawns > 0). Engine reads via ReadFieldINT in\n"
-"              LoadEncounter. Modders: Single Shot for one-time ambushes; Continuous for respawning\n"
-"              encounters."))
+        self.spawnSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Spawn Option (GFF: SpawnOption). Single Shot = spawns once when triggered;\n"
+                "              Continuous = can respawn (if Respawns > 0). Engine reads via ReadFieldINT in\n"
+                "              LoadEncounter. Modders: Single Shot for one-time ambushes; Continuous for respawning\n"
+                "              encounters.",
+            )
+        )
         self.spawnSelect.setItemText(0, _translate("MainWindow", "Single Shot"))
         self.spawnSelect.setItemText(1, _translate("MainWindow", "Continuous"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
-        self.activeCheckbox.setToolTip(_translate("MainWindow", "Active (GFF: Active). BYTE 0/1. When set, the encounter can trigger when the\n"
-"              player enters. When unset, the encounter is disabled until a script activates it.\n"
-"              Engine reads via ReadFieldBYTE in LoadEncounter. Modders: enable for encounters that\n"
-"              should trigger on entry; leave off for script-controlled spawns."))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
+        self.activeCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Active (GFF: Active). BYTE 0/1. When set, the encounter can trigger when the\n"
+                "              player enters. When unset, the encounter is disabled until a script activates it.\n"
+                "              Engine reads via ReadFieldBYTE in LoadEncounter. Modders: enable for encounters that\n"
+                "              should trigger on entry; leave off for script-controlled spawns.",
+            )
+        )
         self.activeCheckbox.setText(_translate("MainWindow", "Active"))
-        self.playerOnlyCheckbox.setToolTip(_translate("MainWindow", "Player Triggered Only (GFF: PlayerOnly). BYTE 0/1. When set, only the player\n"
-"              can trigger the encounter; party members entering alone do not. Engine reads via\n"
-"              ReadFieldBYTE in LoadEncounter. Modders: enable for encounters that must wait for the\n"
-"              player; leave off if followers can trigger it."))
+        self.playerOnlyCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Player Triggered Only (GFF: PlayerOnly). BYTE 0/1. When set, only the player\n"
+                "              can trigger the encounter; party members entering alone do not. Engine reads via\n"
+                "              ReadFieldBYTE in LoadEncounter. Modders: enable for encounters that must wait for the\n"
+                "              player; leave off if followers can trigger it.",
+            )
+        )
         self.playerOnlyCheckbox.setText(_translate("MainWindow", "Player Triggered Only"))
         self.label.setText(_translate("MainWindow", "Faction:"))
-        self.factionSelect.setToolTip(_translate("MainWindow", "Faction (GFF: Faction). DWORD index into repute.2da. Sets the faction of\n"
-"                spawned creatures. Engine reads via ReadFieldDWORD in LoadEncounter. Modders: choose\n"
-"                a row from repute.2da; typically matches area hostiles."))
-        self.respawnsCheckbox.setToolTip(_translate("MainWindow", "Respawns (GFF: Reset). BYTE 0/1. When set, the encounter can reset after being\n"
-"            exhausted; combined with Respawn Time and Number of Respawns. Engine reads via\n"
-"            ReadFieldBYTE in LoadEncounter. Modders: enable for encounters that should come back\n"
-"            after a delay."))
+        self.factionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Faction (GFF: Faction). DWORD index into repute.2da. Sets the faction of\n"
+                "                spawned creatures. Engine reads via ReadFieldDWORD in LoadEncounter. Modders: choose\n"
+                "                a row from repute.2da; typically matches area hostiles.",
+            )
+        )
+        self.respawnsCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Respawns (GFF: Reset). BYTE 0/1. When set, the encounter can reset after being\n"
+                "            exhausted; combined with Respawn Time and Number of Respawns. Engine reads via\n"
+                "            ReadFieldBYTE in LoadEncounter. Modders: enable for encounters that should come back\n"
+                "            after a delay.",
+            )
+        )
         self.respawnsCheckbox.setText(_translate("MainWindow", "Respawns"))
-        self.infiniteRespawnCheckbox.setToolTip(_translate("MainWindow", "Infinite Respawns. When set, stores -1 in Respawns (GFF: Respawns). The encounter\n"
-"            resets indefinitely after each exhaustion. Modders: enable for farming encounters;\n"
-"            disable to limit respawns to the Number of Respawns value."))
+        self.infiniteRespawnCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Infinite Respawns. When set, stores -1 in Respawns (GFF: Respawns). The encounter\n"
+                "            resets indefinitely after each exhaustion. Modders: enable for farming encounters;\n"
+                "            disable to limit respawns to the Number of Respawns value.",
+            )
+        )
         self.infiniteRespawnCheckbox.setText(_translate("MainWindow", "Infinite Respawns"))
         self.label_2.setText(_translate("MainWindow", "Respawn Time (s):"))
-        self.respawnTimeSpin.setToolTip(_translate("MainWindow", "Respawn Time (GFF: ResetTime). INT32 seconds before the encounter resets after\n"
-"              exhaustion. Engine reads via ReadFieldINT in LoadEncounter. Modders: valid range\n"
-"              0–2147483647; typical 60–300. Only used when Respawns is checked."))
+        self.respawnTimeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Respawn Time (GFF: ResetTime). INT32 seconds before the encounter resets after\n"
+                "              exhaustion. Engine reads via ReadFieldINT in LoadEncounter. Modders: valid range\n"
+                "              0–2147483647; typical 60–300. Only used when Respawns is checked.",
+            )
+        )
         self.label_3.setText(_translate("MainWindow", "Number of Respawns:"))
-        self.respawnCountSpin.setToolTip(_translate("MainWindow", "Number of Respawns (GFF: Respawns). INT32. How many times the encounter can\n"
-"              reset; -1 = infinite. Engine reads via ReadFieldINT in LoadEncounter. Modders: use 0\n"
-"              for no respawns; -1 for infinite; 1–32767 for limited respawns. Enable Infinite\n"
-"              Respawns to set -1."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Advanced"))
-        self.creatureTable.setToolTip(_translate("MainWindow", "Creature List (GFF: CreatureList). Each row is a spawnable creature: SingleSpawn\n"
-"            (BYTE), CR (FLOAT challenge rating), Appearance (INT32, toolset-only), ResRef (creature\n"
-"            UTC). Engine selects from this list based on Min/Max Creatures and difficulty. Modders:\n"
-"            add creature templates; CR affects selection weighting."))
+        self.respawnCountSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Number of Respawns (GFF: Respawns). INT32. How many times the encounter can\n"
+                "              reset; -1 = infinite. Engine reads via ReadFieldINT in LoadEncounter. Modders: use 0\n"
+                "              for no respawns; -1 for infinite; 1–32767 for limited respawns. Enable Infinite\n"
+                "              Respawns to set -1.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Advanced")
+        )
+        self.creatureTable.setToolTip(
+            _translate(
+                "MainWindow",
+                "Creature List (GFF: CreatureList). Each row is a spawnable creature: SingleSpawn\n"
+                "            (BYTE), CR (FLOAT challenge rating), Appearance (INT32, toolset-only), ResRef (creature\n"
+                "            UTC). Engine selects from this list based on Min/Max Creatures and difficulty. Modders:\n"
+                "            add creature templates; CR affects selection weighting.",
+            )
+        )
         item = self.creatureTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "SingleSpawn"))
         item = self.creatureTable.horizontalHeaderItem(1)
@@ -352,33 +445,79 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Appearance"))
         item = self.creatureTable.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "ResRef"))
-        self.removeCreatureButton.setToolTip(_translate("MainWindow", "Remove the selected creature from the spawn list. The creature will no longer\n"
-"              be eligible to spawn from this encounter."))
+        self.removeCreatureButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Remove the selected creature from the spawn list. The creature will no longer\n"
+                "              be eligible to spawn from this encounter.",
+            )
+        )
         self.removeCreatureButton.setText(_translate("MainWindow", "Remove"))
-        self.addCreatureButton.setToolTip(_translate("MainWindow", "Add a new creature to the spawn list. Choose a creature template (UTC); the\n"
-"              engine will randomly select from the list when the encounter triggers."))
+        self.addCreatureButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Add a new creature to the spawn list. Choose a creature template (UTC); the\n"
+                "              engine will randomly select from the list when the encounter triggers.",
+            )
+        )
         self.addCreatureButton.setText(_translate("MainWindow", "Add"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Creatures"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Creatures")
+        )
         self.label_4.setText(_translate("MainWindow", "OnEnter:"))
-        self.onEnterSelect.setToolTip(_translate("MainWindow", "OnEntered (GFF: OnEntered). ResRef of NCS script (max 16 chars). Fires when the\n"
-"              player enters the encounter area. Leave blank for no script. Modders: use for custom\n"
-"              spawn logic or triggers."))
+        self.onEnterSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnEntered (GFF: OnEntered). ResRef of NCS script (max 16 chars). Fires when the\n"
+                "              player enters the encounter area. Leave blank for no script. Modders: use for custom\n"
+                "              spawn logic or triggers.",
+            )
+        )
         self.label_5.setText(_translate("MainWindow", "OnExit:"))
         self.label_7.setText(_translate("MainWindow", "OnExhausted:"))
         self.label_8.setText(_translate("MainWindow", "OnHeartbeat:"))
         self.label_9.setText(_translate("MainWindow", "OnUserDefined:"))
-        self.onExitSelect.setToolTip(_translate("MainWindow", "OnExit (GFF: OnExit). ResRef of NCS script. Fires when the player leaves the\n"
-"              encounter area. Leave blank for no script. Max 16 characters."))
-        self.onExhaustedEdit.setToolTip(_translate("MainWindow", "OnExhausted (GFF: OnExhausted). ResRef of NCS script. Fires when all spawns\n"
-"              from the encounter are defeated. Leave blank for no script. Max 16 characters."))
-        self.onHeartbeatSelect.setToolTip(_translate("MainWindow", "OnHeartbeat (GFF: OnHeartbeat). ResRef of NCS script. Fires periodically while\n"
-"              the encounter is active. Leave blank for no script. Max 16 characters."))
-        self.onUserDefinedSelect.setToolTip(_translate("MainWindow", "OnUserDefined (GFF: OnUserDefined). ResRef of NCS script. Fires on user-defined\n"
-"              events (e.g. from AssignCommand). Leave blank for no script. Max 16 characters."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Scripts"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comment (GFF: Comment). Developer notes; not used by the game at runtime.\n"
-"            Modders: use for documentation or reminders about this encounter."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Comments"))
+        self.onExitSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnExit (GFF: OnExit). ResRef of NCS script. Fires when the player leaves the\n"
+                "              encounter area. Leave blank for no script. Max 16 characters.",
+            )
+        )
+        self.onExhaustedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnExhausted (GFF: OnExhausted). ResRef of NCS script. Fires when all spawns\n"
+                "              from the encounter are defeated. Leave blank for no script. Max 16 characters.",
+            )
+        )
+        self.onHeartbeatSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnHeartbeat (GFF: OnHeartbeat). ResRef of NCS script. Fires periodically while\n"
+                "              the encounter is active. Leave blank for no script. Max 16 characters.",
+            )
+        )
+        self.onUserDefinedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnUserDefined (GFF: OnUserDefined). ResRef of NCS script. Fires on user-defined\n"
+                "              events (e.g. from AssignCommand). Leave blank for no script. Max 16 characters.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Scripts")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comment (GFF: Comment). Developer notes; not used by the game at runtime.\n"
+                "            Modders: use for documentation or reminders about this encounter.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -386,6 +525,8 @@ class Ui_MainWindow(object):
         self.actionSave_As.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from utility.gui.qt.widgets.widgets.combobox import FilterComboBox

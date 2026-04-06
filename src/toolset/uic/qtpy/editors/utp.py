@@ -22,7 +22,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_preview = QtWidgets.QVBoxLayout()
         self.verticalLayout_preview.setObjectName("verticalLayout_preview")
         self.previewRenderer = ModelRenderer(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.previewRenderer.sizePolicy().hasHeightForWidth())
@@ -35,7 +37,9 @@ class Ui_MainWindow(object):
         self.modelInfoGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.modelInfoGroupBox.setCheckable(True)
         self.modelInfoGroupBox.setChecked(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoGroupBox.sizePolicy().hasHeightForWidth())
@@ -44,7 +48,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_modelInfo = QtWidgets.QVBoxLayout(self.modelInfoGroupBox)
         self.verticalLayout_modelInfo.setObjectName("verticalLayout_modelInfo")
         self.modelInfoSummaryLabel = QtWidgets.QLabel(self.modelInfoGroupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoSummaryLabel.sizePolicy().hasHeightForWidth())
@@ -53,7 +59,9 @@ class Ui_MainWindow(object):
         self.modelInfoSummaryLabel.setObjectName("modelInfoSummaryLabel")
         self.verticalLayout_modelInfo.addWidget(self.modelInfoSummaryLabel)
         self.modelInfoLabel = QtWidgets.QLabel(self.modelInfoGroupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoLabel.sizePolicy().hasHeightForWidth())
@@ -88,7 +96,9 @@ class Ui_MainWindow(object):
         self.inventoryCountLabel.setObjectName("inventoryCountLabel")
         self.verticalLayout_10.addWidget(self.inventoryCountLabel)
         self.gridLayout_3.addWidget(self.groupBox_15, 1, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 77, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 77, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout_3.addItem(spacerItem, 3, 0, 1, 1)
         self.groupBox = QtWidgets.QGroupBox(self.tab_9)
         self.groupBox.setObjectName("groupBox")
@@ -118,7 +128,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_16 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_16.setObjectName("horizontalLayout_16")
         self.tagEdit = QtWidgets.QLineEdit(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tagEdit.sizePolicy().hasHeightForWidth())
@@ -133,7 +145,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
         self.resrefEdit = QtWidgets.QLineEdit(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.resrefEdit.sizePolicy().hasHeightForWidth())
@@ -149,14 +163,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_18.setObjectName("horizontalLayout_18")
         self.appearanceSelect = ComboBox2DA(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.appearanceSelect.sizePolicy().hasHeightForWidth())
         self.appearanceSelect.setSizePolicy(sizePolicy)
         self.appearanceSelect.setObjectName("appearanceSelect")
         self.horizontalLayout_18.addWidget(self.appearanceSelect)
-        spacerItem1 = QtWidgets.QSpacerItem(29, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            29, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_18.addItem(spacerItem1)
         self.formLayout_10.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_18)
         self.label = QtWidgets.QLabel(self.groupBox)
@@ -165,7 +183,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.conversationEdit = FilterComboBox(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationEdit.sizePolicy().hasHeightForWidth())
@@ -173,7 +193,9 @@ class Ui_MainWindow(object):
         self.conversationEdit.setObjectName("conversationEdit")
         self.horizontalLayout_5.addWidget(self.conversationEdit)
         self.conversationModifyButton = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationModifyButton.sizePolicy().hasHeightForWidth())
@@ -232,7 +254,9 @@ class Ui_MainWindow(object):
         self.formLayout_11.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.animationState)
         self.verticalLayout.addWidget(self.groupBox_17)
         self.frame_4 = QtWidgets.QFrame(self.tab_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_4.sizePolicy().hasHeightForWidth())
@@ -245,7 +269,9 @@ class Ui_MainWindow(object):
         self.label_3.setObjectName("label_3")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_3)
         self.currentHpSpin = QtWidgets.QSpinBox(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.currentHpSpin.sizePolicy().hasHeightForWidth())
@@ -259,7 +285,9 @@ class Ui_MainWindow(object):
         self.label_26.setObjectName("label_26")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_26)
         self.maxHpSpin = QtWidgets.QSpinBox(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.maxHpSpin.sizePolicy().hasHeightForWidth())
@@ -273,7 +301,9 @@ class Ui_MainWindow(object):
         self.label_20.setObjectName("label_20")
         self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_20)
         self.hardnessSpin = QtWidgets.QSpinBox(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.hardnessSpin.sizePolicy().hasHeightForWidth())
@@ -287,7 +317,9 @@ class Ui_MainWindow(object):
         self.label_21.setObjectName("label_21")
         self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_21)
         self.fortitudeSpin = QtWidgets.QSpinBox(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.fortitudeSpin.sizePolicy().hasHeightForWidth())
@@ -301,7 +333,9 @@ class Ui_MainWindow(object):
         self.label_24.setObjectName("label_24")
         self.formLayout_3.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_24)
         self.reflexSpin = QtWidgets.QSpinBox(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.reflexSpin.sizePolicy().hasHeightForWidth())
@@ -315,7 +349,9 @@ class Ui_MainWindow(object):
         self.label_25.setObjectName("label_25")
         self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_25)
         self.willSpin = QtWidgets.QSpinBox(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.willSpin.sizePolicy().hasHeightForWidth())
@@ -326,7 +362,9 @@ class Ui_MainWindow(object):
         self.willSpin.setObjectName("willSpin")
         self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.willSpin)
         self.verticalLayout.addWidget(self.frame_4)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem2)
         self.tabWidget.addTab(self.tab_10, "")
         self.tab = QtWidgets.QWidget()
@@ -391,7 +429,9 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.difficultyModSpin)
         self.verticalLayout_3.addLayout(self.formLayout)
         self.verticalLayout_5.addWidget(self.groupBox_2)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 123, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            20, 123, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_5.addItem(spacerItem3)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -534,190 +574,385 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.previewRenderer.setToolTip(_translate("MainWindow", "3D preview of the placeable model. The model is chosen by the Appearance field\n"
-"          (placeable.2da). This is display-only; change Appearance to change the preview. Not stored\n"
-"          in the GFF."))
-        self.modelInfoGroupBox.setToolTip(_translate("MainWindow", "Model information panel. Expand to see details about the placeable model (mesh\n"
-"          count, animations, etc.) derived from the Appearance and placeable.2da. Read-only; does\n"
-"          not change the UTP file. Useful to verify the correct model loads for the chosen\n"
-"          Appearance."))
+        self.previewRenderer.setToolTip(
+            _translate(
+                "MainWindow",
+                "3D preview of the placeable model. The model is chosen by the Appearance field\n"
+                "          (placeable.2da). This is display-only; change Appearance to change the preview. Not stored\n"
+                "          in the GFF.",
+            )
+        )
+        self.modelInfoGroupBox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Model information panel. Expand to see details about the placeable model (mesh\n"
+                "          count, animations, etc.) derived from the Appearance and placeable.2da. Read-only; does\n"
+                "          not change the UTP file. Useful to verify the correct model loads for the chosen\n"
+                "          Appearance.",
+            )
+        )
         self.modelInfoGroupBox.setTitle(_translate("MainWindow", "Model Info"))
-        self.modelInfoSummaryLabel.setToolTip(_translate("MainWindow", "Short summary of the placeable model (e.g. mesh and animation count). Click the\n"
-"             Model Info group to expand and see full details. Derived from the current Appearance;\n"
-"             not a GFF field."))
-        self.modelInfoSummaryLabel.setText(_translate("MainWindow", "Click to expand model information..."))
-        self.modelInfoLabel.setToolTip(_translate("MainWindow", "Detailed model information (meshes, animations, bounds) for the placeable. Shown\n"
-"             when Model Info is expanded. Helps modders confirm the placeable appearance matches\n"
-"             expectations. Not stored in the UTP GFF."))
-        self.modelInfoLabel.setText(_translate("MainWindow", "Model information will appear here..."))
+        self.modelInfoSummaryLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Short summary of the placeable model (e.g. mesh and animation count). Click the\n"
+                "             Model Info group to expand and see full details. Derived from the current Appearance;\n"
+                "             not a GFF field.",
+            )
+        )
+        self.modelInfoSummaryLabel.setText(
+            _translate("MainWindow", "Click to expand model information...")
+        )
+        self.modelInfoLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Detailed model information (meshes, animations, bounds) for the placeable. Shown\n"
+                "             when Model Info is expanded. Helps modders confirm the placeable appearance matches\n"
+                "             expectations. Not stored in the UTP GFF.",
+            )
+        )
+        self.modelInfoLabel.setText(
+            _translate("MainWindow", "Model information will appear here...")
+        )
         self.groupBox_15.setTitle(_translate("MainWindow", "Inventory"))
-        self.hasInventoryCheckbox.setToolTip(_translate("MainWindow", "Has Inventory (GFF: HasInventory). BYTE 0/1. Engine reads via ReadFieldBYTE in\n"
-"               LoadPlaceable. When set (1), the placeable has a container inventory; the game loads\n"
-"               ItemList when the player opens it. When unset (0), the placeable has no inventory and\n"
-"               ItemList is ignored. Modders: enable for chests, crates, corpses; use Edit Inventory\n"
-"               to add items (UTI ResRefs). Empty list is valid."))
+        self.hasInventoryCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Has Inventory (GFF: HasInventory). BYTE 0/1. Engine reads via ReadFieldBYTE in\n"
+                "               LoadPlaceable. When set (1), the placeable has a container inventory; the game loads\n"
+                "               ItemList when the player opens it. When unset (0), the placeable has no inventory and\n"
+                "               ItemList is ignored. Modders: enable for chests, crates, corpses; use Edit Inventory\n"
+                "               to add items (UTI ResRefs). Empty list is valid.",
+            )
+        )
         self.hasInventoryCheckbox.setText(_translate("MainWindow", "Has Inventory"))
-        self.inventoryButton.setToolTip(_translate("MainWindow", "Opens the inventory editor for this placeable. The game loads ItemList when\n"
-"               the placeable is opened (only if Has Inventory is set). Add or remove items; changes\n"
-"               are written to the UTP GFF when you save."))
+        self.inventoryButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Opens the inventory editor for this placeable. The game loads ItemList when\n"
+                "               the placeable is opened (only if Has Inventory is set). Add or remove items; changes\n"
+                "               are written to the UTP GFF when you save.",
+            )
+        )
         self.inventoryButton.setText(_translate("MainWindow", "Edit Inventory"))
-        self.inventoryCountLabel.setToolTip(_translate("MainWindow", "Shows the number of items in this placeable\'s inventory (GFF ItemList). The\n"
-"               game loads these items when the placeable is opened. Edit Inventory to add or remove\n"
-"               items."))
+        self.inventoryCountLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Shows the number of items in this placeable's inventory (GFF ItemList). The\n"
+                "               game loads these items when the placeable is opened. Edit Inventory to add or remove\n"
+                "               items.",
+            )
+        )
         self.inventoryCountLabel.setText(_translate("MainWindow", "Total Items:"))
         self.groupBox.setTitle(_translate("MainWindow", "Profile"))
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocName). CExoLocString. Localized name shown when the player\n"
-"                   examines or uses the placeable; the engine reads it in LoadPlaceable. Used in\n"
-"                   tooltips and dialogue. Empty is valid. Modders: set a short, clear name (e.g.\n"
-"                   \"Crate\", \"Computer\"); use the language selector to add translations. Does not\n"
-"                   affect scripts—use Tag for that."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocName). CExoLocString. Localized name shown when the player\n"
+                "                   examines or uses the placeable; the engine reads it in LoadPlaceable. Used in\n"
+                "                   tooltips and dialogue. Empty is valid. Modders: set a short, clear name (e.g.\n"
+                '                   "Crate", "Computer"); use the language selector to add translations. Does not\n'
+                "                   affect scripts—use Tag for that.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
         self.label_15.setText(_translate("MainWindow", "Appearance:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for this placeable. The\n"
-"                   engine reads it via ReadFieldCExoString in LoadPlaceable. Scripts and dialogues\n"
-"                   use GetObjectByTag to find this placeable (e.g. to open it, lock it, or run\n"
-"                   scripts). Modders: keep unique per area; duplicate tags can cause the wrong\n"
-"                   object to be targeted. Empty is valid but the placeable cannot be found by tag.\n"
-"                   Match this to any script or dialogue references."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Copy the Template ResRef into the Tag field so they stay in sync. Use when\n"
-"                   you need to reference this placeable by tag in scripts; keep Tag unique per area.\n"
-"                   Engine reads Tag via ReadFieldCExoString in LoadPlaceable."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for this placeable. The\n"
+                "                   engine reads it via ReadFieldCExoString in LoadPlaceable. Scripts and dialogues\n"
+                "                   use GetObjectByTag to find this placeable (e.g. to open it, lock it, or run\n"
+                "                   scripts). Modders: keep unique per area; duplicate tags can cause the wrong\n"
+                "                   object to be targeted. Empty is valid but the placeable cannot be found by tag.\n"
+                "                   Match this to any script or dialogue references.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Copy the Template ResRef into the Tag field so they stay in sync. Use when\n"
+                "                   you need to reference this placeable by tag in scripts; keep Tag unique per area.\n"
+                "                   Engine reads Tag via ReadFieldCExoString in LoadPlaceable.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) for this\n"
-"                   placeable template. The engine stores ResRefs in 16 bytes. When the game loads a\n"
-"                   placeable from a GIT it uses this to load the UTP. Modders: match the UTP\n"
-"                   filename (without .utp); keep under 16 characters."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Copy the Tag into the Template ResRef field (max 16 characters). ResRef\n"
-"                   should match the UTP filename so the game finds the template when loading\n"
-"                   placeables from the GIT. Engine reads TemplateResRef via ReadFieldCResRef in\n"
-"                   LoadPlaceable."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) for this\n"
+                "                   placeable template. The engine stores ResRefs in 16 bytes. When the game loads a\n"
+                "                   placeable from a GIT it uses this to load the UTP. Modders: match the UTP\n"
+                "                   filename (without .utp); keep under 16 characters.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Copy the Tag into the Template ResRef field (max 16 characters). ResRef\n"
+                "                   should match the UTP filename so the game finds the template when loading\n"
+                "                   placeables from the GIT. Engine reads TemplateResRef via ReadFieldCResRef in\n"
+                "                   LoadPlaceable.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
-        self.appearanceSelect.setToolTip(_translate("MainWindow", "Appearance (GFF: Appearance). DWORD. Engine reads via ReadFieldDWORD in\n"
-"                   LoadPlaceable. Row index into placeable.2da; picks the 3D model and behavior. The\n"
-"                   game uses this when the placeable is placed in an area. Modders: choose a row\n"
-"                   that exists in placeable.2da for your game; invalid indices may show a wrong\n"
-"                   model or fail to display. Preview updates when you change this."))
+        self.appearanceSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Appearance (GFF: Appearance). DWORD. Engine reads via ReadFieldDWORD in\n"
+                "                   LoadPlaceable. Row index into placeable.2da; picks the 3D model and behavior. The\n"
+                "                   game uses this when the placeable is placed in an area. Modders: choose a row\n"
+                "                   that exists in placeable.2da for your game; invalid indices may show a wrong\n"
+                "                   model or fail to display. Preview updates when you change this.",
+            )
+        )
         self.label.setText(_translate("MainWindow", "Conversation:"))
-        self.conversationEdit.setToolTip(_translate("MainWindow", "Conversation (GFF: Conversation). ResRef of the dialogue (DLG) file; max\n"
-"                   16 characters. When the player uses the placeable (if Useable is set), the game\n"
-"                   can run this dialogue. Blank means no dialogue. Modders: set a DLG resref and use\n"
-"                   Edit to open the dialogue editor."))
-        self.conversationModifyButton.setToolTip(_translate("MainWindow", "Open the dialogue editor for the Conversation DLG. The game runs this\n"
-"                   dialogue when the player uses the placeable (if Useable is set). Engine reads\n"
-"                   Conversation via ReadFieldCResRef in LoadPlaceable. Leave\n"
-"                   Conversation blank for no dialogue."))
+        self.conversationEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Conversation (GFF: Conversation). ResRef of the dialogue (DLG) file; max\n"
+                "                   16 characters. When the player uses the placeable (if Useable is set), the game\n"
+                "                   can run this dialogue. Blank means no dialogue. Modders: set a DLG resref and use\n"
+                "                   Edit to open the dialogue editor.",
+            )
+        )
+        self.conversationModifyButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Open the dialogue editor for the Conversation DLG. The game runs this\n"
+                "                   dialogue when the player uses the placeable (if Useable is set). Engine reads\n"
+                "                   Conversation via ReadFieldCResRef in LoadPlaceable. Leave\n"
+                "                   Conversation blank for no dialogue.",
+            )
+        )
         self.conversationModifyButton.setText(_translate("MainWindow", "Edit"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_9), _translate("MainWindow", "Basic"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_9), _translate("MainWindow", "Basic")
+        )
         self.groupBox_16.setTitle(_translate("MainWindow", "Flags"))
-        self.useableCheckbox.setToolTip(_translate("MainWindow", "Useable (GFF: Useable). BYTE 0/1. When set, the placeable can be clicked/used\n"
-"               by the player (runs Conversation or OnUsed script). When unset, the placeable cannot\n"
-"               be directly interacted with. Modders: enable for containers, computers, and\n"
-"               interactive objects; leave off for decoration."))
+        self.useableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Useable (GFF: Useable). BYTE 0/1. When set, the placeable can be clicked/used\n"
+                "               by the player (runs Conversation or OnUsed script). When unset, the placeable cannot\n"
+                "               be directly interacted with. Modders: enable for containers, computers, and\n"
+                "               interactive objects; leave off for decoration.",
+            )
+        )
         self.useableCheckbox.setText(_translate("MainWindow", "Useable"))
-        self.partyInteractCheckbox.setToolTip(_translate("MainWindow", "Party Interact (GFF: PartyInteract). BYTE 0/1. When set, any party member can\n"
-"               use the placeable; when unset, only the player might be able to (engine-dependent).\n"
-"               Modders: enable for shared containers or objects the whole party should use."))
+        self.partyInteractCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Party Interact (GFF: PartyInteract). BYTE 0/1. When set, any party member can\n"
+                "               use the placeable; when unset, only the player might be able to (engine-dependent).\n"
+                "               Modders: enable for shared containers or objects the whole party should use.",
+            )
+        )
         self.partyInteractCheckbox.setText(_translate("MainWindow", "Party Interact"))
-        self.staticCheckbox.setToolTip(_translate("MainWindow", "Static (GFF: Static). BYTE 0/1. When set, the placeable is non-interactive (no\n"
-"               use, no dialogue). Used for decorative objects. Modders: enable for scenery; leave\n"
-"               off for containers or useable objects."))
+        self.staticCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Static (GFF: Static). BYTE 0/1. When set, the placeable is non-interactive (no\n"
+                "               use, no dialogue). Used for decorative objects. Modders: enable for scenery; leave\n"
+                "               off for containers or useable objects.",
+            )
+        )
         self.staticCheckbox.setText(_translate("MainWindow", "Static"))
-        self.plotCheckbox.setToolTip(_translate("MainWindow", "Plot (GFF: Plot). BYTE 0/1. When set, the placeable is plot-critical; the game\n"
-"               may prevent it from being destroyed. Modders: enable for story-essential objects;\n"
-"               leave off for normal destructible placeables."))
+        self.plotCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Plot (GFF: Plot). BYTE 0/1. When set, the placeable is plot-critical; the game\n"
+                "               may prevent it from being destroyed. Modders: enable for story-essential objects;\n"
+                "               leave off for normal destructible placeables.",
+            )
+        )
         self.plotCheckbox.setText(_translate("MainWindow", "Plot"))
-        self.notBlastableCheckbox.setToolTip(_translate("MainWindow", "Not Blastable (GFF: NotBlastable). KotOR 2 only. BYTE 0/1. When set, the\n"
-"               placeable cannot be destroyed by explosives. Modders: enable for placeables that must\n"
-"               be opened or destroyed by script only."))
+        self.notBlastableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Not Blastable (GFF: NotBlastable). KotOR 2 only. BYTE 0/1. When set, the\n"
+                "               placeable cannot be destroyed by explosives. Modders: enable for placeables that must\n"
+                "               be opened or destroyed by script only.",
+            )
+        )
         self.notBlastableCheckbox.setText(_translate("MainWindow", "Not Blastable"))
-        self.min1HpCheckbox.setToolTip(_translate("MainWindow", "Min 1 HP (GFF: Min1HP). BYTE 0/1. When set, the placeable\'s HP cannot go below\n"
-"               1 from damage. Scripts can still destroy it. Modders: use for placeables that must\n"
-"               stay until scripted removal."))
+        self.min1HpCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Min 1 HP (GFF: Min1HP). BYTE 0/1. When set, the placeable's HP cannot go below\n"
+                "               1 from damage. Scripts can still destroy it. Modders: use for placeables that must\n"
+                "               stay until scripted removal.",
+            )
+        )
         self.min1HpCheckbox.setText(_translate("MainWindow", "Min1HP"))
         self.groupBox_17.setTitle(_translate("MainWindow", "Other"))
         self.label_41.setText(_translate("MainWindow", "Faction:"))
-        self.factionSelect.setToolTip(_translate("MainWindow", "Faction (GFF: Faction). DWORD. Engine reads via ReadFieldDWORD in\n"
-"               LoadPlaceable. Faction identifier; determines who the placeable is hostile or\n"
-"               friendly to (repute.2da). Modders: set to match your module\'s factions; 0 is often\n"
-"               neutral. Wrong values can cause the placeable to be targeted by allies or ignored by\n"
-"               enemies. Used for AI and combat targeting."))
+        self.factionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Faction (GFF: Faction). DWORD. Engine reads via ReadFieldDWORD in\n"
+                "               LoadPlaceable. Faction identifier; determines who the placeable is hostile or\n"
+                "               friendly to (repute.2da). Modders: set to match your module's factions; 0 is often\n"
+                "               neutral. Wrong values can cause the placeable to be targeted by allies or ignored by\n"
+                "               enemies. Used for AI and combat targeting.",
+            )
+        )
         self.label_42.setText(_translate("MainWindow", "Animation State:"))
-        self.animationState.setToolTip(_translate("MainWindow", "Animation State (GFF: AnimationState). BYTE. Current placeable animation\n"
-"               state. In engine files often 0. Modders: leave 0 in templates. Valid range 0–255."))
+        self.animationState.setToolTip(
+            _translate(
+                "MainWindow",
+                "Animation State (GFF: AnimationState). BYTE. Current placeable animation\n"
+                "               state. In engine files often 0. Modders: leave 0 in templates. Valid range 0–255.",
+            )
+        )
         self.label_3.setText(_translate("MainWindow", "Current HP:"))
-        self.currentHpSpin.setToolTip(_translate("MainWindow", "Current HP (GFF: CurrentHP). SHORT. Placeable\'s current hit points when\n"
-"               loaded; when it reaches 0 the placeable is destroyed and OnDeath runs. Engine reads\n"
-"               via ReadFieldSHORT in LoadPlaceable. Modders: valid range 0–32767; set equal to Max\n"
-"               HP for full strength. Plot or Min1HP can prevent destruction; Static placeables may\n"
-"               ignore damage. Clamped to Max HP when loading from GIT in some cases."))
+        self.currentHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Current HP (GFF: CurrentHP). SHORT. Placeable's current hit points when\n"
+                "               loaded; when it reaches 0 the placeable is destroyed and OnDeath runs. Engine reads\n"
+                "               via ReadFieldSHORT in LoadPlaceable. Modders: valid range 0–32767; set equal to Max\n"
+                "               HP for full strength. Plot or Min1HP can prevent destruction; Static placeables may\n"
+                "               ignore damage. Clamped to Max HP when loading from GIT in some cases.",
+            )
+        )
         self.label_26.setText(_translate("MainWindow", "Max HP:"))
-        self.maxHpSpin.setToolTip(_translate("MainWindow", "Max HP (GFF: HP). SHORT. Maximum hit points; the placeable is destroyed when\n"
-"               Current HP reaches 0 (unless Plot or Min1HP). Engine reads via ReadFieldSHORT in\n"
-"               LoadPlaceable. Modders: valid range 0–32767; typical 10–50 for breakable placeables.\n"
-"               Use 0 or 1 for indestructible if combined with Plot. Healing and damage update\n"
-"               Current HP at runtime."))
+        self.maxHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max HP (GFF: HP). SHORT. Maximum hit points; the placeable is destroyed when\n"
+                "               Current HP reaches 0 (unless Plot or Min1HP). Engine reads via ReadFieldSHORT in\n"
+                "               LoadPlaceable. Modders: valid range 0–32767; typical 10–50 for breakable placeables.\n"
+                "               Use 0 or 1 for indestructible if combined with Plot. Healing and damage update\n"
+                "               Current HP at runtime.",
+            )
+        )
         self.label_20.setText(_translate("MainWindow", "Hardness:"))
-        self.hardnessSpin.setToolTip(_translate("MainWindow", "Hardness (GFF: Hardness). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
-"               LoadPlaceable. Damage reduction applied when the placeable is hit; each attack\'s\n"
-"               damage is reduced by this amount. Does not prevent destruction when HP reaches 0.\n"
-"               Modders: typical 0–10; high values make the placeable very resistant to damage until\n"
-"               HP is depleted."))
+        self.hardnessSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Hardness (GFF: Hardness). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
+                "               LoadPlaceable. Damage reduction applied when the placeable is hit; each attack's\n"
+                "               damage is reduced by this amount. Does not prevent destruction when HP reaches 0.\n"
+                "               Modders: typical 0–10; high values make the placeable very resistant to damage until\n"
+                "               HP is depleted.",
+            )
+        )
         self.label_21.setText(_translate("MainWindow", "Fortitude:"))
-        self.fortitudeSpin.setToolTip(_translate("MainWindow", "Fortitude (GFF: Fort). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
-"               LoadPlaceable. Fortitude save value used in some save checks (e.g. spells, effects).\n"
-"               Modders: often 0 in vanilla files; increase for placeables that must resist certain\n"
-"               effects. Used with Reflex and Will for full save calculations."))
+        self.fortitudeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fortitude (GFF: Fort). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
+                "               LoadPlaceable. Fortitude save value used in some save checks (e.g. spells, effects).\n"
+                "               Modders: often 0 in vanilla files; increase for placeables that must resist certain\n"
+                "               effects. Used with Reflex and Will for full save calculations.",
+            )
+        )
         self.label_24.setText(_translate("MainWindow", "Reflex:"))
-        self.reflexSpin.setToolTip(_translate("MainWindow", "Reflex (GFF: Ref). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
-"               LoadPlaceable. Reflex save value for the placeable; used in some save checks.\n"
-"               Modders: often 0 in vanilla; set higher for placeables that should resist\n"
-"               reflex-based effects (e.g. area spells)."))
+        self.reflexSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Reflex (GFF: Ref). BYTE 0–255. Engine reads via ReadFieldBYTE in\n"
+                "               LoadPlaceable. Reflex save value for the placeable; used in some save checks.\n"
+                "               Modders: often 0 in vanilla; set higher for placeables that should resist\n"
+                "               reflex-based effects (e.g. area spells).",
+            )
+        )
         self.label_25.setText(_translate("MainWindow", "Will:"))
-        self.willSpin.setToolTip(_translate("MainWindow", "Will (GFF: Will). BYTE 0–255. Engine reads via ReadFieldBYTE in LoadPlaceable.\n"
-"               Will save value; used in some save checks (e.g. mind-affecting or will-based\n"
-"               effects). Modders: often 0 in vanilla; increase for placeables that should resist\n"
-"               will-based effects."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_10), _translate("MainWindow", "Advanced"))
+        self.willSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Will (GFF: Will). BYTE 0–255. Engine reads via ReadFieldBYTE in LoadPlaceable.\n"
+                "               Will save value; used in some save checks (e.g. mind-affecting or will-based\n"
+                "               effects). Modders: often 0 in vanilla; increase for placeables that should resist\n"
+                "               will-based effects.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_10), _translate("MainWindow", "Advanced")
+        )
         self.groupBox_3.setTitle(_translate("MainWindow", "Key"))
-        self.needKeyCheckbox.setToolTip(_translate("MainWindow", "Key required (GFF: KeyRequired). BYTE 0/1. When set, the placeable can only be\n"
-"               unlocked if the player has an item whose Tag matches the Key Tag below. Modders: set\n"
-"               Key Tag to the item\'s Tag."))
+        self.needKeyCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Key required (GFF: KeyRequired). BYTE 0/1. When set, the placeable can only be\n"
+                "               unlocked if the player has an item whose Tag matches the Key Tag below. Modders: set\n"
+                "               Key Tag to the item's Tag.",
+            )
+        )
         self.needKeyCheckbox.setText(_translate("MainWindow", "Key required to unlock"))
-        self.removeKeyCheckbox.setToolTip(_translate("MainWindow", "Remove key on unlock (GFF: AutoRemoveKey). BYTE 0/1. When set, the key item is\n"
-"               consumed when used to unlock. Modders: enable for one-time keys."))
+        self.removeKeyCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Remove key on unlock (GFF: AutoRemoveKey). BYTE 0/1. When set, the key item is\n"
+                "               consumed when used to unlock. Modders: enable for one-time keys.",
+            )
+        )
         self.removeKeyCheckbox.setText(_translate("MainWindow", "Remove key on unlock"))
         self.label_4.setText(_translate("MainWindow", "Key Tag:"))
-        self.keyEdit.setToolTip(_translate("MainWindow", "Key Tag (GFF: KeyName). CExoString. Engine reads via ReadFieldCExoString in\n"
-"                 LoadPlaceable. Tag of the key item required to unlock when Key Required is set. The\n"
-"                 player must have an item in inventory whose Tag matches this string. Leave blank if\n"
-"                 no key is required. Modders: use the same Tag as the key UTI\'s Tag field.\n"
-"                 Case-sensitive in some engines."))
+        self.keyEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Key Tag (GFF: KeyName). CExoString. Engine reads via ReadFieldCExoString in\n"
+                "                 LoadPlaceable. Tag of the key item required to unlock when Key Required is set. The\n"
+                "                 player must have an item in inventory whose Tag matches this string. Leave blank if\n"
+                "                 no key is required. Modders: use the same Tag as the key UTI's Tag field.\n"
+                "                 Case-sensitive in some engines.",
+            )
+        )
         self.groupBox_2.setTitle(_translate("MainWindow", "Lock"))
-        self.lockedCheckbox.setToolTip(_translate("MainWindow", "Locked (GFF: Locked). BYTE 0/1. When set, the placeable starts locked.\n"
-"                 Player must use Security, a key, or a script to unlock. Modders: Lockable must be\n"
-"                 set for locking to apply."))
+        self.lockedCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Locked (GFF: Locked). BYTE 0/1. When set, the placeable starts locked.\n"
+                "                 Player must use Security, a key, or a script to unlock. Modders: Lockable must be\n"
+                "                 set for locking to apply.",
+            )
+        )
         self.lockedCheckbox.setText(_translate("MainWindow", "Locked"))
         self.label_2.setText(_translate("MainWindow", "Open Lock DC:"))
         self.difficultyLabel.setText(_translate("MainWindow", "Difficulty:"))
         self.difficultyModLabel.setText(_translate("MainWindow", "Difficulty Mod:"))
-        self.openLockSpin.setToolTip(_translate("MainWindow", "Open Lock DC (GFF: OpenLockDC). BYTE 0–255. Engine reads via ReadFieldBYTE\n"
-"                 in LoadPlaceable. Difficulty class for the Security check to pick the lock.\n"
-"                 Modders: typical 10–25; 0 = trivial/unlocked. Key Required overrides this when the\n"
-"                 player uses the matching key. Lockable must be set for the lock to apply."))
-        self.difficultySpin.setToolTip(_translate("MainWindow", "Difficulty (GFF: OpenLockDiff). KotOR 2 only. BYTE 0–255. Additional\n"
-"                 difficulty value for lock picking; combined with Open Lock DC. Engine reads via\n"
-"                 LoadPlaceable in TSL. Modders: use 0 for default; higher values make the lock\n"
-"                 harder to pick. Leave 0 if targeting K1."))
-        self.difficultyModSpin.setToolTip(_translate("MainWindow", "Difficulty Mod (GFF: OpenLockDiffMod). KotOR 2 only. Stored as signed byte\n"
-"                 (-128 to 127). Modifier added to the effective Open Lock DC; positive = harder,\n"
-"                 negative = easier. Modders: use 0 for default; leave 0 if targeting K1. Edge case:\n"
-"                 combined DC can go below 0 (treated as 0) or above 255 (engine may clamp)."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Lock"))
+        self.openLockSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Open Lock DC (GFF: OpenLockDC). BYTE 0–255. Engine reads via ReadFieldBYTE\n"
+                "                 in LoadPlaceable. Difficulty class for the Security check to pick the lock.\n"
+                "                 Modders: typical 10–25; 0 = trivial/unlocked. Key Required overrides this when the\n"
+                "                 player uses the matching key. Lockable must be set for the lock to apply.",
+            )
+        )
+        self.difficultySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Difficulty (GFF: OpenLockDiff). KotOR 2 only. BYTE 0–255. Additional\n"
+                "                 difficulty value for lock picking; combined with Open Lock DC. Engine reads via\n"
+                "                 LoadPlaceable in TSL. Modders: use 0 for default; higher values make the lock\n"
+                "                 harder to pick. Leave 0 if targeting K1.",
+            )
+        )
+        self.difficultyModSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Difficulty Mod (GFF: OpenLockDiffMod). KotOR 2 only. Stored as signed byte\n"
+                "                 (-128 to 127). Modifier added to the effective Open Lock DC; positive = harder,\n"
+                "                 negative = easier. Modders: use 0 for default; leave 0 if targeting K1. Edge case:\n"
+                "                 combined DC can go below 0 (treated as 0) or above 255 (engine may clamp).",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Lock")
+        )
         self.label_5.setText(_translate("MainWindow", "OnClosed:"))
-        self.onClosedEdit.setToolTip(_translate("MainWindow", "On Closed (GFF: OnClosed). ResRef of NCS script; max 16 chars. Fires when the\n"
-"            placeable closes. Leave blank for no script."))
+        self.onClosedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Closed (GFF: OnClosed). ResRef of NCS script; max 16 chars. Fires when the\n"
+                "            placeable closes. Leave blank for no script.",
+            )
+        )
         self.label_7.setText(_translate("MainWindow", "OnDamaged:"))
         self.label_8.setText(_translate("MainWindow", "OnDeath:"))
         self.label_9.setText(_translate("MainWindow", "OnEndConversation:"))
@@ -731,38 +966,112 @@ class Ui_MainWindow(object):
         self.label_23.setText(_translate("MainWindow", "OnUnlock:"))
         self.label_22.setText(_translate("MainWindow", "OnUsed:"))
         self.label_19.setText(_translate("MainWindow", "OnUserDefined:"))
-        self.onDamagedEdit.setToolTip(_translate("MainWindow", "On Damaged (GFF: OnDamaged). ResRef of NCS script. Fires when the placeable takes\n"
-"            damage. Max 16 chars."))
-        self.onDeathEdit.setToolTip(_translate("MainWindow", "On Death (GFF: OnDeath). ResRef of NCS script. Fires when the placeable is\n"
-"            destroyed. Max 16 chars."))
-        self.onEndConversationEdit.setToolTip(_translate("MainWindow", "On End Conversation (GFF: ScriptEndDialogue). ResRef of NCS script. Fires when\n"
-"            dialogue ends. Max 16 chars."))
-        self.onOpenFailedEdit.setToolTip(_translate("MainWindow", "On Open Failed (GFF: OnFailToOpen). KotOR 2 only. Fires when unlock fails. Max 16\n"
-"            chars."))
-        self.onHeartbeatSelect.setToolTip(_translate("MainWindow", "On Heartbeat (GFF: ScriptHeartbeat). ResRef of NCS script. Fires periodically.\n"
-"            Max 16 chars."))
-        self.onInventoryEdit.setToolTip(_translate("MainWindow", "On Inventory (GFF: ScriptOnInventory). ResRef of NCS script. Fires when inventory\n"
-"            is opened or disturbed. Max 16 chars."))
-        self.onMeleeAttackEdit.setToolTip(_translate("MainWindow", "On Melee Attack (GFF: OnMeleeAttacked). ResRef of NCS script. Fires when the\n"
-"            placeable is melee attacked. Max 16 chars."))
-        self.onSpellEdit.setToolTip(_translate("MainWindow", "On Spell Cast At (GFF: OnSpellCastAt). ResRef of NCS script. Fires when a spell\n"
-"            is cast at the placeable. Max 16 chars."))
-        self.onOpenEdit.setToolTip(_translate("MainWindow", "On Open (GFF: OnOpen). ResRef of NCS script. Fires when the placeable opens. Max\n"
-"            16 chars."))
-        self.onLockEdit.setToolTip(_translate("MainWindow", "On Lock (GFF: OnLock). ResRef of NCS script. Fires when the placeable is locked.\n"
-"            Max 16 chars."))
-        self.onUnlockEdit.setToolTip(_translate("MainWindow", "On Unlock (GFF: OnUnlock). ResRef of NCS script. Fires when the placeable is\n"
-"            unlocked. Max 16 chars."))
-        self.onUsedEdit.setToolTip(_translate("MainWindow", "On Used (GFF: OnUsed). ResRef of NCS script. Fires when the player uses the\n"
-"            placeable (if Useable). Max 16 chars."))
-        self.onUserDefinedSelect.setToolTip(_translate("MainWindow", "On User Defined (GFF: OnUserDefined). ResRef of NCS script. Fires when\n"
-"            ExecuteScript calls user-defined event. Max 16 chars."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Scripts"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer notes only—the game engine never\n"
-"            reads or displays this. Use to document the placeable (purpose, author, change log).\n"
-"            Modders: no length limit in GFF; keep readable for your team. Not included in game data\n"
-"            at runtime."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.onDamagedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Damaged (GFF: OnDamaged). ResRef of NCS script. Fires when the placeable takes\n"
+                "            damage. Max 16 chars.",
+            )
+        )
+        self.onDeathEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Death (GFF: OnDeath). ResRef of NCS script. Fires when the placeable is\n"
+                "            destroyed. Max 16 chars.",
+            )
+        )
+        self.onEndConversationEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On End Conversation (GFF: ScriptEndDialogue). ResRef of NCS script. Fires when\n"
+                "            dialogue ends. Max 16 chars.",
+            )
+        )
+        self.onOpenFailedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Open Failed (GFF: OnFailToOpen). KotOR 2 only. Fires when unlock fails. Max 16\n"
+                "            chars.",
+            )
+        )
+        self.onHeartbeatSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Heartbeat (GFF: ScriptHeartbeat). ResRef of NCS script. Fires periodically.\n"
+                "            Max 16 chars.",
+            )
+        )
+        self.onInventoryEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Inventory (GFF: ScriptOnInventory). ResRef of NCS script. Fires when inventory\n"
+                "            is opened or disturbed. Max 16 chars.",
+            )
+        )
+        self.onMeleeAttackEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Melee Attack (GFF: OnMeleeAttacked). ResRef of NCS script. Fires when the\n"
+                "            placeable is melee attacked. Max 16 chars.",
+            )
+        )
+        self.onSpellEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Spell Cast At (GFF: OnSpellCastAt). ResRef of NCS script. Fires when a spell\n"
+                "            is cast at the placeable. Max 16 chars.",
+            )
+        )
+        self.onOpenEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Open (GFF: OnOpen). ResRef of NCS script. Fires when the placeable opens. Max\n"
+                "            16 chars.",
+            )
+        )
+        self.onLockEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Lock (GFF: OnLock). ResRef of NCS script. Fires when the placeable is locked.\n"
+                "            Max 16 chars.",
+            )
+        )
+        self.onUnlockEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Unlock (GFF: OnUnlock). ResRef of NCS script. Fires when the placeable is\n"
+                "            unlocked. Max 16 chars.",
+            )
+        )
+        self.onUsedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Used (GFF: OnUsed). ResRef of NCS script. Fires when the player uses the\n"
+                "            placeable (if Useable). Max 16 chars.",
+            )
+        )
+        self.onUserDefinedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "On User Defined (GFF: OnUserDefined). ResRef of NCS script. Fires when\n"
+                "            ExecuteScript calls user-defined event. Max 16 chars.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Scripts")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer notes only—the game engine never\n"
+                "            reads or displays this. Use to document the placeable (purpose, author, change log).\n"
+                "            Modders: no length limit in GFF; keep readable for your team. Not included in game data\n"
+                "            at runtime.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuNew.setTitle(_translate("MainWindow", "File"))
         self.menuView.setTitle(_translate("MainWindow", "View"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -772,6 +1081,8 @@ class Ui_MainWindow(object):
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionShowPreview.setText(_translate("MainWindow", "Show Preview"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from toolset.gui.widgets.renderer.model import ModelRenderer

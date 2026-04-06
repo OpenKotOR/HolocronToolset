@@ -61,7 +61,10 @@ for kit_id, area_name in KIT_TO_AREA.items():
         for module_root, module_area_name in module_roots_to_areas.items():
             if module_area_name:
                 # Check if kit area name is in module area name or vice versa
-                if area_name.lower() in module_area_name.lower() or module_area_name.lower() in area_name.lower():
+                if (
+                    area_name.lower() in module_area_name.lower()
+                    or module_area_name.lower() in area_name.lower()
+                ):
                     found_module = module_root
                     break
 

@@ -24,7 +24,9 @@ class Ui_Dialog(object):
         self.previewLayout = QtWidgets.QVBoxLayout(self.previewGroup)
         self.previewLayout.setObjectName("previewLayout")
         self.previewRenderer = ModelRenderer(self.previewGroup)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.previewRenderer.sizePolicy().hasHeightForWidth())
@@ -48,7 +50,9 @@ class Ui_Dialog(object):
         self.staticTextLabel.setObjectName("staticTextLabel")
         self.infoLayout.addWidget(self.staticTextLabel)
         self.leftPanelLayout.addWidget(self.infoGroup)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.leftPanelLayout.addItem(spacerItem)
         self.horizontalLayout.addLayout(self.leftPanelLayout)
         self.rightPanelLayout = QtWidgets.QVBoxLayout()
@@ -102,7 +106,9 @@ class Ui_Dialog(object):
         self.rightPanelLayout.addWidget(self.resourceListGroup)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.rightPanelLayout.addWidget(self.buttonBox)
         self.horizontalLayout.addLayout(self.rightPanelLayout)
@@ -110,8 +116,8 @@ class Ui_Dialog(object):
         self.horizontalLayout.setStretch(1, 2)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(Dialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(Dialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -131,4 +137,6 @@ class Ui_Dialog(object):
         self.resourceListGroup.setTitle(_translate("Dialog", "Resource List"))
         self.resourceFilter.setPlaceholderText(_translate("Dialog", "Search resources..."))
         self.resourceList.setSortingEnabled(True)
+
+
 from toolset.gui.widgets.renderer.model import ModelRenderer

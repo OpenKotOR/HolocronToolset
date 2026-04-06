@@ -99,7 +99,9 @@ def on_app_crash(
 
         if dialog_count >= max_dialogs:
             # Still log it, but don't show another dialog
-            logger.warning(f"Maximum dialog limit reached ({max_dialogs}), suppressing exception dialog: {exc_fingerprint}")
+            logger.warning(
+                f"Maximum dialog limit reached ({max_dialogs}), suppressing exception dialog: {exc_fingerprint}"
+            )
             return
 
         # Mark this exception as seen and update timestamp
@@ -119,7 +121,9 @@ def on_app_crash(
                 box = QMessageBox()
                 box.setIcon(QMessageBox.Icon.Critical)
                 box.setWindowTitle("Unexpected error")
-                box.setText("An unexpected error occurred. The application will continue running, but may be unstable.")
+                box.setText(
+                    "An unexpected error occurred. The application will continue running, but may be unstable."
+                )
                 box.setDetailedText(details)
                 box.setWindowFlags(box.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
                 box.show()
@@ -291,6 +295,7 @@ def main_init():
     # Do not use `faulthandler.enable()` in the toolset!
     # https://bugreports.qt.io/browse/PYSIDE-2359
     import faulthandler
+
     faulthandler.enable()
 
 

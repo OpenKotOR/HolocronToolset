@@ -44,7 +44,23 @@ class SyntaxHighlighter(QSyntaxHighlighter):
         "while",
     ]
 
-    OPERATORS: ClassVar[list[str]] = ["=", "==", "!=", "<", "<=", ">", ">=", "!", "\\+", "-", "/", "<<", ">>", "\\&", "\\|"]
+    OPERATORS: ClassVar[list[str]] = [
+        "=",
+        "==",
+        "!=",
+        "<",
+        "<=",
+        ">",
+        ">=",
+        "!",
+        "\\+",
+        "-",
+        "/",
+        "<<",
+        ">>",
+        "\\&",
+        "\\|",
+    ]
 
     COMMENT_BLOCK_START = QRegExp("/\\*")
     COMMENT_BLOCK_END = QRegExp("\\*/")
@@ -124,13 +140,17 @@ class SyntaxHighlighter(QSyntaxHighlighter):
         start_index: int = 0
         if self.previousBlockState() != 1:
             try:
-                start_index = text.index(self._MULTILINE_COMMENT_START)  # Use literal instead of pattern()
+                start_index = text.index(
+                    self._MULTILINE_COMMENT_START
+                )  # Use literal instead of pattern()
             except ValueError:
                 start_index = -1
 
         while start_index >= 0:
             try:
-                end_index: int = text.index(self._MULTILINE_COMMENT_END, start_index)  # Use literal instead of pattern()
+                end_index: int = text.index(
+                    self._MULTILINE_COMMENT_END, start_index
+                )  # Use literal instead of pattern()
             except ValueError:
                 end_index = -1
 
@@ -142,7 +162,9 @@ class SyntaxHighlighter(QSyntaxHighlighter):
 
             self.setFormat(start_index, comment_length, self.multiline_comment_format)
             try:
-                start_index = text.index(self._MULTILINE_COMMENT_START, start_index + comment_length)
+                start_index = text.index(
+                    self._MULTILINE_COMMENT_START, start_index + comment_length
+                )
             except ValueError:
                 start_index = -1
 

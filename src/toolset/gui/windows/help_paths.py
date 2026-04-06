@@ -63,7 +63,12 @@ def get_help_file_path(relative_path: str) -> Path | None:
     search_paths.extend(
         [
             repo_root / "Tools" / "HolocronToolset" / "src" / "toolset" / "help",
-            repo_root / "Tools" / "HolocronToolset" / "src" / "toolset" / "wiki",  # Wiki copied during PyPI build
+            repo_root
+            / "Tools"
+            / "HolocronToolset"
+            / "src"
+            / "toolset"
+            / "wiki",  # Wiki copied during PyPI build
             repo_root / "wiki",
             repo_root / "vendor" / "xoreos-docs",
             # Also check relative to current working directory
@@ -121,7 +126,12 @@ def get_help_base_paths() -> list[Path]:
     base_paths.extend(
         [
             repo_root / "Tools" / "HolocronToolset" / "src" / "toolset" / "help",
-            repo_root / "Tools" / "HolocronToolset" / "src" / "toolset" / "wiki",  # Wiki copied during PyPI build
+            repo_root
+            / "Tools"
+            / "HolocronToolset"
+            / "src"
+            / "toolset"
+            / "wiki",  # Wiki copied during PyPI build
             repo_root / "wiki",
             repo_root / "vendor" / "xoreos-docs",
             Path("./help"),

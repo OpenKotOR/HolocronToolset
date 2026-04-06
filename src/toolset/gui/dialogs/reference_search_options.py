@@ -42,9 +42,15 @@ class ReferenceSearchOptions(QDialog):
         """
         super().__init__(parent)
         if qtpy.QT5:
-            win_type = Qt.WindowType(Qt.WindowType.Dialog | Qt.WindowType.WindowCloseButtonHint & ~Qt.WindowType.WindowContextHelpButtonHint)
+            win_type = Qt.WindowType(
+                Qt.WindowType.Dialog
+                | Qt.WindowType.WindowCloseButtonHint & ~Qt.WindowType.WindowContextHelpButtonHint
+            )
         else:
-            win_type = Qt.WindowType.Dialog | Qt.WindowType.WindowCloseButtonHint & ~Qt.WindowType.WindowContextHelpButtonHint
+            win_type = (
+                Qt.WindowType.Dialog
+                | Qt.WindowType.WindowCloseButtonHint & ~Qt.WindowType.WindowContextHelpButtonHint
+            )
 
         self.setWindowFlags(win_type)
 
@@ -87,7 +93,9 @@ class ReferenceSearchOptions(QDialog):
 
     def get_file_types(self) -> set[str] | None:
         """Get the selected file types, or None if all are selected."""
-        selected_types = {ftype for ftype, check in self.file_type_checks.items() if check.isChecked()}
+        selected_types = {
+            ftype for ftype, check in self.file_type_checks.items() if check.isChecked()
+        }
         all_types = set(self.file_type_checks.keys())
         # Return None if all types are selected (means "search all")
         return None if selected_types == all_types else selected_types

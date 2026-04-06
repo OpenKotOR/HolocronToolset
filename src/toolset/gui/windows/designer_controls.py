@@ -185,7 +185,8 @@ class ModuleDesignerControls3d:
                 enable_smoothing=True,
                 smoothing_factor=0.1,
                 enable_acceleration=True,
-                speed_boost_multiplier=self.settings.boostedMoveCameraSensitivity3d / self.settings.moveCameraSensitivity3d,
+                speed_boost_multiplier=self.settings.boostedMoveCameraSensitivity3d
+                / self.settings.moveCameraSensitivity3d,
                 shift_for_fine_control=True,
                 fine_control_multiplier=0.25,
             )
@@ -283,7 +284,13 @@ class ModuleDesignerControls3d:
         # This prevents e.g. Ctrl+LeftDrag (pan camera) from being eaten by the instance
         # move handler whose binding is just LeftButton with no required modifiers.
         modifier_held = self._any_modifier_held(keys)
-        camera_wants_input = move_xy_camera_satisfied or move_camera_plane_satisfied or zoom_camera_satisfied or pan_camera_lmb_satisfied or (rotate_camera_satisfied and modifier_held)
+        camera_wants_input = (
+            move_xy_camera_satisfied
+            or move_camera_plane_satisfied
+            or zoom_camera_satisfied
+            or pan_camera_lmb_satisfied
+            or (rotate_camera_satisfied and modifier_held)
+        )
 
         # Instance manipulation - only when no camera control with modifiers claims the input.
         # When the user has a selection and is left-dragging (move_xy_selected), always prefer
@@ -292,13 +299,22 @@ class ModuleDesignerControls3d:
         _TOOL_MOVE = 1
         _TOOL_ROTATE = 2
         active_tool: int = self.editor._active_tool  # noqa: SLF001
-        instance_drag_ok = active_tool != _TOOL_SELECT or self.move_xy_selected.satisfied(buttons, keys)
+        instance_drag_ok = active_tool != _TOOL_SELECT or self.move_xy_selected.satisfied(
+            buttons, keys
+        )
 
-        if not camera_wants_input and instance_drag_ok and not self.editor.ui.lockInstancesCheck.isChecked() and self.editor.selected_instances:
+        if (
+            not camera_wants_input
+            and instance_drag_ok
+            and not self.editor.ui.lockInstancesCheck.isChecked()
+            and self.editor.selected_instances
+        ):
             # Check instance manipulation bindings (most specific first)
             if self.move_z_selected.satisfied(buttons, keys):
                 if not self.editor.transform_state.is_drag_moving:
-                    self.editor.transform_state.initial_positions = {instance: instance.position for instance in self.editor.selected_instances}
+                    self.editor.transform_state.initial_positions = {
+                        instance: instance.position for instance in self.editor.selected_instances
+                    }
                     self.editor.transform_state.is_drag_moving = True
                 for instance in self.editor.selected_instances:
                     instance.position.z -= processed_dy / 40
@@ -328,17 +344,25 @@ class ModuleDesignerControls3d:
             # MOVE tool (or default): left-drag moves XY
             if active_tool != _TOOL_ROTATE and self.move_xy_selected.satisfied(buttons, keys):
                 if not self.editor.transform_state.is_drag_moving:
-                    self.editor.transform_state.initial_positions = {instance: instance.position for instance in self.editor.selected_instances}
+                    self.editor.transform_state.initial_positions = {
+                        instance: instance.position for instance in self.editor.selected_instances
+                    }
                     self.editor.transform_state.is_drag_moving = True
                 for instance in self.editor.selected_instances:
                     x = float(world.x)
                     y = float(world.y)
-                    z = float(instance.position.z) if isinstance(instance, GITCamera) else float(world.z)
+                    z = (
+                        float(instance.position.z)
+                        if isinstance(instance, GITCamera)
+                        else float(world.z)
+                    )
                     instance.position = Vector3(x, y, z)
                 return
 
         # Camera controls: accumulate raw deltas for CameraController.update() in the render loop (smoothing)
-        plane_pan_satisfied = move_camera_plane_satisfied or move_xy_camera_satisfied or pan_camera_lmb_satisfied
+        plane_pan_satisfied = (
+            move_camera_plane_satisfied or move_xy_camera_satisfied or pan_camera_lmb_satisfied
+        )
         if plane_pan_satisfied or rotate_camera_satisfied or zoom_camera_satisfied:
             self.editor.do_cursor_lock(screen, center_mouse=False, do_rotations=False)
             self._accumulated_mouse_dx += screen_delta.x
@@ -368,7 +392,9 @@ class ModuleDesignerControls3d:
             scene = self.renderer.scene
             if scene is not None:
                 world = Vector3(*scene.cursor.position())
-                self.editor.on_context_menu(world, self.renderer.mapToGlobal(QPoint(int(screen.x), int(screen.y))))
+                self.editor.on_context_menu(
+                    world, self.renderer.mapToGlobal(QPoint(int(screen.x), int(screen.y)))
+                )
         self.editor.handle_undo_redo_from_long_action_finished()
 
     def on_keyboard_released(self, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):
@@ -406,7 +432,9 @@ class ModuleDesignerControls3d:
                 "out": self.zoom_camera_out.satisfied(buttons, keys),
             }
             if any(rotation_keys.values()) or any(movement_keys.values()):
-                rotate_speed = (self.settings.rotateCameraSensitivity3d / 1000.0) * delta_time * 120.0
+                rotate_speed = (
+                    (self.settings.rotateCameraSensitivity3d / 1000.0) * delta_time * 120.0
+                )
                 angle_units_delta = (math.pi / 4.0) * rotate_speed
                 if rotation_keys["left"]:
                     self.renderer.rotate_camera(angle_units_delta, 0.0)
@@ -417,8 +445,14 @@ class ModuleDesignerControls3d:
                 elif rotation_keys["down"]:
                     self.renderer.rotate_camera(0.0, -angle_units_delta)
 
-                speed_boost = self.speed_boost_control.satisfied(buttons, keys, exact_keys_and_buttons=False)
-                move_units_delta = self.settings.boostedMoveCameraSensitivity3d if speed_boost else self.settings.moveCameraSensitivity3d
+                speed_boost = self.speed_boost_control.satisfied(
+                    buttons, keys, exact_keys_and_buttons=False
+                )
+                move_units_delta = (
+                    self.settings.boostedMoveCameraSensitivity3d
+                    if speed_boost
+                    else self.settings.moveCameraSensitivity3d
+                )
                 move_units_delta = (move_units_delta / 500.0) * delta_time * 120.0
 
                 if movement_keys["in"]:
@@ -451,7 +485,14 @@ class ModuleDesignerControls3d:
             alt_held=Qt.Key.Key_Alt in keys,
             pan_button=pan_lmb_active,
         )
-        controller_active = dx != 0.0 or dy != 0.0 or input_state.left_button or input_state.middle_button or input_state.right_button or controller.has_pending_motion()
+        controller_active = (
+            dx != 0.0
+            or dy != 0.0
+            or input_state.left_button
+            or input_state.middle_button
+            or input_state.right_button
+            or controller.has_pending_motion()
+        )
         if keyboard_motion_applied:
             controller.sync_from_camera()
         elif controller_active:
@@ -465,7 +506,9 @@ class ModuleDesignerControls3d:
             instance.camera_id = self.editor._module.git().resource().next_camera_id()  # noqa: SLF001  # pyright: ignore[reportOptionalMemberAccess]
         RobustLogger().info(f"Duplicating {instance!r}")
         if self.editor._module is not None:
-            self.editor.undo_stack.push(DuplicateCommand(self.editor._module.git().resource(), [instance], self.editor))  # noqa: SLF001  # pyright: ignore[reportArgumentType, reportOptionalMemberAccess]
+            self.editor.undo_stack.push(
+                DuplicateCommand(self.editor._module.git().resource(), [instance], self.editor)
+            )  # noqa: SLF001  # pyright: ignore[reportArgumentType, reportOptionalMemberAccess]
         assert self.renderer.scene is not None, "self.renderer.scene is None"
         vect3 = self.renderer.scene.cursor.position()
         instance.position = Vector3(vect3.x, vect3.y, vect3.z)
@@ -507,7 +550,9 @@ class ModuleDesignerControls3d:
         cy = (min(ys) + max(ys)) / 2
         cz = (min(zs) + max(zs)) / 2
         # Viewing distance: half the bounding diagonal, clamped to sane range
-        diag = math.sqrt((max(xs) - min(xs)) ** 2 + (max(ys) - min(ys)) ** 2 + (max(zs) - min(zs)) ** 2)
+        diag = math.sqrt(
+            (max(xs) - min(xs)) ** 2 + (max(ys) - min(ys)) ** 2 + (max(zs) - min(zs)) ** 2
+        )
         dist = max(2.0, min(50.0, diag * 1.5 + 3.0))
         ctrl = self._get_camera_controller()
         ctrl.focus_on_point(cx, cy, cz, dist)
@@ -536,7 +581,9 @@ class ModuleDesignerControls3d:
         cx = (min(xs) + max(xs)) / 2
         cy = (min(ys) + max(ys)) / 2
         cz = (min(zs) + max(zs)) / 2
-        diag = math.sqrt((max(xs) - min(xs)) ** 2 + (max(ys) - min(ys)) ** 2 + (max(zs) - min(zs)) ** 2)
+        diag = math.sqrt(
+            (max(xs) - min(xs)) ** 2 + (max(ys) - min(ys)) ** 2 + (max(zs) - min(zs)) ** 2
+        )
         dist = max(5.0, min(200.0, diag * 0.6 + 5.0))
         ctrl = self._get_camera_controller()
         ctrl.focus_on_point(cx, cy, cz, dist)
@@ -548,7 +595,9 @@ class ModuleDesignerControls3d:
     ):
         if self.toggle_free_cam.satisfied(buttons, keys):
             current_time = time.time()
-            if current_time - self.editor.last_free_cam_time > 0.5:  # 0.5 seconds delay, prevents spamming  # noqa: PLR2004
+            if (
+                current_time - self.editor.last_free_cam_time > 0.5
+            ):  # 0.5 seconds delay, prevents spamming  # noqa: PLR2004
                 self.editor.toggle_free_cam()
                 self.editor.last_free_cam_time = current_time  # Update the last toggle time
             return
@@ -599,7 +648,9 @@ class ModuleDesignerControls3d:
             return
         if self.view_toggle_ortho.satisfied(buttons, keys):
             if self.renderer.scene is not None:
-                self.renderer.scene.camera.orthographic = not self.renderer.scene.camera.orthographic
+                self.renderer.scene.camera.orthographic = (
+                    not self.renderer.scene.camera.orthographic
+                )
             return
         if self.view_camera.satisfied(buttons, keys):
             # Snap viewport to the first GIT camera instance
@@ -611,7 +662,9 @@ class ModuleDesignerControls3d:
                         git_cam = cam_list[0]
                         assert self.renderer.scene is not None, "renderer.scene is None"
                         ctrl = self._get_camera_controller()
-                        ctrl.set_focal_point(git_cam.position.x, git_cam.position.y, git_cam.position.z)
+                        ctrl.set_focal_point(
+                            git_cam.position.x, git_cam.position.y, git_cam.position.z
+                        )
             return
 
         # Frame selected (Numpad . by default)
@@ -624,7 +677,9 @@ class ModuleDesignerControls3d:
             self.frame_all()
             return
         if self.toggle_instance_lock.satisfied(buttons, keys):
-            self.editor.ui.lockInstancesCheck.setChecked(not self.editor.ui.lockInstancesCheck.isChecked())
+            self.editor.ui.lockInstancesCheck.setChecked(
+                not self.editor.ui.lockInstancesCheck.isChecked()
+            )
         if not self.editor.selected_instances:
             return
         if self.delete_selected.satisfied(buttons, keys):
@@ -828,18 +883,37 @@ class ModuleDesignerControlsFreeCam:
         self.renderer.setCursor(QtCore.Qt.CursorShape.BlankCursor)
         self.renderer.scene.show_cursor = False
 
-    def on_mouse_scrolled(self, delta: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]): ...
+    def on_mouse_scrolled(
+        self, delta: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]
+    ): ...
 
-    def on_mouse_moved(self, screen: Vector2, screen_delta: Vector2, world: Vector3, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):  # noqa: PLR0913
+    def on_mouse_moved(
+        self,
+        screen: Vector2,
+        screen_delta: Vector2,
+        world: Vector3,
+        buttons: set[Qt.MouseButton],
+        keys: set[Qt.Key],
+    ):  # noqa: PLR0913
         self.editor.do_cursor_lock(screen)
 
-    def on_mouse_pressed(self, screen: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]): ...
+    def on_mouse_pressed(
+        self, screen: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key]
+    ): ...
 
-    def on_mouse_released(self, screen: Vector2, buttons: set[Qt.MouseButton], keys: set[Qt.Key], released_button: Qt.MouseButton | None = None): ...
+    def on_mouse_released(
+        self,
+        screen: Vector2,
+        buttons: set[Qt.MouseButton],
+        keys: set[Qt.Key],
+        released_button: Qt.MouseButton | None = None,
+    ): ...
 
     def on_keyboard_pressed(self, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):
         current_time = time.time()
-        if self.toggle_free_cam.satisfied(buttons, keys) and (current_time - self.editor.last_free_cam_time > 0.5):  # 0.5 seconds delay, prevents spamming
+        if self.toggle_free_cam.satisfied(buttons, keys) and (
+            current_time - self.editor.last_free_cam_time > 0.5
+        ):  # 0.5 seconds delay, prevents spamming
             # self.renderer.scene.camera.distance = self.controls3d_distance
             self.editor.toggle_free_cam()
             self.editor.last_free_cam_time = current_time  # Update the last toggle time
@@ -853,7 +927,12 @@ class ModuleDesignerControlsFreeCam:
         buttons = self.renderer.mouse_down()
         keys = self.renderer.keys_down()
 
-        rotate_delta = (math.pi / 4.0) * (self.settings.rotateCameraSensitivityFC / 1000.0) * delta_time * 120.0
+        rotate_delta = (
+            (math.pi / 4.0)
+            * (self.settings.rotateCameraSensitivityFC / 1000.0)
+            * delta_time
+            * 120.0
+        )
         rotation_applied = False
         if self.rotate_camera_left.satisfied(buttons, keys):
             self.renderer.rotate_camera(rotate_delta, 0.0)
@@ -869,7 +948,9 @@ class ModuleDesignerControlsFreeCam:
             rotation_applied = True
 
         move_speed = (
-            self.settings.boostedFlyCameraSpeedFC if self.speed_boost_control.satisfied(buttons, keys, exact_keys_and_buttons=False) else self.settings.flyCameraSpeedFC
+            self.settings.boostedFlyCameraSpeedFC
+            if self.speed_boost_control.satisfied(buttons, keys, exact_keys_and_buttons=False)
+            else self.settings.flyCameraSpeedFC
         )
         move_units_delta = (move_speed / 500.0) * delta_time * 120.0
         moved = False
@@ -983,7 +1064,9 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         buttons: set[Qt.MouseButton],
         keys: set[Qt.Key],
     ):
-        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=self.zoom_sensitivity()):
+        if self._nav_helper.handle_mouse_scroll(
+            delta, buttons, keys, zoom_sensitivity=self.zoom_sensitivity()
+        ):
             return
         self.handle_zoom_event(delta, buttons, keys, self.renderer.zoom_at_screen)
 
@@ -1019,7 +1102,9 @@ class ModuleDesignerControls2d(Base2DControlScheme):
             if not self.editor.transform_state.is_drag_moving:
                 RobustLogger().debug("move_selected instance in 2d")
                 self.capture_move_transform(self.editor.selected_instances)
-            self.editor.move_selected(adjusted_world_delta.x, adjusted_world_delta.y, no_undo_stack=True, no_z_coord=True)
+            self.editor.move_selected(
+                adjusted_world_delta.x, adjusted_world_delta.y, no_undo_stack=True, no_z_coord=True
+            )
 
         if self.rotate_selected.satisfied(buttons, keys) and isinstance(self._mode, _InstanceMode):
             if not self.editor.transform_state.is_drag_rotating:
@@ -1053,7 +1138,11 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         keys: set[Qt.Key],
     ):
         world: Vector3 = self.renderer.to_world_coords(screen.x, screen.y)
-        if self.duplicate_selected.satisfied(buttons, keys) and self.editor.selected_instances and isinstance(self._mode, _InstanceMode):
+        if (
+            self.duplicate_selected.satisfied(buttons, keys)
+            and self.editor.selected_instances
+            and isinstance(self._mode, _InstanceMode)
+        ):
             self._mode.duplicate_selected(world)
 
         if self.select_underneath.satisfied(buttons, keys):
@@ -1061,7 +1150,9 @@ class ModuleDesignerControls2d(Base2DControlScheme):
                 RobustLogger().debug("select_underneath_geometry?")
                 self._mode.select_underneath()
             elif self.renderer.instances_under_mouse():
-                RobustLogger().debug("on_mouse_pressed, select_underneath found one or more instances under mouse.")
+                RobustLogger().debug(
+                    "on_mouse_pressed, select_underneath found one or more instances under mouse."
+                )
                 self.editor.set_selection([self.renderer.instances_under_mouse()[-1]])
             else:
                 # Click on empty space: deselect and start marquee (drag will multi-select)
@@ -1099,7 +1190,9 @@ class ModuleDesignerControls2d(Base2DControlScheme):
             return
 
         if self.toggle_instance_lock.satisfied(buttons, keys):
-            self.editor.ui.lockInstancesCheck.setChecked(not self.editor.ui.lockInstancesCheck.isChecked())
+            self.editor.ui.lockInstancesCheck.setChecked(
+                not self.editor.ui.lockInstancesCheck.isChecked()
+            )
 
     def _frame_all_2d(self) -> None:
         """Frame all visible GIT instances in the 2D flat renderer.
@@ -1143,10 +1236,15 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         res = git.resource()
         if res is None:
             return None
-        return aabb_from_points((float(inst.position.x), float(inst.position.y)) for inst in res.instances())
+        return aabb_from_points(
+            (float(inst.position.x), float(inst.position.y)) for inst in res.instances()
+        )
 
     def _selected_instance_bounds(self):
-        return aabb_from_points((float(inst.position.x), float(inst.position.y)) for inst in self.editor.selected_instances)
+        return aabb_from_points(
+            (float(inst.position.x), float(inst.position.y))
+            for inst in self.editor.selected_instances
+        )
 
     def on_mouse_released(
         self,
@@ -1157,7 +1255,9 @@ class ModuleDesignerControls2d(Base2DControlScheme):
     ):
         if released_button == Qt.MouseButton.RightButton:
             world: Vector3 = self.renderer.to_world_coords(screen.x, screen.y)
-            self.editor.on_context_menu(world, self.renderer.mapToGlobal(QPoint(int(screen.x), int(screen.y))))
+            self.editor.on_context_menu(
+                world, self.renderer.mapToGlobal(QPoint(int(screen.x), int(screen.y)))
+            )
         self.finalize_transform_actions()
 
     def on_keyboard_released(self, buttons: set[Qt.MouseButton], keys: set[Qt.Key]):

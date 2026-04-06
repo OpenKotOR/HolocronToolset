@@ -44,7 +44,11 @@ def test_settings_dialog_navigation(qtbot: QtBot):
 
     for page_name, page_widget in pages.items():
         # Find item in tree
-        items = dialog.ui.settingsTree.findItems(page_name, pytest.importorskip("qtpy.QtCore").Qt.MatchExactly | pytest.importorskip("qtpy.QtCore").Qt.MatchRecursive)
+        items = dialog.ui.settingsTree.findItems(
+            page_name,
+            pytest.importorskip("qtpy.QtCore").Qt.MatchExactly
+            | pytest.importorskip("qtpy.QtCore").Qt.MatchRecursive,
+        )
         if not items:
             # Recursively search if findItems is not deep enough or behaves weirdly
             def find_item(root):
@@ -73,7 +77,11 @@ def test_settings_dialog_navigation(qtbot: QtBot):
 
         # Click item
         rect = dialog.ui.settingsTree.visualItemRect(items[0])
-        qtbot.mouseClick(dialog.ui.settingsTree.viewport(), pytest.importorskip("qtpy.QtCore").Qt.LeftButton, pos=rect.center())
+        qtbot.mouseClick(
+            dialog.ui.settingsTree.viewport(),
+            pytest.importorskip("qtpy.QtCore").Qt.LeftButton,
+            pos=rect.center(),
+        )
 
         # Verify page change
         assert dialog.ui.settingsStack.currentWidget() == page_widget

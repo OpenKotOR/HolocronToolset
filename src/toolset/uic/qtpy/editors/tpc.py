@@ -70,7 +70,9 @@ class Ui_MainWindow(object):
         self.zoomPercentLabel.setMinimumWidth(50)
         self.zoomPercentLabel.setObjectName("zoomPercentLabel")
         self.controlsLayout.addWidget(self.zoomPercentLabel)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.controlsLayout.addItem(spacerItem)
         self.framePrevButton = QtWidgets.QPushButton(self.controlsWidget)
         self.framePrevButton.setEnabled(False)
@@ -85,7 +87,9 @@ class Ui_MainWindow(object):
         self.frameNextButton.setEnabled(False)
         self.frameNextButton.setObjectName("frameNextButton")
         self.controlsLayout.addWidget(self.frameNextButton)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.controlsLayout.addItem(spacerItem1)
         self.mipmapLabel = QtWidgets.QLabel(self.controlsWidget)
         self.mipmapLabel.setObjectName("mipmapLabel")
@@ -120,7 +124,11 @@ class Ui_MainWindow(object):
         self.mainToolBar.setObjectName("mainToolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
         self.propertiesDockWidget = QtWidgets.QDockWidget(MainWindow)
-        self.propertiesDockWidget.setFeatures(QtWidgets.QDockWidget.DockWidgetMovable|QtWidgets.QDockWidget.DockWidgetClosable|QtWidgets.QDockWidget.DockWidgetFloatable)
+        self.propertiesDockWidget.setFeatures(
+            QtWidgets.QDockWidget.DockWidgetMovable
+            | QtWidgets.QDockWidget.DockWidgetClosable
+            | QtWidgets.QDockWidget.DockWidgetFloatable
+        )
         self.propertiesDockWidget.setObjectName("propertiesDockWidget")
         self.propertiesDockWidgetContents = QtWidgets.QWidget()
         self.propertiesDockWidgetContents.setObjectName("propertiesDockWidgetContents")
@@ -132,10 +140,14 @@ class Ui_MainWindow(object):
         self.propertiesFormLayout.setObjectName("propertiesFormLayout")
         self.dimensionsLabel = QtWidgets.QLabel(self.propertiesDockWidgetContents)
         self.dimensionsLabel.setObjectName("dimensionsLabel")
-        self.propertiesFormLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.dimensionsLabel)
+        self.propertiesFormLayout.setWidget(
+            0, QtWidgets.QFormLayout.LabelRole, self.dimensionsLabel
+        )
         self.dimensionsValue = QtWidgets.QLabel(self.propertiesDockWidgetContents)
         self.dimensionsValue.setObjectName("dimensionsValue")
-        self.propertiesFormLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.dimensionsValue)
+        self.propertiesFormLayout.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.dimensionsValue
+        )
         self.formatLabel = QtWidgets.QLabel(self.propertiesDockWidgetContents)
         self.formatLabel.setObjectName("formatLabel")
         self.propertiesFormLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.formatLabel)
@@ -156,10 +168,14 @@ class Ui_MainWindow(object):
         self.propertiesFormLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.mipmapsValue)
         self.compressedLabel = QtWidgets.QLabel(self.propertiesDockWidgetContents)
         self.compressedLabel.setObjectName("compressedLabel")
-        self.propertiesFormLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.compressedLabel)
+        self.propertiesFormLayout.setWidget(
+            4, QtWidgets.QFormLayout.LabelRole, self.compressedLabel
+        )
         self.compressedValue = QtWidgets.QLabel(self.propertiesDockWidgetContents)
         self.compressedValue.setObjectName("compressedValue")
-        self.propertiesFormLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.compressedValue)
+        self.propertiesFormLayout.setWidget(
+            4, QtWidgets.QFormLayout.FieldRole, self.compressedValue
+        )
         self.animatedLabel = QtWidgets.QLabel(self.propertiesDockWidgetContents)
         self.animatedLabel.setObjectName("animatedLabel")
         self.propertiesFormLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.animatedLabel)
@@ -182,14 +198,22 @@ class Ui_MainWindow(object):
         self.alphaTestSpinBox.setSingleStep(0.01)
         self.alphaTestSpinBox.setProperty("value", 0.5)
         self.alphaTestSpinBox.setObjectName("alphaTestSpinBox")
-        self.propertiesFormLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.alphaTestSpinBox)
+        self.propertiesFormLayout.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.alphaTestSpinBox
+        )
         self.propertiesLayout.addLayout(self.propertiesFormLayout)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.propertiesLayout.addItem(spacerItem2)
         self.propertiesDockWidget.setWidget(self.propertiesDockWidgetContents)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.propertiesDockWidget)
         self.txiDockWidget = QtWidgets.QDockWidget(MainWindow)
-        self.txiDockWidget.setFeatures(QtWidgets.QDockWidget.DockWidgetMovable|QtWidgets.QDockWidget.DockWidgetClosable|QtWidgets.QDockWidget.DockWidgetFloatable)
+        self.txiDockWidget.setFeatures(
+            QtWidgets.QDockWidget.DockWidgetMovable
+            | QtWidgets.QDockWidget.DockWidgetClosable
+            | QtWidgets.QDockWidget.DockWidgetFloatable
+        )
         self.txiDockWidget.setObjectName("txiDockWidget")
         self.dockWidgetContents = QtWidgets.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
@@ -351,10 +375,14 @@ class Ui_MainWindow(object):
         self.actionSave.setToolTip(_translate("MainWindow", "Save the texture (Ctrl+S)"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save &As..."))
-        self.actionSaveAs.setToolTip(_translate("MainWindow", "Save the texture with a new name (Ctrl+Shift+S)"))
+        self.actionSaveAs.setToolTip(
+            _translate("MainWindow", "Save the texture with a new name (Ctrl+Shift+S)")
+        )
         self.actionSaveAs.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
         self.actionRevert.setText(_translate("MainWindow", "&Revert"))
-        self.actionRevert.setToolTip(_translate("MainWindow", "Revert to the last saved version (Ctrl+R)"))
+        self.actionRevert.setToolTip(
+            _translate("MainWindow", "Revert to the last saved version (Ctrl+R)")
+        )
         self.actionRevert.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.actionExit.setText(_translate("MainWindow", "E&xit"))
         self.actionExit.setToolTip(_translate("MainWindow", "Close the editor (Ctrl+Q)"))
@@ -371,7 +399,9 @@ class Ui_MainWindow(object):
         self.actionZoom100.setText(_translate("MainWindow", "Zoom &100%"))
         self.actionZoom100.setToolTip(_translate("MainWindow", "Reset zoom to 100%"))
         self.actionRotateLeft.setText(_translate("MainWindow", "Rotate &Left (90°)"))
-        self.actionRotateLeft.setToolTip(_translate("MainWindow", "Rotate texture 90° counter-clockwise"))
+        self.actionRotateLeft.setToolTip(
+            _translate("MainWindow", "Rotate texture 90° counter-clockwise")
+        )
         self.actionRotateRight.setText(_translate("MainWindow", "Rotate &Right (90°)"))
         self.actionRotateRight.setToolTip(_translate("MainWindow", "Rotate texture 90° clockwise"))
         self.actionFlipHorizontal.setText(_translate("MainWindow", "Flip &Horizontal"))
@@ -379,16 +409,26 @@ class Ui_MainWindow(object):
         self.actionFlipVertical.setText(_translate("MainWindow", "Flip &Vertical"))
         self.actionFlipVertical.setToolTip(_translate("MainWindow", "Flip texture vertically"))
         self.actionExport.setText(_translate("MainWindow", "&Export..."))
-        self.actionExport.setToolTip(_translate("MainWindow", "Export texture to PNG, JPEG, BMP, or TGA"))
+        self.actionExport.setToolTip(
+            _translate("MainWindow", "Export texture to PNG, JPEG, BMP, or TGA")
+        )
         self.actionConvertFormat.setText(_translate("MainWindow", "&Convert Format..."))
-        self.actionConvertFormat.setToolTip(_translate("MainWindow", "Convert texture to a different format"))
+        self.actionConvertFormat.setToolTip(
+            _translate("MainWindow", "Convert texture to a different format")
+        )
         self.actionToggleTXIEditor.setText(_translate("MainWindow", "Toggle &TXI Editor"))
-        self.actionToggleTXIEditor.setToolTip(_translate("MainWindow", "Show/hide TXI properties editor"))
+        self.actionToggleTXIEditor.setToolTip(
+            _translate("MainWindow", "Show/hide TXI properties editor")
+        )
         self.actionCopy.setText(_translate("MainWindow", "&Copy"))
         self.actionCopy.setToolTip(_translate("MainWindow", "Copy texture to clipboard (Ctrl+C)"))
         self.actionCopy.setShortcut(_translate("MainWindow", "Ctrl+C"))
         self.actionPaste.setText(_translate("MainWindow", "&Paste"))
-        self.actionPaste.setToolTip(_translate("MainWindow", "Paste texture from clipboard (Ctrl+V)"))
+        self.actionPaste.setToolTip(
+            _translate("MainWindow", "Paste texture from clipboard (Ctrl+V)")
+        )
         self.actionPaste.setShortcut(_translate("MainWindow", "Ctrl+V"))
         self.actionToggleProperties.setText(_translate("MainWindow", "Toggle &Properties"))
-        self.actionToggleProperties.setToolTip(_translate("MainWindow", "Show/hide properties panel"))
+        self.actionToggleProperties.setToolTip(
+            _translate("MainWindow", "Show/hide properties panel")
+        )

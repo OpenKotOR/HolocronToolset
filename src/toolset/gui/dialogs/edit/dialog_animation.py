@@ -28,7 +28,9 @@ class EditAnimationDialog(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinMaxButtonsHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         from toolset.uic.qtpy.dialogs.edit_animation import Ui_Dialog
@@ -44,10 +46,17 @@ class EditAnimationDialog(QDialog):
 
         anim_list: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_DIALOG_ANIMS)
         assert anim_list is not None
-        self.ui.animationSelect.set_items(anim_list.get_column("name"), sort_alphabetically=True, cleanup_strings=True, ignore_blanks=True)
+        self.ui.animationSelect.set_items(
+            anim_list.get_column("name"),
+            sort_alphabetically=True,
+            cleanup_strings=True,
+            ignore_blanks=True,
+        )
 
         self.ui.animationSelect.setCurrentIndex(animation.animation_id)
-        self.ui.animationSelect.set_context(anim_list, installation, HTInstallation.TwoDA_DIALOG_ANIMS)
+        self.ui.animationSelect.set_context(
+            anim_list, installation, HTInstallation.TwoDA_DIALOG_ANIMS
+        )
         self.ui.participantEdit.setText(animation.participant)
 
     def animation(self) -> DLGAnimation:

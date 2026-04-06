@@ -327,11 +327,17 @@ class TestIndoorBuilderRoundtrip:
         """Test K1: LYT room count preserved through roundtrip."""
         for module_root in k1_module_roots:
             # Get original module
-            original_resources = _read_original_module_resources(module_root, k1_pykotor_installation)
+            original_resources = _read_original_module_resources(
+                module_root, k1_pykotor_installation
+            )
 
             # Find original LYT
             original_lyt_data = next(
-                (data for (resref, restype), data in original_resources.items() if restype == ResourceType.LYT),
+                (
+                    data
+                    for (resref, restype), data in original_resources.items()
+                    if restype == ResourceType.LYT
+                ),
                 None,
             )
             if original_lyt_data is None:
@@ -348,7 +354,11 @@ class TestIndoorBuilderRoundtrip:
             # Read rebuilt LYT
             rebuilt_resources = _read_archive_resources(rebuilt_path)
             rebuilt_lyt_data = next(
-                (data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.LYT),
+                (
+                    data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.LYT
+                ),
                 None,
             )
             assert rebuilt_lyt_data is not None, f"{module_root}: Rebuilt module missing LYT"
@@ -369,10 +379,16 @@ class TestIndoorBuilderRoundtrip:
     ):
         """Test K1: LYT room positions preserved through roundtrip."""
         for module_root in k1_module_roots:
-            original_resources = _read_original_module_resources(module_root, k1_pykotor_installation)
+            original_resources = _read_original_module_resources(
+                module_root, k1_pykotor_installation
+            )
 
             original_lyt_data = next(
-                (data for (resref, restype), data in original_resources.items() if restype == ResourceType.LYT),
+                (
+                    data
+                    for (resref, restype), data in original_resources.items()
+                    if restype == ResourceType.LYT
+                ),
                 None,
             )
             if original_lyt_data is None:
@@ -385,14 +401,20 @@ class TestIndoorBuilderRoundtrip:
 
             rebuilt_resources = _read_archive_resources(rebuilt_path)
             rebuilt_lyt_data = next(
-                (data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.LYT),
+                (
+                    data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.LYT
+                ),
                 None,
             )
             assert rebuilt_lyt_data is not None
             rebuilt_lyt = read_lyt(rebuilt_lyt_data)
 
             # Compare room positions (order preserved by index)
-            for i, (orig_room, rebuilt_room) in enumerate(zip(original_lyt.rooms, rebuilt_lyt.rooms)):
+            for i, (orig_room, rebuilt_room) in enumerate(
+                zip(original_lyt.rooms, rebuilt_lyt.rooms)
+            ):
                 pos_diff_x = abs(orig_room.position.x - rebuilt_room.position.x)
                 pos_diff_y = abs(orig_room.position.y - rebuilt_room.position.y)
                 pos_diff_z = abs(orig_room.position.z - rebuilt_room.position.z)
@@ -423,8 +445,14 @@ class TestIndoorBuilderRoundtrip:
             _export_indoor_map_to_mod(indoor_map, k1_pykotor_installation, rebuilt_path)
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
-            rebuilt_woks = {resref: data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK}
-            assert len(rebuilt_woks) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            rebuilt_woks = {
+                resref: data
+                for (resref, restype), data in rebuilt_resources.items()
+                if restype == ResourceType.WOK
+            }
+            assert len(rebuilt_woks) == len(indoor_map.rooms), (
+                f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            )
 
             original_total_faces = sum(len(room.base_walkmesh().faces) for room in indoor_map.rooms)
             rebuilt_total_faces = sum(len(read_bwm(data).faces) for data in rebuilt_woks.values())
@@ -447,14 +475,26 @@ class TestIndoorBuilderRoundtrip:
         """
         for module_root in k1_module_roots:
             indoor_map = _import_module_into_indoor_map(module_root, k1_pykotor_installation)
-            expected_walkable = sum(len(room.base_walkmesh().walkable_faces()) for room in indoor_map.rooms)
+            expected_walkable = sum(
+                len(room.base_walkmesh().walkable_faces()) for room in indoor_map.rooms
+            )
             rebuilt_path = tmp_path / f"{module_root}_rebuilt.mod"
             _export_indoor_map_to_mod(indoor_map, k1_pykotor_installation, rebuilt_path)
             rebuilt_resources = _read_archive_resources(rebuilt_path)
-            rebuilt_woks = {resref: data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK}
-            assert len(rebuilt_woks) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
-            rebuilt_walkable = sum(len(read_bwm(data).walkable_faces()) for data in rebuilt_woks.values())
-            assert rebuilt_walkable == expected_walkable, f"{module_root}: Walkable face count mismatch - expected={expected_walkable}, rebuilt={rebuilt_walkable}"
+            rebuilt_woks = {
+                resref: data
+                for (resref, restype), data in rebuilt_resources.items()
+                if restype == ResourceType.WOK
+            }
+            assert len(rebuilt_woks) == len(indoor_map.rooms), (
+                f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            )
+            rebuilt_walkable = sum(
+                len(read_bwm(data).walkable_faces()) for data in rebuilt_woks.values()
+            )
+            assert rebuilt_walkable == expected_walkable, (
+                f"{module_root}: Walkable face count mismatch - expected={expected_walkable}, rebuilt={rebuilt_walkable}"
+            )
 
     def test_roundtrip_k1_wok_vertex_count(
         self,
@@ -470,17 +510,31 @@ class TestIndoorBuilderRoundtrip:
         """
         for module_root in k1_module_roots:
             indoor_map = _import_module_into_indoor_map(module_root, k1_pykotor_installation)
-            expected_vertices = sum(len(list(room.base_walkmesh().vertices())) for room in indoor_map.rooms)
+            expected_vertices = sum(
+                len(list(room.base_walkmesh().vertices())) for room in indoor_map.rooms
+            )
             rebuilt_path = tmp_path / f"{module_root}_rebuilt.mod"
             _export_indoor_map_to_mod(indoor_map, k1_pykotor_installation, rebuilt_path)
             rebuilt_resources = _read_archive_resources(rebuilt_path)
-            rebuilt_woks = {resref: data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK}
-            assert len(rebuilt_woks) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            rebuilt_woks = {
+                resref: data
+                for (resref, restype), data in rebuilt_resources.items()
+                if restype == ResourceType.WOK
+            }
+            assert len(rebuilt_woks) == len(indoor_map.rooms), (
+                f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            )
 
-            original_vertices = sum(len(list(room.base_walkmesh().vertices())) for room in indoor_map.rooms)
-            rebuilt_vertices = sum(len(list(read_bwm(data).vertices())) for data in rebuilt_woks.values())
+            original_vertices = sum(
+                len(list(room.base_walkmesh().vertices())) for room in indoor_map.rooms
+            )
+            rebuilt_vertices = sum(
+                len(list(read_bwm(data).vertices())) for data in rebuilt_woks.values()
+            )
 
-            assert rebuilt_vertices == original_vertices, f"{module_root}: Vertex count mismatch - original={original_vertices}, rebuilt={rebuilt_vertices}"
+            assert rebuilt_vertices == original_vertices, (
+                f"{module_root}: Vertex count mismatch - original={original_vertices}, rebuilt={rebuilt_vertices}"
+            )
 
     def test_roundtrip_k1_wok_material_distribution(
         self,
@@ -500,8 +554,14 @@ class TestIndoorBuilderRoundtrip:
             _export_indoor_map_to_mod(indoor_map, k1_pykotor_installation, rebuilt_path)
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
-            rebuilt_woks = {resref: data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK}
-            assert len(rebuilt_woks) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            rebuilt_woks = {
+                resref: data
+                for (resref, restype), data in rebuilt_resources.items()
+                if restype == ResourceType.WOK
+            }
+            assert len(rebuilt_woks) == len(indoor_map.rooms), (
+                f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            )
 
             expected_materials: dict[int, int] = {}
             for room in indoor_map.rooms:
@@ -516,7 +576,9 @@ class TestIndoorBuilderRoundtrip:
                     mat_val = face.material.value
                     rebuilt_materials[mat_val] = rebuilt_materials.get(mat_val, 0) + 1
 
-            assert rebuilt_materials == expected_materials, f"{module_root}: Material distribution mismatch - expected={expected_materials}, rebuilt={rebuilt_materials}"
+            assert rebuilt_materials == expected_materials, (
+                f"{module_root}: Material distribution mismatch - expected={expected_materials}, rebuilt={rebuilt_materials}"
+            )
 
     def test_roundtrip_k1_wok_double_roundtrip(
         self,
@@ -542,14 +604,22 @@ class TestIndoorBuilderRoundtrip:
             mod1_path = tmp_path / f"{module_root}_round1.mod"
             _export_indoor_map_to_mod(indoor_map1, k1_pykotor_installation, mod1_path)
             mod1_resources = _read_archive_resources(mod1_path)
-            mod1_woks = {resref: data for (resref, restype), data in mod1_resources.items() if restype == ResourceType.WOK}
+            mod1_woks = {
+                resref: data
+                for (resref, restype), data in mod1_resources.items()
+                if restype == ResourceType.WOK
+            }
 
             # Second roundtrip: import again (same source) → export mod2
             indoor_map2 = _import_module_into_indoor_map(module_root, k1_pykotor_installation)
             mod2_path = tmp_path / f"{module_root}_round2.mod"
             _export_indoor_map_to_mod(indoor_map2, k1_pykotor_installation, mod2_path)
             mod2_resources = _read_archive_resources(mod2_path)
-            mod2_woks = {resref: data for (resref, restype), data in mod2_resources.items() if restype == ResourceType.WOK}
+            mod2_woks = {
+                resref: data
+                for (resref, restype), data in mod2_resources.items()
+                if restype == ResourceType.WOK
+            }
 
             assert len(mod1_woks) == len(mod2_woks) == len(indoor_map1.rooms), (
                 f"{module_root}: WOK count mismatch - round1={len(mod1_woks)}, round2={len(mod2_woks)}, rooms={len(indoor_map1.rooms)}"
@@ -557,11 +627,15 @@ class TestIndoorBuilderRoundtrip:
 
             mod1_faces = sum(len(read_bwm(data).faces) for data in mod1_woks.values())
             mod2_faces = sum(len(read_bwm(data).faces) for data in mod2_woks.values())
-            assert mod1_faces == mod2_faces, f"{module_root}: Double roundtrip face count mismatch - round1={mod1_faces}, round2={mod2_faces}"
+            assert mod1_faces == mod2_faces, (
+                f"{module_root}: Double roundtrip face count mismatch - round1={mod1_faces}, round2={mod2_faces}"
+            )
 
             mod1_vertices = sum(len(read_bwm(data).vertices()) for data in mod1_woks.values())
             mod2_vertices = sum(len(read_bwm(data).vertices()) for data in mod2_woks.values())
-            assert mod1_vertices == mod2_vertices, f"{module_root}: Double roundtrip vertex count mismatch - round1={mod1_vertices}, round2={mod2_vertices}"
+            assert mod1_vertices == mod2_vertices, (
+                f"{module_root}: Double roundtrip vertex count mismatch - round1={mod1_vertices}, round2={mod2_vertices}"
+            )
 
     def test_roundtrip_k1_required_resources_present(
         self,
@@ -583,7 +657,9 @@ class TestIndoorBuilderRoundtrip:
             rebuilt_types = {restype for (resref, restype) in rebuilt_resources.keys()}
 
             for req_type in required_types:
-                assert req_type in rebuilt_types, f"{module_root}: Missing required resource type {req_type}"
+                assert req_type in rebuilt_types, (
+                    f"{module_root}: Missing required resource type {req_type}"
+                )
 
     def test_roundtrip_k1_are_structure(
         self,
@@ -601,7 +677,11 @@ class TestIndoorBuilderRoundtrip:
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
             are_data = next(
-                (data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.ARE),
+                (
+                    data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.ARE
+                ),
                 None,
             )
             assert are_data is not None, f"{module_root}: Rebuilt module missing ARE"
@@ -626,7 +706,11 @@ class TestIndoorBuilderRoundtrip:
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
             ifo_data = next(
-                (data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.IFO),
+                (
+                    data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.IFO
+                ),
                 None,
             )
             assert ifo_data is not None, f"{module_root}: Rebuilt module missing IFO"
@@ -651,7 +735,11 @@ class TestIndoorBuilderRoundtrip:
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
             git_data = next(
-                (data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.GIT),
+                (
+                    data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.GIT
+                ),
                 None,
             )
             assert git_data is not None, f"{module_root}: Rebuilt module missing GIT"
@@ -674,10 +762,16 @@ class TestIndoorBuilderRoundtripK2:
     ):
         """Test K2: LYT room count preserved through roundtrip."""
         for module_root in k2_module_roots:
-            original_resources = _read_original_module_resources(module_root, k2_pykotor_installation)
+            original_resources = _read_original_module_resources(
+                module_root, k2_pykotor_installation
+            )
 
             original_lyt_data = next(
-                (data for (resref, restype), data in original_resources.items() if restype == ResourceType.LYT),
+                (
+                    data
+                    for (resref, restype), data in original_resources.items()
+                    if restype == ResourceType.LYT
+                ),
                 None,
             )
             if original_lyt_data is None:
@@ -690,7 +784,11 @@ class TestIndoorBuilderRoundtripK2:
 
             rebuilt_resources = _read_archive_resources(rebuilt_path)
             rebuilt_lyt_data = next(
-                (data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.LYT),
+                (
+                    data
+                    for (resref, restype), data in rebuilt_resources.items()
+                    if restype == ResourceType.LYT
+                ),
                 None,
             )
             assert rebuilt_lyt_data is not None, f"{module_root}: Rebuilt module missing LYT"
@@ -715,13 +813,25 @@ class TestIndoorBuilderRoundtripK2:
             _export_indoor_map_to_mod(indoor_map, k2_pykotor_installation, rebuilt_path)
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
-            rebuilt_woks = {resref: data for (resref, restype), data in rebuilt_resources.items() if restype == ResourceType.WOK}
-            assert len(rebuilt_woks) == len(indoor_map.rooms), f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            rebuilt_woks = {
+                resref: data
+                for (resref, restype), data in rebuilt_resources.items()
+                if restype == ResourceType.WOK
+            }
+            assert len(rebuilt_woks) == len(indoor_map.rooms), (
+                f"{module_root}: WOK count mismatch - rebuilt={len(rebuilt_woks)}, rooms={len(indoor_map.rooms)}"
+            )
 
-            original_walkable = sum(len(room.base_walkmesh().walkable_faces()) for room in indoor_map.rooms)
-            rebuilt_walkable = sum(len(read_bwm(data).walkable_faces()) for data in rebuilt_woks.values())
+            original_walkable = sum(
+                len(room.base_walkmesh().walkable_faces()) for room in indoor_map.rooms
+            )
+            rebuilt_walkable = sum(
+                len(read_bwm(data).walkable_faces()) for data in rebuilt_woks.values()
+            )
 
-            assert rebuilt_walkable == original_walkable, f"{module_root}: Walkable face count mismatch - original={original_walkable}, rebuilt={rebuilt_walkable}"
+            assert rebuilt_walkable == original_walkable, (
+                f"{module_root}: Walkable face count mismatch - original={original_walkable}, rebuilt={rebuilt_walkable}"
+            )
 
     def test_roundtrip_k2_required_resources_present(
         self,
@@ -743,7 +853,9 @@ class TestIndoorBuilderRoundtripK2:
             rebuilt_types = {restype for (resref, restype) in rebuilt_resources.keys()}
 
             for req_type in required_types:
-                assert req_type in rebuilt_types, f"{module_root}: Missing required resource type {req_type}"
+                assert req_type in rebuilt_types, (
+                    f"{module_root}: Missing required resource type {req_type}"
+                )
 
 
 def _dismiss_modal_message_boxes() -> None:
@@ -821,20 +933,30 @@ class TestIndoorBuilderUIRoundtrip:
             assert rebuilt_path.stat().st_size > 0, f"{module_root}: Rebuilt .mod is empty"
 
             # Compare with original
-            original_resources = _read_original_module_resources(module_root, k1_pykotor_installation)
+            original_resources = _read_original_module_resources(
+                module_root, k1_pykotor_installation
+            )
             rebuilt_resources = _read_archive_resources(rebuilt_path)
 
             # Verify LYT room count matches
-            orig_lyt = next((data for (r, t), data in original_resources.items() if t == ResourceType.LYT), None)
-            rebuilt_lyt = next((data for (r, t), data in rebuilt_resources.items() if t == ResourceType.LYT), None)
+            orig_lyt = next(
+                (data for (r, t), data in original_resources.items() if t == ResourceType.LYT), None
+            )
+            rebuilt_lyt = next(
+                (data for (r, t), data in rebuilt_resources.items() if t == ResourceType.LYT), None
+            )
 
             if orig_lyt and rebuilt_lyt:
-                assert len(read_lyt(rebuilt_lyt).rooms) == len(read_lyt(orig_lyt).rooms), f"{module_root}: Room count mismatch in UI roundtrip"
+                assert len(read_lyt(rebuilt_lyt).rooms) == len(read_lyt(orig_lyt).rooms), (
+                    f"{module_root}: Room count mismatch in UI roundtrip"
+                )
 
             # Cleanup: stop render loop so widget can be torn down
             builder.hide()
             QApplication.processEvents()
-            if hasattr(builder.ui, "mapRenderer") and hasattr(builder.ui.mapRenderer, "_render_timer"):
+            if hasattr(builder.ui, "mapRenderer") and hasattr(
+                builder.ui.mapRenderer, "_render_timer"
+            ):
                 builder.ui.mapRenderer._render_timer.stop()
             builder.close()
             QApplication.processEvents()

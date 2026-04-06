@@ -29,7 +29,9 @@ class Ui_Dialog(object):
         self.updateReadyLabel.setStyleSheet("font-size: 12px; color: palette(mid);")
         self.updateReadyLabel.setObjectName("updateReadyLabel")
         self.headerLayout.addWidget(self.updateReadyLabel)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.headerLayout.addItem(spacerItem)
         self.verticalLayout.addLayout(self.headerLayout)
         self.titleLabel = QtWidgets.QLabel(Dialog)
@@ -70,7 +72,9 @@ class Ui_Dialog(object):
         self.preReleaseCheckBox = QtWidgets.QCheckBox(Dialog)
         self.preReleaseCheckBox.setObjectName("preReleaseCheckBox")
         self.advancedControlsLayout.addWidget(self.preReleaseCheckBox)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.advancedControlsLayout.addItem(spacerItem1)
         self.refreshButton = QtWidgets.QPushButton(Dialog)
         self.refreshButton.setObjectName("refreshButton")
@@ -78,7 +82,9 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.advancedControlsLayout)
         self.currentVersionLayout = QtWidgets.QHBoxLayout()
         self.currentVersionLayout.setObjectName("currentVersionLayout")
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.currentVersionLayout.addItem(spacerItem2)
         self.currentVersionLabel = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
@@ -87,12 +93,16 @@ class Ui_Dialog(object):
         self.currentVersionLabel.setFont(font)
         self.currentVersionLabel.setObjectName("currentVersionLabel")
         self.currentVersionLayout.addWidget(self.currentVersionLabel)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.currentVersionLayout.addItem(spacerItem3)
         self.verticalLayout.addLayout(self.currentVersionLayout)
         self.footerLayout = QtWidgets.QHBoxLayout()
         self.footerLayout.setObjectName("footerLayout")
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.footerLayout.addItem(spacerItem4)
         self.ignoreButton = QtWidgets.QPushButton(Dialog)
         self.ignoreButton.setObjectName("ignoreButton")

@@ -14,7 +14,6 @@ from pykotor.resource.formats.bwm import (  # pyright: ignore[reportMissingImpor
 from pykotor.resource.type import ResourceType  # pyright: ignore[reportMissingImports]
 from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.interaction.camera import (
-    calculate_zoom_strength,
     handle_standard_2d_camera_movement,
 )
 from toolset.gui.common.walkmesh_materials import (
@@ -36,6 +35,7 @@ if TYPE_CHECKING:
 
 _TRANS_FACE_ROLE = Qt.ItemDataRole.UserRole + 1  # type: ignore[attr-defined]
 _TRANS_EDGE_ROLE = Qt.ItemDataRole.UserRole + 2  # type: ignore[attr-defined]
+
 
 class BWMEditor(Editor):
     def __init__(self, parent: QWidget | None, installation: HTInstallation | None = None):
@@ -86,9 +86,13 @@ class BWMEditor(Editor):
         self.ui.renderArea.sig_mouse_moved.connect(self.on_mouse_moved)
         self.ui.renderArea.sig_mouse_scrolled.connect(self.on_mouse_scrolled)
         self.ui.renderArea.sig_key_pressed.connect(self.on_key_pressed)
-        self.ui.actionShowRoomBoundaries.toggled.connect(lambda value: setattr(self.ui.renderArea, "show_room_boundaries", value))
+        self.ui.actionShowRoomBoundaries.toggled.connect(
+            lambda value: setattr(self.ui.renderArea, "show_room_boundaries", value)
+        )
         self.ui.actionShowRoomBoundaries.toggled.connect(lambda _: self.ui.renderArea.update())
-        self.ui.actionShowGrid.toggled.connect(lambda value: setattr(self.ui.renderArea, "show_grid", value))
+        self.ui.actionShowGrid.toggled.connect(
+            lambda value: setattr(self.ui.renderArea, "show_grid", value)
+        )
         self.ui.actionShowGrid.toggled.connect(lambda _: self.ui.renderArea.update())
 
     def _content_bounds(self):
@@ -188,7 +192,13 @@ class BWMEditor(Editor):
         face: BWMFace | None = self._bwm.faceAt(world.x, world.y)
 
         handled_cam = handle_standard_2d_camera_movement(
-            self.ui.renderArea, screen, delta, world_data, buttons, keys, settings=ModuleDesignerSettings(),
+            self.ui.renderArea,
+            screen,
+            delta,
+            world_data,
+            buttons,
+            keys,
+            settings=ModuleDesignerSettings(),
         )
 
         # Paint with left-drag unless camera movement consumed the input.
@@ -207,12 +217,16 @@ class BWMEditor(Editor):
         status_bar.showMessage(coords_text + face_text + xy)  # pyright: ignore[reportCallIssue]
 
     def on_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
-        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
+        if self._nav_helper.handle_mouse_scroll(
+            delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d
+        ):
             self.ui.renderArea.update()
             return
 
     def on_key_pressed(self, buttons: set[int], keys: set[int]):
-        self._nav_helper.handle_key_pressed(keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10)
+        self._nav_helper.handle_key_pressed(
+            keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10
+        )
 
     def change_face_material(self, face: BWMFace):
         """Change material of a face.
@@ -245,6 +259,7 @@ class BWMEditor(Editor):
             self.ui.renderArea.setHighlightedTrans(face, edge)
         else:
             self.ui.renderArea.setHighlightedTrans(None, None)
+
 
 if __name__ == "__main__":
     import sys

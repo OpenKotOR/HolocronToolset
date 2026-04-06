@@ -34,26 +34,34 @@ class Ui_MainWindow(object):
         self.formLayoutBasicInfo.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.labelSaveName)
         self.lineEditSaveName = QtWidgets.QLineEdit(self.groupBasicInfo)
         self.lineEditSaveName.setObjectName("lineEditSaveName")
-        self.formLayoutBasicInfo.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.lineEditSaveName)
+        self.formLayoutBasicInfo.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.lineEditSaveName
+        )
         self.labelAreaName = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelAreaName.setObjectName("labelAreaName")
         self.formLayoutBasicInfo.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelAreaName)
         self.lineEditAreaName = QtWidgets.QLineEdit(self.groupBasicInfo)
         self.lineEditAreaName.setObjectName("lineEditAreaName")
-        self.formLayoutBasicInfo.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEditAreaName)
+        self.formLayoutBasicInfo.setWidget(
+            1, QtWidgets.QFormLayout.FieldRole, self.lineEditAreaName
+        )
         self.labelLastModule = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelLastModule.setObjectName("labelLastModule")
         self.formLayoutBasicInfo.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelLastModule)
         self.lineEditLastModule = QtWidgets.QLineEdit(self.groupBasicInfo)
         self.lineEditLastModule.setObjectName("lineEditLastModule")
-        self.formLayoutBasicInfo.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEditLastModule)
+        self.formLayoutBasicInfo.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.lineEditLastModule
+        )
         self.labelTimePlayed = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelTimePlayed.setObjectName("labelTimePlayed")
         self.formLayoutBasicInfo.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelTimePlayed)
         self.spinBoxTimePlayed = QtWidgets.QSpinBox(self.groupBasicInfo)
         self.spinBoxTimePlayed.setMaximum(2147483647)
         self.spinBoxTimePlayed.setObjectName("spinBoxTimePlayed")
-        self.formLayoutBasicInfo.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.spinBoxTimePlayed)
+        self.formLayoutBasicInfo.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.spinBoxTimePlayed
+        )
         self.labelPCName = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelPCName.setObjectName("labelPCName")
         self.formLayoutBasicInfo.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.labelPCName)
@@ -66,27 +74,37 @@ class Ui_MainWindow(object):
         self.lineEditTimestamp = QtWidgets.QLineEdit(self.groupBasicInfo)
         self.lineEditTimestamp.setReadOnly(True)
         self.lineEditTimestamp.setObjectName("lineEditTimestamp")
-        self.formLayoutBasicInfo.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.lineEditTimestamp)
+        self.formLayoutBasicInfo.setWidget(
+            5, QtWidgets.QFormLayout.FieldRole, self.lineEditTimestamp
+        )
         self.labelCheatUsed = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelCheatUsed.setObjectName("labelCheatUsed")
         self.formLayoutBasicInfo.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.labelCheatUsed)
         self.checkBoxCheatUsed = QtWidgets.QCheckBox(self.groupBasicInfo)
         self.checkBoxCheatUsed.setObjectName("checkBoxCheatUsed")
-        self.formLayoutBasicInfo.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.checkBoxCheatUsed)
+        self.formLayoutBasicInfo.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.checkBoxCheatUsed
+        )
         self.labelGameplayHint = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelGameplayHint.setObjectName("labelGameplayHint")
-        self.formLayoutBasicInfo.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.labelGameplayHint)
+        self.formLayoutBasicInfo.setWidget(
+            7, QtWidgets.QFormLayout.LabelRole, self.labelGameplayHint
+        )
         self.spinBoxGameplayHint = QtWidgets.QSpinBox(self.groupBasicInfo)
         self.spinBoxGameplayHint.setMaximum(2147483647)
         self.spinBoxGameplayHint.setObjectName("spinBoxGameplayHint")
-        self.formLayoutBasicInfo.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.spinBoxGameplayHint)
+        self.formLayoutBasicInfo.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.spinBoxGameplayHint
+        )
         self.labelStoryHint = QtWidgets.QLabel(self.groupBasicInfo)
         self.labelStoryHint.setObjectName("labelStoryHint")
         self.formLayoutBasicInfo.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.labelStoryHint)
         self.spinBoxStoryHint = QtWidgets.QSpinBox(self.groupBasicInfo)
         self.spinBoxStoryHint.setMaximum(2147483647)
         self.spinBoxStoryHint.setObjectName("spinBoxStoryHint")
-        self.formLayoutBasicInfo.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.spinBoxStoryHint)
+        self.formLayoutBasicInfo.setWidget(
+            8, QtWidgets.QFormLayout.FieldRole, self.spinBoxStoryHint
+        )
         self.verticalLayoutSaveInfo.addWidget(self.groupBasicInfo)
         self.groupLive = QtWidgets.QGroupBox(self.tabSaveInfo)
         self.groupLive.setObjectName("groupLive")
@@ -147,7 +165,9 @@ class Ui_MainWindow(object):
         self.labelScreenshotPreview.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.labelScreenshotPreview.setAlignment(QtCore.Qt.AlignCenter)
         self.labelScreenshotPreview.setScaledContents(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.labelScreenshotPreview.sizePolicy().hasHeightForWidth())
@@ -155,7 +175,9 @@ class Ui_MainWindow(object):
         self.labelScreenshotPreview.setObjectName("labelScreenshotPreview")
         self.verticalLayoutScreenshot.addWidget(self.labelScreenshotPreview)
         self.verticalLayoutSaveInfo.addWidget(self.groupScreenshot)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayoutSaveInfo.addItem(spacerItem)
         self.tabWidget.addTab(self.tabSaveInfo, "")
         self.tabPartyTable = QtWidgets.QWidget()
@@ -186,36 +208,52 @@ class Ui_MainWindow(object):
         self.spinBoxComponents = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxComponents.setMaximum(2147483647)
         self.spinBoxComponents.setObjectName("spinBoxComponents")
-        self.formLayoutResources.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.spinBoxComponents)
+        self.formLayoutResources.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.spinBoxComponents
+        )
         self.labelChemicals = QtWidgets.QLabel(self.groupResources)
         self.labelChemicals.setObjectName("labelChemicals")
         self.formLayoutResources.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelChemicals)
         self.spinBoxChemicals = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxChemicals.setMaximum(2147483647)
         self.spinBoxChemicals.setObjectName("spinBoxChemicals")
-        self.formLayoutResources.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.spinBoxChemicals)
+        self.formLayoutResources.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.spinBoxChemicals
+        )
         self.labelTimePlayedPT = QtWidgets.QLabel(self.groupResources)
         self.labelTimePlayedPT.setObjectName("labelTimePlayedPT")
-        self.formLayoutResources.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.labelTimePlayedPT)
+        self.formLayoutResources.setWidget(
+            4, QtWidgets.QFormLayout.LabelRole, self.labelTimePlayedPT
+        )
         self.spinBoxTimePlayedPT = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxTimePlayedPT.setMaximum(2147483647)
         self.spinBoxTimePlayedPT.setMinimum(-1)
         self.spinBoxTimePlayedPT.setObjectName("spinBoxTimePlayedPT")
-        self.formLayoutResources.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.spinBoxTimePlayedPT)
+        self.formLayoutResources.setWidget(
+            4, QtWidgets.QFormLayout.FieldRole, self.spinBoxTimePlayedPT
+        )
         self.labelCheatUsedPT = QtWidgets.QLabel(self.groupResources)
         self.labelCheatUsedPT.setObjectName("labelCheatUsedPT")
-        self.formLayoutResources.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelCheatUsedPT)
+        self.formLayoutResources.setWidget(
+            5, QtWidgets.QFormLayout.LabelRole, self.labelCheatUsedPT
+        )
         self.checkBoxCheatUsedPT = QtWidgets.QCheckBox(self.groupResources)
         self.checkBoxCheatUsedPT.setObjectName("checkBoxCheatUsedPT")
-        self.formLayoutResources.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.checkBoxCheatUsedPT)
+        self.formLayoutResources.setWidget(
+            5, QtWidgets.QFormLayout.FieldRole, self.checkBoxCheatUsedPT
+        )
         self.labelControlledNPC = QtWidgets.QLabel(self.groupResources)
         self.labelControlledNPC.setObjectName("labelControlledNPC")
-        self.formLayoutResources.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.labelControlledNPC)
+        self.formLayoutResources.setWidget(
+            6, QtWidgets.QFormLayout.LabelRole, self.labelControlledNPC
+        )
         self.spinBoxControlledNPC = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxControlledNPC.setMaximum(2147483647)
         self.spinBoxControlledNPC.setMinimum(-1)
         self.spinBoxControlledNPC.setObjectName("spinBoxControlledNPC")
-        self.formLayoutResources.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.spinBoxControlledNPC)
+        self.formLayoutResources.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.spinBoxControlledNPC
+        )
         self.labelAIState = QtWidgets.QLabel(self.groupResources)
         self.labelAIState.setObjectName("labelAIState")
         self.formLayoutResources.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.labelAIState)
@@ -225,31 +263,45 @@ class Ui_MainWindow(object):
         self.formLayoutResources.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.spinBoxAIState)
         self.labelFollowState = QtWidgets.QLabel(self.groupResources)
         self.labelFollowState.setObjectName("labelFollowState")
-        self.formLayoutResources.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.labelFollowState)
+        self.formLayoutResources.setWidget(
+            8, QtWidgets.QFormLayout.LabelRole, self.labelFollowState
+        )
         self.spinBoxFollowState = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxFollowState.setMaximum(2147483647)
         self.spinBoxFollowState.setObjectName("spinBoxFollowState")
-        self.formLayoutResources.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.spinBoxFollowState)
+        self.formLayoutResources.setWidget(
+            8, QtWidgets.QFormLayout.FieldRole, self.spinBoxFollowState
+        )
         self.labelSoloMode = QtWidgets.QLabel(self.groupResources)
         self.labelSoloMode.setObjectName("labelSoloMode")
         self.formLayoutResources.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.labelSoloMode)
         self.checkBoxSoloMode = QtWidgets.QCheckBox(self.groupResources)
         self.checkBoxSoloMode.setObjectName("checkBoxSoloMode")
-        self.formLayoutResources.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.checkBoxSoloMode)
+        self.formLayoutResources.setWidget(
+            9, QtWidgets.QFormLayout.FieldRole, self.checkBoxSoloMode
+        )
         self.labelLastGUIPanel = QtWidgets.QLabel(self.groupResources)
         self.labelLastGUIPanel.setObjectName("labelLastGUIPanel")
-        self.formLayoutResources.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.labelLastGUIPanel)
+        self.formLayoutResources.setWidget(
+            10, QtWidgets.QFormLayout.LabelRole, self.labelLastGUIPanel
+        )
         self.spinBoxLastGUIPanel = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxLastGUIPanel.setMaximum(2147483647)
         self.spinBoxLastGUIPanel.setObjectName("spinBoxLastGUIPanel")
-        self.formLayoutResources.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.spinBoxLastGUIPanel)
+        self.formLayoutResources.setWidget(
+            10, QtWidgets.QFormLayout.FieldRole, self.spinBoxLastGUIPanel
+        )
         self.labelJournalSortOrder = QtWidgets.QLabel(self.groupResources)
         self.labelJournalSortOrder.setObjectName("labelJournalSortOrder")
-        self.formLayoutResources.setWidget(11, QtWidgets.QFormLayout.LabelRole, self.labelJournalSortOrder)
+        self.formLayoutResources.setWidget(
+            11, QtWidgets.QFormLayout.LabelRole, self.labelJournalSortOrder
+        )
         self.spinBoxJournalSortOrder = QtWidgets.QSpinBox(self.groupResources)
         self.spinBoxJournalSortOrder.setMaximum(2147483647)
         self.spinBoxJournalSortOrder.setObjectName("spinBoxJournalSortOrder")
-        self.formLayoutResources.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.spinBoxJournalSortOrder)
+        self.formLayoutResources.setWidget(
+            11, QtWidgets.QFormLayout.FieldRole, self.spinBoxJournalSortOrder
+        )
         self.verticalLayoutPartyTable.addWidget(self.groupResources)
         self.groupAvailableNPCs = QtWidgets.QGroupBox(self.tabPartyTable)
         self.groupAvailableNPCs.setObjectName("groupAvailableNPCs")
@@ -412,7 +464,9 @@ class Ui_MainWindow(object):
         self.formLayoutCharStats.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.labelCharName)
         self.lineEditCharName = QtWidgets.QLineEdit(self.tabCharStats)
         self.lineEditCharName.setObjectName("lineEditCharName")
-        self.formLayoutCharStats.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.lineEditCharName)
+        self.formLayoutCharStats.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.lineEditCharName
+        )
         self.labelCharHP = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharHP.setObjectName("labelCharHP")
         self.formLayoutCharStats.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelCharHP)
@@ -429,7 +483,9 @@ class Ui_MainWindow(object):
         self.spinBoxCharMaxHP.setMaximum(32767)
         self.spinBoxCharMaxHP.setObjectName("spinBoxCharMaxHP")
         self.horizontalLayoutHP.addWidget(self.spinBoxCharMaxHP)
-        self.formLayoutCharStats.setLayout(1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayoutHP)
+        self.formLayoutCharStats.setLayout(
+            1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayoutHP
+        )
         self.labelCharFP = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharFP.setObjectName("labelCharFP")
         self.formLayoutCharStats.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelCharFP)
@@ -446,7 +502,9 @@ class Ui_MainWindow(object):
         self.spinBoxCharMaxFP.setMaximum(32767)
         self.spinBoxCharMaxFP.setObjectName("spinBoxCharMaxFP")
         self.horizontalLayoutFP.addWidget(self.spinBoxCharMaxFP)
-        self.formLayoutCharStats.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayoutFP)
+        self.formLayoutCharStats.setLayout(
+            2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayoutFP
+        )
         self.labelCharXP = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharXP.setObjectName("labelCharXP")
         self.formLayoutCharStats.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelCharXP)
@@ -465,20 +523,28 @@ class Ui_MainWindow(object):
         self.formLayoutCharStats.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelCharResRef)
         self.lineEditCharResRef = QtWidgets.QLineEdit(self.tabCharStats)
         self.lineEditCharResRef.setObjectName("lineEditCharResRef")
-        self.formLayoutCharStats.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.lineEditCharResRef)
+        self.formLayoutCharStats.setWidget(
+            5, QtWidgets.QFormLayout.FieldRole, self.lineEditCharResRef
+        )
         self.labelCharMin1HP = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharMin1HP.setObjectName("labelCharMin1HP")
         self.formLayoutCharStats.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.labelCharMin1HP)
         self.checkBoxCharMin1HP = QtWidgets.QCheckBox(self.tabCharStats)
         self.checkBoxCharMin1HP.setObjectName("checkBoxCharMin1HP")
-        self.formLayoutCharStats.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.checkBoxCharMin1HP)
+        self.formLayoutCharStats.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.checkBoxCharMin1HP
+        )
         self.labelCharGoodEvil = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharGoodEvil.setObjectName("labelCharGoodEvil")
-        self.formLayoutCharStats.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.labelCharGoodEvil)
+        self.formLayoutCharStats.setWidget(
+            7, QtWidgets.QFormLayout.LabelRole, self.labelCharGoodEvil
+        )
         self.spinBoxCharGoodEvil = QtWidgets.QSpinBox(self.tabCharStats)
         self.spinBoxCharGoodEvil.setMaximum(100)
         self.spinBoxCharGoodEvil.setObjectName("spinBoxCharGoodEvil")
-        self.formLayoutCharStats.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharGoodEvil)
+        self.formLayoutCharStats.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharGoodEvil
+        )
         self.labelCharSTR = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharSTR.setObjectName("labelCharSTR")
         self.formLayoutCharStats.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.labelCharSTR)
@@ -523,31 +589,47 @@ class Ui_MainWindow(object):
         self.formLayoutCharStats.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharCHA)
         self.labelCharPortraitId = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharPortraitId.setObjectName("labelCharPortraitId")
-        self.formLayoutCharStats.setWidget(14, QtWidgets.QFormLayout.LabelRole, self.labelCharPortraitId)
+        self.formLayoutCharStats.setWidget(
+            14, QtWidgets.QFormLayout.LabelRole, self.labelCharPortraitId
+        )
         self.spinBoxCharPortraitId = QtWidgets.QSpinBox(self.tabCharStats)
         self.spinBoxCharPortraitId.setMaximum(2147483647)
         self.spinBoxCharPortraitId.setObjectName("spinBoxCharPortraitId")
-        self.formLayoutCharStats.setWidget(14, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharPortraitId)
+        self.formLayoutCharStats.setWidget(
+            14, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharPortraitId
+        )
         self.labelCharAppearanceType = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharAppearanceType.setObjectName("labelCharAppearanceType")
-        self.formLayoutCharStats.setWidget(15, QtWidgets.QFormLayout.LabelRole, self.labelCharAppearanceType)
+        self.formLayoutCharStats.setWidget(
+            15, QtWidgets.QFormLayout.LabelRole, self.labelCharAppearanceType
+        )
         self.spinBoxCharAppearanceType = QtWidgets.QSpinBox(self.tabCharStats)
         self.spinBoxCharAppearanceType.setMaximum(2147483647)
         self.spinBoxCharAppearanceType.setObjectName("spinBoxCharAppearanceType")
-        self.formLayoutCharStats.setWidget(15, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharAppearanceType)
+        self.formLayoutCharStats.setWidget(
+            15, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharAppearanceType
+        )
         self.labelCharGender = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharGender.setObjectName("labelCharGender")
-        self.formLayoutCharStats.setWidget(16, QtWidgets.QFormLayout.LabelRole, self.labelCharGender)
+        self.formLayoutCharStats.setWidget(
+            16, QtWidgets.QFormLayout.LabelRole, self.labelCharGender
+        )
         self.comboBoxCharGender = QtWidgets.QComboBox(self.tabCharStats)
         self.comboBoxCharGender.setObjectName("comboBoxCharGender")
-        self.formLayoutCharStats.setWidget(16, QtWidgets.QFormLayout.FieldRole, self.comboBoxCharGender)
+        self.formLayoutCharStats.setWidget(
+            16, QtWidgets.QFormLayout.FieldRole, self.comboBoxCharGender
+        )
         self.labelCharSoundset = QtWidgets.QLabel(self.tabCharStats)
         self.labelCharSoundset.setObjectName("labelCharSoundset")
-        self.formLayoutCharStats.setWidget(17, QtWidgets.QFormLayout.LabelRole, self.labelCharSoundset)
+        self.formLayoutCharStats.setWidget(
+            17, QtWidgets.QFormLayout.LabelRole, self.labelCharSoundset
+        )
         self.spinBoxCharSoundset = QtWidgets.QSpinBox(self.tabCharStats)
         self.spinBoxCharSoundset.setMaximum(2147483647)
         self.spinBoxCharSoundset.setObjectName("spinBoxCharSoundset")
-        self.formLayoutCharStats.setWidget(17, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharSoundset)
+        self.formLayoutCharStats.setWidget(
+            17, QtWidgets.QFormLayout.FieldRole, self.spinBoxCharSoundset
+        )
         self.tabWidgetCharacterDetails.addTab(self.tabCharStats, "")
         self.tabCharClasses = QtWidgets.QWidget()
         self.tabCharClasses.setObjectName("tabCharClasses")
@@ -679,16 +761,28 @@ class Ui_MainWindow(object):
         self.verticalLayoutAdvancedSaveInfoGff = QtWidgets.QVBoxLayout(self.pageAdvancedSaveInfoGff)
         self.verticalLayoutAdvancedSaveInfoGff.setObjectName("verticalLayoutAdvancedSaveInfoGff")
         self.labelAdvancedSaveInfoGffPlaceholder = QtWidgets.QLabel(self.pageAdvancedSaveInfoGff)
-        self.labelAdvancedSaveInfoGffPlaceholder.setObjectName("labelAdvancedSaveInfoGffPlaceholder")
+        self.labelAdvancedSaveInfoGffPlaceholder.setObjectName(
+            "labelAdvancedSaveInfoGffPlaceholder"
+        )
         self.verticalLayoutAdvancedSaveInfoGff.addWidget(self.labelAdvancedSaveInfoGffPlaceholder)
         self.stackedWidgetAdvanced.addWidget(self.pageAdvancedSaveInfoGff)
         self.pageAdvancedPartyTableGff = QtWidgets.QWidget()
         self.pageAdvancedPartyTableGff.setObjectName("pageAdvancedPartyTableGff")
-        self.verticalLayoutAdvancedPartyTableGff = QtWidgets.QVBoxLayout(self.pageAdvancedPartyTableGff)
-        self.verticalLayoutAdvancedPartyTableGff.setObjectName("verticalLayoutAdvancedPartyTableGff")
-        self.labelAdvancedPartyTableGffPlaceholder = QtWidgets.QLabel(self.pageAdvancedPartyTableGff)
-        self.labelAdvancedPartyTableGffPlaceholder.setObjectName("labelAdvancedPartyTableGffPlaceholder")
-        self.verticalLayoutAdvancedPartyTableGff.addWidget(self.labelAdvancedPartyTableGffPlaceholder)
+        self.verticalLayoutAdvancedPartyTableGff = QtWidgets.QVBoxLayout(
+            self.pageAdvancedPartyTableGff
+        )
+        self.verticalLayoutAdvancedPartyTableGff.setObjectName(
+            "verticalLayoutAdvancedPartyTableGff"
+        )
+        self.labelAdvancedPartyTableGffPlaceholder = QtWidgets.QLabel(
+            self.pageAdvancedPartyTableGff
+        )
+        self.labelAdvancedPartyTableGffPlaceholder.setObjectName(
+            "labelAdvancedPartyTableGffPlaceholder"
+        )
+        self.verticalLayoutAdvancedPartyTableGff.addWidget(
+            self.labelAdvancedPartyTableGffPlaceholder
+        )
         self.stackedWidgetAdvanced.addWidget(self.pageAdvancedPartyTableGff)
         self.pageAdvancedOtherResources = QtWidgets.QWidget()
         self.pageAdvancedOtherResources.setObjectName("pageAdvancedOtherResources")
@@ -772,7 +866,9 @@ class Ui_MainWindow(object):
         self.lineEditPortrait2.setPlaceholderText(_translate("MainWindow", "Portrait 2"))
         self.groupScreenshot.setTitle(_translate("MainWindow", "Screenshot Preview"))
         self.labelScreenshotPreview.setText(_translate("MainWindow", "No screenshot available"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSaveInfo), _translate("MainWindow", "Save Info"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabSaveInfo), _translate("MainWindow", "Save Info")
+        )
         self.groupResources.setTitle(_translate("MainWindow", "Resources"))
         self.labelGold.setText(_translate("MainWindow", "Credits/Gold:"))
         self.labelXPPool.setText(_translate("MainWindow", "XP Pool:"))
@@ -802,23 +898,37 @@ class Ui_MainWindow(object):
         self.groupUIMessages.setTitle(_translate("MainWindow", "UI Messages (summary)"))
         self.groupCostMultipliers.setTitle(_translate("MainWindow", "Cost Multipliers (summary)"))
         self.groupPartyMembers.setTitle(_translate("MainWindow", "Party Members"))
-        self.listWidgetPartyMembers.setToolTip(_translate("MainWindow", "Hover over a party member to see detailed information"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabPartyTable), _translate("MainWindow", "Party && Resources"))
+        self.listWidgetPartyMembers.setToolTip(
+            _translate("MainWindow", "Hover over a party member to see detailed information")
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabPartyTable),
+            _translate("MainWindow", "Party && Resources"),
+        )
         item = self.tableWidgetBooleans.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.tableWidgetBooleans.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Value"))
-        self.tabWidgetGlobalVarsType.setTabText(self.tabWidgetGlobalVarsType.indexOf(self.tabBooleans), _translate("MainWindow", "Booleans"))
+        self.tabWidgetGlobalVarsType.setTabText(
+            self.tabWidgetGlobalVarsType.indexOf(self.tabBooleans),
+            _translate("MainWindow", "Booleans"),
+        )
         item = self.tableWidgetNumbers.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.tableWidgetNumbers.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Value"))
-        self.tabWidgetGlobalVarsType.setTabText(self.tabWidgetGlobalVarsType.indexOf(self.tabNumbers), _translate("MainWindow", "Numbers"))
+        self.tabWidgetGlobalVarsType.setTabText(
+            self.tabWidgetGlobalVarsType.indexOf(self.tabNumbers),
+            _translate("MainWindow", "Numbers"),
+        )
         item = self.tableWidgetStrings.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.tableWidgetStrings.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Value"))
-        self.tabWidgetGlobalVarsType.setTabText(self.tabWidgetGlobalVarsType.indexOf(self.tabStrings), _translate("MainWindow", "Strings"))
+        self.tabWidgetGlobalVarsType.setTabText(
+            self.tabWidgetGlobalVarsType.indexOf(self.tabStrings),
+            _translate("MainWindow", "Strings"),
+        )
         item = self.tableWidgetLocations.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.tableWidgetLocations.horizontalHeaderItem(1)
@@ -829,8 +939,13 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Z"))
         item = self.tableWidgetLocations.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Ori"))
-        self.tabWidgetGlobalVarsType.setTabText(self.tabWidgetGlobalVarsType.indexOf(self.tabLocations), _translate("MainWindow", "Locations"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGlobalVars), _translate("MainWindow", "Global Variables"))
+        self.tabWidgetGlobalVarsType.setTabText(
+            self.tabWidgetGlobalVarsType.indexOf(self.tabLocations),
+            _translate("MainWindow", "Locations"),
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabGlobalVars), _translate("MainWindow", "Global Variables")
+        )
         self.labelCharName.setText(_translate("MainWindow", "Name:"))
         self.labelCharHP.setText(_translate("MainWindow", "HP / Max HP:"))
         self.labelHPSeparator.setText(_translate("MainWindow", "/"))
@@ -851,29 +966,48 @@ class Ui_MainWindow(object):
         self.labelCharAppearanceType.setText(_translate("MainWindow", "Appearance Type:"))
         self.labelCharGender.setText(_translate("MainWindow", "Gender:"))
         self.labelCharSoundset.setText(_translate("MainWindow", "Soundset:"))
-        self.tabWidgetCharacterDetails.setTabText(self.tabWidgetCharacterDetails.indexOf(self.tabCharStats), _translate("MainWindow", "Stats"))
+        self.tabWidgetCharacterDetails.setTabText(
+            self.tabWidgetCharacterDetails.indexOf(self.tabCharStats),
+            _translate("MainWindow", "Stats"),
+        )
         item = self.tableWidgetCharClasses.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Class"))
         item = self.tableWidgetCharClasses.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Level"))
-        self.tabWidgetCharacterDetails.setTabText(self.tabWidgetCharacterDetails.indexOf(self.tabCharClasses), _translate("MainWindow", "Classes"))
-        self.tabWidgetCharacterDetails.setTabText(self.tabWidgetCharacterDetails.indexOf(self.tabCharFeats), _translate("MainWindow", "Feats"))
-        self.tabWidgetCharacterDetails.setTabText(self.tabWidgetCharacterDetails.indexOf(self.tabCharEquipment), _translate("MainWindow", "Equipment"))
+        self.tabWidgetCharacterDetails.setTabText(
+            self.tabWidgetCharacterDetails.indexOf(self.tabCharClasses),
+            _translate("MainWindow", "Classes"),
+        )
+        self.tabWidgetCharacterDetails.setTabText(
+            self.tabWidgetCharacterDetails.indexOf(self.tabCharFeats),
+            _translate("MainWindow", "Feats"),
+        )
+        self.tabWidgetCharacterDetails.setTabText(
+            self.tabWidgetCharacterDetails.indexOf(self.tabCharEquipment),
+            _translate("MainWindow", "Equipment"),
+        )
         self.labelSkillsCharacter.setText(_translate("MainWindow", "Skills"))
         self.labelSkillsCharacter.setStyleSheet(_translate("MainWindow", "color: #2a82da;"))
         item = self.tableWidgetSkills.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Skill"))
         item = self.tableWidgetSkills.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Rank"))
-        self.tabWidgetCharacterDetails.setTabText(self.tabWidgetCharacterDetails.indexOf(self.tabCharSkills), _translate("MainWindow", "Skills"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabCharacters), _translate("MainWindow", "Characters"))
+        self.tabWidgetCharacterDetails.setTabText(
+            self.tabWidgetCharacterDetails.indexOf(self.tabCharSkills),
+            _translate("MainWindow", "Skills"),
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabCharacters), _translate("MainWindow", "Characters")
+        )
         item = self.tableWidgetInventory.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Item"))
         item = self.tableWidgetInventory.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Count"))
         item = self.tableWidgetInventory.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "ResRef"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabInventory), _translate("MainWindow", "Inventory"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabInventory), _translate("MainWindow", "Inventory")
+        )
         item = self.tableWidgetJournal.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Plot ID"))
         item = self.tableWidgetJournal.horizontalHeaderItem(1)
@@ -882,23 +1016,51 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Date"))
         item = self.tableWidgetJournal.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Time"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabJournal), _translate("MainWindow", "Journal"))
-        self.pushButtonOpenModuleResource.setText(_translate("MainWindow", "Open Selected Resource"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabCachedModules), _translate("MainWindow", "Cached Modules"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabJournal), _translate("MainWindow", "Journal")
+        )
+        self.pushButtonOpenModuleResource.setText(
+            _translate("MainWindow", "Open Selected Resource")
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabCachedModules),
+            _translate("MainWindow", "Cached Modules"),
+        )
         item = self.tableWidgetReputation.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Faction"))
         item = self.tableWidgetReputation.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Value"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabReputation), _translate("MainWindow", "Reputation"))
-        self.comboAdvancedGffSource.setToolTip(_translate("MainWindow", "Select which GFF to edit. SaveInfo and PartyTable open in the full GFF editor\n"
-"            (expandable tree)."))
-        self.comboAdvancedGffSource.setItemText(0, _translate("MainWindow", "SaveInfo (SAVENFO.res)"))
-        self.comboAdvancedGffSource.setItemText(1, _translate("MainWindow", "PartyTable (PARTYTABLE.res)"))
-        self.comboAdvancedGffSource.setItemText(2, _translate("MainWindow", "Other resources (double-click to open)"))
-        self.labelAdvancedSaveInfoGffPlaceholder.setText(_translate("MainWindow", "GFF editor will be embedded here."))
-        self.labelAdvancedPartyTableGffPlaceholder.setText(_translate("MainWindow", "GFF editor will be embedded here."))
-        self.labelAdvancedResources.setText(_translate("MainWindow", "Other resources (double-click to open in editor):"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabAdvanced), _translate("MainWindow", "Advanced / Raw"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabReputation), _translate("MainWindow", "Reputation")
+        )
+        self.comboAdvancedGffSource.setToolTip(
+            _translate(
+                "MainWindow",
+                "Select which GFF to edit. SaveInfo and PartyTable open in the full GFF editor\n"
+                "            (expandable tree).",
+            )
+        )
+        self.comboAdvancedGffSource.setItemText(
+            0, _translate("MainWindow", "SaveInfo (SAVENFO.res)")
+        )
+        self.comboAdvancedGffSource.setItemText(
+            1, _translate("MainWindow", "PartyTable (PARTYTABLE.res)")
+        )
+        self.comboAdvancedGffSource.setItemText(
+            2, _translate("MainWindow", "Other resources (double-click to open)")
+        )
+        self.labelAdvancedSaveInfoGffPlaceholder.setText(
+            _translate("MainWindow", "GFF editor will be embedded here.")
+        )
+        self.labelAdvancedPartyTableGffPlaceholder.setText(
+            _translate("MainWindow", "GFF editor will be embedded here.")
+        )
+        self.labelAdvancedResources.setText(
+            _translate("MainWindow", "Other resources (double-click to open in editor):")
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabAdvanced), _translate("MainWindow", "Advanced / Raw")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "&File"))
         self.menuTools.setTitle(_translate("MainWindow", "&Tools"))
         self.actionNew.setText(_translate("MainWindow", "&New"))
@@ -907,5 +1069,7 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_translate("MainWindow", "Save &As..."))
         self.actionRevert.setText(_translate("MainWindow", "&Revert"))
         self.actionExit.setText(_translate("MainWindow", "E&xit"))
-        self.actionFlushEventQueue.setText(_translate("MainWindow", "Flush EventQueue (Fix Corruption)"))
+        self.actionFlushEventQueue.setText(
+            _translate("MainWindow", "Flush EventQueue (Fix Corruption)")
+        )
         self.actionRebuildCachedModules.setText(_translate("MainWindow", "Rebuild Cached Modules"))

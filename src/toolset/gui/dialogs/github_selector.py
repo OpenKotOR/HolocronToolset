@@ -76,7 +76,9 @@ if __name__ == "__main__":
         pykotor_path = file_absolute_path.parents[6] / "Libraries" / "PyKotor" / "src" / "pykotor"
         if pykotor_path.exists():
             update_sys_path(pykotor_path.parent)
-        pykotor_gl_path = file_absolute_path.parents[6] / "Libraries" / "PyKotorGL" / "src" / "pykotor"
+        pykotor_gl_path = (
+            file_absolute_path.parents[6] / "Libraries" / "PyKotorGL" / "src" / "pykotor"
+        )
         if pykotor_gl_path.exists():
             update_sys_path(pykotor_gl_path.parent)
         utility_path = file_absolute_path.parents[6] / "Libraries" / "Utility" / "src"
@@ -99,11 +101,15 @@ class GitHubFileSelector(QDialog):
         parent: QWidget | None = None,
     ):
         if requests is None:
-            raise ImportError("requests library is required for GitHubFileSelector. Install it with: pip install requests")
+            raise ImportError(
+                "requests library is required for GitHubFileSelector. Install it with: pip install requests"
+            )
         super().__init__(parent)
         self.setWindowFlags(
             QtCore.Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
-            | QtCore.Qt.WindowType.WindowCloseButtonHint & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint & ~QtCore.Qt.WindowType.WindowMinMaxButtonsHint,
+            | QtCore.Qt.WindowType.WindowCloseButtonHint
+            & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint
+            & ~QtCore.Qt.WindowType.WindowMinMaxButtonsHint,
         )
         # Setup event filter to prevent scroll wheel interaction with controls
         from toolset.gui.common.filters import NoScrollEventFilter
@@ -183,14 +189,25 @@ class GitHubFileSelector(QDialog):
         except requests.exceptions.HTTPError as e:
             if e.response.status_code == 403 and "X-RateLimit-Reset" in e.response.headers:  # noqa: PLR2004
                 if not self.timer.isActive():
-                    QMessageBox.critical(self, tr("You are rate limited."), tr("You have submitted too many requests to github's api, check the status bar at the bottom."))
+                    QMessageBox.critical(
+                        self,
+                        tr("You are rate limited."),
+                        tr(
+                            "You have submitted too many requests to github's api, check the status bar at the bottom."
+                        ),
+                    )
                     self.start_rate_limit_timer(e)
                 return None
 
             QMessageBox.critical(
                 self,
                 tr("Repository Not Found"),
-                trf("The repository '{owner}/{repo}' had an unexpected error:<br><br>{error}", owner=self.owner, repo=self.repo, error=str(e)),
+                trf(
+                    "The repository '{owner}/{repo}' had an unexpected error:<br><br>{error}",
+                    owner=self.owner,
+                    repo=self.repo,
+                    error=str(e),
+                ),
             )
             forks_url = f"https://api.github.com/repos/{self.owner}/{self.repo}/forks"
             try:
@@ -199,17 +216,32 @@ class GitHubFileSelector(QDialog):
                 forks_data: list[dict[str, Any]] = response.json()
                 if forks_data:
                     first_fork = forks_data[0]["full_name"]
-                    QMessageBox.information(self, tr("Using Fork"), trf("The main repository is not available. Using the fork: {fork}", fork=first_fork))
+                    QMessageBox.information(
+                        self,
+                        tr("Using Fork"),
+                        trf(
+                            "The main repository is not available. Using the fork: {fork}",
+                            fork=first_fork,
+                        ),
+                    )
                     fork_owner, fork_repo = first_fork.split("/")
-                    fork_repo_data: CompleteRepoData | None = CompleteRepoData.load_repo(fork_owner, fork_repo)
+                    fork_repo_data: CompleteRepoData | None = CompleteRepoData.load_repo(
+                        fork_owner, fork_repo
+                    )
                     if fork_repo_data is None:
                         raise RuntimeError(f"Failed to load fork '{first_fork}'")
                     self.ui.forkComboBox.addItem(first_fork)
                     self._load_repo_data(fork_repo_data, do_fork_combo_update=False)
                     return fork_repo_data
-                QMessageBox.critical(self, tr("No Forks Available"), tr("No forks are available to load."))
+                QMessageBox.critical(
+                    self, tr("No Forks Available"), tr("No forks are available to load.")
+                )
             except requests.exceptions.RequestException as fork_e:
-                QMessageBox.critical(self, tr("Forks Load Error"), trf("Failed to load forks: {error}", error=str(fork_e)))
+                QMessageBox.critical(
+                    self,
+                    tr("Forks Load Error"),
+                    trf("Failed to load forks: {error}", error=str(fork_e)),
+                )
         else:
             self._load_repo_data(repo_data)
             self.stop_rate_limit_timer()
@@ -383,7 +415,9 @@ class GitHubFileSelector(QDialog):
         def hide_item(item: QTreeWidgetItem):
             item.setHidden(True)
             item.setBackground(0, QBrush(Qt.GlobalColor.transparent))
-            item.setForeground(0, QBrush(self.ui.repoTreeWidget.palette().color(QPalette.ColorRole.Text)))
+            item.setForeground(
+                0, QBrush(self.ui.repoTreeWidget.palette().color(QPalette.ColorRole.Text))
+            )
             for i in range(item.childCount()):
                 child: QTreeWidgetItem | None = item.child(i)
                 if child is None:
@@ -456,7 +490,9 @@ class GitHubFileSelector(QDialog):
         # Format the contents_url with the proper path and add the recursive parameter
         tree_url: str = f"https://api.github.com/repos/{full_name}/git/trees/master?recursive=1"
         contents_dict: dict[str, Any] = self.api_get(tree_url)
-        repo_index: list[TreeInfoData] = [TreeInfoData.from_dict(item) for item in contents_dict["tree"]]
+        repo_index: list[TreeInfoData] = [
+            TreeInfoData.from_dict(item) for item in contents_dict["tree"]
+        ]
         self.populate_tree_widget(repo_index)
         self.search_files()
 
@@ -504,8 +540,12 @@ class GitHubFileSelector(QDialog):
             self.stop_rate_limit_timer()
         else:
             remaining_time = max(self.rate_limit_reset - time.time(), 0)
-            self.ui.statusBar.showMessage(f"Rate limit exceeded. Try again in {int(remaining_time)} seconds.")
-            if int(remaining_time) % 15 == 0:  # Refresh every 15 seconds, sometimes github's X-RateLimit-Reset is wrong.
+            self.ui.statusBar.showMessage(
+                f"Rate limit exceeded. Try again in {int(remaining_time)} seconds."
+            )
+            if (
+                int(remaining_time) % 15 == 0
+            ):  # Refresh every 15 seconds, sometimes github's X-RateLimit-Reset is wrong.
                 self.refresh_data()
             elif remaining_time <= 0:
                 self.refresh_data()
@@ -513,7 +553,8 @@ class GitHubFileSelector(QDialog):
 
     def update_rate_limit_info(
         self,
-        headers: dict[str, Any] | Any,  # requests.structures.CaseInsensitiveDict[str] when requests is available
+        headers: dict[str, Any]
+        | Any,  # requests.structures.CaseInsensitiveDict[str] when requests is available
     ) -> None:
         if "X-RateLimit-Reset" in headers:
             self.rate_limit_reset = int(headers["X-RateLimit-Reset"])
@@ -549,9 +590,15 @@ class GitHubFileSelector(QDialog):
             if sys.platform == "win32":
                 kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
             subprocess.run(command, check=True, **kwargs)  # noqa: S603
-            QMessageBox.information(self, tr("Clone Successful"), trf("Repository {fork} cloned successfully.", fork=selected_fork))
+            QMessageBox.information(
+                self,
+                tr("Clone Successful"),
+                trf("Repository {fork} cloned successfully.", fork=selected_fork),
+            )
         except subprocess.CalledProcessError as e:
-            QMessageBox.critical(self, tr("Clone Failed"), trf("Failed to clone repository: {error}", error=str(e)))
+            QMessageBox.critical(
+                self, tr("Clone Failed"), trf("Failed to clone repository: {error}", error=str(e))
+            )
 
     def show_context_menu(
         self,
@@ -561,7 +608,9 @@ class GitHubFileSelector(QDialog):
         if item is None:
             return
         context_menu = QMenu(self)
-        context_menu.addAction(tr("Open in Web Browser")).triggered.connect(lambda: self.open_in_web_browser(item))
+        context_menu.addAction(tr("Open in Web Browser")).triggered.connect(
+            lambda: self.open_in_web_browser(item)
+        )
         context_menu.addAction(tr("Copy URL")).triggered.connect(lambda: self.copy_url(item))
         context_menu.addAction(tr("Download")).triggered.connect(lambda: self.download(item))
         viewport: QWidget | None = self.ui.repoTreeWidget.viewport()
@@ -587,7 +636,9 @@ class GitHubFileSelector(QDialog):
             return ""
 
         # Construct the web URL
-        web_url: str = f"https://github.com/{owner}/{repo}/blob/{self.repo_data.branches[0].name}/{file_path}"
+        web_url: str = (
+            f"https://github.com/{owner}/{repo}/blob/{self.repo_data.branches[0].name}/{file_path}"
+        )
         return web_url
 
     def open_in_web_browser(
@@ -625,12 +676,26 @@ class GitHubFileSelector(QDialog):
                     with open(filename, "wb") as file:  # noqa: PTH123
                         file.write(content)
                     QMessageBox.information(
-                        self, tr("Download Successful"), trf("Downloaded {filename} to {path}", filename=filename, path=os.path.join(os.path.curdir, filename)),
+                        self,
+                        tr("Download Successful"),
+                        trf(
+                            "Downloaded {filename} to {path}",
+                            filename=filename,
+                            path=os.path.join(os.path.curdir, filename),
+                        ),
                     )  # noqa: PTH118
                 else:
-                    QMessageBox.critical(self, tr("Download Failed"), tr("Failed to download the file content."))
+                    QMessageBox.critical(
+                        self, tr("Download Failed"), tr("Failed to download the file content.")
+                    )
             except requests.exceptions.RequestException as e:  # noqa: PERF203
-                QMessageBox.critical(self, tr("Download Failed"), trf("Failed to download {name}: {error}", name=url.split("/")[-1], error=str(e)))
+                QMessageBox.critical(
+                    self,
+                    tr("Download Failed"),
+                    trf(
+                        "Failed to download {name}: {error}", name=url.split("/")[-1], error=str(e)
+                    ),
+                )
 
     def collect_urls(
         self,

@@ -56,10 +56,13 @@ def ht_decompile_script(
     ncs_decompiler_path = Path(global_settings.ncsDecompilerPath)
     if (
         not ncs_decompiler_path.name
-        or ncs_decompiler_path.suffix.lower() != ".exe"  # TODO: require something with Xoreos-tools on unix and make this nt-specific.
+        or ncs_decompiler_path.suffix.lower()
+        != ".exe"  # TODO: require something with Xoreos-tools on unix and make this nt-specific.
         or not ncs_decompiler_path.is_file()
     ):
-        lookup_path, _filter = QFileDialog.getOpenFileName(None, "Select the NCS Decompiler executable")
+        lookup_path, _filter = QFileDialog.getOpenFileName(
+            None, "Select the NCS Decompiler executable"
+        )
         ncs_decompiler_path = Path(lookup_path)
         if not ncs_decompiler_path.is_file():
             global_settings.ncsDecompilerPath = ""
@@ -88,11 +91,15 @@ def ht_decompile_script(
         reg_spoofer = NoOpRegistrySpoofer()
     try:
         with reg_spoofer:
-            stdout, stderr = extCompiler.decompile_script(tempCompiledPath, temp_decompiled_path, gameEnum)
+            stdout, stderr = extCompiler.decompile_script(
+                tempCompiledPath, temp_decompiled_path, gameEnum
+            )
     except PermissionError as e:
         handle_permission_error(reg_spoofer, extCompiler, installation_path, e)
         # Attempt to decompile anyway.
-        stdout, stderr = extCompiler.decompile_script(tempCompiledPath, temp_decompiled_path, gameEnum)
+        stdout, stderr = extCompiler.decompile_script(
+            tempCompiledPath, temp_decompiled_path, gameEnum
+        )
     except Exception:
         log.exception("Exception in extCompiler.decompile_script() call.")
         raise

@@ -27,7 +27,9 @@ if TYPE_CHECKING:
 class TestNSSEditorFindReferences:
     """Tests for NSS editor Find References functionality."""
 
-    def test_nss_editor_find_all_references_in_file(self, qtbot: QtBot, installation: HTInstallation):
+    def test_nss_editor_find_all_references_in_file(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test NSS editor Find All References in current file."""
         editor = NSSEditor(None, installation)
         qtbot.addWidget(editor)
@@ -45,8 +47,12 @@ void main() {
         # Move cursor to "x"
         cursor = editor.ui.codeEdit.textCursor()
         cursor.movePosition(QTextCursor.MoveOperation.Start)
-        cursor.movePosition(QTextCursor.MoveOperation.Down, QTextCursor.MoveMode.MoveAnchor, 2)  # Line 2 (0-indexed)
-        cursor.movePosition(QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.MoveAnchor, 8)  # Column 8
+        cursor.movePosition(
+            QTextCursor.MoveOperation.Down, QTextCursor.MoveMode.MoveAnchor, 2
+        )  # Line 2 (0-indexed)
+        cursor.movePosition(
+            QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.MoveAnchor, 8
+        )  # Column 8
         editor.ui.codeEdit.setTextCursor(cursor)
 
         # Trigger Find All References
@@ -55,7 +61,9 @@ void main() {
         # Should find results panel
         assert editor.ui.panelTabs.currentWidget() == editor.ui.findResultsTab
 
-    def test_nss_editor_find_references_in_installation(self, qtbot: QtBot, installation: HTInstallation):
+    def test_nss_editor_find_references_in_installation(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test NSS editor Find References in Installation."""
         editor = NSSEditor(None, installation)
         qtbot.addWidget(editor)
@@ -73,7 +81,9 @@ void main() {
         # but we can verify the method exists
         assert hasattr(editor, "_find_script_references_in_installation")
 
-    def test_nss_editor_context_menu_find_references(self, qtbot: QtBot, installation: HTInstallation):
+    def test_nss_editor_context_menu_find_references(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test NSS editor context menu has Find References action."""
         editor = NSSEditor(None, installation)
         qtbot.addWidget(editor)
@@ -84,7 +94,9 @@ void main() {
         # Move cursor to a word
         cursor = editor.ui.codeEdit.textCursor()
         cursor.movePosition(QTextCursor.MoveOperation.Start)
-        cursor.movePosition(QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.MoveAnchor, 10)  # Column 10 (on "main")
+        cursor.movePosition(
+            QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.MoveAnchor, 10
+        )  # Column 10 (on "main")
         editor.ui.codeEdit.setTextCursor(cursor)
 
         # The context menu should be available
@@ -95,7 +107,9 @@ void main() {
 class TestDLGEditorFindReferences:
     """Tests for DLG editor Find References functionality."""
 
-    def test_dlg_editor_find_references_method_exists(self, qtbot: QtBot, installation: HTInstallation):
+    def test_dlg_editor_find_references_method_exists(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test DLG editor has find_references method."""
         editor = DLGEditor(None, installation)
         qtbot.addWidget(editor)
@@ -104,7 +118,9 @@ class TestDLGEditorFindReferences:
         assert hasattr(editor, "find_references")
         assert hasattr(editor, "_find_dialog_references_in_installation")
 
-    def test_dlg_editor_find_references_in_installation(self, qtbot: QtBot, installation: HTInstallation):
+    def test_dlg_editor_find_references_in_installation(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test DLG editor Find References in Installation."""
         editor = DLGEditor(None, installation)
         qtbot.addWidget(editor)
@@ -121,7 +137,9 @@ class TestDLGEditorFindReferences:
 class TestTLKEditorFindReferences:
     """Tests for TLK editor Find References functionality."""
 
-    def test_tlk_editor_find_references_method_exists(self, qtbot: QtBot, installation: HTInstallation):
+    def test_tlk_editor_find_references_method_exists(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test TLK editor has find_references method."""
         editor = TLKEditor(None, installation)
         qtbot.addWidget(editor)
@@ -129,7 +147,9 @@ class TestTLKEditorFindReferences:
         # Verify method exists
         assert hasattr(editor, "find_references")
 
-    def test_tlk_editor_find_references_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_tlk_editor_find_references_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test TLK editor context menu has Find References action."""
         editor = TLKEditor(None, installation)
         qtbot.addWidget(editor)
@@ -243,7 +263,9 @@ class TestReferenceSearchIntegration:
         tooltip = tag_field.toolTip()
         assert "find references" in tooltip.lower() or "reference" in tooltip.lower()
 
-    def test_utd_editor_conversation_field_tooltip(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utd_editor_conversation_field_tooltip(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTD editor conversation field has reference search tooltip."""
         from toolset.gui.editors.utd import UTDEditor
 

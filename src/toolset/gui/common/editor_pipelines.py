@@ -14,7 +14,9 @@ if TYPE_CHECKING:
     from pykotor.common.modulekit import ModuleKitManager
 
 
-def set_exclusive_checkbox_selection(active_checkbox: QCheckBox, checkboxes: Sequence[QCheckBox]) -> None:
+def set_exclusive_checkbox_selection(
+    active_checkbox: QCheckBox, checkboxes: Sequence[QCheckBox]
+) -> None:
     """Check only *active_checkbox* and uncheck all others in *checkboxes*."""
     for checkbox in checkboxes:
         checkbox.setChecked(checkbox is active_checkbox)

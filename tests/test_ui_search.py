@@ -425,7 +425,11 @@ def test_results_dialog_all_widgets(qtbot: QtBot, installation: HTInstallation):
     dialog.sig_searchresults_selected.connect(lambda res: signal_called.append(res))
 
     dialog.ui.resultList.setCurrentRow(0)
-    qtbot.mouseDClick(dialog.ui.resultList.viewport(), Qt.MouseButton.LeftButton, pos=dialog.ui.resultList.visualItemRect(dialog.ui.resultList.item(0)).center())
+    qtbot.mouseDClick(
+        dialog.ui.resultList.viewport(),
+        Qt.MouseButton.LeftButton,
+        pos=dialog.ui.resultList.visualItemRect(dialog.ui.resultList.item(0)).center(),
+    )
 
     # Double-click should select and accept
     assert len(signal_called) > 0 or dialog.ui.resultList.currentRow() == 0

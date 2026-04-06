@@ -223,4 +223,6 @@ class StateManager:
                 self.state.history = self.state.history[-self.max_history :]
 
         except Exception:  # noqa: BLE001
-            RobustLogger().exception(f"Error recording state change: type={change_type!r}, target={target_id!r}, old={old_value!r}, new={new_value!r}")
+            RobustLogger().exception(
+                f"Error recording state change: type={change_type!r}, target={target_id!r}, old={old_value!r}, new={new_value!r}"
+            )

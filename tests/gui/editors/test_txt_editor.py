@@ -310,7 +310,9 @@ def test_txt_editor_save_load_roundtrip_identity(qtbot, installation: HTInstalla
     decoded1 = decode_bytes_with_fallbacks(data1)
     decoded2 = decode_bytes_with_fallbacks(data2)
     # Normalize line endings for comparison
-    assert decoded1.replace("\r\n", "\n").replace("\r", "\n") == decoded2.replace("\r\n", "\n").replace("\r", "\n")
+    assert decoded1.replace("\r\n", "\n").replace("\r", "\n") == decoded2.replace(
+        "\r\n", "\n"
+    ).replace("\r", "\n")
 
 
 def test_txt_editor_save_load_roundtrip_with_modifications(qtbot, installation: HTInstallation):

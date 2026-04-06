@@ -123,7 +123,9 @@ def test_inventory_editor(qtbot: QtBot, installation: HTInstallation):
     parent = QWidget()
     capsules: list[LazyCapsule] = []  # No capsules for now
     inventory: list[InventoryItem] = []
-    equipment: dict[EquipmentSlot, InventoryItem] = {}  # equipment must be a dict[EquipmentSlot, InventoryItem], not a list
+    equipment: dict[
+        EquipmentSlot, InventoryItem
+    ] = {}  # equipment must be a dict[EquipmentSlot, InventoryItem], not a list
 
     dialog = InventoryEditor(
         parent,
@@ -145,7 +147,9 @@ def test_inventory_editor(qtbot: QtBot, installation: HTInstallation):
     # Usually requires drag/drop or button clicks
 
 
-def test_file_selection_window_resize_to_content_no_qdesktopwidget_import(qtbot: QtBot, installation: HTInstallation):
+def test_file_selection_window_resize_to_content_no_qdesktopwidget_import(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that FileSelectionWindow.resize_to_content() doesn't try to import QDesktopWidget.
 
     This test ensures the fix for the ImportError: cannot import name 'QDesktopWidget' from 'qtpy.QtGui'
@@ -202,5 +206,7 @@ def test_file_selection_window_resize_to_content_no_qdesktopwidget_import(qtbot:
 
     except ImportError as e:
         if "QDesktopWidget" in str(e):
-            pytest.fail(f"resize_to_content() tried to import QDesktopWidget, which doesn't exist in Qt6: {e}")
+            pytest.fail(
+                f"resize_to_content() tried to import QDesktopWidget, which doesn't exist in Qt6: {e}"
+            )
         raise

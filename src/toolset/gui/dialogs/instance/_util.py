@@ -11,5 +11,8 @@ def parse_resref_field(text: str) -> tuple[ResRef | None, str | None]:
     if not stripped:
         return ResRef.from_blank(), None
     if not ResRef.is_valid(stripped):
-        return None, "Resref must be ASCII, at most 16 characters, and must not contain \\ / : * ? \" < > |"
+        return (
+            None,
+            'Resref must be ASCII, at most 16 characters, and must not contain \\ / : * ? " < > |',
+        )
     return ResRef(stripped), None

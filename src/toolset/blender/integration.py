@@ -412,11 +412,15 @@ class BlenderEditorMixin:
 
     def _on_blender_instance_changed(self, action: str, payload: dict):
         """Handle instance add/remove notifications from Blender."""
-        RobustLogger().debug(f"Blender instance change action={action} payload_keys={list(payload.keys())}")
+        RobustLogger().debug(
+            f"Blender instance change action={action} payload_keys={list(payload.keys())}"
+        )
 
     def _on_blender_instance_updated(self, instance_id: int, properties: dict):
         """Handle granular property updates streamed from Blender."""
-        RobustLogger().debug(f"Blender updated instance={instance_id} props={list(properties.keys())}")
+        RobustLogger().debug(
+            f"Blender updated instance={instance_id} props={list(properties.keys())}"
+        )
 
     def _on_blender_connection_failed(self):
         """Hook invoked when IPC connection retries are exhausted."""
@@ -433,7 +437,9 @@ class BlenderEditorMixin:
                 - material: Material data (name, textures, etc.)
                 - model_name: KotOR model name (if applicable)
         """
-        RobustLogger().debug(f"Blender material changed: {payload.get('object_name')} slot={payload.get('material_slot')}")
+        RobustLogger().debug(
+            f"Blender material changed: {payload.get('object_name')} slot={payload.get('material_slot')}"
+        )
 
     def _start_blender_output_listener(self):
         """Start background thread that relays Blender stdout/stderr."""
@@ -451,7 +457,9 @@ class BlenderEditorMixin:
             except Exception as exc:  # noqa: BLE001
                 RobustLogger().debug(f"Blender output reader stopped: {exc}")
 
-        self._blender_output_thread = threading.Thread(target=_pump, name="BlenderIPCOutput", daemon=True)
+        self._blender_output_thread = threading.Thread(
+            target=_pump, name="BlenderIPCOutput", daemon=True
+        )
         self._blender_output_thread.start()
 
     def _on_blender_output(self, line: str):

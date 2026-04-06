@@ -349,7 +349,9 @@ def builder_no_kits(qtbot: QtBot, installation: HTInstallation, tmp_path):
 
 
 @pytest.fixture
-def builder_with_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def builder_with_rooms(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Create builder with pre-populated rooms for testing."""
     builder = builder_no_kits
 
@@ -506,7 +508,9 @@ def test_renderer_initializes_correctly(qtbot: QtBot, builder_no_kits: IndoorMap
 # ============================================================================
 
 
-def test_add_room_command_undo_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_add_room_command_undo_redo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test AddRoomCommand performs undo/redo correctly."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -532,7 +536,9 @@ def test_add_room_command_undo_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     assert room in builder._map.rooms
 
 
-def test_delete_single_room_command(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_delete_single_room_command(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test DeleteRoomsCommand with single room."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -552,12 +558,17 @@ def test_delete_single_room_command(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     assert room not in builder._map.rooms
 
 
-def test_delete_multiple_rooms_command(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_delete_multiple_rooms_command(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test DeleteRoomsCommand with multiple rooms."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
 
-    rooms = [IndoorMapRoom(real_kit_component, Vector3(i * 10, 0, 0), 0.0, flip_x=False, flip_y=False) for i in range(3)]
+    rooms = [
+        IndoorMapRoom(real_kit_component, Vector3(i * 10, 0, 0), 0.0, flip_x=False, flip_y=False)
+        for i in range(3)
+    ]
     for room in rooms:
         builder._map.rooms.append(room)
 
@@ -572,7 +583,9 @@ def test_delete_multiple_rooms_command(qtbot: QtBot, builder_no_kits: IndoorMapB
         assert room in builder._map.rooms
 
 
-def test_move_rooms_command_single(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_move_rooms_command_single(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test MoveRoomsCommand with single room."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -594,7 +607,9 @@ def test_move_rooms_command_single(qtbot: QtBot, builder_no_kits: IndoorMapBuild
     assert abs(room.position.y - 0) < 0.001
 
 
-def test_move_rooms_command_multiple(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_move_rooms_command_multiple(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test MoveRoomsCommand with multiple rooms maintains relative positions."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -616,7 +631,9 @@ def test_move_rooms_command_multiple(qtbot: QtBot, builder_no_kits: IndoorMapBui
     assert abs(dy - 10) < 0.001
 
 
-def test_rotate_rooms_command(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_rotate_rooms_command(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test RotateRoomsCommand."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -636,7 +653,9 @@ def test_rotate_rooms_command(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, r
     assert abs(room.rotation - 90.0) < 0.001
 
 
-def test_rotate_rooms_command_wraps_360(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_rotate_rooms_command_wraps_360(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test rotation commands handle 360 degree wrapping."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -652,7 +671,9 @@ def test_rotate_rooms_command_wraps_360(qtbot: QtBot, builder_no_kits: IndoorMap
     assert room.rotation == 450.0 or abs((room.rotation % 360) - 90) < 0.001
 
 
-def test_flip_rooms_command_x(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_flip_rooms_command_x(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test FlipRoomsCommand for X flip."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -670,7 +691,9 @@ def test_flip_rooms_command_x(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, r
     assert room.flip_x is False
 
 
-def test_flip_rooms_command_y(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_flip_rooms_command_y(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test FlipRoomsCommand for Y flip."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -685,7 +708,9 @@ def test_flip_rooms_command_y(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, r
     assert room.flip_y is True
 
 
-def test_flip_rooms_command_both(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_flip_rooms_command_both(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test FlipRoomsCommand for both X and Y flip."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -700,7 +725,9 @@ def test_flip_rooms_command_both(qtbot: QtBot, builder_no_kits: IndoorMapBuilder
     assert room.flip_y is True
 
 
-def test_duplicate_rooms_command(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_duplicate_rooms_command(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test DuplicateRoomsCommand."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -750,7 +777,9 @@ def test_move_warp_command(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
     assert abs(builder._map.warp_point.y - old_position.y) < 0.001
 
 
-def test_multiple_operations_undo_all(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_multiple_operations_undo_all(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test undoing multiple operations in sequence."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -789,7 +818,9 @@ def test_multiple_operations_undo_all(qtbot: QtBot, builder_no_kits: IndoorMapBu
     assert room not in builder._map.rooms
 
 
-def test_partial_undo_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_partial_undo_redo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test partial undo then redo sequence."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -822,7 +853,9 @@ def test_partial_undo_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real
     assert not undo_stack.canRedo()
 
 
-def test_undo_stack_limit_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_undo_stack_limit_behavior(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test undo stack doesn't grow unbounded."""
     builder = builder_no_kits
     undo_stack = builder._undo_stack
@@ -844,7 +877,9 @@ def test_undo_stack_limit_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBuild
 # ============================================================================
 
 
-def test_select_single_room(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_select_single_room(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test selecting a single room."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -859,7 +894,9 @@ def test_select_single_room(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, rea
     assert selected[0] is room
 
 
-def test_select_replaces_existing(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_select_replaces_existing(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test that selecting with clear_existing=True replaces selection."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -876,12 +913,17 @@ def test_select_replaces_existing(qtbot: QtBot, builder_no_kits: IndoorMapBuilde
     assert selected[0] is room2
 
 
-def test_additive_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_additive_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test additive selection with clear_existing=False."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
 
-    rooms = [IndoorMapRoom(real_kit_component, Vector3(i * 10, 0, 0), 0.0, flip_x=False, flip_y=False) for i in range(3)]
+    rooms = [
+        IndoorMapRoom(real_kit_component, Vector3(i * 10, 0, 0), 0.0, flip_x=False, flip_y=False)
+        for i in range(3)
+    ]
     builder._map.rooms.extend(rooms)
 
     renderer.select_room(rooms[0], clear_existing=True)
@@ -892,7 +934,9 @@ def test_additive_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, rea
     assert len(selected) == 3
 
 
-def test_toggle_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_toggle_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test that selecting already-selected room toggles it off."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -971,7 +1015,9 @@ def test_redo_action_disabled_when_empty(qtbot: QtBot, builder_no_kits: IndoorMa
     assert not builder.ui.actionRedo.isEnabled()
 
 
-def test_undo_action_enables_after_operation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_undo_action_enables_after_operation(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test undo action enables after push."""
     builder = builder_no_kits
 
@@ -985,7 +1031,9 @@ def test_undo_action_enables_after_operation(qtbot: QtBot, builder_no_kits: Indo
     assert builder.ui.actionUndo.isEnabled()
 
 
-def test_undo_action_triggers_undo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_undo_action_triggers_undo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test undo action actually performs undo."""
     builder = builder_no_kits
 
@@ -1002,7 +1050,9 @@ def test_undo_action_triggers_undo(qtbot: QtBot, builder_no_kits: IndoorMapBuild
     assert room not in builder._map.rooms
 
 
-def test_redo_action_triggers_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_redo_action_triggers_redo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test redo action actually performs redo."""
     builder = builder_no_kits
 
@@ -1039,7 +1089,9 @@ def test_delete_selected_action(qtbot: QtBot, builder_with_rooms):
         assert room not in builder._map.rooms
 
 
-def test_duplicate_action(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_duplicate_action(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test duplicate action."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1201,7 +1253,9 @@ def test_reset_view(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
     assert abs(renderer.camera_rotation() - 0.0) < 0.001
 
 
-def test_center_on_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_center_on_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test center on selection centers camera on selected rooms."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1218,7 +1272,9 @@ def test_center_on_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, re
     assert abs(pos.y - 75) < 0.001
 
 
-def test_center_on_multiple_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_center_on_multiple_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test center on selection averages multiple selected room positions."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1275,7 +1331,9 @@ def test_zoom_out_action(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
 # ============================================================================
 
 
-def test_copy_single_room(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_copy_single_room(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test copying a single room."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1306,7 +1364,9 @@ def test_copy_multiple_rooms(qtbot: QtBot, builder_with_rooms):
     assert len(builder._clipboard) == 3
 
 
-def test_paste_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_paste_rooms(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test pasting rooms."""
     builder = builder_no_kits
 
@@ -1329,7 +1389,9 @@ def test_paste_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_c
     assert len(builder._map.rooms) > initial_count
 
 
-def test_cut_removes_original(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_cut_removes_original(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test that cut removes original rooms."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1346,7 +1408,9 @@ def test_cut_removes_original(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, r
     assert len(builder._clipboard) == 1
 
 
-def test_paste_after_cut(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_paste_after_cut(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test paste after cut."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1373,7 +1437,9 @@ def test_paste_after_cut(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_k
 # ============================================================================
 
 
-def test_set_cursor_component(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_set_cursor_component(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test setting cursor component."""
     renderer = builder_no_kits.ui.mapRenderer
 
@@ -1382,7 +1448,9 @@ def test_set_cursor_component(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, r
     assert renderer.cursor_component is real_kit_component
 
 
-def test_clear_cursor_component(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_clear_cursor_component(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test clearing cursor component."""
     renderer = builder_no_kits.ui.mapRenderer
 
@@ -1392,7 +1460,9 @@ def test_clear_cursor_component(qtbot: QtBot, builder_no_kits: IndoorMapBuilder,
     assert renderer.cursor_component is None
 
 
-def test_component_list_selection_sets_cursor(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit):
+def test_component_list_selection_sets_cursor(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit
+):
     """Test that selecting from component list sets cursor component."""
     builder = builder_no_kits
 
@@ -1535,7 +1605,9 @@ def test_module_preview_image_exists(qtbot: QtBot, builder_no_kits: IndoorMapBui
     assert hasattr(builder.ui, "previewImage")
 
 
-def test_module_selection_populates_components(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_selection_populates_components(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test selecting a module populates component list."""
     builder = builder_no_kits
 
@@ -1689,7 +1761,9 @@ def test_duplicate_with_no_selection(qtbot: QtBot, builder_no_kits: IndoorMapBui
 # ============================================================================
 
 
-def test_full_room_lifecycle(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_full_room_lifecycle(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test complete room lifecycle: create, modify, delete, undo all."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1726,7 +1800,9 @@ def test_full_room_lifecycle(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, re
     assert room not in builder._map.rooms  # Should be gone (add was undone)
 
 
-def test_multi_room_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, second_kit_component):
+def test_multi_room_workflow(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, second_kit_component
+):
     """Test workflow with multiple rooms."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1759,7 +1835,9 @@ def test_multi_room_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, re
     assert abs(dx - 20) < 0.001  # Same relative distance
 
 
-def test_copy_paste_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_copy_paste_workflow(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test copy and paste workflow."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1839,7 +1917,9 @@ def test_mouse_move_on_renderer(qtbot: QtBot, builder_no_kits: IndoorMapBuilder)
     builder.close()
 
 
-def test_mouse_drag_simulation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_mouse_drag_simulation(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test simulated mouse drag operation."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1872,7 +1952,9 @@ def test_mouse_drag_simulation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, 
     builder.close()
 
 
-def test_right_click_context_menu(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_right_click_context_menu(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test right-click opens context menu."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1947,7 +2029,9 @@ def test_mouse_wheel_zoom(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
     builder.close()
 
 
-def test_delete_key_deletes_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_delete_key_deletes_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Delete key deletes selected rooms."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -1975,7 +2059,9 @@ def test_delete_key_deletes_selection(qtbot: QtBot, builder_no_kits: IndoorMapBu
     builder.close()
 
 
-def test_escape_key_deselects(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_escape_key_deselects(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Escape key clears selection."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -2000,7 +2086,9 @@ def test_escape_key_deselects(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, r
     builder.close()
 
 
-def test_ctrl_z_undo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_ctrl_z_undo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Ctrl+Z triggers undo."""
     builder = builder_no_kits
 
@@ -2025,7 +2113,9 @@ def test_ctrl_z_undo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_c
     builder.close()
 
 
-def test_ctrl_y_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_ctrl_y_redo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Ctrl+Y triggers redo."""
     builder = builder_no_kits
 
@@ -2071,7 +2161,9 @@ def test_ctrl_a_select_all(qtbot: QtBot, builder_with_rooms):
     builder.close()
 
 
-def test_ctrl_c_copy(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_ctrl_c_copy(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Ctrl+C copies selection."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -2095,7 +2187,9 @@ def test_ctrl_c_copy(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_c
     builder.close()
 
 
-def test_ctrl_v_paste(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_ctrl_v_paste(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Ctrl+V pastes clipboard."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -2124,7 +2218,9 @@ def test_ctrl_v_paste(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_
     QApplication.processEvents()
 
     # Should have more rooms (pasted room should be added)
-    assert len(builder._map.rooms) > initial_count, f"Expected more than {initial_count} rooms after paste, got {len(builder._map.rooms)}"
+    assert len(builder._map.rooms) > initial_count, (
+        f"Expected more than {initial_count} rooms after paste, got {len(builder._map.rooms)}"
+    )
 
     builder.close()
 
@@ -2215,8 +2311,12 @@ def test_world_to_screen_coordinates(qtbot: QtBot, builder_no_kits: IndoorMapBui
     # Should be near origin (with some tolerance for floating point precision)
     # The conversion: (screen_x - width/2) / scale + cam_x
     # At center: (width/2 - width/2) / 1.0 + 0 = 0
-    assert abs(world_pos.x) < 0.1, f"Expected world X near 0, got {world_pos.x} (screen center: {screen_center.x()}, width: {width})"
-    assert abs(world_pos.y) < 0.1, f"Expected world Y near 0, got {world_pos.y} (screen center: {screen_center.y()}, height: {height})"
+    assert abs(world_pos.x) < 0.1, (
+        f"Expected world X near 0, got {world_pos.x} (screen center: {screen_center.x()}, width: {width})"
+    )
+    assert abs(world_pos.y) < 0.1, (
+        f"Expected world Y near 0, got {world_pos.y} (screen center: {screen_center.y()}, height: {height})"
+    )
 
 
 def test_coordinate_consistency(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
@@ -2275,7 +2375,9 @@ def test_room_hooks_initialization(qtbot: QtBot, real_kit_component):
     assert len(room.hooks) == len(real_kit_component.hooks)
 
 
-def test_rebuild_connections_called(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_rebuild_connections_called(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test that room operations trigger connection rebuild."""
     builder = builder_no_kits
 
@@ -2338,7 +2440,9 @@ def test_spinbox_state_syncs_to_renderer(qtbot: QtBot, builder_no_kits: IndoorMa
     assert renderer.rotation_snap == 45
 
 
-def test_window_title_with_unsaved_changes(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_window_title_with_unsaved_changes(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test window title shows asterisk for unsaved changes."""
     builder = builder_no_kits
 
@@ -2499,7 +2603,9 @@ def test_module_component_image_is_valid(installation: HTInstallation):
             assert component.image.height() > 0
             assert not component.image.isNull()
 
-            print(f"Component '{component.name}' image: {component.image.width()}x{component.image.height()}")
+            print(
+                f"Component '{component.name}' image: {component.image.width()}x{component.image.height()}"
+            )
             return
 
     pytest.skip("No modules with valid images found")
@@ -2644,16 +2750,24 @@ def test_module_image_scale_matches_walkmesh(installation: HTInstallation):
             expected_height = max(expected_height, MIN_SIZE)
 
             # Image dimensions should match (allowing small tolerance for rounding)
-            assert abs(image.width() - expected_width) <= 1, f"Image width {image.width()} should be ~{expected_width}"
-            assert abs(image.height() - expected_height) <= 1, f"Image height {image.height()} should be ~{expected_height}"
+            assert abs(image.width() - expected_width) <= 1, (
+                f"Image width {image.width()} should be ~{expected_width}"
+            )
+            assert abs(image.height() - expected_height) <= 1, (
+                f"Image height {image.height()} should be ~{expected_height}"
+            )
 
-            print(f"Component '{component.name}': image={image.width()}x{image.height()}, expected={expected_width}x{expected_height}")
+            print(
+                f"Component '{component.name}': image={image.width()}x{image.height()}, expected={expected_width}x{expected_height}"
+            )
             return
 
     pytest.skip("No modules with valid BWM/image found")
 
 
-def test_module_room_walkmesh_transformation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_walkmesh_transformation(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test module room walkmesh is transformed correctly.
 
     When a room is placed at position (X, Y):
@@ -2719,15 +2833,23 @@ def test_module_room_walkmesh_transformation(qtbot: QtBot, builder_no_kits: Indo
             trans_extent_x = trans_max_x - trans_min_x
             trans_extent_y = trans_max_y - trans_min_y
 
-            assert abs(trans_extent_x - orig_extent_x) < 0.01, f"Walkmesh X extent should be preserved: {orig_extent_x} -> {trans_extent_x}"
-            assert abs(trans_extent_y - orig_extent_y) < 0.01, f"Walkmesh Y extent should be preserved: {orig_extent_y} -> {trans_extent_y}"
+            assert abs(trans_extent_x - orig_extent_x) < 0.01, (
+                f"Walkmesh X extent should be preserved: {orig_extent_x} -> {trans_extent_x}"
+            )
+            assert abs(trans_extent_y - orig_extent_y) < 0.01, (
+                f"Walkmesh Y extent should be preserved: {orig_extent_y} -> {trans_extent_y}"
+            )
 
             # Verify translation: new_min = old_min + room_position
             expected_min_x = orig_min_x + test_position.x
             expected_min_y = orig_min_y + test_position.y
 
-            assert abs(trans_min_x - expected_min_x) < 0.01, f"Walkmesh min X should be translated: expected {expected_min_x}, got {trans_min_x}"
-            assert abs(trans_min_y - expected_min_y) < 0.01, f"Walkmesh min Y should be translated: expected {expected_min_y}, got {trans_min_y}"
+            assert abs(trans_min_x - expected_min_x) < 0.01, (
+                f"Walkmesh min X should be translated: expected {expected_min_x}, got {trans_min_x}"
+            )
+            assert abs(trans_min_y - expected_min_y) < 0.01, (
+                f"Walkmesh min Y should be translated: expected {expected_min_y}, got {trans_min_y}"
+            )
 
             # Hit-test at multiple points within walkmesh bounds
             # The center might not be inside a face if the walkmesh has holes
@@ -2745,15 +2867,21 @@ def test_module_room_walkmesh_transformation(qtbot: QtBot, builder_no_kits: Indo
                     hits_found += 1
 
             # At least one point should hit (walkmesh may have holes)
-            assert hits_found > 0, f"At least one test point should hit the room (found {hits_found}/{len(test_points)} hits)"
+            assert hits_found > 0, (
+                f"At least one test point should hit the room (found {hits_found}/{len(test_points)} hits)"
+            )
 
-            print(f"Room walkmesh transformation verified for component '{component.name}' ({hits_found}/{len(test_points)} points hit)")
+            print(
+                f"Room walkmesh transformation verified for component '{component.name}' ({hits_found}/{len(test_points)} points hit)"
+            )
             return
 
     pytest.skip("No modules with components found")
 
 
-def test_module_component_matches_kit_component_scale(installation: HTInstallation, real_kit_component):
+def test_module_component_matches_kit_component_scale(
+    installation: HTInstallation, real_kit_component
+):
     """Test module components use same scale as kit components.
 
     Both should use 10 pixels per unit for image generation.
@@ -2801,8 +2929,12 @@ def test_module_component_matches_kit_component_scale(installation: HTInstallati
                 expected_width = max(bwm_width + 2 * PADDING, MIN_WORLD_SIZE)
                 expected_height = max(bwm_height + 2 * PADDING, MIN_WORLD_SIZE)
 
-                assert abs(module_world_width - expected_width) < 1.0, f"Module world width {module_world_width} should be ~{expected_width}"
-                assert abs(module_world_height - expected_height) < 1.0, f"Module world height {module_world_height} should be ~{expected_height}"
+                assert abs(module_world_width - expected_width) < 1.0, (
+                    f"Module world width {module_world_width} should be ~{expected_width}"
+                )
+                assert abs(module_world_height - expected_height) < 1.0, (
+                    f"Module world height {module_world_height} should be ~{expected_height}"
+                )
 
             print(f"Scale consistency verified between kit and module components")
             return
@@ -2835,7 +2967,9 @@ def test_module_image_format_is_rgb888(installation: HTInstallation):
 
             # Verify format is RGB888 (24-bit RGB, no alpha)
             assert image is not None, "Image should not be None"
-            assert image.format() == QImage.Format.Format_RGB888, f"Image format should be Format_RGB888, got {image.format()}"
+            assert image.format() == QImage.Format.Format_RGB888, (
+                f"Image format should be Format_RGB888, got {image.format()}"
+            )
 
             print(f"Component '{component.name}' image format: {image.format()} (correct: RGB888)")
             return
@@ -2896,7 +3030,9 @@ def test_module_image_is_mirrored(installation: HTInstallation):
             # This verifies the image was generated correctly
             assert has_pixel_data, "Image should have pixel data (walkmesh faces)"
 
-            print(f"Component '{component.name}' image is valid and properly formatted (mirroring applied)")
+            print(
+                f"Component '{component.name}' image is valid and properly formatted (mirroring applied)"
+            )
             return
 
     pytest.skip("No modules with components found")
@@ -2929,9 +3065,13 @@ def test_module_image_has_minimum_size_256(installation: HTInstallation):
             # Images must be at least 256x256 (same as kit.py)
             assert image is not None, "Image should not be None"
             assert image.width() >= MIN_SIZE, f"Image width {image.width()} must be >= {MIN_SIZE}"
-            assert image.height() >= MIN_SIZE, f"Image height {image.height()} must be >= {MIN_SIZE}"
+            assert image.height() >= MIN_SIZE, (
+                f"Image height {image.height()} must be >= {MIN_SIZE}"
+            )
 
-            print(f"Component '{component.name}' image size: {image.width()}x{image.height()} (min: {MIN_SIZE}x{MIN_SIZE})")
+            print(
+                f"Component '{component.name}' image size: {image.width()}x{image.height()} (min: {MIN_SIZE}x{MIN_SIZE})"
+            )
             return
 
     pytest.skip("No modules with components found")
@@ -2993,13 +3133,17 @@ def test_module_bwm_not_recentered(installation: HTInstallation):
             assert extent_x > 0.1, "BWM must have valid extent"
             assert extent_y > 0.1, "BWM must have valid extent"
 
-            print(f"Component '{component.name}' BWM center: ({center_x:.2f}, {center_y:.2f}), extent: {extent_x:.2f}x{extent_y:.2f}")
+            print(
+                f"Component '{component.name}' BWM center: ({center_x:.2f}, {center_y:.2f}), extent: {extent_x:.2f}x{extent_y:.2f}"
+            )
             return
 
     pytest.skip("No modules with valid BWM found")
 
 
-def test_module_image_matches_kit_image_generation(installation: HTInstallation, real_kit_component):
+def test_module_image_matches_kit_image_generation(
+    installation: HTInstallation, real_kit_component
+):
     """Test module image generation matches kit.py algorithm exactly.
 
     Verifies:
@@ -3034,7 +3178,9 @@ def test_module_image_matches_kit_image_generation(installation: HTInstallation,
             # Verify format
             assert module_image is not None, "Module image should not be None"
             assert real_kit_component.image is not None, "Kit image should not be None"
-            assert module_image.format() == real_kit_component.image.format(), "Module image format should match kit image format"
+            assert module_image.format() == real_kit_component.image.format(), (
+                "Module image format should match kit image format"
+            )
 
             # Verify minimum size
             assert module_image.width() >= MIN_SIZE
@@ -3058,7 +3204,9 @@ def test_module_image_matches_kit_image_generation(installation: HTInstallation,
     pytest.skip("No modules with components found")
 
 
-def test_module_room_visual_hitbox_alignment(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_visual_hitbox_alignment(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test module room visual rendering aligns with hit-testing area.
 
     CRITICAL: When a room is placed, the image should render at the same
@@ -3135,12 +3283,18 @@ def test_module_room_visual_hitbox_alignment(qtbot: QtBot, builder_no_kits: Indo
             expected_center_y = orig_center_y + test_position.y
 
             # Verify transformed center matches expected
-            assert abs(bbox_center_x - expected_center_x) < 0.5, f"Walkmesh center X {bbox_center_x} should be ~{expected_center_x}"
-            assert abs(bbox_center_y - expected_center_y) < 0.5, f"Walkmesh center Y {bbox_center_y} should be ~{expected_center_y}"
+            assert abs(bbox_center_x - expected_center_x) < 0.5, (
+                f"Walkmesh center X {bbox_center_x} should be ~{expected_center_x}"
+            )
+            assert abs(bbox_center_y - expected_center_y) < 0.5, (
+                f"Walkmesh center Y {bbox_center_y} should be ~{expected_center_y}"
+            )
 
             # Hit-test at the expected center (where image should be)
             hit_found = walkmesh.faceAt(expected_center_x, expected_center_y)
-            assert hit_found is not None, f"Clicking at image center ({expected_center_x}, {expected_center_y}) should hit the room"
+            assert hit_found is not None, (
+                f"Clicking at image center ({expected_center_x}, {expected_center_y}) should hit the room"
+            )
 
             # Also test hit-testing at room position directly
             # (this should work if the BWM is properly transformed)
@@ -3199,8 +3353,12 @@ def test_module_image_pixels_per_unit_scale(installation: HTInstallation):
             expected_height_pixels = max(expected_height_pixels, 256)
 
             # Verify actual image dimensions match expected
-            assert abs(image.width() - expected_width_pixels) <= 1, f"Image width {image.width()} should be {expected_width_pixels} (10px/unit scale)"
-            assert abs(image.height() - expected_height_pixels) <= 1, f"Image height {image.height()} should be {expected_height_pixels} (10px/unit scale)"
+            assert abs(image.width() - expected_width_pixels) <= 1, (
+                f"Image width {image.width()} should be {expected_width_pixels} (10px/unit scale)"
+            )
+            assert abs(image.height() - expected_height_pixels) <= 1, (
+                f"Image height {image.height()} should be {expected_height_pixels} (10px/unit scale)"
+            )
 
             # Verify world dimensions match when divided by 10
             world_width = image.width() / PIXELS_PER_UNIT
@@ -3208,8 +3366,12 @@ def test_module_image_pixels_per_unit_scale(installation: HTInstallation):
             expected_world_width = max(bwm_width + 2 * PADDING, 25.6)  # 256/10 = 25.6
             expected_world_height = max(bwm_height + 2 * PADDING, 25.6)
 
-            assert abs(world_width - expected_world_width) < 0.1, f"World width {world_width} should be ~{expected_world_width}"
-            assert abs(world_height - expected_world_height) < 0.1, f"World height {world_height} should be ~{expected_world_height}"
+            assert abs(world_width - expected_world_width) < 0.1, (
+                f"World width {world_width} should be ~{expected_world_width}"
+            )
+            assert abs(world_height - expected_world_height) < 0.1, (
+                f"World height {world_height} should be ~{expected_world_height}"
+            )
 
             print(f"Component '{component.name}': 10px/unit scale verified")
             return
@@ -3217,7 +3379,9 @@ def test_module_image_pixels_per_unit_scale(installation: HTInstallation):
     pytest.skip("No modules with valid BWM/image found")
 
 
-def test_module_image_walkmesh_coordinate_alignment(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_image_walkmesh_coordinate_alignment(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test module image and walkmesh coordinates align when room is placed.
 
     CRITICAL INTEGRATION TEST: Verifies the complete fix works end-to-end.
@@ -3289,10 +3453,18 @@ def test_module_image_walkmesh_coordinate_alignment(qtbot: QtBot, builder_no_kit
             # Image has 5.0 unit padding, so walkmesh should be inside image bounds
             PADDING = 5.0
 
-            assert bwm_min_x >= image_min_x + PADDING - 0.5, f"Walkmesh min X {bwm_min_x} should be within image bounds (min: {image_min_x + PADDING})"
-            assert bwm_max_x <= image_max_x - PADDING + 0.5, f"Walkmesh max X {bwm_max_x} should be within image bounds (max: {image_max_x - PADDING})"
-            assert bwm_min_y >= image_min_y + PADDING - 0.5, f"Walkmesh min Y {bwm_min_y} should be within image bounds (min: {image_min_y + PADDING})"
-            assert bwm_max_y <= image_max_y - PADDING + 0.5, f"Walkmesh max Y {bwm_max_y} should be within image bounds (max: {image_max_y - PADDING})"
+            assert bwm_min_x >= image_min_x + PADDING - 0.5, (
+                f"Walkmesh min X {bwm_min_x} should be within image bounds (min: {image_min_x + PADDING})"
+            )
+            assert bwm_max_x <= image_max_x - PADDING + 0.5, (
+                f"Walkmesh max X {bwm_max_x} should be within image bounds (max: {image_max_x - PADDING})"
+            )
+            assert bwm_min_y >= image_min_y + PADDING - 0.5, (
+                f"Walkmesh min Y {bwm_min_y} should be within image bounds (min: {image_min_y + PADDING})"
+            )
+            assert bwm_max_y <= image_max_y - PADDING + 0.5, (
+                f"Walkmesh max Y {bwm_max_y} should be within image bounds (max: {image_max_y - PADDING})"
+            )
 
             # Hit-test at room position (image center) should find the room
             hit_found = walkmesh.faceAt(room_position.x, room_position.y)
@@ -3303,7 +3475,9 @@ def test_module_image_walkmesh_coordinate_alignment(qtbot: QtBot, builder_no_kit
             hit_x = (bwm_min_x + bwm_max_x) / 2.0
             hit_y = (bwm_min_y + bwm_max_y) / 2.0
             hit_found = walkmesh.faceAt(hit_x, hit_y)
-            assert hit_found is not None, f"Clicking at walkmesh center ({hit_x}, {hit_y}) should hit the room"
+            assert hit_found is not None, (
+                f"Clicking at walkmesh center ({hit_x}, {hit_y}) should hit the room"
+            )
 
             print(f"Image/walkmesh coordinate alignment verified for component '{component.name}'")
             return
@@ -3311,7 +3485,9 @@ def test_module_image_walkmesh_coordinate_alignment(qtbot: QtBot, builder_no_kit
     pytest.skip("No modules with components found")
 
 
-def test_module_room_end_to_end_visual_hitbox_alignment(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_end_to_end_visual_hitbox_alignment(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """End-to-end test: module room visual rendering matches hit-testing.
 
     COMPREHENSIVE INTEGRATION TEST: This test verifies the complete fix works
@@ -3391,8 +3567,12 @@ def test_module_room_end_to_end_visual_hitbox_alignment(qtbot: QtBot, builder_no
             expected_walkmesh_center_y = orig_center_y + room_position.y
 
             # Verify walkmesh center matches expected
-            assert abs(bwm_center_x - expected_walkmesh_center_x) < 0.5, f"Walkmesh center X {bwm_center_x} should be ~{expected_walkmesh_center_x}"
-            assert abs(bwm_center_y - expected_walkmesh_center_y) < 0.5, f"Walkmesh center Y {bwm_center_y} should be ~{expected_walkmesh_center_y}"
+            assert abs(bwm_center_x - expected_walkmesh_center_x) < 0.5, (
+                f"Walkmesh center X {bwm_center_x} should be ~{expected_walkmesh_center_x}"
+            )
+            assert abs(bwm_center_y - expected_walkmesh_center_y) < 0.5, (
+                f"Walkmesh center Y {bwm_center_y} should be ~{expected_walkmesh_center_y}"
+            )
 
             # Test hit-testing at multiple points within walkmesh bounds
             # These should all hit the room
@@ -3400,7 +3580,10 @@ def test_module_room_end_to_end_visual_hitbox_alignment(qtbot: QtBot, builder_no
                 (bwm_center_x, bwm_center_y),  # Center
                 (bwm_min_x + 1.0, bwm_min_y + 1.0),  # Near min corner
                 (bwm_max_x - 1.0, bwm_max_y - 1.0),  # Near max corner
-                ((bwm_min_x + bwm_center_x) / 2.0, (bwm_min_y + bwm_center_y) / 2.0),  # Between min and center
+                (
+                    (bwm_min_x + bwm_center_x) / 2.0,
+                    (bwm_min_y + bwm_center_y) / 2.0,
+                ),  # Between min and center
             ]
 
             hits_found = 0
@@ -3409,7 +3592,9 @@ def test_module_room_end_to_end_visual_hitbox_alignment(qtbot: QtBot, builder_no
                     hits_found += 1
 
             # At least some points should hit (walkmesh may not cover entire area)
-            assert hits_found >= 1, f"At least one test point should hit the room (found {hits_found}/{len(test_points)})"
+            assert hits_found >= 1, (
+                f"At least one test point should hit the room (found {hits_found}/{len(test_points)})"
+            )
 
             # Verify room can be selected using renderer's selection logic
             # (This tests the actual selection mechanism)
@@ -3429,7 +3614,9 @@ def test_module_room_end_to_end_visual_hitbox_alignment(qtbot: QtBot, builder_no
                     break
 
             # Room should be detected under mouse
-            assert renderer._under_mouse_room is room, f"Room should be detected under mouse at ({world_pos.x}, {world_pos.y})"
+            assert renderer._under_mouse_room is room, (
+                f"Room should be detected under mouse at ({world_pos.x}, {world_pos.y})"
+            )
 
             print(f"End-to-end visual/hitbox alignment verified for component '{component.name}'")
             return
@@ -3487,14 +3674,22 @@ def test_module_kit_image_generation_identical_to_kit_py(installation: HTInstall
             module_image = module_component.image
 
             # Verify dimensions match
-            assert kit_image_mirrored.width() == module_image.width(), f"Width mismatch: kit={kit_image_mirrored.width()}, module={module_image.width()}"
-            assert kit_image_mirrored.height() == module_image.height(), f"Height mismatch: kit={kit_image_mirrored.height()}, module={module_image.height()}"
+            assert kit_image_mirrored.width() == module_image.width(), (
+                f"Width mismatch: kit={kit_image_mirrored.width()}, module={module_image.width()}"
+            )
+            assert kit_image_mirrored.height() == module_image.height(), (
+                f"Height mismatch: kit={kit_image_mirrored.height()}, module={module_image.height()}"
+            )
 
             # Verify format matches
-            assert kit_image_mirrored.format() == module_image.format(), f"Format mismatch: kit={kit_image_mirrored.format()}, module={module_image.format()}"
+            assert kit_image_mirrored.format() == module_image.format(), (
+                f"Format mismatch: kit={kit_image_mirrored.format()}, module={module_image.format()}"
+            )
 
             # Verify image format is RGB888 (not RGB32)
-            assert module_image.format() == QImage.Format.Format_RGB888, f"Image format should be RGB888, got {module_image.format()}"
+            assert module_image.format() == QImage.Format.Format_RGB888, (
+                f"Image format should be RGB888, got {module_image.format()}"
+            )
 
             # Sample pixels to verify content matches
             # Check corners and center
@@ -3522,7 +3717,9 @@ def test_module_kit_image_generation_identical_to_kit_py(installation: HTInstall
                         pixel_mismatches += 1
 
             # All sampled pixels should match
-            assert pixel_mismatches == 0, f"Pixel mismatches found: {pixel_mismatches}/{len(test_pixels)}"
+            assert pixel_mismatches == 0, (
+                f"Pixel mismatches found: {pixel_mismatches}/{len(test_pixels)}"
+            )
 
             print(f"ModuleKit image generation IDENTICAL to kit.py for '{module_component.name}'")
             print(f"  Dimensions: {width}x{height}")
@@ -3587,7 +3784,9 @@ def test_module_kit_bwm_handling_identical_to_kit_py(installation: HTInstallatio
             raw_vertices = list(raw_bwm.vertices())
             module_vertices = list(module_bwm.vertices())
 
-            assert len(raw_vertices) == len(module_vertices), f"Vertex count mismatch: raw={len(raw_vertices)}, module={len(module_vertices)}"
+            assert len(raw_vertices) == len(module_vertices), (
+                f"Vertex count mismatch: raw={len(raw_vertices)}, module={len(module_vertices)}"
+            )
 
             # Compare first few vertices
             for i, (raw_v, mod_v) in enumerate(zip(raw_vertices[:10], module_vertices[:10])):
@@ -3596,10 +3795,16 @@ def test_module_kit_bwm_handling_identical_to_kit_py(installation: HTInstallatio
                 assert abs(raw_v.z - mod_v.z) < 0.001, f"Vertex {i} Z mismatch"
 
             # Verify face count and materials
-            assert len(raw_bwm.faces) == len(module_bwm.faces), f"Face count mismatch: raw={len(raw_bwm.faces)}, module={len(module_bwm.faces)}"
+            assert len(raw_bwm.faces) == len(module_bwm.faces), (
+                f"Face count mismatch: raw={len(raw_bwm.faces)}, module={len(module_bwm.faces)}"
+            )
 
-            for i, (raw_face, mod_face) in enumerate(zip(raw_bwm.faces[:10], module_bwm.faces[:10])):
-                assert raw_face.material == mod_face.material, f"Face {i} material mismatch: raw={raw_face.material}, module={mod_face.material}"
+            for i, (raw_face, mod_face) in enumerate(
+                zip(raw_bwm.faces[:10], module_bwm.faces[:10])
+            ):
+                assert raw_face.material == mod_face.material, (
+                    f"Face {i} material mismatch: raw={raw_face.material}, module={mod_face.material}"
+                )
 
             print(f"ModuleKit BWM handling IDENTICAL to kit.py for '{module_component.name}'")
             print(f"  Vertices: {len(module_vertices)}")
@@ -3644,9 +3849,28 @@ def test_module_kit_walkable_materials_match_kit_py(installation: HTInstallation
             for face in module_bwm.faces:
                 is_walkable_kit = face.material.value in KIT_PY_WALKABLE_MATERIALS
                 # qt_preview.py uses the same set
-                is_walkable_module = face.material.value in (1, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 16, 18, 20, 21, 22)
+                is_walkable_module = face.material.value in (
+                    1,
+                    3,
+                    4,
+                    5,
+                    6,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    16,
+                    18,
+                    20,
+                    21,
+                    22,
+                )
 
-                assert is_walkable_kit == is_walkable_module, f"Walkable classification mismatch for material {face.material.value}"
+                assert is_walkable_kit == is_walkable_module, (
+                    f"Walkable classification mismatch for material {face.material.value}"
+                )
 
                 if is_walkable_kit:
                     walkable_count += 1
@@ -3661,7 +3885,9 @@ def test_module_kit_walkable_materials_match_kit_py(installation: HTInstallation
     pytest.skip("No modules with components found")
 
 
-def test_create_room_from_module_component(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_create_room_from_module_component(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test creating a room from a module-derived component."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -3703,7 +3929,9 @@ def test_create_room_from_module_component(qtbot: QtBot, builder_no_kits: Indoor
     pytest.skip("No modules with components found")
 
 
-def test_module_room_undo_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_undo_redo(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test undo/redo works with module-derived rooms."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -3744,7 +3972,9 @@ def test_module_room_undo_redo(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, 
     pytest.skip("No modules with components found")
 
 
-def test_module_room_move_operation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_move_operation(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test move operation works with module-derived rooms."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -3784,7 +4014,9 @@ def test_module_room_move_operation(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     pytest.skip("No modules with components found")
 
 
-def test_module_room_rotate_flip(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_rotate_flip(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test rotate and flip operations work with module-derived rooms."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -3822,7 +4054,9 @@ def test_module_room_rotate_flip(qtbot: QtBot, builder_no_kits: IndoorMapBuilder
     pytest.skip("No modules with components found")
 
 
-def test_module_room_duplicate(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_duplicate(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test duplicate operation works with module-derived rooms."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -3864,7 +4098,9 @@ def test_module_room_duplicate(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, 
     pytest.skip("No modules with components found")
 
 
-def test_module_combobox_populated(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_combobox_populated(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test module combobox is populated with modules from installation."""
     builder = builder_no_kits
 
@@ -3885,7 +4121,9 @@ def test_module_combobox_populated(qtbot: QtBot, builder_no_kits: IndoorMapBuild
         print(f"  {i}: {text} -> {data}")
 
 
-def test_module_selection_via_qtbot(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_selection_via_qtbot(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test selecting module via qtbot interaction."""
     builder = builder_no_kits
 
@@ -3907,7 +4145,9 @@ def test_module_selection_via_qtbot(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     builder.close()
 
 
-def test_module_selection_loads_components(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_selection_loads_components(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test selecting module loads components into list."""
     builder = builder_no_kits
 
@@ -3934,7 +4174,9 @@ def test_module_selection_loads_components(qtbot: QtBot, builder_no_kits: Indoor
     pytest.skip("No modules with extractable components found")
 
 
-def test_module_component_selection_via_qtbot(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_component_selection_via_qtbot(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test selecting component from module list via qtbot."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -3969,7 +4211,9 @@ def test_module_component_selection_via_qtbot(qtbot: QtBot, builder_no_kits: Ind
     pytest.skip("No modules with components found")
 
 
-def test_module_component_preview_updates(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_component_preview_updates(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test selecting component updates preview image."""
     builder = builder_no_kits
 
@@ -4008,7 +4252,9 @@ def test_module_component_preview_updates(qtbot: QtBot, builder_no_kits: IndoorM
     pytest.skip("No modules with components found")
 
 
-def test_switch_between_modules(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_switch_between_modules(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test switching between different modules updates component list."""
     builder = builder_no_kits
 
@@ -4037,7 +4283,9 @@ def test_switch_between_modules(qtbot: QtBot, builder_no_kits: IndoorMapBuilder,
     builder.close()
 
 
-def test_full_module_placement_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_full_module_placement_workflow(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test complete workflow: select module -> select component -> place room."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4092,7 +4340,9 @@ def test_full_module_placement_workflow(qtbot: QtBot, builder_no_kits: IndoorMap
     pytest.skip("No modules with components found")
 
 
-def test_place_multiple_module_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_place_multiple_module_rooms(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test placing multiple rooms from module components."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4144,7 +4394,9 @@ def test_place_multiple_module_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBui
     pytest.skip("No modules with components found")
 
 
-def test_module_room_selection_in_renderer(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_selection_in_renderer(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test module-derived rooms can be selected in renderer."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4193,7 +4445,9 @@ def test_module_room_selection_in_renderer(qtbot: QtBot, builder_no_kits: Indoor
     pytest.skip("No modules with components found")
 
 
-def test_module_component_same_interface_as_kit_component(installation: HTInstallation, real_kit_component):
+def test_module_component_same_interface_as_kit_component(
+    installation: HTInstallation, real_kit_component
+):
     """Test module components have same interface as kit components."""
     from pykotor.common.indoorkit import KitComponent
     from pykotor.common.modulekit import ModuleKitManager
@@ -4228,7 +4482,12 @@ def test_module_component_same_interface_as_kit_component(installation: HTInstal
     pytest.skip("No modules with components found")
 
 
-def test_rooms_from_both_sources_coexist(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, installation: HTInstallation):
+def test_rooms_from_both_sources_coexist(
+    qtbot: QtBot,
+    builder_no_kits: IndoorMapBuilder,
+    real_kit_component,
+    installation: HTInstallation,
+):
     """Test rooms from kits and modules can coexist in same map."""
     builder = builder_no_kits
 
@@ -4250,7 +4509,9 @@ def test_rooms_from_both_sources_coexist(qtbot: QtBot, builder_no_kits: IndoorMa
             module_component = kit.components[0]
 
             # Add room from module component
-            module_room = IndoorMapRoom(module_component, Vector3(20, 0, 0), 0.0, flip_x=False, flip_y=False)
+            module_room = IndoorMapRoom(
+                module_component, Vector3(20, 0, 0), 0.0, flip_x=False, flip_y=False
+            )
             builder._map.rooms.append(module_room)
 
             # Both rooms should coexist
@@ -4269,7 +4530,12 @@ def test_rooms_from_both_sources_coexist(qtbot: QtBot, builder_no_kits: IndoorMa
     pytest.skip("No modules with components found")
 
 
-def test_operations_work_on_mixed_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, installation: HTInstallation):
+def test_operations_work_on_mixed_rooms(
+    qtbot: QtBot,
+    builder_no_kits: IndoorMapBuilder,
+    real_kit_component,
+    installation: HTInstallation,
+):
     """Test operations work on mixed kit/module room selections."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4288,7 +4554,9 @@ def test_operations_work_on_mixed_rooms(qtbot: QtBot, builder_no_kits: IndoorMap
     for root in _sample_roots(roots):
         kit = builder._module_kit_manager.get_module_kit(root)
         if kit.ensure_loaded() and kit.components:
-            module_room = IndoorMapRoom(kit.components[0], Vector3(20, 0, 0), 0.0, flip_x=False, flip_y=False)
+            module_room = IndoorMapRoom(
+                kit.components[0], Vector3(20, 0, 0), 0.0, flip_x=False, flip_y=False
+            )
             builder._map.rooms.append(module_room)
 
             # Select both
@@ -4301,7 +4569,9 @@ def test_operations_work_on_mixed_rooms(qtbot: QtBot, builder_no_kits: IndoorMap
             old_positions = [copy(kit_room.position), copy(module_room.position)]
             new_positions = [Vector3(5, 5, 0), Vector3(25, 5, 0)]
 
-            cmd = MoveRoomsCommand(builder._map, [kit_room, module_room], old_positions, new_positions)
+            cmd = MoveRoomsCommand(
+                builder._map, [kit_room, module_room], old_positions, new_positions
+            )
             undo_stack.push(cmd)
 
             assert abs(kit_room.position.x - 5) < 0.001
@@ -4361,7 +4631,9 @@ def test_cache_prevents_duplicate_loading(installation: HTInstallation):
     print("Cache correctly prevents duplicate loading")
 
 
-def test_switching_modules_uses_cache(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_switching_modules_uses_cache(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test switching between modules uses cached kits."""
     builder = builder_no_kits
 
@@ -4378,7 +4650,9 @@ def test_switching_modules_uses_cache(qtbot: QtBot, builder_no_kits: IndoorMapBu
     QApplication.processEvents()
 
     first_root = builder.ui.moduleSelect.currentData()
-    first_kit = builder._module_kit_manager._cache.get(first_root) if builder._module_kit_manager else None
+    first_kit = (
+        builder._module_kit_manager._cache.get(first_root) if builder._module_kit_manager else None
+    )
 
     # Switch to second module
     builder.ui.moduleSelect.setCurrentIndex(1)
@@ -4555,7 +4829,9 @@ def test_expand_modules_then_select(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     builder.close()
 
 
-def test_module_room_renders_in_map(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_renders_in_map(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test module-derived room renders in map renderer."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4603,7 +4879,9 @@ def test_module_room_renders_in_map(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     pytest.skip("No modules with components found")
 
 
-def test_select_module_room_with_mouse(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_select_module_room_with_mouse(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test selecting module room with mouse click."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4661,7 +4939,9 @@ def test_select_module_room_with_mouse(qtbot: QtBot, builder_no_kits: IndoorMapB
     pytest.skip("No modules with components found")
 
 
-def test_complete_module_to_map_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_complete_module_to_map_workflow(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test complete workflow from module selection to final map."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4753,7 +5033,9 @@ def test_complete_module_to_map_workflow(qtbot: QtBot, builder_no_kits: IndoorMa
     pytest.skip("No modules with components found")
 
 
-def test_module_workflow_with_different_modules(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_workflow_with_different_modules(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test placing rooms from different modules in same map."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -4820,7 +5102,9 @@ def test_module_workflow_with_different_modules(qtbot: QtBot, builder_no_kits: I
 # ============================================================================
 
 
-def test_save_without_filepath_opens_save_dialog(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, tmp_path):
+def test_save_without_filepath_opens_save_dialog(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, tmp_path
+):
     """Test save without filepath triggers save_as dialog."""
     from unittest.mock import patch
 
@@ -4843,7 +5127,9 @@ def test_save_without_filepath_opens_save_dialog(qtbot: QtBot, builder_no_kits: 
     builder.close()
 
 
-def test_save_with_filepath_writes_file(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, tmp_path):
+def test_save_with_filepath_writes_file(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, tmp_path
+):
     """Test save with filepath writes to file."""
     builder = builder_no_kits
 
@@ -4862,7 +5148,9 @@ def test_save_with_filepath_writes_file(qtbot: QtBot, builder_no_kits: IndoorMap
     assert test_file.stat().st_size > 0
 
 
-def test_save_as_writes_file(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, tmp_path):
+def test_save_as_writes_file(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component, tmp_path
+):
     """Test save_as writes to specified file."""
     from unittest.mock import patch
 
@@ -4886,7 +5174,9 @@ def test_save_as_writes_file(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, re
     assert builder._filepath == str(test_file)
 
 
-def test_new_clears_map(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_new_clears_map(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test new clears the map and undo stack."""
     from unittest.mock import patch
 
@@ -4903,7 +5193,9 @@ def test_new_clears_map(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_ki
     QApplication.processEvents()
 
     # Mock message box to return Discard
-    with patch("qtpy.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Discard):
+    with patch(
+        "qtpy.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Discard
+    ):
         builder.new()
 
     assert len(builder._map.rooms) == 0
@@ -4913,7 +5205,9 @@ def test_new_clears_map(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_ki
     builder.close()
 
 
-def test_new_with_unsaved_changes_prompts(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_new_with_unsaved_changes_prompts(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test new with unsaved changes shows prompt."""
     from unittest.mock import patch
 
@@ -4928,7 +5222,9 @@ def test_new_with_unsaved_changes_prompts(qtbot: QtBot, builder_no_kits: IndoorM
     QApplication.processEvents()
 
     # Mock message box
-    with patch("qtpy.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Cancel) as mock_msg:
+    with patch(
+        "qtpy.QtWidgets.QMessageBox.question", return_value=QMessageBox.StandardButton.Cancel
+    ) as mock_msg:
         builder.new()
         mock_msg.assert_called_once()
 
@@ -5342,7 +5638,9 @@ def test_start_marquee(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
     builder.close()
 
 
-def test_marquee_selects_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_marquee_selects_rooms(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test marquee selection selects rooms in area."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5383,7 +5681,9 @@ def test_marquee_selects_rooms(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, 
 # ============================================================================
 
 
-def test_toggle_cursor_flip(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_toggle_cursor_flip(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test toggling cursor flip state."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5407,7 +5707,9 @@ def test_toggle_cursor_flip(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, rea
     builder.close()
 
 
-def test_add_connected_to_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_add_connected_to_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test adding connected rooms to selection."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5512,7 +5814,9 @@ def test_draw_spawn_point(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
     builder.close()
 
 
-def test_room_highlight_drawing(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_room_highlight_drawing(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test room highlighting."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5568,7 +5872,9 @@ def test_show_help_window(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
             current_file_dir = Path(__file__).parent
             # Tools/HolocronToolset/tests/gui/windows/ -> Tools/HolocronToolset/src/toolset/
             # ../../../../Tools/HolocronToolset/src/toolset
-            target_dir = (current_file_dir.parent.parent.parent.parent / "Tools/HolocronToolset/src/toolset").resolve()
+            target_dir = (
+                current_file_dir.parent.parent.parent.parent / "Tools/HolocronToolset/src/toolset"
+            ).resolve()
 
         if target_dir.exists() and (target_dir / "help").exists():
             os.chdir(target_dir)
@@ -5582,7 +5888,11 @@ def test_show_help_window(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
             QApplication.processEvents()
 
             # Verify HelpWindow is open
-            help_windows = [w for w in QApplication.topLevelWidgets() if isinstance(w, HelpWindow) and w.isVisible()]
+            help_windows = [
+                w
+                for w in QApplication.topLevelWidgets()
+                if isinstance(w, HelpWindow) and w.isVisible()
+            ]
 
             if target_dir.exists() and (target_dir / "help").exists():
                 assert len(help_windows) > 0, "Help window failed to open"
@@ -5712,7 +6022,9 @@ def test_warp_point_drag(qtbot: QtBot, builder_no_kits: IndoorMapBuilder):
 # ============================================================================
 
 
-def test_ctrl_x_cut(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_ctrl_x_cut(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Ctrl+X cut shortcut."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5737,7 +6049,9 @@ def test_ctrl_x_cut(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_co
     builder.close()
 
 
-def test_ctrl_d_duplicate(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_ctrl_d_duplicate(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test Ctrl+D duplicate shortcut."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5768,7 +6082,9 @@ def test_ctrl_d_duplicate(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_
 # ============================================================================
 
 
-def test_walkmesh_cache_invalidation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_walkmesh_cache_invalidation(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test walkmesh cache invalidation."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5816,7 +6132,12 @@ def test_mark_dirty_triggers_repaint(qtbot: QtBot, builder_no_kits: IndoorMapBui
 # ============================================================================
 
 
-def test_complete_map_creation_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent, tmp_path: Path):
+def test_complete_map_creation_workflow(
+    qtbot: QtBot,
+    builder_no_kits: IndoorMapBuilder,
+    real_kit_component: KitComponent,
+    tmp_path: Path,
+):
     """Test complete workflow: create, edit, save, open."""
     from unittest.mock import patch
 
@@ -5869,7 +6190,9 @@ def test_complete_map_creation_workflow(qtbot: QtBot, builder_no_kits: IndoorMap
     builder.close()
 
 
-def test_undo_redo_complete_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_undo_redo_complete_workflow(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test complete undo/redo workflow with multiple operations."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -5883,7 +6206,9 @@ def test_undo_redo_complete_workflow(qtbot: QtBot, builder_no_kits: IndoorMapBui
     builder._undo_stack.push(AddRoomCommand(builder._map, room))
 
     old_pos = copy(room.position)
-    builder._undo_stack.push(MoveRoomsCommand(builder._map, [room], [old_pos], [Vector3(10, 10, 0)]))
+    builder._undo_stack.push(
+        MoveRoomsCommand(builder._map, [room], [old_pos], [Vector3(10, 10, 0)])
+    )
 
     builder._undo_stack.push(RotateRoomsCommand(builder._map, [room], [0.0], [45.0]))
 
@@ -6260,7 +6585,9 @@ def test_component_equivalence(installation: HTInstallation, temp_work_dir):
         for kit in regular_kits:
             if kit.components:
                 comp = kit.components[0]
-                regular_room = IndoorMapRoom(comp, Vector3(0, 0, 0), 0.0, flip_x=False, flip_y=False)
+                regular_room = IndoorMapRoom(
+                    comp, Vector3(0, 0, 0), 0.0, flip_x=False, flip_y=False
+                )
                 indoor_map.rooms.append(regular_room)
                 break
 
@@ -6427,7 +6754,9 @@ def test_walkable_faces_have_walkable_materials(installation: HTInstallation):
         walkable_faces = bwm.walkable_faces()
 
         for face in walkable_faces:
-            assert face.material.walkable(), f"Walkable face should have walkable material, got {face.material}"
+            assert face.material.walkable(), (
+                f"Walkable face should have walkable material, got {face.material}"
+            )
         return
 
     pytest.skip("No modules with components found")
@@ -6456,7 +6785,9 @@ def test_unwalkable_faces_have_unwalkable_materials(installation: HTInstallation
         unwalkable_faces = bwm.unwalkable_faces()
 
         for face in unwalkable_faces:
-            assert not face.material.walkable(), f"Unwalkable face should have non-walkable material, got {face.material}"
+            assert not face.material.walkable(), (
+                f"Unwalkable face should have non-walkable material, got {face.material}"
+            )
         return
 
     pytest.skip("No modules with components found")
@@ -6491,7 +6822,9 @@ def test_walkable_material_set_consistency(installation: HTInstallation):
             is_walkable = face.material.walkable()
             expected_walkable = material_value in EXPECTED_WALKABLE
 
-            assert is_walkable == expected_walkable, f"Material {material_value} walkability mismatch: walkable()={is_walkable}, expected={expected_walkable}"
+            assert is_walkable == expected_walkable, (
+                f"Material {material_value} walkability mismatch: walkable()={is_walkable}, expected={expected_walkable}"
+            )
         return
 
     pytest.skip("No modules with components found")
@@ -6631,13 +6964,17 @@ def test_walkable_faces_z_coordinate_consistency(installation: HTInstallation):
         for level_z, faces in z_levels.items():
             for face in faces:
                 avg_z = (face.v1.z + face.v2.z + face.v3.z) / 3.0
-                assert abs(avg_z - level_z) < tolerance, f"Face Z coordinate {avg_z} should match level {level_z} within tolerance"
+                assert abs(avg_z - level_z) < tolerance, (
+                    f"Face Z coordinate {avg_z} should match level {level_z} within tolerance"
+                )
         return
 
     pytest.skip("No modules with components found")
 
 
-def test_indoor_map_walkability_preservation(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_indoor_map_walkability_preservation(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test that walkability is preserved when creating rooms in indoor map."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -6680,13 +7017,17 @@ def test_indoor_map_walkability_preservation(qtbot: QtBot, builder_no_kits: Indo
 
         # All transformed walkable faces should still have walkable materials
         for face in transformed_walkable:
-            assert face.material.walkable(), "Transformed walkable face should still have walkable material"
+            assert face.material.walkable(), (
+                "Transformed walkable face should still have walkable material"
+            )
         return
 
     pytest.skip("No modules with components found")
 
 
-def test_multiple_rooms_walkability_independence(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_multiple_rooms_walkability_independence(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test that multiple rooms maintain independent walkability."""
     from pykotor.common.modulekit import ModuleKitManager
 
@@ -6762,13 +7103,17 @@ def test_walkable_face_adjacency_consistency(installation: HTInstallation):
                     # Adjacency should reference a valid face object
                     assert adj.face is not None, "Adjacency should have a face"
                     assert adj.face in bwm.faces, "Adjacent face should exist in BWM"
-                    assert adj.edge in (0, 1, 2), f"Adjacency edge should be 0, 1, or 2, got {adj.edge}"
+                    assert adj.edge in (0, 1, 2), (
+                        f"Adjacency edge should be 0, 1, or 2, got {adj.edge}"
+                    )
         return
 
     pytest.skip("No modules with components found")
 
 
-def test_build_room_via_ui_click(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_build_room_via_ui_click(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test building a room programmatically (UI click simulation is complex, so we test the underlying method)."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -6790,7 +7135,9 @@ def test_build_room_via_ui_click(qtbot: QtBot, builder_no_kits: IndoorMapBuilder
     assert room.component is real_kit_component, "Room should have correct component"
 
 
-def test_build_multiple_rooms_via_ui_clicks(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_build_multiple_rooms_via_ui_clicks(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test building multiple rooms programmatically."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -6813,7 +7160,9 @@ def test_build_multiple_rooms_via_ui_clicks(qtbot: QtBot, builder_no_kits: Indoo
     assert len(positions_set) == 3, "Rooms should be at different positions"
 
 
-def test_drag_room_via_ui(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent):
+def test_drag_room_via_ui(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, real_kit_component: KitComponent
+):
     """Test dragging a room programmatically (simulating what UI drag would do)."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -6891,7 +7240,9 @@ def test_module_kit_bwm_is_centered(installation: HTInstallation):
         )
 
 
-def test_module_kit_image_hitbox_congruent(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_kit_image_hitbox_congruent(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Verify that image bounds match walkmesh bounds (they should be congruent).
 
     The preview image and the walkmesh hitbox must be the same shape at the
@@ -6980,7 +7331,9 @@ def test_module_kit_image_hitbox_congruent(qtbot: QtBot, builder_no_kits: Indoor
     )
 
 
-def test_module_kit_room_placement_and_selection(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_kit_room_placement_and_selection(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test placing a ModuleKit room via UI simulation and selecting it.
 
     This tests the full flow:
@@ -7043,11 +7396,17 @@ def test_module_kit_room_placement_and_selection(qtbot: QtBot, builder_no_kits: 
         max_y = max(v.y for v in vertices)
 
         # Origin (0, 0) should be inside the walkmesh bounds
-        assert min_x <= 0 <= max_x, f"Origin X=0 should be within walkmesh bounds [{min_x:.2f}, {max_x:.2f}]. Room is not centered correctly!"
-        assert min_y <= 0 <= max_y, f"Origin Y=0 should be within walkmesh bounds [{min_y:.2f}, {max_y:.2f}]. Room is not centered correctly!"
+        assert min_x <= 0 <= max_x, (
+            f"Origin X=0 should be within walkmesh bounds [{min_x:.2f}, {max_x:.2f}]. Room is not centered correctly!"
+        )
+        assert min_y <= 0 <= max_y, (
+            f"Origin Y=0 should be within walkmesh bounds [{min_y:.2f}, {max_y:.2f}]. Room is not centered correctly!"
+        )
 
 
-def test_module_kit_no_black_buffer_zone(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_kit_no_black_buffer_zone(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Verify that ModuleKit preview images don't have excessive black padding.
 
     The image should tightly fit the walkmesh geometry (with just standard 5-unit padding).
@@ -7154,7 +7513,9 @@ def test_module_kit_no_black_buffer_zone(qtbot: QtBot, builder_no_kits: IndoorMa
         )
 
 
-def test_module_kit_rooms_snap_together(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_kit_rooms_snap_together(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test that ModuleKit rooms can be placed and don't have black buffer zones.
 
     This verifies the critical fix: rooms should look like the working rooms
@@ -7551,7 +7912,9 @@ These tests verify:
 """
 
 
-def test_drag_module_room_with_mouse_no_black_buffer(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_drag_module_room_with_mouse_no_black_buffer(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test dragging a ModuleKit room using actual mouse events and verify no black buffer zone."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -7639,7 +8002,9 @@ def test_drag_module_room_with_mouse_no_black_buffer(qtbot: QtBot, builder_no_ki
             if has_geometry:
                 break
 
-        assert has_geometry, f"Component {component.name} image center is all black! Should show walkmesh geometry, not black buffer zone."
+        assert has_geometry, (
+            f"Component {component.name} image center is all black! Should show walkmesh geometry, not black buffer zone."
+        )
 
         # Reset camera to origin for placement
         renderer.set_camera_position(0, 0)
@@ -7669,8 +8034,12 @@ def test_drag_module_room_with_mouse_no_black_buffer(qtbot: QtBot, builder_no_ki
         assert room.component is component, "Placed room should use selected component"
 
         # Verify room dropped properly (position should be near origin)
-        assert abs(room.position.x) < 5.0, f"Room should be placed near origin, got X={room.position.x}"
-        assert abs(room.position.y) < 5.0, f"Room should be placed near origin, got Y={room.position.y}"
+        assert abs(room.position.x) < 5.0, (
+            f"Room should be placed near origin, got X={room.position.x}"
+        )
+        assert abs(room.position.y) < 5.0, (
+            f"Room should be placed near origin, got Y={room.position.y}"
+        )
 
         builder.close()
         return
@@ -7680,7 +8049,9 @@ def test_drag_module_room_with_mouse_no_black_buffer(qtbot: QtBot, builder_no_ki
         pytest.skip("No modules with components found")
 
 
-def test_module_room_has_connectors(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_module_room_has_connectors(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test that ModuleKit rooms have connectors (hooks) that can connect to other rooms."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -7713,7 +8084,9 @@ def test_module_room_has_connectors(qtbot: QtBot, builder_no_kits: IndoorMapBuil
             continue
 
         # CRITICAL: Assert component has hooks/connectors (we already checked above, but verify)
-        assert len(component.hooks) > 0, f"Component {component.name} must have at least one hook/connector to connect to other rooms"
+        assert len(component.hooks) > 0, (
+            f"Component {component.name} must have at least one hook/connector to connect to other rooms"
+        )
 
         # Verify hooks have valid positions
         for hook in component.hooks:
@@ -7739,7 +8112,9 @@ def test_module_room_has_connectors(qtbot: QtBot, builder_no_kits: IndoorMapBuil
         room = builder._map.rooms[0]
 
         # Verify room has hooks array matching component
-        assert len(room.hooks) == len(component.hooks), "Room hooks array should match component hooks count"
+        assert len(room.hooks) == len(component.hooks), (
+            "Room hooks array should match component hooks count"
+        )
 
         # Verify hooks can be accessed
         for hook_index, hook in enumerate(component.hooks):
@@ -7756,7 +8131,9 @@ def test_module_room_has_connectors(qtbot: QtBot, builder_no_kits: IndoorMapBuil
     pytest.skip("No modules with components found")
 
 
-def test_preview_image_different_from_placed(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_preview_image_different_from_placed(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test that the preview image (cursor component) is different from the placed room image.
 
     This verifies that the preview system works correctly and shows a different
@@ -7819,10 +8196,15 @@ def test_preview_image_different_from_placed(qtbot: QtBot, builder_no_kits: Indo
 
         # CRITICAL: Preview image should be completely different from placed image
         # Compare image dimensions, pixel data, or other properties
-        assert preview_image is not placed_image, "Preview and placed images should be different objects"
+        assert preview_image is not placed_image, (
+            "Preview and placed images should be different objects"
+        )
 
         # Compare image properties to ensure they're different
-        images_different = preview_image.width() != placed_image.width() or preview_image.height() != placed_image.height()
+        images_different = (
+            preview_image.width() != placed_image.width()
+            or preview_image.height() != placed_image.height()
+        )
 
         # If same size, compare pixel data
         if not images_different:
@@ -7846,7 +8228,9 @@ def test_preview_image_different_from_placed(qtbot: QtBot, builder_no_kits: Indo
     pytest.skip("No modules with multiple components found")
 
 
-def test_drag_second_room_and_connect(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_drag_second_room_and_connect(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test dragging a second ModuleKit room and connecting it to the first room."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -7988,7 +8372,9 @@ def test_drag_second_room_and_connect(qtbot: QtBot, builder_no_kits: IndoorMapBu
                     connected = True
                     break
 
-        assert connected, "Rooms should be connected after placement. Hook positions should be close enough to trigger connection."
+        assert connected, (
+            "Rooms should be connected after placement. Hook positions should be close enough to trigger connection."
+        )
 
         builder.close()
         return
@@ -7997,7 +8383,9 @@ def test_drag_second_room_and_connect(qtbot: QtBot, builder_no_kits: IndoorMapBu
     pytest.skip("No modules with components found")
 
 
-def test_cyan_connector_indicator_appears(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_cyan_connector_indicator_appears(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test that the cyan/blue snap indicator appears when dragging near a connection point."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -8098,12 +8486,18 @@ def test_cyan_connector_indicator_appears(qtbot: QtBot, builder_no_kits: IndoorM
         QApplication.processEvents()
 
         # CRITICAL: Verify snap indicator is set (cyan/blue indicator)
-        assert renderer._snap_indicator is not None, "Snap indicator should be set when cursor is within snap threshold"
+        assert renderer._snap_indicator is not None, (
+            "Snap indicator should be set when cursor is within snap threshold"
+        )
         assert renderer._snap_indicator.snapped, "Snap indicator should indicate snapping is active"
 
         # Verify snap indicator position matches expected snap position
-        assert abs(renderer._snap_indicator.position.x - snap_pos.x) < 0.1, "Snap indicator position should match calculated snap position"
-        assert abs(renderer._snap_indicator.position.y - snap_pos.y) < 0.1, "Snap indicator position should match calculated snap position"
+        assert abs(renderer._snap_indicator.position.x - snap_pos.x) < 0.1, (
+            "Snap indicator position should match calculated snap position"
+        )
+        assert abs(renderer._snap_indicator.position.y - snap_pos.y) < 0.1, (
+            "Snap indicator position should match calculated snap position"
+        )
 
         builder.close()
         return
@@ -8112,7 +8506,9 @@ def test_cyan_connector_indicator_appears(qtbot: QtBot, builder_no_kits: IndoorM
     pytest.skip("No modules with components found")
 
 
-def test_snap_threshold_and_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_snap_threshold_and_behavior(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test snap threshold behavior: move outside snap area, then inside, verify snap happens.
 
     This test:
@@ -8234,7 +8630,9 @@ def test_snap_threshold_and_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBui
         actual_cursor_pos = renderer.cursor_point
 
         # Calculate distance from perfect snap position
-        distance_from_snap = Vector2.from_vector3(actual_cursor_pos).distance(Vector2.from_vector3(perfect_snap_pos))
+        distance_from_snap = Vector2.from_vector3(actual_cursor_pos).distance(
+            Vector2.from_vector3(perfect_snap_pos)
+        )
 
         # VERIFY: No snap should occur if we're outside threshold
         # The snap indicator should be None or not snapped when outside threshold
@@ -8281,10 +8679,14 @@ def test_snap_threshold_and_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBui
         cursor_pos_after_move = renderer.cursor_point
 
         # Calculate distance from perfect snap position before snap
-        distance_before_snap = Vector2.from_vector3(within_pos).distance(Vector2.from_vector3(perfect_snap_pos))
+        distance_before_snap = Vector2.from_vector3(within_pos).distance(
+            Vector2.from_vector3(perfect_snap_pos)
+        )
 
         # CRITICAL VERIFICATION: Snap should occur
-        assert renderer._snap_indicator is not None, "Snap indicator should be set when cursor is within snap threshold"
+        assert renderer._snap_indicator is not None, (
+            "Snap indicator should be set when cursor is within snap threshold"
+        )
         assert renderer._snap_indicator.snapped, (
             f"Should SNAP when cursor is {distance_before_snap:.2f} units from perfect position (within {snap_threshold:.2f} threshold). Cursor pos: {cursor_pos_after_move}"
         )
@@ -8303,13 +8705,19 @@ def test_snap_threshold_and_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBui
         )
 
         # Verify snapped position is close to perfect snap position
-        perfect_distance = Vector2.from_vector3(snapped_pos).distance(Vector2.from_vector3(perfect_snap_pos))
+        perfect_distance = Vector2.from_vector3(snapped_pos).distance(
+            Vector2.from_vector3(perfect_snap_pos)
+        )
 
-        assert perfect_distance < 0.1, f"Snapped position ({snapped_pos}) should be very close to perfect snap position ({perfect_snap_pos}). Distance: {perfect_distance:.4f}"
+        assert perfect_distance < 0.1, (
+            f"Snapped position ({snapped_pos}) should be very close to perfect snap position ({perfect_snap_pos}). Distance: {perfect_distance:.4f}"
+        )
 
         # Verify the cursor_point was updated to the snapped position (or very close)
         # The cursor_point should reflect the snapped position
-        cursor_to_snap_distance = Vector2.from_vector3(cursor_pos_after_move).distance(Vector2.from_vector3(snapped_pos))
+        cursor_to_snap_distance = Vector2.from_vector3(cursor_pos_after_move).distance(
+            Vector2.from_vector3(snapped_pos)
+        )
 
         assert cursor_to_snap_distance < 0.5, (
             f"Cursor point ({cursor_pos_after_move}) should be close to snapped position "
@@ -8324,7 +8732,9 @@ def test_snap_threshold_and_behavior(qtbot: QtBot, builder_no_kits: IndoorMapBui
     pytest.skip("No modules with components found")
 
 
-def test_drag_room_with_mouse_actually_moves(qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation):
+def test_drag_room_with_mouse_actually_moves(
+    qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation
+):
     """Test actually dragging a placed ModuleKit room using mouse events."""
     builder = builder_no_kits
     renderer = builder.ui.mapRenderer
@@ -8507,7 +8917,10 @@ def test_drag_room_with_mouse_actually_moves(qtbot: QtBot, builder_no_kits: Indo
         # Each move should trigger mouseMoveEvent which updates room position
         steps = 10
         for step in range(1, steps + 1):
-            intermediate = QPoint(click_point.x() + (drag_end.x() - click_point.x()) * step // steps, click_point.y() + (drag_end.y() - click_point.y()) * step // steps)
+            intermediate = QPoint(
+                click_point.x() + (drag_end.x() - click_point.x()) * step // steps,
+                click_point.y() + (drag_end.y() - click_point.y()) * step // steps,
+            )
             qtbot.mouseMove(renderer, pos=intermediate)
             QApplication.processEvents()
             QApplication.processEvents()
@@ -8519,7 +8932,9 @@ def test_drag_room_with_mouse_actually_moves(qtbot: QtBot, builder_no_kits: Indo
 
         # Verify room position changed during drag
         pos_during_drag = copy(room.position)
-        drag_moved = Vector2.from_vector3(initial_pos).distance(Vector2.from_vector3(pos_during_drag))
+        drag_moved = Vector2.from_vector3(initial_pos).distance(
+            Vector2.from_vector3(pos_during_drag)
+        )
 
         # If room didn't move during drag, the drag mechanism isn't working
         # This could be because the mouse move isn't triggering the drag update
@@ -8563,7 +8978,11 @@ def test_drag_room_with_mouse_actually_moves(qtbot: QtBot, builder_no_kits: Indo
 
 
 def test_drag_from_modulekit_verify_geometry_no_black_areas(
-    self, qtbot: QtBot, builder_no_kits: IndoorMapBuilder, installation: HTInstallation, real_kit_component: KitComponent
+    self,
+    qtbot: QtBot,
+    builder_no_kits: IndoorMapBuilder,
+    installation: HTInstallation,
+    real_kit_component: KitComponent,
 ):
     """CRITICAL: Test dragging a room from ModuleKIT component list using actual mouse/keyboard in headless UI.
 
@@ -8650,7 +9069,9 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
     assert current_item is not None, "Component should be selected"
 
     item_rect = component_list.visualItemRect(current_item)
-    list_center = QPoint(item_rect.x() + item_rect.width() // 2, item_rect.y() + item_rect.height() // 2)
+    list_center = QPoint(
+        item_rect.x() + item_rect.width() // 2, item_rect.y() + item_rect.height() // 2
+    )
 
     # Ensure list center is within widget bounds
     list_center.setX(max(5, min(list_center.x(), component_list.width() - 5)))
@@ -8668,7 +9089,8 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
     steps = 5
     for step in range(1, steps + 1):
         intermediate = QPoint(
-            list_center.x() + (renderer_center.x() - list_center.x()) * step // steps, list_center.y() + (renderer_center.y() - list_center.y()) * step // steps
+            list_center.x() + (renderer_center.x() - list_center.x()) * step // steps,
+            list_center.y() + (renderer_center.y() - list_center.y()) * step // steps,
         )
         qtbot.mouseMove(component_list, pos=intermediate)
         QApplication.processEvents()
@@ -8709,7 +9131,9 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
 
     # Convert to QImage for pixel access
     rendered_image = pixmap.toImage()
-    assert rendered_image.width() > 0 and rendered_image.height() > 0, "Rendered image should have dimensions"
+    assert rendered_image.width() > 0 and rendered_image.height() > 0, (
+        "Rendered image should have dimensions"
+    )
 
     # STEP 3: Get room bounds in screen coordinates
     bwm = room.component.bwm
@@ -8741,10 +9165,18 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
     bottom_right_screen = renderer.to_render_coords(world_max_x, world_min_y)
 
     # Ensure coordinates are within image bounds and properly ordered
-    min_x = max(0, min(int(top_left_screen.x), int(bottom_right_screen.x), rendered_image.width() - 1))
-    max_x = max(0, min(int(bottom_right_screen.x), int(top_left_screen.x), rendered_image.width() - 1))
-    min_y = max(0, min(int(top_left_screen.y), int(bottom_right_screen.y), rendered_image.height() - 1))
-    max_y = max(0, min(int(bottom_right_screen.y), int(top_left_screen.y), rendered_image.height() - 1))
+    min_x = max(
+        0, min(int(top_left_screen.x), int(bottom_right_screen.x), rendered_image.width() - 1)
+    )
+    max_x = max(
+        0, min(int(bottom_right_screen.x), int(top_left_screen.x), rendered_image.width() - 1)
+    )
+    min_y = max(
+        0, min(int(top_left_screen.y), int(bottom_right_screen.y), rendered_image.height() - 1)
+    )
+    max_y = max(
+        0, min(int(bottom_right_screen.y), int(top_left_screen.y), rendered_image.height() - 1)
+    )
 
     # Ensure we have valid bounds (not all the same)
     if min_x == max_x:
@@ -8776,7 +9208,10 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
             pixel = rendered_image.pixel(px, py)
 
             # Extract RGB values
-            if rendered_image.format() == QImage.Format.Format_RGB32 or rendered_image.format() == QImage.Format.Format_ARGB32:
+            if (
+                rendered_image.format() == QImage.Format.Format_RGB32
+                or rendered_image.format() == QImage.Format.Format_ARGB32
+            ):
                 r = (pixel >> 16) & 0xFF
                 g = (pixel >> 8) & 0xFF
                 b = pixel & 0xFF
@@ -8801,7 +9236,11 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
 
     for face in faces_to_check:
         # Calculate face center in world coordinates
-        face_center_world = Vector3((face.v1.x + face.v2.x + face.v3.x) / 3.0, (face.v1.y + face.v2.y + face.v3.y) / 3.0, (face.v1.z + face.v2.z + face.v3.z) / 3.0)
+        face_center_world = Vector3(
+            (face.v1.x + face.v2.x + face.v3.x) / 3.0,
+            (face.v1.y + face.v2.y + face.v3.y) / 3.0,
+            (face.v1.z + face.v2.z + face.v3.z) / 3.0,
+        )
 
         # Transform to screen coordinates
         face_center_screen = renderer.to_render_coords(face_center_world.x, face_center_world.y)
@@ -8840,7 +9279,9 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
     )
 
     # STEP 5: Verify connectors and snap functionality
-    assert len(room.hooks) == len(component_with_hooks.hooks), "Room hooks should match component hooks"
+    assert len(room.hooks) == len(component_with_hooks.hooks), (
+        "Room hooks should match component hooks"
+    )
 
     # Test snap functionality by moving cursor near a hook
     hook: KitComponentHook = component_with_hooks.hooks[0]
@@ -8850,7 +9291,11 @@ def test_drag_from_modulekit_verify_geometry_no_black_areas(
     snap_threshold: float = max(3.0, 5.0 / renderer._cam_scale)
 
     # Position cursor within snap threshold of hook
-    snap_test_pos = Vector3(hook_world_pos.x + snap_threshold * 0.5, hook_world_pos.y + snap_threshold * 0.5, hook_world_pos.z)
+    snap_test_pos = Vector3(
+        hook_world_pos.x + snap_threshold * 0.5,
+        hook_world_pos.y + snap_threshold * 0.5,
+        hook_world_pos.z,
+    )
 
     snap_screen = renderer.to_render_coords(snap_test_pos.x, snap_test_pos.y)
     snap_screen_x = max(10, min(int(snap_screen.x), renderer.width() - 10))

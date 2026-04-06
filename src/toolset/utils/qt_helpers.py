@@ -30,7 +30,11 @@ def print_qt_object(  # noqa: C901
     ):
         print(f"{obj_name} Attributes:")
         for attr in dir(obj):
-            if not attr.startswith(("_", "set")) and not callable(getattr(obj, attr)) and attr not in exclude_attrs:
+            if (
+                not attr.startswith(("_", "set"))
+                and not callable(getattr(obj, attr))
+                and attr not in exclude_attrs
+            ):
                 try:
                     print(f"  {attr}: {getattr(obj, attr)}")
                 except Exception as ex:  # noqa: BLE001
@@ -39,7 +43,9 @@ def print_qt_object(  # noqa: C901
     def byte_array_to_hex(byte_array: QByteArray) -> str:
         return "".join(f"{b:02x}" for b in byte_array.data())
 
-    exclude_classes_list: list[type] = [QObject, QEvent, object] if exclude_classes is None else list(exclude_classes)
+    exclude_classes_list: list[type] = (
+        [QObject, QEvent, object] if exclude_classes is None else list(exclude_classes)
+    )
     exclude_attrs: set[str] = get_base_class_attributes(exclude_classes_list)
     print_filtered_attributes(obj, "Event", exclude_attrs)
 

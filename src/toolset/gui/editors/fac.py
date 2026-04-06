@@ -239,8 +239,16 @@ class FACEditor(Editor):
     def refresh_reputation_item(self, rep_item: QStandardItem):
         """Update the reputation item's display text."""
         rep: FACReputation = rep_item.data()
-        faction1_name = self._fac.factions[rep.faction_id1].name if rep.faction_id1 < len(self._fac.factions) else f"Faction{rep.faction_id1}"
-        faction2_name = self._fac.factions[rep.faction_id2].name if rep.faction_id2 < len(self._fac.factions) else f"Faction{rep.faction_id2}"
+        faction1_name = (
+            self._fac.factions[rep.faction_id1].name
+            if rep.faction_id1 < len(self._fac.factions)
+            else f"Faction{rep.faction_id1}"
+        )
+        faction2_name = (
+            self._fac.factions[rep.faction_id2].name
+            if rep.faction_id2 < len(self._fac.factions)
+            else f"Faction{rep.faction_id2}"
+        )
 
         # Determine relationship text
         if rep.reputation <= 10:
@@ -266,10 +274,14 @@ class FACEditor(Editor):
             self.ui.factionNameEdit.blockSignals(False)
             self.ui.globalEffectCheck.setChecked(faction.global_effect)
             self.ui.parentIdSpin.blockSignals(True)
-            self.ui.parentIdSpin.setValue(faction.parent_id if faction.parent_id != 0xFFFFFFFF else 0)
+            self.ui.parentIdSpin.setValue(
+                faction.parent_id if faction.parent_id != 0xFFFFFFFF else 0
+            )
             self.ui.parentIdSpin.blockSignals(False)
 
-    def on_reputation_selection_changed(self, selection: QItemSelection, deselected: QItemSelection):
+    def on_reputation_selection_changed(
+        self, selection: QItemSelection, deselected: QItemSelection
+    ):
         """Handle reputation tree selection change."""
         QTreeView.selectionChanged(self.ui.reputationTree, selection, deselected)  # type: ignore[call-overload]
 
@@ -338,8 +350,12 @@ class FACEditor(Editor):
         menu = QMenu(self)
 
         if item:
-            menu.addAction("Remove Reputation").triggered.connect(lambda: self.remove_reputation(item))
-        menu.addAction("Add Reputation").triggered.connect(lambda: self.add_reputation(FACReputation()))
+            menu.addAction("Remove Reputation").triggered.connect(
+                lambda: self.remove_reputation(item)
+            )
+        menu.addAction("Add Reputation").triggered.connect(
+            lambda: self.add_reputation(FACReputation())
+        )
 
         viewport = self.ui.reputationTree.viewport()
         if viewport is not None:
@@ -374,7 +390,11 @@ class FACEditor(Editor):
         to_remove = [
             rep_item
             for rep_item in self._get_all_model_items(self._reputation_model)
-            if rep_item is not None and (rep_item.data().faction_id1 == faction_id or rep_item.data().faction_id2 == faction_id)
+            if rep_item is not None
+            and (
+                rep_item.data().faction_id1 == faction_id
+                or rep_item.data().faction_id2 == faction_id
+            )
         ]
         for rep_item in to_remove:
             if rep_item is not None:
@@ -392,6 +412,7 @@ class FACEditor(Editor):
         reputation: FACReputation = rep_item.data()
         self._reputation_model.removeRow(rep_item.row())
         self._fac.reputations.remove(reputation)
+
 
 if __name__ == "__main__":
     import sys

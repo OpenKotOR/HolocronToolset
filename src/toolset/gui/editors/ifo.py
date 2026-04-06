@@ -12,7 +12,6 @@ from pykotor.common.misc import ResRef
 from pykotor.resource.formats.gff import write_gff
 from pykotor.resource.generics.ifo import IFO, dismantle_ifo, read_ifo
 from pykotor.resource.type import ResourceType
-from toolset.gui.common.filters import NoScrollEventFilter
 from toolset.gui.common.localization import translate as tr
 from toolset.gui.editor import Editor
 
@@ -213,7 +212,9 @@ class IFOEditor(Editor):
                 enable_reference_search=True,
                 reference_search_type="script",
             )
-            self._append_reference_tooltip(field, tr("Right-click to find references to this script in the installation."))
+            self._append_reference_tooltip(
+                field, tr("Right-click to find references to this script in the installation.")
+            )
             # Set maxLength for FilterComboBox script fields (ResRefs are max 16 characters)
             line_edit: QLineEdit | None = field.lineEdit() if hasattr(field, "lineEdit") else None
             if line_edit is not None:
@@ -222,7 +223,10 @@ class IFOEditor(Editor):
         # Populate script combo boxes with available scripts
         relevant_scripts: list[str] = sorted(
             iter(
-                {res.resname().lower() for res in installation.get_relevant_resources(ResourceType.NCS, self._filepath)},
+                {
+                    res.resname().lower()
+                    for res in installation.get_relevant_resources(ResourceType.NCS, self._filepath)
+                },
             ),
         )
 
@@ -338,7 +342,9 @@ class IFOEditor(Editor):
             self.ui.descriptionEdit.set_locstring(self.ifo.description)
 
             # Module ID (read-only, display as hex)
-            mod_id_str = " ".join(f"{b:02x}" for b in self.ifo.mod_id[:16]) if self.ifo.mod_id else ""
+            mod_id_str = (
+                " ".join(f"{b:02x}" for b in self.ifo.mod_id[:16]) if self.ifo.mod_id else ""
+            )
             self.ui.modIdEdit.setText(mod_id_str)
 
             # Creator ID and Version (deprecated)
@@ -447,6 +453,7 @@ class IFOEditor(Editor):
 
         # TODO: determine if this is needed
         # self.signal_modified.emit()
+
 
 class _RadianSpinAdapter:
     """Compatibility shim that exposes a radian API over a degree-based spin box."""

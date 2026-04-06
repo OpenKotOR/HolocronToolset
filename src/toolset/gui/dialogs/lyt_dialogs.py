@@ -54,10 +54,14 @@ class RoomPropertiesDialog(QDialog):
 
             # Update room properties
             self.room.model = model
-            self.room.position = Vector3(self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value())
+            self.room.position = Vector3(
+                self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value()
+            )
             super().accept()
         except Exception as e:
-            QMessageBox.critical(self, tr("Error"), trf("Failed to update room properties: {error}", error=str(e)))
+            QMessageBox.critical(
+                self, tr("Error"), trf("Failed to update room properties: {error}", error=str(e))
+            )
 
 
 class TrackPropertiesDialog(QDialog):
@@ -103,12 +107,16 @@ class TrackPropertiesDialog(QDialog):
 
             # Update track properties
             self.track.model = model
-            self.track.position = Vector3(self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value())
+            self.track.position = Vector3(
+                self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value()
+            )
             super().accept()
         except Exception as e:
             from toolset.gui.common.localization import translate as tr, trf
 
-            QMessageBox.critical(self, tr("Error"), trf("Failed to update track properties: {error}", error=str(e)))
+            QMessageBox.critical(
+                self, tr("Error"), trf("Failed to update track properties: {error}", error=str(e))
+            )
 
 
 class ObstaclePropertiesDialog(QDialog):
@@ -153,12 +161,18 @@ class ObstaclePropertiesDialog(QDialog):
 
             # Update obstacle properties
             self.obstacle.model = model
-            self.obstacle.position = Vector3(self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value())
+            self.obstacle.position = Vector3(
+                self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value()
+            )
             super().accept()
         except Exception as e:
             from toolset.gui.common.localization import translate as tr, trf
 
-            QMessageBox.critical(self, tr("Error"), trf("Failed to update obstacle properties: {error}", error=str(e)))
+            QMessageBox.critical(
+                self,
+                tr("Error"),
+                trf("Failed to update obstacle properties: {error}", error=str(e)),
+            )
 
 
 class DoorHookPropertiesDialog(QDialog):
@@ -200,18 +214,26 @@ class DoorHookPropertiesDialog(QDialog):
             room = self.ui.roomInput.text().strip()
             door = self.ui.doorInput.text().strip()
             if not room or not door:
-                QMessageBox.warning(self, tr("Invalid Input"), tr("Room and door names cannot be empty."))
+                QMessageBox.warning(
+                    self, tr("Invalid Input"), tr("Room and door names cannot be empty.")
+                )
                 return
 
             # Update doorhook properties
             self.doorhook.room = room
             self.doorhook.door = door
-            self.doorhook.position = Vector3(self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value())
+            self.doorhook.position = Vector3(
+                self.ui.xSpin.value(), self.ui.ySpin.value(), self.ui.zSpin.value()
+            )
             super().accept()
         except Exception as e:
             from toolset.gui.common.localization import translate as tr, trf
 
-            QMessageBox.critical(self, tr("Error"), trf("Failed to update door hook properties: {error}", error=str(e)))
+            QMessageBox.critical(
+                self,
+                tr("Error"),
+                trf("Failed to update door hook properties: {error}", error=str(e)),
+            )
 
 
 class AddRoomDialog(QDialog):

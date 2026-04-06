@@ -12,7 +12,13 @@ from utility.gui.qt.widgets.widgets.combobox import (
     filter_line_edit_key_press_event as filterLineEditKeyPressEvent,
 )
 
-__all__ = ["FilterComboBox", "FilterProxyModel", "ButtonDelegate", "filterLineEditKeyPressEvent", "CustomListView"]
+__all__ = [
+    "FilterComboBox",
+    "FilterProxyModel",
+    "ButtonDelegate",
+    "filterLineEditKeyPressEvent",
+    "CustomListView",
+]
 
 
 if __name__ == "__main__":

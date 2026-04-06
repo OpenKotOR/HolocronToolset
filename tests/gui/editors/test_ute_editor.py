@@ -24,7 +24,9 @@ from pykotor.common.misc import ResRef  # type: ignore[import-not-found]
 # ============================================================================
 
 
-def test_ute_editor_manipulate_name_locstring(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_name_locstring(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating name LocalizedString field."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -45,11 +47,16 @@ def test_ute_editor_manipulate_name_locstring(qtbot, installation: HTInstallatio
     data, _ = editor.build()
     modified_ute = read_ute(data)
     assert modified_ute.name.get(Language.ENGLISH, Gender.MALE) == "Modified Encounter Name"
-    assert modified_ute.name.get(Language.ENGLISH, Gender.MALE) != original_ute.name.get(Language.ENGLISH, Gender.MALE)
+    assert modified_ute.name.get(Language.ENGLISH, Gender.MALE) != original_ute.name.get(
+        Language.ENGLISH, Gender.MALE
+    )
 
     # Load back and verify
     editor.load(ute_file, "newtransition", ResourceType.UTE, data)
-    assert editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Encounter Name"
+    assert (
+        editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE)
+        == "Modified Encounter Name"
+    )
 
 
 def test_ute_editor_manipulate_tag(qtbot, installation: HTInstallation, test_files_dir: Path):
@@ -104,7 +111,9 @@ def test_ute_editor_manipulate_resref(qtbot, installation: HTInstallation, test_
     assert editor.ui.resrefEdit.text() == "modified_resref"
 
 
-def test_ute_editor_manipulate_difficulty(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_difficulty(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating difficulty combo box."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -131,7 +140,9 @@ def test_ute_editor_manipulate_difficulty(qtbot, installation: HTInstallation, t
             assert editor.ui.difficultySelect.currentIndex() == i
 
 
-def test_ute_editor_manipulate_spawn_select(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_spawn_select(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating spawn select (single shot/continuous)."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -157,7 +168,9 @@ def test_ute_editor_manipulate_spawn_select(qtbot, installation: HTInstallation,
         assert editor.ui.spawnSelect.currentIndex() == i
 
 
-def test_ute_editor_manipulate_creature_counts(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_creature_counts(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating min/max creature count spin boxes."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -191,7 +204,9 @@ def test_ute_editor_manipulate_creature_counts(qtbot, installation: HTInstallati
 # ============================================================================
 
 
-def test_ute_editor_manipulate_active_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_active_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating active checkbox."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -215,7 +230,9 @@ def test_ute_editor_manipulate_active_checkbox(qtbot, installation: HTInstallati
     assert not modified_ute.active
 
 
-def test_ute_editor_manipulate_player_only_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_player_only_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating player only checkbox."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -262,7 +279,9 @@ def test_ute_editor_manipulate_faction(qtbot, installation: HTInstallation, test
             assert modified_ute.faction_id == i
 
 
-def test_ute_editor_manipulate_respawns_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_respawns_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating respawns checkbox."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -286,7 +305,9 @@ def test_ute_editor_manipulate_respawns_checkbox(qtbot, installation: HTInstalla
     assert not modified_ute.reset
 
 
-def test_ute_editor_manipulate_infinite_respawn_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_infinite_respawn_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating infinite respawn checkbox."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -314,7 +335,9 @@ def test_ute_editor_manipulate_infinite_respawn_checkbox(qtbot, installation: HT
     assert editor.ui.respawnCountSpin.isEnabled()
 
 
-def test_ute_editor_manipulate_respawn_counts(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_respawn_counts(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating respawn count and time spin boxes."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -392,7 +415,9 @@ def test_ute_editor_remove_creature(qtbot, installation: HTInstallation, test_fi
     editor.load(ute_file, "newtransition", ResourceType.UTE, ute_file.read_bytes())
 
     # Add a creature first
-    editor.add_creature(resname="test_creature_remove", appearance_id=1, challenge=2.0, single=False)
+    editor.add_creature(
+        resname="test_creature_remove", appearance_id=1, challenge=2.0, single=False
+    )
     QApplication.processEvents()
 
     initial_rows = editor.ui.creatureTable.rowCount()
@@ -413,7 +438,9 @@ def test_ute_editor_remove_creature(qtbot, installation: HTInstallation, test_fi
     assert editor.ui.creatureTable.rowCount() == initial_rows - 1
 
 
-def test_ute_editor_modify_creature_properties(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_modify_creature_properties(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test modifying creature properties in the table."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -477,7 +504,9 @@ def test_ute_editor_multiple_creatures(qtbot, installation: HTInstallation, test
 
     # Add multiple creatures
     for i in range(5):
-        editor.add_creature(resname=f"creature_{i}", appearance_id=i, challenge=float(i), single=(i % 2 == 0))
+        editor.add_creature(
+            resname=f"creature_{i}", appearance_id=i, challenge=float(i), single=(i % 2 == 0)
+        )
         QApplication.processEvents()
 
     # Verify all were added
@@ -494,7 +523,9 @@ def test_ute_editor_multiple_creatures(qtbot, installation: HTInstallation, test
 # ============================================================================
 
 
-def test_ute_editor_manipulate_on_enter_script(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_on_enter_script(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on enter script field."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -515,7 +546,9 @@ def test_ute_editor_manipulate_on_enter_script(qtbot, installation: HTInstallati
     assert str(modified_ute.on_entered) == "test_on_enter"
 
 
-def test_ute_editor_manipulate_on_exit_script(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_on_exit_script(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on exit script field."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -536,7 +569,9 @@ def test_ute_editor_manipulate_on_exit_script(qtbot, installation: HTInstallatio
     assert str(modified_ute.on_exit) == "test_on_exit"
 
 
-def test_ute_editor_manipulate_on_exhausted_script(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_on_exhausted_script(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on exhausted script field."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -557,7 +592,9 @@ def test_ute_editor_manipulate_on_exhausted_script(qtbot, installation: HTInstal
     assert str(modified_ute.on_exhausted) == "test_onexhausted"
 
 
-def test_ute_editor_manipulate_on_heartbeat_script(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_on_heartbeat_script(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on heartbeat script field."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -578,7 +615,9 @@ def test_ute_editor_manipulate_on_heartbeat_script(qtbot, installation: HTInstal
     assert str(modified_ute.on_heartbeat) == "test_heartbeat"
 
 
-def test_ute_editor_manipulate_on_user_defined_script(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_on_user_defined_script(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on user defined script field."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -599,7 +638,9 @@ def test_ute_editor_manipulate_on_user_defined_script(qtbot, installation: HTIns
     assert str(modified_ute.on_user_defined) == "test_userdefined"
 
 
-def test_ute_editor_manipulate_all_scripts(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_all_scripts(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all script fields."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -673,7 +714,9 @@ def test_ute_editor_manipulate_comments(qtbot, installation: HTInstallation, tes
 # ============================================================================
 
 
-def test_ute_editor_manipulate_all_basic_fields_combination(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_all_basic_fields_combination(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all basic fields simultaneously."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -707,7 +750,9 @@ def test_ute_editor_manipulate_all_basic_fields_combination(qtbot, installation:
     assert modified_ute.max_creatures == 5
 
 
-def test_ute_editor_manipulate_all_advanced_fields_combination(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_manipulate_all_advanced_fields_combination(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all advanced fields simultaneously."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -745,7 +790,9 @@ def test_ute_editor_manipulate_all_advanced_fields_combination(qtbot, installati
 # ============================================================================
 
 
-def test_ute_editor_save_load_roundtrip_identity(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_save_load_roundtrip_identity(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -777,7 +824,9 @@ def test_ute_editor_save_load_roundtrip_identity(qtbot, installation: HTInstalla
     assert editor.ui.resrefEdit.text() == str(original_ute.resref)
 
 
-def test_ute_editor_save_load_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_save_load_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -826,7 +875,9 @@ def test_ute_editor_save_load_roundtrip_with_modifications(qtbot, installation: 
     assert saved_ute2.comment == saved_ute1.comment
 
 
-def test_ute_editor_multiple_save_load_cycles(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_multiple_save_load_cycles(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -957,7 +1008,9 @@ def test_ute_editor_empty_strings(qtbot, installation: HTInstallation, test_file
     assert str(modified_ute.on_exhausted) == ""
 
 
-def test_ute_editor_special_characters_in_text_fields(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_special_characters_in_text_fields(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in text fields."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -989,7 +1042,9 @@ def test_ute_editor_special_characters_in_text_fields(qtbot, installation: HTIns
 # ============================================================================
 
 
-def test_ute_editor_gff_roundtrip_comparison(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_gff_roundtrip_comparison(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip comparison like resource tests."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1017,7 +1072,9 @@ def test_ute_editor_gff_roundtrip_comparison(qtbot, installation: HTInstallation
     assert diff, f"GFF comparison failed:\n{chr(10).join(log_messages)}"
 
 
-def test_ute_editor_gff_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_gff_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1133,7 +1190,9 @@ def test_ute_editor_generate_tag_button(qtbot, installation: HTInstallation, tes
     assert generated_tag
 
 
-def test_ute_editor_generate_resref_button(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_generate_resref_button(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test resref generation button functionality."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1177,7 +1236,9 @@ def test_ute_editor_add_creature_button(qtbot, installation: HTInstallation, tes
     assert editor.ui.creatureTable.rowCount() == initial_rows + 1
 
 
-def test_ute_editor_remove_creature_button(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ute_editor_remove_creature_button(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test remove creature button functionality."""
     editor = UTEEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1237,7 +1298,9 @@ def test_uteeditor_editor_help_dialog_opens_correct_file(qtbot, installation: HT
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-UTE.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-UTE.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"

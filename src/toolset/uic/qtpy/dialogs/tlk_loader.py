@@ -15,7 +15,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(200, 40)
-        Dialog.setWindowFlags(QtCore.Qt.Dialog|QtCore.Qt.WindowCloseButtonHint)
+        Dialog.setWindowFlags(QtCore.Qt.Dialog | QtCore.Qt.WindowCloseButtonHint)
         self.mainLayout = QtWidgets.QVBoxLayout(Dialog)
         self.mainLayout.setContentsMargins(9, 9, 9, 9)
         self.mainLayout.setSpacing(0)

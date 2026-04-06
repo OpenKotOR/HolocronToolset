@@ -95,7 +95,9 @@ class NoScrollEventFilter(QObject):
 
         parent_widget: QObject | None = obj.parent()
         self_parent: QObject | None = self.parent()
-        while parent_widget is not None and (not isinstance(parent_widget, self_parent.__class__) or self_parent.__class__ == QObject):
+        while parent_widget is not None and (
+            not isinstance(parent_widget, self_parent.__class__) or self_parent.__class__ == QObject
+        ):
             parent_widget: QObject | None = parent_widget.parent()
         if parent_widget:
             QApplication.sendEvent(parent_widget, event)
@@ -108,7 +110,14 @@ class NoScrollEventFilter(QObject):
     ) -> None:
         """Recursively install event filters on all child widgets."""
         if include_types is None:
-            include_types = [QComboBox, QSlider, QSpinBox, QGroupBox, QAbstractSpinBox, QDoubleSpinBox]
+            include_types = [
+                QComboBox,
+                QSlider,
+                QSpinBox,
+                QGroupBox,
+                QAbstractSpinBox,
+                QDoubleSpinBox,
+            ]
 
         parent_widget = self.parent() if parent_widget is None else parent_widget
         if parent_widget is None:
@@ -148,9 +157,13 @@ class HoverEventFilter(QObject):
         elif event_type == QEvent.Type.HoverLeave:
             if self.current_widget == obj:
                 self.current_widget = None
-        elif event_type == QEvent.Type.KeyPress and cast("QKeyEvent", event).key() == self.debug_key:
+        elif (
+            event_type == QEvent.Type.KeyPress and cast("QKeyEvent", event).key() == self.debug_key
+        ):
             if self.current_widget:
-                print(f"Hovered control: {self.current_widget.__class__.__name__} ({self.current_widget.objectName()})")
+                print(
+                    f"Hovered control: {self.current_widget.__class__.__name__} ({self.current_widget.objectName()})"
+                )
             else:
                 print("No control is currently hovered.")
         return super().eventFilter(obj, event)

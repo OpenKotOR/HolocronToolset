@@ -66,7 +66,9 @@ class Ui_Dialog(object):
         self.mainLayout.addWidget(self.updateLatestButton)
         self.currentVersionLayout = QtWidgets.QHBoxLayout()
         self.currentVersionLayout.setObjectName("currentVersionLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.currentVersionLayout.addItem(spacerItem)
         self.currentVersionLabel = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
@@ -75,7 +77,9 @@ class Ui_Dialog(object):
         self.currentVersionLabel.setFont(font)
         self.currentVersionLabel.setObjectName("currentVersionLabel")
         self.currentVersionLayout.addWidget(self.currentVersionLabel)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.currentVersionLayout.addItem(spacerItem1)
         self.mainLayout.addLayout(self.currentVersionLayout)
 

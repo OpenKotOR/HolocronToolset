@@ -35,9 +35,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.horizontalLayout.addWidget(self.tabWidget)
         self.textDisplay = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textDisplay.setStyleSheet("QTextBrowser {\n"
-"        font-size: 13px;\n"
-"        }")
+        self.textDisplay.setStyleSheet("QTextBrowser {\n        font-size: 13px;\n        }")
         self.textDisplay.setObjectName("textDisplay")
         self.horizontalLayout.addWidget(self.textDisplay)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -49,14 +47,21 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Help Book"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Contents"))
-        self.textDisplay.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
-"        \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"        <html><head><meta name=\"qrichtext\" content=\"1\"\n"
-"        /><style type=\"text/css\">\n"
-"        p, li { white-space: pre-wrap; }\n"
-"        </style></head><body style=\" font-family:\'MS Shell Dlg 2\';\n"
-"        font-size:13px; font-weight:400; font-style:normal;\">\n"
-"        <p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px;\n"
-"        margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\n"
-"        font-size:30px;\"><br /></p></body></html>"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Contents")
+        )
+        self.textDisplay.setHtml(
+            _translate(
+                "MainWindow",
+                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"\n'
+                '        "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
+                '        <html><head><meta name="qrichtext" content="1"\n'
+                '        /><style type="text/css">\n'
+                "        p, li { white-space: pre-wrap; }\n"
+                "        </style></head><body style=\" font-family:'MS Shell Dlg 2';\n"
+                '        font-size:13px; font-weight:400; font-style:normal;">\n'
+                '        <p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px;\n'
+                "        margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\n"
+                '        font-size:30px;"><br /></p></body></html>',
+            )
+        )

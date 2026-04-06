@@ -124,7 +124,9 @@ class ResourceList(MainWindowList):
         self.setup_signals()
 
         self.modules_model: ResourceModel = ResourceModel()
-        self.modules_model.proxy_model().setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.modules_model.proxy_model().setFilterCaseSensitivity(
+            Qt.CaseSensitivity.CaseInsensitive
+        )
         self.ui.resourceTree.setModel(self.modules_model.proxy_model())
         self.ui.resourceTree.sortByColumn(0, Qt.SortOrder.AscendingOrder)
         self.section_model: QStandardItemModel = QStandardItemModel()
@@ -193,7 +195,9 @@ class ResourceList(MainWindowList):
     ):
         all_resources: list[ResourceStandardItem] = self.modules_model.all_resources_items()
         resource_set: set[FileResource] = set(resources)
-        resource_item_map: dict[FileResource, ResourceStandardItem] = {item.resource: item for item in all_resources}
+        resource_item_map: dict[FileResource, ResourceStandardItem] = {
+            item.resource: item for item in all_resources
+        }
 
         # Batch new resources for efficient addition
         new_resources: list[FileResource] = []
@@ -231,7 +235,9 @@ class ResourceList(MainWindowList):
         self,
         resource: FileResource,
     ):
-        model: QAbstractItemModel = cast("QSortFilterProxyModel", self.ui.resourceTree.model()).sourceModel()  # type: ignore[attribute-access]
+        model: QAbstractItemModel = cast(
+            "QSortFilterProxyModel", self.ui.resourceTree.model()
+        ).sourceModel()  # type: ignore[attribute-access]
         if not isinstance(model, ResourceModel):
             RobustLogger().warning("Could not find model for resource list")
             return
@@ -320,12 +326,20 @@ class ResourceList(MainWindowList):
 
         open_action = menu.addAction("Open")
         assert open_action is not None, "Open action is None"
-        open_action.triggered.connect(lambda checked=False, res=local_resources: self.sig_request_open_resource.emit(res, True))
+        open_action.triggered.connect(
+            lambda checked=False, res=local_resources: self.sig_request_open_resource.emit(
+                res, True
+            )
+        )
 
         if all(resource.restype().contents == "gff" for resource in resources):
             gff_action = menu.addAction("Open with GFF Editor")
             assert gff_action is not None, "GFF action is None"
-            gff_action.triggered.connect(lambda checked=False, res=local_resources: self.sig_request_open_resource.emit(res, False))
+            gff_action.triggered.connect(
+                lambda checked=False, res=local_resources: self.sig_request_open_resource.emit(
+                    res, False
+                )
+            )
 
         # Add save-specific context menu items if this is a save resource
         # Check if this resource list is from the saves widget by checking parent
@@ -451,13 +465,17 @@ class ResourceList(MainWindowList):
         """Show the tooltip when the mouse moves over a resource."""
         proxy_index: QModelIndex = self.ui.resourceTree.indexAt(event.pos())  # type: ignore[arg-type]
         if proxy_index.isValid():
-            src_index: QModelIndex = cast("QSortFilterProxyModel", self.ui.resourceTree.model()).mapToSource(proxy_index)  # pyright: ignore[reportArgumentType]
+            src_index: QModelIndex = cast(
+                "QSortFilterProxyModel", self.ui.resourceTree.model()
+            ).mapToSource(proxy_index)  # pyright: ignore[reportArgumentType]
             item: ResourceStandardItem | QStandardItem | None = cast(
                 "QStandardItemModel",
                 cast("QSortFilterProxyModel", self.ui.resourceTree.model()).sourceModel(),
             ).itemFromIndex(src_index)
             if isinstance(item, ResourceStandardItem):
-                QToolTip.showText(QCursor.pos(), str(item.resource.filepath()), self.ui.resourceTree)
+                QToolTip.showText(
+                    QCursor.pos(), str(item.resource.filepath()), self.ui.resourceTree
+                )
             else:
                 QToolTip.hideText()
         else:
@@ -491,7 +509,9 @@ class ResourceProxyModel(QSortFilterProxyModel):
         self.filter_string = filter_string.lower()
         self._wildcard_regex = None
         if "*" in self.filter_string or "?" in self.filter_string:
-            self._wildcard_regex = re.compile(self._wildcard_to_regex_pattern(self.filter_string), re.IGNORECASE)
+            self._wildcard_regex = re.compile(
+                self._wildcard_to_regex_pattern(self.filter_string), re.IGNORECASE
+            )
         self.invalidateFilter()
 
     def filterAcceptsRow(
@@ -521,7 +541,9 @@ class ResourceProxyModel(QSortFilterProxyModel):
                 return True
 
             if self._wildcard_regex is not None:
-                return any(self._wildcard_regex.match(value) is not None for value in searchable_values)
+                return any(
+                    self._wildcard_regex.match(value) is not None for value in searchable_values
+                )
 
             if any(value.startswith(self.filter_string) for value in searchable_values):
                 return True
@@ -577,7 +599,9 @@ class ResourceModel(QStandardItemModel):
         resource_type: ResourceType,
         custom_category: str | None = None,
     ) -> QStandardItem:
-        chosen_category: str = resource_type.category if custom_category is None else custom_category
+        chosen_category: str = (
+            resource_type.category if custom_category is None else custom_category
+        )
         if chosen_category not in self._category_items:
             category_item = QStandardItem(chosen_category)
             category_item.setSelectable(False)
@@ -612,14 +636,18 @@ class ResourceModel(QStandardItemModel):
         # Group resources by category
         resources_by_category: dict[str, list[FileResource]] = {}
         for resource in resources:
-            chosen_category: str = resource.restype().category if custom_category is None else custom_category
+            chosen_category: str = (
+                resource.restype().category if custom_category is None else custom_category
+            )
             if chosen_category not in resources_by_category:
                 resources_by_category[chosen_category] = []
             resources_by_category[chosen_category].append(resource)
 
         # Add resources in batches per category
         for category, category_resources in resources_by_category.items():
-            category_item = self._add_resource_into_category(category_resources[0].restype(), custom_category)
+            category_item = self._add_resource_into_category(
+                category_resources[0].restype(), custom_category
+            )
             # Prepare all rows for this category
             rows: list[list[QStandardItem]] = []
             for resource in category_resources:
@@ -642,12 +670,18 @@ class ResourceModel(QStandardItemModel):
         return [
             item.resource
             for index in indexes
-            for item in [self.itemFromIndex(self._proxy_model.mapToSource(index) if proxy else index)]
+            for item in [
+                self.itemFromIndex(self._proxy_model.mapToSource(index) if proxy else index)
+            ]
             if isinstance(item, ResourceStandardItem)
         ]
 
     def all_resources_items(self) -> list[ResourceStandardItem]:
-        resources: tuple[QStandardItem | None, ...] = tuple(category.child(i, 0) for category in self._category_items.values() for i in range(category.rowCount()))
+        resources: tuple[QStandardItem | None, ...] = tuple(
+            category.child(i, 0)
+            for category in self._category_items.values()
+            for i in range(category.rowCount())
+        )
         return [item for item in resources if isinstance(item, ResourceStandardItem)]
 
     def remove_unused_categories(self):
@@ -671,7 +705,9 @@ class TextureList(MainWindowList):
     sig_request_refresh: Signal = Signal()  # pyright: ignore[reportPrivateImportUsage]
     sig_icon_loaded: Signal = Signal(Future)  # pyright: ignore[reportPrivateImportUsage]
 
-    BLANK_IMAGE: QImage = QImage(bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888)
+    BLANK_IMAGE: QImage = QImage(
+        bytes(0 for _ in range(64 * 64 * 3)), 64, 64, QImage.Format.Format_RGB888
+    )
 
     def __init__(
         self,
@@ -694,8 +730,12 @@ class TextureList(MainWindowList):
         self.setup_signals()
 
         self._installation: HTInstallation | None = None
-        self._executor: ProcessPoolExecutor = ProcessPoolExecutor(max_workers=max(1, multiprocessing.cpu_count()))
-        self.texture_source_models: defaultdict[str, QStandardItemModel] = defaultdict(QStandardItemModel)
+        self._executor: ProcessPoolExecutor = ProcessPoolExecutor(
+            max_workers=max(1, multiprocessing.cpu_count())
+        )
+        self.texture_source_models: defaultdict[str, QStandardItemModel] = defaultdict(
+            QStandardItemModel
+        )
         self.textures_proxy_model: QSortFilterProxyModel = QSortFilterProxyModel()
         self.textures_proxy_model.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
 
@@ -735,7 +775,9 @@ class TextureList(MainWindowList):
                 loader.request_shutdown()
                 loader.terminate()
             except Exception:  # noqa: BLE001
-                RobustLogger().exception("Failed to terminate texture loader process during cleanup")
+                RobustLogger().exception(
+                    "Failed to terminate texture loader process during cleanup"
+                )
             self._loader = None
         with contextlib.suppress(Exception):
             self._loadRequestQueue.close()
@@ -777,20 +819,33 @@ class TextureList(MainWindowList):
         self._pending_process_loads.clear()
 
         if TextureLoaderProcess is None:
-            RobustLogger().warning("TextureLoaderProcess is unavailable; texture loading will run on the main process via ProcessPoolExecutor")
+            RobustLogger().warning(
+                "TextureLoaderProcess is unavailable; texture loading will run on the main process via ProcessPoolExecutor"
+            )
             return
 
         # Start new loader process with installation path
         if installation is not None:
             try:
-                self._loader = TextureLoaderProcess(str(installation.path()), installation.tsl, self._loadRequestQueue, self._loadedTextureQueue)
+                self._loader = TextureLoaderProcess(
+                    str(installation.path()),
+                    installation.tsl,
+                    self._loadRequestQueue,
+                    self._loadedTextureQueue,
+                )
                 self._loader.start()
                 # Start polling for results at 60Hz (every ~16ms)
                 self._poll_timer.start(16)
-                RobustLogger().info(f"Started TextureLoader process for installation: {installation.path()}")
+                RobustLogger().info(
+                    f"Started TextureLoader process for installation: {installation.path()}"
+                )
             except PermissionError as perm_exc:
-                RobustLogger().exception(f"Permission error starting TextureLoader process: {perm_exc}")
-                RobustLogger().error("This is a Windows multiprocessing issue. Try running the application as administrator.")
+                RobustLogger().exception(
+                    f"Permission error starting TextureLoader process: {perm_exc}"
+                )
+                RobustLogger().error(
+                    "This is a Windows multiprocessing issue. Try running the application as administrator."
+                )
                 self._loader = None
             except Exception as start_exc:
                 RobustLogger().exception(f"Failed to start TextureLoader process: {start_exc}")
@@ -814,7 +869,9 @@ class TextureList(MainWindowList):
                 RobustLogger().warning(f"No item found for row {source_index.row()}")
                 continue
             if not isinstance(item, ResourceStandardItem):
-                RobustLogger().warning(f"Expected ResourceStandardItem, got {item.__class__.__name__}")
+                RobustLogger().warning(
+                    f"Expected ResourceStandardItem, got {item.__class__.__name__}"
+                )
                 continue
             resource: QStandardItem | None = item.data(Qt.ItemDataRole.UserRole + 1)
             if not isinstance(resource, FileResource):
@@ -852,7 +909,10 @@ class TextureList(MainWindowList):
     def set_sections(self, items: list[QStandardItem]):
         """Set the sections to be displayed in the texture list combobox."""
         print(f"Setting sections for TextureList with {len(items)} items")
-        current_sections: set[str] = {self.ui.sectionCombo.itemData(i, Qt.ItemDataRole.UserRole) for i in range(self.ui.sectionCombo.count())}
+        current_sections: set[str] = {
+            self.ui.sectionCombo.itemData(i, Qt.ItemDataRole.UserRole)
+            for i in range(self.ui.sectionCombo.count())
+        }
         new_sections: set[str] = {item.data(Qt.ItemDataRole.UserRole) for item in items}
 
         # Remove sections that are no longer present
@@ -952,7 +1012,11 @@ class TextureList(MainWindowList):
                 )
             ]
         else:
-            file_filter = "TPC Files (*.tpc);;All Files (*)" if target_format.is_dxt() else "TGA Files (*.tga);;TPC Files (*.tpc);;All Files (*)"
+            file_filter = (
+                "TPC Files (*.tpc);;All Files (*)"
+                if target_format.is_dxt()
+                else "TGA Files (*.tga);;TPC Files (*.tpc);;All Files (*)"
+            )
             filepath, _ = QFileDialog.getSaveFileName(self, "Export Texture", "", file_filter)
             if not filepath or not filepath.strip():
                 return
@@ -962,7 +1026,11 @@ class TextureList(MainWindowList):
             orig_tpc: TPC = read_tpc(item.resource.data())
             tpc: TPC = orig_tpc.copy()
             tpc.convert(target_format)
-            write_tpc(tpc, folderpath / f"{item.resource.resname()}{target_restype.extension}", target_restype)
+            write_tpc(
+                tpc,
+                folderpath / f"{item.resource.resname()}{target_restype.extension}",
+                target_restype,
+            )
 
     @Slot(bool)
     def on_reload_selected(
@@ -989,7 +1057,9 @@ class TextureList(MainWindowList):
             source_index: QModelIndex = self.textures_proxy_model.mapToSource(proxy_index)  # pyright: ignore[reportArgumentType]
             if not source_index.isValid():
                 continue
-            item: QStandardItem | None = self.texture_source_models[section_name].itemFromIndex(source_index)
+            item: QStandardItem | None = self.texture_source_models[section_name].itemFromIndex(
+                source_index
+            )
             if item is None or not isinstance(item, ResourceStandardItem):
                 RobustLogger().warning(f"Expected ResourceStandardItem, got {type(item).__name__}")
                 continue
@@ -1072,7 +1142,9 @@ class TextureList(MainWindowList):
         reload: bool = False,
     ):
         """Queue the loading of an icon for a given item."""
-        assert isinstance(item, ResourceStandardItem), f"Expected ResourceStandardItem, got {type(item).__name__}"
+        assert isinstance(item, ResourceStandardItem), (
+            f"Expected ResourceStandardItem, got {type(item).__name__}"
+        )
         if reload:
             self._loading_resources.discard(item.resource)
         if item.resource in self._loading_resources:
@@ -1093,15 +1165,21 @@ class TextureList(MainWindowList):
                 self._pending_process_loads[context] = item.resource
                 return
             except Exception as e:
-                RobustLogger().warning(f"Failed to queue texture load request: {e}, falling back to executor")
+                RobustLogger().warning(
+                    f"Failed to queue texture load request: {e}, falling back to executor"
+                )
 
         # Fall back to ProcessPoolExecutor
         try:
-            future: Future[tuple[tuple[str, int], TPCMipmap]] = self._executor.submit(get_image_from_resource, context, item.resource, icon_size)
+            future: Future[tuple[tuple[str, int], TPCMipmap]] = self._executor.submit(
+                get_image_from_resource, context, item.resource, icon_size
+            )
         except BrokenProcessPool as e:
             RobustLogger().error("Broken process pool, recreating...", exc_info=e)
             self._executor = ProcessPoolExecutor(max_workers=multiprocessing.cpu_count())
-            future = self._executor.submit(get_image_from_resource, context, item.resource, icon_size)
+            future = self._executor.submit(
+                get_image_from_resource, context, item.resource, icon_size
+            )
         future.add_done_callback(self.sig_icon_loaded.emit)
 
     def _poll_result_queue(self):
@@ -1140,7 +1218,9 @@ class TextureList(MainWindowList):
                 if not src_index.isValid():
                     continue
 
-                item: QStandardItem | None = self.texture_source_models[section_name].itemFromIndex(src_index)
+                item: QStandardItem | None = self.texture_source_models[section_name].itemFromIndex(
+                    src_index
+                )
                 if item is None:
                     continue
 
@@ -1197,7 +1277,9 @@ class TextureList(MainWindowList):
         if not src_index.isValid():
             RobustLogger().warning(f"Invalid source index for row {row}")
             return
-        item: QStandardItem | None = self.texture_source_models[section_name].itemFromIndex(src_index)
+        item: QStandardItem | None = self.texture_source_models[section_name].itemFromIndex(
+            src_index
+        )
         if item is None:
             RobustLogger().warning(f"No item found for row {row}")
             return
@@ -1254,7 +1336,9 @@ def get_image_from_resource(
     try:
         return context, load_resource_preview_mipmap(resource, icon_size)
     except Exception as e:  # noqa: BLE001
-        RobustLogger().warning(f"Failed to build preview icon for resource '{resource.path_ident()!r}': {e}")
+        RobustLogger().warning(
+            f"Failed to build preview icon for resource '{resource.path_ident()!r}': {e}"
+        )
         app_style: QStyle | None = QApplication.style()
         if app_style is not None:
             pixmap: QPixmap = app_style.standardPixmap(QStyle.StandardPixmap.SP_VistaShield)
@@ -1296,7 +1380,9 @@ def on_open_resources(
     from toolset.utils.window import open_resource_editor
 
     for resource in resources:
-        _filepath, _editor = open_resource_editor(resource, active, gff_specialized=GlobalSettings().gffSpecializedEditors)
+        _filepath, _editor = open_resource_editor(
+            resource, active, gff_specialized=GlobalSettings().gffSpecializedEditors
+        )
 
     if resources or isinstance(resource_widget, TextureList):
         return
@@ -1312,5 +1398,9 @@ def on_open_resources(
 
     if not res_ident.restype:
         return
-    erfrim_file_resource = FileResource(res_ident.resname, res_ident.restype, os.path.getsize(erf_filepath), 0x0, erf_filepath)  # noqa: PTH202
-    _filepath, _editor = open_resource_editor(erfrim_file_resource, active, gff_specialized=GlobalSettings().gffSpecializedEditors)
+    erfrim_file_resource = FileResource(
+        res_ident.resname, res_ident.restype, os.path.getsize(erf_filepath), 0x0, erf_filepath
+    )  # noqa: PTH202
+    _filepath, _editor = open_resource_editor(
+        erfrim_file_resource, active, gff_specialized=GlobalSettings().gffSpecializedEditors
+    )

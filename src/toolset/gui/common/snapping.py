@@ -32,7 +32,9 @@ def snap_vector3(
     )
 
 
-def snap_radians(angle_radians: float, step_degrees: float | None, *, enabled: bool = True) -> float:
+def snap_radians(
+    angle_radians: float, step_degrees: float | None, *, enabled: bool = True
+) -> float:
     if not enabled or step_degrees is None or step_degrees <= 0:
         return angle_radians
 
@@ -42,7 +44,9 @@ def snap_radians(angle_radians: float, step_degrees: float | None, *, enabled: b
     return round(angle_radians / step_radians) * step_radians
 
 
-def snap_degrees(angle_degrees: float, step_degrees: float | None, *, enabled: bool = True) -> float:
+def snap_degrees(
+    angle_degrees: float, step_degrees: float | None, *, enabled: bool = True
+) -> float:
     if not enabled or step_degrees is None or step_degrees <= 0:
         return angle_degrees
     return round(angle_degrees / step_degrees) * step_degrees

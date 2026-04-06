@@ -61,15 +61,21 @@ class Ui_MainWindow(object):
         self.stopButton.setMinimumSize(QtCore.QSize(70, 28))
         self.stopButton.setObjectName("stopButton")
         self.controlsLayout.addWidget(self.stopButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.controlsLayout.addItem(spacerItem)
         self.formatLabel = QtWidgets.QLabel(self.playbackGroup)
-        self.formatLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.formatLabel.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.formatLabel.setObjectName("formatLabel")
         self.controlsLayout.addWidget(self.formatLabel)
         self.verticalLayout_2.addLayout(self.controlsLayout)
         self.verticalLayout.addWidget(self.playbackGroup)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)

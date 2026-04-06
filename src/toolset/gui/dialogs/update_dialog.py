@@ -103,7 +103,9 @@ class UpdateDialog(QDialog):
     def init_config(self):
         self.set_prerelease(False)
         self.forks_cache = fetch_and_cache_forks()
-        self.forks_cache["th3w1zard1/PyKotor"] = fetch_fork_releases("th3w1zard1/PyKotor", include_all=True)
+        self.forks_cache["th3w1zard1/PyKotor"] = fetch_fork_releases(
+            "th3w1zard1/PyKotor", include_all=True
+        )
         self.populate_fork_combo_box()
         self.on_fork_changed(self.ui.forkComboBox.currentIndex())
 
@@ -122,7 +124,9 @@ class UpdateDialog(QDialog):
     def filter_releases_based_on_prerelease(self):
         selected_fork: str = self.ui.forkComboBox.currentText()
         if selected_fork in self.forks_cache:
-            self.releases = filter_releases(self.forks_cache[selected_fork], include_prerelease=self.include_prerelease())
+            self.releases = filter_releases(
+                self.forks_cache[selected_fork], include_prerelease=self.include_prerelease()
+            )
         else:
             self.releases = []
 
@@ -148,7 +152,9 @@ class UpdateDialog(QDialog):
         self.filter_releases_based_on_prerelease()
 
     def get_selected_tag(self) -> str:
-        release: GithubRelease | None = self.ui.releaseComboBox.itemData(self.ui.releaseComboBox.currentIndex())
+        release: GithubRelease | None = self.ui.releaseComboBox.itemData(
+            self.ui.releaseComboBox.currentIndex()
+        )
         return release.tag_name if release else ""
 
     def update_version_label(self):
@@ -176,13 +182,19 @@ class UpdateDialog(QDialog):
         current_version: str = LOCAL_PROGRAM_INFO["currentVersion"]
         selected_tag: str = self.get_selected_tag()
         if selected_tag:
-            version_color: str = warning_color.name() if is_remote_version_newer(current_version, toolset_tag_to_version(selected_tag)) else success_color.name()
+            version_color: str = (
+                warning_color.name()
+                if is_remote_version_newer(current_version, toolset_tag_to_version(selected_tag))
+                else success_color.name()
+            )
         else:
             version_color: str = success_color.name()
         version_text: str = f"<span style='font-size:16px; font-weight:bold; color:{version_color};'>{current_version}</span>"
         from toolset.gui.common.localization import trf
 
-        self.ui.currentVersionLabel.setText(trf("Holocron Toolset Current Version: {version}", version=version_text))
+        self.ui.currentVersionLabel.setText(
+            trf("Holocron Toolset Current Version: {version}", version=version_text)
+        )
 
     def on_release_changed(
         self,
@@ -218,7 +230,11 @@ class UpdateDialog(QDialog):
                 dt = datetime.fromisoformat(release.published_at.replace("Z", "+00:00"))
                 date_str = f"{dt.year}/{dt.month}/{dt.day}"
             except (ValueError, TypeError):
-                date_str = release.published_at[:10] if len(release.published_at) >= 10 else release.published_at
+                date_str = (
+                    release.published_at[:10]
+                    if len(release.published_at) >= 10
+                    else release.published_at
+                )
         if date_str:
             title = f'What is new in version <span style="color:{color_hex}; font-weight:bold;">{tag}</span> ({date_str})'
         else:
@@ -250,14 +266,25 @@ class UpdateDialog(QDialog):
         if not release:
             from toolset.gui.common.localization import translate as tr
 
-            QMessageBox(QMessageBox.Icon.Information, tr("Select a release"), tr("No release selected, select one first.")).exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                tr("Select a release"),
+                tr("No release selected, select one first."),
+            ).exec()
             return
         self.start_update(release)
 
     def start_update(self, release: GithubRelease):
         os_name: str = platform.system().lower()
         proc_arch: str = ProcessorArchitecture.from_os().get_machine_repr()
-        asset: Asset | None = next((a for a in release.assets if proc_arch in a.name.lower() and os_name in a.name.lower()), None)
+        asset: Asset | None = next(
+            (
+                a
+                for a in release.assets
+                if proc_arch in a.name.lower() and os_name in a.name.lower()
+            ),
+            None,
+        )
 
         if not asset:
             from toolset.gui.common.localization import translate as tr, trf
@@ -265,7 +292,10 @@ class UpdateDialog(QDialog):
             QMessageBox(
                 QMessageBox.Icon.Information,
                 tr("No asset found"),
-                trf("There are no binaries available for download for release '{tag}'.", tag=release.tag_name),
+                trf(
+                    "There are no binaries available for download for release '{tag}'.",
+                    tag=release.tag_name,
+                ),
             ).exec()
             return
 

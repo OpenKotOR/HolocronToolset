@@ -196,7 +196,9 @@ class FileSearcher(QDialog):
 
         def _search(resource: FileResource):
             resource_name: str = resource.resname()
-            name_check: bool = search_text in (resource_name if query.case_sensitive else resource_name.lower())
+            name_check: bool = search_text in (
+                resource_name if query.case_sensitive else resource_name.lower()
+            )
             if name_check:
                 results.append(resource)
             if query.filenames_only:
@@ -208,7 +210,9 @@ class FileSearcher(QDialog):
                 results.append(resource)
 
         search_in: Generator[FileResource, Any, None] = search_generator()
-        searches: list[Callable[[FileResource], None]] = [lambda resource=resource: _search(resource) for resource in search_in]
+        searches: list[Callable[[FileResource], None]] = [
+            lambda resource=resource: _search(resource) for resource in search_in
+        ]
         AsyncLoader(self, "Searching...", searches, "An error occured during the search").exec()
         self.file_results.emit(results, query.installation)
 
@@ -270,7 +274,9 @@ class FileResults(QDialog):
                 file_resource = result.file_resource
                 filename: str = file_resource.filename()
                 filepath: Path = file_resource.filepath()
-                parent_name: str = filepath.name if filename != filepath.name else f"{filepath.parent.name}"
+                parent_name: str = (
+                    filepath.name if filename != filepath.name else f"{filepath.parent.name}"
+                )
                 display_text = f"{parent_name}/{filename}"
                 if result.field_path and result.field_path != "(NCS bytecode)":
                     display_text += f" [{result.field_path}]"
@@ -288,7 +294,9 @@ class FileResults(QDialog):
                 # Handle FileResource
                 filename = result.filename()
                 filepath = result.filepath()
-                parent_name = filepath.name if filename != filepath.name else f"{filepath.parent.name}"
+                parent_name = (
+                    filepath.name if filename != filepath.name else f"{filepath.parent.name}"
+                )
                 item = QListWidgetItem(f"{parent_name}/{filename}")
                 item.setData(Qt.ItemDataRole.UserRole, result)
                 item.setToolTip(str(result.filepath()))

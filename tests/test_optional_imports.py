@@ -61,7 +61,9 @@ def _test_module_import_without_optional_dependency(
                 raise
         except Exception as e:
             # Other exceptions are unexpected
-            pytest.fail(f"Unexpected exception when importing {module_name} without {dependency_name}: {e}")
+            pytest.fail(
+                f"Unexpected exception when importing {module_name} without {dependency_name}: {e}"
+            )
 
     if should_import and not imported:
         pytest.fail(
@@ -70,7 +72,9 @@ def _test_module_import_without_optional_dependency(
         )
 
     if should_raise and not exception_raised:
-        pytest.fail(f"Module {module_name} should raise ModuleNotFoundError when {dependency_name} is missing, but it imported successfully.")
+        pytest.fail(
+            f"Module {module_name} should raise ModuleNotFoundError when {dependency_name} is missing, but it imported successfully."
+        )
 
 
 def test_tpc_editor_imports_without_pil():
@@ -114,7 +118,9 @@ def test_editor_classes_import_without_optional_deps():
             assert module is not None
         except ModuleNotFoundError as e:
             # If it's a missing optional dependency, that's a problem
-            pytest.fail(f"Module {module_name} raised ModuleNotFoundError during import. This suggests an optional dependency is not properly handled. Error: {e}")
+            pytest.fail(
+                f"Module {module_name} raised ModuleNotFoundError during import. This suggests an optional dependency is not properly handled. Error: {e}"
+            )
 
 
 def test_window_utils_imports_without_optional_deps():

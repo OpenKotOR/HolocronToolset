@@ -199,7 +199,9 @@ class TPCEditor(Editor):
         # View operations
         self.ui.actionZoomIn.setIcon(style.standardIcon(QStyle.StandardPixmap.SP_ArrowUp))
         self.ui.actionZoomOut.setIcon(style.standardIcon(QStyle.StandardPixmap.SP_ArrowDown))
-        self.ui.actionZoomFit.setIcon(style.standardIcon(QStyle.StandardPixmap.SP_FileDialogListView))
+        self.ui.actionZoomFit.setIcon(
+            style.standardIcon(QStyle.StandardPixmap.SP_FileDialogListView)
+        )
         self.ui.actionZoom100.setIcon(style.standardIcon(QStyle.StandardPixmap.SP_BrowserReload))
 
         # Transform operations
@@ -209,7 +211,9 @@ class TPCEditor(Editor):
         self.ui.actionFlipVertical.setIcon(QIcon.fromTheme("object-flip-vertical"))
 
         # Other
-        self.ui.actionToggleTXIEditor.setIcon(style.standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView))
+        self.ui.actionToggleTXIEditor.setIcon(
+            style.standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView)
+        )
 
     def _setup_context_menu(self) -> None:
         """Set up context menu for texture display."""
@@ -256,7 +260,9 @@ class TPCEditor(Editor):
             mime_data.setImageData(image)
 
         # Create a smaller preview for dragging
-        preview_pixmap = pixmap.scaled(128, 128, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        preview_pixmap = pixmap.scaled(
+            128, 128, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
+        )
         drag.setPixmap(preview_pixmap)
         drag.setHotSpot(position)
 
@@ -310,7 +316,9 @@ class TPCEditor(Editor):
 
             self.ui.statusbar.showMessage(tr("Texture copied to clipboard"), 2000)
         except Exception as e:  # noqa: BLE001
-            QMessageBox.critical(self, tr("Copy Failed"), trf("Failed to copy texture:\n{error}", error=str(e)))
+            QMessageBox.critical(
+                self, tr("Copy Failed"), trf("Failed to copy texture:\n{error}", error=str(e))
+            )
 
     def _animate_copy_action(self) -> None:
         """Animate the texture label when copying."""
@@ -371,7 +379,9 @@ class TPCEditor(Editor):
             if pixmap.isNull():
                 from toolset.gui.common.localization import translate as tr
 
-                QMessageBox.warning(self, tr("No Image"), tr("Clipboard does not contain an image."))
+                QMessageBox.warning(
+                    self, tr("No Image"), tr("Clipboard does not contain an image.")
+                )
                 return
             image = pixmap.toImage()
 
@@ -382,7 +392,9 @@ class TPCEditor(Editor):
 
             # Convert to RGBA format
             if image.format() != QImage.Format.Format_RGBA8888:
-                image = image.convertToFormat(QImage.Format.Format_RGBA8888, Qt.ImageConversionFlag.AutoColor)
+                image = image.convertToFormat(
+                    QImage.Format.Format_RGBA8888, Qt.ImageConversionFlag.AutoColor
+                )
 
             # Extract image data
             const_bits = image.constBits()
@@ -412,7 +424,9 @@ class TPCEditor(Editor):
 
             self.ui.statusbar.showMessage(tr("Texture pasted from clipboard"), 2000)
         except Exception as e:  # noqa: BLE001
-            QMessageBox.critical(self, tr("Paste Failed"), trf("Failed to paste texture:\n{error}", error=str(e)))
+            QMessageBox.critical(
+                self, tr("Paste Failed"), trf("Failed to paste texture:\n{error}", error=str(e))
+            )
 
     def _animate_paste_action(self) -> None:
         """Animate the texture label when pasting."""
@@ -451,14 +465,19 @@ class TPCEditor(Editor):
         if self._tpc.is_animated or self._tpc.is_cube_map:
             layer_index = max(0, min(self._current_frame, len(self._tpc.layers) - 1))
 
-        mipmap_index = max(0, min(self._current_mipmap, len(self._tpc.layers[layer_index].mipmaps) - 1))
+        mipmap_index = max(
+            0, min(self._current_mipmap, len(self._tpc.layers[layer_index].mipmaps) - 1)
+        )
         mipmap: TPCMipmap = self._tpc.layers[layer_index].mipmaps[mipmap_index].copy()
         display_format = mipmap.tpc_format
 
         # Convert to displayable format (decompress DXT formats for display)
         if display_format == TPCTextureFormat.DXT1:
             mipmap.convert(TPCTextureFormat.RGB)
-        elif display_format in (TPCTextureFormat.DXT3, TPCTextureFormat.DXT5) or display_format == TPCTextureFormat.BGRA:
+        elif (
+            display_format in (TPCTextureFormat.DXT3, TPCTextureFormat.DXT5)
+            or display_format == TPCTextureFormat.BGRA
+        ):
             mipmap.convert(TPCTextureFormat.RGBA)
         elif display_format == TPCTextureFormat.BGR:
             mipmap.convert(TPCTextureFormat.RGB)
@@ -549,7 +568,9 @@ class TPCEditor(Editor):
 
             # Verify the conversion succeeded by checking the format
             if self._tpc.format() != target_format:
-                raise ValueError(f"Conversion failed: format is {self._tpc.format().name} instead of {target_format.name}")
+                raise ValueError(
+                    f"Conversion failed: format is {self._tpc.format().name} instead of {target_format.name}"
+                )
 
             # Verify we still have valid mipmap data
             if not self._tpc.layers or not self._tpc.layers[0].mipmaps:
@@ -571,7 +592,9 @@ class TPCEditor(Editor):
 
             from toolset.gui.common.localization import translate as tr, trf
 
-            self.ui.statusbar.showMessage(trf("Texture format converted to {format}", format=target_format.name), 3000)
+            self.ui.statusbar.showMessage(
+                trf("Texture format converted to {format}", format=target_format.name), 3000
+            )
         except Exception as e:  # noqa: BLE001
             # Attempt to restore original format if conversion failed
             try:
@@ -606,7 +629,9 @@ class TPCEditor(Editor):
         if self._tpc.layers and len(self._tpc.layers[0].mipmaps) > 1:
             mipmap_info = f" | Mipmap {self._current_mipmap + 1}/{len(self._tpc.layers[0].mipmaps)}"
 
-        status_text = f"Dimensions: {width}×{height} | Format: {format_name}{frame_info}{mipmap_info}"
+        status_text = (
+            f"Dimensions: {width}×{height} | Format: {format_name}{frame_info}{mipmap_info}"
+        )
         self.ui.statusbar.showMessage(status_text)
 
     def _update_frame_controls(self) -> None:
@@ -798,14 +823,20 @@ class TPCEditor(Editor):
             if self._tpc.is_animated or self._tpc.is_cube_map:
                 layer_index = max(0, min(self._current_frame, len(self._tpc.layers) - 1))
 
-            mipmap_index = max(0, min(self._current_mipmap, len(self._tpc.layers[layer_index].mipmaps) - 1))
+            mipmap_index = max(
+                0, min(self._current_mipmap, len(self._tpc.layers[layer_index].mipmaps) - 1)
+            )
             mipmap: TPCMipmap = self._tpc.layers[layer_index].mipmaps[mipmap_index].copy()
             export_format = mipmap.tpc_format
 
             # Convert to displayable format
             if export_format == TPCTextureFormat.DXT1:
                 mipmap.convert(TPCTextureFormat.RGB)
-            elif export_format in (TPCTextureFormat.DXT3, TPCTextureFormat.DXT5, TPCTextureFormat.BGRA):
+            elif export_format in (
+                TPCTextureFormat.DXT3,
+                TPCTextureFormat.DXT5,
+                TPCTextureFormat.BGRA,
+            ):
                 mipmap.convert(TPCTextureFormat.RGBA)
             elif export_format == TPCTextureFormat.BGR:
                 mipmap.convert(TPCTextureFormat.RGB)
@@ -858,7 +889,9 @@ class TPCEditor(Editor):
         if self._tpc.is_animated or self._tpc.is_cube_map:
             layer_index = max(0, min(self._current_frame, len(self._tpc.layers) - 1))
 
-        mipmap_index = max(0, min(self._current_mipmap, len(self._tpc.layers[layer_index].mipmaps) - 1))
+        mipmap_index = max(
+            0, min(self._current_mipmap, len(self._tpc.layers[layer_index].mipmaps) - 1)
+        )
         display_key = (layer_index, mipmap_index)
         source_image: QImage | None = None
         if display_key == self._display_cache_key and self._display_cache is not None:
@@ -873,7 +906,10 @@ class TPCEditor(Editor):
                 # Convert to displayable format (decompress DXT formats for display)
                 if display_format == TPCTextureFormat.DXT1:
                     mipmap.convert(TPCTextureFormat.RGB)
-                elif display_format in (TPCTextureFormat.DXT3, TPCTextureFormat.DXT5) or display_format == TPCTextureFormat.BGRA:
+                elif (
+                    display_format in (TPCTextureFormat.DXT3, TPCTextureFormat.DXT5)
+                    or display_format == TPCTextureFormat.BGRA
+                ):
                     mipmap.convert(TPCTextureFormat.RGBA)
                 elif display_format == TPCTextureFormat.BGR:
                     mipmap.convert(TPCTextureFormat.RGB)
@@ -898,11 +934,17 @@ class TPCEditor(Editor):
                 if source_image.isNull():
                     self.ui.textureLabel.clear()
                     return
-                source_image = source_image.mirrored(False, True)  # Flip vertically for correct display
+                source_image = source_image.mirrored(
+                    False, True
+                )  # Flip vertically for correct display
                 self._display_cache = source_image
                 self._display_cache_key = display_key
 
-            transform_mode = Qt.TransformationMode.FastTransformation if self._is_zoom_interacting else Qt.TransformationMode.SmoothTransformation
+            transform_mode = (
+                Qt.TransformationMode.FastTransformation
+                if self._is_zoom_interacting
+                else Qt.TransformationMode.SmoothTransformation
+            )
 
             # Calculate display size
             if self._fit_to_window:
@@ -1020,10 +1062,14 @@ class TPCEditor(Editor):
             if tpc_format == TPCTextureFormat.Invalid:
                 # Default to RGBA if format is not directly supported
                 tpc_format = TPCTextureFormat.RGBA
-                image = image.convertToFormat(QImage.Format.Format_RGBA8888, Qt.ImageConversionFlag.AutoColor)
+                image = image.convertToFormat(
+                    QImage.Format.Format_RGBA8888, Qt.ImageConversionFlag.AutoColor
+                )
             elif image.format() != tpc_format.to_qimage_format():
                 # Convert to the appropriate format
-                image = image.convertToFormat(tpc_format.to_qimage_format(), Qt.ImageConversionFlag.AutoColor)
+                image = image.convertToFormat(
+                    tpc_format.to_qimage_format(), Qt.ImageConversionFlag.AutoColor
+                )
 
             # Extract image data
             const_bits = image.constBits()

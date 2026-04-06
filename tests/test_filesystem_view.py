@@ -43,7 +43,10 @@ class TestFilesystemViewComprehensive:
 
     def test_model_multiple_installations(self, qt_api: str, qtbot: QtBot, tmp_path: Path):
         """Test multi-root installation support in the filesystem model."""
-        from toolset.gui.widgets.kotor_filesystem_model import KotorFileSystemModel, InstallationItem
+        from toolset.gui.widgets.kotor_filesystem_model import (
+            KotorFileSystemModel,
+            InstallationItem,
+        )
         from toolset.gui.widgets.settings.installations import InstallationConfig
 
         install_a = tmp_path / "install_a"
@@ -182,7 +185,10 @@ class TestFilesystemViewComprehensive:
                             path = item.path
                             if is_bif_file(path):
                                 # BIF file should be expandable (have children)
-                                assert model.canFetchMore(child_index) or model.rowCount(child_index) > 0
+                                assert (
+                                    model.canFetchMore(child_index)
+                                    or model.rowCount(child_index) > 0
+                                )
 
     def test_archive_as_folder_erf(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
         """Test that ERF files are treated as folders."""
@@ -213,7 +219,9 @@ class TestFilesystemViewComprehensive:
                         path = item.path
                         if is_erf_file(path):
                             # ERF file should be expandable
-                            assert model.canFetchMore(child_index) or model.rowCount(child_index) > 0
+                            assert (
+                                model.canFetchMore(child_index) or model.rowCount(child_index) > 0
+                            )
 
     def test_archive_as_folder_mod(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
         """Test that MOD files are treated as folders."""
@@ -243,9 +251,13 @@ class TestFilesystemViewComprehensive:
                         path = item.path
                         if is_mod_file(path):
                             # MOD file should be expandable
-                            assert model.canFetchMore(child_index) or model.rowCount(child_index) > 0
+                            assert (
+                                model.canFetchMore(child_index) or model.rowCount(child_index) > 0
+                            )
 
-    def test_expand_collapse_directory(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
+    def test_expand_collapse_directory(
+        self, qt_api: str, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test expanding and collapsing directories."""
         from qtpy.QtWidgets import QWidget
         from toolset.gui.widgets.kotor_filesystem_model import ResourceFileSystemWidget
@@ -351,7 +363,9 @@ class TestFilesystemViewComprehensive:
             # Decoration may be None for some items
 
             # Test header data
-            header_data = model.headerData(0, Qt.Orientation.Horizontal, Qt.ItemDataRole.DisplayRole)
+            header_data = model.headerData(
+                0, Qt.Orientation.Horizontal, Qt.ItemDataRole.DisplayRole
+            )
             assert header_data is not None
 
     def test_model_sorting(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
@@ -399,7 +413,9 @@ class TestFilesystemViewComprehensive:
                             sorted_names.append(str(name))
 
                 # Verify sorting
-                assert sorted_names == sorted(initial_names) or len(sorted_names) == len(initial_names)
+                assert sorted_names == sorted(initial_names) or len(sorted_names) == len(
+                    initial_names
+                )
 
     def test_model_filtering(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
         """Test filtering functionality of the model."""
@@ -500,7 +516,9 @@ class TestFilesystemViewComprehensive:
             # Model should still be stable
             assert model.rootPath() is not None
 
-    def test_stress_rapid_path_changes(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
+    def test_stress_rapid_path_changes(
+        self, qt_api: str, qtbot: QtBot, installation: HTInstallation
+    ):
         """Stress test: rapid path changes."""
         from qtpy.QtWidgets import QWidget
         from toolset.gui.widgets.kotor_filesystem_model import ResourceFileSystemWidget
@@ -524,7 +542,9 @@ class TestFilesystemViewComprehensive:
         # Widget should still be functional
         assert widget.fs_model is not None
 
-    def test_nested_archive_expansion(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
+    def test_nested_archive_expansion(
+        self, qt_api: str, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test expanding nested archives (archive within archive)."""
         from qtpy.QtWidgets import QWidget
         from toolset.gui.widgets.kotor_filesystem_model import ResourceFileSystemWidget
@@ -591,7 +611,9 @@ class TestFilesystemViewComprehensive:
         # Model should still have root path
         assert model.rootPath() is not None
 
-    def test_view_switching_legacy_to_filesystem(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
+    def test_view_switching_legacy_to_filesystem(
+        self, qt_api: str, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test switching from legacy view to filesystem view."""
         from qtpy.QtWidgets import QApplication
         from toolset.gui.windows.main import ToolWindow
@@ -622,7 +644,9 @@ class TestFilesystemViewComprehensive:
         QApplication.processEvents()
         assert not window._use_legacy_layout
 
-    def test_view_switching_filesystem_to_legacy(self, qt_api: str, qtbot: QtBot, installation: HTInstallation):
+    def test_view_switching_filesystem_to_legacy(
+        self, qt_api: str, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test switching from filesystem view to legacy view."""
         from qtpy.QtWidgets import QApplication
         from toolset.gui.windows.main import ToolWindow
@@ -656,7 +680,14 @@ class TestFilesystemViewComprehensive:
             assert window.ui.savesWidget.isVisible()
 
     @pytest.mark.parametrize("installation_type", ["k1", "k2"])
-    def test_installation_types(self, qt_api: str, qtbot: QtBot, installation_type: str, installation: HTInstallation, tsl_installation: HTInstallation):
+    def test_installation_types(
+        self,
+        qt_api: str,
+        qtbot: QtBot,
+        installation_type: str,
+        installation: HTInstallation,
+        tsl_installation: HTInstallation,
+    ):
         """Test with both K1 and K2 installations."""
         from qtpy.QtWidgets import QWidget
         from toolset.gui.widgets.kotor_filesystem_model import ResourceFileSystemWidget

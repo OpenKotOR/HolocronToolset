@@ -53,7 +53,9 @@ class NodeTypeInfo:
     can_have_parent: bool  # Whether node can have parent nodes
     max_children: int | None = None  # Maximum number of child nodes (None for unlimited)
     min_children: int = 0  # Minimum number of child nodes
-    validation_rules: list[NodeValidationRule] = field(default_factory=list)  # Rules for valid connections
+    validation_rules: list[NodeValidationRule] = field(
+        default_factory=list
+    )  # Rules for valid connections
 
 
 class NodeTypes:
@@ -156,7 +158,10 @@ class NodeTypes:
             # Check source node's validation rules
             source_info: NodeTypeInfo = cls.get_type_info(source_category)
             for rule in source_info.validation_rules:
-                if rule.source_category == source_category and rule.target_category != target_category:
+                if (
+                    rule.source_category == source_category
+                    and rule.target_category != target_category
+                ):
                     return False, rule.error_message
 
             # Check target node's validation rules
@@ -168,10 +173,15 @@ class NodeTypes:
             if source_info.max_children is not None:
                 child_count: int = len(source_node.links)
                 if child_count >= source_info.max_children:
-                    return False, f"{source_info.display_name} nodes cannot have more than {source_info.max_children} children"
+                    return (
+                        False,
+                        f"{source_info.display_name} nodes cannot have more than {source_info.max_children} children",
+                    )
 
         except Exception:  # noqa: BLE001
-            RobustLogger().exception(f"Error validating connection between {source_node!r} and {target_node!r}")
+            RobustLogger().exception(
+                f"Error validating connection between {source_node!r} and {target_node!r}"
+            )
             return False, "Error validating connection"
         else:
             return True, ""
@@ -193,16 +203,23 @@ class NodeTypes:
 
             # Check minimum children requirement
             if len(node.links) < type_info.min_children:
-                errors.append(f"{type_info.display_name} nodes must have at least {type_info.min_children} children")
+                errors.append(
+                    f"{type_info.display_name} nodes must have at least {type_info.min_children} children"
+                )
 
             # Check maximum children limit
             if type_info.max_children is not None and len(node.links) > type_info.max_children:
-                errors.append(f"{type_info.display_name} nodes cannot have more than {type_info.max_children} children")
+                errors.append(
+                    f"{type_info.display_name} nodes cannot have more than {type_info.max_children} children"
+                )
 
             # Check required connection rules
             for rule in type_info.validation_rules:
                 if rule.is_required:
-                    has_required: bool = any(cls.get_node_category(link.node) == rule.target_category for link in node.links)
+                    has_required: bool = any(
+                        cls.get_node_category(link.node) == rule.target_category
+                        for link in node.links
+                    )
                     if not has_required:
                         errors.append(rule.error_message)
 

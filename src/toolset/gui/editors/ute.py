@@ -144,11 +144,15 @@ class UTEEditor(Editor):
         self._installation = installation
         self.ui.nameEdit.set_installation(installation)
 
-        difficulties: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_ENC_DIFFICULTIES)
+        difficulties: TwoDA | None = installation.ht_get_cache_2da(
+            HTInstallation.TwoDA_ENC_DIFFICULTIES
+        )
         self.ui.difficultySelect.clear()
         if difficulties is not None:
             self.ui.difficultySelect.set_items(difficulties.get_column("label"))
-        self.ui.difficultySelect.set_context(difficulties, installation, HTInstallation.TwoDA_ENC_DIFFICULTIES)
+        self.ui.difficultySelect.set_context(
+            difficulties, installation, HTInstallation.TwoDA_ENC_DIFFICULTIES
+        )
 
         factions: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_FACTIONS)
         self.ui.factionSelect.clear()
@@ -158,7 +162,16 @@ class UTEEditor(Editor):
 
         for combo_box in self._script_combo_boxes():
             self._setup_script_reference_field(combo_box)
-        self.relevant_creature_resnames = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.UTC, self._filepath)}))
+        self.relevant_creature_resnames = sorted(
+            iter(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.UTC, self._filepath
+                    )
+                }
+            )
+        )
 
     def load(
         self,
@@ -216,7 +229,16 @@ class UTEEditor(Editor):
         for combo_box, value in self._script_value_pairs(ute):
             combo_box.set_combo_box_text(str(value))
 
-        self.relevant_script_resnames = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)}))
+        self.relevant_script_resnames = sorted(
+            iter(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.NCS, self._filepath
+                    )
+                }
+            )
+        )
 
         for combo_box in self._script_combo_boxes():
             combo_box.populate_combo_box(self.relevant_script_resnames)
@@ -294,7 +316,9 @@ class UTEEditor(Editor):
         self._loadUTE(UTE())
 
     def change_name(self):
-        dialog: LocalizedStringDialog = LocalizedStringDialog(self, self._installation, self.ui.nameEdit.locstring())
+        dialog: LocalizedStringDialog = LocalizedStringDialog(
+            self, self._installation, self.ui.nameEdit.locstring()
+        )
         if dialog.exec():
             self._load_locstring(self.ui.nameEdit.ui.locstringText, dialog.locstring)
 
@@ -395,6 +419,7 @@ class UTEEditor(Editor):
         current_row = self.ui.creatureTable.currentRow()
         if current_row >= 0:
             self.ui.creatureTable.removeRow(current_row)
+
 
 if __name__ == "__main__":
     import sys

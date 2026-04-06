@@ -22,7 +22,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_preview = QtWidgets.QVBoxLayout()
         self.verticalLayout_preview.setObjectName("verticalLayout_preview")
         self.previewRenderer = ModelRenderer(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.previewRenderer.sizePolicy().hasHeightForWidth())
@@ -35,7 +37,9 @@ class Ui_MainWindow(object):
         self.modelInfoGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.modelInfoGroupBox.setCheckable(True)
         self.modelInfoGroupBox.setChecked(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoGroupBox.sizePolicy().hasHeightForWidth())
@@ -44,7 +48,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_modelInfo = QtWidgets.QVBoxLayout(self.modelInfoGroupBox)
         self.verticalLayout_modelInfo.setObjectName("verticalLayout_modelInfo")
         self.modelInfoSummaryLabel = QtWidgets.QLabel(self.modelInfoGroupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoSummaryLabel.sizePolicy().hasHeightForWidth())
@@ -53,7 +59,9 @@ class Ui_MainWindow(object):
         self.modelInfoSummaryLabel.setObjectName("modelInfoSummaryLabel")
         self.verticalLayout_modelInfo.addWidget(self.modelInfoSummaryLabel)
         self.modelInfoLabel = QtWidgets.QLabel(self.modelInfoGroupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoLabel.sizePolicy().hasHeightForWidth())
@@ -77,7 +85,9 @@ class Ui_MainWindow(object):
         self.formLayout_3.setContentsMargins(6, 6, 6, 6)
         self.formLayout_3.setObjectName("formLayout_3")
         self.label_6 = QtWidgets.QLabel(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
@@ -92,7 +102,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_15.addWidget(self.nameEdit)
         self.formLayout_3.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_15)
         self.label_14 = QtWidgets.QLabel(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
@@ -102,7 +114,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_16 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_16.setObjectName("horizontalLayout_16")
         self.tagEdit = QtWidgets.QLineEdit(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tagEdit.sizePolicy().hasHeightForWidth())
@@ -115,7 +129,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_16.addWidget(self.tagGenerateButton)
         self.formLayout_3.setLayout(1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_16)
         self.label_38 = QtWidgets.QLabel(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_38.sizePolicy().hasHeightForWidth())
@@ -125,7 +141,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
         self.resrefEdit = QtWidgets.QLineEdit(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.resrefEdit.sizePolicy().hasHeightForWidth())
@@ -139,7 +157,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.addWidget(self.resrefGenerateButton)
         self.formLayout_3.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_17)
         self.label_15 = QtWidgets.QLabel(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
@@ -149,7 +169,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_18.setObjectName("horizontalLayout_18")
         self.appearanceSelect = ComboBox2DA(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.appearanceSelect.sizePolicy().hasHeightForWidth())
@@ -158,7 +180,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18.addWidget(self.appearanceSelect)
         self.formLayout_3.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_18)
         self.label = QtWidgets.QLabel(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -168,7 +192,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.conversationEdit = FilterComboBox(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationEdit.sizePolicy().hasHeightForWidth())
@@ -176,7 +202,9 @@ class Ui_MainWindow(object):
         self.conversationEdit.setObjectName("conversationEdit")
         self.horizontalLayout_5.addWidget(self.conversationEdit)
         self.conversationModifyButton = QtWidgets.QPushButton(self.tab_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationModifyButton.sizePolicy().hasHeightForWidth())
@@ -184,7 +212,9 @@ class Ui_MainWindow(object):
         self.conversationModifyButton.setObjectName("conversationModifyButton")
         self.horizontalLayout_5.addWidget(self.conversationModifyButton)
         self.formLayout_3.setLayout(4, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_5)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.formLayout_3.setItem(5, QtWidgets.QFormLayout.SpanningRole, spacerItem)
         self.gridLayout_3.addLayout(self.formLayout_3, 0, 0, 3, 1)
         self.tabWidget.addTab(self.tab_9, "")
@@ -236,7 +266,9 @@ class Ui_MainWindow(object):
         self.formLayout_11.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.animationState)
         self.verticalLayout.addWidget(self.groupBox_17)
         self.widget_4 = QtWidgets.QWidget(self.tab_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
@@ -361,7 +393,9 @@ class Ui_MainWindow(object):
         self.difficultyModSpin.setObjectName("difficultyModSpin")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.difficultyModSpin)
         self.verticalLayout_3.addLayout(self.formLayout)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_3.addItem(spacerItem1)
         self.verticalLayout_5.addWidget(self.groupBox_2)
         self.tabWidget.addTab(self.tab, "")
@@ -487,204 +521,443 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.previewRenderer.setToolTip(_translate("MainWindow", "Door model preview. Displays the 3D model for the selected Appearance (Generic\n"
-"          Doors 2DA row). The game uses the same appearance index when loading the door in-game.\n"
-"          Drag to rotate; use the Appearance dropdown to change which door model is shown. Not a GFF\n"
-"          field—purely for visual feedback in the editor."))
-        self.modelInfoGroupBox.setToolTip(_translate("MainWindow", "Model information panel. Expand to see details about the door model (mesh count,\n"
-"          animations, etc.) derived from the Appearance and game resources. Read-only; does not\n"
-"          change the UTD file. Useful to verify the correct model loads for the chosen Appearance."))
+        self.previewRenderer.setToolTip(
+            _translate(
+                "MainWindow",
+                "Door model preview. Displays the 3D model for the selected Appearance (Generic\n"
+                "          Doors 2DA row). The game uses the same appearance index when loading the door in-game.\n"
+                "          Drag to rotate; use the Appearance dropdown to change which door model is shown. Not a GFF\n"
+                "          field—purely for visual feedback in the editor.",
+            )
+        )
+        self.modelInfoGroupBox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Model information panel. Expand to see details about the door model (mesh count,\n"
+                "          animations, etc.) derived from the Appearance and game resources. Read-only; does not\n"
+                "          change the UTD file. Useful to verify the correct model loads for the chosen Appearance.",
+            )
+        )
         self.modelInfoGroupBox.setTitle(_translate("MainWindow", "Model Info"))
-        self.modelInfoSummaryLabel.setToolTip(_translate("MainWindow", "Short summary of the door model (e.g. mesh and animation count). Click the Model\n"
-"             Info group to expand and see full details. Derived from the current Appearance; not a\n"
-"             GFF field."))
-        self.modelInfoSummaryLabel.setText(_translate("MainWindow", "Click to expand model information..."))
-        self.modelInfoLabel.setToolTip(_translate("MainWindow", "Detailed model information (meshes, animations, bounds) for the door. Shown when\n"
-"             Model Info is expanded. Helps modders confirm the door appearance matches expectations.\n"
-"             Not stored in the UTD GFF."))
-        self.modelInfoLabel.setText(_translate("MainWindow", "Model information will appear here..."))
+        self.modelInfoSummaryLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Short summary of the door model (e.g. mesh and animation count). Click the Model\n"
+                "             Info group to expand and see full details. Derived from the current Appearance; not a\n"
+                "             GFF field.",
+            )
+        )
+        self.modelInfoSummaryLabel.setText(
+            _translate("MainWindow", "Click to expand model information...")
+        )
+        self.modelInfoLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Detailed model information (meshes, animations, bounds) for the door. Shown when\n"
+                "             Model Info is expanded. Helps modders confirm the door appearance matches expectations.\n"
+                "             Not stored in the UTD GFF.",
+            )
+        )
+        self.modelInfoLabel.setText(
+            _translate("MainWindow", "Model information will appear here...")
+        )
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocName). Localized name shown when the player examines the door\n"
-"                or in dialogue. The game reads this via ReadFieldCExoLocString in LoadDoor. Modders:\n"
-"                set a clear name for your door; use the language dropdown to add translations."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocName). Localized name shown when the player examines the door\n"
+                "                or in dialogue. The game reads this via ReadFieldCExoLocString in LoadDoor. Modders:\n"
+                "                set a clear name for your door; use the language dropdown to add translations.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for this door; scripts and\n"
-"                dialogues use GetObjectByTag to find it. Engine reads via ReadFieldCExoString in\n"
-"                LoadDoor. Modders: keep unique per module; use a descriptive tag (e.g.\n"
-"                \"tar_maze_door\")."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
-"                they stay in sync. Scripts reference doors by Tag; keep Tag unique per module."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for this door; scripts and\n"
+                "                dialogues use GetObjectByTag to find it. Engine reads via ReadFieldCExoString in\n"
+                "                LoadDoor. Modders: keep unique per module; use a descriptive tag (e.g.\n"
+                '                "tar_maze_door").',
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate tag from ResRef. Copies the Template ResRef into the Tag field so\n"
+                "                they stay in sync. Scripts reference doors by Tag; keep Tag unique per module.",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) identifying\n"
-"                this door template. The engine stores ResRefs in a 16-byte structure. When the game\n"
-"                loads a door from a GIT file it uses this to find the UTD template. Modders: set to\n"
-"                match the UTD filename (without .utd); keep under 16 characters."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
-"                16 characters). ResRef should match the UTD filename."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters) identifying\n"
+                "                this door template. The engine stores ResRefs in a 16-byte structure. When the game\n"
+                "                loads a door from a GIT file it uses this to find the UTD template. Modders: set to\n"
+                "                match the UTD filename (without .utd); keep under 16 characters.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
+                "                16 characters). ResRef should match the UTD filename.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_15.setText(_translate("MainWindow", "Appearance:"))
-        self.appearanceSelect.setToolTip(_translate("MainWindow", "Appearance (GFF: Appearance). DWORD read as byte in LoadDoor—index into\n"
-"                doortypes.2da or genericdoors.2da. Picks the 3D model and behavior of the door.\n"
-"                Modders: choose a row that exists in the door 2DA for your game; invalid indices may\n"
-"                show a wrong or missing model."))
+        self.appearanceSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Appearance (GFF: Appearance). DWORD read as byte in LoadDoor—index into\n"
+                "                doortypes.2da or genericdoors.2da. Picks the 3D model and behavior of the door.\n"
+                "                Modders: choose a row that exists in the door 2DA for your game; invalid indices may\n"
+                "                show a wrong or missing model.",
+            )
+        )
         self.label.setText(_translate("MainWindow", "Conversation:"))
-        self.conversationEdit.setToolTip(_translate("MainWindow", "Conversation (GFF: Conversation). ResRef of the dialogue (DLG) file; max 16\n"
-"                characters. When the player uses this door the game can run this dialogue. Blank\n"
-"                means no dialogue. Engine reads via ReadFieldCResRef in LoadDoor. Modders: set to a\n"
-"                DLG resref; use Edit to open the dialogue editor."))
-        self.conversationModifyButton.setToolTip(_translate("MainWindow", "Open the dialogue editor for the Conversation (DLG) assigned to this door."))
+        self.conversationEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Conversation (GFF: Conversation). ResRef of the dialogue (DLG) file; max 16\n"
+                "                characters. When the player uses this door the game can run this dialogue. Blank\n"
+                "                means no dialogue. Engine reads via ReadFieldCResRef in LoadDoor. Modders: set to a\n"
+                "                DLG resref; use Edit to open the dialogue editor.",
+            )
+        )
+        self.conversationModifyButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Open the dialogue editor for the Conversation (DLG) assigned to this door.",
+            )
+        )
         self.conversationModifyButton.setText(_translate("MainWindow", "Edit"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_9), _translate("MainWindow", "Basic"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_9), _translate("MainWindow", "Basic")
+        )
         self.groupBox_16.setTitle(_translate("MainWindow", "Flags"))
-        self.min1HpCheckbox.setToolTip(_translate("MainWindow", "Min1HP (GFF: Min1HP). BYTE 0/1. When set, the door cannot be reduced below 1\n"
-"               HP by damage—it stays at 1 until destroyed by script or other means. Engine reads via\n"
-"               ReadFieldBYTE in LoadDoor. KotOR 2 only in some builds. Modders: enable for doors\n"
-"               that should be nearly unbreakable."))
+        self.min1HpCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Min1HP (GFF: Min1HP). BYTE 0/1. When set, the door cannot be reduced below 1\n"
+                "               HP by damage—it stays at 1 until destroyed by script or other means. Engine reads via\n"
+                "               ReadFieldBYTE in LoadDoor. KotOR 2 only in some builds. Modders: enable for doors\n"
+                "               that should be nearly unbreakable.",
+            )
+        )
         self.min1HpCheckbox.setText(_translate("MainWindow", "Min1HP"))
-        self.plotCheckbox.setToolTip(_translate("MainWindow", "Plot (GFF: Plot). BYTE 0/1. When set, the door is plot-critical: it cannot be\n"
-"               destroyed (treated as invulnerable if Static is not set). Engine reads\n"
-"               Plot/Invulnerable/Static in LoadDoor and sets object.plot. Modders: enable for story\n"
-"               doors that must never be broken."))
+        self.plotCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Plot (GFF: Plot). BYTE 0/1. When set, the door is plot-critical: it cannot be\n"
+                "               destroyed (treated as invulnerable if Static is not set). Engine reads\n"
+                "               Plot/Invulnerable/Static in LoadDoor and sets object.plot. Modders: enable for story\n"
+                "               doors that must never be broken.",
+            )
+        )
         self.plotCheckbox.setText(_translate("MainWindow", "Plot"))
-        self.partyInteractCheckbox.setToolTip(_translate("MainWindow", "Party Interact. When set, the party can interact with this door (e.g. open,\n"
-"               use dialogue). Used by the toolset/scripts; behavior may vary by game. Modders:\n"
-"               enable for doors the player should be able to use."))
+        self.partyInteractCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Party Interact. When set, the party can interact with this door (e.g. open,\n"
+                "               use dialogue). Used by the toolset/scripts; behavior may vary by game. Modders:\n"
+                "               enable for doors the player should be able to use.",
+            )
+        )
         self.partyInteractCheckbox.setText(_translate("MainWindow", "Party Interact"))
-        self.staticCheckbox.setToolTip(_translate("MainWindow", "Static (GFF: Static). BYTE 0/1. When set, the door is non-interactive (no\n"
-"               open/close, no dialogue). Engine reads via ReadFieldBYTE in LoadDoor; if Static is 0,\n"
-"               Plot flag still makes it invulnerable. Modders: use for decorative or script-only\n"
-"               doors."))
+        self.staticCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Static (GFF: Static). BYTE 0/1. When set, the door is non-interactive (no\n"
+                "               open/close, no dialogue). Engine reads via ReadFieldBYTE in LoadDoor; if Static is 0,\n"
+                "               Plot flag still makes it invulnerable. Modders: use for decorative or script-only\n"
+                "               doors.",
+            )
+        )
         self.staticCheckbox.setText(_translate("MainWindow", "Static"))
-        self.useableCheckbox.setToolTip(_translate("MainWindow", "Useable. When set, the door can be used (opened, conversation). Modders:\n"
-"               enable for normal doors the player can interact with; disable for decoration or doors\n"
-"               opened only by script."))
+        self.useableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Useable. When set, the door can be used (opened, conversation). Modders:\n"
+                "               enable for normal doors the player can interact with; disable for decoration or doors\n"
+                "               opened only by script.",
+            )
+        )
         self.useableCheckbox.setText(_translate("MainWindow", "Useable"))
-        self.notBlastableCheckbox.setToolTip(_translate("MainWindow", "Not Blastable (GFF: NotBlastable). KotOR 2 only. When set, the door cannot be\n"
-"               blasted open (e.g. with explosives). Modders: enable for doors that must be unlocked\n"
-"               or opened by key/script only."))
+        self.notBlastableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Not Blastable (GFF: NotBlastable). KotOR 2 only. When set, the door cannot be\n"
+                "               blasted open (e.g. with explosives). Modders: enable for doors that must be unlocked\n"
+                "               or opened by key/script only.",
+            )
+        )
         self.notBlastableCheckbox.setText(_translate("MainWindow", "Not Blastable"))
         self.groupBox_17.setTitle(_translate("MainWindow", "Other"))
         self.label_41.setText(_translate("MainWindow", "Faction:"))
-        self.factionSelect.setToolTip(_translate("MainWindow", "Faction (GFF: Faction). DWORD. Faction identifier; determines hostility and\n"
-"               who can use the door. Engine reads via ReadFieldDWORD in LoadDoor. Modders: set to\n"
-"               match your module\'s factions (repute.2da); wrong values can make the door hostile or\n"
-"               unusable by the party."))
+        self.factionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Faction (GFF: Faction). DWORD. Faction identifier; determines hostility and\n"
+                "               who can use the door. Engine reads via ReadFieldDWORD in LoadDoor. Modders: set to\n"
+                "               match your module's factions (repute.2da); wrong values can make the door hostile or\n"
+                "               unusable by the party.",
+            )
+        )
         self.label_42.setText(_translate("MainWindow", "Animation State:"))
-        self.animationState.setToolTip(_translate("MainWindow", "Animation State (GFF: AnimationState). BYTE 0–255. Current door animation\n"
-"               state (e.g. open/closed). CSWSDoor::LoadDoor does not read this field in the template\n"
-"               loader; it may be used when loading from save or for instance state in the area. In\n"
-"               template UTDs leave at 0; runtime state is stored in the GIT for placed instances.\n"
-"               Modders: set 0 for new doors."))
+        self.animationState.setToolTip(
+            _translate(
+                "MainWindow",
+                "Animation State (GFF: AnimationState). BYTE 0–255. Current door animation\n"
+                "               state (e.g. open/closed). CSWSDoor::LoadDoor does not read this field in the template\n"
+                "               loader; it may be used when loading from save or for instance state in the area. In\n"
+                "               template UTDs leave at 0; runtime state is stored in the GIT for placed instances.\n"
+                "               Modders: set 0 for new doors.",
+            )
+        )
         self.label_3.setText(_translate("MainWindow", "Current HP:"))
-        self.currentHpSpin.setToolTip(_translate("MainWindow", "Current HP (GFF: CurrentHP). SHORT. Door\'s current hit points when loaded;\n"
-"               when it reaches 0 the door is destroyed and OnDeath runs. Engine reads via\n"
-"               ReadFieldSHORT in LoadDoor. Modders: valid range 0–32767; usually set equal to Max HP\n"
-"               for a full-strength door. Clamped to Max HP when loading from GIT if a flag is set."))
+        self.currentHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Current HP (GFF: CurrentHP). SHORT. Door's current hit points when loaded;\n"
+                "               when it reaches 0 the door is destroyed and OnDeath runs. Engine reads via\n"
+                "               ReadFieldSHORT in LoadDoor. Modders: valid range 0–32767; usually set equal to Max HP\n"
+                "               for a full-strength door. Clamped to Max HP when loading from GIT if a flag is set.",
+            )
+        )
         self.label_26.setText(_translate("MainWindow", "Max HP:"))
-        self.maxHpSpin.setToolTip(_translate("MainWindow", "Max HP (GFF: HP). SHORT. Maximum hit points; door is destroyed when Current HP\n"
-"               reaches 0. Engine reads via ReadFieldSHORT in LoadDoor. Modders: valid range 0–32767;\n"
-"               typical values 10–50 for breakable doors. Plot or Static doors may ignore damage."))
+        self.maxHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max HP (GFF: HP). SHORT. Maximum hit points; door is destroyed when Current HP\n"
+                "               reaches 0. Engine reads via ReadFieldSHORT in LoadDoor. Modders: valid range 0–32767;\n"
+                "               typical values 10–50 for breakable doors. Plot or Static doors may ignore damage.",
+            )
+        )
         self.label_20.setText(_translate("MainWindow", "Hardness:"))
-        self.hardnessSpin.setToolTip(_translate("MainWindow", "Hardness (GFF: Hardness). BYTE. Damage reduction applied when the door is hit;\n"
-"               reduces each attack\'s damage. Engine reads via ReadFieldBYTE in LoadDoor (default 0).\n"
-"               Modders: valid range 0–255; typical 0–20. Does not prevent destruction when HP\n"
-"               reaches 0."))
+        self.hardnessSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Hardness (GFF: Hardness). BYTE. Damage reduction applied when the door is hit;\n"
+                "               reduces each attack's damage. Engine reads via ReadFieldBYTE in LoadDoor (default 0).\n"
+                "               Modders: valid range 0–255; typical 0–20. Does not prevent destruction when HP\n"
+                "               reaches 0.",
+            )
+        )
         self.label_21.setText(_translate("MainWindow", "Fortitude:"))
-        self.fortitudeSpin.setToolTip(_translate("MainWindow", "Fortitude (GFF: Fort). BYTE. Fortitude save value for the door; used in some\n"
-"               save checks (e.g. against spells). Engine reads via ReadFieldBYTE in LoadDoor.\n"
-"               Modders: valid range 0–255; often 0 in vanilla files."))
+        self.fortitudeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fortitude (GFF: Fort). BYTE. Fortitude save value for the door; used in some\n"
+                "               save checks (e.g. against spells). Engine reads via ReadFieldBYTE in LoadDoor.\n"
+                "               Modders: valid range 0–255; often 0 in vanilla files.",
+            )
+        )
         self.label_24.setText(_translate("MainWindow", "Reflex:"))
-        self.reflexSpin.setToolTip(_translate("MainWindow", "Reflex (GFF: Ref). BYTE. Reflex save value for the door; used in some save\n"
-"               checks. Engine reads via ReadFieldBYTE in LoadDoor. Modders: valid range 0–255; often\n"
-"               0 in vanilla files."))
+        self.reflexSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Reflex (GFF: Ref). BYTE. Reflex save value for the door; used in some save\n"
+                "               checks. Engine reads via ReadFieldBYTE in LoadDoor. Modders: valid range 0–255; often\n"
+                "               0 in vanilla files.",
+            )
+        )
         self.label_25.setText(_translate("MainWindow", "Will:"))
-        self.willSpin.setToolTip(_translate("MainWindow", "Will (GFF: Will). BYTE. Will save value for the door; used in some save checks\n"
-"               (e.g. against mind-affecting effects). Engine reads via ReadFieldBYTE in LoadDoor.\n"
-"               Modders: valid range 0–255; often 0 in vanilla files."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_10), _translate("MainWindow", "Advanced"))
+        self.willSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Will (GFF: Will). BYTE. Will save value for the door; used in some save checks\n"
+                "               (e.g. against mind-affecting effects). Engine reads via ReadFieldBYTE in LoadDoor.\n"
+                "               Modders: valid range 0–255; often 0 in vanilla files.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_10), _translate("MainWindow", "Advanced")
+        )
         self.groupBox_3.setTitle(_translate("MainWindow", "Key"))
-        self.needKeyCheckbox.setToolTip(_translate("MainWindow", "Key Required (GFF: KeyRequired). BYTE 0/1. When set, the door is locked until\n"
-"               the player uses an item whose tag matches Key Tag. Engine reads via ReadFieldBYTE in\n"
-"               LoadDoor. Modders: enable and set Key Tag to the tag of the key item (e.g. a UTI in\n"
-"               the module)."))
+        self.needKeyCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Key Required (GFF: KeyRequired). BYTE 0/1. When set, the door is locked until\n"
+                "               the player uses an item whose tag matches Key Tag. Engine reads via ReadFieldBYTE in\n"
+                "               LoadDoor. Modders: enable and set Key Tag to the tag of the key item (e.g. a UTI in\n"
+                "               the module).",
+            )
+        )
         self.needKeyCheckbox.setText(_translate("MainWindow", "Key required to unlock"))
-        self.removeKeyCheckbox.setToolTip(_translate("MainWindow", "Remove Key on Unlock (GFF: AutoRemoveKey). BYTE 0/1. When set, the key item is\n"
-"               consumed (removed from inventory) when used to unlock the door. Engine reads via\n"
-"               ReadFieldBYTE in LoadDoor. Modders: enable for one-use keys; disable if the key\n"
-"               should remain in inventory."))
+        self.removeKeyCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Remove Key on Unlock (GFF: AutoRemoveKey). BYTE 0/1. When set, the key item is\n"
+                "               consumed (removed from inventory) when used to unlock the door. Engine reads via\n"
+                "               ReadFieldBYTE in LoadDoor. Modders: enable for one-use keys; disable if the key\n"
+                "               should remain in inventory.",
+            )
+        )
         self.removeKeyCheckbox.setText(_translate("MainWindow", "Remove key on unlock"))
         self.label_4.setText(_translate("MainWindow", "Key Tag:"))
-        self.keyEdit.setToolTip(_translate("MainWindow", "Key Tag (GFF: KeyName). CExoString. Tag of the key item required to unlock\n"
-"                 the door when Key Required is set. The player must have an item in inventory whose\n"
-"                 tag matches this string. Engine reads via ReadFieldCExoString in LoadDoor. Modders:\n"
-"                 use the same tag as the key UTI\'s Tag field."))
+        self.keyEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Key Tag (GFF: KeyName). CExoString. Tag of the key item required to unlock\n"
+                "                 the door when Key Required is set. The player must have an item in inventory whose\n"
+                "                 tag matches this string. Engine reads via ReadFieldCExoString in LoadDoor. Modders:\n"
+                "                 use the same tag as the key UTI's Tag field.",
+            )
+        )
         self.groupBox_2.setTitle(_translate("MainWindow", "Lock"))
-        self.lockedCheckbox.setToolTip(_translate("MainWindow", "Locked (GFF: Locked). BYTE 0/1. When set, the door starts locked; the player\n"
-"                 must use a matching key or pick the lock (Open Lock DC) to open it. Modders: enable\n"
-"                 for doors that should start locked; combine with Key Required and Key Tag for\n"
-"                 key-only doors."))
+        self.lockedCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Locked (GFF: Locked). BYTE 0/1. When set, the door starts locked; the player\n"
+                "                 must use a matching key or pick the lock (Open Lock DC) to open it. Modders: enable\n"
+                "                 for doors that should start locked; combine with Key Required and Key Tag for\n"
+                "                 key-only doors.",
+            )
+        )
         self.lockedCheckbox.setText(_translate("MainWindow", "Locked"))
         self.label_2.setText(_translate("MainWindow", "Open Lock DC:"))
         self.difficultyLabel.setText(_translate("MainWindow", "Difficulty:"))
         self.difficultyModLabel.setText(_translate("MainWindow", "Difficulty Mod:"))
-        self.openLockSpin.setToolTip(_translate("MainWindow", "Open Lock DC (GFF: OpenLockDC). BYTE. Difficulty class to pick the lock\n"
-"                 (Security check). Engine reads via ReadFieldBYTE in LoadDoor. Modders: valid range\n"
-"                 0–255; typical 5–25. Use 0 for unlocked or non-lockable doors. Key Required\n"
-"                 overrides this when the key is used."))
-        self.difficultySpin.setToolTip(_translate("MainWindow", "Difficulty (GFF: OpenLockDiff). KotOR 2 only. Additional difficulty value\n"
-"                 for lock picking. Modders: valid range 0–255; only used in TSL. Leave 0 if\n"
-"                 targeting K1."))
-        self.difficultyModSpin.setToolTip(_translate("MainWindow", "Difficulty Mod (GFF: OpenLockDiffMod). KotOR 2 only. INT8 (-128 to 127).\n"
-"                 Modifier added to Open Lock DC when calculating lock pick difficulty; positive\n"
-"                 values make the lock harder, negative values make it easier. Engine reads via\n"
-"                 ReadField in TSL LoadDoor. Modders: use 0 for default; positive for tougher locks,\n"
-"                 negative to soften difficulty. Leave 0 if targeting K1."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Lock"))
+        self.openLockSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Open Lock DC (GFF: OpenLockDC). BYTE. Difficulty class to pick the lock\n"
+                "                 (Security check). Engine reads via ReadFieldBYTE in LoadDoor. Modders: valid range\n"
+                "                 0–255; typical 5–25. Use 0 for unlocked or non-lockable doors. Key Required\n"
+                "                 overrides this when the key is used.",
+            )
+        )
+        self.difficultySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Difficulty (GFF: OpenLockDiff). KotOR 2 only. Additional difficulty value\n"
+                "                 for lock picking. Modders: valid range 0–255; only used in TSL. Leave 0 if\n"
+                "                 targeting K1.",
+            )
+        )
+        self.difficultyModSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Difficulty Mod (GFF: OpenLockDiffMod). KotOR 2 only. INT8 (-128 to 127).\n"
+                "                 Modifier added to Open Lock DC when calculating lock pick difficulty; positive\n"
+                "                 values make the lock harder, negative values make it easier. Engine reads via\n"
+                "                 ReadField in TSL LoadDoor. Modders: use 0 for default; positive for tougher locks,\n"
+                "                 negative to soften difficulty. Leave 0 if targeting K1.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Lock")
+        )
         self.label_18.setText(_translate("MainWindow", "OnClicked:"))
-        self.onClickEdit.setToolTip(_translate("MainWindow", "OnClicked (GFF: OnClick). ResRef of NCS script (max 16 chars). Fires when the\n"
-"            player clicks the door. Leave blank for no script. Modders: use for custom door\n"
-"            interaction or dialogue triggers."))
+        self.onClickEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnClicked (GFF: OnClick). ResRef of NCS script (max 16 chars). Fires when the\n"
+                "            player clicks the door. Leave blank for no script. Modders: use for custom door\n"
+                "            interaction or dialogue triggers.",
+            )
+        )
         self.label_5.setText(_translate("MainWindow", "OnClosed:"))
-        self.onClosedEdit.setToolTip(_translate("MainWindow", "OnClosed (GFF: OnClosed). ResRef of NCS script. Fires when the door closes.\n"
-"            Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for no script. Max 16\n"
-"            characters."))
+        self.onClosedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnClosed (GFF: OnClosed). ResRef of NCS script. Fires when the door closes.\n"
+                "            Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for no script. Max 16\n"
+                "            characters.",
+            )
+        )
         self.label_7.setText(_translate("MainWindow", "OnDamaged:"))
-        self.onDamagedEdit.setToolTip(_translate("MainWindow", "OnDamaged (GFF: OnDamaged). ResRef of NCS script. Fires when the door takes\n"
-"            damage. Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for no script. Max 16\n"
-"            characters."))
+        self.onDamagedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnDamaged (GFF: OnDamaged). ResRef of NCS script. Fires when the door takes\n"
+                "            damage. Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for no script. Max 16\n"
+                "            characters.",
+            )
+        )
         self.label_8.setText(_translate("MainWindow", "OnDeath:"))
-        self.onDeathEdit.setToolTip(_translate("MainWindow", "OnDeath (GFF: OnDeath). ResRef of NCS script. Fires when the door is destroyed\n"
-"            (HP reaches 0). Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for no\n"
-"            script. Max 16 characters."))
+        self.onDeathEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnDeath (GFF: OnDeath). ResRef of NCS script. Fires when the door is destroyed\n"
+                "            (HP reaches 0). Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for no\n"
+                "            script. Max 16 characters.",
+            )
+        )
         self.label_10.setText(_translate("MainWindow", "OnOpenFailed:"))
-        self.onOpenFailedEdit.setToolTip(_translate("MainWindow", "OnOpenFailed. ResRef of NCS script. Fires when the player fails to open the door\n"
-"            (e.g. failed lock pick). Leave blank for no script. Max 16 characters."))
+        self.onOpenFailedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnOpenFailed. ResRef of NCS script. Fires when the player fails to open the door\n"
+                "            (e.g. failed lock pick). Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_11.setText(_translate("MainWindow", "OnHeartbeat:"))
-        self.onHeartbeatSelect.setToolTip(_translate("MainWindow", "OnHeartbeat (GFF: OnHeartbeat). ResRef of NCS script. Fires periodically while\n"
-"            the door is in the area. Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for\n"
-"            no script. Max 16 characters."))
+        self.onHeartbeatSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnHeartbeat (GFF: OnHeartbeat). ResRef of NCS script. Fires periodically while\n"
+                "            the door is in the area. Engine reads via ReadFieldCResRef in LoadDoor. Leave blank for\n"
+                "            no script. Max 16 characters.",
+            )
+        )
         self.label_13.setText(_translate("MainWindow", "OnMeleeAttack:"))
-        self.onMeleeAttackEdit.setToolTip(_translate("MainWindow", "OnMeleeAttack. ResRef of NCS script. Fires when the door is melee-attacked. Leave\n"
-"            blank for no script. Max 16 characters."))
+        self.onMeleeAttackEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnMeleeAttack. ResRef of NCS script. Fires when the door is melee-attacked. Leave\n"
+                "            blank for no script. Max 16 characters.",
+            )
+        )
         self.label_16.setText(_translate("MainWindow", "OnSpellCastAt:"))
-        self.onSpellEdit.setToolTip(_translate("MainWindow", "OnSpellCastAt (GFF: OnSpellCastAt). ResRef of NCS script. Fires when a spell is\n"
-"            cast at the door. Leave blank for no script. Max 16 characters."))
+        self.onSpellEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnSpellCastAt (GFF: OnSpellCastAt). ResRef of NCS script. Fires when a spell is\n"
+                "            cast at the door. Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_17.setText(_translate("MainWindow", "OnOpen:"))
-        self.onOpenEdit.setToolTip(_translate("MainWindow", "OnOpen. ResRef of NCS script. Fires when the door is opened. Leave blank for no\n"
-"            script. Max 16 characters."))
+        self.onOpenEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnOpen. ResRef of NCS script. Fires when the door is opened. Leave blank for no\n"
+                "            script. Max 16 characters.",
+            )
+        )
         self.label_23.setText(_translate("MainWindow", "OnUnlock:"))
-        self.onUnlockEdit.setToolTip(_translate("MainWindow", "OnUnlock. ResRef of NCS script. Fires when the door is unlocked (key or lock\n"
-"            pick). Leave blank for no script. Max 16 characters."))
+        self.onUnlockEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnUnlock. ResRef of NCS script. Fires when the door is unlocked (key or lock\n"
+                "            pick). Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_19.setText(_translate("MainWindow", "OnUserDefined:"))
-        self.onUserDefinedSelect.setToolTip(_translate("MainWindow", "OnUserDefined (GFF: ScriptUserDefine). ResRef of NCS script. Fires when another\n"
-"            script calls ExecuteScript with this door and the user-defined event. Leave blank for no\n"
-"            script. Max 16 characters."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Scripts"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer notes only—the game never reads or\n"
-"            displays this. Use it to document the door (e.g. purpose, author, change log). Modders:\n"
-"            add notes for yourself or your team."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.onUserDefinedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnUserDefined (GFF: ScriptUserDefine). ResRef of NCS script. Fires when another\n"
+                "            script calls ExecuteScript with this door and the user-defined event. Leave blank for no\n"
+                "            script. Max 16 characters.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Scripts")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer notes only—the game never reads or\n"
+                "            displays this. Use it to document the door (e.g. purpose, author, change log). Modders:\n"
+                "            add notes for yourself or your team.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuNew.setTitle(_translate("MainWindow", "File"))
         self.menuView.setTitle(_translate("MainWindow", "View"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -694,6 +967,8 @@ class Ui_MainWindow(object):
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionShowPreview.setText(_translate("MainWindow", "Show Preview"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from toolset.gui.widgets.renderer.model import ModelRenderer

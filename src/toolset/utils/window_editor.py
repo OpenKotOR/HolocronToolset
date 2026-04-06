@@ -14,7 +14,6 @@ if TYPE_CHECKING:
     from pykotor.resource.type import ResourceType
 
 
-
 def _iter_editor_windows() -> list[Editor]:
     from toolset.utils.window import TOOLSET_WINDOWS
 

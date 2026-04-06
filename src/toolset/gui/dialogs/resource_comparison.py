@@ -28,7 +28,11 @@ class ResourceComparisonDialog(QDialog):
         super().__init__(parent)
         from toolset.gui.common.localization import trf
 
-        self.setWindowTitle(trf("Compare: {name}.{ext}", name=resource1.resname(), ext=resource1.restype().extension))
+        self.setWindowTitle(
+            trf(
+                "Compare: {name}.{ext}", name=resource1.resname(), ext=resource1.restype().extension
+            )
+        )
 
         self.resource1 = resource1
         self.resource2 = resource2
@@ -116,7 +120,9 @@ class ResourceComparisonDialog(QDialog):
         for i in range(0, len(data), 16):
             chunk = data[i : i + 16]
             hex_part = " ".join(f"{b:02x}" for b in chunk)
-            ascii_part = "".join(chr(b) if ASCII_MIN_PRINTABLE <= b < ASCII_MAX_PRINTABLE else "." for b in chunk)
+            ascii_part = "".join(
+                chr(b) if ASCII_MIN_PRINTABLE <= b < ASCII_MAX_PRINTABLE else "." for b in chunk
+            )
             hex_lines.append(f"{i:08x}  {hex_part:<48}  {ascii_part}")
 
         return "\n".join(hex_lines)

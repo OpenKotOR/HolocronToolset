@@ -227,7 +227,9 @@ class NSSEditor(Editor):
         self._debugger: Debugger | None = None
         self._breakpoint_lines: set[int] = set()  # Line numbers with breakpoints (1-indexed)
         self._current_debug_line: int | None = None  # Current line being debugged
-        self._line_to_instruction_map: dict[int, list[int]] = {}  # Map source lines to instruction indices
+        self._line_to_instruction_map: dict[
+            int, list[int]
+        ] = {}  # Map source lines to instruction indices
 
         # PERFORMANCE: Language Server runs in a subprocess
         # This avoids blocking the UI thread and eliminates GIL contention
@@ -290,7 +292,11 @@ class NSSEditor(Editor):
         return QSettings(get_qsettings_organization("HolocronToolsetV4"), "NSSEditor")
 
     def _bookmark_settings_key(self) -> str:
-        return f"nss_editor/bookmarks/{self._resname}" if self._resname else "nss_editor/bookmarks/untitled"
+        return (
+            f"nss_editor/bookmarks/{self._resname}"
+            if self._resname
+            else "nss_editor/bookmarks/untitled"
+        )
 
     def _load_json_list_setting(self, key: str) -> list[Any]:
         raw_value = self._get_settings().value(key, "[]")
@@ -461,7 +467,9 @@ class NSSEditor(Editor):
 
         # Connect signals for the outline view
         self.ui.outlineView.itemClicked.connect(self.ui.codeEdit.on_outline_item_clicked)
-        self.ui.outlineView.itemDoubleClicked.connect(self.ui.codeEdit.on_outline_item_double_clicked)
+        self.ui.outlineView.itemDoubleClicked.connect(
+            self.ui.codeEdit.on_outline_item_double_clicked
+        )
 
         # Style the outline view with VS Code-like appearance
         self.ui.outlineView.setStyleSheet("""
@@ -682,8 +690,16 @@ class NSSEditor(Editor):
             {"id": "view.toggleWordWrap", "label": "Toggle Word Wrap", "category": "View"},
             # Navigation
             {"id": "navigate.gotoLine", "label": "Go to Line...", "category": "Navigation"},
-            {"id": "navigate.gotoDefinition", "label": "Go to Definition", "category": "Navigation"},
-            {"id": "navigate.findReferences", "label": "Find All References", "category": "Navigation"},
+            {
+                "id": "navigate.gotoDefinition",
+                "label": "Go to Definition",
+                "category": "Navigation",
+            },
+            {
+                "id": "navigate.findReferences",
+                "label": "Find All References",
+                "category": "Navigation",
+            },
             # Code operations
             {"id": "code.format", "label": "Format Document", "category": "Code"},
             {"id": "code.compile", "label": "Compile Script", "category": "Code"},
@@ -739,7 +755,9 @@ class NSSEditor(Editor):
         # Register all commands
         for cmd in commands:
             callback = command_map.get(cmd["id"])
-            self._command_palette.register_command(cmd["id"], cmd["label"], cmd.get("category", ""), callback)
+            self._command_palette.register_command(
+                cmd["id"], cmd["label"], cmd.get("category", ""), callback
+            )
 
     def _show_command_palette(self):
         """Show the command palette."""
@@ -952,8 +970,12 @@ class NSSEditor(Editor):
             )
             from pykotor.common.scriptlib import KOTOR_LIBRARY, TSL_LIBRARY
 
-            self.constants[:] = sorted(TSL_CONSTANTS if self._is_tsl else KOTOR_CONSTANTS, key=attrgetter("name"))
-            self.functions[:] = sorted(TSL_FUNCTIONS if self._is_tsl else KOTOR_FUNCTIONS, key=attrgetter("name"))
+            self.constants[:] = sorted(
+                TSL_CONSTANTS if self._is_tsl else KOTOR_CONSTANTS, key=attrgetter("name")
+            )
+            self.functions[:] = sorted(
+                TSL_FUNCTIONS if self._is_tsl else KOTOR_FUNCTIONS, key=attrgetter("name")
+            )
             self.library = (TSL_LIBRARY if self._is_tsl else KOTOR_LIBRARY).copy()
 
         # Clear and repopulate the function and constant lists
@@ -1028,7 +1050,9 @@ class NSSEditor(Editor):
         menu: QMenu | None = self.ui.codeEdit.createStandardContextMenu()
         assert menu is not None, "Menu should not be None"
 
-        def add_action(target_menu: QMenu, text: str, callback: Callable[..., Any], shortcut: str | None = None) -> QAction:
+        def add_action(
+            target_menu: QMenu, text: str, callback: Callable[..., Any], shortcut: str | None = None
+        ) -> QAction:
             action = target_menu.addAction(text)
             assert action is not None, f"{text} action should not be None"
             if shortcut:
@@ -1045,11 +1069,27 @@ class NSSEditor(Editor):
         menu.addSeparator()
         if word_under_cursor and word_under_cursor.strip():
             add_action(menu, "Go to Definition", self.go_to_definition, "F12")
-            add_action(menu, "Find All References", lambda: self._find_all_references(word_under_cursor), "Shift+F12")
+            add_action(
+                menu,
+                "Find All References",
+                lambda: self._find_all_references(word_under_cursor),
+                "Shift+F12",
+            )
 
             # Add "Find References in Installation" action
-            if hasattr(self, "_installation") and self._installation is not None and word_under_cursor:
-                add_action(menu, "Find References in Installation...", lambda checked=False, script_name=word_under_cursor: self._find_script_references_in_installation(script_name))
+            if (
+                hasattr(self, "_installation")
+                and self._installation is not None
+                and word_under_cursor
+            ):
+                add_action(
+                    menu,
+                    "Find References in Installation...",
+                    lambda checked=False,
+                    script_name=word_under_cursor: self._find_script_references_in_installation(
+                        script_name
+                    ),
+                )
 
         add_action(menu, "Go to Line...", self.ui.codeEdit.go_to_line, "Ctrl+G")
         menu.addSeparator()
@@ -1067,8 +1107,18 @@ class NSSEditor(Editor):
         # Line Movement
         move_line_menu: QMenu | None = menu.addMenu("Move Line")
         assert move_line_menu is not None, "Move line menu should not be None"
-        add_action(move_line_menu, "Move Line Up", lambda: self.ui.codeEdit.move_line_up_or_down("up"), "Alt+Up")
-        add_action(move_line_menu, "Move Line Down", lambda: self.ui.codeEdit.move_line_up_or_down("down"), "Alt+Down")
+        add_action(
+            move_line_menu,
+            "Move Line Up",
+            lambda: self.ui.codeEdit.move_line_up_or_down("up"),
+            "Alt+Up",
+        )
+        add_action(
+            move_line_menu,
+            "Move Line Down",
+            lambda: self.ui.codeEdit.move_line_up_or_down("down"),
+            "Alt+Down",
+        )
 
         menu.addSeparator()
 
@@ -1087,7 +1137,12 @@ class NSSEditor(Editor):
         has_bookmark = self._has_bookmark_at_line(current_line)
 
         if has_bookmark:
-            add_action(menu, "Remove Bookmark", lambda: self._remove_bookmark_at_line(current_line), "Ctrl+K, Ctrl+B")
+            add_action(
+                menu,
+                "Remove Bookmark",
+                lambda: self._remove_bookmark_at_line(current_line),
+                "Ctrl+K, Ctrl+B",
+            )
         else:
             add_action(menu, "Toggle Bookmark", self.add_bookmark, "Ctrl+K, Ctrl+B")
 
@@ -1101,7 +1156,9 @@ class NSSEditor(Editor):
             for trigger, content in self.ui.codeEdit.snippets.items():
                 action = snippet_menu.addAction(trigger)
                 assert action is not None, "Snippet action should not be None"
-                action.triggered.connect(lambda _checked, c=content: self.ui.codeEdit.insertPlainText(c))
+                action.triggered.connect(
+                    lambda _checked, c=content: self.ui.codeEdit.insertPlainText(c)
+                )
             snippet_menu.addSeparator()
         action = snippet_menu.addAction("Insert Snippet...")
         assert action is not None, "Insert snippet action should not be None"
@@ -1212,7 +1269,11 @@ class NSSEditor(Editor):
         self.ui.panelTabs.setCurrentWidget(self.ui.findResultsTab)
 
         if not self._find_results:
-            QMessageBox.information(self, tr("Find All References"), trf("No references to '{word}' found in current file.", word=word))
+            QMessageBox.information(
+                self,
+                tr("Find All References"),
+                trf("No references to '{word}' found in current file.", word=word),
+            )
         else:
             self._log_to_output(f"Found {len(self._find_results)} reference(s) to '{word}'")
 
@@ -1280,7 +1341,9 @@ class NSSEditor(Editor):
             results_dialog = FileResults(self, results_list, self._installation)
             results_dialog.show()
             results_dialog.activateWindow()
-            results_dialog.setWindowTitle(f"{len(results_list)} reference(s) found for script '{script_name}'")
+            results_dialog.setWindowTitle(
+                f"{len(results_list)} reference(s) found for script '{script_name}'"
+            )
             add_window(results_dialog)
 
         loader.optional_finish_hook.connect(handle_search_completed)
@@ -1385,18 +1448,27 @@ class NSSEditor(Editor):
                             QMessageBox.information(
                                 self,
                                 tr("Go to Definition"),
-                                trf("Constant '{word}' is a built-in constant.\nSee the Constants tab for more information.", word=word),
+                                trf(
+                                    "Constant '{word}' is a built-in constant.\nSee the Constants tab for more information.",
+                                    word=word,
+                                ),
                             )
                             return
 
-            QMessageBox.information(self, tr("Go to Definition"), trf("Definition for '{word}' not found in current file.", word=word))
+            QMessageBox.information(
+                self,
+                tr("Go to Definition"),
+                trf("Definition for '{word}' not found in current file.", word=word),
+            )
 
     def _setup_file_explorer(self):
         """Set up the file explorer with filtering and navigation."""
         self.file_system_model = QFileSystemModel()
         self.file_system_model.setRootPath("")
         # Filter to show files and directories
-        self.file_system_model.setFilter(QDir.Filter.AllDirs | QDir.Filter.Files | QDir.Filter.NoDotAndDotDot)
+        self.file_system_model.setFilter(
+            QDir.Filter.AllDirs | QDir.Filter.Files | QDir.Filter.NoDotAndDotDot
+        )
 
         self.ui.fileExplorerView.setModel(self.file_system_model)
 
@@ -1417,14 +1489,18 @@ class NSSEditor(Editor):
 
         self.ui.fileExplorerView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         try:
-            self.ui.fileExplorerView.customContextMenuRequested.disconnect(self._show_file_explorer_context_menu)
+            self.ui.fileExplorerView.customContextMenuRequested.disconnect(
+                self._show_file_explorer_context_menu
+            )
         except (TypeError, RuntimeError):
             pass
         try:
             self.ui.fileExplorerView.doubleClicked.disconnect(self._open_file_from_explorer)
         except (TypeError, RuntimeError):
             pass
-        self.ui.fileExplorerView.customContextMenuRequested.connect(self._show_file_explorer_context_menu)
+        self.ui.fileExplorerView.customContextMenuRequested.connect(
+            self._show_file_explorer_context_menu
+        )
         self.ui.fileExplorerView.doubleClicked.connect(self._open_file_from_explorer)
 
         # Connect address bar
@@ -1467,7 +1543,14 @@ class NSSEditor(Editor):
             root_index = self.file_system_model.index(str(path))
             self.ui.fileExplorerView.setRootIndex(root_index)
         else:
-            QMessageBox.warning(self, tr("Invalid Path"), trf("The path '{path_text}' does not exist or is not a directory.", path_text=path_text))
+            QMessageBox.warning(
+                self,
+                tr("Invalid Path"),
+                trf(
+                    "The path '{path_text}' does not exist or is not a directory.",
+                    path_text=path_text,
+                ),
+            )
             # Reset to current root
             current_root = self.file_system_model.rootPath()
             self.ui.lineEdit.setText(current_root)
@@ -1482,7 +1565,9 @@ class NSSEditor(Editor):
             for i in range(model.rowCount(self.ui.fileExplorerView.rootIndex())):
                 index = model.index(i, 0, self.ui.fileExplorerView.rootIndex())
                 if index.isValid():
-                    self.ui.fileExplorerView.setRowHidden(i, self.ui.fileExplorerView.rootIndex(), False)
+                    self.ui.fileExplorerView.setRowHidden(
+                        i, self.ui.fileExplorerView.rootIndex(), False
+                    )
             return
 
         # Filter files matching search text
@@ -1505,7 +1590,9 @@ class NSSEditor(Editor):
 
                 # Hide if no match
                 file_system_model: QAbstractItemModel | None = self.ui.fileExplorerView.model()
-                assert isinstance(file_system_model, QFileSystemModel), "File system model should be a QFileSystemModel"
+                assert isinstance(file_system_model, QFileSystemModel), (
+                    "File system model should be a QFileSystemModel"
+                )
                 assert file_system_model is not None, "File system model should not be None"
                 view_index: QModelIndex | None = file_system_model.index(i, 0, parent_index)
                 if view_index is not None and view_index.isValid():
@@ -1576,7 +1663,9 @@ class NSSEditor(Editor):
         # Don't open directories
         if file_path.is_dir():
             # Toggle expansion instead
-            self.ui.fileExplorerView.setExpanded(index, not self.ui.fileExplorerView.isExpanded(index))
+            self.ui.fileExplorerView.setExpanded(
+                index, not self.ui.fileExplorerView.isExpanded(index)
+            )
             return
 
         try:
@@ -1604,7 +1693,14 @@ class NSSEditor(Editor):
             # Try to get parameter info
             params: list[dict[str, Any]] = getattr(func, "parameters", [])
             if params:
-                param_str = ", ".join([f"{p.get('type', '')} {p.get('name', '')}" if isinstance(p, dict) else str(p) for p in params[:3]])
+                param_str = ", ".join(
+                    [
+                        f"{p.get('type', '')} {p.get('name', '')}"
+                        if isinstance(p, dict)
+                        else str(p)
+                        for p in params[:3]
+                    ]
+                )
                 if len(params) > 3:
                     param_str += "..."
                 completer_list.append(f"{func.name}({param_str}) → {return_type}")
@@ -1983,9 +2079,13 @@ class NSSEditor(Editor):
             # Find word at position
             word_start: int = character
             word_end: int = character
-            while word_start > 0 and (current_line[word_start - 1].isalnum() or current_line[word_start - 1] == "_"):
+            while word_start > 0 and (
+                current_line[word_start - 1].isalnum() or current_line[word_start - 1] == "_"
+            ):
                 word_start -= 1
-            while word_end < len(current_line) and (current_line[word_end].isalnum() or current_line[word_end] == "_"):
+            while word_end < len(current_line) and (
+                current_line[word_end].isalnum() or current_line[word_end] == "_"
+            ):
                 word_end += 1
             word: str = current_line[word_start:word_end]
 
@@ -2013,10 +2113,14 @@ class NSSEditor(Editor):
             text=self.ui.codeEdit.toPlainText(),
             line=line,
             character=character,
-            callback=lambda r, w=word, rid=request_id: self._on_hover_complete(r, requested_word=w, request_id=rid),
+            callback=lambda r, w=word, rid=request_id: self._on_hover_complete(
+                r, requested_word=w, request_id=rid
+            ),
         )
 
-    def _on_hover_complete(self, result: dict[str, Any] | None, *, requested_word: str, request_id: int):
+    def _on_hover_complete(
+        self, result: dict[str, Any] | None, *, requested_word: str, request_id: int
+    ):
         """Handle hover result from language server."""
         # Language server callbacks can run off the UI thread; marshal to UI thread.
         from qtpy.QtCore import QThread, QTimer
@@ -2171,7 +2275,9 @@ class NSSEditor(Editor):
         )
 
         script_filename = f"{resref.lower()}.nss"
-        dialog = GitHubFileSelector(self.owner, self.repo, selected_files=[script_filename], parent=self)
+        dialog = GitHubFileSelector(
+            self.owner, self.repo, selected_files=[script_filename], parent=self
+        )
         if dialog.exec() != QDialog.DialogCode.Accepted:
             raise ValueError("No script selected.")
 
@@ -2236,8 +2342,13 @@ class NSSEditor(Editor):
         box = QMessageBox(
             QMessageBox.Icon.Question,
             tr("Decompile or Download"),
-            trf("Would you like to decompile this script, or download it from <a href='{url}'>Vanilla Source Repository</a>?", url=self.sourcerepo_url),
-            buttons=QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel,
+            trf(
+                "Would you like to decompile this script, or download it from <a href='{url}'>Vanilla Source Repository</a>?",
+                url=self.sourcerepo_url,
+            ),
+            buttons=QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.Ok
+            | QMessageBox.StandardButton.Cancel,
         )
         box.setDefaultButton(QMessageBox.StandardButton.Cancel)
         box.button(QMessageBox.StandardButton.Yes).setText(tr("Decompile"))  # type: ignore[union-attr]
@@ -2285,7 +2396,9 @@ class NSSEditor(Editor):
                 try:
                     # Read nwscript.nss and create ActionsData from it
                     # ActionsData expects a file-like object with function definitions
-                    nwscript_content = nwscript_path.read_text(encoding="windows-1252", errors="replace")
+                    nwscript_content = nwscript_path.read_text(
+                        encoding="windows-1252", errors="replace"
+                    )
                     actions_reader = io.StringIO(nwscript_content)
                     actions = ActionsData(actions_reader)
                 except Exception as e:
@@ -2315,15 +2428,21 @@ class NSSEditor(Editor):
 
     def _download_and_load_remote_script(self, resref: str) -> str:
         script_path: str = self.determine_script_path(resref)
-        local_path = Path(get_log_directory(self._global_settings.extractPath), PurePath(script_path).name)
+        local_path = Path(
+            get_log_directory(self._global_settings.extractPath), PurePath(script_path).name
+        )
         print(f"Local path: {local_path}")
 
-        download_process = multiprocessing.Process(target=download_script, args=(f"{self.owner}/{self.repo}", str(local_path), script_path))
+        download_process = multiprocessing.Process(
+            target=download_script, args=(f"{self.owner}/{self.repo}", str(local_path), script_path)
+        )
         download_process.start()
         download_process.join()
 
         if not local_path.exists():
-            raise ValueError(f"Failed to download the script: '{local_path}' did not exist after download completed.")  # noqa: TRY301
+            raise ValueError(
+                f"Failed to download the script: '{local_path}' did not exist after download completed."
+            )  # noqa: TRY301
 
         # Try multiple encodings
         try:
@@ -2346,7 +2465,9 @@ class NSSEditor(Editor):
                 except UnicodeEncodeError:
                     return text.encode("latin-1", errors="replace"), b""
 
-        RobustLogger().debug(f"Compiling script '{self._resname}.{self._restype.extension}' from the NSSEditor...")
+        RobustLogger().debug(
+            f"Compiling script '{self._resname}.{self._restype.extension}' from the NSSEditor..."
+        )
         assert self._installation is not None, "Installation not set, cannot determine path"
         compiled_bytes: bytes | None = ht_compile_script(
             self.ui.codeEdit.toPlainText(),
@@ -2354,7 +2475,9 @@ class NSSEditor(Editor):
             tsl=self._installation.game().is_k2(),  # Determine whether this is a TSL installation (K2/TSL/2)
         )
         if compiled_bytes is None:
-            self._logger.debug(f"User cancelled the compilation of '{self._resname}.{self._restype.extension}'.")
+            self._logger.debug(
+                f"User cancelled the compilation of '{self._resname}.{self._restype.extension}'."
+            )
             return bytearray(), b""
         return compiled_bytes, b""
 
@@ -2368,7 +2491,9 @@ class NSSEditor(Editor):
         with self._snapshot_restype_context(self._compiled_resource_saved):
             try:
                 self._restype = ResourceType.NCS
-                filepath: Path = Path.cwd() / "untitled_script.ncs" if self._filepath is None else self._filepath
+                filepath: Path = (
+                    Path.cwd() / "untitled_script.ncs" if self._filepath is None else self._filepath
+                )
                 if is_any_erf_type_file(filepath.name) or is_rim_file(filepath.name):
                     # Save the NCS resource into the given ERF/RIM.
                     # If this is not allowed save() will find a new path to save at.
@@ -2382,9 +2507,17 @@ class NSSEditor(Editor):
                 # Save using the overridden filepath and resource type.
                 self.save()
             except ValueError as e:
-                QMessageBox(QMessageBox.Icon.Critical, tr("Failed to compile"), str((e.__class__.__name__, str(e)))).exec()
+                QMessageBox(
+                    QMessageBox.Icon.Critical,
+                    tr("Failed to compile"),
+                    str((e.__class__.__name__, str(e))),
+                ).exec()
             except OSError as e:
-                QMessageBox(QMessageBox.Icon.Critical, tr("Failed to save file"), str((e.__class__.__name__, str(e)))).exec()
+                QMessageBox(
+                    QMessageBox.Icon.Critical,
+                    tr("Failed to save file"),
+                    str((e.__class__.__name__, str(e))),
+                ).exec()
 
     def _compiled_resource_saved(
         self,
@@ -2446,6 +2579,7 @@ class NSSEditor(Editor):
 
     def _setup_shortcuts(self):  # noqa: PLR0915
         """Set up all keyboard shortcuts with VS Code-like behavior."""
+
         def bind_action(action: QAction, shortcut: str, callback: Callable[[], Any] | None = None):
             action.setShortcut(QKeySequence(shortcut))
             if callback is not None:
@@ -2470,7 +2604,9 @@ class NSSEditor(Editor):
         self.ui.actionExit.triggered.connect(lambda *_: self.close())
 
         # Compile
-        bind_action(self.ui.actionCompile, "F5", self.compile_current_script)  # Changed from Ctrl+Shift+B to F5 (VS Code style)
+        bind_action(
+            self.ui.actionCompile, "F5", self.compile_current_script
+        )  # Changed from Ctrl+Shift+B to F5 (VS Code style)
 
         # Edit operations - VS Code style
         bind_action(self.ui.actionUndo, "Ctrl+Z", self.ui.codeEdit.undo)
@@ -2539,8 +2675,16 @@ class NSSEditor(Editor):
         bind_shortcut("Ctrl+Space", self.ui.codeEdit.show_auto_complete_menu)
 
         # View operations
-        bind_action(self.ui.actionZoom_In, "Ctrl+=", lambda: self.ui.codeEdit.change_text_size(increase=True))
-        bind_action(self.ui.actionZoom_Out, "Ctrl+-", lambda: self.ui.codeEdit.change_text_size(increase=False))
+        bind_action(
+            self.ui.actionZoom_In,
+            "Ctrl+=",
+            lambda: self.ui.codeEdit.change_text_size(increase=True),
+        )
+        bind_action(
+            self.ui.actionZoom_Out,
+            "Ctrl+-",
+            lambda: self.ui.codeEdit.change_text_size(increase=False),
+        )
         bind_action(self.ui.actionReset_Zoom, "Ctrl+0", self._reset_zoom)
         bind_action(self.ui.actionToggle_Line_Numbers, "Ctrl+Shift+L", self._toggle_line_numbers)
         bind_action(self.ui.actionToggle_Wrap_Lines, "Alt+Z", self._toggle_word_wrap)
@@ -2561,7 +2705,9 @@ class NSSEditor(Editor):
         # Panel toggles
         self.ui.actionToggleFileExplorer.setShortcut(QKeySequence("Ctrl+B"))
         self.ui.actionToggleTerminal.setShortcut(QKeySequence("Ctrl+`"))
-        self.ui.actionToggle_Output_Panel.setShortcut(QKeySequence("Ctrl+Shift+U"))  # VS Code uses Ctrl+Shift+U for output
+        self.ui.actionToggle_Output_Panel.setShortcut(
+            QKeySequence("Ctrl+Shift+U")
+        )  # VS Code uses Ctrl+Shift+U for output
 
         # Tools
         bind_action(self.ui.actionFormat_Code, "Shift+Alt+F", self._format_code)
@@ -2573,20 +2719,30 @@ class NSSEditor(Editor):
 
         # Help
         bind_action(self.ui.actionDocumentation, "F1", self._show_documentation)
-        bind_action(self.ui.actionKeyboard_Shortcuts, "Ctrl+K, Ctrl+H", self._show_keyboard_shortcuts)
+        bind_action(
+            self.ui.actionKeyboard_Shortcuts, "Ctrl+K, Ctrl+H", self._show_keyboard_shortcuts
+        )
         assert self.ui.actionAbout is not None, "About action should not be None"
         self.ui.actionAbout.triggered.connect(self._show_about)
-        assert self.ui.actionCheck_for_Updates is not None, "Check for updates action should not be None"
+        assert self.ui.actionCheck_for_Updates is not None, (
+            "Check for updates action should not be None"
+        )
         self.ui.actionCheck_for_Updates.triggered.connect(self._check_for_updates)
 
         # Debug menu actions (placeholders for future implementation)
-        assert self.ui.actionStart_Debugging is not None, "Start debugging action should not be None"
+        assert self.ui.actionStart_Debugging is not None, (
+            "Start debugging action should not be None"
+        )
         self.ui.actionStart_Debugging.triggered.connect(self._start_debugging)
         assert self.ui.actionStop_Debugging is not None, "Stop debugging action should not be None"
         self.ui.actionStop_Debugging.triggered.connect(self._stop_debugging)
-        assert self.ui.actionToggle_Breakpoint is not None, "Toggle breakpoint action should not be None"
+        assert self.ui.actionToggle_Breakpoint is not None, (
+            "Toggle breakpoint action should not be None"
+        )
         self.ui.actionToggle_Breakpoint.triggered.connect(self._toggle_breakpoint)
-        assert self.ui.actionClear_All_Breakpoints is not None, "Clear all breakpoints action should not be None"
+        assert self.ui.actionClear_All_Breakpoints is not None, (
+            "Clear all breakpoints action should not be None"
+        )
         self.ui.actionClear_All_Breakpoints.triggered.connect(self._clear_all_breakpoints)
         # Game type toggle
         self.ui.actionK1.triggered.connect(lambda: self._on_game_changed(0))
@@ -2727,9 +2883,13 @@ class NSSEditor(Editor):
             # Count lines in selection
             selection_lines: int = len(selection.split("\u2029"))  # Unicode paragraph separator
             if selection_lines > 1:
-                self.status_label.setText(f"Ln {line}, Col {col} ({selected_count} chars in {selection_lines} lines) | {total_lines} lines")
+                self.status_label.setText(
+                    f"Ln {line}, Col {col} ({selected_count} chars in {selection_lines} lines) | {total_lines} lines"
+                )
             else:
-                self.status_label.setText(f"Ln {line}, Col {col} ({selected_count} selected) | {total_lines} lines")
+                self.status_label.setText(
+                    f"Ln {line}, Col {col} ({selected_count} selected) | {total_lines} lines"
+                )
         else:
             self.status_label.setText(f"Ln {line}, Col {col} | {total_lines} lines")
 
@@ -2874,7 +3034,11 @@ class NSSEditor(Editor):
 
         # Confirm before formatting
         reply: QMessageBox.StandardButton = QMessageBox.question(
-            self, "Format Code", "Format the entire document?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.Yes,
+            self,
+            "Format Code",
+            "Format the entire document?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
         )
         if reply != QMessageBox.StandardButton.Yes:
             return
@@ -3023,7 +3187,9 @@ class NSSEditor(Editor):
         for file_path, results in files_dict.items():
             file_item = QTreeWidgetItem(self.ui.findResultsTree)
             # Capsule resources: show "capsule/resref.ext"; loose files: show filename only
-            display_name = file_path if any(r.get("resname") for r in results) else Path(file_path).name
+            display_name = (
+                file_path if any(r.get("resname") for r in results) else Path(file_path).name
+            )
             file_item.setText(0, display_name)
             file_item.setText(1, str(len(results)))
             file_item.setData(0, Qt.ItemDataRole.UserRole, file_path)
@@ -3041,7 +3207,9 @@ class NSSEditor(Editor):
         if not isinstance(result_data, dict) or "line" not in result_data:
             return
         open_filepath = result_data.get("open_filepath") or result_data.get("file")
-        if open_filepath is None or (isinstance(open_filepath, str) and open_filepath == "Untitled"):
+        if open_filepath is None or (
+            isinstance(open_filepath, str) and open_filepath == "Untitled"
+        ):
             return
         path = Path(open_filepath) if not isinstance(open_filepath, Path) else open_filepath
         resname = result_data.get("resname")
@@ -3049,7 +3217,9 @@ class NSSEditor(Editor):
         is_capsule_path = path.name and (is_rim_file(path.name) or is_any_erf_type_file(path.name))
 
         if resname and restype is not None and is_capsule_path:
-            fileres = FileResource(resname=resname, restype=restype, size=0, offset=0, filepath=path)
+            fileres = FileResource(
+                resname=resname, restype=restype, size=0, offset=0, filepath=path
+            )
             result = open_resource_editor(fileres, installation=self._installation)
         else:
             if not path.is_file():
@@ -3079,7 +3249,11 @@ class NSSEditor(Editor):
 
         # Set it as a floating widget that appears above the editor
         # We'll position it dynamically when shown
-        self._find_replace_widget.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Tool | Qt.WindowType.WindowStaysOnTopHint)
+        self._find_replace_widget.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Tool
+            | Qt.WindowType.WindowStaysOnTopHint
+        )
         self._find_replace_widget.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, False)
 
         # Make it look more like VS Code
@@ -3122,7 +3296,9 @@ class NSSEditor(Editor):
         self._find_replace_widget.close_requested.connect(self._on_find_replace_close)
 
         # Connect text changes to auto-find
-        self._find_replace_widget.find_input.textChanged.connect(self._on_find_text_changed_in_widget)
+        self._find_replace_widget.find_input.textChanged.connect(
+            self._on_find_text_changed_in_widget
+        )
 
         # Initially hidden
         self._find_replace_widget.hide()
@@ -3216,7 +3392,11 @@ class NSSEditor(Editor):
     ):
         """Handle find request from widget."""
         self._current_find_text = text if text and text.strip() else ""
-        self._current_find_flags = {"case_sensitive": case_sensitive, "whole_words": whole_words, "regex": regex}
+        self._current_find_flags = {
+            "case_sensitive": case_sensitive,
+            "whole_words": whole_words,
+            "regex": regex,
+        }
         # The actual find is done in find_next/previous handlers
 
     def _on_find_next_requested(self):
@@ -3280,23 +3460,33 @@ class NSSEditor(Editor):
                 except Exception:
                     matches = False
             elif whole_words:
-                matches = (selected == find_text) or (not case_sensitive and selected.lower() == find_text.lower())
+                matches = (selected == find_text) or (
+                    not case_sensitive and selected.lower() == find_text.lower()
+                )
             else:
-                matches = (selected == find_text) or (not case_sensitive and selected.lower() == find_text.lower())
+                matches = (selected == find_text) or (
+                    not case_sensitive and selected.lower() == find_text.lower()
+                )
 
             if matches:
                 cursor.insertText(replace_text)
                 # Find next occurrence
-                self.ui.codeEdit.find_next(find_text, case_sensitive, whole_words, regex, backward=False)
+                self.ui.codeEdit.find_next(
+                    find_text, case_sensitive, whole_words, regex, backward=False
+                )
                 return
 
         # Otherwise, find next occurrence first
-        found = self.ui.codeEdit.find_next(find_text, case_sensitive, whole_words, regex, backward=False)
+        found = self.ui.codeEdit.find_next(
+            find_text, case_sensitive, whole_words, regex, backward=False
+        )
         if found:
             # Replace the selected text
             self.ui.codeEdit.replace_current(find_text, replace_text)
             # Find next occurrence
-            self.ui.codeEdit.find_next(find_text, case_sensitive, whole_words, regex, backward=False)
+            self.ui.codeEdit.find_next(
+                find_text, case_sensitive, whole_words, regex, backward=False
+            )
         else:
             self._log_to_output("Replace: No occurrences found to replace")
 
@@ -3311,10 +3501,16 @@ class NSSEditor(Editor):
         """Handle replace all request."""
         # Confirm before replacing all
         reply = QMessageBox.question(
-            self, "Replace All", f"Replace all occurrences of '{find_text}'?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No,
+            self,
+            "Replace All",
+            f"Replace all occurrences of '{find_text}'?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
         )
         if reply == QMessageBox.StandardButton.Yes:
-            count = self.ui.codeEdit.replace_all_occurrences(find_text, replace_text, case_sensitive, whole_words, regex)
+            count = self.ui.codeEdit.replace_all_occurrences(
+                find_text, replace_text, case_sensitive, whole_words, regex
+            )
             self._log_to_output(f"Replace All: Replaced {count} occurrence(s)")
             QMessageBox.information(self, "Replace All", f"Replaced {count} occurrence(s)")
 
@@ -3337,14 +3533,20 @@ class NSSEditor(Editor):
             cursor.setPosition(start)
             cursor.movePosition(QTextCursor.MoveOperation.StartOfBlock)
             cursor.setPosition(end, QTextCursor.MoveMode.KeepAnchor)
-            cursor.movePosition(QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor
+            )
         else:
             # Delete current line
             cursor.movePosition(QTextCursor.MoveOperation.StartOfBlock)
-            cursor.movePosition(QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor
+            )
             # Include newline if not last line
             if not cursor.atEnd():
-                cursor.movePosition(QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.KeepAnchor)
+                cursor.movePosition(
+                    QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.KeepAnchor
+                )
         cursor.removeSelectedText()
         self.ui.codeEdit.setTextCursor(cursor)
 
@@ -3364,7 +3566,11 @@ class NSSEditor(Editor):
             if stripped and not stripped.startswith("//"):
                 # Check for missing semicolons (heuristic)
                 if any(keyword in stripped for keyword in ["return", "break", "continue"]):
-                    if not stripped.endswith(";") and not stripped.endswith("{") and not stripped.endswith("}"):
+                    if (
+                        not stripped.endswith(";")
+                        and not stripped.endswith("{")
+                        and not stripped.endswith("}")
+                    ):
                         issues.append(f"Line {i}: Possible missing semicolon")
                 # Check for empty if/while/for blocks
                 if any(keyword in stripped for keyword in ["if", "while", "for"]):
@@ -3374,7 +3580,9 @@ class NSSEditor(Editor):
                             issues.append(f"Line {i}: Empty block detected")
 
         if issues:
-            message: str = "Code Analysis Results:\n\n" + "\n".join(issues[:20])  # Limit to 20 issues
+            message: str = "Code Analysis Results:\n\n" + "\n".join(
+                issues[:20]
+            )  # Limit to 20 issues
             if len(issues) > 20:
                 message += f"\n\n... and {len(issues) - 20} more issues"
             QMessageBox.information(self, "Code Analysis", message)
@@ -3481,7 +3689,11 @@ Code Operations:
             # Detect entry point
             entry_point: str = self._detect_entry_point(text)
             if entry_point == "unknown":
-                QMessageBox.warning(self, "Test Run", "Cannot detect entry point. Script must have either main() or StartingConditional() function.")
+                QMessageBox.warning(
+                    self,
+                    "Test Run",
+                    "Cannot detect entry point. Script must have either main() or StartingConditional() function.",
+                )
                 return
 
             # Show test configuration dialog
@@ -3503,7 +3715,11 @@ Code Operations:
             try:
                 ncs = ht_compile_script(text, self._installation.path(), tsl=self._is_tsl)
             except Exception as e:
-                QMessageBox.critical(self, "Compilation Error", f"Cannot start test run: script has compilation errors.\n\n{(e.__class__.__name__, str(e))}")
+                QMessageBox.critical(
+                    self,
+                    "Compilation Error",
+                    f"Cannot start test run: script has compilation errors.\n\n{(e.__class__.__name__, str(e))}",
+                )
                 return
 
             if ncs is None:
@@ -3541,9 +3757,13 @@ Code Operations:
             self._debugger.start(interpreter)
 
             # Update UI
-            assert self.ui.actionStart_Debugging is not None, "Start debugging action should not be None"
+            assert self.ui.actionStart_Debugging is not None, (
+                "Start debugging action should not be None"
+            )
             self.ui.actionStart_Debugging.setEnabled(False)
-            assert self.ui.actionStop_Debugging is not None, "Stop debugging action should not be None"
+            assert self.ui.actionStop_Debugging is not None, (
+                "Stop debugging action should not be None"
+            )
             self.ui.actionStop_Debugging.setEnabled(True)
             assert self.ui.actionStep_Over is not None, "Step over action should not be None"
             self.ui.actionStep_Over.setEnabled(True)
@@ -3553,12 +3773,18 @@ Code Operations:
             self.ui.actionStep_Out.setEnabled(True)
 
             event_name = config_dialog.config_widget.event_combo.currentText()
-            self._log_to_output(f"Test run started: {entry_point}() with event {event_name} (event number: {test_config['event_number']})")
+            self._log_to_output(
+                f"Test run started: {entry_point}() with event {event_name} (event number: {test_config['event_number']})"
+            )
             self._update_debug_visualization()
             self._update_debug_widgets()
 
         except Exception as e:
-            QMessageBox.critical(self, "Test Run Error", f"Failed to start test run:\n\n{(e.__class__.__name__, str(e))}")
+            QMessageBox.critical(
+                self,
+                "Test Run Error",
+                f"Failed to start test run:\n\n{(e.__class__.__name__, str(e))}",
+            )
             RobustLogger().error("Failed to start test run", exc_info=True)
 
     def _stop_debugging(self):
@@ -3662,7 +3888,9 @@ Code Operations:
         source_line = self._instruction_index_to_line(instruction_index)
         self._current_debug_line = source_line
 
-        self._log_to_output(f"Breakpoint hit at instruction {instruction_index} (line {source_line})")
+        self._log_to_output(
+            f"Breakpoint hit at instruction {instruction_index} (line {source_line})"
+        )
         self._update_debug_visualization()
         self._update_debug_widgets()
 
@@ -3675,7 +3903,9 @@ Code Operations:
         source_line = self._instruction_index_to_line(instruction_index)
         self._current_debug_line = source_line
 
-        self._log_to_output(f"Step completed at instruction {instruction_index} (line {source_line})")
+        self._log_to_output(
+            f"Step completed at instruction {instruction_index} (line {source_line})"
+        )
         self._update_debug_visualization()
         self._update_debug_widgets()
 
@@ -3715,7 +3945,9 @@ Code Operations:
         self._update_debug_visualization()
 
         # Re-enable start debugging
-        assert self.ui.actionStart_Debugging is not None, "Start debugging action should not be None"
+        assert self.ui.actionStart_Debugging is not None, (
+            "Start debugging action should not be None"
+        )
         self.ui.actionStart_Debugging.setEnabled(True)
         assert self.ui.actionStop_Debugging is not None, "Stop debugging action should not be None"
         self.ui.actionStop_Debugging.setEnabled(False)
@@ -3729,7 +3961,11 @@ Code Operations:
     def _on_debugger_error(self, error: Exception):
         """Handle debugger error."""
         self._log_to_output(f"Debugger error: {error.__class__.__name__}: {error}")
-        QMessageBox.critical(self, "Debugger Error", f"An error occurred during debugging:\n\n{error.__class__.__name__}: {error}")
+        QMessageBox.critical(
+            self,
+            "Debugger Error",
+            f"An error occurred during debugging:\n\n{error.__class__.__name__}: {error}",
+        )
         self._stop_debugging()
 
     def _update_debug_visualization(self):
@@ -3825,6 +4061,7 @@ Code Operations:
 
         # Call parent close
         super().closeEvent(event)
+
 
 if __name__ == "__main__":
     import sys

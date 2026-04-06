@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 import qtpy
 
@@ -137,7 +137,7 @@ class MediaPlayerWidget(QWidget):
         original_mouse_press = self.time_slider.mousePressEvent
         original_mouse_move = self.time_slider.mouseMoveEvent
         original_mouse_release = self.time_slider.mouseReleaseEvent
-        original_wheel = self.time_slider.wheelEvent
+        _original_wheel: Callable[[QWheelEvent], None] = self.time_slider.wheelEvent
 
         def mouse_press_event(ev: QMouseEvent) -> None:
             if ev.button() == Qt.MouseButton.LeftButton:
@@ -181,10 +181,12 @@ class MediaPlayerWidget(QWidget):
             if self.time_slider.maximum() == 0:
                 return
 
-            delta = ev.angleDelta().y()
-            step = 5000 if ev.modifiers() & Qt.KeyboardModifier.ShiftModifier else 1000
-            current = self.time_slider.value()
-            new_value = max(0, min(self.time_slider.maximum(), current + (step if delta > 0 else -step)))
+            delta: int = ev.angleDelta().y()
+            step: int = 5000 if ev.modifiers() & Qt.KeyboardModifier.ShiftModifier else 1000
+            current: int = self.time_slider.value()
+            new_value: int = max(
+                0, min(self.time_slider.maximum(), current + (step if delta > 0 else -step))
+            )
             self.time_slider.setValue(new_value)
             self.player.setPosition(new_value)
             ev.accept()
@@ -205,7 +207,9 @@ class MediaPlayerWidget(QWidget):
         """Set up volume control with slider and mute button."""
         # Volume controls are already created from .ui file, just configure
         self.volume_slider.setValue(int(self._previous_volume * 100))
-        self.volume_slider.setToolTip(f"Volume: {int(self._previous_volume * 100)}% (Up/Down arrows)")
+        self.volume_slider.setToolTip(
+            f"Volume: {int(self._previous_volume * 100)}% (Up/Down arrows)"
+        )
         self.volume_slider.valueChanged.connect(self._on_volume_slider_changed)
 
     def _setup_speed_controls(self) -> None:
@@ -220,7 +224,7 @@ class MediaPlayerWidget(QWidget):
         self.player.positionChanged.connect(self._on_position_changed)
         self.player.durationChanged.connect(self._on_duration_changed)
 
-        state_changed = self.player.stateChanged if qtpy.QT5 else self.player.playbackStateChanged  # type: ignore[attr-defined]
+        state_changed: Callable[[int], None] = self.player.stateChanged if qtpy.QT5 else self.player.playbackStateChanged  # type: ignore[attr-defined]
         state_changed.connect(self._on_state_changed)
 
         # Error handling
@@ -249,8 +253,16 @@ class MediaPlayerWidget(QWidget):
         QShortcut(QKeySequence(Qt.Key.Key_Right), self, lambda: self.seek_relative(5000))
 
         # Shift+Left/Right: Seek backward/forward (1 second)
-        QShortcut(QKeySequence(Qt.Modifier.SHIFT | Qt.Key.Key_Left), self, lambda: self.seek_relative(-1000))
-        QShortcut(QKeySequence(Qt.Modifier.SHIFT | Qt.Key.Key_Right), self, lambda: self.seek_relative(1000))
+        QShortcut(
+            QKeySequence(Qt.Modifier.SHIFT | Qt.Key.Key_Left),
+            self,
+            lambda: self.seek_relative(-1000),
+        )
+        QShortcut(
+            QKeySequence(Qt.Modifier.SHIFT | Qt.Key.Key_Right),
+            self,
+            lambda: self.seek_relative(1000),
+        )
 
         # Up/Down: Volume up/down
         QShortcut(QKeySequence(Qt.Key.Key_Up), self, self.volume_up)
@@ -260,8 +272,12 @@ class MediaPlayerWidget(QWidget):
         QShortcut(QKeySequence(Qt.Key.Key_M), self, self.toggle_mute)
 
         # [ ]: Playback speed
-        QShortcut(QKeySequence(Qt.Key.Key_BracketLeft), self, lambda: self.change_playback_speed(-1))
-        QShortcut(QKeySequence(Qt.Key.Key_BracketRight), self, lambda: self.change_playback_speed(1))
+        QShortcut(
+            QKeySequence(Qt.Key.Key_BracketLeft), self, lambda: self.change_playback_speed(-1)
+        )
+        QShortcut(
+            QKeySequence(Qt.Key.Key_BracketRight), self, lambda: self.change_playback_speed(1)
+        )
 
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """Handle keyboard events for media control."""
@@ -269,10 +285,14 @@ class MediaPlayerWidget(QWidget):
             self.toggle_play_pause()
             event.accept()
         elif event.key() == Qt.Key.Key_Left:
-            self.seek_relative(-5000 if not event.modifiers() & Qt.KeyboardModifier.ShiftModifier else -1000)
+            self.seek_relative(
+                -5000 if not event.modifiers() & Qt.KeyboardModifier.ShiftModifier else -1000
+            )
             event.accept()
         elif event.key() == Qt.Key.Key_Right:
-            self.seek_relative(5000 if not event.modifiers() & Qt.KeyboardModifier.ShiftModifier else 1000)
+            self.seek_relative(
+                5000 if not event.modifiers() & Qt.KeyboardModifier.ShiftModifier else 1000
+            )
             event.accept()
         elif event.key() == Qt.Key.Key_Up:
             self.volume_up()
@@ -299,7 +319,9 @@ class MediaPlayerWidget(QWidget):
             self.playback_paused.emit()
         else:
             self.player.play()
-            self.play_pause_button.setIcon(q_style.standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+            self.play_pause_button.setIcon(
+                q_style.standardIcon(QStyle.StandardPixmap.SP_MediaPause)
+            )
             self.show_widget()
             self.playback_started.emit()
 
@@ -374,7 +396,9 @@ class MediaPlayerWidget(QWidget):
         assert q_style is not None, "q_style is somehow None"
 
         if self._is_muted:
-            self.mute_button.setIcon(q_style.standardIcon(QStyle.StandardPixmap.SP_MediaVolumeMuted))
+            self.mute_button.setIcon(
+                q_style.standardIcon(QStyle.StandardPixmap.SP_MediaVolumeMuted)
+            )
             self.mute_button.setToolTip("Unmute (M)")
         else:
             self.mute_button.setIcon(q_style.standardIcon(QStyle.StandardPixmap.SP_MediaVolume))
@@ -442,14 +466,18 @@ class MediaPlayerWidget(QWidget):
 
     def change_playback_speed(self, direction: int) -> None:
         """Change playback speed by direction (-1 for slower, +1 for faster)."""
-        self.current_speed_index = max(0, min(len(self.speed_levels) - 1, self.current_speed_index + direction))
+        self.current_speed_index = max(
+            0, min(len(self.speed_levels) - 1, self.current_speed_index + direction)
+        )
         new_rate = self.speed_levels[self.current_speed_index]
         self.set_playback_speed(new_rate)
 
     def set_playback_speed(self, rate: float) -> None:
         """Set playback speed (0.25-2.0)."""
         # Find closest speed level
-        closest_index = min(range(len(self.speed_levels)), key=lambda i: abs(self.speed_levels[i] - rate))
+        closest_index = min(
+            range(len(self.speed_levels)), key=lambda i: abs(self.speed_levels[i] - rate)
+        )
         self.current_speed_index = closest_index
         rate = self.speed_levels[self.current_speed_index]
 
@@ -483,7 +511,9 @@ class MediaPlayerWidget(QWidget):
 
         if state == state_enum.PlayingState:
             self.show_widget()
-            self.play_pause_button.setIcon(q_style.standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+            self.play_pause_button.setIcon(
+                q_style.standardIcon(QStyle.StandardPixmap.SP_MediaPause)
+            )
         else:
             self.play_pause_button.setIcon(q_style.standardIcon(QStyle.StandardPixmap.SP_MediaPlay))
 

@@ -25,7 +25,9 @@ class Ui_Dialog(object):
         self.downloadAllButton = QtWidgets.QPushButton(Dialog)
         self.downloadAllButton.setObjectName("downloadAllButton")
         self.gridLayout.addWidget(self.downloadAllButton, 1, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 1)
 
         self.retranslateUi(Dialog)
@@ -36,4 +38,6 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Kit Downloader"))
         self.groupBox.setTitle(_translate("Dialog", "Available Kits"))
         self.downloadAllButton.setText(_translate("Dialog", "Download All Kits"))
-        self.downloadAllButton.setToolTip(_translate("Dialog", "Download all kits at once from a single archive"))
+        self.downloadAllButton.setToolTip(
+            _translate("Dialog", "Download all kits at once from a single archive")
+        )

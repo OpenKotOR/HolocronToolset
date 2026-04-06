@@ -1109,18 +1109,38 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_2.setText(_translate("MainWindow", "\n"
-"            <html><head/><body><p><span style=\"\n"
-"            font-weight:600;\">Sound</span></p></body></html>"))
-        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p><span\n"
-"              style=\" font-weight:600;\">TLK\n"
-"              StringRef</span></p></body></html>"))
-        self.label_4.setText(_translate("MainWindow", "<html><head/><body><p><span\n"
-"              style=\" font-weight:600;\">Sound\n"
-"              ResRef</span></p></body></html>"))
-        self.label_5.setText(_translate("MainWindow", "<html><head/><body><p><span\n"
-"              style=\" font-weight:600;\">String\n"
-"              Text</span></p></body></html>"))
+        self.label_2.setText(
+            _translate(
+                "MainWindow",
+                "\n"
+                '            <html><head/><body><p><span style="\n'
+                '            font-weight:600;">Sound</span></p></body></html>',
+            )
+        )
+        self.label_3.setText(
+            _translate(
+                "MainWindow",
+                "<html><head/><body><p><span\n"
+                '              style=" font-weight:600;">TLK\n'
+                "              StringRef</span></p></body></html>",
+            )
+        )
+        self.label_4.setText(
+            _translate(
+                "MainWindow",
+                "<html><head/><body><p><span\n"
+                '              style=" font-weight:600;">Sound\n'
+                "              ResRef</span></p></body></html>",
+            )
+        )
+        self.label_5.setText(
+            _translate(
+                "MainWindow",
+                "<html><head/><body><p><span\n"
+                '              style=" font-weight:600;">String\n'
+                "              Text</span></p></body></html>",
+            )
+        )
         self.label.setText(_translate("MainWindow", "Battlecry 1"))
         self.battlecry1MoreButton.setText(_translate("MainWindow", "…"))
         self.label_6.setText(_translate("MainWindow", "Battlecry 2"))

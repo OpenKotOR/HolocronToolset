@@ -55,7 +55,9 @@ class BatchLIPProcessor(QDialog):
 
     def add_audio_files(self):
         """Add WAV files to process."""
-        files, _ = QFileDialog.getOpenFileNames(self, "Select Audio Files", "", "Audio Files (*.wav)")
+        files, _ = QFileDialog.getOpenFileNames(
+            self, "Select Audio Files", "", "Audio Files (*.wav)"
+        )
         for file in files:
             path = Path(file)
             if path not in self.audio_files:
@@ -130,6 +132,10 @@ class BatchLIPProcessor(QDialog):
                 errors.append(f"{audio_file.name}: {e!s}")
 
         if errors:
-            QMessageBox.warning(self, "Errors Occurred", "The following errors occurred:\n\n" + "\n".join(errors))
+            QMessageBox.warning(
+                self, "Errors Occurred", "The following errors occurred:\n\n" + "\n".join(errors)
+            )
         else:
-            QMessageBox.information(self, "Success", f"Successfully processed {len(self.audio_files)} files")
+            QMessageBox.information(
+                self, "Success", f"Successfully processed {len(self.audio_files)} files"
+            )

@@ -128,8 +128,23 @@ def test_blender_bridge_module_roundtrip(blender_runtime_bridge: BlenderCommands
     }
 
     assert blender_runtime_bridge.load_module(
-        lyt_data={"rooms": [{"model": "m_testroom", "position": room_position}], "doorhooks": [], "tracks": [], "obstacles": []},
-        git_data={"creatures": [instance], "cameras": [], "doors": [], "placeables": [], "waypoints": [], "sounds": [], "stores": [], "triggers": [], "encounters": []},
+        lyt_data={
+            "rooms": [{"model": "m_testroom", "position": room_position}],
+            "doorhooks": [],
+            "tracks": [],
+            "obstacles": [],
+        },
+        git_data={
+            "creatures": [instance],
+            "cameras": [],
+            "doors": [],
+            "placeables": [],
+            "waypoints": [],
+            "sounds": [],
+            "stores": [],
+            "triggers": [],
+            "encounters": [],
+        },
         installation_path="/workspace",
         module_root="m_test",
         walkmeshes=[{"model": "m_testroom", "faces": walkmesh_faces}],
@@ -160,7 +175,9 @@ def test_blender_bridge_module_roundtrip(blender_runtime_bridge: BlenderCommands
     assert blender_runtime_bridge.unload_module() is True
 
 
-def test_blender_bridge_imports_external_obj(blender_runtime_bridge: BlenderCommands, tmp_path: Path):
+def test_blender_bridge_imports_external_obj(
+    blender_runtime_bridge: BlenderCommands, tmp_path: Path
+):
     obj_path = tmp_path / "triangle.obj"
     obj_path.write_text(
         "\n".join(
@@ -181,7 +198,9 @@ def test_blender_bridge_imports_external_obj(blender_runtime_bridge: BlenderComm
     assert result["imported_objects"]
 
 
-def test_blender_bridge_imports_external_texture(blender_runtime_bridge: BlenderCommands, tmp_path: Path):
+def test_blender_bridge_imports_external_texture(
+    blender_runtime_bridge: BlenderCommands, tmp_path: Path
+):
     texture_path = tmp_path / "swatch.png"
     image = QImage(2, 2, QImage.Format.Format_RGBA8888)
     image.fill(QColor("magenta"))
@@ -194,7 +213,9 @@ def test_blender_bridge_imports_external_texture(blender_runtime_bridge: Blender
     assert result["image_name"]
 
 
-def test_blender_bridge_packages_texture_to_tpc(blender_runtime_bridge: BlenderCommands, tmp_path: Path):
+def test_blender_bridge_packages_texture_to_tpc(
+    blender_runtime_bridge: BlenderCommands, tmp_path: Path
+):
     texture_path = tmp_path / "swatch_export.png"
     image = QImage(2, 2, QImage.Format.Format_RGBA8888)
     image.fill(QColor("cyan"))
@@ -204,14 +225,18 @@ def test_blender_bridge_packages_texture_to_tpc(blender_runtime_bridge: BlenderC
     assert isinstance(imported, dict)
     tpc_path = tmp_path / "swatch_export.tpc"
     tpc = TPC.from_blank()
-    tpc.layers[0].set_data(2, 2, [bytes([0, 255, 255, 255] * 4)], texture_format=TPCTextureFormat.RGBA)
+    tpc.layers[0].set_data(
+        2, 2, [bytes([0, 255, 255, 255] * 4)], texture_format=TPCTextureFormat.RGBA
+    )
     tpc._format = TPCTextureFormat.RGBA  # noqa: SLF001
     write_tpc(tpc, tpc_path, ResourceType.TPC)
     parsed_tpc = read_tpc(tpc_path)
     assert parsed_tpc is not None
 
 
-def test_blender_bridge_exports_external_obj_to_mdl(blender_runtime_bridge: BlenderCommands, tmp_path: Path):
+def test_blender_bridge_exports_external_obj_to_mdl(
+    blender_runtime_bridge: BlenderCommands, tmp_path: Path
+):
     obj_path = tmp_path / "triangle_export.obj"
     obj_path.write_text(
         "\n".join(
@@ -245,15 +270,30 @@ def test_blender_bridge_exports_external_obj_to_mdl(blender_runtime_bridge: Blen
 def test_blender_bridge_layout_operations_roundtrip(blender_runtime_bridge: BlenderCommands):
     assert blender_runtime_bridge.load_module(
         lyt_data={"rooms": [], "doorhooks": [], "tracks": [], "obstacles": []},
-        git_data={"creatures": [], "cameras": [], "doors": [], "placeables": [], "waypoints": [], "sounds": [], "stores": [], "triggers": [], "encounters": []},
+        git_data={
+            "creatures": [],
+            "cameras": [],
+            "doors": [],
+            "placeables": [],
+            "waypoints": [],
+            "sounds": [],
+            "stores": [],
+            "triggers": [],
+            "encounters": [],
+        },
         installation_path="/workspace",
         module_root="m_layout",
         walkmeshes=[],
     )
 
-    room_name = blender_runtime_bridge.add_room({"model": "m_layoutroom", "position": {"x": 1.0, "y": 2.0, "z": 0.0}})
+    room_name = blender_runtime_bridge.add_room(
+        {"model": "m_layoutroom", "position": {"x": 1.0, "y": 2.0, "z": 0.0}}
+    )
     assert room_name == "Room:m_layoutroom"
-    assert blender_runtime_bridge.update_room(room_name, {"position": {"x": 5.0, "y": 6.0, "z": 0.0}}) is True
+    assert (
+        blender_runtime_bridge.update_room(room_name, {"position": {"x": 5.0, "y": 6.0, "z": 0.0}})
+        is True
+    )
 
     door_hook_name = blender_runtime_bridge.add_door_hook(
         {
@@ -265,8 +305,12 @@ def test_blender_bridge_layout_operations_roundtrip(blender_runtime_bridge: Blen
     assert door_hook_name == "DoorHook:door01"
     assert blender_runtime_bridge.update_door_hook(door_hook_name, {"door": "door02"}) is True
 
-    track_name = blender_runtime_bridge.add_track({"model": "track01", "position": {"x": 0.0, "y": 1.0, "z": 0.0}})
-    obstacle_name = blender_runtime_bridge.add_obstacle({"model": "obstacle01", "position": {"x": 2.0, "y": 3.0, "z": 0.0}})
+    track_name = blender_runtime_bridge.add_track(
+        {"model": "track01", "position": {"x": 0.0, "y": 1.0, "z": 0.0}}
+    )
+    obstacle_name = blender_runtime_bridge.add_obstacle(
+        {"model": "obstacle01", "position": {"x": 2.0, "y": 3.0, "z": 0.0}}
+    )
     assert track_name == "Track:track01"
     assert obstacle_name == "Obstacle:obstacle01"
     assert blender_runtime_bridge.update_track(track_name, {"model": "track02"}) is True
@@ -323,7 +367,12 @@ def test_blender_bridge_visibility_and_undo_roundtrip(blender_runtime_bridge: Bl
     assert blender_runtime_bridge.set_visibility("GITCreature", False) is True
     assert blender_runtime_bridge.set_visibility("GITCreature", True) is True
 
-    assert blender_runtime_bridge.update_instance("GITPlaceable:plc_visible", {"position": {"x": 8.0, "y": 9.0, "z": 0.0}}) is True
+    assert (
+        blender_runtime_bridge.update_instance(
+            "GITPlaceable:plc_visible", {"position": {"x": 8.0, "y": 9.0, "z": 0.0}}
+        )
+        is True
+    )
     saved = blender_runtime_bridge.save_changes()
     assert saved["git"]["placeables"][0]["position"]["x"] == pytest.approx(8.0)
 
@@ -334,7 +383,9 @@ def test_blender_bridge_visibility_and_undo_roundtrip(blender_runtime_bridge: Bl
 
 
 def test_blender_editor_controller_roundtrip(blender_runtime_bridge: BlenderCommands):
-    del blender_runtime_bridge  # bridge fixture keeps Blender running; controller uses its own client
+    del (
+        blender_runtime_bridge
+    )  # bridge fixture keeps Blender running; controller uses its own client
 
     from toolset.blender import commands as blender_commands_module
     from toolset.blender import ipc_client as ipc_client_module
@@ -362,7 +413,11 @@ def test_blender_editor_controller_roundtrip(blender_runtime_bridge: BlenderComm
     transform_events: list[tuple[int, dict | None, dict | None]] = []
 
     controller.on_selection_changed(lambda ids: selection_events.append(ids))
-    controller.on_transform_changed(lambda instance_id, position, rotation: transform_events.append((instance_id, position, rotation)))
+    controller.on_transform_changed(
+        lambda instance_id, position, rotation: transform_events.append(
+            (instance_id, position, rotation)
+        )
+    )
 
     assert controller.connect(timeout=2.0) is True
     assert (

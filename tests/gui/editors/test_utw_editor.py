@@ -24,7 +24,9 @@ from pykotor.common.misc import ResRef  # type: ignore[import-not-found]
 # ============================================================================
 
 
-def test_utw_editor_manipulate_name_locstring(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_manipulate_name_locstring(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating name LocalizedString field."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -45,11 +47,16 @@ def test_utw_editor_manipulate_name_locstring(qtbot, installation: HTInstallatio
     data, _ = editor.build()
     modified_utw = read_utw(data)
     assert modified_utw.name.get(Language.ENGLISH, Gender.MALE) == "Modified Waypoint Name"
-    assert modified_utw.name.get(Language.ENGLISH, Gender.MALE) != original_utw.name.get(Language.ENGLISH, Gender.MALE)
+    assert modified_utw.name.get(Language.ENGLISH, Gender.MALE) != original_utw.name.get(
+        Language.ENGLISH, Gender.MALE
+    )
 
     # Load back and verify
     editor.load(utw_file, "tar05_sw05aa10", ResourceType.UTW, data)
-    assert editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Waypoint Name"
+    assert (
+        editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE)
+        == "Modified Waypoint Name"
+    )
 
 
 def test_utw_editor_manipulate_tag(qtbot, installation: HTInstallation, test_files_dir: Path):
@@ -109,7 +116,9 @@ def test_utw_editor_manipulate_resref(qtbot, installation: HTInstallation, test_
 # ============================================================================
 
 
-def test_utw_editor_manipulate_is_note_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_manipulate_is_note_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating is note checkbox."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -133,7 +142,9 @@ def test_utw_editor_manipulate_is_note_checkbox(qtbot, installation: HTInstallat
     assert not modified_utw.has_map_note
 
 
-def test_utw_editor_manipulate_note_enabled_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_manipulate_note_enabled_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating note enabled checkbox."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -157,7 +168,9 @@ def test_utw_editor_manipulate_note_enabled_checkbox(qtbot, installation: HTInst
     assert not modified_utw.map_note_enabled
 
 
-def test_utw_editor_manipulate_map_note_locstring(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_manipulate_map_note_locstring(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating map note LocalizedString field."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -233,7 +246,9 @@ def test_utw_editor_manipulate_comments(qtbot, installation: HTInstallation, tes
 # ============================================================================
 
 
-def test_utw_editor_manipulate_all_fields_combination(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_manipulate_all_fields_combination(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all fields simultaneously."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -270,7 +285,9 @@ def test_utw_editor_manipulate_all_fields_combination(qtbot, installation: HTIns
 # ============================================================================
 
 
-def test_utw_editor_save_load_roundtrip_identity(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_save_load_roundtrip_identity(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -302,7 +319,9 @@ def test_utw_editor_save_load_roundtrip_identity(qtbot, installation: HTInstalla
     assert editor.ui.resrefEdit.text() == str(original_utw.resref)
 
 
-def test_utw_editor_save_load_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_save_load_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -345,7 +364,9 @@ def test_utw_editor_save_load_roundtrip_with_modifications(qtbot, installation: 
     assert saved_utw2.comment == saved_utw1.comment
 
 
-def test_utw_editor_multiple_save_load_cycles(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_multiple_save_load_cycles(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -456,7 +477,9 @@ def test_utw_editor_empty_strings(qtbot, installation: HTInstallation, test_file
     assert modified_utw.comment == ""
 
 
-def test_utw_editor_special_characters_in_text_fields(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_special_characters_in_text_fields(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in text fields."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -488,7 +511,9 @@ def test_utw_editor_special_characters_in_text_fields(qtbot, installation: HTIns
 # ============================================================================
 
 
-def test_utw_editor_gff_roundtrip_comparison(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_gff_roundtrip_comparison(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip comparison like resource tests."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -516,7 +541,9 @@ def test_utw_editor_gff_roundtrip_comparison(qtbot, installation: HTInstallation
     assert diff, f"GFF comparison failed:\n{chr(10).join(log_messages)}"
 
 
-def test_utw_editor_gff_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_gff_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -621,7 +648,9 @@ def test_utw_editor_generate_tag_button(qtbot, installation: HTInstallation, tes
     assert generated_tag
 
 
-def test_utw_editor_generate_resref_button(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_generate_resref_button(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test resref generation button functionality."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)
@@ -682,13 +711,17 @@ def test_utweditor_editor_help_dialog_opens_correct_file(qtbot, installation: HT
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-UTW.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-UTW.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
 
 
-def test_utw_editor_map_note_checkbox_interaction(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utw_editor_map_note_checkbox_interaction(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test interaction between map note checkboxes."""
     editor = UTWEditor(None, installation)
     qtbot.addWidget(editor)

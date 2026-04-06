@@ -24,7 +24,7 @@ from qtpy.QtWidgets import (
     QPushButton,
     QShortcut,  # pyright: ignore[reportPrivateImportUsage]
     QVBoxLayout,
-    )
+)
 
 from pykotor.resource.formats.twoda import TwoDA, read_2da, write_2da
 from pykotor.resource.type import ResourceType
@@ -75,7 +75,9 @@ class FindReplaceDialog(QDialog):
         layout.addWidget(self.matchCaseCheck, 2, 0, 1, 2)
         self.matchWholeCellCheck = QCheckBox("Match whole cell")
         layout.addWidget(self.matchWholeCellCheck, 3, 0, 1, 2)
-        self.buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        self.buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
         if not find_only:
             self.replaceBtn = QPushButton("Replace")
             self.replaceAllBtn = QPushButton("Replace All")
@@ -158,7 +160,9 @@ class SortDialog(QDialog):
         self.then2_order = QComboBox(self)
         self.then2_order.addItems(["Ascending", "Descending"])
         layout.addWidget(self.then2_order, 5, 1)
-        self.buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        self.buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
         layout.addWidget(self.buttons, 6, 0, 1, 2)
         self.buttons.accepted.connect(self.accept)
         self.buttons.rejected.connect(self.reject)
@@ -235,7 +239,12 @@ class _UndoableTwoDAModel(QStandardItemModel):
 class _BatchSetCellsCommand(QUndoCommand):
     """Stores a list of (row, col, old_text, new_text) for undo/redo."""
 
-    def __init__(self, model: QStandardItemModel, changes: list[tuple[int, int, str, str]], description: str = "Edit cells"):
+    def __init__(
+        self,
+        model: QStandardItemModel,
+        changes: list[tuple[int, int, str, str]],
+        description: str = "Edit cells",
+    ):
         super().__init__()
         self._model = model
         self._changes = changes
@@ -405,7 +414,9 @@ class _SortMultiCommand(QUndoCommand):
         rows = list(range(model.rowCount()))
         for col, asc in reversed(self._levels):
             rows.sort(
-                key=lambda r, c=col: (self._saved[r][c].text() if self._saved[r][c] else "").lower(),
+                key=lambda r, c=col: (
+                    self._saved[r][c].text() if self._saved[r][c] else ""
+                ).lower(),
                 reverse=not asc,
             )
         self._permutation = rows
@@ -444,7 +455,9 @@ class _DeleteColumnCommand(QUndoCommand):
         self.setText("Delete column")
 
     def undo(self):
-        self._model.insertColumn(self._col, [QStandardItem(self._saved[r]) for r in range(self._model.rowCount())])
+        self._model.insertColumn(
+            self._col, [QStandardItem(self._saved[r]) for r in range(self._model.rowCount())]
+        )
         self._model.setHorizontalHeaderItem(self._col, QStandardItem(self._header))
         self._editor._reconstruct_menu(self._editor._get_headers_list())
 
@@ -542,7 +555,12 @@ class _DuplicateColumnCommand(QUndoCommand):
         self._editor._reconstruct_menu(_headers_list(self._model))
 
     def redo(self):
-        items = [QStandardItem(self._model.item(r, self._col).text() if self._model.item(r, self._col) else "") for r in range(self._model.rowCount())]
+        items = [
+            QStandardItem(
+                self._model.item(r, self._col).text() if self._model.item(r, self._col) else ""
+            )
+            for r in range(self._model.rowCount())
+        ]
         self._model.insertColumn(self._col + 1, items)
         self._model.setHorizontalHeaderItem(self._col + 1, QStandardItem(self._header))
         self._editor._reconstruct_menu(_headers_list(self._model))
@@ -559,7 +577,10 @@ class _RemoveDuplicateRowsCommand(QUndoCommand):
         seen: set[tuple[str, ...]] = set()
         to_remove: list[int] = []
         for r in range(model.rowCount()):
-            key = tuple((model.item(r, c).text() if model.item(r, c) else "") for c in range(model.columnCount()))
+            key = tuple(
+                (model.item(r, c).text() if model.item(r, c) else "")
+                for c in range(model.columnCount())
+            )
             if key in seen:
                 to_remove.append(r)
             else:
@@ -670,7 +691,9 @@ class CellFormattingDialog(QDialog):
         # Background color
         layout.addWidget(QLabel("<b>Background:</b>"), 3, 0)
         self.bg_combo = QComboBox()
-        self.bg_combo.addItems(["Default", "Light Yellow", "Light Green", "Light Blue", "Light Red", "Light Gray"])
+        self.bg_combo.addItems(
+            ["Default", "Light Yellow", "Light Green", "Light Blue", "Light Red", "Light Gray"]
+        )
         layout.addWidget(self.bg_combo, 3, 1)
 
         # Alignment
@@ -680,7 +703,9 @@ class CellFormattingDialog(QDialog):
         layout.addWidget(self.align_combo, 4, 1)
 
         # Buttons
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons, 5, 0, 1, 2)
@@ -709,30 +734,34 @@ class DataValidationDialog(QDialog):
         # Validation type
         layout.addWidget(QLabel("<b>Validation Type:</b>"), 0, 0)
         self.type_combo = QComboBox()
-        self.type_combo.addItems([
-            "None",
-            "Whole Numbers",
-            "Decimal Numbers",
-            "Text Length",
-            "Custom List",
-            "Date (YYYY-MM-DD)",
-        ])
+        self.type_combo.addItems(
+            [
+                "None",
+                "Whole Numbers",
+                "Decimal Numbers",
+                "Text Length",
+                "Custom List",
+                "Date (YYYY-MM-DD)",
+            ]
+        )
         layout.addWidget(self.type_combo, 0, 1)
 
         # Criteria
         layout.addWidget(QLabel("<b>Criteria:</b>"), 1, 0)
         self.criteria_combo = QComboBox()
-        self.criteria_combo.addItems([
-            "Any Value",
-            "Between",
-            "Not Between",
-            "Equal To",
-            "Not Equal To",
-            "Greater Than",
-            "Less Than",
-            "Greater or Equal",
-            "Less or Equal",
-        ])
+        self.criteria_combo.addItems(
+            [
+                "Any Value",
+                "Between",
+                "Not Between",
+                "Equal To",
+                "Not Equal To",
+                "Greater Than",
+                "Less Than",
+                "Greater or Equal",
+                "Less or Equal",
+            ]
+        )
         layout.addWidget(self.criteria_combo, 1, 1)
 
         # Min value
@@ -758,7 +787,9 @@ class DataValidationDialog(QDialog):
         layout.addWidget(self.error_edit, 5, 1)
 
         # Buttons
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons, 6, 0, 1, 2)
@@ -814,7 +845,9 @@ class FindAndReplaceAdvancedDialog(QDialog):
         # Scope
         layout.addWidget(QLabel("Search in:"), 5, 0)
         self.scope_combo = QComboBox()
-        self.scope_combo.addItems(["All Cells", "Selected Cells Only", "Current Column", "Current Row"])
+        self.scope_combo.addItems(
+            ["All Cells", "Selected Cells Only", "Current Column", "Current Row"]
+        )
         layout.addWidget(self.scope_combo, 5, 1)
 
         # Direction
@@ -891,20 +924,22 @@ class BulkEditDialog(QDialog):
         # Operation type
         layout.addWidget(QLabel("Operation:"), 1, 0)
         self.operation_combo = QComboBox()
-        self.operation_combo.addItems([
-            "Set Value",
-            "Append Text",
-            "Prepend Text",
-            "Find and Replace",
-            "To Uppercase",
-            "To Lowercase",
-            "Title Case",
-            "Trim Whitespace",
-            "Add Prefix",
-            "Add Suffix",
-            "Multiply by",
-            "Add to Value",
-        ])
+        self.operation_combo.addItems(
+            [
+                "Set Value",
+                "Append Text",
+                "Prepend Text",
+                "Find and Replace",
+                "To Uppercase",
+                "To Lowercase",
+                "Title Case",
+                "Trim Whitespace",
+                "Add Prefix",
+                "Add Suffix",
+                "Multiply by",
+                "Add to Value",
+            ]
+        )
         layout.addWidget(self.operation_combo, 1, 1)
 
         # Value input
@@ -928,7 +963,9 @@ class BulkEditDialog(QDialog):
         self.find_edit.textChanged.connect(self._update_preview)
 
         # Buttons
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons, 5, 0, 1, 2)
@@ -988,7 +1025,9 @@ class BulkEditDialog(QDialog):
 
     def apply_to_text(self, text: str) -> str:
         """Apply the configured operation to the given text."""
-        return self._apply_operation(text, self.get_operation(), self.get_value(), self.get_find_text())
+        return self._apply_operation(
+            text, self.get_operation(), self.get_value(), self.get_find_text()
+        )
 
 
 class ColumnFilterDialog(QDialog):
@@ -1011,6 +1050,7 @@ class ColumnFilterDialog(QDialog):
 
         # Value list with checkboxes
         from qtpy.QtWidgets import QListWidget
+
         self.value_list = QListWidget()
 
         self._add_checked_value_item("(Select All)")
@@ -1036,7 +1076,9 @@ class ColumnFilterDialog(QDialog):
         button_layout.addWidget(deselect_all_btn, 0, 1)
         layout.addLayout(button_layout, 3, 0, 1, 2)
 
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons, 4, 0, 1, 2)
@@ -1162,9 +1204,9 @@ class ColumnStatisticsDialog(QDialog):
             sorted_vals = sorted(numeric_values)
             n = len(sorted_vals)
             if n % 2 == 0:
-                median = (sorted_vals[n//2 - 1] + sorted_vals[n//2]) / 2
+                median = (sorted_vals[n // 2 - 1] + sorted_vals[n // 2]) / 2
             else:
-                median = sorted_vals[n//2]
+                median = sorted_vals[n // 2]
             layout.addWidget(QLabel("<b>Median:</b>"), row, 0)
             layout.addWidget(QLabel(f"{median:.4f}"), row, 1)
             row += 1
@@ -1173,13 +1215,14 @@ class ColumnStatisticsDialog(QDialog):
             if len(numeric_values) > 1:
                 mean = sum(numeric_values) / len(numeric_values)
                 variance = sum((x - mean) ** 2 for x in numeric_values) / (len(numeric_values) - 1)
-                std_dev = variance ** 0.5
+                std_dev = variance**0.5
                 layout.addWidget(QLabel("<b>Std Dev:</b>"), row, 0)
                 layout.addWidget(QLabel(f"{std_dev:.4f}"), row, 1)
                 row += 1
 
             # Mode (most common value)
             from collections import Counter
+
             counter = Counter(numeric_values)
             if counter:
                 mode_val, mode_count = counter.most_common(1)[0]
@@ -1202,6 +1245,7 @@ class _SpreadsheetEventFilter(QObject):
 
     def eventFilter(self, obj: QObject, event) -> bool:
         from qtpy.QtCore import QEvent
+
         if event.type() == QEvent.Type.Resize:
             # Reposition buttons when table viewport resizes
             self._editor._reposition_add_row_button()
@@ -1264,39 +1308,55 @@ class _SpreadsheetKeyFilter(QObject):
         if key == Qt.Key.Key_Home and modifiers == Qt.KeyboardModifier.ShiftModifier:
             if current.isValid():
                 from qtpy.QtCore import QItemSelection
+
                 first_index = self._editor.proxy_model.index(current.row(), 0)
                 selection = QItemSelection(first_index, current)
-                table.selectionModel().select(selection, table.selectionModel().SelectionFlag.ClearAndSelect)
+                table.selectionModel().select(
+                    selection, table.selectionModel().SelectionFlag.ClearAndSelect
+                )
                 return True
 
         # Shift+End: Select from current cell to end of row
         if key == Qt.Key.Key_End and modifiers == Qt.KeyboardModifier.ShiftModifier:
             if current.isValid():
                 from qtpy.QtCore import QItemSelection
+
                 last_col = self._editor.proxy_model.columnCount() - 1
                 last_index = self._editor.proxy_model.index(current.row(), last_col)
                 selection = QItemSelection(current, last_index)
-                table.selectionModel().select(selection, table.selectionModel().SelectionFlag.ClearAndSelect)
+                table.selectionModel().select(
+                    selection, table.selectionModel().SelectionFlag.ClearAndSelect
+                )
                 return True
 
         # Ctrl+Shift+Home: Select from current cell to first cell (0,0)
-        if key == Qt.Key.Key_Home and modifiers == (Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier):
+        if key == Qt.Key.Key_Home and modifiers == (
+            Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier
+        ):
             if current.isValid():
                 from qtpy.QtCore import QItemSelection
+
                 first_index = self._editor.proxy_model.index(0, 0)
                 selection = QItemSelection(first_index, current)
-                table.selectionModel().select(selection, table.selectionModel().SelectionFlag.ClearAndSelect)
+                table.selectionModel().select(
+                    selection, table.selectionModel().SelectionFlag.ClearAndSelect
+                )
                 return True
 
         # Ctrl+Shift+End: Select from current cell to last cell
-        if key == Qt.Key.Key_End and modifiers == (Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier):
+        if key == Qt.Key.Key_End and modifiers == (
+            Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier
+        ):
             if current.isValid():
                 from qtpy.QtCore import QItemSelection
+
                 last_row = self._editor.proxy_model.rowCount() - 1
                 last_col = self._editor.proxy_model.columnCount() - 1
                 last_index = self._editor.proxy_model.index(last_row, last_col)
                 selection = QItemSelection(current, last_index)
-                table.selectionModel().select(selection, table.selectionModel().SelectionFlag.ClearAndSelect)
+                table.selectionModel().select(
+                    selection, table.selectionModel().SelectionFlag.ClearAndSelect
+                )
                 return True
 
         # === ROW/COLUMN MANIPULATION SHORTCUTS ===
@@ -1322,13 +1382,17 @@ class _SpreadsheetKeyFilter(QObject):
             return True
 
         # Ctrl+Minus or Ctrl+Delete: Delete selected rows
-        if (key == Qt.Key.Key_Minus or key == Qt.Key.Key_Delete) and modifiers == Qt.KeyboardModifier.ControlModifier:
+        if (
+            key == Qt.Key.Key_Minus or key == Qt.Key.Key_Delete
+        ) and modifiers == Qt.KeyboardModifier.ControlModifier:
             if table.state() != table.State.EditingState:
                 self._editor.remove_selected_rows()
                 return True
 
         # Ctrl+Plus or Ctrl+Insert: Insert row
-        if (key == Qt.Key.Key_Plus or key == Qt.Key.Key_Insert) and modifiers == Qt.KeyboardModifier.ControlModifier:
+        if (
+            key == Qt.Key.Key_Plus or key == Qt.Key.Key_Insert
+        ) and modifiers == Qt.KeyboardModifier.ControlModifier:
             self._editor.insert_row()
             return True
 
@@ -1378,7 +1442,10 @@ class _SpreadsheetKeyFilter(QObject):
             return True
 
         # Enter/Return: move down (at last row, add new row)
-        if key in (Qt.Key.Key_Return, Qt.Key.Key_Enter) and modifiers == Qt.KeyboardModifier.NoModifier:
+        if (
+            key in (Qt.Key.Key_Return, Qt.Key.Key_Enter)
+            and modifiers == Qt.KeyboardModifier.NoModifier
+        ):
             if not current.isValid():
                 return False
 
@@ -1401,7 +1468,10 @@ class _SpreadsheetKeyFilter(QObject):
             return True
 
         # Shift+Enter: move up
-        if key in (Qt.Key.Key_Return, Qt.Key.Key_Enter) and modifiers == Qt.KeyboardModifier.ShiftModifier:
+        if (
+            key in (Qt.Key.Key_Return, Qt.Key.Key_Enter)
+            and modifiers == Qt.KeyboardModifier.ShiftModifier
+        ):
             if not current.isValid():
                 return False
 
@@ -1460,7 +1530,11 @@ class TwoDAEditor(Editor):
         parent: QWidget | None,
         installation: HTInstallation | None = None,
     ):
-        supported: list[ResourceType] = [ResourceType.TwoDA, ResourceType.TwoDA_CSV, ResourceType.TwoDA_JSON]
+        supported: list[ResourceType] = [
+            ResourceType.TwoDA,
+            ResourceType.TwoDA_CSV,
+            ResourceType.TwoDA_JSON,
+        ]
         super().__init__(parent, "2DA Editor", "none", supported, supported, installation)
         self.resize(800, 550)
 
@@ -1534,10 +1608,14 @@ class TwoDAEditor(Editor):
         QShortcut(QKeySequence("Ctrl+E"), self, self.export_csv)  # Quick export
         QShortcut(QKeySequence("Ctrl+Shift+C"), self, self._quick_clear_column)  # Clear column
         QShortcut(QKeySequence("Ctrl+Shift+X"), self, self._quick_clear_row)  # Clear row
-        QShortcut(QKeySequence("Ctrl+Shift+F"), self, self.show_cell_formatting_dialog)  # Format cells
+        QShortcut(
+            QKeySequence("Ctrl+Shift+F"), self, self.show_cell_formatting_dialog
+        )  # Format cells
         QShortcut(QKeySequence("Ctrl+Shift+B"), self, self.show_bulk_edit_dialog)  # Bulk edit
         QShortcut(QKeySequence("Ctrl+L"), self, self.show_column_filter_dialog)  # Filter column
-        QShortcut(QKeySequence("Ctrl+Shift+V"), self, self.show_data_validation_dialog)  # Validation
+        QShortcut(
+            QKeySequence("Ctrl+Shift+V"), self, self.show_data_validation_dialog
+        )  # Validation
 
         # Initialize auto-complete manager
         self._autocomplete = AutoCompleteManager(self)
@@ -1817,7 +1895,9 @@ class TwoDAEditor(Editor):
             y = table.horizontalHeader().height() + 2
         else:
             # Position below last row
-            last_row_index = self.proxy_model.index(min(row_count - 1, self.proxy_model.rowCount() - 1), 0)
+            last_row_index = self.proxy_model.index(
+                min(row_count - 1, self.proxy_model.rowCount() - 1), 0
+            )
             rect = table.visualRect(last_row_index)
             y = rect.bottom() + 2
 
@@ -1912,17 +1992,27 @@ class TwoDAEditor(Editor):
         self.ui.actionMoveRowDown.triggered.connect(self.move_row_down)
         self.ui.actionRemoveDuplicateRows.triggered.connect(self.remove_duplicate_rows)
         self.ui.actionSort.triggered.connect(self.show_sort_dialog)
-        self.ui.actionSortAscending.triggered.connect(lambda: self.sort_by_current_column(ascending=True))
-        self.ui.actionSortDescending.triggered.connect(lambda: self.sort_by_current_column(ascending=False))
+        self.ui.actionSortAscending.triggered.connect(
+            lambda: self.sort_by_current_column(ascending=True)
+        )
+        self.ui.actionSortDescending.triggered.connect(
+            lambda: self.sort_by_current_column(ascending=False)
+        )
         self.ui.actionFillDown.triggered.connect(self.fill_down)
         self.ui.actionFillRight.triggered.connect(self.fill_right)
         self.ui.actionTransposeTable.triggered.connect(self.transpose_table)
 
-        self.ui.actionResizeColumnsToContents.triggered.connect(lambda *_: self.ui.twodaTable.resizeColumnsToContents())
-        self.ui.actionResizeRowsToContents.triggered.connect(lambda *_: self.ui.twodaTable.resizeRowsToContents())
+        self.ui.actionResizeColumnsToContents.triggered.connect(
+            lambda *_: self.ui.twodaTable.resizeColumnsToContents()
+        )
+        self.ui.actionResizeRowsToContents.triggered.connect(
+            lambda *_: self.ui.twodaTable.resizeRowsToContents()
+        )
         self.ui.actionAutoFitColumnsOnLoad.triggered.connect(self._on_auto_fit_columns_toggled)
         self.ui.actionWrapTextInCells.triggered.connect(self._on_wrap_text_toggled)
-        self.ui.actionAlternatingRowColors.triggered.connect(self._on_alternating_row_colors_toggled)
+        self.ui.actionAlternatingRowColors.triggered.connect(
+            self._on_alternating_row_colors_toggled
+        )
         self.ui.actionZoomIn.triggered.connect(self.zoom_in)
         self.ui.actionZoomOut.triggered.connect(self.zoom_out)
         self.ui.actionZoomReset.triggered.connect(self.zoom_reset)
@@ -1937,8 +2027,12 @@ class TwoDAEditor(Editor):
         self.ui.actionImportCSV.triggered.connect(self.import_csv)
         self.ui.actionExportCSV.triggered.connect(self.export_csv)
         self.ui.actionColumnStatistics.triggered.connect(self.show_column_statistics)
-        self.ui.actionHighlightNonNumeric.triggered.connect(lambda: self.toggle_highlight_non_numeric(self.ui.actionHighlightNonNumeric.isChecked()))
-        self.ui.actionFreezeRowLabels.triggered.connect(lambda: self.toggle_freeze_row_labels(self.ui.actionFreezeRowLabels.isChecked()))
+        self.ui.actionHighlightNonNumeric.triggered.connect(
+            lambda: self.toggle_highlight_non_numeric(self.ui.actionHighlightNonNumeric.isChecked())
+        )
+        self.ui.actionFreezeRowLabels.triggered.connect(
+            lambda: self.toggle_freeze_row_labels(self.ui.actionFreezeRowLabels.isChecked())
+        )
         self.ui.actionFillDownPattern.triggered.connect(self.fill_down_pattern)
 
         # Context menu for table
@@ -2008,7 +2102,10 @@ class TwoDAEditor(Editor):
                     for row in parsed.get("rows", []):
                         label = row.get("label")
                         cells = row.get("cells", [])
-                        cell_map = {h: (cells[i] if i < len(cells) else "") for i, h in enumerate(twoda.get_headers())}
+                        cell_map = {
+                            h: (cells[i] if i < len(cells) else "")
+                            for i, h in enumerate(twoda.get_headers())
+                        }
                         twoda.add_row(str(label), cell_map)
                 else:
                     raise
@@ -2065,16 +2162,24 @@ class TwoDAEditor(Editor):
         self.ui.menuSetRowHeader.addAction(action)  # type: ignore[arg-type]
 
         action = QAction("Row Index", self)
-        action.triggered.connect(lambda: self.set_vertical_header_option(VerticalHeaderOption.ROW_INDEX))
+        action.triggered.connect(
+            lambda: self.set_vertical_header_option(VerticalHeaderOption.ROW_INDEX)
+        )
         self.ui.menuSetRowHeader.addAction(action)  # type: ignore[arg-type]
 
         action = QAction("Row Label", self)
-        action.triggered.connect(lambda: self.set_vertical_header_option(VerticalHeaderOption.ROW_LABEL))
+        action.triggered.connect(
+            lambda: self.set_vertical_header_option(VerticalHeaderOption.ROW_LABEL)
+        )
         self.ui.menuSetRowHeader.addAction(action)  # type: ignore[arg-type]
         self.ui.menuSetRowHeader.addSeparator()
         for header in headers[1:]:
             action = QAction(header, self)
-            action.triggered.connect(lambda _=None, h=header: self.set_vertical_header_option(VerticalHeaderOption.CELL_VALUE, h))
+            action.triggered.connect(
+                lambda _=None, h=header: self.set_vertical_header_option(
+                    VerticalHeaderOption.CELL_VALUE, h
+                )
+            )
             self.ui.menuSetRowHeader.addAction(action)  # type: ignore[arg-type]
 
     def build(self) -> tuple[bytes, bytes]:
@@ -2096,7 +2201,9 @@ class TwoDAEditor(Editor):
                 twoda.set_cell(i, header, col_item.text())
 
         data = bytearray()
-        assert self._restype, assert_with_variable_trace(bool(self._restype), "self._restype must be valid.")
+        assert self._restype, assert_with_variable_trace(
+            bool(self._restype), "self._restype must be valid."
+        )
         write_2da(twoda, data, self._restype)
         return bytes(data), b""
 
@@ -2172,7 +2279,11 @@ class TwoDAEditor(Editor):
             if self.ui.actionAutoFitColumnsOnLoad.isChecked():
                 self.ui.twodaTable.resizeColumnsToContents()
 
-            QMessageBox.information(self, "Import CSV", f"Successfully imported {len(rows)-1} rows with {len(headers)-1} columns.")
+            QMessageBox.information(
+                self,
+                "Import CSV",
+                f"Successfully imported {len(rows) - 1} rows with {len(headers) - 1} columns.",
+            )
 
         except Exception as e:
             QMessageBox.critical(self, "Import CSV Error", f"Failed to import CSV:\n{e}")
@@ -2333,7 +2444,9 @@ class TwoDAEditor(Editor):
         current = (h.text() or "") if h else ""
         new_name, ok = QInputDialog.getText(self, "Rename Column", "Column name:", text=current)
         if ok and new_name is not None:
-            self.source_model.setHorizontalHeaderItem(logical_index, QStandardItem(new_name.strip()))
+            self.source_model.setHorizontalHeaderItem(
+                logical_index, QStandardItem(new_name.strip())
+            )
             columns: list[str] = []
             for i in range(self.source_model.columnCount()):
                 header_item = self.source_model.horizontalHeaderItem(i)
@@ -2430,6 +2543,7 @@ class TwoDAEditor(Editor):
     def select_blank_cells(self):
         """Select all cells that are empty (Excel-like)."""
         from qtpy.QtCore import QItemSelection
+
         selection = QItemSelection()
         for r in range(self.source_model.rowCount()):
             for c in range(self.source_model.columnCount()):
@@ -2446,6 +2560,7 @@ class TwoDAEditor(Editor):
     def select_cells_with_content(self):
         """Select all cells that have non-empty text (Excel-like)."""
         from qtpy.QtCore import QItemSelection
+
         selection = QItemSelection()
         for r in range(self.source_model.rowCount()):
             for c in range(self.source_model.columnCount()):
@@ -2579,6 +2694,7 @@ class TwoDAEditor(Editor):
             bottom = self.proxy_model.index(self.proxy_model.rowCount() - 1, col)
             if top.isValid() and bottom.isValid():
                 from qtpy.QtCore import QItemSelection
+
                 selection_model.select(
                     QItemSelection(top, bottom),
                     selection_model.SelectionFlag.ClearAndSelect,
@@ -2587,7 +2703,9 @@ class TwoDAEditor(Editor):
     def insert_row_above(self):
         """Insert a blank row above the current selection (or at row 0 if none)."""
         if self.source_model.columnCount() == 0:
-            QMessageBox.information(self, "Insert Row", "Add at least one column first (e.g. via a loaded 2DA file).")
+            QMessageBox.information(
+                self, "Insert Row", "Add at least one column first (e.g. via a loaded 2DA file)."
+            )
             return
         cur = self.ui.twodaTable.currentIndex()
         row_index = self.proxy_model.mapToSource(cur).row() if cur.isValid() else 0
@@ -2597,7 +2715,9 @@ class TwoDAEditor(Editor):
     def insert_row_below(self):
         """Insert a blank row below the current selection (or at row 0 if none)."""
         if self.source_model.columnCount() == 0:
-            QMessageBox.information(self, "Insert Row", "Add at least one column first (e.g. via a loaded 2DA file).")
+            QMessageBox.information(
+                self, "Insert Row", "Add at least one column first (e.g. via a loaded 2DA file)."
+            )
             return
         cur = self.ui.twodaTable.currentIndex()
         row_index = self.proxy_model.mapToSource(cur).row() + 1 if cur.isValid() else 0
@@ -2618,7 +2738,9 @@ class TwoDAEditor(Editor):
         menu = QMenu(self)
 
         insert_action = QAction(translate("Insert Column Here"), self)
-        insert_action.setToolTip(translate("<b>Insert Column Here</b> adds column.<br/>New column at this position."))
+        insert_action.setToolTip(
+            translate("<b>Insert Column Here</b> adds column.<br/>New column at this position.")
+        )
         insert_action.triggered.connect(lambda: self.insert_column_at(col))
         menu.addAction(insert_action)
 
@@ -2626,17 +2748,23 @@ class TwoDAEditor(Editor):
             menu.addSeparator()
 
             rename_action = QAction(translate("Rename Column..."), self)
-            rename_action.setToolTip(translate("<b>Rename Column</b> changes name.<br/>Opens rename dialog."))
+            rename_action.setToolTip(
+                translate("<b>Rename Column</b> changes name.<br/>Opens rename dialog.")
+            )
             rename_action.triggered.connect(lambda: self._on_column_header_double_clicked(col))
             menu.addAction(rename_action)
 
             duplicate_action = QAction(translate("Duplicate Column"), self)
-            duplicate_action.setToolTip(translate("<b>Duplicate Column</b> copies column.<br/>Exact copy beside this one."))
+            duplicate_action.setToolTip(
+                translate("<b>Duplicate Column</b> copies column.<br/>Exact copy beside this one.")
+            )
             duplicate_action.triggered.connect(lambda: self._duplicate_column_at(col))
             menu.addAction(duplicate_action)
 
             delete_action = QAction(translate("Delete Column"), self)
-            delete_action.setToolTip(translate("<b>Delete Column</b> removes entirely.<br/>All column data is lost."))
+            delete_action.setToolTip(
+                translate("<b>Delete Column</b> removes entirely.<br/>All column data is lost.")
+            )
             delete_action.triggered.connect(lambda: self._delete_column_at(col))
             menu.addAction(delete_action)
 
@@ -2644,37 +2772,51 @@ class TwoDAEditor(Editor):
 
             if col > 1:
                 left_action = QAction(translate("Move Left"), self)
-                left_action.setToolTip(translate("<b>Move Left</b> shifts column left.<br/>Swaps with left neighbor."))
+                left_action.setToolTip(
+                    translate("<b>Move Left</b> shifts column left.<br/>Swaps with left neighbor.")
+                )
                 left_action.triggered.connect(lambda: self._move_column_at(col, False))
                 menu.addAction(left_action)
 
             if col < self.source_model.columnCount() - 1:
                 right_action = QAction(translate("Move Right"), self)
-                right_action.setToolTip(translate("<b>Move Right</b> shifts column right.<br/>Swaps with right neighbor."))
+                right_action.setToolTip(
+                    translate(
+                        "<b>Move Right</b> shifts column right.<br/>Swaps with right neighbor."
+                    )
+                )
                 right_action.triggered.connect(lambda: self._move_column_at(col, True))
                 menu.addAction(right_action)
 
             menu.addSeparator()
 
             sort_asc_action = QAction(translate("Sort Ascending"), self)
-            sort_asc_action.setToolTip(translate("<b>Sort Ascending</b> A–Z order.<br/>Lowest values first."))
+            sort_asc_action.setToolTip(
+                translate("<b>Sort Ascending</b> A–Z order.<br/>Lowest values first.")
+            )
             sort_asc_action.triggered.connect(lambda: self._sort_column_at(col, True))
             menu.addAction(sort_asc_action)
 
             sort_desc_action = QAction(translate("Sort Descending"), self)
-            sort_desc_action.setToolTip(translate("<b>Sort Descending</b> Z–A order.<br/>Highest values first."))
+            sort_desc_action.setToolTip(
+                translate("<b>Sort Descending</b> Z–A order.<br/>Highest values first.")
+            )
             sort_desc_action.triggered.connect(lambda: self._sort_column_at(col, False))
             menu.addAction(sort_desc_action)
 
             menu.addSeparator()
 
             stats_action = QAction(translate("Column Statistics..."), self)
-            stats_action.setToolTip(translate("<b>Column Statistics</b> shows stats.<br/>Count, sum, min, max, etc."))
+            stats_action.setToolTip(
+                translate("<b>Column Statistics</b> shows stats.<br/>Count, sum, min, max, etc.")
+            )
             stats_action.triggered.connect(lambda: self._show_column_stats_at(col))
             menu.addAction(stats_action)
 
             hide_action = QAction(translate("Hide Column"), self)
-            hide_action.setToolTip(translate("<b>Hide Column</b> hides from view.<br/>Data retained but not shown."))
+            hide_action.setToolTip(
+                translate("<b>Hide Column</b> hides from view.<br/>Data retained but not shown.")
+            )
             hide_action.triggered.connect(lambda: self._hide_column_at(col))
             menu.addAction(hide_action)
 
@@ -2692,7 +2834,11 @@ class TwoDAEditor(Editor):
             return
 
         # Map to source row
-        proxy_idx = self._editor.proxy_model.index(row, 0) if hasattr(self, "_editor") else self.proxy_model.index(row, 0)
+        proxy_idx = (
+            self._editor.proxy_model.index(row, 0)
+            if hasattr(self, "_editor")
+            else self.proxy_model.index(row, 0)
+        )
         if hasattr(self, "_editor"):
             source_row = self._editor.proxy_model.mapToSource(proxy_idx).row()
         else:
@@ -2701,24 +2847,32 @@ class TwoDAEditor(Editor):
         menu = QMenu(self)
 
         insert_above = QAction(translate("Insert Row Above"), self)
-        insert_above.setToolTip(translate("<b>Insert Row Above</b> adds row.<br/>New row above this one."))
+        insert_above.setToolTip(
+            translate("<b>Insert Row Above</b> adds row.<br/>New row above this one.")
+        )
         insert_above.triggered.connect(lambda: self._insert_row_at(source_row))
         menu.addAction(insert_above)
 
         insert_below = QAction(translate("Insert Row Below"), self)
-        insert_below.setToolTip(translate("<b>Insert Row Below</b> adds row.<br/>New row below this one."))
+        insert_below.setToolTip(
+            translate("<b>Insert Row Below</b> adds row.<br/>New row below this one.")
+        )
         insert_below.triggered.connect(lambda: self._insert_row_at(source_row + 1))
         menu.addAction(insert_below)
 
         menu.addSeparator()
 
         duplicate = QAction(translate("Duplicate Row"), self)
-        duplicate.setToolTip(translate("<b>Duplicate Row</b> copies row.<br/>Creates exact duplicate below."))
+        duplicate.setToolTip(
+            translate("<b>Duplicate Row</b> copies row.<br/>Creates exact duplicate below.")
+        )
         duplicate.triggered.connect(lambda: self._duplicate_row_at(source_row))
         menu.addAction(duplicate)
 
         delete = QAction(translate("Delete Row(s)"), self)
-        delete.setToolTip(translate("<b>Delete Row(s)</b> removes rows.<br/>All selected row data lost."))
+        delete.setToolTip(
+            translate("<b>Delete Row(s)</b> removes rows.<br/>All selected row data lost.")
+        )
         delete.triggered.connect(self.remove_selected_rows)
         menu.addAction(delete)
 
@@ -2726,20 +2880,26 @@ class TwoDAEditor(Editor):
 
         if source_row > 0:
             move_up = QAction(translate("Move Row Up"), self)
-            move_up.setToolTip(translate("<b>Move Row Up</b> shifts row.<br/>Swaps with row above."))
+            move_up.setToolTip(
+                translate("<b>Move Row Up</b> shifts row.<br/>Swaps with row above.")
+            )
             move_up.triggered.connect(lambda: self._move_row_at(source_row, False))
             menu.addAction(move_up)
 
         if source_row < self.source_model.rowCount() - 1:
             move_down = QAction(translate("Move Row Down"), self)
-            move_down.setToolTip(translate("<b>Move Row Down</b> shifts row.<br/>Swaps with row below."))
+            move_down.setToolTip(
+                translate("<b>Move Row Down</b> shifts row.<br/>Swaps with row below.")
+            )
             move_down.triggered.connect(lambda: self._move_row_at(source_row, True))
             menu.addAction(move_down)
 
         menu.addSeparator()
 
         edit_label = QAction(translate("Edit Row Label..."), self)
-        edit_label.setToolTip(translate("<b>Edit Row Label</b> changes label.<br/>Opens edit dialog."))
+        edit_label.setToolTip(
+            translate("<b>Edit Row Label</b> changes label.<br/>Opens edit dialog.")
+        )
         edit_label.triggered.connect(lambda: self._on_row_header_double_clicked(row))
         menu.addAction(edit_label)
 
@@ -2752,6 +2912,7 @@ class TwoDAEditor(Editor):
 
         # Select the entire row
         from qtpy.QtCore import QItemSelection
+
         left = self.proxy_model.index(logical_index, 0)
         right = self.proxy_model.index(logical_index, self.proxy_model.columnCount() - 1)
 
@@ -2797,7 +2958,9 @@ class TwoDAEditor(Editor):
         if self.source_model.columnCount() == 0:
             return
         col = max(0, min(col, self.source_model.columnCount()))
-        header, ok = QInputDialog.getText(self, "Insert Column", "Column header name:", text="newcolumn")
+        header, ok = QInputDialog.getText(
+            self, "Insert Column", "Column header name:", text="newcolumn"
+        )
         if not ok or not header.strip():
             return
         self._undo_stack.push(_InsertColumnCommand(self.source_model, col, header.strip(), self))
@@ -2973,6 +3136,7 @@ class TwoDAEditor(Editor):
 
             # Alignment
             from qtpy.QtCore import Qt
+
             align_map = {
                 "Left": Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter,
                 "Center": Qt.AlignmentFlag.AlignCenter,
@@ -3001,7 +3165,9 @@ class TwoDAEditor(Editor):
                         changes.append((source_idx.row(), source_idx.column(), old_text, new_text))
 
             if changes:
-                self._undo_stack.push(_BatchSetCellsCommand(self.source_model, changes, "Bulk edit"))
+                self._undo_stack.push(
+                    _BatchSetCellsCommand(self.source_model, changes, "Bulk edit")
+                )
 
     def show_column_filter_dialog(self):
         """Show column filter dialog and apply filter."""
@@ -3049,7 +3215,9 @@ class TwoDAEditor(Editor):
         """Show data validation dialog and apply rules."""
         selected = self.ui.twodaTable.selectedIndexes()
         if not selected:
-            QMessageBox.information(self, "Data Validation", "Please select cells to apply validation.")
+            QMessageBox.information(
+                self, "Data Validation", "Please select cells to apply validation."
+            )
             return
 
         dialog = DataValidationDialog(self)
@@ -3064,7 +3232,9 @@ class TwoDAEditor(Editor):
                 key = (source_idx.row(), source_idx.column())
                 self._validation_rules[key] = rule
 
-            QMessageBox.information(self, "Data Validation", f"Validation rules applied to {len(selected)} cells.")
+            QMessageBox.information(
+                self, "Data Validation", f"Validation rules applied to {len(selected)} cells."
+            )
 
     def clear_all_filters(self):
         """Clear all row filters and show all rows."""
@@ -3178,6 +3348,7 @@ class TwoDAEditor(Editor):
         """
 
         from qtpy.QtWidgets import QTextBrowser
+
         dialog = QDialog(self)
         dialog.setWindowTitle("Keyboard Shortcuts")
         dialog.resize(600, 700)
@@ -3197,7 +3368,9 @@ class TwoDAEditor(Editor):
         rc = self.source_model.rowCount()
         cc = self.source_model.columnCount()
         sel = self.ui.twodaTable.selectedIndexes()
-        zoom_suffix = "" if self._zoom_factor == 1.0 else f" | Zoom {round(self._zoom_factor * 100)}%"
+        zoom_suffix = (
+            "" if self._zoom_factor == 1.0 else f" | Zoom {round(self._zoom_factor * 100)}%"
+        )
         if not sel:
             self.ui.statusbar.showMessage(f"Rows: {rc} | Columns: {cc}{zoom_suffix}")
             return
@@ -3210,7 +3383,9 @@ class TwoDAEditor(Editor):
             h = self.source_model.horizontalHeaderItem(c)
             col_name = (h.text() or f"Col{c}") if h else f"Col{c}"
             cell_value = self.source_model.item(r, c).text() if self.source_model.item(r, c) else ""
-            self.ui.statusbar.showMessage(f"Cell R{r}:{col_name} = '{cell_value}' | Rows: {rc} | Columns: {cc}{zoom_suffix}")
+            self.ui.statusbar.showMessage(
+                f"Cell R{r}:{col_name} = '{cell_value}' | Rows: {rc} | Columns: {cc}{zoom_suffix}"
+            )
             return
 
         # Multiple selection: compute aggregates for numeric values
@@ -3237,7 +3412,9 @@ class TwoDAEditor(Editor):
             self.ui.statusbar.showMessage(f"{agg_str} | Rows: {rc} | Columns: {cc}{zoom_suffix}")
         else:
             # No numeric values in selection
-            self.ui.statusbar.showMessage(f"COUNT: {len(sel)} (no numeric values) | Rows: {rc} | Columns: {cc} | Selected: rows {min(rows)}–{max(rows)}, cols {min(cols)}–{max(cols)}{zoom_suffix}")
+            self.ui.statusbar.showMessage(
+                f"COUNT: {len(sel)} (no numeric values) | Rows: {rc} | Columns: {cc} | Selected: rows {min(rows)}–{max(rows)}, cols {min(cols)}–{max(cols)}{zoom_suffix}"
+            )
 
     def _show_table_context_menu(self, pos):
         from qtpy.QtWidgets import QMenu
@@ -3259,83 +3436,207 @@ class TwoDAEditor(Editor):
 
         # Edit — clipboard and clear (standard grouping)
         edit_menu = _submenu(menu, "Edit")
-        _add_action(edit_menu, "Copy", self.copy_selection,
-            "<b>Copy</b> selected cells to clipboard.<br/>Replaces current clipboard contents.")
-        _add_action(edit_menu, "Cut", self.cut_selection,
-            "<b>Cut</b> selected cells to clipboard.<br/>Removes cells after copying.")
-        _add_action(edit_menu, "Paste", self.paste_selection,
-            "<b>Paste</b> clipboard into selected area.<br/>Overwrites existing cell contents.")
-        _add_action(edit_menu, "Paste Transpose", self.paste_transpose,
-            "<b>Paste Transpose</b> swaps rows and columns.<br/>Useful when orientation differs.")
-        _add_action(edit_menu, "Clear Contents", self.clear_selection_contents,
-            "<b>Clear Contents</b> empties selected cells.<br/>Cells become empty but remain.")
+        _add_action(
+            edit_menu,
+            "Copy",
+            self.copy_selection,
+            "<b>Copy</b> selected cells to clipboard.<br/>Replaces current clipboard contents.",
+        )
+        _add_action(
+            edit_menu,
+            "Cut",
+            self.cut_selection,
+            "<b>Cut</b> selected cells to clipboard.<br/>Removes cells after copying.",
+        )
+        _add_action(
+            edit_menu,
+            "Paste",
+            self.paste_selection,
+            "<b>Paste</b> clipboard into selected area.<br/>Overwrites existing cell contents.",
+        )
+        _add_action(
+            edit_menu,
+            "Paste Transpose",
+            self.paste_transpose,
+            "<b>Paste Transpose</b> swaps rows and columns.<br/>Useful when orientation differs.",
+        )
+        _add_action(
+            edit_menu,
+            "Clear Contents",
+            self.clear_selection_contents,
+            "<b>Clear Contents</b> empties selected cells.<br/>Cells become empty but remain.",
+        )
 
         # Select — selection operations
         select_menu = _submenu(menu, "Select")
-        _add_action(select_menu, "Select All", self.select_all,
-            "<b>Select All</b> selects every table cell.<br/>Includes all rows and columns.")
-        _add_action(select_menu, "Select Row", self.select_current_row,
-            "<b>Select Row</b> selects entire cursor row.<br/>All cells in that row.")
-        _add_action(select_menu, "Select Column", self.select_current_column,
-            "<b>Select Column</b> selects entire cursor column.<br/>All cells in that column.")
-        _add_action(select_menu, "Select Visible Cells Only", self.select_visible_only,
-            "<b>Select Visible Cells</b> excludes filtered rows.<br/>Only currently visible cells.")
-        _add_action(select_menu, "Select Blank Cells", self.select_blank_cells,
-            "<b>Select Blank Cells</b> selects empty cells.<br/>Useful for batch filling.")
-        _add_action(select_menu, "Select Cells with Content", self.select_cells_with_content,
-            "<b>Select Cells with Content</b> skips blanks.<br/>All non-empty cells only.")
+        _add_action(
+            select_menu,
+            "Select All",
+            self.select_all,
+            "<b>Select All</b> selects every table cell.<br/>Includes all rows and columns.",
+        )
+        _add_action(
+            select_menu,
+            "Select Row",
+            self.select_current_row,
+            "<b>Select Row</b> selects entire cursor row.<br/>All cells in that row.",
+        )
+        _add_action(
+            select_menu,
+            "Select Column",
+            self.select_current_column,
+            "<b>Select Column</b> selects entire cursor column.<br/>All cells in that column.",
+        )
+        _add_action(
+            select_menu,
+            "Select Visible Cells Only",
+            self.select_visible_only,
+            "<b>Select Visible Cells</b> excludes filtered rows.<br/>Only currently visible cells.",
+        )
+        _add_action(
+            select_menu,
+            "Select Blank Cells",
+            self.select_blank_cells,
+            "<b>Select Blank Cells</b> selects empty cells.<br/>Useful for batch filling.",
+        )
+        _add_action(
+            select_menu,
+            "Select Cells with Content",
+            self.select_cells_with_content,
+            "<b>Select Cells with Content</b> skips blanks.<br/>All non-empty cells only.",
+        )
 
         # Rows — row operations
         rows_menu = _submenu(menu, "Rows")
-        _add_action(rows_menu, "Insert Row", self.insert_row,
-            "<b>Insert Row</b> adds new empty row.<br/>Appends at end or current position.")
-        _add_action(rows_menu, "Insert Row Above", self.insert_row_above,
-            "<b>Insert Row Above</b> adds row above.<br/>Pushes current row downward.")
-        _add_action(rows_menu, "Insert Row Below", self.insert_row_below,
-            "<b>Insert Row Below</b> adds row below.<br/>Pushes content downward.")
-        _add_action(rows_menu, "Duplicate Row", self.duplicate_row,
-            "<b>Duplicate Row</b> copies row and inserts.<br/>Creates exact duplicate below.")
-        _add_action(rows_menu, "Remove Rows", self.remove_selected_rows,
-            "<b>Remove Rows</b> deletes selected rows.<br/>All row data is removed.")
-        _add_action(rows_menu, "Move Row Up", self.move_row_up,
-            "<b>Move Row Up</b> shifts row by one.<br/>Swaps with row above.")
-        _add_action(rows_menu, "Move Row Down", self.move_row_down,
-            "<b>Move Row Down</b> shifts row by one.<br/>Swaps with row below.")
+        _add_action(
+            rows_menu,
+            "Insert Row",
+            self.insert_row,
+            "<b>Insert Row</b> adds new empty row.<br/>Appends at end or current position.",
+        )
+        _add_action(
+            rows_menu,
+            "Insert Row Above",
+            self.insert_row_above,
+            "<b>Insert Row Above</b> adds row above.<br/>Pushes current row downward.",
+        )
+        _add_action(
+            rows_menu,
+            "Insert Row Below",
+            self.insert_row_below,
+            "<b>Insert Row Below</b> adds row below.<br/>Pushes content downward.",
+        )
+        _add_action(
+            rows_menu,
+            "Duplicate Row",
+            self.duplicate_row,
+            "<b>Duplicate Row</b> copies row and inserts.<br/>Creates exact duplicate below.",
+        )
+        _add_action(
+            rows_menu,
+            "Remove Rows",
+            self.remove_selected_rows,
+            "<b>Remove Rows</b> deletes selected rows.<br/>All row data is removed.",
+        )
+        _add_action(
+            rows_menu,
+            "Move Row Up",
+            self.move_row_up,
+            "<b>Move Row Up</b> shifts row by one.<br/>Swaps with row above.",
+        )
+        _add_action(
+            rows_menu,
+            "Move Row Down",
+            self.move_row_down,
+            "<b>Move Row Down</b> shifts row by one.<br/>Swaps with row below.",
+        )
 
         # Columns — column operations
         columns_menu = _submenu(menu, "Columns")
-        _add_action(columns_menu, "Insert Column...", self.insert_column,
-            "<b>Insert Column</b> adds new data column.<br/>Dialog to set column name.")
-        _add_action(columns_menu, "Rename Column...", self.rename_current_column,
-            "<b>Rename Column</b> changes column name.<br/>Opens rename dialog.")
-        _add_action(columns_menu, "Duplicate Column", self.duplicate_column,
-            "<b>Duplicate Column</b> copies column beside.<br/>Exact copy with new header.")
-        _add_action(columns_menu, "Delete Column", self.delete_column,
-            "<b>Delete Column</b> removes column entirely.<br/>All column data is lost.")
-        _add_action(columns_menu, "Move Column Left", self.move_column_left,
-            "<b>Move Column Left</b> shifts one position.<br/>Swaps with left neighbor.")
-        _add_action(columns_menu, "Move Column Right", self.move_column_right,
-            "<b>Move Column Right</b> shifts one position.<br/>Swaps with right neighbor.")
+        _add_action(
+            columns_menu,
+            "Insert Column...",
+            self.insert_column,
+            "<b>Insert Column</b> adds new data column.<br/>Dialog to set column name.",
+        )
+        _add_action(
+            columns_menu,
+            "Rename Column...",
+            self.rename_current_column,
+            "<b>Rename Column</b> changes column name.<br/>Opens rename dialog.",
+        )
+        _add_action(
+            columns_menu,
+            "Duplicate Column",
+            self.duplicate_column,
+            "<b>Duplicate Column</b> copies column beside.<br/>Exact copy with new header.",
+        )
+        _add_action(
+            columns_menu,
+            "Delete Column",
+            self.delete_column,
+            "<b>Delete Column</b> removes column entirely.<br/>All column data is lost.",
+        )
+        _add_action(
+            columns_menu,
+            "Move Column Left",
+            self.move_column_left,
+            "<b>Move Column Left</b> shifts one position.<br/>Swaps with left neighbor.",
+        )
+        _add_action(
+            columns_menu,
+            "Move Column Right",
+            self.move_column_right,
+            "<b>Move Column Right</b> shifts one position.<br/>Swaps with right neighbor.",
+        )
 
         # Table — data and view operations
         table_menu = _submenu(menu, "Table")
-        _add_action(table_menu, "Remove Duplicate Rows", self.remove_duplicate_rows,
-            "<b>Remove Duplicates</b> deletes repeated rows.<br/>Keeps first occurrence only.")
-        _add_action(table_menu, "Transpose Table", self.transpose_table,
-            "<b>Transpose Table</b> swaps rows and columns.<br/>Table orientation is rotated.")
-        _add_action(table_menu, "Sort...", self.show_sort_dialog,
-            "<b>Sort</b> orders table by column values.<br/>Opens multi-level sort dialog.")
-        _add_action(table_menu, "Hide Column", self.hide_current_column,
-            "<b>Hide Column</b> hides from view.<br/>Data retained but not shown.")
-        _add_action(table_menu, "Show All Columns", self.show_all_columns,
-            "<b>Show All Columns</b> unhides columns.<br/>Restores full table view.")
+        _add_action(
+            table_menu,
+            "Remove Duplicate Rows",
+            self.remove_duplicate_rows,
+            "<b>Remove Duplicates</b> deletes repeated rows.<br/>Keeps first occurrence only.",
+        )
+        _add_action(
+            table_menu,
+            "Transpose Table",
+            self.transpose_table,
+            "<b>Transpose Table</b> swaps rows and columns.<br/>Table orientation is rotated.",
+        )
+        _add_action(
+            table_menu,
+            "Sort...",
+            self.show_sort_dialog,
+            "<b>Sort</b> orders table by column values.<br/>Opens multi-level sort dialog.",
+        )
+        _add_action(
+            table_menu,
+            "Hide Column",
+            self.hide_current_column,
+            "<b>Hide Column</b> hides from view.<br/>Data retained but not shown.",
+        )
+        _add_action(
+            table_menu,
+            "Show All Columns",
+            self.show_all_columns,
+            "<b>Show All Columns</b> unhides columns.<br/>Restores full table view.",
+        )
 
         # Go To — navigation
         goto_menu = _submenu(menu, "Go To")
-        _add_action(goto_menu, "Go to Row...", self.show_go_to_row_dialog,
-            "<b>Go to Row</b> jump by row number.<br/>Opens row number dialog.")
-        _add_action(goto_menu, "Go to Column...", self.show_go_to_column_dialog,
-            "<b>Go to Column</b> jump by column name.<br/>Opens column selector dialog.")
+        _add_action(
+            goto_menu,
+            "Go to Row...",
+            self.show_go_to_row_dialog,
+            "<b>Go to Row</b> jump by row number.<br/>Opens row number dialog.",
+        )
+        _add_action(
+            goto_menu,
+            "Go to Column...",
+            self.show_go_to_column_dialog,
+            "<b>Go to Column</b> jump by column name.<br/>Opens column selector dialog.",
+        )
 
         menu.addSeparator()
         sub = self.ui.twodaTable.build_context_menu(self)
@@ -3428,7 +3729,9 @@ class TwoDAEditor(Editor):
                 if old:
                     changes.append((src.row(), src.column(), old, ""))
         if changes:
-            self._undo_stack.push(_BatchSetCellsCommand(self.source_model, changes, "Clear contents"))
+            self._undo_stack.push(
+                _BatchSetCellsCommand(self.source_model, changes, "Clear contents")
+            )
 
     def show_find_dialog(self):
         d = FindReplaceDialog(self, find_only=True)
@@ -3438,9 +3741,19 @@ class TwoDAEditor(Editor):
         self._last_match_case = d.is_match_case()
         self._last_match_whole_cell = d.is_match_whole_cell()
         if res == 100 or res == QDialog.DialogCode.Accepted:
-            self._find_next(forward=True, find_text=d.get_find_text(), match_case=d.is_match_case(), match_whole_cell=d.is_match_whole_cell())
+            self._find_next(
+                forward=True,
+                find_text=d.get_find_text(),
+                match_case=d.is_match_case(),
+                match_whole_cell=d.is_match_whole_cell(),
+            )
         elif res == 101:
-            self._find_next(forward=False, find_text=d.get_find_text(), match_case=d.is_match_case(), match_whole_cell=d.is_match_whole_cell())
+            self._find_next(
+                forward=False,
+                find_text=d.get_find_text(),
+                match_case=d.is_match_case(),
+                match_whole_cell=d.is_match_whole_cell(),
+            )
         elif res == 104:
             self._select_all_matching(d.get_find_text(), d.is_match_case(), d.is_match_whole_cell())
 
@@ -3454,13 +3767,27 @@ class TwoDAEditor(Editor):
         self._last_match_case = d.is_match_case()
         self._last_match_whole_cell = d.is_match_whole_cell()
         if res == 100 or res == QDialog.DialogCode.Accepted:
-            self._find_next(forward=True, find_text=d.get_find_text(), match_case=d.is_match_case(), match_whole_cell=d.is_match_whole_cell())
+            self._find_next(
+                forward=True,
+                find_text=d.get_find_text(),
+                match_case=d.is_match_case(),
+                match_whole_cell=d.is_match_whole_cell(),
+            )
         elif res == 101:
-            self._find_next(forward=False, find_text=d.get_find_text(), match_case=d.is_match_case(), match_whole_cell=d.is_match_whole_cell())
+            self._find_next(
+                forward=False,
+                find_text=d.get_find_text(),
+                match_case=d.is_match_case(),
+                match_whole_cell=d.is_match_whole_cell(),
+            )
         elif res == 102:
-            self._replace_one(d.get_find_text(), d.get_replace_text(), d.is_match_case(), d.is_match_whole_cell())
+            self._replace_one(
+                d.get_find_text(), d.get_replace_text(), d.is_match_case(), d.is_match_whole_cell()
+            )
         elif res == 103:
-            self._replace_all(d.get_find_text(), d.get_replace_text(), d.is_match_case(), d.is_match_whole_cell())
+            self._replace_all(
+                d.get_find_text(), d.get_replace_text(), d.is_match_case(), d.is_match_whole_cell()
+            )
         elif res == 104:
             self._select_all_matching(d.get_find_text(), d.is_match_case(), d.is_match_whole_cell())
 
@@ -3485,7 +3812,9 @@ class TwoDAEditor(Editor):
             bool: True if the cell matches the criteria, False otherwise
         """
         if match_whole_cell:
-            return (cell_text == find_text) if match_case else (cell_text.lower() == find_text.lower())
+            return (
+                (cell_text == find_text) if match_case else (cell_text.lower() == find_text.lower())
+            )
         if match_case:
             return find_text in cell_text
         return find_text.lower() in cell_text.lower()
@@ -3506,7 +3835,9 @@ class TwoDAEditor(Editor):
         for r in range(self.source_model.rowCount()):
             for c in range(self.source_model.columnCount()):
                 item = self.source_model.item(r, c)
-                if item and self._text_matches(item.text(), find_text, match_case, match_whole_cell):
+                if item and self._text_matches(
+                    item.text(), find_text, match_case, match_whole_cell
+                ):
                     src_idx = self.source_model.index(r, c)
                     proxy_idx = self.proxy_model.mapFromSource(src_idx)
                     if proxy_idx.isValid():
@@ -3545,10 +3876,14 @@ class TwoDAEditor(Editor):
             for r in range(start_row, rows):
                 for c in range(start_col if r == start_row else 0, cols):
                     item = self.source_model.item(r, c)
-                    if item and self._text_matches(item.text(), find_text, match_case, match_whole_cell):
+                    if item and self._text_matches(
+                        item.text(), find_text, match_case, match_whole_cell
+                    ):
                         idx = self.proxy_model.mapFromSource(self.source_model.index(r, c))
                         self.ui.twodaTable.setCurrentIndex(idx)
-                        self.ui.twodaTable.scrollTo(idx, self.ui.twodaTable.ScrollHint.EnsureVisible)
+                        self.ui.twodaTable.scrollTo(
+                            idx, self.ui.twodaTable.ScrollHint.EnsureVisible
+                        )
                         selectionModel = self.ui.twodaTable.selectionModel()
                         assert selectionModel is not None, "Selection model should not be None"
                         selectionModel.select(idx, selectionModel.SelectionFlag.ClearAndSelect)
@@ -3557,10 +3892,14 @@ class TwoDAEditor(Editor):
             for r in range(start_row, -1, -1):
                 for c in range(start_col if r == start_row else cols - 1, -1, -1):
                     item = self.source_model.item(r, c)
-                    if item and self._text_matches(item.text(), find_text, match_case, match_whole_cell):
+                    if item and self._text_matches(
+                        item.text(), find_text, match_case, match_whole_cell
+                    ):
                         idx = self.proxy_model.mapFromSource(self.source_model.index(r, c))
                         self.ui.twodaTable.setCurrentIndex(idx)
-                        self.ui.twodaTable.scrollTo(idx, self.ui.twodaTable.ScrollHint.EnsureVisible)
+                        self.ui.twodaTable.scrollTo(
+                            idx, self.ui.twodaTable.ScrollHint.EnsureVisible
+                        )
                         selectionModel = self.ui.twodaTable.selectionModel()
                         assert selectionModel is not None, "Selection model should not be None"
                         selectionModel.select(idx, selectionModel.SelectionFlag.ClearAndSelect)
@@ -3581,7 +3920,12 @@ class TwoDAEditor(Editor):
         if item is None:
             return
         if not self._text_matches(item.text(), find_text, match_case, match_whole_cell):
-            self._find_next(forward=True, find_text=find_text, match_case=match_case, match_whole_cell=match_whole_cell)
+            self._find_next(
+                forward=True,
+                find_text=find_text,
+                match_case=match_case,
+                match_whole_cell=match_whole_cell,
+            )
             cur = self.ui.twodaTable.currentIndex()
             if not cur.isValid():
                 return
@@ -3589,9 +3933,16 @@ class TwoDAEditor(Editor):
             item = self.source_model.item(src.row(), src.column())
         if item is not None:
             old = item.text()
-            self._undo_stack.push(_SetCellTextCommand(self.source_model, src.row(), src.column(), old, replace_text))
+            self._undo_stack.push(
+                _SetCellTextCommand(self.source_model, src.row(), src.column(), old, replace_text)
+            )
             item.setText(replace_text)
-        self._find_next(forward=True, find_text=find_text, match_case=match_case, match_whole_cell=match_whole_cell)
+        self._find_next(
+            forward=True,
+            find_text=find_text,
+            match_case=match_case,
+            match_whole_cell=match_whole_cell,
+        )
 
     def _replace_all(
         self,
@@ -3607,7 +3958,9 @@ class TwoDAEditor(Editor):
         for r in range(self.source_model.rowCount()):
             for c in range(self.source_model.columnCount()):
                 item = self.source_model.item(r, c)
-                if item and self._text_matches(item.text(), find_text, match_case, match_whole_cell):
+                if item and self._text_matches(
+                    item.text(), find_text, match_case, match_whole_cell
+                ):
                     changes.append((r, c, item.text(), replace_text))
         if not changes:
             return
@@ -3617,7 +3970,9 @@ class TwoDAEditor(Editor):
         """Insert a new column; prompt for header name and position."""
         from qtpy.QtWidgets import QInputDialog
 
-        header, ok = QInputDialog.getText(self, "Insert Column", "Column header name:", text="newcolumn")
+        header, ok = QInputDialog.getText(
+            self, "Insert Column", "Column header name:", text="newcolumn"
+        )
         if not ok or not header.strip():
             return
         col = self.source_model.columnCount()
@@ -3628,12 +3983,21 @@ class TwoDAEditor(Editor):
 
     def delete_column(self):
         """Delete the current column or the first selected column."""
-        cols = {self.proxy_model.mapToSource(idx).column() for idx in self.ui.twodaTable.selectedIndexes()}
+        cols = {
+            self.proxy_model.mapToSource(idx).column()
+            for idx in self.ui.twodaTable.selectedIndexes()
+        }
         cur = self.ui.twodaTable.currentIndex()
         data_cols = [c for c in cols if c > 0]
-        col = min(data_cols) if data_cols else (self.proxy_model.mapToSource(cur).column() if cur.isValid() else 0)
+        col = (
+            min(data_cols)
+            if data_cols
+            else (self.proxy_model.mapToSource(cur).column() if cur.isValid() else 0)
+        )
         if col <= 0:
-            QMessageBox.information(self, "Delete Column", "Select a data column (not the row label column) to delete.")
+            QMessageBox.information(
+                self, "Delete Column", "Select a data column (not the row label column) to delete."
+            )
             return
         if self.source_model.columnCount() <= 2:
             QMessageBox.warning(self, "Delete Column", "Cannot delete the last data column.")
@@ -3643,8 +4007,13 @@ class TwoDAEditor(Editor):
     def show_sort_dialog(self):
         """Show multi-level Sort dialog and apply sort (undoable)."""
         data_headers = [
-            (self.source_model.horizontalHeaderItem(c).text() if self.source_model.horizontalHeaderItem(c) else "")
-            for c in range(1, self.source_model.columnCount()) if self.source_model.horizontalHeaderItem(c) is not None
+            (
+                self.source_model.horizontalHeaderItem(c).text()
+                if self.source_model.horizontalHeaderItem(c)
+                else ""
+            )
+            for c in range(1, self.source_model.columnCount())
+            if self.source_model.horizontalHeaderItem(c) is not None
         ]
         if not data_headers:
             return
@@ -3668,7 +4037,9 @@ class TwoDAEditor(Editor):
 
         col = self.proxy_model.mapToSource(cur).column()
         if col <= 0:
-            QMessageBox.information(self, "Column Statistics", "Please select a data column (not the row label column).")
+            QMessageBox.information(
+                self, "Column Statistics", "Please select a data column (not the row label column)."
+            )
             return
 
         h = self.source_model.horizontalHeaderItem(col)
@@ -3693,11 +4064,13 @@ class TwoDAEditor(Editor):
         if freeze:
             # Set column 0 to fixed width
             from qtpy.QtWidgets import QHeaderView
+
             h_header.setSectionResizeMode(0, QHeaderView.ResizeMode.Fixed)
             h_header.resizeSection(0, 60)  # Fixed 60px width
         else:
             # Allow interactive resizing
             from qtpy.QtWidgets import QHeaderView
+
             h_header.setSectionResizeMode(0, QHeaderView.ResizeMode.Interactive)
 
     def toggle_highlight_non_numeric(self, enabled: bool):
@@ -3770,7 +4143,13 @@ class TwoDAEditor(Editor):
             val = top_item.text() if top_item else ""
             for r in range(min_row + 1, self.source_model.rowCount()):
                 item = self.source_model.item(r, c)
-                if item is not None and (r, c) in {(self.proxy_model.mapToSource(i).row(), self.proxy_model.mapToSource(i).column()) for i in indexes}:
+                if item is not None and (r, c) in {
+                    (
+                        self.proxy_model.mapToSource(i).row(),
+                        self.proxy_model.mapToSource(i).column(),
+                    )
+                    for i in indexes
+                }:
                     old = item.text()
                     if old != val:
                         changes.append((r, c, old, val))
@@ -3781,7 +4160,9 @@ class TwoDAEditor(Editor):
         """Fill down with pattern detection (e.g., 1,2,3... or A,B,C...)."""
         indexes = self.ui.twodaTable.selectedIndexes()
         if not indexes or len(indexes) < 2:
-            QMessageBox.information(self, "Fill Pattern", "Select at least 2 cells to detect a pattern.")
+            QMessageBox.information(
+                self, "Fill Pattern", "Select at least 2 cells to detect a pattern."
+            )
             return
 
         # Group by column
@@ -3825,7 +4206,9 @@ class TwoDAEditor(Editor):
                 if vals:
                     pattern_len = len(vals)
                     last_row = rows[-1]
-                    for i, r in enumerate(range(last_row + 1, min(last_row + 20, self.source_model.rowCount()))):
+                    for i, r in enumerate(
+                        range(last_row + 1, min(last_row + 20, self.source_model.rowCount()))
+                    ):
                         item = self.source_model.item(r, col)
                         if item:
                             old = item.text()
@@ -3833,7 +4216,9 @@ class TwoDAEditor(Editor):
                             changes.append((r, col, old, new))
 
         if changes:
-            self._undo_stack.push(_BatchSetCellsCommand(self.source_model, changes, "Fill pattern down"))
+            self._undo_stack.push(
+                _BatchSetCellsCommand(self.source_model, changes, "Fill pattern down")
+            )
         else:
             QMessageBox.information(self, "Fill Pattern", "No pattern detected or no room to fill.")
 
@@ -3850,7 +4235,13 @@ class TwoDAEditor(Editor):
             val = left_item.text() if left_item else ""
             for c in range(min_col + 1, self.source_model.columnCount()):
                 item = self.source_model.item(r, c)
-                if item is not None and (r, c) in {(self.proxy_model.mapToSource(i).row(), self.proxy_model.mapToSource(i).column()) for i in indexes}:
+                if item is not None and (r, c) in {
+                    (
+                        self.proxy_model.mapToSource(i).row(),
+                        self.proxy_model.mapToSource(i).column(),
+                    )
+                    for i in indexes
+                }:
                     old = item.text()
                     if old != val:
                         changes.append((r, c, old, val))
@@ -3893,7 +4284,9 @@ class TwoDAEditor(Editor):
                     old = item.text()
                     changes.append((tr, tc, old, cell))
         if changes:
-            self._undo_stack.push(_BatchSetCellsCommand(self.source_model, changes, "Paste transpose"))
+            self._undo_stack.push(
+                _BatchSetCellsCommand(self.source_model, changes, "Paste transpose")
+            )
 
     def copy_selection(self):
         """Copies the selected cells to the clipboard in a tab-delimited format."""
@@ -3990,7 +4383,9 @@ class TwoDAEditor(Editor):
     def insert_row(self):
         """Inserts a new blank row at the end of the table."""
         if self.source_model.columnCount() == 0:
-            QMessageBox.information(self, "Insert Row", "Add at least one column first (e.g. via a loaded 2DA file).")
+            QMessageBox.information(
+                self, "Insert Row", "Add at least one column first (e.g. via a loaded 2DA file)."
+            )
             return
         row_index: int = self.source_model.rowCount()
         new_items = [QStandardItem("") for _ in range(self.source_model.columnCount())]
@@ -4026,7 +4421,10 @@ class TwoDAEditor(Editor):
     def remove_selected_rows(self):
         """Removes the rows the user has selected."""
         # Map proxy-selected rows back to source model rows before removal
-        rows: set[int] = {self.proxy_model.mapToSource(index).row() for index in self.ui.twodaTable.selectedIndexes()}
+        rows: set[int] = {
+            self.proxy_model.mapToSource(index).row()
+            for index in self.ui.twodaTable.selectedIndexes()
+        }
         if not rows:
             return
         self._undo_stack.push(_RemoveRowsCommand(self.source_model, list(rows), self))
@@ -4074,10 +4472,15 @@ class TwoDAEditor(Editor):
             col_index: int = 0
             for i in range(self.source_model.columnCount()):
                 horizontal_header_item = self.source_model.horizontalHeaderItem(i)
-                assert horizontal_header_item is not None, "Horizontal header item should not be None"
+                assert horizontal_header_item is not None, (
+                    "Horizontal header item should not be None"
+                )
                 if horizontal_header_item.text() == self.vertical_header_column:
                     col_index = i
-            headers = [self.source_model.item(i, col_index).text() for i in range(self.source_model.rowCount())]  # type: ignore[attr-defined]
+            headers = [
+                self.source_model.item(i, col_index).text()
+                for i in range(self.source_model.rowCount())
+            ]  # type: ignore[attr-defined]
         elif self.vertical_header_option == VerticalHeaderOption.NONE:
             # Get palette colors
             app = QApplication.instance()
@@ -4228,6 +4631,7 @@ class VerticalHeaderOption(IntEnum):
     ROW_LABEL = 1
     CELL_VALUE = 2
     NONE = 3
+
 
 if __name__ == "__main__":
     import sys

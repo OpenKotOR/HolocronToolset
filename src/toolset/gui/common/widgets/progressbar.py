@@ -59,7 +59,9 @@ class AnimatedProgressBar(QProgressBar):
             self._offset = (self._offset + 1) % content.width()
         else:
             filled_width = int(
-                content.width() * (self.value() - self.minimum()) / (self.maximum() - self.minimum()),
+                content.width()
+                * (self.value() - self.minimum())
+                / (self.maximum() - self.minimum()),
             )
             if filled_width == 0:
                 return
@@ -86,7 +88,9 @@ class AnimatedProgressBar(QProgressBar):
             filled_width = content.width()
         else:
             filled_width = int(
-                content.width() * (self.value() - self.minimum()) / (self.maximum() - self.minimum()),
+                content.width()
+                * (self.value() - self.minimum())
+                / (self.maximum() - self.minimum()),
             )
         filled_width = max(filled_width, chunk_height)
 

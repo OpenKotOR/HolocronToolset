@@ -229,7 +229,14 @@ class DLGEditor(Editor):
         if folder is None or not folder.exists() or not folder.is_dir():
             return []
         supported = {".wav", ".mp3", ".ogg", ".wma"}
-        return sorted({item.stem for item in folder.iterdir() if item.is_file() and item.suffix.lower() in supported}, key=str.lower)
+        return sorted(
+            {
+                item.stem
+                for item in folder.iterdir()
+                if item.is_file() and item.suffix.lower() in supported
+            },
+            key=str.lower,
+        )
 
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
         if installation is None:
@@ -252,7 +259,9 @@ class DLGEditor(Editor):
 
     def _on_folder_paths_changed(self, paths: dict[str, Path | None]) -> None:
         waves: list[str] = self._scan_audio_folder(paths.get("streamwaves"))
-        sounds: list[str] = sorted({*waves, *self._scan_audio_folder(paths.get("streamsounds"))}, key=str.lower)
+        sounds: list[str] = sorted(
+            {*waves, *self._scan_audio_folder(paths.get("streamsounds"))}, key=str.lower
+        )
         music: list[str] = self._scan_audio_folder(paths.get("streammusic"))
 
         self.all_voices = waves
@@ -266,7 +275,9 @@ class DLGEditor(Editor):
 
     def _populate_audio_lists_from_installation(self, installation: HTInstallation) -> None:
         """Populate voice/sound/music lists from the installation."""
-        self.all_voices = sorted({res.resname() for res in installation._streamwaves}, key=str.lower)  # noqa: SLF001
+        self.all_voices = sorted(
+            {res.resname() for res in installation._streamwaves}, key=str.lower
+        )  # noqa: SLF001
         self.all_sounds = sorted(
             {res.resname() for res in [*installation._streamwaves, *installation._streamsounds]},  # noqa: SLF001
             key=str.lower,
@@ -330,7 +341,9 @@ class DLGEditor(Editor):
             end_x = -self.tip_label.width()
 
         self.tip_label.setGeometry(start_x, 0, self.tip_label.width(), 10)
-        self.statusbar_animation: QPropertyAnimation = QPropertyAnimation(self.tip_label, b"geometry")
+        self.statusbar_animation: QPropertyAnimation = QPropertyAnimation(
+            self.tip_label, b"geometry"
+        )
         self.statusbar_animation.setDuration(30000)
         self.statusbar_animation.setStartValue(QRect(start_x, 0, self.tip_label.width(), 10))
         self.statusbar_animation.setEndValue(QRect(end_x, 0, self.tip_label.width(), 10))
@@ -381,7 +394,9 @@ class DLGEditor(Editor):
     ):
         parent: QObject | None = widget
         while parent is not None:
-            print(f"Level {level}: Checking parent {parent.__class__.__name__} with name {parent.objectName()}")
+            print(
+                f"Level {level}: Checking parent {parent.__class__.__name__} with name {parent.objectName()}"
+            )
             if isinstance(parent, DLGEditor):
                 return
             parent = parent.parent()
@@ -521,7 +536,12 @@ A ResRef to a script, where the entry point is its <code>main()</code> function.
 <i>Right-click for more options</i>
 """
         self._set_tooltips_for_widgets(
-            [self.ui.script1Label, self.ui.script2Label, self.ui.script1ResrefEdit, self.ui.script2ResrefEdit],
+            [
+                self.ui.script1Label,
+                self.ui.script2Label,
+                self.ui.script1ResrefEdit,
+                self.ui.script2ResrefEdit,
+            ],
             script_text_entry_tooltip,
         )
         self.ui.script1ResrefEdit.currentTextChanged.connect(self.on_node_update)
@@ -535,7 +555,12 @@ Should return 1 or 0, representing a boolean.
 <i>Right-click for more options</i>
 """
         self._set_tooltips_for_widgets(
-            [self.ui.conditional1Label, self.ui.conditional2Label, self.ui.condition1ResrefEdit, self.ui.condition2ResrefEdit],
+            [
+                self.ui.conditional1Label,
+                self.ui.conditional2Label,
+                self.ui.condition1ResrefEdit,
+                self.ui.condition2ResrefEdit,
+            ],
             conditional_text_entry_tooltip,
         )
         self.ui.condition1ResrefEdit.currentTextChanged.connect(self.on_node_update)
@@ -544,11 +569,28 @@ Should return 1 or 0, representing a boolean.
         self.ui.soundComboBox.currentTextChanged.connect(self.on_node_update)
         self.ui.voiceComboBox.currentTextChanged.connect(self.on_node_update)
 
-        self.ui.soundButton.clicked.connect(lambda ui=self.ui: (self.play_sound(ui.soundComboBox.currentText(), [SearchLocation.SOUND, SearchLocation.VOICE]) and None) or None)
-        self.ui.voiceButton.clicked.connect(lambda ui=self.ui: (self.play_sound(ui.voiceComboBox.currentText(), [SearchLocation.VOICE]) and None) or None)
+        self.ui.soundButton.clicked.connect(
+            lambda ui=self.ui: (
+                self.play_sound(
+                    ui.soundComboBox.currentText(), [SearchLocation.SOUND, SearchLocation.VOICE]
+                )
+                and None
+            )
+            or None
+        )
+        self.ui.voiceButton.clicked.connect(
+            lambda ui=self.ui: (
+                self.play_sound(ui.voiceComboBox.currentText(), [SearchLocation.VOICE]) and None
+            )
+            or None
+        )
 
-        self.ui.soundComboBox.set_button_delegate("Play", lambda text: self.play_sound(text, [SearchLocation.SOUND, SearchLocation.VOICE]))
-        self.ui.voiceComboBox.set_button_delegate("Play", lambda text: self.play_sound(text, [SearchLocation.VOICE]))
+        self.ui.soundComboBox.set_button_delegate(
+            "Play", lambda text: self.play_sound(text, [SearchLocation.SOUND, SearchLocation.VOICE])
+        )
+        self.ui.voiceComboBox.set_button_delegate(
+            "Play", lambda text: self.play_sound(text, [SearchLocation.VOICE])
+        )
 
         self.ui.speakerEdit.textEdited.connect(self.on_node_update)
         self.ui.listenerEdit.textEdited.connect(self.on_node_update)
@@ -645,7 +687,9 @@ Should return 1 or 0, representing a boolean.
                 and not isinstance(attr[1], list)
             )
         }
-        suggestions: list[str] = [f"{key}:" for key in [*entry_attributes, *link_attributes, "stringref", "strref"]]
+        suggestions: list[str] = [
+            f"{key}:" for key in [*entry_attributes, *link_attributes, "stringref", "strref"]
+        ]
 
         self.find_input_completer: QCompleter = QCompleter(suggestions, self.find_input)
         self.find_input_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
@@ -683,7 +727,9 @@ Should return 1 or 0, representing a boolean.
     def handle_back(self):
         if not self.search_results:
             return
-        self.current_result_index = (self.current_result_index - 1 + len(self.search_results)) % len(self.search_results)
+        self.current_result_index = (
+            self.current_result_index - 1 + len(self.search_results)
+        ) % len(self.search_results)
         self.highlight_result(self.search_results[self.current_result_index])
         self.update_results_label()
 
@@ -724,10 +770,18 @@ Should return 1 or 0, representing a boolean.
                     if value == "":
                         conditions.append((key.strip().lower(), None, operator))
                     else:
-                        conditions.append((key.strip().lower(), value.strip().lower() if value else None, operator))
+                        conditions.append(
+                            (
+                                key.strip().lower(),
+                                value.strip().lower() if value else None,
+                                operator,
+                            )
+                        )
                 finally:
                     operator = None
-            elif (next_index and normalized_tokens[next_index].upper() in ("AND", "OR")) or not next_index:
+            elif (
+                next_index and normalized_tokens[next_index].upper() in ("AND", "OR")
+            ) or not next_index:
                 conditions.append((normalized_tokens[i], "", operator))
                 operator = None
 
@@ -739,7 +793,9 @@ Should return 1 or 0, representing a boolean.
         self,
         input_text: str,
     ) -> list[DLGStandardItem]:  # noqa: C901
-        conditions: list[tuple[str, str | None, Literal["AND", "OR"] | None]] = self.parse_query(input_text)
+        conditions: list[tuple[str, str | None, Literal["AND", "OR"] | None]] = self.parse_query(
+            input_text
+        )
         matching_items: list[DLGStandardItem] = []
 
         def condition_matches(  # noqa: C901
@@ -927,7 +983,9 @@ Should return 1 or 0, representing a boolean.
         self.dlg_resource_list: QListWidget = QListWidget()
         self.dlg_resource_list.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.dlg_resource_list.setMinimumHeight(80)
-        self.dlg_resource_list.setToolTip("Double-click to open a DLG resource from the installation")
+        self.dlg_resource_list.setToolTip(
+            "Double-click to open a DLG resource from the installation"
+        )
         pinned_layout.addWidget(self.dlg_resource_list)
 
         def _on_resource_filter_changed(text: str) -> None:
@@ -935,17 +993,21 @@ Should return 1 or 0, representing a boolean.
             for i in range(self.dlg_resource_list.count()):
                 list_item: QListWidgetItem | None = self.dlg_resource_list.item(i)
                 if list_item is not None:
-                    list_item.setHidden(bool(text_lower) and text_lower not in list_item.text().lower())
+                    list_item.setHidden(
+                        bool(text_lower) and text_lower not in list_item.text().lower()
+                    )
 
         self.dlg_resource_filter.textChanged.connect(_on_resource_filter_changed)
 
         def _on_resource_activated(activated_item: QListWidgetItem) -> None:
             from pykotor.extract.file import FileResource as _FileResource  # noqa: PLC0415
+
             res: _FileResource | None = activated_item.data(Qt.ItemDataRole.UserRole)
             if res is None:
                 return
             if self.isWindowModified():
                 from toolset.gui.common.localization import tr, trf  # noqa: PLC0415
+
                 result = QMessageBox.question(
                     self,
                     tr("Unsaved Changes"),
@@ -954,7 +1016,9 @@ Should return 1 or 0, representing a boolean.
                         resname=self._resname,
                         ext=self._restype.extension if self._restype else "",
                     ),
-                    QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                    QMessageBox.StandardButton.Save
+                    | QMessageBox.StandardButton.Discard
+                    | QMessageBox.StandardButton.Cancel,
                     QMessageBox.StandardButton.Cancel,
                 )
                 if result == QMessageBox.StandardButton.Cancel:
@@ -965,7 +1029,9 @@ Should return 1 or 0, representing a boolean.
                 data = res.data()
             except Exception:  # noqa: BLE001
                 RobustLogger().exception("Resource browser failed to read resource")
-                QMessageBox.critical(self, "Load Error", f"Failed to read {res.resname()}.{res.restype().extension}")
+                QMessageBox.critical(
+                    self, "Load Error", f"Failed to read {res.resname()}.{res.restype().extension}"
+                )
                 return
             self.load(res.filepath(), res.resname(), res.restype(), data)
 
@@ -1011,7 +1077,9 @@ Should return 1 or 0, representing a boolean.
         ):
             selected_items: list[QListWidgetItem] = source_widget.selectedItems()
             if not selected_items:
-                print("No selected items being dragged? (probably means someone JUST dropped into list)")
+                print(
+                    "No selected items being dragged? (probably means someone JUST dropped into list)"
+                )
                 return
 
             drag = QDrag(source_widget)
@@ -1042,7 +1110,11 @@ Should return 1 or 0, representing a boolean.
             return
         selected_tree_indexes: list[QModelIndex] = self.ui.dialogTree.selectedIndexes()
         if not selected_tree_indexes or not selected_tree_indexes[0]:
-            QMessageBox(QMessageBox.Icon.Information, "No target specified", "Select a position in the tree to insert this orphan at then try again.")
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No target specified",
+                "Select a position in the tree to insert this orphan at then try again.",
+            )
             return
         selected_tree_item: DLGStandardItem | None = cast(
             "DLGStandardItem | None",
@@ -1059,9 +1131,19 @@ Should return 1 or 0, representing a boolean.
         else:
             target_parent = selected_tree_item
             intended_link_list_index_row = 0
-        new_link_path: str = f"StartingList\\{intended_link_list_index_row}" if target_parent is None else target_parent.link.node.path()  # pyright: ignore[reportOptionalMemberAccess]
-        link_parent_path, link_partial_path, linked_to_path = self.get_item_dlg_paths(selected_orphan_item)
-        link_full_path: str = link_partial_path if link_parent_path is None else f"{link_parent_path}\\{link_partial_path}"
+        new_link_path: str = (
+            f"StartingList\\{intended_link_list_index_row}"
+            if target_parent is None
+            else target_parent.link.node.path()
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        link_parent_path, link_partial_path, linked_to_path = self.get_item_dlg_paths(
+            selected_orphan_item
+        )
+        link_full_path: str = (
+            link_partial_path
+            if link_parent_path is None
+            else f"{link_parent_path}\\{link_partial_path}"
+        )
         confirm_message: str = f"The orphan '{linked_to_path}' (originally linked from {link_full_path}) will be newly linked from {new_link_path} with this action. Continue?"
         reply: QMessageBox.StandardButton = QMessageBox.question(
             self,
@@ -1072,7 +1154,9 @@ Should return 1 or 0, representing a boolean.
         )
 
         if reply == QMessageBox.StandardButton.Yes:
-            print(f"orphan '{linked_to_path}' (originally linked from {selected_orphan_item.data(_LINK_PARENT_NODE_PATH_ROLE)}) is to be linked from {new_link_path}")
+            print(
+                f"orphan '{linked_to_path}' (originally linked from {selected_orphan_item.data(_LINK_PARENT_NODE_PATH_ROLE)}) is to be linked from {new_link_path}"
+            )
             item: DLGStandardItem = self.model.insert_link_to_parent_as_item(
                 target_parent,
                 DLGLink.from_dict(old_link_to_current_orphan.to_dict()),
@@ -1112,7 +1196,13 @@ Should return 1 or 0, representing a boolean.
         all_tips_action: QAction | None = self.ui.menubar.addAction("Help")  # pyright: ignore[reportAssignmentType, reportAttributeAccessIssue]
         assert all_tips_action is not None, "Failed to create 'Help' action."
         all_tips_action.triggered.connect(self.show_all_tips)
-        whats_this_action: QAction = QAction(cast("QStyle", self.style()).standardIcon(QStyle.StandardPixmap.SP_TitleBarContextHelpButton), "", self)
+        whats_this_action: QAction = QAction(
+            cast("QStyle", self.style()).standardIcon(
+                QStyle.StandardPixmap.SP_TitleBarContextHelpButton
+            ),
+            "",
+            self,
+        )
         assert whats_this_action is not None, "Failed to create 'WhatsThis' action."
         whats_this_action.triggered.connect(QWhatsThis.enterWhatsThisMode)
         whats_this_action.setToolTip("Enter WhatsThis? mode.")
@@ -1243,8 +1333,14 @@ Should return 1 or 0, representing a boolean.
 
         self.ui.dialogTree._add_simple_action(self.advanced_menu, "Repaint", self.repaint)  # noqa: SLF001
         self.ui.dialogTree._add_simple_action(self.advanced_menu, "Update", self.update)  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(self.advanced_menu, "Resize Column To Contents", lambda: self.ui.dialogTree.resizeColumnToContents(0))  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(self.advanced_menu, "Update Geometries", self.ui.dialogTree.updateGeometries)  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            self.advanced_menu,
+            "Resize Column To Contents",
+            lambda: self.ui.dialogTree.resizeColumnToContents(0),
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            self.advanced_menu, "Update Geometries", self.ui.dialogTree.updateGeometries
+        )  # noqa: SLF001
         self.ui.dialogTree._add_simple_action(self.advanced_menu, "Reset", self.ui.dialogTree.reset)  # noqa: SLF001
 
         self.ui.dialogTree._add_exclusive_menu_action(  # noqa: SLF001
@@ -1272,19 +1368,45 @@ Should return 1 or 0, representing a boolean.
         # Advanced Menu: Miscellaneous advanced settings
         self.ui.dialogTree._add_simple_action(self.tree_menu, "Repaint", self.ui.dialogTree.repaint)  # noqa: SLF001
         self.ui.dialogTree._add_simple_action(self.tree_menu, "Update", self.ui.dialogTree.update)  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(self.tree_menu, "Resize Column To Contents", lambda: self.ui.dialogTree.resizeColumnToContents(0))  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(self.tree_menu, "Update Geometries", self.ui.dialogTree.updateGeometries)  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            self.tree_menu,
+            "Resize Column To Contents",
+            lambda: self.ui.dialogTree.resizeColumnToContents(0),
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            self.tree_menu, "Update Geometries", self.ui.dialogTree.updateGeometries
+        )  # noqa: SLF001
         self.ui.dialogTree._add_simple_action(self.tree_menu, "Reset", self.ui.dialogTree.reset)  # noqa: SLF001
 
         list_widget_menu: QMenu | None = self.refresh_menu.addMenu("ListWidget")  # pyright: ignore[reportAssignmentType]
         assert list_widget_menu is not None, "Failed to create 'ListWidget' menu."
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "Repaint", self.pinned_items_list.repaint)  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "Update", self.pinned_items_list.update)  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "Reset Horizontal Scroll Mode", lambda: self.pinned_items_list.resetHorizontalScrollMode())  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "Reset Vertical Scroll Mode", lambda: self.pinned_items_list.resetVerticalScrollMode())  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "Update Geometries", self.pinned_items_list.updateGeometries)  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "Reset", self.pinned_items_list.reset)  # noqa: SLF001
-        self.ui.dialogTree._add_simple_action(list_widget_menu, "layoutChanged", lambda: self.pinned_items_list.model().layoutChanged.emit())  # noqa: SLF001  # pyright: ignore[reportOptionalMemberAccess]
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu, "Repaint", self.pinned_items_list.repaint
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu, "Update", self.pinned_items_list.update
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu,
+            "Reset Horizontal Scroll Mode",
+            lambda: self.pinned_items_list.resetHorizontalScrollMode(),
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu,
+            "Reset Vertical Scroll Mode",
+            lambda: self.pinned_items_list.resetVerticalScrollMode(),
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu, "Update Geometries", self.pinned_items_list.updateGeometries
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu, "Reset", self.pinned_items_list.reset
+        )  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            list_widget_menu,
+            "layoutChanged",
+            lambda: self.pinned_items_list.model().layoutChanged.emit(),
+        )  # noqa: SLF001  # pyright: ignore[reportOptionalMemberAccess]
 
         view_port_menu: QMenu | None = self.refresh_menu.addMenu("Viewport")  # pyright: ignore[reportAssignmentType]
         assert view_port_menu is not None, "Failed to create 'Viewport' menu."
@@ -1295,7 +1417,11 @@ Should return 1 or 0, representing a boolean.
 
         model_menu: QMenu | None = self.refresh_menu.addMenu("Model")  # pyright: ignore[reportAssignmentType]
         assert model_menu is not None, "Failed to create 'Model' menu."
-        self.ui.dialogTree._add_simple_action(model_menu, "Emit Layout Changed", lambda: self.ui.dialogTree.model().layoutChanged.emit())  # pyright: ignore[reportOptionalMemberAccess]  # noqa: SLF001
+        self.ui.dialogTree._add_simple_action(
+            model_menu,
+            "Emit Layout Changed",
+            lambda: self.ui.dialogTree.model().layoutChanged.emit(),
+        )  # pyright: ignore[reportOptionalMemberAccess]  # noqa: SLF001
 
         window_menu: QMenu | None = self.refresh_menu.addMenu("Window")  # pyright: ignore[reportAssignmentType]
         assert window_menu is not None, "Failed to create 'Window' menu."
@@ -1400,18 +1526,38 @@ Should return 1 or 0, representing a boolean.
         self.ui.conversationSelect.setCurrentIndex(dlg.conversation_type.value)
         self.ui.computerSelect.setCurrentIndex(dlg.computer_type.value)
         self.ui.skippableCheckbox.setChecked(dlg.skippable)
-        self.ui.skippableCheckbox.setToolTip("Should the user be allowed to skip dialog lines/cutscenes in this file?")
+        self.ui.skippableCheckbox.setToolTip(
+            "Should the user be allowed to skip dialog lines/cutscenes in this file?"
+        )
         self.ui.animatedCutCheckbox.setChecked(bool(dlg.animated_cut))
         self.ui.oldHitCheckbox.setChecked(dlg.old_hit_check)
-        self.ui.oldHitCheckbox.setToolTip("It is likely OldHitCheck is a deprecated remnant of a previous game.")
+        self.ui.oldHitCheckbox.setToolTip(
+            "It is likely OldHitCheck is a deprecated remnant of a previous game."
+        )
         self.ui.unequipHandsCheckbox.setChecked(dlg.unequip_hands)
         self.ui.unequipAllCheckbox.setChecked(dlg.unequip_items)
         self.ui.entryDelaySpin.setValue(dlg.delay_entry)
         self.ui.replyDelaySpin.setValue(dlg.delay_reply)
-        relevant_script_resnames: list[str] = sorted({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)})
+        relevant_script_resnames: list[str] = sorted(
+            {
+                res.resname().lower()
+                for res in self._installation.get_relevant_resources(
+                    ResourceType.NCS, self._filepath
+                )
+            }
+        )
         for widget in self._script_resref_widgets():
             widget.populate_combo_box(relevant_script_resnames)
-        self.ui.cameraModelSelect.populate_combo_box(sorted({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.MDL, self._filepath)}))
+        self.ui.cameraModelSelect.populate_combo_box(
+            sorted(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.MDL, self._filepath
+                    )
+                }
+            )
+        )
 
     def _script_resref_widgets(self):
         """Return all script resref combo-box widgets used by the editor."""
@@ -1448,7 +1594,9 @@ Should return 1 or 0, representing a boolean.
             return
         vo_id_lower: str = self.ui.voIdEdit.text().strip().lower()
         if vo_id_lower:
-            filtered_voices: list[str] = [voice for voice in self.all_voices if vo_id_lower in voice.lower()]
+            filtered_voices: list[str] = [
+                voice for voice in self.all_voices if vo_id_lower in voice.lower()
+            ]
         else:
             filtered_voices = self.all_voices
         self.ui.voiceComboBox.populate_combo_box(filtered_voices)
@@ -1458,7 +1606,10 @@ Should return 1 or 0, representing a boolean.
         dlg: DLG,
     ):
         """Loads a dialog tree into the UI view."""
-        if "(Light)" in GlobalSettings().selectedTheme or GlobalSettings().selectedTheme == "Native":
+        if (
+            "(Light)" in GlobalSettings().selectedTheme
+            or GlobalSettings().selectedTheme == "Native"
+        ):
             self.ui.dialogTree.setStyleSheet("")
         self.orphaned_nodes_list.clear()
         self._focused = False
@@ -1473,7 +1624,9 @@ Should return 1 or 0, representing a boolean.
         self.populate_combobox_on_void_edit_finished()
 
         self.model.reset_model()
-        assert self.model.rowCount() == 0 and self.model.columnCount() == 0, "Model is not empty after resetModel() call!"  # noqa: PT018
+        assert self.model.rowCount() == 0 and self.model.columnCount() == 0, (
+            "Model is not empty after resetModel() call!"
+        )  # noqa: PT018
         self.model.ignoring_updates = True
         for start in dlg.starters:  # descending order - matches what the game does.
             item = DLGStandardItem(link=start)
@@ -1485,9 +1638,15 @@ Should return 1 or 0, representing a boolean.
         assert orphan_model is not None, "Failed to get orphan model."
         orphan_model.layoutChanged.emit()
         self.model.ignoring_updates = False
-        assert self.model.rowCount() != 0 or not dlg.starters, "Model is empty after _load_dlg(dlg: DLG) call!"  # noqa: PT018
-        assert self.model.node_to_items or not dlg.starters, "node_to_items is empty in the model somehow!"
-        assert self.model.link_to_items or not dlg.starters, "link_to_items is empty in the model somehow!"
+        assert self.model.rowCount() != 0 or not dlg.starters, (
+            "Model is empty after _load_dlg(dlg: DLG) call!"
+        )  # noqa: PT018
+        assert self.model.node_to_items or not dlg.starters, (
+            "node_to_items is empty in the model somehow!"
+        )
+        assert self.model.link_to_items or not dlg.starters, (
+            "link_to_items is empty in the model somehow!"
+        )
 
     def build(self) -> tuple[bytes, bytes]:
         """Builds a dialogue from UI components."""
@@ -1519,8 +1678,12 @@ Should return 1 or 0, representing a boolean.
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Icon.Information)
             msg_box.setWindowTitle("Save TSL Fields?")
-            msg_box.setText("You have tsl_widget_handling set to 'Enable', but your loaded installation set to K1. Would you like to save TSL fields?")
-            msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            msg_box.setText(
+                "You have tsl_widget_handling set to 'Enable', but your loaded installation set to K1. Would you like to save TSL fields?"
+            )
+            msg_box.setStandardButtons(
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
             response: int = msg_box.exec()
             if response == QMessageBox.StandardButton.Yes:
                 game_to_use = Game.K2
@@ -1561,9 +1724,14 @@ Should return 1 or 0, representing a boolean.
         ]
         for combo_box in resref_combo_boxes:
             self._set_combobox_max_length(combo_box, 16)
-        installation.setup_file_context_menu(self.ui.script1ResrefEdit, [ResourceType.NSS, ResourceType.NCS])
+        installation.setup_file_context_menu(
+            self.ui.script1ResrefEdit, [ResourceType.NSS, ResourceType.NCS]
+        )
         if installation.game().is_k1():
-            required: list[str] = [HTInstallation.TwoDA_VIDEO_EFFECTS, HTInstallation.TwoDA_DIALOG_ANIMS]
+            required: list[str] = [
+                HTInstallation.TwoDA_VIDEO_EFFECTS,
+                HTInstallation.TwoDA_DIALOG_ANIMS,
+            ]
 
         else:
             required = [
@@ -1574,33 +1742,57 @@ Should return 1 or 0, representing a boolean.
             ]
         installation.ht_batch_cache_2da(required)
 
-        self.all_voices = sorted({res.resname() for res in installation._streamwaves}, key=str.lower)  # noqa: SLF001
-        self.all_sounds = sorted({res.resname() for res in [*installation._streamwaves, *installation._streamsounds]}, key=str.lower)  # noqa: SLF001
+        self.all_voices = sorted(
+            {res.resname() for res in installation._streamwaves}, key=str.lower
+        )  # noqa: SLF001
+        self.all_sounds = sorted(
+            {res.resname() for res in [*installation._streamwaves, *installation._streamsounds]},
+            key=str.lower,
+        )  # noqa: SLF001
         self.all_music = sorted({res.resname() for res in installation._streammusic}, key=str.lower)  # noqa: SLF001
         self._setup_tsl_emotions_and_expressions(installation)
         self.ui.soundComboBox.populate_combo_box(self.all_sounds)  # noqa: SLF001
         self.ui.ambientTrackCombo.populate_combo_box(self.all_music)
         self.ui.ambientTrackCombo.set_button_delegate("Play", lambda text: self.play_sound(text))
         for widget, restypes, search_locations in (
-            (self.ui.cameraModelSelect, [ResourceType.MDL], [SearchLocation.CHITIN, SearchLocation.OVERRIDE]),
-            (self.ui.ambientTrackCombo, [ResourceType.WAV, ResourceType.MP3], [SearchLocation.MUSIC]),
-            (self.ui.soundComboBox, [ResourceType.WAV, ResourceType.MP3], [SearchLocation.SOUND, SearchLocation.VOICE]),
+            (
+                self.ui.cameraModelSelect,
+                [ResourceType.MDL],
+                [SearchLocation.CHITIN, SearchLocation.OVERRIDE],
+            ),
+            (
+                self.ui.ambientTrackCombo,
+                [ResourceType.WAV, ResourceType.MP3],
+                [SearchLocation.MUSIC],
+            ),
+            (
+                self.ui.soundComboBox,
+                [ResourceType.WAV, ResourceType.MP3],
+                [SearchLocation.SOUND, SearchLocation.VOICE],
+            ),
             (self.ui.voiceComboBox, [ResourceType.WAV, ResourceType.MP3], [SearchLocation.VOICE]),
         ):
             installation.setup_file_context_menu(widget, restypes, search_locations)
         for widget in (self.ui.condition1ResrefEdit, self.ui.onEndEdit, self.ui.onAbortCombo):
             installation.setup_file_context_menu(widget, [ResourceType.NSS, ResourceType.NCS])
 
-        vid_effects: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_VIDEO_EFFECTS)
+        vid_effects: TwoDA | None = installation.ht_get_cache_2da(
+            HTInstallation.TwoDA_VIDEO_EFFECTS
+        )
         if vid_effects is not None:
             self.ui.cameraEffectSelect.clear()
             self.ui.cameraEffectSelect.setPlaceholderText("[Unset]")
             self.ui.cameraEffectSelect.set_items(
-                [label.replace("VIDEO_EFFECT_", "").replace("_", " ").title() for label in vid_effects.get_column("label")],
+                [
+                    label.replace("VIDEO_EFFECT_", "").replace("_", " ").title()
+                    for label in vid_effects.get_column("label")
+                ],
                 cleanup_strings=False,
                 ignore_blanks=True,
             )
-            self.ui.cameraEffectSelect.set_context(vid_effects, installation, HTInstallation.TwoDA_VIDEO_EFFECTS)
+            self.ui.cameraEffectSelect.set_context(
+                vid_effects, installation, HTInstallation.TwoDA_VIDEO_EFFECTS
+            )
 
         plot2DA: TwoDA | None = installation.ht_get_cache_2da(HTInstallation.TwoDA_PLOT)
         if plot2DA is not None:
@@ -1622,6 +1814,7 @@ Should return 1 or 0, representing a boolean.
         if installation is None:
             return
         from pykotor.extract.file import FileResource as _FileResource  # noqa: PLC0415
+
         resources: list[_FileResource] = [
             res
             for res in (*installation.chitin_resources(), *installation.override_resources())
@@ -1656,10 +1849,16 @@ Should return 1 or 0, representing a boolean.
         if expressions is not None:
             self.ui.expressionSelect.clear()
             self.ui.expressionSelect.set_items(expressions.get_column("label"))
-            self.ui.expressionSelect.set_context(expressions, installation, HTInstallation.TwoDA_EXPRESSIONS)
+            self.ui.expressionSelect.set_context(
+                expressions, installation, HTInstallation.TwoDA_EXPRESSIONS
+            )
 
-        installation.setup_file_context_menu(self.ui.script2ResrefEdit, [ResourceType.NSS, ResourceType.NCS])
-        installation.setup_file_context_menu(self.ui.condition2ResrefEdit, [ResourceType.NSS, ResourceType.NCS])
+        installation.setup_file_context_menu(
+            self.ui.script2ResrefEdit, [ResourceType.NSS, ResourceType.NCS]
+        )
+        installation.setup_file_context_menu(
+            self.ui.condition2ResrefEdit, [ResourceType.NSS, ResourceType.NCS]
+        )
 
     def edit_text(
         self,
@@ -1672,14 +1871,20 @@ Should return 1 or 0, representing a boolean.
             self.blink_window()
             return
         for index in indexes:
-            model_to_use: DLGListWidget | QAbstractItemModel | None = source_widget if isinstance(source_widget, DLGListWidget) else index.model()
+            model_to_use: DLGListWidget | QAbstractItemModel | None = (
+                source_widget if isinstance(source_widget, DLGListWidget) else index.model()
+            )
             assert isinstance(
                 model_to_use,
                 (DLGStandardItemModel, QStandardItemModel),
-            ), f"`modelToUse = source_widget if isinstance(source_widget, DLGListWidget) else index.model()` {model_to_use.__class__}: {model_to_use} cannot be None."
+            ), (
+                f"`modelToUse = source_widget if isinstance(source_widget, DLGListWidget) else index.model()` {model_to_use.__class__}: {model_to_use} cannot be None."
+            )
             item: DLGStandardItem | QStandardItem | None = model_to_use.itemFromIndex(index)
             if item is None:
-                RobustLogger().error("modelToUse.itemFromIndex(index) should not return None here in edit_text")
+                RobustLogger().error(
+                    "modelToUse.itemFromIndex(index) should not return None here in edit_text"
+                )
                 continue
 
             assert isinstance(item, (DLGStandardItem, DLGListWidgetItem))
@@ -1707,20 +1912,32 @@ Should return 1 or 0, representing a boolean.
                             if active_window is not None:
                                 parent_widget = active_window
                     except (RuntimeError, AttributeError):
-                        RobustLogger().exception(f"Widget is being destroyed or invalid, use active window or None: {e.__class__.__name__}: {e}")
+                        RobustLogger().exception(
+                            f"Widget is being destroyed or invalid, use active window or None: {e.__class__.__name__}: {e}"
+                        )
                         parent_widget = QApplication.activeWindow()
                 else:
                     parent_widget = QApplication.activeWindow()
-                assert parent_widget is not None, "Parent widget is None in edit_text after all attempts to find a valid parent"
+                assert parent_widget is not None, (
+                    "Parent widget is None in edit_text after all attempts to find a valid parent"
+                )
 
-                dialog = LocalizedStringDialog(parent_widget, self._installation, item.link.node.text)
+                dialog = LocalizedStringDialog(
+                    parent_widget, self._installation, item.link.node.text
+                )
                 dialog_result: bool | int = False
                 try:
-                    RobustLogger().debug(f"Executing LocalizedStringDialog: {dialog.__class__.__name__} ({dialog})")
-                    assert dialog is not None, "Dialog is None in edit_text after all attempts to find a valid parent"
+                    RobustLogger().debug(
+                        f"Executing LocalizedStringDialog: {dialog.__class__.__name__} ({dialog})"
+                    )
+                    assert dialog is not None, (
+                        "Dialog is None in edit_text after all attempts to find a valid parent"
+                    )
                     dialog_result = dialog.exec()
                 except Exception as exc:
-                    RobustLogger().exception(f"Error executing LocalizedStringDialog: {exc.__class__.__name__}: {exc}")
+                    RobustLogger().exception(
+                        f"Error executing LocalizedStringDialog: {exc.__class__.__name__}: {exc}"
+                    )
                     try:
                         dialog.deleteLater()
                     except Exception:
@@ -1748,7 +1965,9 @@ Should return 1 or 0, representing a boolean.
                 elif isinstance(source_widget, DLGListWidget):
                     source_widget.update_item(item)
             except Exception as exc:
-                RobustLogger().exception(f"Error creating LocalizedStringDialog: {exc.__class__.__name__}: {exc}")
+                RobustLogger().exception(
+                    f"Error creating LocalizedStringDialog: {exc.__class__.__name__}: {exc}"
+                )
                 continue
 
     def copy_path(
@@ -1808,7 +2027,9 @@ Should return 1 or 0, representing a boolean.
         """Jumps to the original node of a copied item."""
         assert copied_item.link is not None
         source_node: DLGNode = copied_item.link.node
-        items: deque[DLGStandardItem | QStandardItem | None] = deque([self.model.item(i, 0) for i in range(self.model.rowCount())])
+        items: deque[DLGStandardItem | QStandardItem | None] = deque(
+            [self.model.item(i, 0) for i in range(self.model.rowCount())]
+        )
 
         while items:
             item: DLGStandardItem | QStandardItem | None = items.popleft()
@@ -1831,7 +2052,10 @@ Should return 1 or 0, representing a boolean.
         """Focuses the dialog tree on a specific link node."""
         if link is None:
             return None
-        if "(Light)" in GlobalSettings().selectedTheme or GlobalSettings().selectedTheme == "Native":
+        if (
+            "(Light)" in GlobalSettings().selectedTheme
+            or GlobalSettings().selectedTheme == "Native"
+        ):
             # Use palette color instead of hardcoded color
             from qtpy.QtGui import QPalette
             from qtpy.QtWidgets import QApplication
@@ -1950,9 +2174,15 @@ Should return 1 or 0, representing a boolean.
             assert jump_tree_action is not None, "Failed to create 'Jump to Tree' action."
             jump_tree_action.triggered.connect(on_tree_jump)
             sel_model: QItemSelectionModel | None = self.ui.dialogTree.selectionModel()
-            if sel_model is not None and source_widget is self.orphaned_nodes_list and sel_model.selectedIndexes():
+            if (
+                sel_model is not None
+                and source_widget is self.orphaned_nodes_list
+                and sel_model.selectedIndexes()
+            ):
                 restore_action: QAction | None = menu.addAction("Insert Orphan at Selected Point")
-                assert restore_action is not None, "Failed to create 'Insert Orphan at Selected Point' action."
+                assert restore_action is not None, (
+                    "Failed to create 'Insert Orphan at Selected Point' action."
+                )
                 restore_action.triggered.connect(lambda: self.restore_orphaned_node(item.link))
                 menu.addSeparator()
 
@@ -2036,7 +2266,14 @@ Should return 1 or 0, representing a boolean.
             child_index: QModelIndex = child_item.index()
             if not child_index.isValid():
                 continue
-            self.set_expand_recursively(child_item, seen_nodes, expand=expand, maxdepth=maxdepth, depth=depth + 1, is_root=False)
+            self.set_expand_recursively(
+                child_item,
+                seen_nodes,
+                expand=expand,
+                maxdepth=maxdepth,
+                depth=depth + 1,
+                is_root=False,
+            )
 
     def _get_link_context_menu(  # noqa: PLR0915, C901
         self,
@@ -2047,15 +2284,23 @@ Should return 1 or 0, representing a boolean.
         self._check_clipboard_for_json_node()
         not_an_orphan: bool = source_widget is not self.orphaned_nodes_list
         assert item.link is not None
-        node_type: Literal["Entry", "Reply"] = "Entry" if isinstance(item.link.node, DLGEntry) else "Reply"
-        other_node_type: Literal["Entry", "Reply"] = "Reply" if isinstance(item.link.node, DLGEntry) else "Entry"
+        node_type: Literal["Entry", "Reply"] = (
+            "Entry" if isinstance(item.link.node, DLGEntry) else "Reply"
+        )
+        other_node_type: Literal["Entry", "Reply"] = (
+            "Reply" if isinstance(item.link.node, DLGEntry) else "Entry"
+        )
 
         menu: QMenu = QMenu(source_widget)
 
         # Actions for both list widget and tree view
         edit_text_action: QAction | None = menu.addAction("Edit Text")
         assert edit_text_action is not None, "Failed to create 'Edit Text' action."
-        edit_text_action.triggered.connect(lambda *args: self.edit_text(indexes=source_widget.selectedIndexes(), source_widget=source_widget))
+        edit_text_action.triggered.connect(
+            lambda *args: self.edit_text(
+                indexes=source_widget.selectedIndexes(), source_widget=source_widget
+            )
+        )
         edit_text_action.setShortcut(QKeySequence(Qt.Key.Key_Enter, Qt.Key.Key_Return))
 
         focus_action: QAction | None = menu.addAction("Focus")
@@ -2072,38 +2317,72 @@ Should return 1 or 0, representing a boolean.
 
         # Add "Find References in Installation" action for dialog resref
         if self._installation is not None and self.core_dlg is not None:
-            find_installation_refs_action: QAction | None = menu.addAction("Find References in Installation...")
-            assert find_installation_refs_action is not None, "Failed to create 'Find References in Installation' action."
-            dialog_resref: str = str(self.core_dlg.resref) if hasattr(self.core_dlg, "resref") else ""
+            find_installation_refs_action: QAction | None = menu.addAction(
+                "Find References in Installation..."
+            )
+            assert find_installation_refs_action is not None, (
+                "Failed to create 'Find References in Installation' action."
+            )
+            dialog_resref: str = (
+                str(self.core_dlg.resref) if hasattr(self.core_dlg, "resref") else ""
+            )
             if dialog_resref:
-                find_installation_refs_action.triggered.connect(lambda checked=False, resref=dialog_resref: self._find_dialog_references_in_installation(resref))
+                find_installation_refs_action.triggered.connect(
+                    lambda checked=False,
+                    resref=dialog_resref: self._find_dialog_references_in_installation(resref)
+                )
             find_installation_refs_action.setVisible(not_an_orphan and bool(dialog_resref))
 
         # Play menu for both
         play_menu: QMenu | None = menu.addMenu("Play")  # pyright: ignore[reportAssignmentType, reportAttributeAccessIssue]
         assert play_menu is not None, "Failed to create 'Play' menu."
-        play_menu.mousePressEvent = lambda event: (print("play_menu.mousePressEvent"), self._play_node_sound(item.link.node), QMenu.mousePressEvent(play_menu, event))  # type: ignore[method-assign]
+        play_menu.mousePressEvent = lambda event: (
+            print("play_menu.mousePressEvent"),
+            self._play_node_sound(item.link.node),
+            QMenu.mousePressEvent(play_menu, event),
+        )  # type: ignore[method-assign]
         play_sound_action: QAction | None = play_menu.addAction("Play Sound")
         assert play_sound_action is not None, "Failed to create 'Play Sound' action."
-        play_sound_action.triggered.connect(lambda: (self.play_sound("" if item.link is None else str(item.link.node.sound)) and None) or None)
+        play_sound_action.triggered.connect(
+            lambda: (
+                self.play_sound("" if item.link is None else str(item.link.node.sound)) and None
+            )
+            or None
+        )
         play_voice_action: QAction | None = play_menu.addAction("Play Voice")
         assert play_voice_action is not None, "Failed to create 'Play Voice' action."
-        play_voice_action.triggered.connect(lambda: (self.play_sound("" if item.link is None else str(item.link.node.vo_resref)) and None) or None)
+        play_voice_action.triggered.connect(
+            lambda: (
+                self.play_sound("" if item.link is None else str(item.link.node.vo_resref)) and None
+            )
+            or None
+        )
         play_sound_action.setEnabled(bool(self.ui.soundComboBox.currentText().strip()))
         play_voice_action.setEnabled(bool(self.ui.voiceComboBox.currentText().strip()))
-        play_menu.setEnabled(bool(self.ui.soundComboBox.currentText().strip() or self.ui.voiceComboBox.currentText().strip()))
+        play_menu.setEnabled(
+            bool(
+                self.ui.soundComboBox.currentText().strip()
+                or self.ui.voiceComboBox.currentText().strip()
+            )
+        )
         menu.addSeparator()
 
         # Copy actions for both
         copy_node_action: QAction | None = menu.addAction(f"Copy {node_type} to Clipboard")
-        assert copy_node_action is not None, f"Failed to create 'Copy {node_type} to Clipboard' action."
+        assert copy_node_action is not None, (
+            f"Failed to create 'Copy {node_type} to Clipboard' action."
+        )
         copy_node_action.triggered.connect(lambda: self.model.copy_link_and_node(item.link))
         copy_node_action.setShortcut(QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_C))
 
         copy_gff_path_action: QAction | None = menu.addAction("Copy GFF Path")
         assert copy_gff_path_action is not None, "Failed to create 'Copy GFF Path' action."
-        copy_gff_path_action.triggered.connect(lambda: self.copy_path(None if item.link is None else item.link.node))
-        copy_gff_path_action.setShortcut(QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_Alt, Qt.Key.Key_C))
+        copy_gff_path_action.triggered.connect(
+            lambda: self.copy_path(None if item.link is None else item.link.node)
+        )
+        copy_gff_path_action.setShortcut(
+            QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_Alt, Qt.Key.Key_C)
+        )
         copy_gff_path_action.setVisible(not_an_orphan)
         menu.addSeparator()
 
@@ -2111,8 +2390,12 @@ Should return 1 or 0, representing a boolean.
             # Tree view only actions
             expand_all_children_action: QAction | None = menu.addAction("Expand All Children")
             assert expand_all_children_action is not None
-            expand_all_children_action.triggered.connect(lambda: self.set_expand_recursively(item, set(), expand=True))  # pyright: ignore[reportArgumentType]
-            expand_all_children_action.setShortcut(QKeySequence(Qt.Key.Key_Shift, Qt.Key.Key_Return))
+            expand_all_children_action.triggered.connect(
+                lambda: self.set_expand_recursively(item, set(), expand=True)
+            )  # pyright: ignore[reportArgumentType]
+            expand_all_children_action.setShortcut(
+                QKeySequence(Qt.Key.Key_Shift, Qt.Key.Key_Return)
+            )
             collapse_all_children_action: QAction | None = menu.addAction("Collapse All Children")
             assert collapse_all_children_action is not None
 
@@ -2122,19 +2405,27 @@ Should return 1 or 0, representing a boolean.
                 self.set_expand_recursively(item, set(), expand=False)
 
             collapse_all_children_action.triggered.connect(collapse_all_children)
-            collapse_all_children_action.setShortcut(QKeySequence(Qt.Key.Key_Shift, Qt.Key.Key_Alt, Qt.Key.Key_Return))
+            collapse_all_children_action.setShortcut(
+                QKeySequence(Qt.Key.Key_Shift, Qt.Key.Key_Alt, Qt.Key.Key_Return)
+            )
             menu.addSeparator()
 
             # Paste actions
-            paste_link_action: QAction = menu.addAction(f"Paste {other_node_type} from Clipboard as Link")
-            paste_new_action: QAction = menu.addAction(f"Paste {other_node_type} from Clipboard as Deep Copy")
+            paste_link_action: QAction = menu.addAction(
+                f"Paste {other_node_type} from Clipboard as Link"
+            )
+            paste_new_action: QAction = menu.addAction(
+                f"Paste {other_node_type} from Clipboard as Deep Copy"
+            )
             assert paste_link_action is not None
             assert paste_new_action is not None
             if self._copy is None:
                 paste_link_action.setEnabled(False)
                 paste_new_action.setEnabled(False)
             else:
-                copied_node_type: Literal["Entry", "Reply"] = "Entry" if isinstance(self._copy.node, DLGEntry) else "Reply"
+                copied_node_type: Literal["Entry", "Reply"] = (
+                    "Entry" if isinstance(self._copy.node, DLGEntry) else "Reply"
+                )
                 paste_link_action.setText(f"Paste {copied_node_type} from Clipboard as Link")
                 paste_new_action.setText(f"Paste {copied_node_type} from Clipboard as Deep Copy")
                 if node_type == copied_node_type:
@@ -2142,8 +2433,12 @@ Should return 1 or 0, representing a boolean.
                     paste_new_action.setEnabled(False)
 
             paste_link_action.setShortcut(QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_V))
-            paste_link_action.triggered.connect(lambda: self.model.paste_item(item, as_new_branches=False))  # pyright: ignore[reportArgumentType]
-            paste_new_action.setShortcut(QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_Shift, Qt.Key.Key_V))
+            paste_link_action.triggered.connect(
+                lambda: self.model.paste_item(item, as_new_branches=False)
+            )  # pyright: ignore[reportArgumentType]
+            paste_new_action.setShortcut(
+                QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_Shift, Qt.Key.Key_V)
+            )
 
             def paste_new_handler():
                 if not isinstance(item, DLGStandardItem):
@@ -2207,7 +2502,9 @@ Should return 1 or 0, representing a boolean.
             self.model.delete_node_everywhere(item.link.node)
 
         delete_all_references_action.triggered.connect(delete_all_references)  # pyright: ignore[reportOptionalMemberAccess]
-        delete_all_references_action.setShortcut(QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_Shift, Qt.Key.Key_Delete))
+        delete_all_references_action.setShortcut(
+            QKeySequence(Qt.Key.Key_Control, Qt.Key.Key_Shift, Qt.Key.Key_Delete)
+        )
         delete_all_references_action.setVisible(not_an_orphan)
         menu.addAction(delete_all_references_action)
 
@@ -2353,7 +2650,10 @@ Should return 1 or 0, representing a boolean.
                 QMessageBox(
                     QMessageBox.Icon.Information,
                     tr("No references found"),
-                    trf("No references found for dialog '{dialog_resref}'", dialog_resref=dialog_resref),
+                    trf(
+                        "No references found for dialog '{dialog_resref}'",
+                        dialog_resref=dialog_resref,
+                    ),
                     parent=self,
                 ).exec()
                 return
@@ -2431,9 +2731,17 @@ Should return 1 or 0, representing a boolean.
                 1,
                 no_selection_update=True,
             )
-        elif above_index.isValid() and key == Qt.Key.Key_Up and not self.ui.dialogTree.visualRect(above_index).contains(view_port.rect()):
+        elif (
+            above_index.isValid()
+            and key == Qt.Key.Key_Up
+            and not self.ui.dialogTree.visualRect(above_index).contains(view_port.rect())
+        ):
             self.ui.dialogTree.scrollTo(above_index)
-        elif below_index.isValid() and key == Qt.Key.Key_Down and not self.ui.dialogTree.visualRect(below_index).contains(view_port.rect()):
+        elif (
+            below_index.isValid()
+            and key == Qt.Key.Key_Down
+            and not self.ui.dialogTree.visualRect(below_index).contains(view_port.rect())
+        ):
             self.ui.dialogTree.scrollTo(below_index)
 
     def keyPressEvent(  # noqa: PLR0912, C901, PLR0911, PLR0915  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -2446,7 +2754,9 @@ Should return 1 or 0, representing a boolean.
             if not self.ui.dialogTree.hasFocus():
                 super().keyPressEvent(event)
                 return
-            self.ui.dialogTree.keyPressEvent(event)  # this'll call us back immediately, just ensures we don't get called twice for the same event.
+            self.ui.dialogTree.keyPressEvent(
+                event
+            )  # this'll call us back immediately, just ensures we don't get called twice for the same event.
             return
         super().keyPressEvent(event)
         key: int = event.key()
@@ -2477,9 +2787,13 @@ Should return 1 or 0, representing a boolean.
                 if self.ui.dialogTree.hasFocus():
                     self.edit_text(event, self.ui.dialogTree.selectedIndexes(), self.ui.dialogTree)
                 elif self.orphaned_nodes_list.hasFocus():
-                    self.edit_text(event, self.orphaned_nodes_list.selectedIndexes(), self.orphaned_nodes_list)
+                    self.edit_text(
+                        event, self.orphaned_nodes_list.selectedIndexes(), self.orphaned_nodes_list
+                    )
                 elif self.pinned_items_list.hasFocus():
-                    self.edit_text(event, self.pinned_items_list.selectedIndexes(), self.pinned_items_list)
+                    self.edit_text(
+                        event, self.pinned_items_list.selectedIndexes(), self.pinned_items_list
+                    )
                 elif self.find_bar.hasFocus() or self.find_input.hasFocus():
                     self.handle_find()
             elif key == Qt.Key.Key_F:
@@ -2518,14 +2832,18 @@ Should return 1 or 0, representing a boolean.
                 expand=False,
                 maxdepth=-1,
             )
-        elif Qt.Key.Key_Control in self.keys_down or bool(event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+        elif Qt.Key.Key_Control in self.keys_down or bool(
+            event.modifiers() & Qt.KeyboardModifier.ControlModifier
+        ):
             if key == Qt.Key.Key_G:
                 ...
                 # self.show_go_to_bar()
             elif key == Qt.Key.Key_F:
                 self.show_find_bar()
             elif Qt.Key.Key_C in self.keys_down:
-                if Qt.Key.Key_Alt in self.keys_down or bool(event.modifiers() & Qt.KeyboardModifier.AltModifier):
+                if Qt.Key.Key_Alt in self.keys_down or bool(
+                    event.modifiers() & Qt.KeyboardModifier.AltModifier
+                ):
                     self.copy_path(selected_item.link.node)
                 else:
                     self.model.copy_link_and_node(selected_item.link)
@@ -2549,7 +2867,9 @@ Should return 1 or 0, representing a boolean.
                     as_new_branches=Qt.Key.Key_Alt in self.keys_down,
                 )
             elif Qt.Key.Key_Delete in self.keys_down:
-                if Qt.Key.Key_Shift in self.keys_down or bool(event.modifiers() & Qt.KeyboardModifier.ShiftModifier):
+                if Qt.Key.Key_Shift in self.keys_down or bool(
+                    event.modifiers() & Qt.KeyboardModifier.ShiftModifier
+                ):
                     self.model.delete_node_everywhere(selected_item.link.node)
                 else:
                     self.model.delete_selected_node()
@@ -2708,7 +3028,9 @@ Should return 1 or 0, representing a boolean.
         self.ui.emotionSelect.setWhatsThis("Field: Emotion\nType: Int32")
         self.ui.expressionSelect.setWhatsThis("Field: FacialAnim\nType: Int32")
         self.ui.nodeIdSpin.setWhatsThis("Field: NodeID\nType: Int32")
-        self.ui.nodeUnskippableCheckbox.setWhatsThis("Field: NodeUnskippable\nType: UInt8 (boolean)")
+        self.ui.nodeUnskippableCheckbox.setWhatsThis(
+            "Field: NodeUnskippable\nType: UInt8 (boolean)"
+        )
         self.ui.postProcSpin.setWhatsThis("Field: PostProcNode\nType: Int32")
         self.ui.alienRaceNodeSpin.setWhatsThis("Field: AlienRaceNode\nType: Int32")
         self.ui.delaySpin.setWhatsThis("Field: Delay\nType: Int32")
@@ -2742,7 +3064,9 @@ Should return 1 or 0, representing a boolean.
         self.ui.computerSelect.setWhatsThis("Field: ComputerType\nType: Int32")
         self.ui.onAbortCombo.setWhatsThis("Field: EndConverAbort\nType: ResRef")
         self.ui.convoEndsScriptLabel.setWhatsThis("Label for Conversation Ends script")
-        self.ui.convoTypeLabel.setWhatsThis("Label for Conversation Type field\nBIF dialogs use Type 3.")
+        self.ui.convoTypeLabel.setWhatsThis(
+            "Label for Conversation Type field\nBIF dialogs use Type 3."
+        )
         self.ui.ambientTrackLabel.setWhatsThis("Label for Ambient Track field")
         self.ui.convoAbortsScriptLabel.setWhatsThis("Label for Conversation Aborts script")
         self.ui.voIdEdit.setWhatsThis("Field: VO_ID\nType: String")
@@ -2820,7 +3144,9 @@ Should return 1 or 0, representing a boolean.
                 self.ui.speakerEditLabel.setVisible(False)
                 self.ui.speakerEdit.setVisible(False)
             else:
-                raise TypeError(f"Node was type {item.link.node.__class__.__name__} ({item.link.node}), expected DLGEntry/DLGReply")
+                raise TypeError(
+                    f"Node was type {item.link.node.__class__.__name__} ({item.link.node}), expected DLGEntry/DLGReply"
+                )
 
             self.ui.listenerEdit.setText(item.link.node.listener)
 
@@ -2851,11 +3177,19 @@ Should return 1 or 0, representing a boolean.
             self.ui.questEdit.setText(item.link.node.quest)
             self.ui.questEntrySpin.setValue(item.link.node.quest_entry or 0)
 
-            self.ui.cameraIdSpin.setValue(-1 if item.link.node.camera_id is None else item.link.node.camera_id)
-            self.ui.cameraAnimSpin.setValue(-1 if item.link.node.camera_anim is None else item.link.node.camera_anim)
+            self.ui.cameraIdSpin.setValue(
+                -1 if item.link.node.camera_id is None else item.link.node.camera_id
+            )
+            self.ui.cameraAnimSpin.setValue(
+                -1 if item.link.node.camera_anim is None else item.link.node.camera_anim
+            )
 
-            self.ui.cameraAngleSelect.setCurrentIndex(0 if item.link.node.camera_angle is None else item.link.node.camera_angle)
-            self.ui.cameraEffectSelect.setCurrentIndex(-1 if item.link.node.camera_effect is None else item.link.node.camera_effect)
+            self.ui.cameraAngleSelect.setCurrentIndex(
+                0 if item.link.node.camera_angle is None else item.link.node.camera_angle
+            )
+            self.ui.cameraEffectSelect.setCurrentIndex(
+                -1 if item.link.node.camera_effect is None else item.link.node.camera_effect
+            )
 
             self.ui.nodeUnskippableCheckbox.setChecked(item.link.node.unskippable)
             self.ui.nodeIdSpin.setValue(item.link.node.node_id)
@@ -2888,7 +3222,9 @@ Should return 1 or 0, representing a boolean.
                 continue
             item: DLGStandardItem | None = self.model.itemFromIndex(index)
             if item is None or item.isDeleted():
-                RobustLogger().warning("onNodeUpdate: no item for this selected index, or item was deleted.")
+                RobustLogger().warning(
+                    "onNodeUpdate: no item for this selected index, or item was deleted."
+                )
                 continue
             assert item.link is not None, "onNodeUpdate: item.link was None"
 
@@ -2960,17 +3296,27 @@ Should return 1 or 0, representing a boolean.
             self.update_labels()
             self.handle_sound_checked()
             self.model.sig_core_dlg_item_data_changed.emit(item)
-            if not self.ui.cameraModelSelect.currentText() or not self.ui.cameraModelSelect.currentText().strip():
+            if (
+                not self.ui.cameraModelSelect.currentText()
+                or not self.ui.cameraModelSelect.currentText().strip()
+            ):
                 self.ui.cameraAnimSpin.setDisabled(True)
-                self.ui.cameraAnimSpin.setToolTip("You must setup your custom `CameraModel` first (in the 'File Globals' dockpanel at the top.)")
+                self.ui.cameraAnimSpin.setToolTip(
+                    "You must setup your custom `CameraModel` first (in the 'File Globals' dockpanel at the top.)"
+                )
             elif self.ui.cameraAngleSelect.currentText() != "Animated Camera":
                 self.ui.cameraAnimSpin.setDisabled(True)
-                self.ui.cameraAnimSpin.setToolTip("CameraAngle must be set to 'Animated' to use this feature.")
+                self.ui.cameraAnimSpin.setToolTip(
+                    "CameraAngle must be set to 'Animated' to use this feature."
+                )
             else:
                 self.ui.cameraAnimSpin.setDisabled(False)
                 self.ui.cameraAnimSpin.setToolTip("")
 
-            if self.ui.cameraIdSpin.value() == -1 and self.ui.cameraAngleSelect.currentText() == "Static Camera":
+            if (
+                self.ui.cameraIdSpin.value() == -1
+                and self.ui.cameraAngleSelect.currentText() == "Static Camera"
+            ):
                 # Get error color from palette
                 app = QApplication.instance()
                 if app is None or not isinstance(app, QApplication):
@@ -2988,10 +3334,14 @@ Should return 1 or 0, representing a boolean.
                 error_color_str = error_color.name()
                 self.ui.cameraIdSpin.setStyleSheet(f"QSpinBox {{ color: {error_color_str}; }}")
                 self.ui.cameraIdLabel.setStyleSheet(f"QLabel {{ color: {error_color_str}; }}")
-                self.ui.cameraAngleSelect.setStyleSheet(f"QComboBox {{ color: {error_color_str}; }}")
+                self.ui.cameraAngleSelect.setStyleSheet(
+                    f"QComboBox {{ color: {error_color_str}; }}"
+                )
                 self.ui.cameraAngleLabel.setStyleSheet(f"QLabel {{ color: {error_color_str}; }}")
                 self.ui.cameraIdSpin.setToolTip("A Camera ID must be defined for Static Cameras.")
-                self.ui.cameraAngleSelect.setToolTip("A Camera ID must be defined for Static Cameras.")
+                self.ui.cameraAngleSelect.setToolTip(
+                    "A Camera ID must be defined for Static Cameras."
+                )
             else:
                 self.ui.cameraIdSpin.setStyleSheet("")
                 self.ui.cameraAngleSelect.setStyleSheet("")
@@ -3033,7 +3383,11 @@ Should return 1 or 0, representing a boolean.
     def on_remove_stunt_clicked(self):
         sel_stunt_items: list[QListWidgetItem] = self.ui.stuntList.selectedItems()
         if not sel_stunt_items:
-            QMessageBox(QMessageBox.Icon.Information, "No stunts selected", "Select an existing stunt from the above list first, or create one.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No stunts selected",
+                "Select an existing stunt from the above list first, or create one.",
+            ).exec()
             return
         stunt: DLGStunt = sel_stunt_items[0].data(Qt.ItemDataRole.UserRole)
         self.core_dlg.stunts.remove(stunt)
@@ -3042,7 +3396,11 @@ Should return 1 or 0, representing a boolean.
     def on_edit_stunt_clicked(self):
         selected_stunt_items: list[QListWidgetItem] = self.ui.stuntList.selectedItems()
         if not selected_stunt_items:
-            QMessageBox(QMessageBox.Icon.Information, "No stunts selected", "Select an existing stunt from the above list first, or create one.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No stunts selected",
+                "Select an existing stunt from the above list first, or create one.",
+            ).exec()
             return
         stunt: DLGStunt = selected_stunt_items[0].data(Qt.ItemDataRole.UserRole)
         dialog = CutsceneModelDialog(self, stunt)
@@ -3062,9 +3420,15 @@ Should return 1 or 0, representing a boolean.
     def on_add_anim_clicked(self):
         selectedIndexes: list[QModelIndex] = self.ui.dialogTree.selectedIndexes()
         if not selectedIndexes:
-            QMessageBox(QMessageBox.Icon.Information, "No nodes selected", "Select an item from the tree first.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No nodes selected",
+                "Select an item from the tree first.",
+            ).exec()
             return
-        item: DLGStandardItem | None = self.model.itemFromIndex(self.ui.dialogTree.selectedIndexes()[0])
+        item: DLGStandardItem | None = self.model.itemFromIndex(
+            self.ui.dialogTree.selectedIndexes()[0]
+        )
         dialog = EditAnimationDialog(self, self._installation)
         if dialog.exec():
             assert item is not None
@@ -3075,11 +3439,19 @@ Should return 1 or 0, representing a boolean.
     def on_remove_anim_clicked(self):
         selected_tree_indexes: list[QModelIndex] = self.ui.dialogTree.selectedIndexes()
         if not selected_tree_indexes:
-            QMessageBox(QMessageBox.Icon.Information, "No nodes selected", "Select an item from the tree first.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No nodes selected",
+                "Select an item from the tree first.",
+            ).exec()
             return
         selected_anim_items: list[QListWidgetItem] = self.ui.animsList.selectedItems()
         if not selected_anim_items:
-            QMessageBox(QMessageBox.Icon.Information, "No animations selected", "Select an existing animation from the above list first, or create one.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No animations selected",
+                "Select an existing animation from the above list first, or create one.",
+            ).exec()
             return
         sel_item: DLGStandardItem | None = self.model.itemFromIndex(selected_tree_indexes[0])
         if sel_item is None or sel_item.isDeleted() or sel_item.link is None:
@@ -3091,11 +3463,19 @@ Should return 1 or 0, representing a boolean.
     def on_edit_anim_clicked(self):
         selected_tree_indexes: list[QModelIndex] = self.ui.dialogTree.selectedIndexes()
         if not selected_tree_indexes:
-            QMessageBox(QMessageBox.Icon.Information, "No nodes selected", "Select an item from the tree first.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No nodes selected",
+                "Select an item from the tree first.",
+            ).exec()
             return
         selected_anim_items: list[QListWidgetItem] = self.ui.animsList.selectedItems()
         if not selected_anim_items:
-            QMessageBox(QMessageBox.Icon.Information, "No animations selected", "Select an existing animation from the above list first.").exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                "No animations selected",
+                "Select an existing animation from the above list first.",
+            ).exec()
             return
         anim_item: QListWidgetItem = selected_anim_items[0]  # type: ignore[arg-type]
         anim: DLGAnimation = anim_item.data(Qt.ItemDataRole.UserRole)
@@ -3108,9 +3488,13 @@ Should return 1 or 0, representing a boolean.
     def refresh_anim_list(self):
         """Refreshes the animations list."""
         self.ui.animsList.clear()
-        animations_2da: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_DIALOG_ANIMS)
+        animations_2da: TwoDA | None = self._installation.ht_get_cache_2da(
+            HTInstallation.TwoDA_DIALOG_ANIMS
+        )
         if animations_2da is None:
-            RobustLogger().error(f"refreshAnimList: {HTInstallation.TwoDA_DIALOG_ANIMS}.2da not found, the Animation List will not function!!")
+            RobustLogger().error(
+                f"refreshAnimList: {HTInstallation.TwoDA_DIALOG_ANIMS}.2da not found, the Animation List will not function!!"
+            )
             return
 
         for index in self.ui.dialogTree.selectedIndexes():

@@ -87,7 +87,9 @@ class InventoryEditor(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinimizeButtonHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinimizeButtonHint,
         )
         from toolset.uic.qtpy.dialogs.inventory import Ui_Dialog
 
@@ -115,52 +117,156 @@ class InventoryEditor(QDialog):
         self._installation: HTInstallation = installation
         self._capsules: Sequence[LazyCapsule] = capsules
         self._slow_map: dict[EquipmentSlot, SlotMapping] = {
-            EquipmentSlot.IMPLANT: SlotMapping(self.ui.implantPicture, self.ui.implantFrame, ":/images/inventory/{}_implant.png"),
-            EquipmentSlot.HEAD: SlotMapping(self.ui.headPicture, self.ui.headFrame, ":/images/inventory/{}_head.png"),
-            EquipmentSlot.GAUNTLET: SlotMapping(self.ui.gauntletPicture, self.ui.gauntletFrame, ":/images/inventory/{}_gauntlet.png"),
-            EquipmentSlot.LEFT_ARM: SlotMapping(self.ui.armlPicture, self.ui.armlFrame, ":/images/inventory/{}_forearm_l.png"),
-            EquipmentSlot.ARMOR: SlotMapping(self.ui.armorPicture, self.ui.armorFrame, ":/images/inventory/{}_armor.png"),
-            EquipmentSlot.RIGHT_ARM: SlotMapping(self.ui.armrPicture, self.ui.armrFrame, ":/images/inventory/{}_forearm_r.png"),
-            EquipmentSlot.LEFT_HAND: SlotMapping(self.ui.handlPicture, self.ui.handlFrame, ":/images/inventory/{}_hand_l.png"),
-            EquipmentSlot.BELT: SlotMapping(self.ui.beltPicture, self.ui.beltFrame, ":/images/inventory/{}_belt.png"),
-            EquipmentSlot.RIGHT_HAND: SlotMapping(self.ui.handrPicture, self.ui.handrFrame, ":/images/inventory/{}_hand_r.png"),
-            EquipmentSlot.CLAW1: SlotMapping(self.ui.claw1Picture, self.ui.claw1Frame, ":/images/inventory/{}_gauntlet.png"),
-            EquipmentSlot.CLAW2: SlotMapping(self.ui.claw2Picture, self.ui.claw2Frame, ":/images/inventory/{}_gauntlet.png"),
-            EquipmentSlot.CLAW3: SlotMapping(self.ui.claw3Picture, self.ui.claw3Frame, ":/images/inventory/{}_gauntlet.png"),
-            EquipmentSlot.HIDE: SlotMapping(self.ui.hidePicture, self.ui.hideFrame, ":/images/inventory/{}_armor.png"),
+            EquipmentSlot.IMPLANT: SlotMapping(
+                self.ui.implantPicture, self.ui.implantFrame, ":/images/inventory/{}_implant.png"
+            ),
+            EquipmentSlot.HEAD: SlotMapping(
+                self.ui.headPicture, self.ui.headFrame, ":/images/inventory/{}_head.png"
+            ),
+            EquipmentSlot.GAUNTLET: SlotMapping(
+                self.ui.gauntletPicture, self.ui.gauntletFrame, ":/images/inventory/{}_gauntlet.png"
+            ),
+            EquipmentSlot.LEFT_ARM: SlotMapping(
+                self.ui.armlPicture, self.ui.armlFrame, ":/images/inventory/{}_forearm_l.png"
+            ),
+            EquipmentSlot.ARMOR: SlotMapping(
+                self.ui.armorPicture, self.ui.armorFrame, ":/images/inventory/{}_armor.png"
+            ),
+            EquipmentSlot.RIGHT_ARM: SlotMapping(
+                self.ui.armrPicture, self.ui.armrFrame, ":/images/inventory/{}_forearm_r.png"
+            ),
+            EquipmentSlot.LEFT_HAND: SlotMapping(
+                self.ui.handlPicture, self.ui.handlFrame, ":/images/inventory/{}_hand_l.png"
+            ),
+            EquipmentSlot.BELT: SlotMapping(
+                self.ui.beltPicture, self.ui.beltFrame, ":/images/inventory/{}_belt.png"
+            ),
+            EquipmentSlot.RIGHT_HAND: SlotMapping(
+                self.ui.handrPicture, self.ui.handrFrame, ":/images/inventory/{}_hand_r.png"
+            ),
+            EquipmentSlot.CLAW1: SlotMapping(
+                self.ui.claw1Picture, self.ui.claw1Frame, ":/images/inventory/{}_gauntlet.png"
+            ),
+            EquipmentSlot.CLAW2: SlotMapping(
+                self.ui.claw2Picture, self.ui.claw2Frame, ":/images/inventory/{}_gauntlet.png"
+            ),
+            EquipmentSlot.CLAW3: SlotMapping(
+                self.ui.claw3Picture, self.ui.claw3Frame, ":/images/inventory/{}_gauntlet.png"
+            ),
+            EquipmentSlot.HIDE: SlotMapping(
+                self.ui.hidePicture, self.ui.hideFrame, ":/images/inventory/{}_armor.png"
+            ),
         }
         self._droid: bool = droid
         self.inventory: list[InventoryItem] = inventory
         self.equipment: dict[EquipmentSlot, InventoryItem] = equipment
         self.is_store: bool = is_store
 
-        self.ui.implantFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.IMPLANT, resname, filepath, name))
-        self.ui.headFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.HEAD, resname, filepath, name))
-        self.ui.gauntletFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.GAUNTLET, resname, filepath, name))
-        self.ui.armlFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.LEFT_ARM, resname, filepath, name))
-        self.ui.armorFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.ARMOR, resname, filepath, name))
-        self.ui.armrFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.RIGHT_ARM, resname, filepath, name))
-        self.ui.handlFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.LEFT_HAND, resname, filepath, name))
-        self.ui.beltFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.BELT, resname, filepath, name))
-        self.ui.handrFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.RIGHT_HAND, resname, filepath, name))
-        self.ui.hideFrame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.HIDE, resname, filepath, name))
-        self.ui.claw1Frame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.CLAW1, resname, filepath, name))
-        self.ui.claw2Frame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.CLAW2, resname, filepath, name))
-        self.ui.claw3Frame.sig_item_dropped.connect(lambda filepath, resname, name: self.set_equipment(EquipmentSlot.CLAW3, resname, filepath, name))
+        self.ui.implantFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.IMPLANT, resname, filepath, name
+            )
+        )
+        self.ui.headFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.HEAD, resname, filepath, name
+            )
+        )
+        self.ui.gauntletFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.GAUNTLET, resname, filepath, name
+            )
+        )
+        self.ui.armlFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.LEFT_ARM, resname, filepath, name
+            )
+        )
+        self.ui.armorFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.ARMOR, resname, filepath, name
+            )
+        )
+        self.ui.armrFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.RIGHT_ARM, resname, filepath, name
+            )
+        )
+        self.ui.handlFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.LEFT_HAND, resname, filepath, name
+            )
+        )
+        self.ui.beltFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.BELT, resname, filepath, name
+            )
+        )
+        self.ui.handrFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.RIGHT_HAND, resname, filepath, name
+            )
+        )
+        self.ui.hideFrame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.HIDE, resname, filepath, name
+            )
+        )
+        self.ui.claw1Frame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.CLAW1, resname, filepath, name
+            )
+        )
+        self.ui.claw2Frame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.CLAW2, resname, filepath, name
+            )
+        )
+        self.ui.claw3Frame.sig_item_dropped.connect(
+            lambda filepath, resname, name: self.set_equipment(
+                EquipmentSlot.CLAW3, resname, filepath, name
+            )
+        )
 
-        self.ui.implantFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.implantFrame, point))
-        self.ui.headFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.headFrame, point))
-        self.ui.gauntletFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.gauntletFrame, point))
-        self.ui.armlFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.armlFrame, point))
-        self.ui.armorFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.armorFrame, point))
-        self.ui.armrFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.armrFrame, point))
-        self.ui.handlFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.handlFrame, point))
-        self.ui.beltFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.beltFrame, point))
-        self.ui.handrFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.handrFrame, point))
-        self.ui.hideFrame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.hideFrame, point))
-        self.ui.claw1Frame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.claw1Frame, point))
-        self.ui.claw2Frame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.claw2Frame, point))
-        self.ui.claw3Frame.customContextMenuRequested.connect(lambda point: self.open_item_context_menu(self.ui.claw3Frame, point))
+        self.ui.implantFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.implantFrame, point)
+        )
+        self.ui.headFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.headFrame, point)
+        )
+        self.ui.gauntletFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.gauntletFrame, point)
+        )
+        self.ui.armlFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.armlFrame, point)
+        )
+        self.ui.armorFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.armorFrame, point)
+        )
+        self.ui.armrFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.armrFrame, point)
+        )
+        self.ui.handlFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.handlFrame, point)
+        )
+        self.ui.beltFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.beltFrame, point)
+        )
+        self.ui.handrFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.handrFrame, point)
+        )
+        self.ui.hideFrame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.hideFrame, point)
+        )
+        self.ui.claw1Frame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.claw1Frame, point)
+        )
+        self.ui.claw2Frame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.claw2Frame, point)
+        )
+        self.ui.claw3Frame.customContextMenuRequested.connect(
+            lambda point: self.open_item_context_menu(self.ui.claw3Frame, point)
+        )
 
         self.ui.okButton.clicked.connect(lambda: self.accept())
         self.ui.cancelButton.clicked.connect(lambda: self.reject())
@@ -190,9 +296,13 @@ class InventoryEditor(QDialog):
 
         for item in self.inventory:
             try:
-                self.ui.contentsTable.add_item(str(item.resref), droppable=item.droppable, infinite=item.infinite)
+                self.ui.contentsTable.add_item(
+                    str(item.resref), droppable=item.droppable, infinite=item.infinite
+                )
             except FileNotFoundError:  # noqa: PERF203
-                RobustLogger().error(f"{item.resref}.uti did not exist in the installation", exc_info=True)
+                RobustLogger().error(
+                    f"{item.resref}.uti did not exist in the installation", exc_info=True
+                )
             except (OSError, ValueError):  # noqa: PERF203
                 RobustLogger().error(f"{item.resref}.uti is corrupted", exc_info=True)
 
@@ -209,16 +319,22 @@ class InventoryEditor(QDialog):
             table_item: QTableWidgetItem | None = self.ui.contentsTable.item(i, 1)
             if not isinstance(table_item, ItemContainer):
                 continue
-            self.inventory.append(InventoryItem(ResRef(table_item.resname), table_item.droppable, table_item.infinite))
+            self.inventory.append(
+                InventoryItem(ResRef(table_item.resname), table_item.droppable, table_item.infinite)
+            )
 
         self.equipment.clear()
         widget: DropFrame | QObject
-        for widget in self.ui.standardEquipmentTab.children() + self.ui.naturalEquipmentTab.children():  # pyright: ignore[reportGeneralTypeIssues]
+        for widget in (
+            self.ui.standardEquipmentTab.children() + self.ui.naturalEquipmentTab.children()
+        ):  # pyright: ignore[reportGeneralTypeIssues]
             # HACK(NickHugi): isinstance is not working (possibly due to how DropFrame is imported in _ui.py file.
             # Also make sure there is an item in the slot otherwise the GFF will create a struct for each slot.
             if "DropFrame" in widget.__class__.__name__ and getattr(widget, "resname", None):
                 casted_widget: DropFrame = cast("DropFrame", widget)
-                self.equipment[casted_widget.slot] = InventoryItem(ResRef(casted_widget.resname), casted_widget.droppable, casted_widget.infinite)
+                self.equipment[casted_widget.slot] = InventoryItem(
+                    ResRef(casted_widget.resname), casted_widget.droppable, casted_widget.infinite
+                )
 
     def build_items(self):
         item_builder_dialog = ItemBuilderDialog(self, self._installation, list(self._capsules))
@@ -261,7 +377,9 @@ class InventoryEditor(QDialog):
             uti = read_uti(uti_resource)
             name = self._installation.string(uti.name, "[No Name]")
         elif is_bif_file(filepath):
-            bif_result: ResourceResult | None = self._installation.resource(resname, ResourceType.UTI, [SearchLocation.CHITIN])
+            bif_result: ResourceResult | None = self._installation.resource(
+                resname, ResourceType.UTI, [SearchLocation.CHITIN]
+            )
             if bif_result is None:
                 raise FileNotFoundError
             uti = read_uti(bif_result.data)
@@ -282,7 +400,9 @@ class InventoryEditor(QDialog):
             try:
                 filepath, name, uti = self.get_item(resname, filepath)
             except FileNotFoundError:
-                RobustLogger().exception(f"Failed to get the equipment item '{resname}.uti' for the InventoryEditor")
+                RobustLogger().exception(
+                    f"Failed to get the equipment item '{resname}.uti' for the InventoryEditor"
+                )
                 return
 
             slot_picture.setToolTip(f"{resname}\n{filepath}\n{name}")
@@ -291,7 +411,9 @@ class InventoryEditor(QDialog):
 
             slot_frame.set_item(resname, filepath, name, droppable=False, infinite=False)
         else:
-            image: str = self._slow_map[slot].empty_image.format("droid" if self._droid else "human")
+            image: str = self._slow_map[slot].empty_image.format(
+                "droid" if self._droid else "human"
+            )
             slot_picture.setToolTip("")
             slot_picture.setPixmap(QPixmap(image))
 
@@ -339,7 +461,9 @@ class InventoryEditor(QDialog):
         menu.addSeparator()
         set_item_resref_action = menu.addAction("Set Item ResRef")
         assert set_item_resref_action is not None
-        set_item_resref_action.triggered.connect(lambda: self.prompt_set_item_resref_dialog(cast("DropFrame", widget)))
+        set_item_resref_action.triggered.connect(
+            lambda: self.prompt_set_item_resref_dialog(cast("DropFrame", widget))
+        )
         assert menu is not None
         assert widget is not None
         menu.exec(widget.mapToGlobal(point))
@@ -443,7 +567,9 @@ class DropFrame(ItemContainer, QFrame):
             return
         tree: QTreeView = src_object
         proxy_model: QAbstractItemModel | None = tree.model()
-        assert isinstance(proxy_model, QSortFilterProxyModel), f"Expected QSortFilterProxyModel, got {type(proxy_model).__name__}"
+        assert isinstance(proxy_model, QSortFilterProxyModel), (
+            f"Expected QSortFilterProxyModel, got {type(proxy_model).__name__}"
+        )
         model: QAbstractItemModel | None = proxy_model.sourceModel()
         assert isinstance(model, ItemModel), f"Expected ItemModel, got {type(model).__name__}"
         src_index = proxy_model.mapToSource(tree.selectedIndexes()[0])
@@ -463,7 +589,9 @@ class DropFrame(ItemContainer, QFrame):
 
         tree: QTreeView = src_object
         proxy_model: QAbstractItemModel | None = tree.model()
-        assert isinstance(proxy_model, QSortFilterProxyModel), f"Expected QSortFilterProxyModel, got {type(proxy_model).__name__}"
+        assert isinstance(proxy_model, QSortFilterProxyModel), (
+            f"Expected QSortFilterProxyModel, got {type(proxy_model).__name__}"
+        )
         model: QAbstractItemModel | None = proxy_model.sourceModel()
         assert isinstance(model, ItemModel), f"Expected ItemModel, got {type(model).__name__}"
         index: QModelIndex = proxy_model.mapToSource(tree.selectedIndexes()[0])
@@ -472,7 +600,13 @@ class DropFrame(ItemContainer, QFrame):
             return
         if item.data(_SLOTS_ROLE) & self.slot.value:
             event.accept()
-            self.set_item(item.data(_RESNAME_ROLE), item.data(_FILEPATH_ROLE), item.text(), droppable=False, infinite=False)
+            self.set_item(
+                item.data(_RESNAME_ROLE),
+                item.data(_FILEPATH_ROLE),
+                item.text(),
+                droppable=False,
+                infinite=False,
+            )
             self.sig_item_dropped.emit(self.filepath, self.resname, self.name)
 
     def remove_item(self):
@@ -506,7 +640,9 @@ class InventoryTable(QTableWidget):
         icon_item: QTableWidgetItem = self._set_uti(uti)
         name_item = QTableWidgetItem(name)
         name_item.setFlags(name_item.flags() ^ Qt.ItemFlag.ItemIsEditable)
-        resname_item = InventoryTableResnameItem(resname, filepath, name, droppable=droppable, infinite=infinite)
+        resname_item = InventoryTableResnameItem(
+            resname, filepath, name, droppable=droppable, infinite=infinite
+        )
         self._set_row(rowID, icon_item, resname_item, name_item)
 
     def dropEvent(
@@ -521,7 +657,9 @@ class InventoryTable(QTableWidget):
                 return
 
             proxy_model: QAbstractItemModel | None = tree.model()
-            assert isinstance(proxy_model, QSortFilterProxyModel), f"Expected QSortFilterProxyModel, got {type(proxy_model).__name__}"
+            assert isinstance(proxy_model, QSortFilterProxyModel), (
+                f"Expected QSortFilterProxyModel, got {type(proxy_model).__name__}"
+            )
             model: QAbstractItemModel | None = proxy_model.sourceModel()
             assert isinstance(model, ItemModel), f"Expected ItemModel, got {type(model).__name__}"
             index: QModelIndex = proxy_model.mapToSource(tree.selectedIndexes()[0])
@@ -530,11 +668,19 @@ class InventoryTable(QTableWidget):
             event.accept()
             rowID: int = self.rowCount()
             self.insertRow(rowID)
-            filepath, name, uti = cast("InventoryEditor", self.window()).get_item(item.data(_RESNAME_ROLE), item.data(_FILEPATH_ROLE))
+            filepath, name, uti = cast("InventoryEditor", self.window()).get_item(
+                item.data(_RESNAME_ROLE), item.data(_FILEPATH_ROLE)
+            )
             icon_item: QTableWidgetItem = self._set_uti(uti)
             name_item = QTableWidgetItem(item.text())
             name_item.setFlags(name_item.flags() ^ Qt.ItemFlag.ItemIsEditable)
-            resname_item = InventoryTableResnameItem(item.data(_RESNAME_ROLE), item.data(_FILEPATH_ROLE), item.text(), droppable=False, infinite=False)
+            resname_item = InventoryTableResnameItem(
+                item.data(_RESNAME_ROLE),
+                item.data(_FILEPATH_ROLE),
+                item.text(),
+                droppable=False,
+                infinite=False,
+            )
             self._set_row(rowID, icon_item, resname_item, name_item)
 
     def _set_row(
@@ -563,10 +709,18 @@ class InventoryTable(QTableWidget):
         table_item: QTableWidgetItem,
     ):
         if isinstance(table_item, InventoryTableResnameItem):
-            filepath, name, uti = cast("InventoryEditor", self.window()).get_item(table_item.text(), "")
+            filepath, name, uti = cast("InventoryEditor", self.window()).get_item(
+                table_item.text(), ""
+            )
             icon = QIcon(cast("InventoryEditor", self.window()).get_item_image(uti))
 
-            table_item.set_item(table_item.text(), filepath, name, droppable=table_item.droppable, infinite=table_item.infinite)
+            table_item.set_item(
+                table_item.text(),
+                filepath,
+                name,
+                droppable=table_item.droppable,
+                infinite=table_item.infinite,
+            )
             item = self.item(table_item.row(), 0)
             if item is None:
                 return
@@ -689,10 +843,14 @@ class ItemBuilderDialog(QDialog):
         uti: UTI,
         result: ResourceResult,
     ):
-        baseitems: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_BASEITEMS)
+        baseitems: TwoDA | None = self._installation.ht_get_cache_2da(
+            HTInstallation.TwoDA_BASEITEMS
+        )
         if baseitems is None:
             return
-        name: str = result.resname if uti is None else self._installation.string(uti.name, result.resname)
+        name: str = (
+            result.resname if uti is None else self._installation.string(uti.name, result.resname)
+        )
 
         # Split category by base item:
         # TODO(th3w1zard1): What is this for and why is it commented out?
@@ -700,7 +858,9 @@ class ItemBuilderDialog(QDialog):
         #  categoryLabel = baseitems.get_cell(uti.base_item, "label")
         #  category = self._tlk.get(categoryNameID).text if self._tlk.get(categoryNameID) is not None else categoryLabel
 
-        slots: int = 0 if uti is None else baseitems.get_row(uti.base_item).get_integer("equipableslots", 0)
+        slots: int = (
+            0 if uti is None else baseitems.get_row(uti.base_item).get_integer("equipableslots", 0)
+        )
         category: str = self.get_category(uti)
 
         if result.filepath.suffix.lower() in {".bif", ".key"}:
@@ -721,13 +881,17 @@ class ItemBuilderDialog(QDialog):
             slots: int = -1
             droid: bool = False
         else:
-            baseitems: TwoDA | None = self._installation.ht_get_cache_2da(HTInstallation.TwoDA_BASEITEMS)
+            baseitems: TwoDA | None = self._installation.ht_get_cache_2da(
+                HTInstallation.TwoDA_BASEITEMS
+            )
             if baseitems is None:
                 return "Unknown"
             slots = baseitems.get_row(uti.base_item).get_integer("equipableslots", 0)
             droid = baseitems.get_row(uti.base_item).get_integer("droidorhuman", 0) == 2  # noqa: PLR2004
 
-        if slots & (EquipmentSlot.CLAW1.value | EquipmentSlot.CLAW2.value | EquipmentSlot.CLAW3.value):
+        if slots & (
+            EquipmentSlot.CLAW1.value | EquipmentSlot.CLAW2.value | EquipmentSlot.CLAW3.value
+        ):
             return "Creature Claw"
         if slots & EquipmentSlot.HEAD.value:
             return "Droid Sensors" if droid else "Headgear"
@@ -768,10 +932,22 @@ class ItemBuilderWorker(QThread):
     def run(self):
         queries: list[ResourceIdentifier] = []
         if self._installation.cache_core_items is None:
-            queries.extend(resource.identifier() for resource in self._installation.core_resources() if resource.restype() == ResourceType.UTI)
-        queries.extend(resource.identifier() for resource in self._installation.override_resources() if resource.restype() == ResourceType.UTI)
+            queries.extend(
+                resource.identifier()
+                for resource in self._installation.core_resources()
+                if resource.restype() == ResourceType.UTI
+            )
+        queries.extend(
+            resource.identifier()
+            for resource in self._installation.override_resources()
+            if resource.restype() == ResourceType.UTI
+        )
         for capsule in self._capsules:
-            queries.extend(resource.identifier() for resource in capsule if resource.restype() == ResourceType.UTI)
+            queries.extend(
+                resource.identifier()
+                for resource in capsule
+                if resource.restype() == ResourceType.UTI
+            )
         results: dict[ResourceIdentifier, ResourceResult | None] = self._installation.resources(
             queries,
             [
@@ -806,7 +982,9 @@ class ItemModel(QStandardItemModel):
         self._proxy_model: QSortFilterProxyModel = QSortFilterProxyModel(self)
         self._proxy_model.setSourceModel(self)
         self._proxy_model.setRecursiveFilteringEnabled(True)  # type: ignore[arg-type]
-        self._proxy_model.setFilterCaseSensitivity(False if qtpy.QT5 else Qt.CaseSensitivity.CaseInsensitive)  # type: ignore[arg-type]
+        self._proxy_model.setFilterCaseSensitivity(
+            False if qtpy.QT5 else Qt.CaseSensitivity.CaseInsensitive
+        )  # type: ignore[arg-type]
 
     def proxy_model(self) -> QSortFilterProxyModel:
         return self._proxy_model

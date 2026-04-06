@@ -36,8 +36,13 @@ class UpdateCheckThread(QtCore.QThread):
         return master_info, edge_info
 
     def _get_remote_toolset_update_info(self, *, useBetaChannel: bool) -> dict[str, Any]:
-        result: Exception | dict[str, Any] = getRemoteToolsetUpdateInfo(useBetaChannel=useBetaChannel, silent=self.silent)
-        print(f"<SDM> [get_latest_version_info scope] {'edge_info' if useBetaChannel else 'master_info'}: ", result)
+        result: Exception | dict[str, Any] = getRemoteToolsetUpdateInfo(
+            useBetaChannel=useBetaChannel, silent=self.silent
+        )
+        print(
+            f"<SDM> [get_latest_version_info scope] {'edge_info' if useBetaChannel else 'master_info'}: ",
+            result,
+        )
 
         if not isinstance(result, dict):
             if self.silent:

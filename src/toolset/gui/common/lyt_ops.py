@@ -1,4 +1,5 @@
 """Shared LYT element helpers used by Toolset editors and Blender integration."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Protocol, Union, cast
@@ -84,7 +85,9 @@ def duplicate_lyt_element_with_offset(lyt: LYT, element: LYTElement, offset: Vec
         return new_element
 
     if isinstance(element, LYTDoorHook):
-        new_element = LYTDoorHook(element.room, f"{element.door}_copy", element.position + offset, element.orientation)
+        new_element = LYTDoorHook(
+            element.room, f"{element.door}_copy", element.position + offset, element.orientation
+        )
         lyt.doorhooks.append(new_element)
         return new_element
 
@@ -129,7 +132,12 @@ def add_lyt_element_to_blender(controller: LYTBlenderControllerLike, element: LY
             x,
             y,
             z,
-            orientation=(element.orientation.x, element.orientation.y, element.orientation.z, element.orientation.w),
+            orientation=(
+                element.orientation.x,
+                element.orientation.y,
+                element.orientation.z,
+                element.orientation.w,
+            ),
         )
         return
 

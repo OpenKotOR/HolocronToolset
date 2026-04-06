@@ -20,13 +20,17 @@ class Ui_Form(object):
         self.leftLabel = QtWidgets.QLabel(Form)
         self.leftLabel.setObjectName("leftLabel")
         self.horizontalLayout.addWidget(self.leftLabel)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.centerLabel = QtWidgets.QLabel(Form)
         self.centerLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.centerLabel.setObjectName("centerLabel")
         self.horizontalLayout.addWidget(self.centerLabel)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem1)
         self.rightLabel = QtWidgets.QLabel(Form)
         self.rightLabel.setObjectName("rightLabel")

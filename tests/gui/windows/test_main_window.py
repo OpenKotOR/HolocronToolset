@@ -196,7 +196,9 @@ def test_main_window_set_installation_from_combo(qtbot, installation: HTInstalla
     if selected_index is None:
         pytest.skip(f"Installation '{installation.name}' not found in tree")
 
-    selection_model.setCurrentIndex(selected_index, QItemSelectionModel.SelectionFlag.ClearAndSelect)
+    selection_model.setCurrentIndex(
+        selected_index, QItemSelectionModel.SelectionFlag.ClearAndSelect
+    )
     selection_model.currentChanged.connect(window.change_active_installation)
 
     # Manually set active for this test
@@ -236,9 +238,13 @@ def test_main_window_setup_file_watcher_with_installation(qtbot, installation: H
     override_path = str(installation.override_path())
 
     # Should watch modules directory
-    assert module_path in watched_dirs or any(module_path.lower() in d.lower() for d in watched_dirs)
+    assert module_path in watched_dirs or any(
+        module_path.lower() in d.lower() for d in watched_dirs
+    )
     # Should watch override directory
-    assert override_path in watched_dirs or any(override_path.lower() in d.lower() for d in watched_dirs)
+    assert override_path in watched_dirs or any(
+        override_path.lower() in d.lower() for d in watched_dirs
+    )
 
 
 def test_main_window_clear_file_watcher(qtbot, installation: HTInstallation):
@@ -285,7 +291,9 @@ def test_main_window_on_watched_directory_changed_module_path(qtbot, installatio
     assert module_path in window._pending_module_changes
 
 
-def test_main_window_on_watched_directory_changed_override_path(qtbot, installation: HTInstallation):
+def test_main_window_on_watched_directory_changed_override_path(
+    qtbot, installation: HTInstallation
+):
     """Test handling directory change for override path."""
     window = ToolWindow()
     qtbot.addWidget(window)
@@ -468,7 +476,9 @@ def test_main_window_auto_refresh_both(qtbot, installation: HTInstallation):
     assert len(window._pending_override_changes) == 0
 
 
-def test_main_window_show_refresh_dialog_structure(qtbot, installation: HTInstallation, monkeypatch):
+def test_main_window_show_refresh_dialog_structure(
+    qtbot, installation: HTInstallation, monkeypatch
+):
     """Test that refresh dialog is shown with correct structure when window is focused."""
     window = ToolWindow()
     qtbot.addWidget(window)
@@ -500,7 +510,9 @@ def test_main_window_show_refresh_dialog_structure(qtbot, installation: HTInstal
     assert len(refresh_called) > 0
 
 
-def test_main_window_show_refresh_dialog_no_actions(qtbot, installation: HTInstallation, monkeypatch):
+def test_main_window_show_refresh_dialog_no_actions(
+    qtbot, installation: HTInstallation, monkeypatch
+):
     """Test that refresh dialog clears pending changes when user declines."""
     window = ToolWindow()
     qtbot.addWidget(window)
@@ -527,7 +539,9 @@ def test_main_window_show_refresh_dialog_no_actions(qtbot, installation: HTInsta
 # ============================================================================
 
 
-def test_main_window_file_watcher_integration_create_module_file(qtbot, installation: HTInstallation, tmp_path):
+def test_main_window_file_watcher_integration_create_module_file(
+    qtbot, installation: HTInstallation, tmp_path
+):
     """Test file watcher detects new module file creation."""
     window = ToolWindow()
     qtbot.addWidget(window)
@@ -555,7 +569,9 @@ def test_main_window_file_watcher_integration_create_module_file(qtbot, installa
     # The important thing is that it doesn't crash
 
 
-def test_main_window_file_watcher_integration_delete_module_file(qtbot, installation: HTInstallation):
+def test_main_window_file_watcher_integration_delete_module_file(
+    qtbot, installation: HTInstallation
+):
     """Test file watcher detects module file deletion."""
     window = ToolWindow()
     qtbot.addWidget(window)
@@ -1145,7 +1161,9 @@ def test_main_window_build_extract_save_paths_cancelled(qtbot, monkeypatch):
     def mock_get_existing_directory(*args, **kwargs):
         return ""
 
-    monkeypatch.setattr("toolset.gui.windows.main.QFileDialog.getExistingDirectory", mock_get_existing_directory)
+    monkeypatch.setattr(
+        "toolset.gui.windows.main.QFileDialog.getExistingDirectory", mock_get_existing_directory
+    )
 
     result = window.build_extract_save_paths([])
 
@@ -1399,7 +1417,9 @@ def test_main_window_process_changes_window_not_focused(qtbot, installation: HTI
     assert len(refresh_called) > 0
 
 
-def test_main_window_show_refresh_dialog_builds_correct_message(qtbot, installation: HTInstallation):
+def test_main_window_show_refresh_dialog_builds_correct_message(
+    qtbot, installation: HTInstallation
+):
     """Test that refresh dialog builds correct message with changed files."""
     window = ToolWindow()
     qtbot.addWidget(window)

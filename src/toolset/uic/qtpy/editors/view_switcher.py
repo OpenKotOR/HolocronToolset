@@ -32,7 +32,9 @@ class Ui_Widget(object):
         self.graphButton.setCheckable(True)
         self.graphButton.setObjectName("graphButton")
         self.toolbarLayout.addWidget(self.graphButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.toolbarLayout.addItem(spacerItem)
         self.mainLayout.addLayout(self.toolbarLayout)
         self.stack = QtWidgets.QStackedWidget(Widget)

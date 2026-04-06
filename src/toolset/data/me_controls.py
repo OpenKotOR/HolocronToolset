@@ -2,6 +2,7 @@
 
 Used by the module/level editor (e.g. ModuleRenderer) for camera and selection.
 """
+
 from __future__ import annotations
 
 import json
@@ -324,7 +325,9 @@ class ModuleEditorControls(ABC):
     ):
         assert self.renderer.scene is not None
         if isinstance(self.renderer.scene.camera, Camera):
-            self.renderer.scene.camera.distance = max(0, self.renderer.scene.camera.distance + amount)
+            self.renderer.scene.camera.distance = max(
+                0, self.renderer.scene.camera.distance + amount
+            )
 
 
 class DynamicModuleEditorControls(ModuleEditorControls):
@@ -423,7 +426,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
             else:
                 keys: set[int | Qt.Key | QKeySequence | QKeyCombination] | None = set()
                 for keyJSON in controlJSON["keys"]:
-                    key: int | Qt.Key | QKeySequence | QKeyCombination = keyJSON if isinstance(keyJSON, int) else get_key_code(keyJSON)
+                    key: int | Qt.Key | QKeySequence | QKeyCombination = (
+                        keyJSON if isinstance(keyJSON, int) else get_key_code(keyJSON)
+                    )
                     keys.add(key)
 
             if controlJSON["mouse"] is None:
@@ -431,7 +436,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
             else:
                 mouse = set()
                 for mouseJSON in controlJSON["mouse"]:
-                    btn: int | Qt.MouseButton = mouseJSON if isinstance(mouseJSON, int) else get_mouse_code(mouseJSON)
+                    btn: int | Qt.MouseButton = (
+                        mouseJSON if isinstance(mouseJSON, int) else get_mouse_code(mouseJSON)
+                    )
                     mouse.add(btn)
 
             effects: list[DCEffect] = []
@@ -467,7 +474,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
         for event in self.mouse_move_events:
-            if (event.mouse == buttons or event.mouse is None) and (event.keys == keys or event.keys is None):
+            if (event.mouse == buttons or event.mouse is None) and (
+                event.keys == keys or event.keys is None
+            ):
                 for effect in event.effects:
                     effect.apply(self, delta.x, delta.y)
 
@@ -478,7 +487,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
         for event in self.mouse_scroll_events:
-            if (event.mouse == buttons or event.mouse is None) and (event.keys == keys or event.keys is None):
+            if (event.mouse == buttons or event.mouse is None) and (
+                event.keys == keys or event.keys is None
+            ):
                 for effect in event.effects:
                     effect.apply(self, delta.x, delta.y)
 
@@ -489,7 +500,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
         for event in self.mouse_press_events:
-            if (event.mouse == buttons or event.mouse is None) and (event.keys == keys or event.keys is None):
+            if (event.mouse == buttons or event.mouse is None) and (
+                event.keys == keys or event.keys is None
+            ):
                 for effect in event.effects:
                     effect.apply(self, 0, 0)
 
@@ -500,7 +513,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
         for event in self.mouse_release_events:
-            if (event.mouse == buttons or event.mouse is None) and (event.keys == keys or event.keys is None):
+            if (event.mouse == buttons or event.mouse is None) and (
+                event.keys == keys or event.keys is None
+            ):
                 for effect in event.effects:
                     effect.apply(self, 0, 0)
 
@@ -510,7 +525,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
         for event in self.key_press_events:
-            if (event.mouse == buttons or event.mouse is None) and (event.keys == keys or event.keys is None):
+            if (event.mouse == buttons or event.mouse is None) and (
+                event.keys == keys or event.keys is None
+            ):
                 for effect in event.effects:
                     effect.apply(self, 0, 0)
 
@@ -520,7 +537,9 @@ class DynamicModuleEditorControls(ModuleEditorControls):
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
         for event in self.key_release_events:
-            if (event.mouse == buttons or event.mouse is None) and (event.keys == keys or event.keys is None):
+            if (event.mouse == buttons or event.mouse is None) and (
+                event.keys == keys or event.keys is None
+            ):
                 for effect in event.effects:
                     effect.apply(self, 0, 0)
 
@@ -606,13 +625,21 @@ class HolocronModuleEditorControls(DynamicModuleEditorControls):
             ),
             DCItem({get_key_code("7")}, set(), [DCEffectSetCameraRotation("cry", 0)]),
             DCItem({get_key_code("4")}, set(), [DCEffectAlterCameraRotation(None, math.pi / 8, 0)]),
-            DCItem({get_key_code("6")}, set(), [DCEffectAlterCameraRotation(None, -math.pi / 8, 0)]),
+            DCItem(
+                {get_key_code("6")}, set(), [DCEffectAlterCameraRotation(None, -math.pi / 8, 0)]
+            ),
             DCItem({get_key_code("8")}, set(), [DCEffectAlterCameraRotation(None, 0, math.pi / 8)]),
-            DCItem({get_key_code("2")}, set(), [DCEffectAlterCameraRotation(None, 0, -math.pi / 8)]),
+            DCItem(
+                {get_key_code("2")}, set(), [DCEffectAlterCameraRotation(None, 0, -math.pi / 8)]
+            ),
             DCItem({get_key_code("W")}, set(), [DCEffectAlterCameraRotation(None, 0, math.pi / 8)]),
             DCItem({get_key_code("A")}, set(), [DCEffectAlterCameraRotation(None, math.pi / 8, 0)]),
-            DCItem({get_key_code("S")}, set(), [DCEffectAlterCameraRotation(None, 0, -math.pi / 8)]),
-            DCItem({get_key_code("D")}, set(), [DCEffectAlterCameraRotation(None, -math.pi / 8, 0)]),
+            DCItem(
+                {get_key_code("S")}, set(), [DCEffectAlterCameraRotation(None, 0, -math.pi / 8)]
+            ),
+            DCItem(
+                {get_key_code("D")}, set(), [DCEffectAlterCameraRotation(None, -math.pi / 8, 0)]
+            ),
             DCItem({get_key_code("Q")}, set(), [DCEffectAlterCameraPosition(None, 0, 0, 1)]),
             DCItem({get_key_code("Z")}, set(), [DCEffectAlterCameraPosition(None, 0, 0, -1)]),
         ]
@@ -859,7 +886,9 @@ class DCEffectAlterCameraPosition(DCEffect):
         x: float = super().determine_float(self.x, controls, dx, dy)
         y: float = super().determine_float(self.y, controls, dx, dy)
         z: float = super().determine_float(self.z, controls, dx, dy)
-        sensitivity: float = 1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        sensitivity: float = (
+            1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        )
         controls.alter_camera_position(x * sensitivity, y * sensitivity, z * sensitivity)
 
 
@@ -907,7 +936,9 @@ class DCEffectAlterCameraRotation(DCEffect):
     ):
         pitch: float = super().determine_float(self.pitch, controls, dx, dy)
         yaw: float = super().determine_float(self.yaw, controls, dx, dy)
-        sensitivity: float = 1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        sensitivity: float = (
+            1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        )
         controls.alter_camera_rotation(yaw * sensitivity, pitch * sensitivity)
 
 
@@ -949,7 +980,9 @@ class DCEffectAlterCameraZoom(DCEffect):
         dy: float,
     ):
         amount: float = super().determine_float(self.amount, controls, dx, dy)
-        sensitivity: float = 1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        sensitivity: float = (
+            1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        )
         controls.alter_camera_zoom(amount * sensitivity)
 
 
@@ -978,8 +1011,12 @@ class DCEffectAlterObjectPosition(DCEffect):
         x: float = super().determine_float(self.x, controls, dx, dy)
         y: float = super().determine_float(self.y, controls, dx, dy)
         z: float = super().determine_float(self.z, controls, dx, dy)
-        sensitivity: float = 1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
-        controls.translate_selected_objects(self.snap_to_walkmesh, -x * sensitivity, -y * sensitivity, z * sensitivity)
+        sensitivity: float = (
+            1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        )
+        controls.translate_selected_objects(
+            self.snap_to_walkmesh, -x * sensitivity, -y * sensitivity, z * sensitivity
+        )
 
 
 # alterObjectRotation
@@ -999,7 +1036,9 @@ class DCEffectAlterObjectRotation(DCEffect):
         dy: float,
     ):
         yaw: float = super().determine_float(self.yaw, controls, dx, dy)
-        sensitivity: float = 1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        sensitivity: float = (
+            1.0 if self.sensitivity_var is None else controls.getValue(self.sensitivity_var)
+        )
         controls.rotate_selected_objects(yaw * sensitivity, 0.0)
 
 

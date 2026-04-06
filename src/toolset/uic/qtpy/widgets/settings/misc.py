@@ -117,7 +117,9 @@ class Ui_Form(object):
         self.horizontalLayout_8.addWidget(self.ncsToolEdit)
         self.formLayout.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_8)
         self.verticalLayout.addLayout(self.formLayout)
-        spacerItem = QtWidgets.QSpacerItem(17, 139, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            17, 139, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -129,18 +131,43 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.saveRimCheck.setText(_translate("Form", "Allow saving resources to RIM files."))
-        self.useBetaChannel.setText(_translate("Form", "Check for beta updates and take me to their download link when they\'re available."))
-        self.alsoCheckReleaseVersion.setText(_translate("Form", "Also check release version if it is newer than beta version."))
-        self.mergeRimCheck.setText(_translate("Form", "Merge secondary ERF/RIM\'s in the Modules tab of the Main Window (i.e. \'_s.rim\' and \'_dlg.erf\')."))
-        self.attemptKeepOldGFFFields.setText(_translate("Form", "Attempts to keep any pre-existing GFF fields when saving the editor. Required for save editing."))
+        self.useBetaChannel.setText(
+            _translate(
+                "Form",
+                "Check for beta updates and take me to their download link when they're available.",
+            )
+        )
+        self.alsoCheckReleaseVersion.setText(
+            _translate("Form", "Also check release version if it is newer than beta version.")
+        )
+        self.mergeRimCheck.setText(
+            _translate(
+                "Form",
+                "Merge secondary ERF/RIM's in the Modules tab of the Main Window (i.e. '_s.rim' and '_dlg.erf').",
+            )
+        )
+        self.attemptKeepOldGFFFields.setText(
+            _translate(
+                "Form",
+                "Attempts to keep any pre-existing GFF fields when saving the editor. Required for save editing.",
+            )
+        )
         self.moduleSortOptionComboBox.setItemText(0, _translate("Form", "Sort by filename"))
-        self.moduleSortOptionComboBox.setItemText(1, _translate("Form", "Sort by humanized area name"))
+        self.moduleSortOptionComboBox.setItemText(
+            1, _translate("Form", "Sort by humanized area name")
+        )
         self.moduleSortOptionComboBox.setItemText(2, _translate("Form", "Sort by area name"))
-        self.greyRimCheck.setText(_translate("Form", "Set RIM files to have grey text in the Modules tab of the Main Window."))
+        self.greyRimCheck.setText(
+            _translate(
+                "Form", "Set RIM files to have grey text in the Modules tab of the Main Window."
+            )
+        )
         self.showPreviewUTCCheck.setText(_translate("Form", "Show 3D Preview in UTC Editor"))
         self.showPreviewUTPCheck.setText(_translate("Form", "Show 3D Preview in UTP Editor"))
         self.showPreviewUTDCheck.setText(_translate("Form", "Show 3D Preview in UTD Editor"))
-        self.profileToolset.setText(_translate("Form", "Profile various subroutines of the toolset."))
+        self.profileToolset.setText(
+            _translate("Form", "Profile various subroutines of the toolset.")
+        )
         self.label.setText(_translate("Form", "Temp Directory:"))
         self.label_5.setText(_translate("Form", "GFF Files:"))
         self.gffEditorCombo.setItemText(0, _translate("Form", "GFF Editor"))

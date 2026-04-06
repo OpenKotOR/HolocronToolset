@@ -112,11 +112,17 @@ class GFFFieldSpinBox(QSpinBox):
 
         if isinstance(layout, QFormLayout):
             for r in range(layout.rowCount()):
-                if layout.itemAt(r, QFormLayout.ItemRole.FieldRole) and layout.itemAt(r, QFormLayout.ItemRole.FieldRole).widget() == original_spin:
+                if (
+                    layout.itemAt(r, QFormLayout.ItemRole.FieldRole)
+                    and layout.itemAt(r, QFormLayout.ItemRole.FieldRole).widget() == original_spin
+                ):
                     row, role = r, QFormLayout.ItemRole.FieldRole
 
                     break
-                if layout.itemAt(r, QFormLayout.ItemRole.LabelRole) and layout.itemAt(r, QFormLayout.ItemRole.LabelRole).widget() == original_spin:
+                if (
+                    layout.itemAt(r, QFormLayout.ItemRole.LabelRole)
+                    and layout.itemAt(r, QFormLayout.ItemRole.LabelRole).widget() == original_spin
+                ):
                     row, role = r, QFormLayout.ItemRole.LabelRole
 
                     break

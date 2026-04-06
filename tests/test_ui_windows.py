@@ -37,7 +37,9 @@ def test_module_designer_init(qtbot: QtBot, installation: HTInstallation):
 
 def test_kotordiff_init(qtbot: QtBot, installation: HTInstallation):
     """Test KotorDiff window initialization."""
-    window = KotorDiffWindow(parent=None, installations={"default": installation}, active_installation=installation)
+    window = KotorDiffWindow(
+        parent=None, installations={"default": installation}, active_installation=installation
+    )
     qtbot.addWidget(window)
     window.show()
 

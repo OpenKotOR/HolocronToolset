@@ -85,4 +85,6 @@ class Ui_Form(object):
         self.label_12.setText(_translate("Form", "Path:"))
         self.pathBrowseButton.setText(_translate("Form", "Browse..."))
         self.label_13.setText(_translate("Form", "TSL:"))
+
+
 from utility.gui.qt.widgets.itemviews.listview import RobustListView

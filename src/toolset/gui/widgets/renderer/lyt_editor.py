@@ -128,7 +128,9 @@ class LYTEditor(QWidget):
         self.task_queue: queue.Queue[Callable[[], Future[Any]]] = queue.Queue()
         self.main_thread_tasks: queue.Queue[Callable[[], Future[Any]]] = queue.Queue()
         self.error_queue: queue.Queue[Exception] = queue.Queue()
-        self.change_buffer: list[tuple[str, str, LYTRoom | LYTTrack | LYTObstacle | LYTDoorHook]] = []
+        self.change_buffer: list[
+            tuple[str, str, LYTRoom | LYTTrack | LYTObstacle | LYTDoorHook]
+        ] = []
 
         # Initialize process pool
         self.process_pool: ProcessPoolExecutor = ProcessPoolExecutor(max_workers=4)
@@ -241,7 +243,12 @@ class LYTEditor(QWidget):
         if not self._lyt.rooms:
             return
 
-        hook: LYTDoorHook = LYTDoorHook(room=self._lyt.rooms[0].model, door=f"door_{len(self._lyt.doorhooks)}", position=Vector3(0, 0, 0), orientation=Vector4(0, 0, 0, 1))
+        hook: LYTDoorHook = LYTDoorHook(
+            room=self._lyt.rooms[0].model,
+            door=f"door_{len(self._lyt.doorhooks)}",
+            position=Vector3(0, 0, 0),
+            orientation=Vector4(0, 0, 0, 1),
+        )
 
         with self.layout_lock:
             self._lyt.doorhooks.append(hook)
@@ -321,7 +328,12 @@ class LYTEditor(QWidget):
     ):
         """Draw a track."""
         painter.setPen(QPen(Qt.GlobalColor.red, 2))
-        painter.drawLine(int(track.position.x), int(track.position.y), int(track.position.x + 100), int(track.position.y + 100))
+        painter.drawLine(
+            int(track.position.x),
+            int(track.position.y),
+            int(track.position.x + 100),
+            int(track.position.y + 100),
+        )
 
     def draw_obstacle(
         self,
@@ -460,7 +472,9 @@ class LYTEditor(QWidget):
         for obstacle in self._lyt.obstacles:
             center = QPoint(int(obstacle.position.x), int(obstacle.position.y))
             radius: float = 50  # FIXME: radius attribute does not exist.
-            if QPoint(int(mouse_pos.x), int(mouse_pos.y)).distanceToPoint(center) <= radius:  # FIXME: distanceToPoint method does not exist.
+            if (
+                QPoint(int(mouse_pos.x), int(mouse_pos.y)).distanceToPoint(center) <= radius
+            ):  # FIXME: distanceToPoint method does not exist.
                 self.selected_room = None
                 self.selected_track = None
                 self.selected_obstacle: LYTObstacle | None = obstacle
@@ -470,7 +484,9 @@ class LYTEditor(QWidget):
         # Check for doorhook selection
         for doorhook in self._lyt.doorhooks:
             center = QPoint(int(doorhook.position.x), int(doorhook.position.y))
-            if QRect(center.x() - 2, center.y() - 2, 4, 4).contains(QPoint(int(mouse_pos.x), int(mouse_pos.y))):
+            if QRect(center.x() - 2, center.y() - 2, 4, 4).contains(
+                QPoint(int(mouse_pos.x), int(mouse_pos.y))
+            ):
                 self.selected_room: LYTRoom | None = None
                 self.selected_track: LYTTrack | None = None
                 self.selected_obstacle: LYTObstacle | None = None
@@ -509,7 +525,9 @@ class LYTEditor(QWidget):
         room: LYTRoom,
         delta: Vector2,
     ):
-        new_position: Vector3 = Vector3(room.position.x + delta.x, room.position.y + delta.y, room.position.z)
+        new_position: Vector3 = Vector3(
+            room.position.x + delta.x, room.position.y + delta.y, room.position.z
+        )
         self.sig_room_moved.emit(room, new_position)
 
     def move_track_start(
@@ -517,7 +535,9 @@ class LYTEditor(QWidget):
         track: LYTTrack,
         delta: Vector2,
     ):
-        new_start: Vector3 = Vector3(track.position.x + delta.x, track.position.y + delta.y, track.position.z)
+        new_start: Vector3 = Vector3(
+            track.position.x + delta.x, track.position.y + delta.y, track.position.z
+        )
         self.sig_track_moved.emit(track, new_start)
 
     def move_track_end(
@@ -533,7 +553,9 @@ class LYTEditor(QWidget):
         obstacle: LYTObstacle,
         delta: Vector2,
     ):
-        new_position = Vector3(obstacle.position.x + delta.x, obstacle.position.y + delta.y, obstacle.position.z)
+        new_position = Vector3(
+            obstacle.position.x + delta.x, obstacle.position.y + delta.y, obstacle.position.z
+        )
         self.sig_obstacle_moved.emit(obstacle, new_position)
 
     def move_door_hook(
@@ -541,7 +563,9 @@ class LYTEditor(QWidget):
         doorhook: LYTDoorHook,
         delta: Vector2,
     ):
-        new_position = Vector3(doorhook.position.x + delta.x, doorhook.position.y + delta.y, doorhook.position.z)
+        new_position = Vector3(
+            doorhook.position.x + delta.x, doorhook.position.y + delta.y, doorhook.position.z
+        )
         self.sig_door_hook_moved.emit(doorhook, new_position)
 
     def resize_selected_room(
@@ -555,7 +579,9 @@ class LYTEditor(QWidget):
         self.mouse_prev = mouse_pos
 
         # Calculate new size based on resize corner
-        new_size: Vector2 = Vector2(self.selected_room.size.x, self.selected_room.size.y)  # FIXME: size attribute does not exist.
+        new_size: Vector2 = Vector2(
+            self.selected_room.size.x, self.selected_room.size.y
+        )  # FIXME: size attribute does not exist.
         if self.selected_room_resize_corner == 0:
             new_size.x += delta.x
             new_size.y += delta.y
@@ -667,7 +693,9 @@ class LYTEditor(QWidget):
             connected_rooms: list[LYTRoom] = self.get_connected_rooms(doorhook)
             if len(connected_rooms) == 2:
                 valid_doorhooks.append(doorhook)
-                key = tuple(sorted(connected_rooms, key=lambda r: r.id))  # FIXME: id attribute does not exist.
+                key = tuple(
+                    sorted(connected_rooms, key=lambda r: r.id)
+                )  # FIXME: id attribute does not exist.
                 if key not in doorhook_groups:
                     doorhook_groups[key] = []
                 doorhook_groups[key].append(doorhook)
@@ -676,7 +704,9 @@ class LYTEditor(QWidget):
         for doorhook in new_doorhooks:
             connected_rooms = self.get_connected_rooms(doorhook)
             if len(connected_rooms) == 2:
-                key = tuple(sorted(connected_rooms, key=lambda r: r.id))  # FIXME: id attribute does not exist.
+                key = tuple(
+                    sorted(connected_rooms, key=lambda r: r.id)
+                )  # FIXME: id attribute does not exist.
                 if key not in doorhook_groups:
                     doorhook_groups[key] = []
                 doorhook_groups[key].append(doorhook)
@@ -711,11 +741,13 @@ class LYTEditor(QWidget):
 
         # Evenly space the doorhooks along the shared edge
         edge_length: float = self.get_edge_length(doorhooks[0], doorhooks[-1])
-        spacing: float = edge_length / (len(doorhooks) + 1)  # FIXME: this is unused?
+        _spacing: float = edge_length / (len(doorhooks) + 1)  # FIXME: this is unused?
 
         for i, doorhook in enumerate(doorhooks):
             t: float = (i + 1) / (len(doorhooks) + 1)
-            new_pos: Vector3 = self.interpolate_position(doorhooks[0].position, doorhooks[-1].position, t)
+            new_pos: Vector3 = self.interpolate_position(
+                doorhooks[0].position, doorhooks[-1].position, t
+            )
             doorhook.position = new_pos
 
     def get_edge_length(
@@ -723,7 +755,10 @@ class LYTEditor(QWidget):
         start_hook: LYTDoorHook,
         end_hook: LYTDoorHook,
     ) -> float:
-        return ((end_hook.position.x - start_hook.position.x) ** 2 + (end_hook.position.y - start_hook.position.y) ** 2) ** 0.5
+        return (
+            (end_hook.position.x - start_hook.position.x) ** 2
+            + (end_hook.position.y - start_hook.position.y) ** 2
+        ) ** 0.5
 
     def interpolate_position(
         self,
@@ -731,7 +766,11 @@ class LYTEditor(QWidget):
         end: Vector3,
         t: float,
     ) -> Vector3:
-        return Vector3(start.x + (end.x - start.x) * t, start.y + (end.y - start.y) * t, start.z + (end.z - start.z) * t)
+        return Vector3(
+            start.x + (end.x - start.x) * t,
+            start.y + (end.y - start.y) * t,
+            start.z + (end.z - start.z) * t,
+        )
 
     def create_door_hooks(
         self,
@@ -816,13 +855,21 @@ class LYTEditor(QWidget):
 
         # Check if the doorhook is on any of the room's edges
         on_left: bool = abs(x - room.position.x) < tolerance
-        on_right: bool = abs(x - (room.position.x + room.size.x)) < tolerance  # FIXME: size attribute does not exist.
+        on_right: bool = (
+            abs(x - (room.position.x + room.size.x)) < tolerance
+        )  # FIXME: size attribute does not exist.
         on_top: bool = abs(y - room.position.y) < tolerance
-        on_bottom: bool = abs(y - (room.position.y + room.size.y)) < tolerance  # FIXME: size attribute does not exist.
+        on_bottom: bool = (
+            abs(y - (room.position.y + room.size.y)) < tolerance
+        )  # FIXME: size attribute does not exist.
 
         return (
-            ((on_left or on_right) and (room.position.y <= y <= room.position.y + room.size.y))  # FIXME: size attribute does not exist.
-            or ((on_top or on_bottom) and (room.position.x <= x <= room.position.x + room.size.x))  # FIXME: size attribute does not exist.
+            (
+                (on_left or on_right) and (room.position.y <= y <= room.position.y + room.size.y)
+            )  # FIXME: size attribute does not exist.
+            or (
+                (on_top or on_bottom) and (room.position.x <= x <= room.position.x + room.size.x)
+            )  # FIXME: size attribute does not exist.
         )
 
     def optimize_door_hook_placement(self):
@@ -831,7 +878,9 @@ class LYTEditor(QWidget):
         for doorhook in self._lyt.doorhooks:
             connected_rooms: list[LYTRoom] = self.get_connected_rooms(doorhook)
             if connected_rooms:
-                key = tuple(sorted(connected_rooms))  # FIXME: list[LYTRoom]" is incompatible with "Iterable[SupportsRichComparisonT@sorted]
+                key = tuple(
+                    sorted(connected_rooms)
+                )  # FIXME: list[LYTRoom]" is incompatible with "Iterable[SupportsRichComparisonT@sorted]
                 if key not in doorhook_groups:
                     doorhook_groups[key] = []
                 doorhook_groups[key].append(doorhook)
@@ -856,7 +905,10 @@ class LYTEditor(QWidget):
         if not self._snap_to_grid:
             return point
 
-        return Vector2(round(point.x / self._grid_size) * self._grid_size, round(point.y / self._grid_size) * self._grid_size)
+        return Vector2(
+            round(point.x / self._grid_size) * self._grid_size,
+            round(point.y / self._grid_size) * self._grid_size,
+        )
 
     def get_room_resize_corner(
         self,
@@ -876,7 +928,9 @@ class LYTEditor(QWidget):
         for i in range(8):
             x = rect.x() + (i % 2) * rect.width()
             y = rect.y() + (i // 2) * rect.height()
-            if QRect(x - handleSize // 2, y - handleSize // 2, handleSize, handleSize).contains(QPoint(int(mouse_pos.x), int(mouse_pos.y))):
+            if QRect(x - handleSize // 2, y - handleSize // 2, handleSize, handleSize).contains(
+                QPoint(int(mouse_pos.x), int(mouse_pos.y))
+            ):
                 return i
 
         return None
@@ -1078,7 +1132,12 @@ class LYTEditor(QWidget):
     def get_visible_rooms(self) -> set[LYTRoom]:
         visible_rooms: set[LYTRoom] = set()
         camera: Camera = self.parent().scene.camera
-        view_rect: QRect = QRect(int(camera.x - camera.width / 2), int(camera.y - camera.height / 2), int(camera.width), int(camera.height))
+        view_rect: QRect = QRect(
+            int(camera.x - camera.width / 2),
+            int(camera.y - camera.height / 2),
+            int(camera.width),
+            int(camera.height),
+        )
 
         grid_x_start = int(view_rect.left() / self.grid_size)
         grid_x_end = int(view_rect.right() / self.grid_size)
@@ -1126,7 +1185,9 @@ class LYTEditor(QWidget):
                     for consumer in self.task_consumers:
                         try:
                             if not consumer.is_busy():  # FIXME: is_busy method does not exist.
-                                consumer.add_task(task, args, kwargs)  # FIXME: add_task method does not exist.
+                                consumer.add_task(
+                                    task, args, kwargs
+                                )  # FIXME: add_task method does not exist.
                                 break
                             # If all consumers are busy, put the task back in the queue
                             self.task_queue.put((task, args))
@@ -1249,7 +1310,7 @@ class LYTEditor(QWidget):
                 snapped = self.snap_to_grid(Vector2(position.x, position.y))
                 position = Vector3(snapped.x, snapped.y, position.z)
 
-            mdl = mdl_res.resource()
+            _mdl = mdl_res.resource()
 
             # Get room bounds from MDL
             bounds: Boundary = self.scene.objects.get(mdl_res.filename()).boundary()
@@ -1261,7 +1322,12 @@ class LYTEditor(QWidget):
             # Get room size from extended attributes
             size = room.size if isinstance(room, ExtendedLYTRoom) else Vector3(10, 10, 3)
 
-            rect = QRect(int(position.x * zoom), int(position.y * zoom), int(size.x * zoom), int(size.y * zoom))
+            rect = QRect(
+                int(position.x * zoom),
+                int(position.y * zoom),
+                int(size.x * zoom),
+                int(size.y * zoom),
+            )
 
             # Draw selection highlight if this is the selected room
             if room == self.selected_room:
@@ -1279,7 +1345,12 @@ class LYTEditor(QWidget):
                 ]
 
                 for handle_pos, cursor in handles:
-                    handle_rect = QRect(handle_pos.x() - handle_size // 2, handle_pos.y() - handle_size // 2, handle_size, handle_size)
+                    handle_rect = QRect(
+                        handle_pos.x() - handle_size // 2,
+                        handle_pos.y() - handle_size // 2,
+                        handle_size,
+                        handle_size,
+                    )
                     painter.setPen(QPen(Qt.GlobalColor.yellow))
                     painter.setBrush(QBrush(Qt.GlobalColor.white))
                     painter.drawRect(handle_rect)
@@ -1289,7 +1360,12 @@ class LYTEditor(QWidget):
                 painter.setPen(QPen(Qt.GlobalColor.blue, 2))
                 painter.drawLine(rect.center(), rotation_handle_pos)
                 painter.setBrush(QBrush(Qt.GlobalColor.blue))
-                painter.drawEllipse(rotation_handle_pos.x() - handle_size // 2, rotation_handle_pos.y() - handle_size // 2, handle_size, handle_size)
+                painter.drawEllipse(
+                    rotation_handle_pos.x() - handle_size // 2,
+                    rotation_handle_pos.y() - handle_size // 2,
+                    handle_size,
+                    handle_size,
+                )
 
                 # Draw selection outline
                 app = QApplication.instance()
@@ -1367,14 +1443,24 @@ class LYTEditor(QWidget):
                     glow_gradient.setColorAt(1, QColor(0, 255, 0, 0))
                     painter.setBrush(QBrush(glow_gradient))
                     painter.setPen(Qt.PenStyle.NoPen)
-                    painter.drawEllipse(int((point.x - glow_size / 2) * zoom), int((point.y - glow_size / 2) * zoom), int(glow_size), int(glow_size))
+                    painter.drawEllipse(
+                        int((point.x - glow_size / 2) * zoom),
+                        int((point.y - glow_size / 2) * zoom),
+                        int(glow_size),
+                        int(glow_size),
+                    )
 
                 # Draw connection point
                 point_color = QColor(0, 255, 0) if is_valid else QColor(128, 128, 128)
                 point_size = 8 * zoom
                 painter.setPen(QPen(point_color, 2))
                 painter.setBrush(QBrush(point_color.lighter(120)))
-                painter.drawEllipse(int((point.x - point_size / 2) * zoom), int((point.y - point_size / 2) * zoom), int(point_size), int(point_size))
+                painter.drawEllipse(
+                    int((point.x - point_size / 2) * zoom),
+                    int((point.y - point_size / 2) * zoom),
+                    int(point_size),
+                    int(point_size),
+                )
 
             # Draw room info with shadow
             app = QApplication.instance()
@@ -1467,7 +1553,12 @@ class LYTEditor(QWidget):
 
     def get_selected_item(self) -> Any:
         """Get the currently selected item."""
-        return self.selected_room or self.selected_track or self.selected_obstacle or self.selected_door_hook
+        return (
+            self.selected_room
+            or self.selected_track
+            or self.selected_obstacle
+            or self.selected_door_hook
+        )
 
     def update_room(
         self,
@@ -1628,10 +1719,12 @@ class LYTEditor(QWidget):
         if not mdl_res:
             return None
 
-        mdl = mdl_res.resource()
+        _mdl = mdl_res.resource()
 
         # Create room with data from MDL/ARE
-        room: LYTRoom = LYTRoom(model=model, position=position or Vector3(0, 0, 0), orientation=Vector4(0, 0, 0, 1))
+        room: LYTRoom = LYTRoom(
+            model=model, position=position or Vector3(0, 0, 0), orientation=Vector4(0, 0, 0, 1)
+        )
         room.id = str(uuid4())  # Add unique ID
 
         # Snap to grid if enabled
@@ -1724,7 +1817,7 @@ class LYTEditor(QWidget):
     def update_room_rotation(self, room: LYTRoom, angle: float):
         """Update room rotation and notify listeners."""
         # Convert angle to quaternion
-        half_angle: float = angle / 2.0
+        _half_angle: float = angle / 2.0
         self.update_scene()
         self.sig_room_rotated.emit(room, angle)
 
@@ -1743,7 +1836,10 @@ class LYTEditor(QWidget):
 
         # Find the room's graphics item
         for item in self.scene.items():
-            if isinstance(item, QGraphicsRectItem) and item.data(Qt.ItemDataRole.UserRole) == self.selected_room:
+            if (
+                isinstance(item, QGraphicsRectItem)
+                and item.data(Qt.ItemDataRole.UserRole) == self.selected_room
+            ):
                 # Create highlight effect
                 highlight: QGraphicsRectItem = self.addRect(item.rect())
                 highlight.setPos(item.pos())
@@ -1799,7 +1895,9 @@ class LYTEditor(QWidget):
             # Update tracks list
             self.ui.tracksList.clear()
             for track in self._lyt.tracks:
-                self.ui.tracksList.addItem(f"Track from {track.start_room.model if track.start_room else 'Unknown'}")
+                self.ui.tracksList.addItem(
+                    f"Track from {track.start_room.model if track.start_room else 'Unknown'}"
+                )
 
     def init_connections(self):
         """Initialize UI connections."""
@@ -1913,12 +2011,19 @@ class LYTEditor(QWidget):
         # Check if mouse is on room edge
         if (
             abs(mouse_pos.x - room.position.x) < tolerance
-            or abs(mouse_pos.x - (room.position.x + getattr(room, "size", Vector3(10, 10, 0)).x)) < tolerance
+            or abs(mouse_pos.x - (room.position.x + getattr(room, "size", Vector3(10, 10, 0)).x))
+            < tolerance
             or abs(mouse_pos.y - room.position.y) < tolerance
-            or abs(mouse_pos.y - (room.position.y + getattr(room, "size", Vector3(10, 10, 0)).y)) < tolerance
+            or abs(mouse_pos.y - (room.position.y + getattr(room, "size", Vector3(10, 10, 0)).y))
+            < tolerance
         ):
             # Create doorhook with proper initialization
-            doorhook = LYTDoorHook(room=room.model, door=f"door_{len(self._lyt.doorhooks)}", position=Vector3(mouse_pos.x, mouse_pos.y, 0), orientation=Vector4(0, 0, 0, 1))
+            doorhook = LYTDoorHook(
+                room=room.model,
+                door=f"door_{len(self._lyt.doorhooks)}",
+                position=Vector3(mouse_pos.x, mouse_pos.y, 0),
+                orientation=Vector4(0, 0, 0, 1),
+            )
 
             self._lyt.doorhooks.append(doorhook)
             self.sig_doorhook_added.emit(doorhook)

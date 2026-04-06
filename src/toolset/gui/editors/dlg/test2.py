@@ -231,7 +231,9 @@ def create_complex_tree() -> DLG:
     # Create the DLG structure with entries and replies
     dlg: DLG = DLG()
     entries: list[DLGEntry] = [DLGEntry(comment=f"E{i}") for i in range(5)]
-    replies: list[DLGReply] = [DLGReply(text=LocalizedString.from_english(f"R{i}")) for i in range(5, 10)]
+    replies: list[DLGReply] = [
+        DLGReply(text=LocalizedString.from_english(f"R{i}")) for i in range(5, 10)
+    ]
 
     # Create a nested structure
     def add_links(parent_node: DLGNode, children: list[DLGNode]):

@@ -35,7 +35,9 @@ class OpenGLSceneRenderer(QOpenGLWidget):
         self.scene: Scene | None = None
         self._keys_down: set[Any] = set()
         self._mouse_down: set[Any] = set()
-        self._mouse_prev: Vector2 = initial_mouse_prev if initial_mouse_prev is not None else Vector2(0, 0)
+        self._mouse_prev: Vector2 = (
+            initial_mouse_prev if initial_mouse_prev is not None else Vector2(0, 0)
+        )
         self.free_cam: bool = False
 
         # Accept keyboard focus when clicked so key events (e.g. WASD in fly
@@ -187,7 +189,9 @@ class OpenGLSceneRenderer(QOpenGLWidget):
         self._mouse_down.clear()
         self._keys_down.clear()
         super().focusOutEvent(event)
-        RobustLogger().debug("%s.focusOutEvent: clearing all keys/buttons held down.", self.__class__.__name__)
+        RobustLogger().debug(
+            "%s.focusOutEvent: clearing all keys/buttons held down.", self.__class__.__name__
+        )
 
     def closeEvent(self, event: QCloseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         self.shutdown_renderer()

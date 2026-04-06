@@ -57,7 +57,9 @@ class _TLKSearchDialog(QDialog):
 
         controls_layout = QHBoxLayout()
         self.search_edit = QLineEdit(self)
-        self.search_edit.setPlaceholderText(tr("Search for text in TLK strings (min 2 characters)..."))
+        self.search_edit.setPlaceholderText(
+            tr("Search for text in TLK strings (min 2 characters)...")
+        )
         controls_layout.addWidget(self.search_edit)
 
         self.search_button = QPushButton(tr("Search"), self)
@@ -115,7 +117,9 @@ class _TLKSearchDialog(QDialog):
         if result_count == 0:
             self.info_label.setText(tr(f"No results found for '{query}'."))
         elif result_count == max_results:
-            self.info_label.setText(tr(f"Found {result_count} results (showing first {max_results})."))
+            self.info_label.setText(
+                tr(f"Found {result_count} results (showing first {max_results}).")
+            )
         else:
             self.info_label.setText(tr(f"Found {result_count} results."))
 
@@ -135,7 +139,9 @@ class LocalizedStringDialog(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinMaxButtonsHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         from toolset.uic.qtpy.dialogs.locstring import Ui_Dialog
@@ -149,7 +155,13 @@ class LocalizedStringDialog(QDialog):
         self._no_scroll_filter = NoScrollEventFilter(self)
         self._no_scroll_filter.setup_filter(parent_widget=self)
 
-        self.setWindowTitle(trf("{language} - {name} - Localized String Editor", language=installation.talktable().language().name.title(), name=installation.name))
+        self.setWindowTitle(
+            trf(
+                "{language} - {name} - Localized String Editor",
+                language=installation.talktable().language().name.title(),
+                name=installation.name,
+            )
+        )
 
         self.ui.stringrefSpin.valueChanged.connect(self.stringref_changed)
         self.ui.stringrefNewButton.clicked.connect(self.new_tlk_string)
@@ -162,7 +174,9 @@ class LocalizedStringDialog(QDialog):
         self.ui.stringEdit.textChanged.connect(self.string_edited)
 
         self._installation: HTInstallation = installation
-        self.locstring: LocalizedString = LocalizedString.from_dict(locstring.to_dict())  # Deepcopy the object, we don't trust the `deepcopy` function though.
+        self.locstring: LocalizedString = LocalizedString.from_dict(
+            locstring.to_dict()
+        )  # Deepcopy the object, we don't trust the `deepcopy` function though.
         self.ui.stringrefSpin.setValue(locstring.stringref)
 
     def accept(self):
@@ -213,13 +227,18 @@ class LocalizedStringDialog(QDialog):
             QMessageBox(
                 QMessageBox.Icon.Information,
                 tr("dialog.tlk not found"),
-                trf("Could not open the TLK editor because '{path}' was not found.", path=str(tlk_path)),
+                trf(
+                    "Could not open the TLK editor because '{path}' was not found.",
+                    path=str(tlk_path),
+                ),
                 QMessageBox.StandardButton.Ok,
                 self,
             ).exec()
             return
 
-        resource = FileResource("dialog", ResourceType.TLK, os.path.getsize(tlk_path), 0x0, tlk_path)  # noqa: PTH202
+        resource = FileResource(
+            "dialog", ResourceType.TLK, os.path.getsize(tlk_path), 0x0, tlk_path
+        )  # noqa: PTH202
         _filepath, editor = open_resource_editor(resource, self._installation, self)
         from toolset.gui.editors.tlk import TLKEditor
 

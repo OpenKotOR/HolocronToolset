@@ -30,9 +30,16 @@ class ColorEdit(QWidget):
 
     def open_color_dialog(self):
         init_color: Color = Color.from_rgba_integer(self.ui.colorSpin.value())
-        init_qcolor: QColor = QColor(int(init_color.r * 255), int(init_color.g * 255), int(init_color.b * 255), int(init_color.a * 255))
+        init_qcolor: QColor = QColor(
+            int(init_color.r * 255),
+            int(init_color.g * 255),
+            int(init_color.b * 255),
+            int(init_color.a * 255),
+        )
 
-        dialog: QColorDialog = QColorDialog(QColor(init_qcolor.red(), init_qcolor.green(), init_qcolor.blue(), init_qcolor.alpha()))
+        dialog: QColorDialog = QColorDialog(
+            QColor(init_qcolor.red(), init_qcolor.green(), init_qcolor.blue(), init_qcolor.alpha())
+        )
         dialog.setOption(QColorDialog.ColorDialogOption.ShowAlphaChannel, on=self.allow_alpha)
 
         if dialog.exec():
@@ -52,7 +59,12 @@ class ColorEdit(QWidget):
         value: int,
     ):
         color: Color = Color.from_rgba_integer(value)
-        self._color.r, self._color.g, self._color.b, self._color.a = color.r, color.g, color.b, color.a
+        self._color.r, self._color.g, self._color.b, self._color.a = (
+            color.r,
+            color.g,
+            color.b,
+            color.a,
+        )
         if not self.allow_alpha:
             self._color.a = 0.0
         r, g, b = int(color.r * 255), int(color.g * 255), int(color.b * 255)
@@ -63,7 +75,9 @@ class ColorEdit(QWidget):
 
     def set_color(self, color: Color):
         self._color: Color = color
-        self.ui.colorSpin.setValue(color.rgba_integer() if self.allow_alpha else color.rgb_integer())
+        self.ui.colorSpin.setValue(
+            color.rgba_integer() if self.allow_alpha else color.rgb_integer()
+        )
 
     def color(self) -> Color:
         return self._color

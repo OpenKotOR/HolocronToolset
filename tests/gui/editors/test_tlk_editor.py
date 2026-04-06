@@ -14,7 +14,9 @@ from qtpy.QtGui import QStandardItem
 
 
 absolute_file_path: pathlib.Path = pathlib.Path(__file__).resolve()
-TESTS_FILES_PATH: pathlib.Path = next(f for f in absolute_file_path.parents if f.name == "tests") / "test_files"
+TESTS_FILES_PATH: pathlib.Path = (
+    next(f for f in absolute_file_path.parents if f.name == "tests") / "test_files"
+)
 
 if TYPE_CHECKING:
     from pytestqt.qtbot import QtBot
@@ -44,14 +46,20 @@ if __name__ == "__main__" and getattr(sys, "frozen", False) is False:
         add_sys_path(toolset_path.parent)
 
 if importlib.util.find_spec("qtpy.QtWidgets") is None:  # pyright: ignore[reportAttributeAccessIssue]
-    raise ImportError("qtpy.QtWidgets is required for this test. Install PyQt/PySide with qtpy before running this test.")
+    raise ImportError(
+        "qtpy.QtWidgets is required for this test. Install PyQt/PySide with qtpy before running this test."
+    )
 
 from loggerplus import Any
 from qtpy.QtTest import QTest
 from qtpy.QtWidgets import QApplication
 
-K1_PATH: str | None = os.environ.get("K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor")
-K2_PATH: str | None = os.environ.get("K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II")
+K1_PATH: str | None = os.environ.get(
+    "K1_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\swkotor"
+)
+K2_PATH: str | None = os.environ.get(
+    "K2_PATH", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Knights of the Old Republic II"
+)
 
 from pykotor.resource.formats.tlk import read_tlk  # pyright: ignore[reportMissingImports]
 from pykotor.resource.type import ResourceType  # pyright: ignore[reportMissingImports]
@@ -234,10 +242,14 @@ def test_tlk_editor_all_widgets_interactions(qtbot: QtBot, installation: HTInsta
         proxy_count = editor.proxy_model.rowCount()
         source_count = editor.source_model.rowCount()
         # With a filter, proxy count should be <= source count
-        assert proxy_count <= source_count, f"Filtered count ({proxy_count}) should be <= source count ({source_count})"
+        assert proxy_count <= source_count, (
+            f"Filtered count ({proxy_count}) should be <= source count ({source_count})"
+        )
         # Empty filter should show all entries
         if filter_text == "":
-            assert proxy_count == source_count, f"Empty filter should show all {source_count} entries, got {proxy_count}"
+            assert proxy_count == source_count, (
+                f"Empty filter should show all {source_count} entries, got {proxy_count}"
+            )
 
 
 def test_tlk_editor_insert_remove_exhaustive(qtbot: QtBot, installation: HTInstallation):
@@ -299,14 +311,19 @@ def test_tlk_editor_search_filter_exhaustive(qtbot: QtBot, installation: HTInsta
         ("Test", 2),  # Test Entry, Another Test
         ("", 10),  # No filter - all entries
         ("XYZ", 0),  # No matches
-        ("a", 7),  # Case insensitive: Apple, Banana, Date, Apple Pie, Banana Bread, Another Test, Final Entry
+        (
+            "a",
+            7,
+        ),  # Case insensitive: Apple, Banana, Date, Apple Pie, Banana Bread, Another Test, Final Entry
         ("E", 9),  # Case insensitive: All except "Banana" contain E or e
     ]
 
     for filter_text, expected_count in filter_tests:
         editor.ui.searchEdit.setText(filter_text)
         editor.do_filter(filter_text)
-        assert editor.proxy_model.rowCount() == expected_count, f"Filter '{filter_text}' should show {expected_count} entries, got {editor.proxy_model.rowCount()}"
+        assert editor.proxy_model.rowCount() == expected_count, (
+            f"Filter '{filter_text}' should show {expected_count} entries, got {editor.proxy_model.rowCount()}"
+        )
 
 
 def test_tlk_editor_goto_line_exhaustive(qtbot: QtBot, installation: HTInstallation):
@@ -340,10 +357,14 @@ def test_tlk_editor_goto_line_exhaustive(qtbot: QtBot, installation: HTInstallat
         # Map proxy index back to source to verify correct row
         source_index = editor.proxy_model.mapToSource(current_index)
         assert source_index.isValid(), f"Source index should be valid for line {line}"
-        assert source_index.row() == line, f"Should be at source row {line}, got {source_index.row()}"
+        assert source_index.row() == line, (
+            f"Should be at source row {line}, got {source_index.row()}"
+        )
 
         # Verify the spinbox value matches
-        assert editor.ui.jumpSpinbox.value() == line, f"Spinbox should show {line}, got {editor.ui.jumpSpinbox.value()}"
+        assert editor.ui.jumpSpinbox.value() == line, (
+            f"Spinbox should show {line}, got {editor.ui.jumpSpinbox.value()}"
+        )
 
 
 def test_tlk_editor_build_verification(qtbot: QtBot, installation: HTInstallation):
@@ -403,7 +424,9 @@ def test_tlk_editor_load_real_file(qtbot: QtBot, installation: HTInstallation, t
 
     # Verify entries loaded
     assert editor.source_model.rowCount() > 0, "Editor should have loaded entries"
-    assert editor.source_model.rowCount() == len(test_tlk), f"Editor should have {len(test_tlk)} entries, got {editor.source_model.rowCount()}"
+    assert editor.source_model.rowCount() == len(test_tlk), (
+        f"Editor should have {len(test_tlk)} entries, got {editor.source_model.rowCount()}"
+    )
 
     # Verify widgets populated when selecting first entry
     index = editor.proxy_model.index(0, 0)
@@ -414,7 +437,9 @@ def test_tlk_editor_load_real_file(qtbot: QtBot, installation: HTInstallation, t
     # Verify text edit is populated with actual entry text
     loaded_text = editor.ui.textEdit.toPlainText()
     expected_text = test_tlk[0].text
-    assert loaded_text == expected_text, f"Text edit should show entry text '{expected_text}', got '{loaded_text}'"
+    assert loaded_text == expected_text, (
+        f"Text edit should show entry text '{expected_text}', got '{loaded_text}'"
+    )
 
 
 def test_tlk_editor_table_selection(qtbot: QtBot, installation: HTInstallation):
@@ -449,11 +474,17 @@ def test_tlk_editor_table_selection(qtbot: QtBot, installation: HTInstallation):
         # Widgets should update with entry text
         current_text = editor.ui.textEdit.toPlainText()
         expected_text = f"Entry {i}"
-        assert current_text == expected_text, f"Text edit should show '{expected_text}' for entry {i}, got '{current_text}'"
+        assert current_text == expected_text, (
+            f"Text edit should show '{expected_text}' for entry {i}, got '{current_text}'"
+        )
 
         # Verify sound edit is enabled when entry is selected
-        assert editor.ui.soundEdit.isEnabled(), f"Sound edit should be enabled when entry {i} is selected"
-        assert editor.ui.textEdit.isEnabled(), f"Text edit should be enabled when entry {i} is selected"
+        assert editor.ui.soundEdit.isEnabled(), (
+            f"Sound edit should be enabled when entry {i} is selected"
+        )
+        assert editor.ui.textEdit.isEnabled(), (
+            f"Text edit should be enabled when entry {i} is selected"
+        )
 
 
 def test_tlk_editor_edit_entry_exhaustive(qtbot: QtBot, installation: HTInstallation):
@@ -641,11 +672,15 @@ def test_tlk_editor_language_menu_checkmarks(qtbot: QtBot, installation: HTInsta
     from pykotor.common.language import Language
 
     # Initially English should be checked
-    assert editor._language_actions[Language.ENGLISH].isChecked(), "English should be checked initially"
+    assert editor._language_actions[Language.ENGLISH].isChecked(), (
+        "English should be checked initially"
+    )
 
     # Change to French
     editor.change_language(Language.FRENCH)
-    assert not editor._language_actions[Language.ENGLISH].isChecked(), "English should not be checked"
+    assert not editor._language_actions[Language.ENGLISH].isChecked(), (
+        "English should not be checked"
+    )
     assert editor._language_actions[Language.FRENCH].isChecked(), "French should be checked"
 
     # Change to German
@@ -684,7 +719,13 @@ def test_tlk_editor_language_saved_in_build(qtbot: QtBot, installation: HTInstal
     from pykotor.resource.formats.tlk import read_tlk
 
     # Test multiple languages
-    test_languages = [Language.ENGLISH, Language.FRENCH, Language.GERMAN, Language.ITALIAN, Language.SPANISH]
+    test_languages = [
+        Language.ENGLISH,
+        Language.FRENCH,
+        Language.GERMAN,
+        Language.ITALIAN,
+        Language.SPANISH,
+    ]
 
     for lang in test_languages:
         # Set language
@@ -707,7 +748,9 @@ def test_tlk_editor_language_saved_in_build(qtbot: QtBot, installation: HTInstal
         editor.source_model.setColumnCount(2)
 
 
-def test_tlk_editor_language_loaded_from_file(qtbot: QtBot, installation: HTInstallation, test_files_dir):
+def test_tlk_editor_language_loaded_from_file(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir
+):
     """Test that language is correctly loaded from TLK file."""
     editor = TLKEditor(None, installation)
     qtbot.addWidget(editor)
@@ -727,10 +770,14 @@ def test_tlk_editor_language_loaded_from_file(qtbot: QtBot, installation: HTInst
     editor.load(tlk_file, "dialog", ResourceType.TLK, file_data)
 
     # Verify language was loaded correctly
-    assert editor.language == original_language, f"Editor language should match file language ({original_language.name}), got {editor.language.name}"
+    assert editor.language == original_language, (
+        f"Editor language should match file language ({original_language.name}), got {editor.language.name}"
+    )
 
 
-def test_tlk_editor_language_change_and_reload(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_tlk_editor_language_change_and_reload(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test changing language and reloading file with different language."""
     editor = TLKEditor(None, installation)
     qtbot.addWidget(editor)
@@ -759,7 +806,9 @@ def test_tlk_editor_language_change_and_reload(qtbot: QtBot, installation: HTIns
     )
 
 
-def test_tlk_editor_language_build_and_verify_all_languages(qtbot: QtBot, installation: HTInstallation):
+def test_tlk_editor_language_build_and_verify_all_languages(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test building TLK with all major languages and verifying language is correct."""
     editor = TLKEditor(None, installation)
     qtbot.addWidget(editor)
@@ -794,7 +843,9 @@ def test_tlk_editor_language_build_and_verify_all_languages(qtbot: QtBot, instal
 
         # Verify language in built file
         tlk = read_tlk(data)
-        assert tlk.language == lang, f"Built TLK should have language {lang.name}, got {tlk.language.name}"
+        assert tlk.language == lang, (
+            f"Built TLK should have language {lang.name}, got {tlk.language.name}"
+        )
         assert len(tlk) == 1, "Should have one entry"
         assert tlk[0].text == f"Test for {lang.name}"
         assert tlk[0].voiceover == "test_sound"
@@ -804,7 +855,9 @@ def test_tlk_editor_language_build_and_verify_all_languages(qtbot: QtBot, instal
         editor.source_model.setColumnCount(2)
 
 
-def test_tlk_editor_language_save_and_reload_preserves_language(qtbot: QtBot, installation: HTInstallation, tmp_path):
+def test_tlk_editor_language_save_and_reload_preserves_language(
+    qtbot: QtBot, installation: HTInstallation, tmp_path
+):
     """Test that saving and reloading preserves the language setting."""
     editor = TLKEditor(None, installation)
     qtbot.addWidget(editor)
@@ -838,10 +891,14 @@ def test_tlk_editor_language_save_and_reload_preserves_language(qtbot: QtBot, in
     editor2.load(test_file, "test_french", ResourceType.TLK, file_data)
 
     # Verify language was loaded correctly
-    assert editor2.language == Language.FRENCH, f"Loaded editor should have French language from file, got {editor2.language.name}"
+    assert editor2.language == Language.FRENCH, (
+        f"Loaded editor should have French language from file, got {editor2.language.name}"
+    )
 
 
-def test_tlk_editor_language_auto_detect(qtbot: QtBot, installation: HTInstallation, test_files_dir):
+def test_tlk_editor_language_auto_detect(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir
+):
     """Test auto-detect language functionality."""
     editor = TLKEditor(None, installation)
     qtbot.addWidget(editor)
@@ -865,7 +922,9 @@ def test_tlk_editor_language_auto_detect(qtbot: QtBot, installation: HTInstallat
     # on_language_selected calls change_language which calls LoaderDialog.exec() which is blocking
 
     # Verify language matches file's language
-    assert editor.language == expected_language, f"Auto-detect should set language to file's language ({expected_language.name}), got {editor.language.name}"
+    assert editor.language == expected_language, (
+        f"Auto-detect should set language to file's language ({expected_language.name}), got {editor.language.name}"
+    )
 
 
 def test_tlk_editor_language_menu_actions_triggerable(qtbot: QtBot, installation: HTInstallation):
@@ -892,7 +951,9 @@ def test_tlk_editor_language_menu_actions_triggerable(qtbot: QtBot, installation
             QApplication.processEvents()  # Wait for signal processing
 
             # Verify language changed
-            assert editor.language == lang, f"Language should be {lang.name} after triggering action"
+            assert editor.language == lang, (
+                f"Language should be {lang.name} after triggering action"
+            )
 
 
 def test_tlk_editor_language_build_with_custom_language(qtbot: QtBot, installation: HTInstallation):
@@ -921,7 +982,9 @@ def test_tlk_editor_language_build_with_custom_language(qtbot: QtBot, installati
         assert tlk[0].text == "Texto em português"
 
 
-def test_tlkeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_tlkeditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that TLKEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -943,7 +1006,9 @@ def test_tlkeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'TLK-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'TLK-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -975,7 +1040,9 @@ def test_tlk_editor_table_selection_modes(qtbot: QtBot, installation: HTInstalla
     # Verify selection updates widgets with correct entry text
     loaded_text = editor.ui.textEdit.toPlainText()
     expected_text = "Entry 2"
-    assert loaded_text == expected_text, f"Text edit should show '{expected_text}', got '{loaded_text}'"
+    assert loaded_text == expected_text, (
+        f"Text edit should show '{expected_text}', got '{loaded_text}'"
+    )
 
     # Verify widgets are enabled when entry is selected
     assert editor.ui.textEdit.isEnabled(), "Text edit should be enabled when entry is selected"

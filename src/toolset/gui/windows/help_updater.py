@@ -54,7 +54,9 @@ class HelpUpdater:
         self.help_window: HelpWindow = help_window
 
     def check_for_updates(self):
-        remote_info: Exception | dict[str, Any] = get_remote_toolset_update_info(use_beta_channel=GlobalSettings().useBetaChannel)
+        remote_info: Exception | dict[str, Any] = get_remote_toolset_update_info(
+            use_beta_channel=GlobalSettings().useBetaChannel
+        )
         try:
             if not isinstance(remote_info, dict):
                 raise remote_info  # noqa: TRY301
@@ -64,12 +66,20 @@ class HelpUpdater:
 
             if self.help_window.help_content.version is None:
                 title = tr("Help book missing")
-                text = tr("You do not seem to have a valid help booklet downloaded, would you like to download it?")
+                text = tr(
+                    "You do not seem to have a valid help booklet downloaded, would you like to download it?"
+                )
             elif is_remote_version_newer(self.help_window.help_content.version, new_version):
                 title = tr("Update available")
-                text = tr("A newer version of the help book is available for download, would you like to download it?")
+                text = tr(
+                    "A newer version of the help book is available for download, would you like to download it?"
+                )
             else:
-                RobustLogger().debug("No help booklet updates available, using version %s (latest version: %s)", self.help_window.help_content.version, new_version)
+                RobustLogger().debug(
+                    "No help booklet updates available, using version %s (latest version: %s)",
+                    self.help_window.help_content.version,
+                    new_version,
+                )
                 return
         except Exception as e:  # noqa: BLE001
             error_msg = str((e.__class__.__name__, str(e))).replace("\n", "<br>")
@@ -81,7 +91,9 @@ class HelpUpdater:
                 error_msg,
                 QMessageBox.StandardButton.Ok,
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
             err_msg_box.setWindowIcon(self.help_window.windowIcon())
             err_msg_box.exec()
@@ -91,7 +103,9 @@ class HelpUpdater:
                 title,
                 text,
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
             new_help_msg_box.setWindowIcon(self.help_window.windowIcon())
             new_help_msg_box.addButton(QMessageBox.StandardButton.Yes)
@@ -102,7 +116,9 @@ class HelpUpdater:
                 def task():
                     return self._download_update()
 
-                loader = AsyncLoader(self.help_window, "Download newer help files...", task, "Failed to update.")
+                loader = AsyncLoader(
+                    self.help_window, "Download newer help files...", task, "Failed to update."
+                )
                 if loader.exec():
                     self.help_window.help_content.setup_contents()
 
@@ -111,7 +127,9 @@ class HelpUpdater:
         help_path.mkdir(parents=True, exist_ok=True)
         help_parent_path = help_path.parent
         help_zip_path = help_parent_path.joinpath("help.zip").absolute()
-        download_github_file("th3w1zard1/PyKotor", help_zip_path, "/Tools/HolocronToolset/downloads/help.zip")
+        download_github_file(
+            "th3w1zard1/PyKotor", help_zip_path, "/Tools/HolocronToolset/downloads/help.zip"
+        )
 
         # Extract the ZIP file
         with zipfile.ZipFile(help_zip_path) as zip_file:

@@ -88,7 +88,9 @@ class DLGStandardItem(QStandardItem):
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
-        self.ref_to_link: weakref.ref[DLGLink] = weakref.ref(link)  # Store a weak reference to the link
+        self.ref_to_link: weakref.ref[DLGLink] = weakref.ref(
+            link
+        )  # Store a weak reference to the link
         self._data_cache: dict[int, Any] = {}
 
     @property
@@ -108,7 +110,9 @@ class DLGStandardItem(QStandardItem):
         self,
         new_link: DLGLink,
     ):
-        raise NotImplementedError("DLGStandardItem's cannot store strong references to DLGLink objects.")
+        raise NotImplementedError(
+            "DLGStandardItem's cannot store strong references to DLGLink objects."
+        )
 
     def parent(self) -> DLGStandardItem | None:  # type: ignore[override, misc]
         return super().parent()  # type: ignore[return-value]
@@ -146,7 +150,9 @@ class DLGStandardItem(QStandardItem):
         model: QStandardItemModel | None = super().model()
         if model is None:
             return None
-        assert isinstance(model, DLGStandardItemModel), f"model was {model} of type {type(model).__name__}"
+        assert isinstance(model, DLGStandardItemModel), (
+            f"model was {model} of type {type(model).__name__}"
+        )
         return model
 
     def is_copy(self) -> bool:
@@ -321,8 +327,12 @@ class DLGStandardItemModel(QStandardItemModel):
     ):
         self.editor: DLGEditor | None = None
         self.tree_view: DLGTreeView = parent
-        self.link_to_items: weakref.WeakKeyDictionary[DLGLink, list[DLGStandardItem]] = weakref.WeakKeyDictionary()
-        self.node_to_items: weakref.WeakKeyDictionary[DLGNode, list[DLGStandardItem]] = weakref.WeakKeyDictionary()
+        self.link_to_items: weakref.WeakKeyDictionary[DLGLink, list[DLGStandardItem]] = (
+            weakref.WeakKeyDictionary()
+        )
+        self.node_to_items: weakref.WeakKeyDictionary[DLGNode, list[DLGStandardItem]] = (
+            weakref.WeakKeyDictionary()
+        )
         self.orig_to_orphan_copy: dict[weakref.ReferenceType[DLGLink], DLGLink]
         super().__init__(self.tree_view)
         self.modelReset.connect(self.on_model_reset)
@@ -330,13 +340,25 @@ class DLGStandardItemModel(QStandardItemModel):
         self.ignoring_updates: bool = False
 
     def __iter__(self) -> Generator[DLGStandardItem, Any, None]:
-        stack: deque[DLGStandardItem | QStandardItem | None] = deque([self.item(row, column) for row in range(self.rowCount()) for column in range(self.columnCount())])
+        stack: deque[DLGStandardItem | QStandardItem | None] = deque(
+            [
+                self.item(row, column)
+                for row in range(self.rowCount())
+                for column in range(self.columnCount())
+            ]
+        )
         while stack:
             item: DLGStandardItem | QStandardItem | None = stack.popleft()
             if item is None or item is None or not isinstance(item, DLGStandardItem):
                 continue
             yield item
-            stack.extend([item.child(row, column) for row in range(item.rowCount()) for column in range(item.columnCount())])
+            stack.extend(
+                [
+                    item.child(row, column)
+                    for row in range(item.rowCount())
+                    for column in range(item.columnCount())
+                ]
+            )
 
     # region Model Overrides
     def insertRows(
@@ -361,7 +383,11 @@ class DLGStandardItemModel(QStandardItemModel):
         if row < 0 or count < 1:
             # Check for negative or invalid row index and count
             return False
-        parent_item: DLGStandardItem | DLGStandardItemModel | None = (self.itemFromIndex(parent) or self) if parent is not None and parent.isValid() else None
+        parent_item: DLGStandardItem | DLGStandardItemModel | None = (
+            (self.itemFromIndex(parent) or self)
+            if parent is not None and parent.isValid()
+            else None
+        )
         if parent_item is None:
             return False
         rows_available: int = parent_item.rowCount()
@@ -372,7 +398,13 @@ class DLGStandardItemModel(QStandardItemModel):
         assert item_selection is not None
         item_selection.clear()
         if parent is not None:
-            links: list[DLGLink | None] = [item.link for item in (self.itemFromIndex(self.index(r, 0, parent)) for r in range(row, row + count)) if item is not None]
+            links: list[DLGLink | None] = [
+                item.link
+                for item in (
+                    self.itemFromIndex(self.index(r, 0, parent)) for r in range(row, row + count)
+                )
+                if item is not None
+            ]
         else:
             links = [
                 item.link  # pyright: ignore[reportAttributeAccessIssue]
@@ -393,7 +425,9 @@ class DLGStandardItemModel(QStandardItemModel):
             return result
         parent_item = None if parent is None else self.itemFromIndex(parent)
         for link in links:
-            if link is None or (parent_item is not None and not isinstance(parent_item, DLGStandardItem)):
+            if link is None or (
+                parent_item is not None and not isinstance(parent_item, DLGStandardItem)
+            ):
                 continue
             self._remove_link_from_parent(parent_item, link)
         return result
@@ -442,7 +476,9 @@ class DLGStandardItemModel(QStandardItemModel):
                 parent_item: DLGStandardItem | None = item_to_insert.parent()
                 self._insert_link_to_parent(parent_item, item_to_insert, row)
         elif isinstance(to_insert, (QModelIndex, QStandardItem)):
-            item_to_insert = to_insert if isinstance(to_insert, QStandardItem) else self.itemFromIndex(to_insert)
+            item_to_insert = (
+                to_insert if isinstance(to_insert, QStandardItem) else self.itemFromIndex(to_insert)
+            )
             if not isinstance(item_to_insert, DLGStandardItem):
                 return result
             if item_to_insert.link is None:
@@ -521,9 +557,15 @@ class DLGStandardItemModel(QStandardItemModel):
         for index in indexes:
             assert index.isValid(), f"index is invalid: {index} ({index.row()}, {index.column()})"
             item: QStandardItem | None = self.itemFromIndex(index)  # pyright: ignore[reportArgumentType]
-            assert item is not None, f"item is None for index {index} ({index.row()}, {index.column()})"
-            assert isinstance(item, DLGStandardItem), f"item is {item.__class__.__name__}, {item} for index {index} ({index.row()}, {index.column()}) expected DLGStandardItem"
-            assert item.link is not None, f"item.link is None for index {index} ({index.row()}, {index.column()})"
+            assert item is not None, (
+                f"item is None for index {index} ({index.row()}, {index.column()})"
+            )
+            assert isinstance(item, DLGStandardItem), (
+                f"item is {item.__class__.__name__}, {item} for index {index} ({index.row()}, {index.column()}) expected DLGStandardItem"
+            )
+            assert item.link is not None, (
+                f"item.link is None for index {index} ({index.row()}, {index.column()})"
+            )
             stream.writeInt32(index.row())
             stream.writeInt32(index.column())
             stream.writeInt32(3)
@@ -552,9 +594,13 @@ class DLGStandardItemModel(QStandardItemModel):
         if action == Qt.DropAction.IgnoreAction:
             return True
 
-        parent_item: DLGStandardItem | None = self.itemFromIndex(parent) if parent.isValid() else None
+        parent_item: DLGStandardItem | None = (
+            self.itemFromIndex(parent) if parent.isValid() else None
+        )
         try:
-            parsed_mime_data: dict[Literal["row", "column", "roles"], Any] = self.tree_view.parse_mime_data(data)[0]
+            parsed_mime_data: dict[Literal["row", "column", "roles"], Any] = (
+                self.tree_view.parse_mime_data(data)[0]
+            )
             dlg_nodes_json: str = parsed_mime_data["roles"][_DLG_MIME_DATA_ROLE]
             dlg_nodes_dict: dict[str | int, Any] = json.loads(dlg_nodes_json)
             deserialized_dlg_link: DLGLink = DLGLink.from_dict(dlg_nodes_dict)
@@ -613,7 +659,9 @@ class DLGStandardItemModel(QStandardItemModel):
         immediate_check: bool = False,
     ):
         """Add a deleted node to the QListWidget in the left_dock_widget, if the passed link is the only reference."""
-        if not shallow_link_copy.node or (shallow_link_copy.list_index == -1 and shallow_link_copy.node.list_index == -1):
+        if not shallow_link_copy.node or (
+            shallow_link_copy.list_index == -1 and shallow_link_copy.node.list_index == -1
+        ):
             return
         if not immediate_check:
 
@@ -688,7 +736,9 @@ class DLGStandardItemModel(QStandardItemModel):
         assert self.editor is not None, "self.editor cannot be None in _process_link"
         item_row: int | None = (parent_item or self).rowCount() if row in (-1, None) else row
         assert item_row is not None, "item_row cannot be None in _process_link"
-        links_list: list[DLGLink] = self.editor.core_dlg.starters if parent_item is None else parent_item.link.node.links  # pyright: ignore[reportOptionalMemberAccess]  # type: ignore[union-attr]
+        links_list: list[DLGLink] = (
+            self.editor.core_dlg.starters if parent_item is None else parent_item.link.node.links
+        )  # pyright: ignore[reportOptionalMemberAccess]  # type: ignore[union-attr]
         # Defensive cleanup: ensure there are no dangling None placeholders before reindexing.
         links_list[:] = [lnk for lnk in links_list if lnk is not None]
         node_to_items: list[DLGStandardItem] = self.node_to_items.setdefault(item.link.node, [])
@@ -713,7 +763,9 @@ class DLGStandardItemModel(QStandardItemModel):
                 continue
             link.list_index = i
         if isinstance(parent_item, DLGStandardItem):
-            assert parent_item.link is not None, f"parent_item.link cannot be None. {parent_item.__class__.__name__}: {parent_item}"
+            assert parent_item.link is not None, (
+                f"parent_item.link cannot be None. {parent_item.__class__.__name__}: {parent_item}"
+            )
             self.update_item_display_text(parent_item)
             self.sync_item_copies(parent_item.link, parent_item)
         if item.ref_to_link in self.orig_to_orphan_copy:
@@ -752,7 +804,11 @@ class DLGStandardItemModel(QStandardItemModel):
         """Retrieve the copy of the original object using the weak reference."""
         assert self.editor is not None
         return next(
-            (copied_link for orig_ref, copied_link in self.orig_to_orphan_copy.items() if orig_ref() is original),
+            (
+                copied_link
+                for orig_ref, copied_link in self.orig_to_orphan_copy.items()
+                if orig_ref() is original
+            ),
             None,
         )
 
@@ -798,10 +854,17 @@ class DLGStandardItemModel(QStandardItemModel):
             self.register_deepcopies(item_to_load.link, copied_link)
         child_links_copy = copied_link.node.links
 
-        assert item_to_load.link is not copied_link  # new copies should be made before load_dlg_item_rec to reduce complexity.
+        assert (
+            item_to_load.link is not copied_link
+        )  # new copies should be made before load_dlg_item_rec to reduce complexity.
         parent_path: str = item_to_load.data(_LINK_PARENT_NODE_PATH_ROLE)
-        if all(info.weakref() is not item_to_load.link.node for info in weakref.finalize._registry.values()):  # type: ignore[attr-defined]  # noqa: SLF001
-            weakref.finalize(item_to_load.link.node, self.on_orphaned_node, copied_link, parent_path)
+        if all(
+            info.weakref() is not item_to_load.link.node
+            for info in weakref.finalize._registry.values()
+        ):  # type: ignore[attr-defined]  # noqa: SLF001
+            weakref.finalize(
+                item_to_load.link.node, self.on_orphaned_node, copied_link, parent_path
+            )
 
         already_listed: bool = item_to_load.link in self.link_to_items
         self.link_to_items.setdefault(item_to_load.link, []).append(item_to_load)
@@ -828,7 +891,11 @@ class DLGStandardItemModel(QStandardItemModel):
             self.set_item_future_expand(item_to_load)
         else:
             orig_item: DLGStandardItem | None = next(
-                (item for item in self.link_to_items[item_to_load.link] if not item.isDeleted() and item.data(_COPY_ROLE) is False),
+                (
+                    item
+                    for item in self.link_to_items[item_to_load.link]
+                    if not item.isDeleted() and item.data(_COPY_ROLE) is False
+                ),
                 None,
             )
             item_to_load.setData(
@@ -850,7 +917,9 @@ class DLGStandardItemModel(QStandardItemModel):
             link.list_index = len(node.links) - 1
 
         elif link in node.links:
-            link_list_index: int = node.links.index(link)  # Find the index of the link to be removed
+            link_list_index: int = node.links.index(
+                link
+            )  # Find the index of the link to be removed
             node.links.remove(link)
             # Update list_index for remaining links
             for i, child_link in enumerate(
@@ -894,7 +963,9 @@ class DLGStandardItemModel(QStandardItemModel):
         """Helper method to update the UI with the new link."""
         assert parent_item.link is not None
         if link is None:
-            new_node: DLGReply | DLGEntry = DLGEntry() if isinstance(parent_item.link.node, DLGReply) else DLGReply()
+            new_node: DLGReply | DLGEntry = (
+                DLGEntry() if isinstance(parent_item.link.node, DLGReply) else DLGReply()
+            )
             new_node.plot_index = -1
             new_node.list_index = self._get_new_node_list_index(new_node)
             link = DLGLink(new_node)
@@ -1014,9 +1085,17 @@ class DLGStandardItemModel(QStandardItemModel):
         """Generate a new unique list index for the node."""
         assert self.editor is not None
         if isinstance(node, DLGEntry):
-            indices: set[int] = {entry.list_index for entry in self.editor.core_dlg.all_entries()} if entry_indices is None else entry_indices
+            indices: set[int] = (
+                {entry.list_index for entry in self.editor.core_dlg.all_entries()}
+                if entry_indices is None
+                else entry_indices
+            )
         elif isinstance(node, DLGReply):
-            indices = {reply.list_index for reply in self.editor.core_dlg.all_replies()} if reply_indices is None else reply_indices
+            indices = (
+                {reply.list_index for reply in self.editor.core_dlg.all_replies()}
+                if reply_indices is None
+                else reply_indices
+            )
         else:
             raise TypeError(f"{node.__class__.__name__}: {node!r}")
         new_index: int = max(indices, default=-1) + 1
@@ -1042,7 +1121,9 @@ class DLGStandardItemModel(QStandardItemModel):
             self.tree_view.collapse(parent_index)
             self.tree_view.expand(parent_index)
         item = super().itemFromIndex(index)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
-        assert isinstance(item, DLGStandardItem), f"item is {item.__class__.__name__}, {item} for index {index} ({index.row()}, {index.column()}) expected DLGStandardItem"
+        assert isinstance(item, DLGStandardItem), (
+            f"item is {item.__class__.__name__}, {item} for index {index} ({index.row()}, {index.column()}) expected DLGStandardItem"
+        )
         return item
 
     def delete_node_everywhere(
@@ -1059,7 +1140,11 @@ class DLGStandardItemModel(QStandardItemModel):
         ):
             assert self.editor is not None
             for i in reversed(range(parent_item.rowCount())):
-                child_item: QStandardItem | None = parent_item.child(i, 0) if isinstance(parent_item, DLGStandardItem) else parent_item.item(i, 0)
+                child_item: QStandardItem | None = (
+                    parent_item.child(i, 0)
+                    if isinstance(parent_item, DLGStandardItem)
+                    else parent_item.item(i, 0)
+                )
                 if child_item is None:
                     continue
                 if not isinstance(child_item, DLGStandardItem):
@@ -1175,7 +1260,9 @@ class DLGStandardItemModel(QStandardItemModel):
         )
         if not item.link.node.links:
             end_dialog_color: str = end_dialog_color_obj.name()
-            display_text: str = f"{text} <span style='color:{end_dialog_color};'><b>[End Dialog]</b></span>"
+            display_text: str = (
+                f"{text} <span style='color:{end_dialog_color};'><b>[End Dialog]</b></span>"
+            )
         elif not text and not text.strip():
             if item.link.node.text.stringref == -1:
                 display_text = "(continue)"
@@ -1204,22 +1291,38 @@ class DLGStandardItemModel(QStandardItemModel):
 
         has_conditional: bool = bool(item.link.active1 or item.link.active2)
         has_script: bool = bool(item.link.node.script1 or item.link.node.script2)
-        has_animation: bool = item.link.node.camera_anim not in (-1, None) or bool(item.link.node.animations)
+        has_animation: bool = item.link.node.camera_anim not in (-1, None) or bool(
+            item.link.node.animations
+        )
         has_sound: bool = bool(item.link.node.sound and item.link.node.sound_exists)
         has_voice: bool = bool(item.link.node.vo_resref)
-        is_plot_or_quest_related: bool = bool(item.link.node.plot_index != -1 or item.link.node.quest_entry or item.link.node.quest)
+        is_plot_or_quest_related: bool = bool(
+            item.link.node.plot_index != -1 or item.link.node.quest_entry or item.link.node.quest
+        )
 
         icons: list[tuple[QStyle.StandardPixmap | str, Callable | None, str]] = []
         if has_conditional:
-            icons.append((QStyle.StandardPixmap.SP_FileIcon, None, f"Conditional: <code>{has_conditional}</code>"))
+            icons.append(
+                (
+                    QStyle.StandardPixmap.SP_FileIcon,
+                    None,
+                    f"Conditional: <code>{has_conditional}</code>",
+                )
+            )
         if has_script:
-            script_icon_path: str = f":/images/icons/k{int(self.editor._installation.tsl) + 1}/script.png"  # noqa: SLF001
+            script_icon_path: str = (
+                f":/images/icons/k{int(self.editor._installation.tsl) + 1}/script.png"  # noqa: SLF001
+            )
             icons.append((script_icon_path, None, f"Script: {has_script}"))
         if has_animation:
-            anim_icon_path: str = f":/images/icons/k{int(self.editor._installation.tsl) + 1}/walkmesh.png"  # noqa: SLF001
+            anim_icon_path: str = (
+                f":/images/icons/k{int(self.editor._installation.tsl) + 1}/walkmesh.png"  # noqa: SLF001
+            )
             icons.append((anim_icon_path, None, "Item has animation data"))
         if is_plot_or_quest_related:
-            journal_icon_path: str = f":/images/icons/k{int(self.editor._installation.tsl) + 1}/journal.png"  # noqa: SLF001
+            journal_icon_path: str = (
+                f":/images/icons/k{int(self.editor._installation.tsl) + 1}/journal.png"  # noqa: SLF001
+            )
             icons.append((journal_icon_path, None, "Item has plot/quest data"))
         if has_sound:
             sound_icon_path = ":/images/common/sound-icon.png"
@@ -1228,7 +1331,9 @@ class DLGStandardItemModel(QStandardItemModel):
                     sound_icon_path,
                     lambda: self.editor is not None
                     and item.link is not None
-                    and self.editor.play_sound(str(item.link.node.sound), [SearchLocation.SOUND, SearchLocation.VOICE]),
+                    and self.editor.play_sound(
+                        str(item.link.node.sound), [SearchLocation.SOUND, SearchLocation.VOICE]
+                    ),
                     "Item has Sound (click to play)",
                 ),
             )
@@ -1239,7 +1344,9 @@ class DLGStandardItemModel(QStandardItemModel):
                     voice_icon_path,
                     lambda: self.editor is not None
                     and item.link is not None
-                    and self.editor.play_sound(str(item.link.node.vo_resref), [SearchLocation.SOUND, SearchLocation.VOICE]),
+                    and self.editor.play_sound(
+                        str(item.link.node.vo_resref), [SearchLocation.SOUND, SearchLocation.VOICE]
+                    ),
                     "Item has VO (click to play)",
                 ),
             )
@@ -1339,7 +1446,9 @@ class DLGStandardItemModel(QStandardItemModel):
             return
         assert self.editor is not None, "self.editor is None in shift_item"
         sel_model: QItemSelectionModel | None = self.tree_view.selectionModel()
-        blocker: QSignalBlocker | None = QSignalBlocker(sel_model) if sel_model is not None else None
+        blocker: QSignalBlocker | None = (
+            QSignalBlocker(sel_model) if sel_model is not None else None
+        )
         # Temporarily suppress update hooks so we can reposition the item, then
         # re-synchronize the backing dialog graph explicitly.
         self.ignoring_updates = True
@@ -1397,10 +1506,16 @@ class DLGStandardItemModel(QStandardItemModel):
             new_index -= 1
         assert self.editor is not None, "self.editor is None in move_item_to_index"
         assert source_parent_item is not None, "source_parent_item is None in move_item_to_index"
-        assert source_parent_item.link is not None, "source_parent_item.link is None in move_item_to_index"
-        assert source_parent_item.link.node is not None, "source_parent_item.link.node is None in move_item_to_index"
+        assert source_parent_item.link is not None, (
+            "source_parent_item.link is None in move_item_to_index"
+        )
+        assert source_parent_item.link.node is not None, (
+            "source_parent_item.link.node is None in move_item_to_index"
+        )
         _temp_link: DLGLink = (
-            self.editor.core_dlg.starters[old_row] if source_parent_item is None else source_parent_item.link.node.links[old_row]  # pyright: ignore[reportOptionalMemberAccess]
+            self.editor.core_dlg.starters[old_row]
+            if source_parent_item is None
+            else source_parent_item.link.node.links[old_row]  # pyright: ignore[reportOptionalMemberAccess]
         )
         item_to_move: DLGStandardItem = (source_parent_item or self).takeRow(old_row)[0]
         (target_parent_item or self).insertRow(new_index, item_to_move)
@@ -1425,7 +1540,9 @@ class DLGStandardItemModel(QStandardItemModel):
             if not item.is_loaded():
                 continue
             assert item.link is not None
-            link_to_cur_item: dict[DLGLink, DLGStandardItem | None] = dict.fromkeys(item.link.node.links)
+            link_to_cur_item: dict[DLGLink, DLGStandardItem | None] = dict.fromkeys(
+                item.link.node.links
+            )
 
             self.ignoring_updates = True
             while item.rowCount() > 0:
@@ -1487,7 +1604,9 @@ class CopySyncDict(weakref.WeakKeyDictionary):
 
     def __init__(
         self,
-        init_dict: Mapping[weakref.ref[DLGLink], DLGLink] | Iterable[tuple[weakref.ref[DLGLink], DLGLink]] | None = None,
+        init_dict: Mapping[weakref.ref[DLGLink], DLGLink]
+        | Iterable[tuple[weakref.ref[DLGLink], DLGLink]]
+        | None = None,
         *args,
     ):
         self._storage: dict[int, tuple[weakref.ref[DLGLink], DLGLink]] = {}

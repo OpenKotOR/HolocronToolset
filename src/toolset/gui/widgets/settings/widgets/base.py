@@ -45,10 +45,22 @@ class SettingsWidget(QWidget):
         self.installEventFilters(self, self.noScrollEventFilter)
         # self.installEventFilters(self, self.hoverEventFilter, include_types=[QWidget])
 
-    def installEventFilters(self, parent_widget: QWidget, event_filter: QObject, include_types: list[type[QWidget]] | None = None) -> None:
+    def installEventFilters(
+        self,
+        parent_widget: QWidget,
+        event_filter: QObject,
+        include_types: list[type[QWidget]] | None = None,
+    ) -> None:
         """Recursively install event filters on all child widgets."""
         if include_types is None:
-            include_types = [QComboBox, QSlider, QSpinBox, QGroupBox, QAbstractSpinBox, QDoubleSpinBox]
+            include_types = [
+                QComboBox,
+                QSlider,
+                QSpinBox,
+                QGroupBox,
+                QAbstractSpinBox,
+                QDoubleSpinBox,
+            ]
 
         for widget in parent_widget.findChildren(QWidget):
             if not widget.objectName():
@@ -61,7 +73,11 @@ class SettingsWidget(QWidget):
             self.installEventFilters(widget, event_filter, include_types)
 
     def validateBind(self, bindName: str, bind: Bind) -> Bind:
-        if not isinstance(bind, tuple) or (bind[0] is not None and not isinstance(bind[0], set)) or (bind[1] is not None and not isinstance(bind[1], set)):
+        if (
+            not isinstance(bind, tuple)
+            or (bind[0] is not None and not isinstance(bind[0], set))
+            or (bind[1] is not None and not isinstance(bind[1], set))
+        ):
             RobustLogger().error(
                 f"Invalid setting bind: '{bindName}', expected a Bind type (tuple with two sets of binds) but got {bind!r} (tuple[{bind[0].__class__.__name__}, {bind[1].__class__.__name__}])",
             )
@@ -70,7 +86,9 @@ class SettingsWidget(QWidget):
 
     def validateColour(self, colourName: str, color_value: int) -> int:
         if not is_int(color_value):
-            RobustLogger().error(f"Invalid color setting: '{colourName}', expected a RGBA color integer, but got {color_value!r} (type {color_value.__class__.__name__})")
+            RobustLogger().error(
+                f"Invalid color setting: '{colourName}', expected a RGBA color integer, but got {color_value!r} (type {color_value.__class__.__name__})"
+            )
             color_value = self._reset_and_get_default(colourName)
         return color_value
 

@@ -124,7 +124,9 @@ class UTMEditor(Editor):
         self,
         widget: QComboBox | QLineEdit | QPlainTextEdit,
         resource_types: list[ResourceType],
-        reference_type: Literal["script", "conversation", "tag", "template_resref", "resref", "quest"],
+        reference_type: Literal[
+            "script", "conversation", "tag", "template_resref", "resref", "quest"
+        ],
         tooltip_text: str,
     ) -> None:
         """Configure context-menu reference search behavior for a widget."""
@@ -183,7 +185,9 @@ class UTMEditor(Editor):
         self.ui.markUpSpin.setValue(utm.mark_up)
         self.ui.markDownSpin.setValue(utm.mark_down)
         self.ui.onOpenEdit.setText(str(utm.on_open))
-        self.ui.storeFlagSelect.setCurrentIndex(self._store_flags_to_index(utm.can_buy, utm.can_sell))
+        self.ui.storeFlagSelect.setCurrentIndex(
+            self._store_flags_to_index(utm.can_buy, utm.can_sell)
+        )
 
         # Comments
         self.ui.commentsEdit.setPlainText(utm.comment)
@@ -207,7 +211,9 @@ class UTMEditor(Editor):
         utm.mark_up = self.ui.markUpSpin.value()
         utm.mark_down = self.ui.markDownSpin.value()
         utm.on_open = ResRef(self.ui.onOpenEdit.text())
-        utm.can_buy, utm.can_sell = self._index_to_store_flags(self.ui.storeFlagSelect.currentIndex())
+        utm.can_buy, utm.can_sell = self._index_to_store_flags(
+            self.ui.storeFlagSelect.currentIndex()
+        )
 
         # Comments
         utm.comment = self.ui.commentsEdit.toPlainText()
@@ -247,7 +253,9 @@ class UTMEditor(Editor):
         filepath_str = str(self._filepath)
         module_names: CaseInsensitiveDict[str] = self._installation.module_names()
 
-        capsule_paths: list[str] = [path for path in module_names if case_root in path and path != filepath_str]
+        capsule_paths: list[str] = [
+            path for path in module_names if case_root in path and path != filepath_str
+        ]
         return [Capsule(self._installation.module_path() / path) for path in capsule_paths]
 
     def open_inventory(self):

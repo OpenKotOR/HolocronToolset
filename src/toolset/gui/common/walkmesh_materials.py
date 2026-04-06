@@ -37,7 +37,9 @@ def get_walkmesh_material_colors() -> dict[SurfaceMaterial, QColor]:
 
     def int_to_qcolor(intvalue: int) -> QColor:
         color = Color.from_rgba_integer(intvalue)
-        return QColor(int(color.r * 255), int(color.g * 255), int(color.b * 255), int(color.a * 255))
+        return QColor(
+            int(color.r * 255), int(color.g * 255), int(color.b * 255), int(color.a * 255)
+        )
 
     return {
         SurfaceMaterial.UNDEFINED: int_to_qcolor(settings.undefinedMaterialColour),
@@ -72,7 +74,9 @@ def populate_material_list_widget(
 ) -> None:
     widget.clear()
     for material, color in material_colors.items():
-        item = QListWidgetItem(material_icon(color, size=icon_size), material_display_name(material))
+        item = QListWidgetItem(
+            material_icon(color, size=icon_size), material_display_name(material)
+        )
         item.setData(Qt.ItemDataRole.UserRole, material)
         widget.addItem(item)
 

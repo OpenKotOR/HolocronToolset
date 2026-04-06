@@ -53,14 +53,23 @@ class GITControlScheme(Base2DControlScheme):
     def __init__(self, editor: GITEditor):
         self.settings: GITSettings = GITSettings()
         self.undo_stack: QUndoStack = QUndoStack(editor)
-        transform_state: TransformInteractionState = TransformInteractionState(self.undo_stack, editor)
-        super().__init__(editor=editor, renderer=editor.ui.renderArea, transform_state=transform_state)
+        transform_state: TransformInteractionState = TransformInteractionState(
+            self.undo_stack, editor
+        )
+        super().__init__(
+            editor=editor, renderer=editor.ui.renderArea, transform_state=transform_state
+        )
         self.editor: GITEditor
         self.renderer = editor.ui.renderArea
         self._nav_helper = Viewport2DNavigationHelper(
             self.renderer,
-            get_content_bounds=lambda: aabb_from_points((inst.position.x, inst.position.y) for inst in self.editor._git.instances()),
-            get_selection_bounds=lambda: aabb_from_points((inst.position.x, inst.position.y) for inst in self.renderer.instance_selection.all()),
+            get_content_bounds=lambda: aabb_from_points(
+                (inst.position.x, inst.position.y) for inst in self.editor._git.instances()
+            ),
+            get_selection_bounds=lambda: aabb_from_points(
+                (inst.position.x, inst.position.y)
+                for inst in self.renderer.instance_selection.all()
+            ),
             settings=self.settings,
         )
 
@@ -73,7 +82,9 @@ class GITControlScheme(Base2DControlScheme):
         buttons: set[Qt.MouseButton],
         keys: set[Qt.Key],
     ):
-        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=self.zoom_sensitivity()):
+        if self._nav_helper.handle_mouse_scroll(
+            delta, buttons, keys, zoom_sensitivity=self.zoom_sensitivity()
+        ):
             return
         self.handle_zoom_event(delta, buttons, keys, self.renderer.zoom_at_screen)
 
@@ -109,11 +120,18 @@ class GITControlScheme(Base2DControlScheme):
                 self.capture_move_transform(selection)
             if not self.transform_state.is_drag_moving_spawn and is_spawn_mode:
                 sp_selection = self.editor._mode.renderer2d.spawn_selection.all()  # noqa: SLF001
-                self.transform_state.initial_spawn_positions = {sp_ref.spawn: Vector3(sp_ref.spawn.x, sp_ref.spawn.y, sp_ref.spawn.z) for sp_ref in sp_selection}
+                self.transform_state.initial_spawn_positions = {
+                    sp_ref.spawn: Vector3(sp_ref.spawn.x, sp_ref.spawn.y, sp_ref.spawn.z)
+                    for sp_ref in sp_selection
+                }
                 self.transform_state.is_drag_moving_spawn = True
             self.editor.move_selected(adjusted_world_delta.x, adjusted_world_delta.y)
         if self.rotate_selected_to_point.satisfied(buttons, keys):
-            if not self.transform_state.is_drag_rotating and not self.editor.ui.lockInstancesCheck.isChecked() and is_instance_mode:
+            if (
+                not self.transform_state.is_drag_rotating
+                and not self.editor.ui.lockInstancesCheck.isChecked()
+                and is_instance_mode
+            ):
                 RobustLogger().debug("rotateSelected instance in GITControlScheme")
                 selection = self.editor._mode.renderer2d.instance_selection.all()  # noqa: SLF001
                 self.capture_rotate_transform(
@@ -123,7 +141,9 @@ class GITControlScheme(Base2DControlScheme):
                 )
             if not self.transform_state.is_drag_rotating_spawn and is_spawn_mode:
                 sp_selection = self.editor._mode.renderer2d.spawn_selection.all()  # noqa: SLF001
-                self.transform_state.initial_spawn_rotations = {sp_ref.spawn: float(sp_ref.spawn.orientation) for sp_ref in sp_selection}
+                self.transform_state.initial_spawn_rotations = {
+                    sp_ref.spawn: float(sp_ref.spawn.orientation) for sp_ref in sp_selection
+                }
                 self.transform_state.is_drag_rotating_spawn = True
             self.editor.rotate_selected_to_point(world.x, world.y)
 
@@ -185,17 +205,27 @@ class GITControlScheme(Base2DControlScheme):
             if is_instance_mode:
                 selection = self.editor._mode.renderer2d.instance_selection.all()  # noqa: SLF001
                 if isinstance(selection, list):
-                    self.undo_stack.push(DeleteCommand(self.editor._git, cast("list[GITObject]", selection.copy()), self.editor))  # noqa: SLF001
+                    self.undo_stack.push(
+                        DeleteCommand(
+                            self.editor._git, cast("list[GITObject]", selection.copy()), self.editor
+                        )
+                    )  # noqa: SLF001
             elif is_spawn_mode:
                 sp_ref = self.editor._mode.renderer2d.spawn_selection.last()  # noqa: SLF001
                 if sp_ref is not None and sp_ref.spawn in sp_ref.encounter.spawn_points:
-                    self.undo_stack.push(SpawnPointDeleteCommand(sp_ref.encounter, sp_ref.spawn, self.editor))
+                    self.undo_stack.push(
+                        SpawnPointDeleteCommand(sp_ref.encounter, sp_ref.spawn, self.editor)
+                    )
             self.editor.delete_selected(no_undo_stack=True)
 
         if self.toggle_instance_lock.satisfied(buttons, keys):
-            self.editor.ui.lockInstancesCheck.setChecked(not self.editor.ui.lockInstancesCheck.isChecked())
+            self.editor.ui.lockInstancesCheck.setChecked(
+                not self.editor.ui.lockInstancesCheck.isChecked()
+            )
 
-        if self._nav_helper.handle_key_pressed(keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10):
+        if self._nav_helper.handle_key_pressed(
+            keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10
+        ):
             return
 
     def on_keyboard_released(

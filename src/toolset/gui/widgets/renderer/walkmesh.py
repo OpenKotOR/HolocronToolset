@@ -113,25 +113,43 @@ class WalkmeshSelection(Generic[T]):
 
 
 class WalkmeshRenderer(Base2DMapRenderer):
-    sig_mouse_moved: ClassVar[Signal] = Signal(object, object, object, object)  # screen coords, screen delta, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_moved: ClassVar[Signal] = Signal(
+        object, object, object, object
+    )  # screen coords, screen delta, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when mouse is moved over the widget."""
 
-    sig_mouse_scrolled: ClassVar[Signal] = Signal(object, object, object)  # screen delta, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_scrolled: ClassVar[Signal] = Signal(
+        object, object, object
+    )  # screen delta, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when mouse is scrolled over the widget."""
 
-    sig_mouse_released: ClassVar[Signal] = Signal(object, object, object, object)  # screen coords, mouse, keys, released_button  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_released: ClassVar[Signal] = Signal(
+        object, object, object, object
+    )  # screen coords, mouse, keys, released_button  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when a mouse button is released after being pressed on the widget."""
 
-    sig_mouse_pressed: ClassVar[Signal] = Signal(object, object, object)  # screen coords, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_pressed: ClassVar[Signal] = Signal(
+        object, object, object
+    )  # screen coords, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when a mouse button is pressed on the widget."""
 
-    sig_marquee_select: ClassVar[Signal] = Signal(object, object)  # (min_x, min_y, max_x, max_y) world rect, additive  # pyright: ignore[reportPrivateImportUsage]
+    sig_marquee_select: ClassVar[Signal] = Signal(
+        object, object
+    )  # (min_x, min_y, max_x, max_y) world rect, additive  # pyright: ignore[reportPrivateImportUsage]
     """Emitted when marquee selection completes. Subscribers select items in the world rect."""
 
-    sig_key_pressed: ClassVar[Signal] = Signal(object, object)  # mouse keys  # pyright: ignore[reportPrivateImportUsage]
-    sig_key_released: ClassVar[Signal] = Signal(object, object)  # mouse keys  # pyright: ignore[reportPrivateImportUsage]
-    sig_instance_hovered: ClassVar[Signal] = Signal(object)  # instance  # pyright: ignore[reportPrivateImportUsage]
-    sig_instance_pressed: ClassVar[Signal] = Signal(object)  # instance  # pyright: ignore[reportPrivateImportUsage]
+    sig_key_pressed: ClassVar[Signal] = Signal(
+        object, object
+    )  # mouse keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_key_released: ClassVar[Signal] = Signal(
+        object, object
+    )  # mouse keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_instance_hovered: ClassVar[Signal] = Signal(
+        object
+    )  # instance  # pyright: ignore[reportPrivateImportUsage]
+    sig_instance_pressed: ClassVar[Signal] = Signal(
+        object
+    )  # instance  # pyright: ignore[reportPrivateImportUsage]
 
     def __init__(self, parent: QWidget):
         """Initializes the WalkmeshViewer widget.
@@ -366,7 +384,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
         tpc.convert(TPCTextureFormat.RGB)  # Modifies TPC in place, returns None
         get_result: TPCMipmap = tpc.get(0, 0)
         tpc_rgb_data: bytearray = get_result.data
-        image = QImage(bytes(tpc_rgb_data), get_result.width, get_result.height, QImage.Format.Format_RGB888)
+        image = QImage(
+            bytes(tpc_rgb_data), get_result.width, get_result.height, QImage.Format.Format_RGB888
+        )
         crop: QRect = QRect(0, 0, 435, 256)
         self._minimap_image = image.copy(crop)
 
@@ -385,7 +405,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
         face: BWMFace | None = None
         for walkmesh in self._walkmeshes:
             over: BWMFace | None = walkmesh.faceAt(x, y)
-            if over and (face is None or (not face.material.walkable() and over.material.walkable())):
+            if over and (
+                face is None or (not face.material.walkable() and over.material.walkable())
+            ):
                 face = over
         return 0.0 if face is None else face.determine_z(x, y)
 
@@ -440,7 +462,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
         instance: GITObject,
         selected_instances: list[GITObject],
     ) -> bool:
-        return isinstance(instance, GITEncounter) or (isinstance(instance, GITTrigger) and instance in selected_instances)
+        return isinstance(instance, GITEncounter) or (
+            isinstance(instance, GITTrigger) and instance in selected_instances
+        )
 
     def _current_palette(self) -> QPalette | None:
         app = QApplication.instance()
@@ -459,7 +483,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
         *,
         fill: float = 1.0,
     ):
-        self.camera.set_position((self._bbmin.x + self._bbmax.x) / 2, (self._bbmin.y + self._bbmax.y) / 2)
+        self.camera.set_position(
+            (self._bbmin.x + self._bbmax.x) / 2, (self._bbmin.y + self._bbmax.y) / 2
+        )
         world_w: float = self._world_size.x
         world_h: float = self._world_size.y
 
@@ -541,10 +567,16 @@ class WalkmeshRenderer(Base2DMapRenderer):
     ) -> QPainterPath:
         path = QPainterPath()
         if (isinstance(instance, (GITEncounter, GITTrigger))) and len(instance.geometry) > 0:
-            path.moveTo(instance.position.x + instance.geometry[0].x, instance.position.y + instance.geometry[0].y)  # type: ignore[]
+            path.moveTo(
+                instance.position.x + instance.geometry[0].x,
+                instance.position.y + instance.geometry[0].y,
+            )  # type: ignore[]
             for point in instance.geometry[1:]:
                 path.lineTo(instance.position.x + point.x, instance.position.y + point.y)  # type: ignore[]
-            path.lineTo(instance.position.x + instance.geometry[0].x, instance.position.y + instance.geometry[0].y)  # type: ignore[]
+            path.lineTo(
+                instance.position.x + instance.geometry[0].x,
+                instance.position.y + instance.geometry[0].y,
+            )  # type: ignore[]
         return path
 
     def _build_instance_bounds_points(
@@ -555,7 +587,11 @@ class WalkmeshRenderer(Base2DMapRenderer):
         if isinstance(instance, (GITTrigger, GITEncounter)):
             for point in instance.geometry:
                 size: float = 4 / self.camera.zoom()
-                path.addEllipse(QPointF(instance.position.x + point.x, instance.position.y + point.y), size, size)
+                path.addEllipse(
+                    QPointF(instance.position.x + point.x, instance.position.y + point.y),
+                    size,
+                    size,
+                )
         return path
 
     def _draw_image(  # noqa: PLR0913
@@ -574,7 +610,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
 
         source = QRectF(0, 0, pixmap.width(), pixmap.height())
         true_width, true_height = pixmap.width() * scale, pixmap.height() * scale
-        painter.drawPixmap(QRectF(-true_width / 2, -true_height / 2, true_width, true_height), pixmap, source)
+        painter.drawPixmap(
+            QRectF(-true_width / 2, -true_height / 2, true_width, true_height), pixmap, source
+        )
         painter.restore()
 
     # region Events
@@ -740,7 +778,11 @@ class WalkmeshRenderer(Base2DMapRenderer):
 
             # Edge-specific highlight
             if self._highlighted_edge is not None and self._highlighted_edge in (1, 2, 3):
-                v1, v2, v3 = self._highlighted_face.v1, self._highlighted_face.v2, self._highlighted_face.v3
+                v1, v2, v3 = (
+                    self._highlighted_face.v1,
+                    self._highlighted_face.v2,
+                    self._highlighted_face.v3,
+                )
                 edge_points = {
                     1: (v1, v2),
                     2: (v2, v3),
@@ -810,7 +852,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
                     room_boundary_color.setAlpha(200)
                 else:
                     room_boundary_color = QColor(100, 150, 255, 200)
-                painter.setPen(QPen(room_boundary_color, 2 / self.camera.zoom(), Qt.PenStyle.SolidLine))
+                painter.setPen(
+                    QPen(room_boundary_color, 2 / self.camera.zoom(), Qt.PenStyle.SolidLine)
+                )
                 painter.setBrush(Qt.BrushStyle.NoBrush)
 
                 # Draw rectangle representing the room's dimensions
@@ -860,7 +904,12 @@ class WalkmeshRenderer(Base2DMapRenderer):
                 text_y_screen_pos = text_screen_point.y() - text_rect.height() - 5
 
                 # Draw background rectangle
-                bg_rect = QRectF(text_x_screen_pos - 2, text_y_screen_pos - text_rect.height() - 2, text_rect.width() + 4, text_rect.height() + 4)
+                bg_rect = QRectF(
+                    text_x_screen_pos - 2,
+                    text_y_screen_pos - text_rect.height() - 2,
+                    text_rect.width() + 4,
+                    text_rect.height() + 4,
+                )
                 painter.drawRect(bg_rect)
 
                 # Draw text
@@ -902,12 +951,25 @@ class WalkmeshRenderer(Base2DMapRenderer):
                         painter.setPen(QPen(path_edge_color, edge_w, Qt.PenStyle.SolidLine))
                     painter.setBrush(Qt.BrushStyle.NoBrush)
                     painter.drawLine(QPointF(source.x, source.y), QPointF(target.x, target.y))
-                    self._draw_arrowhead(painter, source.x, source.y, target.x, target.y, arrow_size, path_edge_color)
+                    self._draw_arrowhead(
+                        painter, source.x, source.y, target.x, target.y, arrow_size, path_edge_color
+                    )
                     if bidirectional:
-                        self._draw_arrowhead(painter, target.x, target.y, source.x, source.y, arrow_size * 0.85, path_edge_color)
+                        self._draw_arrowhead(
+                            painter,
+                            target.x,
+                            target.y,
+                            source.x,
+                            source.y,
+                            arrow_size * 0.85,
+                            path_edge_color,
+                        )
 
             # Connection preview (dashed line from source node to mouse)
-            if self._connection_preview_source_index is not None and self._connection_preview_mouse is not None:
+            if (
+                self._connection_preview_source_index is not None
+                and self._connection_preview_mouse is not None
+            ):
                 src_pt = self._pth.get(self._connection_preview_source_index)
                 if src_pt is not None:
                     preview_color = QColor(path_selected_color)
@@ -932,13 +994,17 @@ class WalkmeshRenderer(Base2DMapRenderer):
             for point_2d in self._path_nodes_under_mouse:
                 painter.setPen(QPen(path_node_border, border_w, Qt.PenStyle.SolidLine))
                 painter.setBrush(path_hover_color)
-                painter.drawEllipse(QPointF(point_2d.x, point_2d.y), node_radius * 1.1, node_radius * 1.1)
+                painter.drawEllipse(
+                    QPointF(point_2d.x, point_2d.y), node_radius * 1.1, node_radius * 1.1
+                )
 
             for point_2d in self.path_selection.all():
                 painter.setPen(QPen(path_selected_color, border_w * 1.5, Qt.PenStyle.SolidLine))
                 painter.setBrush(path_selected_color)
                 painter.setOpacity(0.85)
-                painter.drawEllipse(QPointF(point_2d.x, point_2d.y), node_radius * 1.15, node_radius * 1.15)
+                painter.drawEllipse(
+                    QPointF(point_2d.x, point_2d.y), node_radius * 1.15, node_radius * 1.15
+                )
                 painter.setOpacity(1.0)
 
         # Draw the git instances (represented as icons)
@@ -999,14 +1065,20 @@ class WalkmeshRenderer(Base2DMapRenderer):
                 for encounter in self._git.encounters:
                     for spawn in encounter.spawn_points:
                         painter.setBrush(spawn_color)
-                        painter.drawEllipse(QPointF(spawn.x, spawn.y), 3 / self.camera.zoom(), 3 / self.camera.zoom())
+                        painter.drawEllipse(
+                            QPointF(spawn.x, spawn.y),
+                            3 / self.camera.zoom(),
+                            3 / self.camera.zoom(),
+                        )
                         # Orientation arrow
                         length = 1.0
                         dx = math.sin(spawn.orientation) * length
                         dy = math.cos(spawn.orientation) * length
                         painter.setBrush(Qt.BrushStyle.NoBrush)
                         painter.setPen(QPen(spawn_arrow_color, 0.12))
-                        painter.drawLine(QPointF(spawn.x, spawn.y), QPointF(spawn.x + dx, spawn.y + dy))
+                        painter.drawLine(
+                            QPointF(spawn.x, spawn.y), QPointF(spawn.x + dx, spawn.y + dy)
+                        )
                         painter.setPen(Qt.PenStyle.NoPen)
 
         # Get palette colors for highlights
@@ -1050,7 +1122,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
 
             painter.setBrush(hover_bg)
             painter.setPen(Qt.PenStyle.NoPen)
-            painter.drawEllipse(QPointF(hovered_instance.position.x, hovered_instance.position.y), 1, 1)
+            painter.drawEllipse(
+                QPointF(hovered_instance.position.x, hovered_instance.position.y), 1, 1
+            )
 
             # If its a trigger or an encounter, this will draw the geometry stored inside it
             painter.setBrush(hover_highlight)
@@ -1065,7 +1139,11 @@ class WalkmeshRenderer(Base2DMapRenderer):
             if not self.hide_geom_points:
                 painter.setBrush(point_color)
                 painter.setPen(Qt.PenStyle.NoPen)
-                painter.drawEllipse(QPointF(hovered_point.x, hovered_point.y), 4 / self.camera.zoom(), 4 / self.camera.zoom())
+                painter.drawEllipse(
+                    QPointF(hovered_point.x, hovered_point.y),
+                    4 / self.camera.zoom(),
+                    4 / self.camera.zoom(),
+                )
 
         # Highlight first spawn point that is underneath the mouse
         if self._spawn_points_under_mouse and not self.hide_spawn_points:
@@ -1108,7 +1186,11 @@ class WalkmeshRenderer(Base2DMapRenderer):
             selected_point: Vector3 = geom_point.point + geom_point.instance.position
             painter.setBrush(point_selected)
             painter.setPen(Qt.PenStyle.NoPen)
-            painter.drawEllipse(QPointF(selected_point.x, selected_point.y), 4 / self.camera.zoom(), 4 / self.camera.zoom())
+            painter.drawEllipse(
+                QPointF(selected_point.x, selected_point.y),
+                4 / self.camera.zoom(),
+                4 / self.camera.zoom(),
+            )
 
         # Draw selected spawn points
         if not self.hide_spawn_points:
@@ -1118,7 +1200,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
                 sp = sp_ref.spawn
                 painter.setBrush(point_selected)
                 painter.setPen(Qt.PenStyle.NoPen)
-                painter.drawEllipse(QPointF(sp.x, sp.y), 4 / self.camera.zoom(), 4 / self.camera.zoom())
+                painter.drawEllipse(
+                    QPointF(sp.x, sp.y), 4 / self.camera.zoom(), 4 / self.camera.zoom()
+                )
                 # Orientation arrow
                 length = 1.2
                 dx = math.sin(sp.orientation) * length
@@ -1157,7 +1241,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
                 if position.distance(world) <= 1 and visible_or_pickable:
                     self.sig_instance_hovered.emit(instance)
                     self._instances_under_mouse.append(instance)
-                if self._should_collect_geom_points(instance, selected_instances) and isinstance(instance, (GITEncounter, GITTrigger)):
+                if self._should_collect_geom_points(instance, selected_instances) and isinstance(
+                    instance, (GITEncounter, GITTrigger)
+                ):
                     for point in instance.geometry:
                         pworld: Vector2 = Vector2.from_vector3(instance.position + point)
                         if pworld.distance(world) <= 0.5:  # noqa: PLR2004
@@ -1166,7 +1252,9 @@ class WalkmeshRenderer(Base2DMapRenderer):
                     for spawn in instance.spawn_points:
                         pworld = Vector2(spawn.x, spawn.y)
                         if pworld.distance(world) <= 0.75:  # noqa: PLR2004
-                            self._spawn_points_under_mouse.append(EncounterSpawnPoint(instance, spawn))
+                            self._spawn_points_under_mouse.append(
+                                EncounterSpawnPoint(instance, spawn)
+                            )
         if self._pth is not None:
             for point in self._pth:
                 if point.distance(world) <= self._path_node_size:

@@ -16,7 +16,15 @@ from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QApplication, QMenu
 from toolset.gui.editors.gff import GFFEditor, _LABEL_NODE_ROLE, _TYPE_NODE_ROLE, _VALUE_NODE_ROLE  # type: ignore[import-not-found]
 from toolset.data.installation import HTInstallation  # type: ignore[import-not-found]
-from pykotor.resource.formats.gff import GFF, GFFContent, GFFFieldType, GFFStruct, GFFList, read_gff, write_gff  # type: ignore[import-not-found]
+from pykotor.resource.formats.gff import (
+    GFF,
+    GFFContent,
+    GFFFieldType,
+    GFFStruct,
+    GFFList,
+    read_gff,
+    write_gff,
+)  # type: ignore[import-not-found]
 from pykotor.resource.formats.gff.gff_auto import read_gff  # type: ignore[import-not-found]
 from pykotor.resource.type import ResourceType  # type: ignore[import-not-found]
 from pykotor.common.language import LocalizedString, Language, Gender  # type: ignore[import-not-found]
@@ -48,7 +56,9 @@ def _select_item_in_tree(editor: GFFEditor, item, qtbot: QtBot):
 # ============================================================================
 
 
-def test_gff_editor_manipulate_uint8_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_uint8_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating UInt8 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -109,7 +119,9 @@ def test_gff_editor_manipulate_uint8_field(qtbot: QtBot, installation: HTInstall
         assert editor.ui.intSpin.value() == val
 
 
-def test_gff_editor_manipulate_int8_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_int8_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Int8 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -152,7 +164,9 @@ def test_gff_editor_manipulate_int8_field(qtbot: QtBot, installation: HTInstalla
         assert modified_gff.root.get_int8("test_int8") == val
 
 
-def test_gff_editor_manipulate_uint16_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_uint16_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating UInt16 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -195,7 +209,9 @@ def test_gff_editor_manipulate_uint16_field(qtbot: QtBot, installation: HTInstal
         assert modified_gff.root.get_uint16("test_uint16") == val
 
 
-def test_gff_editor_manipulate_int16_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_int16_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Int16 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -238,7 +254,9 @@ def test_gff_editor_manipulate_int16_field(qtbot: QtBot, installation: HTInstall
         assert modified_gff.root.get_int16("test_int16") == val
 
 
-def test_gff_editor_manipulate_uint32_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_uint32_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating UInt32 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -281,7 +299,9 @@ def test_gff_editor_manipulate_uint32_field(qtbot: QtBot, installation: HTInstal
         assert modified_gff.root.get_uint32("test_uint32") == val
 
 
-def test_gff_editor_manipulate_int32_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_int32_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Int32 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -324,7 +344,9 @@ def test_gff_editor_manipulate_int32_field(qtbot: QtBot, installation: HTInstall
         assert modified_gff.root.get_int32("test_int32") == val
 
 
-def test_gff_editor_manipulate_uint64_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_uint64_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating UInt64 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -367,7 +389,9 @@ def test_gff_editor_manipulate_uint64_field(qtbot: QtBot, installation: HTInstal
         assert modified_gff.root.get_uint64("test_uint64") == val
 
 
-def test_gff_editor_manipulate_int64_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_int64_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Int64 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -410,7 +434,9 @@ def test_gff_editor_manipulate_int64_field(qtbot: QtBot, installation: HTInstall
         assert modified_gff.root.get_int64("test_int64") == val
 
 
-def test_gff_editor_manipulate_single_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_single_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Single (float) field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -453,7 +479,9 @@ def test_gff_editor_manipulate_single_field(qtbot: QtBot, installation: HTInstal
         assert abs(modified_gff.root.get_single("test_single") - val) < 0.0001
 
 
-def test_gff_editor_manipulate_double_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_double_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Double field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -493,10 +521,14 @@ def test_gff_editor_manipulate_double_field(qtbot: QtBot, installation: HTInstal
         # Save and verify
         data, _ = editor.build()
         modified_gff = read_gff(data)
-        assert abs(modified_gff.root.get_double("test_double") - val) < 1e-6  # More reasonable tolerance for double precision
+        assert (
+            abs(modified_gff.root.get_double("test_double") - val) < 1e-6
+        )  # More reasonable tolerance for double precision
 
 
-def test_gff_editor_manipulate_string_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_string_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating String field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -527,7 +559,14 @@ def test_gff_editor_manipulate_string_field(qtbot: QtBot, installation: HTInstal
     editor.ui.treeView.setCurrentIndex(proxy_index)
 
     # Test various String values
-    test_values = ["", "Hello", "Hello World", "Test with special chars: !@#$%^&*()", "Multi\nLine\nString", "Very long string " * 100]
+    test_values = [
+        "",
+        "Hello",
+        "Hello World",
+        "Test with special chars: !@#$%^&*()",
+        "Multi\nLine\nString",
+        "Very long string " * 100,
+    ]
     for val in test_values:
         editor.ui.textEdit.setPlainText(val)
         # Trigger the update_data method manually since editingFinished signal may not fire in tests
@@ -539,7 +578,9 @@ def test_gff_editor_manipulate_string_field(qtbot: QtBot, installation: HTInstal
         assert modified_gff.root.get_string("test_string") == val
 
 
-def test_gff_editor_manipulate_resref_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_resref_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating ResRef field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -582,7 +623,9 @@ def test_gff_editor_manipulate_resref_field(qtbot: QtBot, installation: HTInstal
         assert str(modified_gff.root.get_resref("test_resref")) == val
 
 
-def test_gff_editor_manipulate_vector3_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_vector3_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Vector3 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -635,7 +678,9 @@ def test_gff_editor_manipulate_vector3_field(qtbot: QtBot, installation: HTInsta
         assert abs(result_vec.z - vec.z) < 0.0001
 
 
-def test_gff_editor_manipulate_vector4_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_vector4_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Vector4 field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -690,7 +735,9 @@ def test_gff_editor_manipulate_vector4_field(qtbot: QtBot, installation: HTInsta
         assert abs(result_vec.w - vec.w) < 0.0001
 
 
-def test_gff_editor_manipulate_binary_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_binary_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating Binary field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -731,7 +778,9 @@ def test_gff_editor_manipulate_binary_field(qtbot: QtBot, installation: HTInstal
     assert modified_gff.root.get_binary("test_binary") == test_data
 
 
-def test_gff_editor_manipulate_localized_string_field(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_localized_string_field(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating LocalizedString field values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -776,7 +825,9 @@ def test_gff_editor_manipulate_localized_string_field(qtbot: QtBot, installation
         assert result_locstring.stringref == strref
 
 
-def test_gff_editor_manipulate_localized_string_substrings(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_manipulate_localized_string_substrings(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating LocalizedString substring values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -825,7 +876,9 @@ def test_gff_editor_manipulate_localized_string_substrings(qtbot: QtBot, install
     assert result_locstring.get(Language.ENGLISH, Gender.MALE) == "Modified Hello"
 
 
-def test_gff_editor_add_remove_localized_string_substring(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_add_remove_localized_string_substring(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test adding and removing LocalizedString substrings."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -896,7 +949,9 @@ def test_gff_editor_add_remove_localized_string_substring(qtbot: QtBot, installa
 # ============================================================================
 
 
-def test_gff_editor_add_struct_to_struct(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_add_struct_to_struct(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test adding a struct to another struct."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -994,7 +1049,9 @@ def test_gff_editor_remove_struct(qtbot: QtBot, installation: HTInstallation, te
     assert len(result_list) == 1
 
 
-def test_gff_editor_edit_struct_id(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_edit_struct_id(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test editing struct ID values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1041,7 +1098,9 @@ def test_gff_editor_edit_struct_id(qtbot: QtBot, installation: HTInstallation, t
 # ============================================================================
 
 
-def test_gff_editor_add_struct_to_list(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_add_struct_to_list(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test adding a struct to a list."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1084,7 +1143,9 @@ def test_gff_editor_add_struct_to_list(qtbot: QtBot, installation: HTInstallatio
     assert len(result_list) == 2
 
 
-def test_gff_editor_remove_struct_from_list(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_remove_struct_from_list(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test removing a struct from a list."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1141,7 +1202,9 @@ def test_gff_editor_remove_struct_from_list(qtbot: QtBot, installation: HTInstal
 # ============================================================================
 
 
-def test_gff_editor_context_menu_add_all_field_types(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_context_menu_add_all_field_types(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test adding all field types via context menu."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1213,7 +1276,9 @@ def test_gff_editor_context_menu_add_all_field_types(qtbot: QtBot, installation:
 # ============================================================================
 
 
-def test_gff_editor_change_field_type(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_change_field_type(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test changing field types."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1266,7 +1331,9 @@ def test_gff_editor_change_field_type(qtbot: QtBot, installation: HTInstallation
     assert modified_gff.root.get_string("test_field") == "Converted from UInt32"
 
 
-def test_gff_editor_change_field_label(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_change_field_label(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test changing field labels."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1314,7 +1381,9 @@ def test_gff_editor_change_field_label(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_gff_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1359,9 +1428,14 @@ def test_gff_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     # Verify all fields match
     assert new_gff.root.get_uint8("uint8_field") == original_gff.root.get_uint8("uint8_field")
     assert new_gff.root.get_int32("int32_field") == original_gff.root.get_int32("int32_field")
-    assert abs(new_gff.root.get_single("float_field") - original_gff.root.get_single("float_field")) < 0.0001
+    assert (
+        abs(new_gff.root.get_single("float_field") - original_gff.root.get_single("float_field"))
+        < 0.0001
+    )
     assert new_gff.root.get_string("string_field") == original_gff.root.get_string("string_field")
-    assert str(new_gff.root.get_resref("resref_field")) == str(original_gff.root.get_resref("resref_field"))
+    assert str(new_gff.root.get_resref("resref_field")) == str(
+        original_gff.root.get_resref("resref_field")
+    )
 
     vec3_orig = original_gff.root.get_vector3("vector3_field")
     vec3_new = new_gff.root.get_vector3("vector3_field")
@@ -1390,7 +1464,9 @@ def test_gff_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     assert new_loc.get(Language.ENGLISH, Gender.MALE) == orig_loc.get(Language.ENGLISH, Gender.MALE)
 
 
-def test_gff_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_comprehensive_gff_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Comprehensive test that validates ALL GFF fields are preserved through editor roundtrip."""
     from pykotor.resource.formats.gff import read_gff
 
@@ -1431,7 +1507,9 @@ def test_gff_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTIn
                     fields.update(get_all_fields(item, f"{full_label}[{i}]."))
             elif ftype == GFFFieldType.LocalizedString:
                 locstr = struct.acquire(label, LocalizedString.from_invalid())
-                locstr_tuples = sorted((lang.value, gender.value, str(text)) for lang, gender, text in locstr)
+                locstr_tuples = sorted(
+                    (lang.value, gender.value, str(text)) for lang, gender, text in locstr
+                )
                 fields[full_label] = ("LocalizedString", locstr.stringref, tuple(locstr_tuples))
             else:
                 fields[full_label] = (ftype.name, value)
@@ -1495,7 +1573,9 @@ def test_gff_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_gff_editor_minimum_maximum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_minimum_maximum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all numeric fields to minimum and maximum values."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1556,10 +1636,14 @@ def test_gff_editor_minimum_maximum_values(qtbot: QtBot, installation: HTInstall
         elif field_type == GFFFieldType.Int32:
             assert modified_gff.root.get_int32(field_name) == test_value
         elif field_type == GFFFieldType.Single:
-            assert abs(modified_gff.root.get_single(field_name) - test_value) < 0.0001  # Reasonable tolerance for float32
+            assert (
+                abs(modified_gff.root.get_single(field_name) - test_value) < 0.0001
+            )  # Reasonable tolerance for float32
 
 
-def test_gff_editor_empty_and_large_strings(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_empty_and_large_strings(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of empty strings and very large strings."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1605,7 +1689,9 @@ def test_gff_editor_empty_and_large_strings(qtbot: QtBot, installation: HTInstal
     assert modified_gff.root.get_string("string_field") == large_string
 
 
-def test_gff_editor_special_characters(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_special_characters(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in strings and labels."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1645,7 +1731,9 @@ def test_gff_editor_special_characters(qtbot: QtBot, installation: HTInstallatio
     # Save and verify the string value was saved
     data_temp, _ = editor.build()
     temp_gff = read_gff(data_temp)
-    assert temp_gff.root.get_string("normal_field") == special_string, "String value should be saved"
+    assert temp_gff.root.get_string("normal_field") == special_string, (
+        "String value should be saved"
+    )
 
     # Now test special characters in label - reload first to get a clean state
     editor.load(Path("test.gff"), "test", ResourceType.GFF, data_temp)
@@ -1665,7 +1753,9 @@ def test_gff_editor_special_characters(qtbot: QtBot, installation: HTInstallatio
 
     # Verify the textEdit has the correct value (should be loaded from the item)
     current_text = editor.ui.textEdit.toPlainText()
-    assert current_text == special_string, f"TextEdit should have the special string after reload, got: {current_text!r}"
+    assert current_text == special_string, (
+        f"TextEdit should have the special string after reload, got: {current_text!r}"
+    )
 
     # Now change the label - ensure text is still in textEdit
     # GFF labels are limited to 16 characters, so use a shorter label
@@ -1680,10 +1770,14 @@ def test_gff_editor_special_characters(qtbot: QtBot, installation: HTInstallatio
     editor.update_data()
 
     # Verify the item has the correct data before building
-    assert field_item.data(_VALUE_NODE_ROLE) == special_string, "Item should have the special string value"
+    assert field_item.data(_VALUE_NODE_ROLE) == special_string, (
+        "Item should have the special string value"
+    )
     # GFF labels are limited to 16 characters, so the label will be truncated if longer
     actual_label = field_item.data(_LABEL_NODE_ROLE)
-    assert actual_label == special_label[:16], f"Item should have the special label (max 16 chars), expected: {special_label[:16]!r}, got: {actual_label!r}"
+    assert actual_label == special_label[:16], (
+        f"Item should have the special label (max 16 chars), expected: {special_label[:16]!r}, got: {actual_label!r}"
+    )
 
     # Save and verify
     data, _ = editor.build()
@@ -1763,7 +1857,9 @@ def test_gff_editor_new_file_add_fields(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_gff_editor_tlk_integration(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_gff_editor_tlk_integration(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test TLK table integration for localized strings."""
     # This test would require a TLK file to be available
     # For now, just test that the TLK selection functionality exists
@@ -1838,7 +1934,9 @@ def test_gff_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, "Help file 'GFF-File-Format.md' should be found, but error was shown"
+    assert "Help File Not Found" not in html, (
+        "Help file 'GFF-File-Format.md' should be found, but error was shown"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -1861,7 +1959,11 @@ def test_gff_editor_headless_ui_load_build(qtbot, installation: HTInstallation, 
         gff_resources = installation.resources()  # Get all resources
         gff_resource = None
         for identifier, resource_result in gff_resources.items():
-            if resource_result and resource_result.restype in [ResourceType.GFF, ResourceType.GIT, ResourceType.ARE]:
+            if resource_result and resource_result.restype in [
+                ResourceType.GFF,
+                ResourceType.GIT,
+                ResourceType.ARE,
+            ]:
                 gff_resource = resource_result
                 break
 
@@ -1871,7 +1973,12 @@ def test_gff_editor_headless_ui_load_build(qtbot, installation: HTInstallation, 
         gff_data = gff_resource.data
         if not gff_data:
             pytest.skip(f"Could not load GFF data for {gff_resource.identifier()}")
-        editor.load(gff_resource.filepath if hasattr(gff_resource, "filepath") else Path("test.gff"), gff_resource.resname, gff_resource.restype, gff_data)
+        editor.load(
+            gff_resource.filepath if hasattr(gff_resource, "filepath") else Path("test.gff"),
+            gff_resource.resname,
+            gff_resource.restype,
+            gff_data,
+        )
     else:
         original_data = gff_file.read_bytes()
         editor.load(gff_file, "zio001", ResourceType.GIT, original_data)
@@ -1983,7 +2090,9 @@ def test_gff_editor_headless_complex_nested_structures(qtbot: QtBot, installatio
     assert result_nested.get_uint32("inner_field") == 999
 
 
-def test_gff_editor_headless_rapid_sequential_operations(qtbot: QtBot, installation: HTInstallation):
+def test_gff_editor_headless_rapid_sequential_operations(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test rapid sequential operations in headless mode."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2084,7 +2193,9 @@ def test_gff_editor_headless_tree_expansion_collapse(qtbot: QtBot, installation:
     assert nested_item is not None, "Nested struct should be accessible after expansion"
 
 
-def test_gff_editor_headless_multiple_field_type_changes(qtbot: QtBot, installation: HTInstallation):
+def test_gff_editor_headless_multiple_field_type_changes(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test multiple field type changes in sequence in headless mode."""
     editor = GFFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2147,7 +2258,9 @@ def test_gff_editor_headless_multiple_field_type_changes(qtbot: QtBot, installat
     # Verify final type and value
     data, _ = editor.build()
     modified_gff = read_gff(data)
-    assert abs(modified_gff.root.get_single("test_field") - 3.14159) < 0.0001  # Float precision tolerance
+    assert (
+        abs(modified_gff.root.get_single("test_field") - 3.14159) < 0.0001
+    )  # Float precision tolerance
 
 
 def test_gff_editor_headless_complex_list_manipulations(qtbot: QtBot, installation: HTInstallation):
@@ -2310,7 +2423,9 @@ def test_gff_editor_headless_binary_data_display(qtbot: QtBot, installation: HTI
     proxy_index = _select_item_in_tree(editor, binary_item, qtbot)
 
     # Verify blank page is shown (binary fields are read-only)
-    assert editor.ui.pages.currentWidget() == editor.ui.blankPage, "Binary field should show blank page"
+    assert editor.ui.pages.currentWidget() == editor.ui.blankPage, (
+        "Binary field should show blank page"
+    )
 
     # Verify binary data is preserved
     data, _ = editor.build()

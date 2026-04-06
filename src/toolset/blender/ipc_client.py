@@ -800,7 +800,9 @@ class BlenderCommands:
 
     def import_external_asset(self, file_path: str) -> dict[str, Any] | None:
         """Import an external asset into the current Blender session."""
-        response = self._client.send_command("import_external_asset", {"file_path": file_path}, timeout=30.0)
+        response = self._client.send_command(
+            "import_external_asset", {"file_path": file_path}, timeout=30.0
+        )
         if response.success and isinstance(response.result, dict):
             return response.result
         return None
@@ -815,6 +817,7 @@ class BlenderCommands:
         if response.success and isinstance(response.result, dict):
             return response.result
         return None
+
 
 # Global client instance
 _global_client: BlenderIPCClient | None = None

@@ -2,6 +2,7 @@
 
 Used by the module designer and level editor to display and interact with layout and walkmesh.
 """
+
 from __future__ import annotations
 
 import math
@@ -105,22 +106,36 @@ class ModuleRenderer(OpenGLSceneRenderer):
     """Signal emitted when scene has been initialized."""
 
     sig_mouse_moved: ClassVar[QtCore.Signal] = QtCore.Signal(  # pyright: ignore[reportPrivateImportUsage]  # noqa: E501
-        object, object, object, object, object,
+        object,
+        object,
+        object,
+        object,
+        object,
     )  # screen coords, screen delta, world/mouse pos, mouse, keys
     """Signal emitted when mouse is moved over the widget."""
 
-    sig_mouse_scrolled: ClassVar[QtCore.Signal] = QtCore.Signal(object, object, object)  # screen delta, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_scrolled: ClassVar[QtCore.Signal] = QtCore.Signal(
+        object, object, object
+    )  # screen delta, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when mouse is scrolled over the widget."""
 
-    sig_mouse_released: ClassVar[QtCore.Signal] = QtCore.Signal(object, object, object, object)  # screen coords, mouse, keys, released_button  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_released: ClassVar[QtCore.Signal] = QtCore.Signal(
+        object, object, object, object
+    )  # screen coords, mouse, keys, released_button  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when a mouse button is released after being pressed on the widget."""
 
-    sig_mouse_pressed: ClassVar[QtCore.Signal] = QtCore.Signal(object, object, object)  # screen coords, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_mouse_pressed: ClassVar[QtCore.Signal] = QtCore.Signal(
+        object, object, object
+    )  # screen coords, mouse, keys  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when a mouse button is pressed on the widget."""
 
-    sig_keyboard_pressed: ClassVar[QtCore.Signal] = QtCore.Signal(object, object)  # mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_keyboard_pressed: ClassVar[QtCore.Signal] = QtCore.Signal(
+        object, object
+    )  # mouse, keys  # pyright: ignore[reportPrivateImportUsage]
 
-    sig_keyboard_released: ClassVar[QtCore.Signal] = QtCore.Signal(object, object)  # mouse, keys  # pyright: ignore[reportPrivateImportUsage]
+    sig_keyboard_released: ClassVar[QtCore.Signal] = QtCore.Signal(
+        object, object
+    )  # mouse, keys  # pyright: ignore[reportPrivateImportUsage]
 
     sig_object_selected: ClassVar[QtCore.Signal] = QtCore.Signal(object)  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when an object has been selected through the renderer."""
@@ -137,7 +152,11 @@ class ModuleRenderer(OpenGLSceneRenderer):
             get_renderer_loop_interval_ms,  # noqa: PLC0415  # pylint: disable=C0415
         )
 
-        super().__init__(parent, initial_mouse_prev=initial_mouse, loop_interval_ms=get_renderer_loop_interval_ms())
+        super().__init__(
+            parent,
+            initial_mouse_prev=initial_mouse,
+            loop_interval_ms=get_renderer_loop_interval_ms(),
+        )
 
         self.settings: ModuleDesignerSettings = ModuleDesignerSettings()
         self._module: Module | None = None
@@ -234,8 +253,12 @@ class ModuleRenderer(OpenGLSceneRenderer):
         # Check if the widget and its top-level window are visible
         win = self.window()
         if not self.isVisible() or (win is not None and not win.isVisible()):
-            RobustLogger().error("Widget or its window is not visible; OpenGL context may not be initialized.")
-            raise RuntimeError("The OpenGL context is not available because the widget or its parent window is not visible.")
+            RobustLogger().error(
+                "Widget or its window is not visible; OpenGL context may not be initialized."
+            )
+            raise RuntimeError(
+                "The OpenGL context is not available because the widget or its parent window is not visible."
+            )
 
         # Wait for OpenGL context to be created and initialized.
         # Qt calls initializeGL() when the widget is first shown (requires a real display).
@@ -259,8 +282,12 @@ class ModuleRenderer(OpenGLSceneRenderer):
         # Final check if a context is available
         ctx: QOpenGLContext | None = self.context()
         if ctx is None or not ctx.isValid():
-            RobustLogger().error("initializeGL was not called or did not complete successfully after waiting.")
-            raise RuntimeError("Failed to initialize OpenGL context. Ensure that the widget is visible and properly integrated into the application's window.")
+            RobustLogger().error(
+                "initializeGL was not called or did not complete successfully after waiting."
+            )
+            raise RuntimeError(
+                "Failed to initialize OpenGL context. Ensure that the widget is visible and properly integrated into the application's window."
+            )
 
         # Ensure OpenGL context is current before creating Scene
         # NOTE: makeCurrent() returns None in PyQt5, so we can't check its return value
@@ -328,7 +355,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
             RobustLogger().warning("Failed to make context current in resizeGL, continuing anyway")
         super().resizeGL(width, height)
         if self.scene is None:
-            RobustLogger().debug("ignoring scene camera width/height updates in ModuleRenderer resizeGL - the scene is not initialized yet.")
+            RobustLogger().debug(
+                "ignoring scene camera width/height updates in ModuleRenderer resizeGL - the scene is not initialized yet."
+            )
             return
         self._sync_camera_drawable_size()
 
@@ -502,7 +531,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
         if self.do_select:
             self.do_select = False
             assert self.scene is not None, "Scene is not initialized"
-            mouse_x, mouse_y = self._logical_to_drawable_coords(self._mouse_prev.x, self._mouse_prev.y)
+            mouse_x, mouse_y = self._logical_to_drawable_coords(
+                self._mouse_prev.x, self._mouse_prev.y
+            )
             pick_x = max(0, min(drawable_width - 1, int(mouse_x)))
             pick_y = max(0, min(drawable_height - 1, drawable_height - 1 - int(mouse_y)))
             obj: RenderObject | None = self.scene.pick(pick_x, pick_y)
@@ -552,7 +583,11 @@ class ModuleRenderer(OpenGLSceneRenderer):
             or abs(self._mouse_world_last_screen.x - logical_x) > 0.5
             or abs(self._mouse_world_last_screen.y - logical_y) > 0.5
         )
-        if _mouse_moved and 0.0 <= logical_x < float(self.width()) and 0.0 <= logical_y < float(self.height()):
+        if (
+            _mouse_moved
+            and 0.0 <= logical_x < float(self.width())
+            and 0.0 <= logical_y < float(self.height())
+        ):
             try:
                 assert self.scene is not None, "Scene is not initialized"
                 world_x, world_y = self._logical_to_drawable_coords(logical_x, logical_y)
@@ -588,7 +623,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
             self._drop_preview_label = label
         self.update()
 
-    def set_object_gizmo(self, position: Vector3 | None, *, mode: str = "translate", drag_axis: str | None = None) -> None:
+    def set_object_gizmo(
+        self, position: Vector3 | None, *, mode: str = "translate", drag_axis: str | None = None
+    ) -> None:
         if position is None:
             self._selected_object_position = None
             self._object_gizmo_mode = "translate"
@@ -602,14 +639,15 @@ class ModuleRenderer(OpenGLSceneRenderer):
                 self._object_gizmo_hover_axis = drag_axis
         self.update()
 
-    def set_vis_overlay_data(self, room_positions: dict[int, Vector3], vis_matrix: dict[int, set[int]]) -> None:
+    def set_vis_overlay_data(
+        self, room_positions: dict[int, Vector3], vis_matrix: dict[int, set[int]]
+    ) -> None:
         self._vis_overlay_points = {
             room_id: Vector3(position.x, position.y, position.z)
             for room_id, position in room_positions.items()
         }
         self._vis_overlay_matrix = {
-            room_id: set(targets)
-            for room_id, targets in vis_matrix.items()
+            room_id: set(targets) for room_id, targets in vis_matrix.items()
         }
         self.update()
 
@@ -649,9 +687,7 @@ class ModuleRenderer(OpenGLSceneRenderer):
         assert self.scene is not None, "Scene is not initialized"
         camera = self.scene.camera
         distance = math.sqrt(
-            (camera.x - vertex.x) ** 2
-            + (camera.y - vertex.y) ** 2
-            + (camera.z - vertex.z) ** 2,
+            (camera.x - vertex.x) ** 2 + (camera.y - vertex.y) ** 2 + (camera.z - vertex.z) ** 2,
         )
         return max(0.45, min(2.0, distance * 0.08))
 
@@ -700,7 +736,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
         proj_y = start.y() + t * seg_y
         return math.hypot(point.x() - proj_x, point.y() - proj_y)
 
-    def walkmesh_vertex_gizmo_handle(self, screen_x: float, screen_y: float, *, max_distance_px: float = 12.0) -> str | None:
+    def walkmesh_vertex_gizmo_handle(
+        self, screen_x: float, screen_y: float, *, max_distance_px: float = 12.0
+    ) -> str | None:
         vertex = self._selected_walkmesh_vertex_world()
         if vertex is None:
             return None
@@ -725,7 +763,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
             return None
         return best_axis
 
-    def object_gizmo_handle(self, screen_x: float, screen_y: float, *, max_distance_px: float = 12.0) -> str | None:
+    def object_gizmo_handle(
+        self, screen_x: float, screen_y: float, *, max_distance_px: float = 12.0
+    ) -> str | None:
         position = self._selected_object_position
         if position is None:
             return None
@@ -803,9 +843,21 @@ class ModuleRenderer(OpenGLSceneRenderer):
 
         face = walkmesh.faces[face_index]
         face_points = [
-            self._project_world_to_screen(Vector3(face.v1.x + room_offset.x, face.v1.y + room_offset.y, face.v1.z + room_offset.z)),
-            self._project_world_to_screen(Vector3(face.v2.x + room_offset.x, face.v2.y + room_offset.y, face.v2.z + room_offset.z)),
-            self._project_world_to_screen(Vector3(face.v3.x + room_offset.x, face.v3.y + room_offset.y, face.v3.z + room_offset.z)),
+            self._project_world_to_screen(
+                Vector3(
+                    face.v1.x + room_offset.x, face.v1.y + room_offset.y, face.v1.z + room_offset.z
+                )
+            ),
+            self._project_world_to_screen(
+                Vector3(
+                    face.v2.x + room_offset.x, face.v2.y + room_offset.y, face.v2.z + room_offset.z
+                )
+            ),
+            self._project_world_to_screen(
+                Vector3(
+                    face.v3.x + room_offset.x, face.v3.y + room_offset.y, face.v3.z + room_offset.z
+                )
+            ),
         ]
         if any(point is None for point in face_points):
             return
@@ -827,16 +879,40 @@ class ModuleRenderer(OpenGLSceneRenderer):
             perimeter_pen.setStyle(Qt.PenStyle.DashLine)
             edge_points: list[tuple[Vector3, Vector3]] = [
                 (
-                    Vector3(face.v1.x + room_offset.x, face.v1.y + room_offset.y, face.v1.z + room_offset.z),
-                    Vector3(face.v2.x + room_offset.x, face.v2.y + room_offset.y, face.v2.z + room_offset.z),
+                    Vector3(
+                        face.v1.x + room_offset.x,
+                        face.v1.y + room_offset.y,
+                        face.v1.z + room_offset.z,
+                    ),
+                    Vector3(
+                        face.v2.x + room_offset.x,
+                        face.v2.y + room_offset.y,
+                        face.v2.z + room_offset.z,
+                    ),
                 ),
                 (
-                    Vector3(face.v2.x + room_offset.x, face.v2.y + room_offset.y, face.v2.z + room_offset.z),
-                    Vector3(face.v3.x + room_offset.x, face.v3.y + room_offset.y, face.v3.z + room_offset.z),
+                    Vector3(
+                        face.v2.x + room_offset.x,
+                        face.v2.y + room_offset.y,
+                        face.v2.z + room_offset.z,
+                    ),
+                    Vector3(
+                        face.v3.x + room_offset.x,
+                        face.v3.y + room_offset.y,
+                        face.v3.z + room_offset.z,
+                    ),
                 ),
                 (
-                    Vector3(face.v3.x + room_offset.x, face.v3.y + room_offset.y, face.v3.z + room_offset.z),
-                    Vector3(face.v1.x + room_offset.x, face.v1.y + room_offset.y, face.v1.z + room_offset.z),
+                    Vector3(
+                        face.v3.x + room_offset.x,
+                        face.v3.y + room_offset.y,
+                        face.v3.z + room_offset.z,
+                    ),
+                    Vector3(
+                        face.v1.x + room_offset.x,
+                        face.v1.y + room_offset.y,
+                        face.v1.z + room_offset.z,
+                    ),
                 ),
             ]
             for edge_index, adjacency in enumerate(adjacencies):
@@ -857,7 +933,11 @@ class ModuleRenderer(OpenGLSceneRenderer):
                     start_point = self._project_world_to_screen(start_vertex)
                     end_point = self._project_world_to_screen(end_vertex)
                     if start_point is not None and end_point is not None:
-                        selected_edge_color = QColor(255, 165, 0, 245) if adjacencies[edge_index] is None else QColor(0, 220, 255, 245)
+                        selected_edge_color = (
+                            QColor(255, 165, 0, 245)
+                            if adjacencies[edge_index] is None
+                            else QColor(0, 220, 255, 245)
+                        )
                         painter.setPen(QPen(selected_edge_color, 3.0))
                         painter.drawLine(start_point, end_point)
 
@@ -938,7 +1018,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
                         }
                         active_axis = self._walkmesh_vertex_drag_axis
                         hover_axis = self._walkmesh_vertex_hover_axis
-                        for axis, (start_world, end_world) in self._walkmesh_vertex_gizmo_lines(vertex).items():
+                        for axis, (start_world, end_world) in self._walkmesh_vertex_gizmo_lines(
+                            vertex
+                        ).items():
                             start_screen = self._project_world_to_screen(start_world)
                             end_screen = self._project_world_to_screen(end_world)
                             if start_screen is None or end_screen is None:
@@ -1140,6 +1222,7 @@ class ModuleRenderer(OpenGLSceneRenderer):
             - Emits keyboardPressed signal with mouse/key info
         """
         import time as _time
+
         now = _time.perf_counter()
         delta_time = now - self._last_loop_time if self._last_loop_time > 0.0 else 0.0
         self._last_loop_time = now
@@ -1185,7 +1268,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
             walkmesh_resource = module_resource.resource()
             if walkmesh_resource is None:
                 continue
-            assert isinstance(walkmesh_resource, BWM), assert_with_variable_trace(isinstance(walkmesh_resource, BWM))
+            assert isinstance(walkmesh_resource, BWM), assert_with_variable_trace(
+                isinstance(walkmesh_resource, BWM)
+            )
             room_offset = Vector3(0.0, 0.0, 0.0)
             if layout is not None:
                 room = layout.find_room_by_model(module_resource.resname())
@@ -1209,26 +1294,34 @@ class ModuleRenderer(OpenGLSceneRenderer):
         if picked is None:
             return None
         walkmesh, face, room_offset = picked
-        face_index = next((index for index, candidate in enumerate(walkmesh.faces) if candidate is face), -1)
+        face_index = next(
+            (index for index, candidate in enumerate(walkmesh.faces) if candidate is face), -1
+        )
         if face_index < 0:
             return None
         return walkmesh, face_index, room_offset
 
     @staticmethod
-    def _point_segment_distance_2d(point_x: float, point_y: float, start: Vector3, end: Vector3) -> float:
+    def _point_segment_distance_2d(
+        point_x: float, point_y: float, start: Vector3, end: Vector3
+    ) -> float:
         segment_dx = end.x - start.x
         segment_dy = end.y - start.y
         segment_length_sq = segment_dx * segment_dx + segment_dy * segment_dy
         if segment_length_sq <= 1e-9:
             return math.hypot(point_x - start.x, point_y - start.y)
 
-        t = ((point_x - start.x) * segment_dx + (point_y - start.y) * segment_dy) / segment_length_sq
+        t = (
+            (point_x - start.x) * segment_dx + (point_y - start.y) * segment_dy
+        ) / segment_length_sq
         t = max(0.0, min(1.0, t))
         projection_x = start.x + t * segment_dx
         projection_y = start.y + t * segment_dy
         return math.hypot(point_x - projection_x, point_y - projection_y)
 
-    def walkmesh_edge(self, x: float, y: float, *, max_distance: float = 0.35) -> tuple[BWM, int, int, Vector3] | None:
+    def walkmesh_edge(
+        self, x: float, y: float, *, max_distance: float = 0.35
+    ) -> tuple[BWM, int, int, Vector3] | None:
         picked_face = self.walkmesh_face(x, y)
         if picked_face is None:
             return None
@@ -1257,7 +1350,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
             return None
         return walkmesh, face_index, best_edge_index, room_offset
 
-    def walkmesh_vertex(self, x: float, y: float, *, max_distance: float = 0.30) -> tuple[BWM, int, int, Vector3] | None:
+    def walkmesh_vertex(
+        self, x: float, y: float, *, max_distance: float = 0.30
+    ) -> tuple[BWM, int, int, Vector3] | None:
         picked_face = self.walkmesh_face(x, y)
         if picked_face is None:
             return None
@@ -1344,7 +1439,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
         if e is None:
             return
         keys_to_emit = self._keys_down | keyboard_modifiers_to_qt_keys(e.modifiers())
-        self.sig_mouse_scrolled.emit(Vector2(e.angleDelta().x(), e.angleDelta().y()), self._mouse_down, keys_to_emit)
+        self.sig_mouse_scrolled.emit(
+            Vector2(e.angleDelta().x(), e.angleDelta().y()), self._mouse_down, keys_to_emit
+        )
         self.update()  # Ensure the zoom/scroll result is rendered
 
     def mouseMoveEvent(self, e: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]

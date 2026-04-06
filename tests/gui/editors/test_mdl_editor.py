@@ -129,7 +129,9 @@ def test_mdl_editor_model_renderer_initialization(qtbot: QtBot, installation: HT
 
     # Verify model renderer exists and has installation set
     assert hasattr(editor.ui, "modelRenderer"), "Model renderer does not exist"
-    assert editor.ui.modelRenderer.installation == installation, f"Installation is not set to {installation}"
+    assert editor.ui.modelRenderer.installation == installation, (
+        f"Installation is not set to {installation}"
+    )
 
 
 def test_mdl_editor_model_renderer_methods(qtbot: QtBot, installation: HTInstallation):
@@ -310,7 +312,9 @@ def test_mdl_editor_supported_resource_types(qtbot: QtBot, installation: HTInsta
     qtbot.addWidget(editor)
 
     # Should support MDL
-    assert ResourceType.MDL in editor._read_supported, f"ResourceType.MDL not in {editor._read_supported}"
+    assert ResourceType.MDL in editor._read_supported, (
+        f"ResourceType.MDL not in {editor._read_supported}"
+    )
 
 
 # ============================================================================
@@ -379,7 +383,9 @@ def test_mdl_editor_multiple_new_calls(qtbot: QtBot, installation: HTInstallatio
 # ============================================================================
 
 
-def test_mdleditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_mdleditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that MDLEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -401,7 +407,9 @@ def test_mdleditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'MDL-MDX-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'MDL-MDX-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"

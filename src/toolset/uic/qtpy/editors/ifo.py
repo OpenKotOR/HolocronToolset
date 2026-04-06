@@ -15,7 +15,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 800)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -53,7 +55,9 @@ class Ui_MainWindow(object):
         self.tagGenerateButton.setMaximumSize(QtCore.QSize(26, 16777215))
         self.tagGenerateButton.setObjectName("tagGenerateButton")
         self.horizontalLayoutTag.addWidget(self.tagGenerateButton)
-        self.formLayoutIdentity.setLayout(1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayoutTag)
+        self.formLayoutIdentity.setLayout(
+            1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayoutTag
+        )
         self.labelVOID = QtWidgets.QLabel(self.groupBoxIdentity)
         self.labelVOID.setObjectName("labelVOID")
         self.formLayoutIdentity.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelVOID)
@@ -195,55 +199,83 @@ class Ui_MainWindow(object):
         self.formLayoutScripts.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.onLeaveEdit)
         self.labelOnActivateItem = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnActivateItem.setObjectName("labelOnActivateItem")
-        self.formLayoutScripts.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelOnActivateItem)
+        self.formLayoutScripts.setWidget(
+            5, QtWidgets.QFormLayout.LabelRole, self.labelOnActivateItem
+        )
         self.onActivateItemEdit = FilterComboBox(self.groupBoxScripts)
         self.onActivateItemEdit.setObjectName("onActivateItemEdit")
-        self.formLayoutScripts.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.onActivateItemEdit)
+        self.formLayoutScripts.setWidget(
+            5, QtWidgets.QFormLayout.FieldRole, self.onActivateItemEdit
+        )
         self.labelOnAcquireItem = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnAcquireItem.setObjectName("labelOnAcquireItem")
-        self.formLayoutScripts.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.labelOnAcquireItem)
+        self.formLayoutScripts.setWidget(
+            6, QtWidgets.QFormLayout.LabelRole, self.labelOnAcquireItem
+        )
         self.onAcquireItemEdit = FilterComboBox(self.groupBoxScripts)
         self.onAcquireItemEdit.setObjectName("onAcquireItemEdit")
         self.formLayoutScripts.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.onAcquireItemEdit)
         self.labelOnUnacquireItem = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnUnacquireItem.setObjectName("labelOnUnacquireItem")
-        self.formLayoutScripts.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.labelOnUnacquireItem)
+        self.formLayoutScripts.setWidget(
+            7, QtWidgets.QFormLayout.LabelRole, self.labelOnUnacquireItem
+        )
         self.onUnacquireItemEdit = FilterComboBox(self.groupBoxScripts)
         self.onUnacquireItemEdit.setObjectName("onUnacquireItemEdit")
-        self.formLayoutScripts.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.onUnacquireItemEdit)
+        self.formLayoutScripts.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.onUnacquireItemEdit
+        )
         self.labelOnPlayerDeath = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnPlayerDeath.setObjectName("labelOnPlayerDeath")
-        self.formLayoutScripts.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerDeath)
+        self.formLayoutScripts.setWidget(
+            8, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerDeath
+        )
         self.onPlayerDeathEdit = FilterComboBox(self.groupBoxScripts)
         self.onPlayerDeathEdit.setObjectName("onPlayerDeathEdit")
         self.formLayoutScripts.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.onPlayerDeathEdit)
         self.labelOnPlayerDying = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnPlayerDying.setObjectName("labelOnPlayerDying")
-        self.formLayoutScripts.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerDying)
+        self.formLayoutScripts.setWidget(
+            9, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerDying
+        )
         self.onPlayerDyingEdit = FilterComboBox(self.groupBoxScripts)
         self.onPlayerDyingEdit.setObjectName("onPlayerDyingEdit")
         self.formLayoutScripts.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.onPlayerDyingEdit)
         self.labelOnPlayerLevelup = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnPlayerLevelup.setObjectName("labelOnPlayerLevelup")
-        self.formLayoutScripts.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerLevelup)
+        self.formLayoutScripts.setWidget(
+            10, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerLevelup
+        )
         self.onPlayerLevelupEdit = FilterComboBox(self.groupBoxScripts)
         self.onPlayerLevelupEdit.setObjectName("onPlayerLevelupEdit")
-        self.formLayoutScripts.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.onPlayerLevelupEdit)
+        self.formLayoutScripts.setWidget(
+            10, QtWidgets.QFormLayout.FieldRole, self.onPlayerLevelupEdit
+        )
         self.labelOnPlayerRespawn = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnPlayerRespawn.setObjectName("labelOnPlayerRespawn")
-        self.formLayoutScripts.setWidget(11, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerRespawn)
+        self.formLayoutScripts.setWidget(
+            11, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerRespawn
+        )
         self.onPlayerRespawnEdit = FilterComboBox(self.groupBoxScripts)
         self.onPlayerRespawnEdit.setObjectName("onPlayerRespawnEdit")
-        self.formLayoutScripts.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.onPlayerRespawnEdit)
+        self.formLayoutScripts.setWidget(
+            11, QtWidgets.QFormLayout.FieldRole, self.onPlayerRespawnEdit
+        )
         self.labelOnUserDefined = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnUserDefined.setObjectName("labelOnUserDefined")
-        self.formLayoutScripts.setWidget(12, QtWidgets.QFormLayout.LabelRole, self.labelOnUserDefined)
+        self.formLayoutScripts.setWidget(
+            12, QtWidgets.QFormLayout.LabelRole, self.labelOnUserDefined
+        )
         self.onUserDefinedEdit = FilterComboBox(self.groupBoxScripts)
         self.onUserDefinedEdit.setObjectName("onUserDefinedEdit")
-        self.formLayoutScripts.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.onUserDefinedEdit)
+        self.formLayoutScripts.setWidget(
+            12, QtWidgets.QFormLayout.FieldRole, self.onUserDefinedEdit
+        )
         self.labelOnPlayerRest = QtWidgets.QLabel(self.groupBoxScripts)
         self.labelOnPlayerRest.setObjectName("labelOnPlayerRest")
-        self.formLayoutScripts.setWidget(13, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerRest)
+        self.formLayoutScripts.setWidget(
+            13, QtWidgets.QFormLayout.LabelRole, self.labelOnPlayerRest
+        )
         self.onPlayerRestEdit = FilterComboBox(self.groupBoxScripts)
         self.onPlayerRestEdit.setObjectName("onPlayerRestEdit")
         self.formLayoutScripts.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.onPlayerRestEdit)
@@ -259,12 +291,16 @@ class Ui_MainWindow(object):
         self.formLayoutExpansion.setObjectName("formLayoutExpansion")
         self.labelExpansionPack = QtWidgets.QLabel(self.groupBoxExpansion)
         self.labelExpansionPack.setObjectName("labelExpansionPack")
-        self.formLayoutExpansion.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.labelExpansionPack)
+        self.formLayoutExpansion.setWidget(
+            0, QtWidgets.QFormLayout.LabelRole, self.labelExpansionPack
+        )
         self.expansionPackSpin = QtWidgets.QSpinBox(self.groupBoxExpansion)
         self.expansionPackSpin.setMinimum(0)
         self.expansionPackSpin.setMaximum(65535)
         self.expansionPackSpin.setObjectName("expansionPackSpin")
-        self.formLayoutExpansion.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.expansionPackSpin)
+        self.formLayoutExpansion.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.expansionPackSpin
+        )
         self.labelMinGameVer = QtWidgets.QLabel(self.groupBoxExpansion)
         self.labelMinGameVer.setObjectName("labelMinGameVer")
         self.formLayoutExpansion.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelMinGameVer)
@@ -278,7 +314,9 @@ class Ui_MainWindow(object):
         self.formLayoutStartMovie.setObjectName("formLayoutStartMovie")
         self.labelStartMovie = QtWidgets.QLabel(self.groupBoxStartMovie)
         self.labelStartMovie.setObjectName("labelStartMovie")
-        self.formLayoutStartMovie.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.labelStartMovie)
+        self.formLayoutStartMovie.setWidget(
+            0, QtWidgets.QFormLayout.LabelRole, self.labelStartMovie
+        )
         self.startMovieEdit = QtWidgets.QLineEdit(self.groupBoxStartMovie)
         self.startMovieEdit.setMaxLength(16)
         self.startMovieEdit.setObjectName("startMovieEdit")
@@ -321,7 +359,9 @@ class Ui_MainWindow(object):
         self.formLayoutTimeSettings.setObjectName("formLayoutTimeSettings")
         self.labelDawnHour = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelDawnHour.setObjectName("labelDawnHour")
-        self.formLayoutTimeSettings.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.labelDawnHour)
+        self.formLayoutTimeSettings.setWidget(
+            0, QtWidgets.QFormLayout.LabelRole, self.labelDawnHour
+        )
         self.dawnHourSpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.dawnHourSpin.setMinimum(0)
         self.dawnHourSpin.setMaximum(23)
@@ -329,7 +369,9 @@ class Ui_MainWindow(object):
         self.formLayoutTimeSettings.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.dawnHourSpin)
         self.labelDuskHour = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelDuskHour.setObjectName("labelDuskHour")
-        self.formLayoutTimeSettings.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelDuskHour)
+        self.formLayoutTimeSettings.setWidget(
+            1, QtWidgets.QFormLayout.LabelRole, self.labelDuskHour
+        )
         self.duskHourSpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.duskHourSpin.setMinimum(0)
         self.duskHourSpin.setMaximum(23)
@@ -337,23 +379,33 @@ class Ui_MainWindow(object):
         self.formLayoutTimeSettings.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.duskHourSpin)
         self.labelTimeScale = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelTimeScale.setObjectName("labelTimeScale")
-        self.formLayoutTimeSettings.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelTimeScale)
+        self.formLayoutTimeSettings.setWidget(
+            2, QtWidgets.QFormLayout.LabelRole, self.labelTimeScale
+        )
         self.timeScaleSpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.timeScaleSpin.setMinimum(0)
         self.timeScaleSpin.setMaximum(255)
         self.timeScaleSpin.setObjectName("timeScaleSpin")
-        self.formLayoutTimeSettings.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.timeScaleSpin)
+        self.formLayoutTimeSettings.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.timeScaleSpin
+        )
         self.labelStartMonth = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelStartMonth.setObjectName("labelStartMonth")
-        self.formLayoutTimeSettings.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelStartMonth)
+        self.formLayoutTimeSettings.setWidget(
+            3, QtWidgets.QFormLayout.LabelRole, self.labelStartMonth
+        )
         self.startMonthSpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.startMonthSpin.setMinimum(1)
         self.startMonthSpin.setMaximum(12)
         self.startMonthSpin.setObjectName("startMonthSpin")
-        self.formLayoutTimeSettings.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.startMonthSpin)
+        self.formLayoutTimeSettings.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.startMonthSpin
+        )
         self.labelStartDay = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelStartDay.setObjectName("labelStartDay")
-        self.formLayoutTimeSettings.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.labelStartDay)
+        self.formLayoutTimeSettings.setWidget(
+            4, QtWidgets.QFormLayout.LabelRole, self.labelStartDay
+        )
         self.startDaySpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.startDaySpin.setMinimum(1)
         self.startDaySpin.setMaximum(31)
@@ -361,22 +413,32 @@ class Ui_MainWindow(object):
         self.formLayoutTimeSettings.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.startDaySpin)
         self.labelStartHour = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelStartHour.setObjectName("labelStartHour")
-        self.formLayoutTimeSettings.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelStartHour)
+        self.formLayoutTimeSettings.setWidget(
+            5, QtWidgets.QFormLayout.LabelRole, self.labelStartHour
+        )
         self.startHourSpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.startHourSpin.setMinimum(0)
         self.startHourSpin.setMaximum(23)
         self.startHourSpin.setObjectName("startHourSpin")
-        self.formLayoutTimeSettings.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.startHourSpin)
+        self.formLayoutTimeSettings.setWidget(
+            5, QtWidgets.QFormLayout.FieldRole, self.startHourSpin
+        )
         self.labelStartYear = QtWidgets.QLabel(self.groupBoxTimeSettings)
         self.labelStartYear.setObjectName("labelStartYear")
-        self.formLayoutTimeSettings.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.labelStartYear)
+        self.formLayoutTimeSettings.setWidget(
+            6, QtWidgets.QFormLayout.LabelRole, self.labelStartYear
+        )
         self.startYearSpin = QtWidgets.QSpinBox(self.groupBoxTimeSettings)
         self.startYearSpin.setMinimum(0)
         self.startYearSpin.setMaximum(2147483647)
         self.startYearSpin.setObjectName("startYearSpin")
-        self.formLayoutTimeSettings.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.startYearSpin)
+        self.formLayoutTimeSettings.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.startYearSpin
+        )
         self.horizontalLayout_5.addWidget(self.groupBoxTimeSettings)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_5.addItem(spacerItem)
         self.tabWidget.addTab(self.tabTimeSettings, "")
         self.tabAreaList = QtWidgets.QWidget()
@@ -402,7 +464,9 @@ class Ui_MainWindow(object):
         self.removeAreaButton = QtWidgets.QPushButton(self.tabAreaList)
         self.removeAreaButton.setObjectName("removeAreaButton")
         self.horizontalLayoutAreaList.addWidget(self.removeAreaButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayoutAreaList.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayoutAreaList)
         self.tabWidget.addTab(self.tabAreaList, "")
@@ -450,204 +514,570 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Module Info (IFO) Editor"))
         self.groupBoxIdentity.setTitle(_translate("MainWindow", "Module Identity"))
         self.labelModName.setText(_translate("MainWindow", "Module Name:"))
-        self.labelModName.setToolTip(_translate("MainWindow", "Localized module name displayed in-game and in load screens"))
-        self.modNameEdit.setToolTip(_translate("MainWindow", "Localized module name displayed in-game and in load screens"))
+        self.labelModName.setToolTip(
+            _translate("MainWindow", "Localized module name displayed in-game and in load screens")
+        )
+        self.modNameEdit.setToolTip(
+            _translate("MainWindow", "Localized module name displayed in-game and in load screens")
+        )
         self.labelTag.setText(_translate("MainWindow", "Tag:"))
-        self.labelTag.setToolTip(_translate("MainWindow", "Module tag identifier for script references"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Module tag identifier for script references"))
+        self.labelTag.setToolTip(
+            _translate("MainWindow", "Module tag identifier for script references")
+        )
+        self.tagEdit.setToolTip(
+            _translate("MainWindow", "Module tag identifier for script references")
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate tag from module name"))
         self.labelVOID.setText(_translate("MainWindow", "VO ID:"))
-        self.labelVOID.setToolTip(_translate("MainWindow", "Voice-over folder name (subfolder in StreamVoice for localized voice files)"))
-        self.voIdEdit.setToolTip(_translate("MainWindow", "Voice-over folder name (subfolder in StreamVoice for localized voice files)"))
+        self.labelVOID.setToolTip(
+            _translate(
+                "MainWindow",
+                "Voice-over folder name (subfolder in StreamVoice for localized voice files)",
+            )
+        )
+        self.voIdEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Voice-over folder name (subfolder in StreamVoice for localized voice files)",
+            )
+        )
         self.labelModID.setText(_translate("MainWindow", "Module ID (GUID):"))
-        self.labelModID.setToolTip(_translate("MainWindow", "16-byte unique identifier generated by toolset (GUID)"))
-        self.modIdEdit.setToolTip(_translate("MainWindow", "16-byte unique identifier generated by toolset (GUID). Read-only."))
+        self.labelModID.setToolTip(
+            _translate("MainWindow", "16-byte unique identifier generated by toolset (GUID)")
+        )
+        self.modIdEdit.setToolTip(
+            _translate(
+                "MainWindow", "16-byte unique identifier generated by toolset (GUID). Read-only."
+            )
+        )
         self.labelCreatorID.setText(_translate("MainWindow", "Creator ID:"))
-        self.labelCreatorID.setToolTip(_translate("MainWindow", "Toolset creator identifier (deprecated, unused at runtime)"))
-        self.creatorIdSpin.setToolTip(_translate("MainWindow", "Creator ID (GFF: Mod_Creator_ID). INT32. Toolset creator identifier.\n"
-"               Deprecated; unused at runtime. Modders: leave 0."))
+        self.labelCreatorID.setToolTip(
+            _translate("MainWindow", "Toolset creator identifier (deprecated, unused at runtime)")
+        )
+        self.creatorIdSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Creator ID (GFF: Mod_Creator_ID). INT32. Toolset creator identifier.\n"
+                "               Deprecated; unused at runtime. Modders: leave 0.",
+            )
+        )
         self.labelVersion.setText(_translate("MainWindow", "Version:"))
-        self.labelVersion.setToolTip(_translate("MainWindow", "Module version number (deprecated, unused at runtime)"))
-        self.versionSpin.setToolTip(_translate("MainWindow", "Version (GFF: Mod_Version). DWORD. Module version number. Deprecated; unused\n"
-"               at runtime. Modders: leave 0."))
+        self.labelVersion.setToolTip(
+            _translate("MainWindow", "Module version number (deprecated, unused at runtime)")
+        )
+        self.versionSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Version (GFF: Mod_Version). DWORD. Module version number. Deprecated; unused\n"
+                "               at runtime. Modders: leave 0.",
+            )
+        )
         self.labelDescription.setText(_translate("MainWindow", "Description:"))
-        self.labelDescription.setToolTip(_translate("MainWindow", "Module description (deprecated, unused at runtime)"))
-        self.descriptionEdit.setToolTip(_translate("MainWindow", "Module description (deprecated, unused at runtime)"))
+        self.labelDescription.setToolTip(
+            _translate("MainWindow", "Module description (deprecated, unused at runtime)")
+        )
+        self.descriptionEdit.setToolTip(
+            _translate("MainWindow", "Module description (deprecated, unused at runtime)")
+        )
         self.labelHak.setText(_translate("MainWindow", "HAK Files:"))
-        self.labelHak.setToolTip(_translate("MainWindow", "Semicolon-separated list of required HAK file names. HAKs override base game\n"
-"               resources and are loaded before module resources."))
-        self.hakEdit.setToolTip(_translate("MainWindow", "Semicolon-separated list of required HAK file names. HAKs override base game\n"
-"               resources and are loaded before module resources."))
+        self.labelHak.setToolTip(
+            _translate(
+                "MainWindow",
+                "Semicolon-separated list of required HAK file names. HAKs override base game\n"
+                "               resources and are loaded before module resources.",
+            )
+        )
+        self.hakEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Semicolon-separated list of required HAK file names. HAKs override base game\n"
+                "               resources and are loaded before module resources.",
+            )
+        )
         self.groupBoxEntry.setTitle(_translate("MainWindow", "Entry Point"))
         self.labelEntryArea.setText(_translate("MainWindow", "Entry Area ResRef:"))
-        self.labelEntryArea.setToolTip(_translate("MainWindow", "ResRef of the starting area where the player spawns (ARE/GIT files)"))
-        self.entryAreaEdit.setToolTip(_translate("MainWindow", "ResRef of the starting area where the player spawns (ARE/GIT files)"))
+        self.labelEntryArea.setToolTip(
+            _translate(
+                "MainWindow", "ResRef of the starting area where the player spawns (ARE/GIT files)"
+            )
+        )
+        self.entryAreaEdit.setToolTip(
+            _translate(
+                "MainWindow", "ResRef of the starting area where the player spawns (ARE/GIT files)"
+            )
+        )
         self.labelEntryX.setText(_translate("MainWindow", "Entry X:"))
-        self.labelEntryX.setToolTip(_translate("MainWindow", "X coordinate of player spawn position in world space"))
-        self.entryXSpin.setToolTip(_translate("MainWindow", "X coordinate of player spawn position in world space"))
+        self.labelEntryX.setToolTip(
+            _translate("MainWindow", "X coordinate of player spawn position in world space")
+        )
+        self.entryXSpin.setToolTip(
+            _translate("MainWindow", "X coordinate of player spawn position in world space")
+        )
         self.labelEntryY.setText(_translate("MainWindow", "Entry Y:"))
-        self.labelEntryY.setToolTip(_translate("MainWindow", "Y coordinate of player spawn position in world space"))
-        self.entryYSpin.setToolTip(_translate("MainWindow", "Y coordinate of player spawn position in world space"))
+        self.labelEntryY.setToolTip(
+            _translate("MainWindow", "Y coordinate of player spawn position in world space")
+        )
+        self.entryYSpin.setToolTip(
+            _translate("MainWindow", "Y coordinate of player spawn position in world space")
+        )
         self.labelEntryZ.setText(_translate("MainWindow", "Entry Z:"))
-        self.labelEntryZ.setToolTip(_translate("MainWindow", "Z coordinate of player spawn position in world space"))
-        self.entryZSpin.setToolTip(_translate("MainWindow", "Z coordinate of player spawn position in world space"))
+        self.labelEntryZ.setToolTip(
+            _translate("MainWindow", "Z coordinate of player spawn position in world space")
+        )
+        self.entryZSpin.setToolTip(
+            _translate("MainWindow", "Z coordinate of player spawn position in world space")
+        )
         self.labelEntryDirection.setText(_translate("MainWindow", "Entry Direction:"))
-        self.labelEntryDirection.setToolTip(_translate("MainWindow", "Player\'s initial facing angle in degrees (0-360). Direction is computed from\n"
-"               Mod_Entry_Dir_X and Mod_Entry_Dir_Y as atan2(Dir_Y, Dir_X)."))
+        self.labelEntryDirection.setToolTip(
+            _translate(
+                "MainWindow",
+                "Player's initial facing angle in degrees (0-360). Direction is computed from\n"
+                "               Mod_Entry_Dir_X and Mod_Entry_Dir_Y as atan2(Dir_Y, Dir_X).",
+            )
+        )
         self.entryDirectionSpin.setSuffix(_translate("MainWindow", "°"))
-        self.entryDirectionSpin.setToolTip(_translate("MainWindow", "Player\'s initial facing angle in degrees (0-360). Direction is computed from\n"
-"               Mod_Entry_Dir_X and Mod_Entry_Dir_Y as atan2(Dir_Y, Dir_X)."))
+        self.entryDirectionSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Player's initial facing angle in degrees (0-360). Direction is computed from\n"
+                "               Mod_Entry_Dir_X and Mod_Entry_Dir_Y as atan2(Dir_Y, Dir_X).",
+            )
+        )
         self.labelAreaName.setText(_translate("MainWindow", "Area Name (First):"))
-        self.labelAreaName.setToolTip(_translate("MainWindow", "First area name from Mod_Area_list (KotOR modules typically have one area)"))
-        self.areaNameEdit.setToolTip(_translate("MainWindow", "First area name from Mod_Area_list (KotOR modules typically have one area).\n"
-"               Read-only, derived from area list."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabBasic), _translate("MainWindow", "Basic Information"))
+        self.labelAreaName.setToolTip(
+            _translate(
+                "MainWindow",
+                "First area name from Mod_Area_list (KotOR modules typically have one area)",
+            )
+        )
+        self.areaNameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "First area name from Mod_Area_list (KotOR modules typically have one area).\n"
+                "               Read-only, derived from area list.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabBasic), _translate("MainWindow", "Basic Information")
+        )
         self.groupBoxScripts.setTitle(_translate("MainWindow", "Module Script Hooks"))
         self.labelOnHeartbeat.setText(_translate("MainWindow", "On Heartbeat:"))
-        self.labelOnHeartbeat.setToolTip(_translate("MainWindow", "Fires periodically (~6 seconds). Used for timers, global condition checks, and\n"
-"               ambient system updates."))
-        self.onHeartbeatEdit.setToolTip(_translate("MainWindow", "Fires periodically (~6 seconds). Used for timers, global condition checks, and\n"
-"               ambient system updates."))
+        self.labelOnHeartbeat.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires periodically (~6 seconds). Used for timers, global condition checks, and\n"
+                "               ambient system updates.",
+            )
+        )
+        self.onHeartbeatEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires periodically (~6 seconds). Used for timers, global condition checks, and\n"
+                "               ambient system updates.",
+            )
+        )
         self.labelOnLoad.setText(_translate("MainWindow", "On Load:"))
-        self.labelOnLoad.setToolTip(_translate("MainWindow", "Fires when module finishes loading. Used to initialize global variables, setup\n"
-"               persistent data structures, and load saved state."))
-        self.onLoadEdit.setToolTip(_translate("MainWindow", "Fires when module finishes loading. Used to initialize global variables, setup\n"
-"               persistent data structures, and load saved state."))
+        self.labelOnLoad.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when module finishes loading. Used to initialize global variables, setup\n"
+                "               persistent data structures, and load saved state.",
+            )
+        )
+        self.onLoadEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when module finishes loading. Used to initialize global variables, setup\n"
+                "               persistent data structures, and load saved state.",
+            )
+        )
         self.labelOnStart.setText(_translate("MainWindow", "On Start:"))
-        self.labelOnStart.setToolTip(_translate("MainWindow", "Fires after player spawned. Used to start cinematics, give starting equipment,\n"
-"               and setup initial conversations."))
-        self.onStartEdit.setToolTip(_translate("MainWindow", "Fires after player spawned. Used to start cinematics, give starting equipment,\n"
-"               and setup initial conversations."))
+        self.labelOnStart.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires after player spawned. Used to start cinematics, give starting equipment,\n"
+                "               and setup initial conversations.",
+            )
+        )
+        self.onStartEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires after player spawned. Used to start cinematics, give starting equipment,\n"
+                "               and setup initial conversations.",
+            )
+        )
         self.labelOnEnter.setText(_translate("MainWindow", "On Enter:"))
-        self.labelOnEnter.setToolTip(_translate("MainWindow", "Fires on player enter (multiplayer). Used for player-specific initialization\n"
-"               when entering module."))
-        self.onEnterEdit.setToolTip(_translate("MainWindow", "Fires on player enter (multiplayer). Used for player-specific initialization\n"
-"               when entering module."))
+        self.labelOnEnter.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on player enter (multiplayer). Used for player-specific initialization\n"
+                "               when entering module.",
+            )
+        )
+        self.onEnterEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on player enter (multiplayer). Used for player-specific initialization\n"
+                "               when entering module.",
+            )
+        )
         self.labelOnLeave.setText(_translate("MainWindow", "On Leave:"))
-        self.labelOnLeave.setToolTip(_translate("MainWindow", "Fires on player leave (multiplayer). Used for cleanup and state saving when\n"
-"               leaving module."))
-        self.onLeaveEdit.setToolTip(_translate("MainWindow", "Fires on player leave (multiplayer). Used for cleanup and state saving when\n"
-"               leaving module."))
+        self.labelOnLeave.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on player leave (multiplayer). Used for cleanup and state saving when\n"
+                "               leaving module.",
+            )
+        )
+        self.onLeaveEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on player leave (multiplayer). Used for cleanup and state saving when\n"
+                "               leaving module.",
+            )
+        )
         self.labelOnActivateItem.setText(_translate("MainWindow", "On Activate Item:"))
-        self.labelOnActivateItem.setToolTip(_translate("MainWindow", "Fires when item activated/used. Used for custom item behavior and effects."))
-        self.onActivateItemEdit.setToolTip(_translate("MainWindow", "Fires when item activated/used. Used for custom item behavior and effects."))
+        self.labelOnActivateItem.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when item activated/used. Used for custom item behavior and effects.",
+            )
+        )
+        self.onActivateItemEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when item activated/used. Used for custom item behavior and effects.",
+            )
+        )
         self.labelOnAcquireItem.setText(_translate("MainWindow", "On Acquire Item:"))
-        self.labelOnAcquireItem.setToolTip(_translate("MainWindow", "Fires when item acquired. Used for quest tracking, item validation, and\n"
-"               special acquisition effects."))
-        self.onAcquireItemEdit.setToolTip(_translate("MainWindow", "Fires when item acquired. Used for quest tracking, item validation, and\n"
-"               special acquisition effects."))
+        self.labelOnAcquireItem.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when item acquired. Used for quest tracking, item validation, and\n"
+                "               special acquisition effects.",
+            )
+        )
+        self.onAcquireItemEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when item acquired. Used for quest tracking, item validation, and\n"
+                "               special acquisition effects.",
+            )
+        )
         self.labelOnUnacquireItem.setText(_translate("MainWindow", "On Unacquire Item:"))
-        self.labelOnUnacquireItem.setToolTip(_translate("MainWindow", "Fires when item lost/sold. Used for cleanup and validation when items are\n"
-"               removed from inventory."))
-        self.onUnacquireItemEdit.setToolTip(_translate("MainWindow", "Fires when item lost/sold. Used for cleanup and validation when items are\n"
-"               removed from inventory."))
+        self.labelOnUnacquireItem.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when item lost/sold. Used for cleanup and validation when items are\n"
+                "               removed from inventory.",
+            )
+        )
+        self.onUnacquireItemEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when item lost/sold. Used for cleanup and validation when items are\n"
+                "               removed from inventory.",
+            )
+        )
         self.labelOnPlayerDeath.setText(_translate("MainWindow", "On Player Death:"))
-        self.labelOnPlayerDeath.setToolTip(_translate("MainWindow", "Fires when player dies. Used for game over sequence, respawn handling, and\n"
-"               loading last save."))
-        self.onPlayerDeathEdit.setToolTip(_translate("MainWindow", "Fires when player dies. Used for game over sequence, respawn handling, and\n"
-"               loading last save."))
+        self.labelOnPlayerDeath.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when player dies. Used for game over sequence, respawn handling, and\n"
+                "               loading last save.",
+            )
+        )
+        self.onPlayerDeathEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when player dies. Used for game over sequence, respawn handling, and\n"
+                "               loading last save.",
+            )
+        )
         self.labelOnPlayerDying.setText(_translate("MainWindow", "On Player Dying:"))
-        self.labelOnPlayerDying.setToolTip(_translate("MainWindow", "Fires when player HP reaches 0. Used for death animations, last words, and\n"
-"               pre-death effects."))
-        self.onPlayerDyingEdit.setToolTip(_translate("MainWindow", "Fires when player HP reaches 0. Used for death animations, last words, and\n"
-"               pre-death effects."))
+        self.labelOnPlayerDying.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when player HP reaches 0. Used for death animations, last words, and\n"
+                "               pre-death effects.",
+            )
+        )
+        self.onPlayerDyingEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when player HP reaches 0. Used for death animations, last words, and\n"
+                "               pre-death effects.",
+            )
+        )
         self.labelOnPlayerLevelup.setText(_translate("MainWindow", "On Player Level Up:"))
-        self.labelOnPlayerLevelup.setToolTip(_translate("MainWindow", "Fires on level up. Used for level-up bonuses, notifications, and progression\n"
-"               tracking."))
-        self.onPlayerLevelupEdit.setToolTip(_translate("MainWindow", "Fires on level up. Used for level-up bonuses, notifications, and progression\n"
-"               tracking."))
+        self.labelOnPlayerLevelup.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on level up. Used for level-up bonuses, notifications, and progression\n"
+                "               tracking.",
+            )
+        )
+        self.onPlayerLevelupEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on level up. Used for level-up bonuses, notifications, and progression\n"
+                "               tracking.",
+            )
+        )
         self.labelOnPlayerRespawn.setText(_translate("MainWindow", "On Player Respawn:"))
-        self.labelOnPlayerRespawn.setToolTip(_translate("MainWindow", "Fires on spawn button (multiplayer). Used for respawn logic and player\n"
-"               reinitialization."))
-        self.onPlayerRespawnEdit.setToolTip(_translate("MainWindow", "Fires on spawn button (multiplayer). Used for respawn logic and player\n"
-"               reinitialization."))
+        self.labelOnPlayerRespawn.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on spawn button (multiplayer). Used for respawn logic and player\n"
+                "               reinitialization.",
+            )
+        )
+        self.onPlayerRespawnEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on spawn button (multiplayer). Used for respawn logic and player\n"
+                "               reinitialization.",
+            )
+        )
         self.labelOnUserDefined.setText(_translate("MainWindow", "On User Defined:"))
-        self.labelOnUserDefined.setToolTip(_translate("MainWindow", "Fires on user-defined events. Used for custom event handling and\n"
-"               module-specific logic."))
-        self.onUserDefinedEdit.setToolTip(_translate("MainWindow", "Fires on user-defined events. Used for custom event handling and\n"
-"               module-specific logic."))
+        self.labelOnUserDefined.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on user-defined events. Used for custom event handling and\n"
+                "               module-specific logic.",
+            )
+        )
+        self.onUserDefinedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires on user-defined events. Used for custom event handling and\n"
+                "               module-specific logic.",
+            )
+        )
         self.labelOnPlayerRest.setText(_translate("MainWindow", "On Player Rest:"))
-        self.labelOnPlayerRest.setToolTip(_translate("MainWindow", "Fires when player rests (deprecated, unused in KotOR). Used for rest-related\n"
-"               events in NWN."))
-        self.onPlayerRestEdit.setToolTip(_translate("MainWindow", "Fires when player rests (deprecated, unused in KotOR). Used for rest-related\n"
-"               events in NWN."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabScripts), _translate("MainWindow", "Scripts"))
+        self.labelOnPlayerRest.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when player rests (deprecated, unused in KotOR). Used for rest-related\n"
+                "               events in NWN.",
+            )
+        )
+        self.onPlayerRestEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fires when player rests (deprecated, unused in KotOR). Used for rest-related\n"
+                "               events in NWN.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabScripts), _translate("MainWindow", "Scripts")
+        )
         self.groupBoxExpansion.setTitle(_translate("MainWindow", "Expansion Pack Requirements"))
         self.labelExpansionPack.setText(_translate("MainWindow", "Expansion Pack:"))
-        self.labelExpansionPack.setToolTip(_translate("MainWindow", "Required expansion bitfield. 0x01 = Expansion Pack 1, 0x02 = Expansion Pack 2,\n"
-"               etc."))
-        self.expansionPackSpin.setToolTip(_translate("MainWindow", "Expansion Pack (GFF: Mod_Expansion_Pack). WORD. Bitfield: 0x01=Pack1,\n"
-"               0x02=Pack2. 0=no expansion required. Modders: 0 for standard modules."))
+        self.labelExpansionPack.setToolTip(
+            _translate(
+                "MainWindow",
+                "Required expansion bitfield. 0x01 = Expansion Pack 1, 0x02 = Expansion Pack 2,\n"
+                "               etc.",
+            )
+        )
+        self.expansionPackSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Expansion Pack (GFF: Mod_Expansion_Pack). WORD. Bitfield: 0x01=Pack1,\n"
+                "               0x02=Pack2. 0=no expansion required. Modders: 0 for standard modules.",
+            )
+        )
         self.labelMinGameVer.setText(_translate("MainWindow", "Minimum Game Version:"))
-        self.labelMinGameVer.setToolTip(_translate("MainWindow", "Minimum executable version required (e.g., \"1.0\", \"1.03\", \"2.0\"). Prevents\n"
-"               loading in older game versions."))
-        self.minGameVerEdit.setToolTip(_translate("MainWindow", "Minimum executable version required (e.g., \"1.0\", \"1.03\", \"2.0\"). Prevents\n"
-"               loading in older game versions."))
+        self.labelMinGameVer.setToolTip(
+            _translate(
+                "MainWindow",
+                'Minimum executable version required (e.g., "1.0", "1.03", "2.0"). Prevents\n'
+                "               loading in older game versions.",
+            )
+        )
+        self.minGameVerEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                'Minimum executable version required (e.g., "1.0", "1.03", "2.0"). Prevents\n'
+                "               loading in older game versions.",
+            )
+        )
         self.groupBoxStartMovie.setTitle(_translate("MainWindow", "Starting Movie & HAK Files"))
         self.labelStartMovie.setText(_translate("MainWindow", "Start Movie:"))
-        self.labelStartMovie.setToolTip(_translate("MainWindow", "BIK movie file played before module loads. Used for intro cinematics and\n"
-"               loading screens."))
-        self.startMovieEdit.setToolTip(_translate("MainWindow", "BIK movie file played before module loads. Used for intro cinematics and\n"
-"               loading screens."))
+        self.labelStartMovie.setToolTip(
+            _translate(
+                "MainWindow",
+                "BIK movie file played before module loads. Used for intro cinematics and\n"
+                "               loading screens.",
+            )
+        )
+        self.startMovieEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "BIK movie file played before module loads. Used for intro cinematics and\n"
+                "               loading screens.",
+            )
+        )
         self.groupBoxCacheXP.setTitle(_translate("MainWindow", "Cache & XP Settings"))
         self.labelIsSaveGame.setText(_translate("MainWindow", "Is Save Game:"))
-        self.labelIsSaveGame.setToolTip(_translate("MainWindow", "Internal flag indicating module is from save file (always 0 in files, set at\n"
-"               runtime)"))
-        self.isSaveGameCheck.setToolTip(_translate("MainWindow", "Internal flag indicating module is from save file (always 0 in files, set at\n"
-"               runtime). Read-only."))
+        self.labelIsSaveGame.setToolTip(
+            _translate(
+                "MainWindow",
+                "Internal flag indicating module is from save file (always 0 in files, set at\n"
+                "               runtime)",
+            )
+        )
+        self.isSaveGameCheck.setToolTip(
+            _translate(
+                "MainWindow",
+                "Internal flag indicating module is from save file (always 0 in files, set at\n"
+                "               runtime). Read-only.",
+            )
+        )
         self.labelCacheNSSData.setText(_translate("MainWindow", "Cache NSS Data:"))
-        self.labelCacheNSSData.setToolTip(_translate("MainWindow", "Cache compiled scripts for performance optimization"))
-        self.cacheNSSDataCheck.setToolTip(_translate("MainWindow", "Cache compiled scripts for performance optimization"))
+        self.labelCacheNSSData.setToolTip(
+            _translate("MainWindow", "Cache compiled scripts for performance optimization")
+        )
+        self.cacheNSSDataCheck.setToolTip(
+            _translate("MainWindow", "Cache compiled scripts for performance optimization")
+        )
         self.labelXPScale.setText(_translate("MainWindow", "XP Scale:"))
-        self.labelXPScale.setToolTip(_translate("MainWindow", "Experience point multiplier (0-200%). 100 = normal XP, 200 = double XP, 50 =\n"
-"               half XP"))
-        self.xpScaleSpin.setToolTip(_translate("MainWindow", "XP Scale (GFF: Mod_XP_Scale). INT32 0–200. Experience multiplier: 100=normal,\n"
-"               200=double XP, 50=half. Modders: adjust difficulty or reward pacing."))
+        self.labelXPScale.setToolTip(
+            _translate(
+                "MainWindow",
+                "Experience point multiplier (0-200%). 100 = normal XP, 200 = double XP, 50 =\n"
+                "               half XP",
+            )
+        )
+        self.xpScaleSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "XP Scale (GFF: Mod_XP_Scale). INT32 0–200. Experience multiplier: 100=normal,\n"
+                "               200=double XP, 50=half. Modders: adjust difficulty or reward pacing.",
+            )
+        )
         self.xpScaleSpin.setSuffix(_translate("MainWindow", "%"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabAdvanced), _translate("MainWindow", "Advanced"))
-        self.groupBoxTimeSettings.setTitle(_translate("MainWindow", "Day/Night Cycle (Unused in KotOR)"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabAdvanced), _translate("MainWindow", "Advanced")
+        )
+        self.groupBoxTimeSettings.setTitle(
+            _translate("MainWindow", "Day/Night Cycle (Unused in KotOR)")
+        )
         self.labelDawnHour.setText(_translate("MainWindow", "Dawn Hour:"))
-        self.labelDawnHour.setToolTip(_translate("MainWindow", "Dawn start hour (deprecated, unused in KotOR). Intended for day/night cycle\n"
-"               which is not implemented."))
-        self.dawnHourSpin.setToolTip(_translate("MainWindow", "Dawn Hour (GFF: Mod_DawnHour). INT32 0–23. Deprecated; day/night cycle not\n"
-"               implemented in KotOR. Modders: leave 0."))
+        self.labelDawnHour.setToolTip(
+            _translate(
+                "MainWindow",
+                "Dawn start hour (deprecated, unused in KotOR). Intended for day/night cycle\n"
+                "               which is not implemented.",
+            )
+        )
+        self.dawnHourSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Dawn Hour (GFF: Mod_DawnHour). INT32 0–23. Deprecated; day/night cycle not\n"
+                "               implemented in KotOR. Modders: leave 0.",
+            )
+        )
         self.labelDuskHour.setText(_translate("MainWindow", "Dusk Hour:"))
-        self.labelDuskHour.setToolTip(_translate("MainWindow", "Dusk start hour (deprecated, unused in KotOR). Intended for day/night cycle\n"
-"               which is not implemented."))
-        self.duskHourSpin.setToolTip(_translate("MainWindow", "Dusk Hour (GFF: Mod_DuskHour). INT32 0–23. Deprecated; day/night cycle not\n"
-"               implemented. Modders: leave 0."))
+        self.labelDuskHour.setToolTip(
+            _translate(
+                "MainWindow",
+                "Dusk start hour (deprecated, unused in KotOR). Intended for day/night cycle\n"
+                "               which is not implemented.",
+            )
+        )
+        self.duskHourSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Dusk Hour (GFF: Mod_DuskHour). INT32 0–23. Deprecated; day/night cycle not\n"
+                "               implemented. Modders: leave 0.",
+            )
+        )
         self.labelTimeScale.setText(_translate("MainWindow", "Time Scale (Min/Hour):"))
-        self.labelTimeScale.setToolTip(_translate("MainWindow", "Minutes per hour (deprecated, unused in KotOR). Intended for time-based events\n"
-"               which are not implemented."))
-        self.timeScaleSpin.setToolTip(_translate("MainWindow", "Time Scale (GFF: Mod_TimeScale). INT32. Minutes per in-game hour. Deprecated;\n"
-"               unused in KotOR. Modders: leave 0."))
+        self.labelTimeScale.setToolTip(
+            _translate(
+                "MainWindow",
+                "Minutes per hour (deprecated, unused in KotOR). Intended for time-based events\n"
+                "               which are not implemented.",
+            )
+        )
+        self.timeScaleSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Time Scale (GFF: Mod_TimeScale). INT32. Minutes per in-game hour. Deprecated;\n"
+                "               unused in KotOR. Modders: leave 0.",
+            )
+        )
         self.labelStartMonth.setText(_translate("MainWindow", "Start Month:"))
-        self.labelStartMonth.setToolTip(_translate("MainWindow", "Starting month (deprecated, unused in KotOR)"))
-        self.startMonthSpin.setToolTip(_translate("MainWindow", "Starting month (deprecated, unused in KotOR)"))
+        self.labelStartMonth.setToolTip(
+            _translate("MainWindow", "Starting month (deprecated, unused in KotOR)")
+        )
+        self.startMonthSpin.setToolTip(
+            _translate("MainWindow", "Starting month (deprecated, unused in KotOR)")
+        )
         self.labelStartDay.setText(_translate("MainWindow", "Start Day:"))
-        self.labelStartDay.setToolTip(_translate("MainWindow", "Starting day (deprecated, unused in KotOR)"))
-        self.startDaySpin.setToolTip(_translate("MainWindow", "Starting day (deprecated, unused in KotOR)"))
+        self.labelStartDay.setToolTip(
+            _translate("MainWindow", "Starting day (deprecated, unused in KotOR)")
+        )
+        self.startDaySpin.setToolTip(
+            _translate("MainWindow", "Starting day (deprecated, unused in KotOR)")
+        )
         self.labelStartHour.setText(_translate("MainWindow", "Start Hour:"))
-        self.labelStartHour.setToolTip(_translate("MainWindow", "Starting hour (deprecated, unused in KotOR)"))
-        self.startHourSpin.setToolTip(_translate("MainWindow", "Start Hour (GFF: Mod_StartHour). INT32 0–23. Deprecated; unused in KotOR."))
+        self.labelStartHour.setToolTip(
+            _translate("MainWindow", "Starting hour (deprecated, unused in KotOR)")
+        )
+        self.startHourSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Start Hour (GFF: Mod_StartHour). INT32 0–23. Deprecated; unused in KotOR.",
+            )
+        )
         self.labelStartYear.setText(_translate("MainWindow", "Start Year:"))
-        self.labelStartYear.setToolTip(_translate("MainWindow", "Starting year (deprecated, unused in KotOR)"))
-        self.startYearSpin.setToolTip(_translate("MainWindow", "Start Year (GFF: Mod_StartYear). INT32. Deprecated; unused in KotOR."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTimeSettings), _translate("MainWindow", "Time Settings (Deprecated)"))
-        self.labelAreaListInfo.setText(_translate("MainWindow", "Areas in this module. KotOR modules typically have one area per module. KotOR2\n"
-"            can have multiple areas per module. Areas are loaded on-demand as player transitions."))
-        self.areaListTable.setToolTip(_translate("MainWindow", "List of areas accessible in this module. Each area has a ResRef (ARE file name)."))
+        self.labelStartYear.setToolTip(
+            _translate("MainWindow", "Starting year (deprecated, unused in KotOR)")
+        )
+        self.startYearSpin.setToolTip(
+            _translate(
+                "MainWindow", "Start Year (GFF: Mod_StartYear). INT32. Deprecated; unused in KotOR."
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabTimeSettings),
+            _translate("MainWindow", "Time Settings (Deprecated)"),
+        )
+        self.labelAreaListInfo.setText(
+            _translate(
+                "MainWindow",
+                "Areas in this module. KotOR modules typically have one area per module. KotOR2\n"
+                "            can have multiple areas per module. Areas are loaded on-demand as player transitions.",
+            )
+        )
+        self.areaListTable.setToolTip(
+            _translate(
+                "MainWindow",
+                "List of areas accessible in this module. Each area has a ResRef (ARE file name).",
+            )
+        )
         item = self.areaListTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Area ResRef"))
         self.addAreaButton.setText(_translate("MainWindow", "Add Area"))
-        self.addAreaButton.setToolTip(_translate("MainWindow", "Add a new area to the module area list"))
+        self.addAreaButton.setToolTip(
+            _translate("MainWindow", "Add a new area to the module area list")
+        )
         self.removeAreaButton.setText(_translate("MainWindow", "Remove Area"))
-        self.removeAreaButton.setToolTip(_translate("MainWindow", "Remove selected area from the module area list"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabAreaList), _translate("MainWindow", "Area List"))
+        self.removeAreaButton.setToolTip(
+            _translate("MainWindow", "Remove selected area from the module area list")
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabAreaList), _translate("MainWindow", "Area List")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "&File"))
         self.actionNew.setText(_translate("MainWindow", "&New"))
-        self.actionNew.setToolTip(_translate("MainWindow", "Create a new module info file (Ctrl+N)"))
+        self.actionNew.setToolTip(
+            _translate("MainWindow", "Create a new module info file (Ctrl+N)")
+        )
         self.actionNew.setShortcut(_translate("MainWindow", "Ctrl+N"))
         self.actionOpen.setText(_translate("MainWindow", "&Open..."))
         self.actionOpen.setToolTip(_translate("MainWindow", "Open a module info file (Ctrl+O)"))
@@ -656,13 +1086,19 @@ class Ui_MainWindow(object):
         self.actionSave.setToolTip(_translate("MainWindow", "Save the module info file (Ctrl+S)"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save &As..."))
-        self.actionSaveAs.setToolTip(_translate("MainWindow", "Save the module info file with a new name (Ctrl+Shift+S)"))
+        self.actionSaveAs.setToolTip(
+            _translate("MainWindow", "Save the module info file with a new name (Ctrl+Shift+S)")
+        )
         self.actionSaveAs.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
         self.actionRevert.setText(_translate("MainWindow", "&Revert"))
-        self.actionRevert.setToolTip(_translate("MainWindow", "Revert to the last saved version (Ctrl+R)"))
+        self.actionRevert.setToolTip(
+            _translate("MainWindow", "Revert to the last saved version (Ctrl+R)")
+        )
         self.actionRevert.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.actionExit.setText(_translate("MainWindow", "E&xit"))
         self.actionExit.setToolTip(_translate("MainWindow", "Close the editor (Ctrl+Q)"))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
+
+
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from utility.gui.qt.widgets.widgets.combobox import FilterComboBox

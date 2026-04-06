@@ -61,4 +61,3 @@ class PlaceableDialog(QDialog):
         else:
             self._instance.tweak_color = None
         super().accept()
-

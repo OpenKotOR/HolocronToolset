@@ -117,9 +117,13 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         self._global_settings: GlobalSettings = GlobalSettings()
 
         self._editor_title: str = title
-        self._restype: ResourceType = next(iter(read_supported or write_supported), ResourceType.INVALID)
+        self._restype: ResourceType = next(
+            iter(read_supported or write_supported), ResourceType.INVALID
+        )
         self._resname: str = f"untitled_{uuid.uuid4().hex[:8]}"
-        self._filepath: Path = self.setup_extract_path() / f"{self._resname}.{self._restype.extension}"
+        self._filepath: Path = (
+            self.setup_extract_path() / f"{self._resname}.{self._restype.extension}"
+        )
         self._revert: bytes = b""
         self._is_save_game_resource: bool = False  # Flag to track if resource is from a save game
 
@@ -293,7 +297,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
                     resname=self._resname,
                     ext=self._restype.extension if self._restype else "",
                 ),
-                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Save
+                | QMessageBox.StandardButton.Discard
+                | QMessageBox.StandardButton.Cancel,
                 QMessageBox.StandardButton.Cancel,
             )
             if result == QMessageBox.StandardButton.Cancel:
@@ -375,7 +381,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             # Menubar already has menus (from UI file), connect to existing actions
             menubar_menu = menubar.actions()[0].menu()
             if not isinstance(menubar_menu, QMenu):
-                raise TypeError(f"self.menuBar().actions()[0].menu() returned a {type(menubar_menu).__name__} object, expected QMenu.")
+                raise TypeError(
+                    f"self.menuBar().actions()[0].menu() returned a {type(menubar_menu).__name__} object, expected QMenu."
+                )
             for action in menubar_menu.actions():
                 if action.text() == "New":
                     action.triggered.connect(self.new)
@@ -468,7 +476,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         self,
         icon_resname: str,
     ):
-        icon_version: Literal["x", "2", "1"] = "x" if self._installation is None else "2" if self._installation.tsl else "1"
+        icon_version: Literal["x", "2", "1"] = (
+            "x" if self._installation is None else "2" if self._installation.tsl else "1"
+        )
         icon_path_str: str = f":/images/icons/k{icon_version}/{icon_resname}.png"
         self.setWindowIcon(QIcon(QPixmap(icon_path_str)))
 
@@ -482,13 +492,25 @@ class Editor(QMainWindow, StandaloneWindowMixin):
 
     def refresh_window_title(self):
         """Refreshes the window title based on the current state of the editor."""
-        installation_name: str = self._installation.name if self._installation else tr("No Installation")
-        title: str = trf("{editor_title}({installation_name})[*]", editor_title=self._editor_title, installation_name=installation_name)
+        installation_name: str = (
+            self._installation.name if self._installation else tr("No Installation")
+        )
+        title: str = trf(
+            "{editor_title}({installation_name})[*]",
+            editor_title=self._editor_title,
+            installation_name=installation_name,
+        )
         if self._filepath and self._resname and self._restype:
-            relpath: Path = self._filepath.relative_to(self._filepath.parent.parent) if self._filepath.parent.parent.name else self._filepath.parent
+            relpath: Path = (
+                self._filepath.relative_to(self._filepath.parent.parent)
+                if self._filepath.parent.parent.name
+                else self._filepath.parent
+            )
             from toolset.gui.editors.erf import ERFEditor
 
-            if (is_bif_file(relpath) or is_capsule_file(self._filepath)) and not isinstance(self, ERFEditor):
+            if (is_bif_file(relpath) or is_capsule_file(self._filepath)) and not isinstance(
+                self, ERFEditor
+            ):
                 relpath /= f"{self._resname}.{self._restype.extension}"
             title = trf("{relpath} - {title}", relpath=relpath, title=title)
         self.setWindowTitle(title)
@@ -498,7 +520,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         read_supported: list[ResourceType],
         write_supported: list[ResourceType],
     ):
-        write_supported = read_supported.copy() if read_supported is write_supported else write_supported
+        write_supported = (
+            read_supported.copy() if read_supported is write_supported else write_supported
+        )
         additional_formats: set[str] = {"XML", "JSON", "CSV", "ASCII", "YAML"}
         for add_format in additional_formats:
             read_supported.extend(
@@ -516,34 +540,49 @@ class Editor(QMainWindow, StandaloneWindowMixin):
 
         self._save_filter: str = tr("All valid files (")
         for resource in write_supported:
-            self._save_filter += f"*.{resource.extension}{'' if write_supported[-1] == resource else ' '}"
+            self._save_filter += (
+                f"*.{resource.extension}{'' if write_supported[-1] == resource else ' '}"
+            )
         self._save_filter += f" {self.CAPSULE_FILTER});;"
         for resource in write_supported:
             self._save_filter += f"{resource.category} File (*.{resource.extension});;"
-        self._save_filter += trf("Save into module ({capsule_filter})", capsule_filter=self.CAPSULE_FILTER)
+        self._save_filter += trf(
+            "Save into module ({capsule_filter})", capsule_filter=self.CAPSULE_FILTER
+        )
 
         self._open_filter: str = tr("All valid files (")
         for resource in read_supported:
-            self._open_filter += f"*.{resource.extension}{'' if read_supported[-1] == resource else ' '}"
+            self._open_filter += (
+                f"*.{resource.extension}{'' if read_supported[-1] == resource else ' '}"
+            )
         self._open_filter += f" {self.CAPSULE_FILTER});;"
         for resource in read_supported:
             self._open_filter += f"{resource.category} File (*.{resource.extension});;"
-        self._open_filter += trf("Load from module ({capsule_filter})", capsule_filter=self.CAPSULE_FILTER)
+        self._open_filter += trf(
+            "Load from module ({capsule_filter})", capsule_filter=self.CAPSULE_FILTER
+        )
 
     def save_as(self):  # noqa: C901
         def show_invalid(exc: Exception | None, msg: str):
             msgBox = QMessageBox(
                 QMessageBox.Icon.Critical,
                 tr("Invalid filename/extension"),
-                trf("Check the filename and try again. Could not save!{msg}", msg=f"<br><br>{msg}" if msg else ""),
+                trf(
+                    "Check the filename and try again. Could not save!{msg}",
+                    msg=f"<br><br>{msg}" if msg else "",
+                ),
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
             if exc is not None:
                 msgBox.setDetailedText(traceback.format_exc())
             msgBox.exec()
 
-        filepath_str, _filter = QFileDialog.getSaveFileName(self, "Save As", str(self._filepath), self._save_filter, "")
+        filepath_str, _filter = QFileDialog.getSaveFileName(
+            self, "Save As", str(self._filepath), self._save_filter, ""
+        )
         if not filepath_str:
             return
         error_msg, exc = "", None
@@ -554,12 +593,17 @@ class Editor(QMainWindow, StandaloneWindowMixin):
                 return
         except ValueError as e:
             exc = e
-            RobustLogger().exception(f"ValueError raised, assuming invalid filename/extension '{filepath_str}'")
+            RobustLogger().exception(
+                f"ValueError raised, assuming invalid filename/extension '{filepath_str}'"
+            )
             error_msg = str((e.__class__.__name__, str(e))).replace("\n", "<br>")
             show_invalid(exc, error_msg)
             return
 
-        if is_capsule_file(filepath_str) and f"Save into module ({self.CAPSULE_FILTER})" in self._save_filter:
+        if (
+            is_capsule_file(filepath_str)
+            and f"Save into module ({self.CAPSULE_FILTER})" in self._save_filter
+        ):
             if self._resname is None or self._restype is None:
                 self._resname = "new"
                 self._restype = self._write_supported[0]
@@ -598,11 +642,21 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             # CRITICAL: For save game resources, ALWAYS preserve extra fields
             # Save game GFF files contain undocumented fields that must be preserved
             # to prevent save corruption. This is more important than the user setting.
-            should_preserve_fields: bool = self._is_save_game_resource or self._global_settings.attemptKeepOldGFFFields
+            should_preserve_fields: bool = (
+                self._is_save_game_resource or self._global_settings.attemptKeepOldGFFFields
+            )
 
-            if should_preserve_fields and self._restype is not None and self._restype.is_gff() and not isinstance(self, GFFEditor) and self._revert is not None:  # noqa: E501
+            if (
+                should_preserve_fields
+                and self._restype is not None
+                and self._restype.is_gff()
+                and not isinstance(self, GFFEditor)
+                and self._revert is not None
+            ):  # noqa: E501
                 if self._is_save_game_resource:
-                    print("Save game resource detected: Preserving all extra GFF fields to prevent save corruption.")
+                    print(
+                        "Save game resource detected: Preserving all extra GFF fields to prevent save corruption."
+                    )
                 old_gff: GFF = read_gff(self._revert)
                 new_gff: GFF = read_gff(data)
                 GFFStruct._add_missing(new_gff.root, old_gff.root)
@@ -624,7 +678,13 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         except Exception as e:  # noqa: BLE001
             self.blink_window()
             RobustLogger().critical(tr("Failed to write to file"), exc_info=True)
-            msg_box = QMessageBox(QMessageBox.Icon.Critical, tr("Failed to write to file"), trf("{class_name}: {error}", class_name=e.__class__.__name__, error=str(e)).replace("\n", "<br>"))
+            msg_box = QMessageBox(
+                QMessageBox.Icon.Critical,
+                tr("Failed to write to file"),
+                trf("{class_name}: {error}", class_name=e.__class__.__name__, error=str(e)).replace(
+                    "\n", "<br>"
+                ),
+            )
             msg_box.setDetailedText(format_exception_with_variables(e))
             msg_box.exec()
         else:
@@ -657,7 +717,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
                 self.save()
         elif dialog.option == BifSaveOption.Override:
             assert self._installation is not None
-            self._filepath = self._installation.override_path() / f"{self._resname}.{self._restype.extension}"
+            self._filepath = (
+                self._installation.override_path() / f"{self._resname}.{self._restype.extension}"
+            )
             self.save()
 
     def _save_ends_with_rim(
@@ -669,11 +731,16 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             dialog = RimSaveDialog(self)
             dialog.exec()
             if dialog.option == RimSaveOption.MOD:
-                self._filepath = self._filepath.parent / f"{Module.filepath_to_root(self._filepath)}.mod"
+                self._filepath = (
+                    self._filepath.parent / f"{Module.filepath_to_root(self._filepath)}.mod"
+                )
                 self.save()
             elif dialog.option == RimSaveOption.Override:
                 assert self._installation is not None
-                self._filepath = self._installation.override_path() / f"{self._resname}.{self._restype.extension}"
+                self._filepath = (
+                    self._installation.override_path()
+                    / f"{self._resname}.{self._restype.extension}"
+                )
                 self.save()
             return
 
@@ -742,7 +809,11 @@ class Editor(QMainWindow, StandaloneWindowMixin):
                 msg: str = f"You must save the ERFEditor for '{capsule_path.relative_to(r_parent_filepath)}' to before modifying its nested resources. Do so and try again."
                 raise ValueError(msg)
 
-            bioware_archive = read_rim(nested_erf_or_rim_data) if ResourceType.from_extension(capsule_path.suffix) == ResourceType.RIM else read_erf(nested_erf_or_rim_data)
+            bioware_archive = (
+                read_rim(nested_erf_or_rim_data)
+                if ResourceType.from_extension(capsule_path.suffix) == ResourceType.RIM
+                else read_erf(nested_erf_or_rim_data)
+            )
             nested_capsules.append((capsule_path, bioware_archive))
 
         this_erf_or_rim = None
@@ -755,11 +826,21 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             child_capsule_path, child_erf_or_rim = nested_capsules[child_index]
             if self._filepath != child_capsule_path or not self._is_capsule_editor:
                 data = bytearray()
-                write_erf(child_erf_or_rim, data) if isinstance(child_erf_or_rim, ERF) else write_rim(child_erf_or_rim, data)
-            this_erf_or_rim.set_data(child_capsule_path.stem, ResourceType.from_extension(child_capsule_path.suffix), bytes(data))
+                write_erf(child_erf_or_rim, data) if isinstance(
+                    child_erf_or_rim, ERF
+                ) else write_rim(child_erf_or_rim, data)
+            this_erf_or_rim.set_data(
+                child_capsule_path.stem,
+                ResourceType.from_extension(child_capsule_path.suffix),
+                bytes(data),
+            )
 
-        assert this_erf_or_rim is not None, "this_erf_or_rim is None somehow? This should be impossible."
-        write_erf(this_erf_or_rim, self._filepath) if isinstance(this_erf_or_rim, ERF) else write_rim(this_erf_or_rim, self._filepath)
+        assert this_erf_or_rim is not None, (
+            "this_erf_or_rim is None somehow? This should be impossible."
+        )
+        write_erf(this_erf_or_rim, self._filepath) if isinstance(
+            this_erf_or_rim, ERF
+        ) else write_rim(this_erf_or_rim, self._filepath)
         self.sig_saved_file.emit(str(self._filepath), self._resname, self._restype, bytes(data))
 
     def _save_ends_with_erf(
@@ -775,7 +856,15 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             rim_to_mod(self._filepath)
             erf = read_erf(self._filepath)
         else:
-            print(trf("Saving '{resname}.{restype}' to a blank new {erftype_name} file at '{filepath}'", resname=self._resname, restype=self._restype, erftype_name=erftype.name, filepath=self._filepath))
+            print(
+                trf(
+                    "Saving '{resname}.{restype}' to a blank new {erftype_name} file at '{filepath}'",
+                    resname=self._resname,
+                    restype=self._restype,
+                    erftype_name=erftype.name,
+                    filepath=self._filepath,
+                )
+            )
             erf = ERF(erftype)
         erf.erf_type = erftype
 
@@ -786,7 +875,10 @@ class Editor(QMainWindow, StandaloneWindowMixin):
 
         write_erf(erf, self._filepath)
         self.sig_saved_file.emit(str(self._filepath), self._resname, self._restype, bytes(data))
-        if self._installation is not None and self._filepath.parent == self._installation.module_path():
+        if (
+            self._installation is not None
+            and self._filepath.parent == self._installation.module_path()
+        ):
             self._installation.reload_module(self._filepath.name)
 
     def _save_ends_with_other(
@@ -809,7 +901,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
                     resname=self._resname,
                     ext=self._restype.extension if self._restype else "",
                 ),
-                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Save
+                | QMessageBox.StandardButton.Discard
+                | QMessageBox.StandardButton.Cancel,
                 QMessageBox.StandardButton.Cancel,
             )
             if result == QMessageBox.StandardButton.Cancel:
@@ -817,12 +911,17 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             if result == QMessageBox.StandardButton.Save:
                 self.save()
 
-        filepath_str, _filter = QFileDialog.getOpenFileName(self, "Open file", "", self._open_filter, "")
+        filepath_str, _filter = QFileDialog.getOpenFileName(
+            self, "Open file", "", self._open_filter, ""
+        )
         if filepath_str is None or not str(filepath_str).strip():
             return
         r_filepath = Path(filepath_str)
 
-        if is_capsule_file(r_filepath) and f"Load from module ({self.CAPSULE_FILTER})" in self._open_filter:
+        if (
+            is_capsule_file(r_filepath)
+            and f"Load from module ({self.CAPSULE_FILTER})" in self._open_filter
+        ):
             self._load_module_from_dialog_info(r_filepath)
         else:
             data: bytes = r_filepath.read_bytes()
@@ -949,7 +1048,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         if isinstance(textbox, LocalizedStringLineEdit):
             textbox.set_locstring(locstring)
             return
-        setText: Callable[[str], None] = textbox.setPlainText if isinstance(textbox, QPlainTextEdit) else textbox.setText
+        setText: Callable[[str], None] = (
+            textbox.setPlainText if isinstance(textbox, QPlainTextEdit) else textbox.setText
+        )
 
         from toolset.gui.common.style.palette_utils import apply_locstring_background
 

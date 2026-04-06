@@ -88,18 +88,26 @@ class EditorMedia:
             # Reference: vendor/KotOR.js/src/audio/AudioFile.ts:348-354
             suffix = _detect_audio_extension(data)
 
-            temp_file: tempfile._TemporaryFileWrapper[bytes] = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)  # noqa: SIM115
+            temp_file: tempfile._TemporaryFileWrapper[bytes] = tempfile.NamedTemporaryFile(
+                delete=False, suffix=suffix
+            )  # noqa: SIM115
             temp_file.write(data)  # pyright: ignore[reportArgumentType, reportCallIssue]
             temp_file.flush()
             temp_file.seek(0)
             temp_file.close()
 
-            player: PyQt6MediaPlayer | PySide6MediaPlayer = cast("Any", self.editor.media_player.player)
+            player: PyQt6MediaPlayer | PySide6MediaPlayer = cast(
+                "Any", self.editor.media_player.player
+            )
             audio_output = QAudioOutput(self.editor)  # pyright: ignore[reportCallIssue, reportArgumentType]
             audio_output.setVolume(1)
             player.setAudioOutput(audio_output)  # pyright: ignore[reportArgumentType]
             player.setSource(QUrl.fromLocalFile(temp_file.name))  # pyright: ignore[reportArgumentType]
-            player.mediaStatusChanged.connect(lambda status, file_name=temp_file.name: self.remove_temp_audio_file(status, file_name))
+            player.mediaStatusChanged.connect(
+                lambda status, file_name=temp_file.name: self.remove_temp_audio_file(
+                    status, file_name
+                )
+            )
             player.play()
         return True
 

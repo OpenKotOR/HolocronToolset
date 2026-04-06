@@ -239,7 +239,11 @@ class TestControlsIntegration(unittest.TestCase):
         # Verify monotonically increasing (mostly)
         for i in range(1, len(results)):
             # Allow small variance due to smoothing
-            self.assertGreaterEqual(results[i][0], results[i - 1][0] - 1.0, f"X should generally increase: {results[i][0]} < {results[i - 1][0]}")
+            self.assertGreaterEqual(
+                results[i][0],
+                results[i - 1][0] - 1.0,
+                f"X should generally increase: {results[i][0]} < {results[i - 1][0]}",
+            )
 
     def test_realistic_mouse_movement(self):
         """Test with realistic mouse movement patterns."""

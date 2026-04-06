@@ -699,7 +699,9 @@ def test_lip_editor_all_shapes_used(qtbot: QtBot, installation: HTInstallation):
 # ============================================================================
 
 
-def test_lipeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_lipeditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test that LIPEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -708,7 +710,9 @@ def test_lipeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
 
     # Trigger help dialog with the correct file for LIPEditor
     editor._show_help_dialog("LIP-File-Format.md")
-    QApplication.processEvents(QEventLoop.ProcessEventsFlag.AllEvents)  # Wait for dialog to be created
+    QApplication.processEvents(
+        QEventLoop.ProcessEventsFlag.AllEvents
+    )  # Wait for dialog to be created
 
     # Find the help dialog
     dialogs = [child for child in editor.findChildren(EditorHelpDialog)]
@@ -722,7 +726,9 @@ def test_lipeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'LIP-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'LIP-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -1517,14 +1523,19 @@ def test_lip_editor_load_audio_file(qtbot: QtBot, installation: HTInstallation, 
     # Mock file dialog
     from unittest.mock import patch
 
-    with patch("toolset.gui.editors.lip.lip_editor.QFileDialog.getOpenFileName", return_value=(str(wav_file), "")):
+    with patch(
+        "toolset.gui.editors.lip.lip_editor.QFileDialog.getOpenFileName",
+        return_value=(str(wav_file), ""),
+    ):
         editor.load_audio()
 
     assert editor.audio_path.text() == str(wav_file)
     assert abs(editor.duration - 1.0) < 0.1  # Approximately 1 second
 
 
-def test_lip_editor_load_audio_sets_duration(qtbot: QtBot, installation: HTInstallation, tmp_path: Path):
+def test_lip_editor_load_audio_sets_duration(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path
+):
     """Test that loading audio sets duration correctly."""
     editor = LIPEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1540,14 +1551,19 @@ def test_lip_editor_load_audio_sets_duration(qtbot: QtBot, installation: HTInsta
 
     from unittest.mock import patch
 
-    with patch("toolset.gui.editors.lip.lip_editor.QFileDialog.getOpenFileName", return_value=(str(wav_file), "")):
+    with patch(
+        "toolset.gui.editors.lip.lip_editor.QFileDialog.getOpenFileName",
+        return_value=(str(wav_file), ""),
+    ):
         editor.load_audio()
 
     assert abs(editor.duration - 5.0) < 0.1
     assert editor.time_input.maximum() == 5.0
 
 
-def test_lip_editor_load_audio_clears_undo_history(qtbot: QtBot, installation: HTInstallation, tmp_path: Path):
+def test_lip_editor_load_audio_clears_undo_history(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path
+):
     """Test that loading audio clears undo history."""
     editor = LIPEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1573,7 +1589,10 @@ def test_lip_editor_load_audio_clears_undo_history(qtbot: QtBot, installation: H
 
     from unittest.mock import patch
 
-    with patch("toolset.gui.editors.lip.lip_editor.QFileDialog.getOpenFileName", return_value=(str(wav_file), "")):
+    with patch(
+        "toolset.gui.editors.lip.lip_editor.QFileDialog.getOpenFileName",
+        return_value=(str(wav_file), ""),
+    ):
         editor.load_audio()
 
     # Undo should not be available (history cleared)
@@ -1640,7 +1659,9 @@ def test_lip_editor_save_load_roundtrip_precise_times(qtbot: QtBot, installation
         assert abs(editor.lip.frames[i].time - time) < 0.001
 
 
-def test_lip_editor_multiple_roundtrips_with_modifications(qtbot: QtBot, installation: HTInstallation):
+def test_lip_editor_multiple_roundtrips_with_modifications(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test multiple roundtrips with modifications between each."""
     editor = LIPEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1663,7 +1684,9 @@ def test_lip_editor_multiple_roundtrips_with_modifications(qtbot: QtBot, install
 
         # Verify
         assert editor.lip is not None
-        assert len(editor.lip.frames) == cycle + 1, f"Expected {cycle + 1} frames after cycle {cycle}"
+        assert len(editor.lip.frames) == cycle + 1, (
+            f"Expected {cycle + 1} frames after cycle {cycle}"
+        )
 
 
 def test_lip_editor_roundtrip_preserves_duration(qtbot: QtBot, installation: HTInstallation):
@@ -2110,7 +2133,9 @@ def test_lip_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'LIP-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'LIP-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present
     assert len(html) > 100, "Help dialog should contain content"
@@ -2157,7 +2182,9 @@ def test_lip_editor_comprehensive_roundtrip_validation(qtbot: QtBot, installatio
         assert editor.lip.frames[i].shape == shape
 
 
-def test_lip_editor_roundtrip_with_real_file(qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path):
+def test_lip_editor_roundtrip_with_real_file(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: pathlib.Path
+):
     """Test roundtrip with a real LIP file from installation or test files."""
     editor = LIPEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2168,7 +2195,9 @@ def test_lip_editor_roundtrip_with_real_file(qtbot: QtBot, installation: HTInsta
         # Try to get one from installation
         from pykotor.extract.file import ResourceIdentifier
 
-        lip_resources = list(installation.resources([ResourceIdentifier(restype=ResourceType.LIP)]).values())[:1]
+        lip_resources = list(
+            installation.resources([ResourceIdentifier(restype=ResourceType.LIP)]).values()
+        )[:1]
         if not lip_resources:
             pytest.skip("No LIP files available for testing")
         lip_resource = lip_resources[0]
@@ -2405,7 +2434,9 @@ def test_lip_editor_multiple_roundtrips_complex_data(qtbot: QtBot, installation:
         assert len(data) > 0
 
         # Load
-        editor.load(Path(f"test_roundtrip_{roundtrip}.lip"), f"test_{roundtrip}", ResourceType.LIP, data)
+        editor.load(
+            Path(f"test_roundtrip_{roundtrip}.lip"), f"test_{roundtrip}", ResourceType.LIP, data
+        )
 
         # Verify
         assert editor.lip is not None
@@ -2496,7 +2527,9 @@ def test_lip_editor_preview_list_initial_state(qtbot: QtBot, installation: HTIns
     assert editor.preview_list.currentRow() == -1
 
 
-def test_lip_editor_preview_list_selection_clears_inputs(qtbot: QtBot, installation: HTInstallation):
+def test_lip_editor_preview_list_selection_clears_inputs(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that clearing selection doesn't crash."""
     editor = LIPEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2676,7 +2709,9 @@ def test_lip_editor_ui_state_after_load(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_lip_editor_keyframe_interpolation_between_frames(qtbot: QtBot, installation: HTInstallation):
+def test_lip_editor_keyframe_interpolation_between_frames(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that keyframes can be added between existing frames."""
     editor = LIPEditor(None, installation)
     qtbot.addWidget(editor)

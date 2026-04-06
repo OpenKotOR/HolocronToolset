@@ -19,7 +19,6 @@ if TYPE_CHECKING:
     from pykotor.common.indoorkit import Kit, KitComponent
     from pykotor.common.indoormap import EmbeddedKit, IndoorMap
 
-    from toolset.gui.windows.indoor_builder.builder import IndoorMapBuilder
     from toolset.gui.windows.indoor_builder.renderer import IndoorMapRenderer
 
 
@@ -95,7 +94,9 @@ class IndoorPrimaryPressRendererLike(IndoorSelectionRendererLike, Protocol):
     def start_warp_drag(self) -> None: ...
     def pick_face(self, world: Vector3) -> tuple[IndoorMapRoom | None, object | None]: ...
     def hook_under_mouse(self, world: Vector3) -> tuple[IndoorMapRoom, int] | None: ...
-    def select_hook(self, room: IndoorMapRoom, hook_index: int, *, clear_existing: bool = True) -> None: ...
+    def select_hook(
+        self, room: IndoorMapRoom, hook_index: int, *, clear_existing: bool = True
+    ) -> None: ...
     def start_drag(self, room: IndoorMapRoom) -> None: ...
 
 
@@ -137,11 +138,15 @@ class ContextMenuLike(Protocol):
     def addSeparator(self) -> None: ...
 
 
-class IndoorContextMenuRendererLike(IndoorSelectionRendererLike, IndoorCameraRendererLike, Protocol):
+class IndoorContextMenuRendererLike(
+    IndoorSelectionRendererLike, IndoorCameraRendererLike, Protocol
+):
     def to_world_coords(self, x: float, y: float) -> WorldCoordsLike: ...
     def room_under_mouse(self) -> IndoorMapRoom | None: ...
     def hook_under_mouse(self, world: Vector3) -> tuple[IndoorMapRoom, int] | None: ...
-    def select_hook(self, room: IndoorMapRoom, hook_index: int, *, clear_existing: bool = True) -> None: ...
+    def select_hook(
+        self, room: IndoorMapRoom, hook_index: int, *, clear_existing: bool = True
+    ) -> None: ...
     def delete_hook(self, room: IndoorMapRoom, hook_index: int) -> None: ...
     def duplicate_hook(self, room: IndoorMapRoom, hook_index: int) -> None: ...
 
@@ -583,7 +588,9 @@ def reset_indoor_camera_view(
     renderer.set_camera_zoom(default_camera_zoom)
 
 
-def center_indoor_camera_on_selected_rooms(renderer: IndoorCameraRendererLike | IndoorMapRenderer) -> bool:
+def center_indoor_camera_on_selected_rooms(
+    renderer: IndoorCameraRendererLike | IndoorMapRenderer,
+) -> bool:
     rooms = renderer.selected_rooms()
     if not rooms:
         return False
@@ -606,7 +613,9 @@ def add_connected_indoor_rooms_to_selection(
         add_connected_indoor_rooms_to_selection(renderer, connected)
 
 
-def ensure_context_room_selection(renderer: IndoorSelectionRendererLike | IndoorMapRenderer, room: IndoorMapRoom | None) -> int:
+def ensure_context_room_selection(
+    renderer: IndoorSelectionRendererLike | IndoorMapRenderer, room: IndoorMapRoom | None
+) -> int:
     if room is None:
         return 0
     if room not in renderer.selected_rooms():
@@ -627,11 +636,15 @@ def add_room_context_actions(
     if selected_count <= 0:
         return
 
-    duplicate_action = menu.addAction(f"Duplicate ({selected_count} room{'s' if selected_count > 1 else ''})")
+    duplicate_action = menu.addAction(
+        f"Duplicate ({selected_count} room{'s' if selected_count > 1 else ''})"
+    )
     assert duplicate_action is not None
     duplicate_action.triggered.connect(on_duplicate)
 
-    delete_action = menu.addAction(f"Delete ({selected_count} room{'s' if selected_count > 1 else ''})")
+    delete_action = menu.addAction(
+        f"Delete ({selected_count} room{'s' if selected_count > 1 else ''})"
+    )
     assert delete_action is not None
     delete_action.triggered.connect(on_delete)
 
@@ -752,7 +765,9 @@ def populate_indoor_context_menu(
     add_hook_context_actions(
         menu,
         hook_hit=hook_hit,
-        on_select_hook=lambda hook_room, hook_index: renderer.select_hook(hook_room, hook_index, clear_existing=True),
+        on_select_hook=lambda hook_room, hook_index: renderer.select_hook(
+            hook_room, hook_index, clear_existing=True
+        ),
         on_delete_hook=renderer.delete_hook,
         on_duplicate_hook=renderer.duplicate_hook,
     )
@@ -835,12 +850,17 @@ def push_rooms_moved_undo(
 ) -> bool:
     if not rooms:
         return False
-    if not any(old.distance(new) > position_change_epsilon for old, new in zip(old_positions, new_positions)):
+    if not any(
+        old.distance(new) > position_change_epsilon
+        for old, new in zip(old_positions, new_positions)
+    ):
         return False
 
     from toolset.gui.windows.indoor_builder.undo_commands import MoveRoomsCommand
 
-    undo_stack.push(MoveRoomsCommand(indoor_map, rooms, old_positions, new_positions, invalidate_rooms))
+    undo_stack.push(
+        MoveRoomsCommand(indoor_map, rooms, old_positions, new_positions, invalidate_rooms)
+    )
     return True
 
 
@@ -856,12 +876,16 @@ def push_rooms_rotated_undo(
 ) -> bool:
     if not rooms:
         return False
-    if not any(abs(old - new) > rotation_change_epsilon for old, new in zip(old_rotations, new_rotations)):
+    if not any(
+        abs(old - new) > rotation_change_epsilon for old, new in zip(old_rotations, new_rotations)
+    ):
         return False
 
     from toolset.gui.windows.indoor_builder.undo_commands import RotateRoomsCommand
 
-    undo_stack.push(RotateRoomsCommand(indoor_map, rooms, old_rotations, new_rotations, invalidate_rooms))
+    undo_stack.push(
+        RotateRoomsCommand(indoor_map, rooms, old_rotations, new_rotations, invalidate_rooms)
+    )
     return True
 
 
@@ -873,7 +897,10 @@ def push_warp_moved_undo(
     *,
     position_change_epsilon: float | None = None,
 ) -> bool:
-    if position_change_epsilon is not None and old_position.distance(new_position) <= position_change_epsilon:
+    if (
+        position_change_epsilon is not None
+        and old_position.distance(new_position) <= position_change_epsilon
+    ):
         return False
 
     from toolset.gui.windows.indoor_builder.undo_commands import MoveWarpCommand
@@ -882,7 +909,9 @@ def push_warp_moved_undo(
     return True
 
 
-def copy_selected_rooms_to_clipboard(renderer: IndoorSelectionRendererLike | IndoorMapRenderer) -> list[RoomClipboardData]:
+def copy_selected_rooms_to_clipboard(
+    renderer: IndoorSelectionRendererLike | IndoorMapRenderer,
+) -> list[RoomClipboardData]:
     rooms: list[IndoorMapRoom] = renderer.selected_rooms()
     if not rooms:
         return []
@@ -906,7 +935,9 @@ def paste_rooms_from_clipboard(
         kits,
         Vector3(world_center.x, world_center.y, world_center.z),
     )
-    return add_rooms_with_undo_and_select(renderer, indoor_map, undo_stack, invalidate_rooms, new_rooms)
+    return add_rooms_with_undo_and_select(
+        renderer, indoor_map, undo_stack, invalidate_rooms, new_rooms
+    )
 
 
 def apply_paste_rooms_from_clipboard(
@@ -919,7 +950,9 @@ def apply_paste_rooms_from_clipboard(
     *,
     on_changed: Callable[[], None] | None = None,
 ) -> bool:
-    changed = paste_rooms_from_clipboard(renderer, indoor_map, undo_stack, invalidate_rooms, clipboard, kits)
+    changed = paste_rooms_from_clipboard(
+        renderer, indoor_map, undo_stack, invalidate_rooms, clipboard, kits
+    )
     if changed and on_changed is not None:
         on_changed()
     return changed
@@ -942,7 +975,9 @@ def build_room_clipboard_data(rooms: list[IndoorMapRoom]) -> list[RoomClipboardD
                 "rotation": room.rotation,
                 "flip_x": room.flip_x,
                 "flip_y": room.flip_y,
-                "walkmesh_override": bytes_bwm(room.walkmesh_override) if room.walkmesh_override is not None else None,
+                "walkmesh_override": bytes_bwm(room.walkmesh_override)
+                if room.walkmesh_override is not None
+                else None,
             },
         )
     return clipboard
@@ -958,18 +993,31 @@ def instantiate_rooms_from_clipboard(
 
     new_rooms: list[IndoorMapRoom] = []
     for data in clipboard:
-        kit: Kit | None = next((kit_item for kit_item in kits if kit_item.name == data["component_kit_name"]), None)
+        kit: Kit | None = next(
+            (kit_item for kit_item in kits if kit_item.name == data["component_kit_name"]), None
+        )
         if kit is None:
             continue
 
-        component: KitComponent | None = next((component_item for component_item in kit.components if component_item.name == data["component_name"]), None)
+        component: KitComponent | None = next(
+            (
+                component_item
+                for component_item in kit.components
+                if component_item.name == data["component_name"]
+            ),
+            None,
+        )
         if component is None:
             continue
 
         component_copy = deepcopy(component)
         room = IndoorMapRoom(
             component_copy,
-            Vector3(world_center.x + data["position"].x, world_center.y + data["position"].y, data["position"].z),
+            Vector3(
+                world_center.x + data["position"].x,
+                world_center.y + data["position"].y,
+                data["position"].z,
+            ),
             data["rotation"],
             flip_x=data["flip_x"],
             flip_y=data["flip_y"],
@@ -1010,8 +1058,8 @@ def delete_selected_rooms_or_hook(
     if selected_hook is not None:
         hook_room, _ = selected_hook
         if hook_room in rooms:
-            renderer.clear_selected_hook()  # pyright: ignore[reportAttributeAccessIssue]  
-    renderer.clear_selected_rooms()  # pyright: ignore[reportAttributeAccessIssue]  
+            renderer.clear_selected_hook()  # pyright: ignore[reportAttributeAccessIssue]
+    renderer.clear_selected_rooms()  # pyright: ignore[reportAttributeAccessIssue]
     return True
 
 
@@ -1117,7 +1165,9 @@ def rotate_selected_rooms(
 
     old_rotations = [room.rotation for room in rooms]
     new_rotations = [(room.rotation + angle) % 360 for room in rooms]
-    undo_stack.push(RotateRoomsCommand(indoor_map, rooms, old_rotations, new_rotations, invalidate_rooms))
+    undo_stack.push(
+        RotateRoomsCommand(indoor_map, rooms, old_rotations, new_rotations, invalidate_rooms)
+    )
     renderer.update()  # pyright: ignore[reportAttributeAccessIssue]
     return True
 
@@ -1166,7 +1216,9 @@ def apply_flip_selected_rooms(
     *,
     on_changed: Callable[[], None] | None = None,
 ) -> bool:
-    changed: bool = flip_selected_rooms(renderer, indoor_map, undo_stack, invalidate_rooms, flip_x, flip_y)
+    changed: bool = flip_selected_rooms(
+        renderer, indoor_map, undo_stack, invalidate_rooms, flip_x, flip_y
+    )
     if changed and on_changed is not None:
         on_changed()
     return changed

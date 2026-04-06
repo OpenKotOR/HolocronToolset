@@ -82,8 +82,14 @@ class DLGListWidgetItems(DLGListWidget):
             return
 
         # Store data
-        data1 = {role: item1.data(role) for role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.UserRole)}
-        data2 = {role: item2.data(role) for role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.UserRole)}
+        data1 = {
+            role: item1.data(role)
+            for role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.UserRole)
+        }
+        data2 = {
+            role: item2.data(role)
+            for role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.UserRole)
+        }
 
         # Swap data
         for role, value in data1.items():

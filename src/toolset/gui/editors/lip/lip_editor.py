@@ -424,7 +424,9 @@ class LIPEditor(Editor):
 
         # Use application palette for colors, no hardcoded color values
         app = QApplication.instance()
-        assert isinstance(app, QGuiApplication), f"QApplication is not a QGuiApplication, instead got {app.__class__.__name__}"
+        assert isinstance(app, QGuiApplication), (
+            f"QApplication is not a QGuiApplication, instead got {app.__class__.__name__}"
+        )
 
         palette = app.palette()
         bg_color = palette.color(QPalette.ColorGroup.Normal, QPalette.ColorRole.Window)
@@ -451,8 +453,12 @@ class LIPEditor(Editor):
 
         # Keyframe operations
         self._shortcuts.append(QShortcut(QKeySequence(Qt.Key.Key_Insert), self, self.add_keyframe))
-        self._shortcuts.append(QShortcut(QKeySequence(Qt.Key.Key_Return), self, self.update_keyframe))
-        self._shortcuts.append(QShortcut(QKeySequence(Qt.Key.Key_Delete), self, self.delete_keyframe))
+        self._shortcuts.append(
+            QShortcut(QKeySequence(Qt.Key.Key_Return), self, self.update_keyframe)
+        )
+        self._shortcuts.append(
+            QShortcut(QKeySequence(Qt.Key.Key_Delete), self, self.delete_keyframe)
+        )
 
         # Playback controls
         self._shortcuts.append(QShortcut(QKeySequence(Qt.Key.Key_Space), self, self.play_preview))
@@ -559,7 +565,9 @@ class LIPEditor(Editor):
 
     def load_audio(self):
         """Load an audio file."""
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select Audio File", "", "Audio Files (*.wav)")
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, "Select Audio File", "", "Audio Files (*.wav)"
+        )
         if file_path and file_path.strip():
             self.audio_path.setText(file_path)
             # Get audio duration
@@ -804,6 +812,7 @@ class LIPEditor(Editor):
 
         # Let parent handle other keys
         super().keyPressEvent(event)
+
 
 if __name__ == "__main__":
     import sys

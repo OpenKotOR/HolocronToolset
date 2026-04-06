@@ -52,7 +52,11 @@ def create_model(init_colleciton) -> QStandardItemModel:
     model.setHorizontalHeaderLabels(["Name", "Resource Type", "Size"])
     for resref, restype, data in init_colleciton:
         res = ERFResource(ResRef(resref), restype, data)
-        row = [QStandardItem(resref), QStandardItem(res.restype.extension.upper()), QStandardItem(human_readable_size(len(data)))]
+        row = [
+            QStandardItem(resref),
+            QStandardItem(res.restype.extension.upper()),
+            QStandardItem(human_readable_size(len(data))),
+        ]
         row[0].setData(res)
         row[1].setData(res)
         row[2].setData(res)
@@ -62,7 +66,9 @@ def create_model(init_colleciton) -> QStandardItemModel:
 
 def verify_sorting(proxy: ERFSortFilterProxyModel, expected_order):
     actual_order = [proxy.index(row, 0).data() for row in range(proxy.rowCount())]
-    assert actual_order == expected_order, f"Actual order {actual_order} does not match expected {expected_order}"
+    assert actual_order == expected_order, (
+        f"Actual order {actual_order} does not match expected {expected_order}"
+    )
 
 
 # Application setup
@@ -93,14 +99,36 @@ if __name__ == "__main__":
     proxy.sort(0, Qt.SortOrder.AscendingOrder)
 
     # Test the sorting
-    expected_order = ["001ebo", "001ebo", "001ebo", "3cfd", "combat", "extra", "hyper", "intro", "seccon", "workbnch_tut"]
+    expected_order = [
+        "001ebo",
+        "001ebo",
+        "001ebo",
+        "3cfd",
+        "combat",
+        "extra",
+        "hyper",
+        "intro",
+        "seccon",
+        "workbnch_tut",
+    ]
     verify_sorting(proxy, expected_order)
 
     # Perform the sort by name in descending order
     proxy.sort(0, Qt.SortOrder.DescendingOrder)
 
     # Test the sorting
-    expected_order = ["workbnch_tut", "seccon", "intro", "hyper", "extra", "combat", "3cfd", "001ebo", "001ebo", "001ebo"]
+    expected_order = [
+        "workbnch_tut",
+        "seccon",
+        "intro",
+        "hyper",
+        "extra",
+        "combat",
+        "3cfd",
+        "001ebo",
+        "001ebo",
+        "001ebo",
+    ]
     verify_sorting(proxy, expected_order)
 
     view.setModel(proxy)

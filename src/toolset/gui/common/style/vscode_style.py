@@ -372,7 +372,9 @@ def get_documentation_tooltip_html(
     parts: list[str] = []
 
     # Title
-    parts.append(f'<div style="margin: 0; padding: 0;"><span style="color: {keyword_color}; font-weight: 600;">{title}</span></div>')
+    parts.append(
+        f'<div style="margin: 0; padding: 0;"><span style="color: {keyword_color}; font-weight: 600;">{title}</span></div>'
+    )
 
     # Signature (must wrap; Qt tooltips otherwise tend to treat <code> as no-wrap)
     if signature:
@@ -390,7 +392,9 @@ def get_documentation_tooltip_html(
 
     # Description (wrap + compact)
     if description:
-        parts.append(f'<div style="margin-top: 6px; color: {comment_color}; white-space: normal; word-break: break-word;">{description}</div>')
+        parts.append(
+            f'<div style="margin-top: 6px; color: {comment_color}; white-space: normal; word-break: break-word;">{description}</div>'
+        )
 
     content = "".join(parts)
 

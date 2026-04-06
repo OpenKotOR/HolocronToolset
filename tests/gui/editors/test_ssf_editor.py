@@ -62,7 +62,9 @@ def test_ssf_editor_initialization(qtbot, installation: HTInstallation):
 # ============================================================================
 
 
-def test_ssf_editor_manipulate_battlecry1(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_battlecry1(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating battlecry1 strref."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -90,7 +92,9 @@ def test_ssf_editor_manipulate_battlecry1(qtbot, installation: HTInstallation, t
     assert editor.ui.battlecry1StrrefSpin.value() == new_strref
 
 
-def test_ssf_editor_manipulate_all_battlecries(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_all_battlecries(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all battlecry strrefs."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -153,7 +157,9 @@ def test_ssf_editor_manipulate_select1(qtbot, installation: HTInstallation, test
     assert editor.ui.select1StrrefSpin.value() == new_strref
 
 
-def test_ssf_editor_manipulate_all_selects(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_all_selects(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all select strrefs."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -213,7 +219,9 @@ def test_ssf_editor_manipulate_attack1(qtbot, installation: HTInstallation, test
     assert editor.ui.attack1StrrefSpin.value() == new_strref
 
 
-def test_ssf_editor_manipulate_all_attacks(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_all_attacks(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all attack strrefs."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -353,7 +361,9 @@ def test_ssf_editor_manipulate_low_hp(qtbot, installation: HTInstallation, test_
     assert modified_ssf.get(SSFSound.LOW_HEALTH) == new_strref
 
 
-def test_ssf_editor_manipulate_critical_hit(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_critical_hit(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating critical hit strref."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -421,7 +431,9 @@ def test_ssf_editor_manipulate_lay_mine(qtbot, installation: HTInstallation, tes
     assert modified_ssf.get(SSFSound.LAY_MINE) == new_strref
 
 
-def test_ssf_editor_manipulate_disarm_mine(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_disarm_mine(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating disarm mine strref."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -442,7 +454,9 @@ def test_ssf_editor_manipulate_disarm_mine(qtbot, installation: HTInstallation, 
     assert modified_ssf.get(SSFSound.DISARM_MINE) == new_strref
 
 
-def test_ssf_editor_manipulate_stealth_unlock_search(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_stealth_unlock_search(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating stealth/unlock/search strrefs."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -479,7 +493,9 @@ def test_ssf_editor_manipulate_stealth_unlock_search(qtbot, installation: HTInst
 # ============================================================================
 
 
-def test_ssf_editor_manipulate_party_sounds(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_manipulate_party_sounds(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating party separation/rejoin strrefs."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -534,7 +550,9 @@ def test_ssf_editor_manipulate_poisoned(qtbot, installation: HTInstallation, tes
 # ============================================================================
 
 
-def test_ssf_editor_save_load_roundtrip_identity(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_save_load_roundtrip_identity(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -563,7 +581,9 @@ def test_ssf_editor_save_load_roundtrip_identity(qtbot, installation: HTInstalla
         assert saved_ssf1.get(sound_type) == saved_ssf2.get(sound_type)
 
 
-def test_ssf_editor_save_load_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_save_load_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -596,7 +616,9 @@ def test_ssf_editor_save_load_roundtrip_with_modifications(qtbot, installation: 
     assert editor.ui.poisonedStrrefSpin.value() == 77777
 
 
-def test_ssf_editor_multiple_save_load_cycles(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_multiple_save_load_cycles(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve content."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -729,7 +751,9 @@ def test_ssf_editor_all_sounds_set(qtbot, installation: HTInstallation):
 # ============================================================================
 
 
-def test_ssf_editor_update_text_boxes_with_talktable(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_ssf_editor_update_text_boxes_with_talktable(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that text boxes update when talktable is available."""
     editor = SSFEditor(None, installation)
     qtbot.addWidget(editor)
@@ -793,7 +817,9 @@ def test_ssfeditor_editor_help_dialog_opens_correct_file(qtbot, installation: HT
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'SSF-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'SSF-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"

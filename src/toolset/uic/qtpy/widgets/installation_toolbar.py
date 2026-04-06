@@ -25,7 +25,9 @@ class Ui_Form(object):
         self.installationLabel.setObjectName("installationLabel")
         self.topRow.addWidget(self.installationLabel)
         self.installationCombo = QtWidgets.QComboBox(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.installationCombo.sizePolicy().hasHeightForWidth())
@@ -48,11 +50,15 @@ class Ui_Form(object):
         self.modeFolderRadio = QtWidgets.QRadioButton(Form)
         self.modeFolderRadio.setObjectName("modeFolderRadio")
         self.modeRow.addWidget(self.modeFolderRadio)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.modeRow.addItem(spacerItem)
         self.rootLayout.addLayout(self.modeRow)
         self.pathsWidget = QtWidgets.QWidget(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pathsWidget.sizePolicy().hasHeightForWidth())

@@ -86,7 +86,15 @@ class SelectModuleDialog(QDialog):
         listed_modules: set[str] = set()
 
         for module in self._installation.modules_list():
-            casefold_module_file_name = str(PurePath(module).with_name(Module.filepath_to_root(module) + PurePath(module).suffix)).casefold().strip()
+            casefold_module_file_name = (
+                str(
+                    PurePath(module).with_name(
+                        Module.filepath_to_root(module) + PurePath(module).suffix
+                    )
+                )
+                .casefold()
+                .strip()
+            )
             if casefold_module_file_name in listed_modules:
                 continue
             listed_modules.add(casefold_module_file_name)

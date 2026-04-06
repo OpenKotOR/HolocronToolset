@@ -184,6 +184,7 @@ class UTWEditor(Editor):
         else:
             self.ui.resrefEdit.setText("m00xx_way_000")
 
+
 if __name__ == "__main__":
     import sys
 

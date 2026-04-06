@@ -13,15 +13,17 @@ if TYPE_CHECKING:
 def calculate_zoom_strength(delta_y: float, sens_setting: int) -> float:
     """Calculates a multiplicative zoom factor based on the scroll wheel delta
     and the user's camera sensitivity setting.
-    
+
     Args:
         delta_y: The scroll wheel delta reading from Qt events.
         sens_setting: The user configuration setting for sensitivity.
-        
+
     Returns:
         float: The strength (factor) by which to zoom.
     """
-    assert sens_setting is not None, f"sens_setting cannot be None in calculate_zoom_strength({delta_y!r})"
+    assert sens_setting is not None, (
+        f"sens_setting cannot be None in calculate_zoom_strength({delta_y!r})"
+    )
     m = 0.00202
     b = 1
     factor_in = m * sens_setting + b
@@ -35,6 +37,7 @@ def _control_from_settings(
 ) -> ControlItem:
     bind = getattr(settings, attr_name, default) if settings is not None else default
     return ControlItem(bind)
+
 
 def handle_standard_2d_camera_movement(
     renderer: Any,
@@ -50,7 +53,7 @@ def handle_standard_2d_camera_movement(
     settings: object | None = None,
 ) -> bool:
     """Handles standard 2D view pan and rotate. Returns True if the camera was moved.
-    
+
     Args:
         renderer: The renderer instance containing the camera.
         screen: Current mouse screen position.
@@ -61,7 +64,7 @@ def handle_standard_2d_camera_movement(
         move_sens: Camera pan sensitivity multiplier.
         rotate_sens: Camera rotation sensitivity multiplier.
         is_indoor_builder: If True, uses the IndoorBuilder camera API.
-        
+
     Returns:
         bool: True if a camera panning or rotation operation was performed.
     """
@@ -69,8 +72,12 @@ def handle_standard_2d_camera_movement(
 
     did_handle = False
 
-    pan_camera = _control_from_settings(settings, "moveCamera2dBind", (set(), {Qt.MouseButton.MiddleButton}))
-    rotate_camera = _control_from_settings(settings, "rotateCamera2dBind", ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}))
+    pan_camera = _control_from_settings(
+        settings, "moveCamera2dBind", (set(), {Qt.MouseButton.MiddleButton})
+    )
+    rotate_camera = _control_from_settings(
+        settings, "rotateCamera2dBind", ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton})
+    )
 
     if is_indoor_builder:
         if pan_camera.satisfied(buttons, keys):

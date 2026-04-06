@@ -29,7 +29,9 @@ class Ui_Form(object):
         self.colorSpin.setObjectName("colorSpin")
         self.horizontalLayout.addWidget(self.colorSpin)
         self.editButton = QtWidgets.QPushButton(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.editButton.sizePolicy().hasHeightForWidth())
@@ -44,4 +46,6 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.editButton.setText(_translate("Form", "Open ColorPicker"))
+
+
 from toolset.gui.widgets.long_spinbox import LongSpinBox

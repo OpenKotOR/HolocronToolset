@@ -118,7 +118,9 @@ class UTTEditor(Editor):
 
         if set_max_length and hasattr(widget, "lineEdit"):
             if not isinstance(widget, QComboBox):
-                self._logger.warning(f"Attempted to set max length on unsupported widget type {type(widget)}. Skipping...")
+                self._logger.warning(
+                    f"Attempted to set max length on unsupported widget type {type(widget)}. Skipping..."
+                )
                 return
             line_edit = widget.lineEdit()
             if line_edit is not None:
@@ -146,7 +148,16 @@ class UTTEditor(Editor):
                 widget.set_context(twoda, installation, twoda_name)
                 widget.set_items(twoda.get_column("label"))
 
-        self.relevant_script_resnames: list[str] = sorted(iter({res.resname().lower() for res in self._installation.get_relevant_resources(ResourceType.NCS, self._filepath)}))
+        self.relevant_script_resnames: list[str] = sorted(
+            iter(
+                {
+                    res.resname().lower()
+                    for res in self._installation.get_relevant_resources(
+                        ResourceType.NCS, self._filepath
+                    )
+                }
+            )
+        )
 
         for combo_box in self._script_combo_boxes():
             combo_box.populate_combo_box(self.relevant_script_resnames)
@@ -159,7 +170,12 @@ class UTTEditor(Editor):
             )
 
         # Setup reference search for Tag field
-        self._setup_reference_field(self.ui.tagEdit, [], "tag", "Right-click to find references to this tag in the installation.")
+        self._setup_reference_field(
+            self.ui.tagEdit,
+            [],
+            "tag",
+            "Right-click to find references to this tag in the installation.",
+        )
 
         # Setup reference search for TemplateResRef field
         self._setup_reference_field(
@@ -299,6 +315,7 @@ class UTTEditor(Editor):
             self.ui.resrefEdit.setText(self._resname)
         else:
             self.ui.resrefEdit.setText("m00xx_trg_000")
+
 
 if __name__ == "__main__":
     import sys

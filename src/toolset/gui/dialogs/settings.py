@@ -74,10 +74,16 @@ class SettingsDialog(QDialog):
         if self.isMaximized():
             return
 
-        if self.previous_page not in ("GIT Editor", "Module Designer") and page_item_text in ("GIT Editor", "Module Designer"):
+        if self.previous_page not in ("GIT Editor", "Module Designer") and page_item_text in (
+            "GIT Editor",
+            "Module Designer",
+        ):
             self.original_size = self.size()
             self.resize(800, 800)  # Adjust the size based on the image dimensions
-        elif self.previous_page in ("GIT Editor", "Module Designer") and page_item_text not in ("GIT Editor", "Module Designer"):
+        elif self.previous_page in ("GIT Editor", "Module Designer") and page_item_text not in (
+            "GIT Editor",
+            "Module Designer",
+        ):
             if self.original_size is not None:
                 self.resize(self.original_size)
 
@@ -87,14 +93,20 @@ class SettingsDialog(QDialog):
         reply: QMessageBox.StandardButton = QMessageBox.question(
             self,
             tr("Reset All Settings"),
-            tr("Are you sure you want to reset all settings to their default values? This action cannot be undone."),
+            tr(
+                "Are you sure you want to reset all settings to their default values? This action cannot be undone."
+            ),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
 
         if reply == QMessageBox.StandardButton.Yes:
             GlobalSettings().settings.clear()
-            QMessageBox.information(self, tr("Settings Reset"), tr("All settings have been cleared and reset to their default values."))
+            QMessageBox.information(
+                self,
+                tr("Settings Reset"),
+                tr("All settings have been cleared and reset to their default values."),
+            )
             self._is_resetting = True
             self.close()
 

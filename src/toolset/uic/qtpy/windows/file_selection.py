@@ -23,7 +23,9 @@ class Ui_MainWindow(object):
         self.detailedCheckbox.setObjectName("detailedCheckbox")
         self.mainLayout.addWidget(self.detailedCheckbox)
         self.resourceTable = QtWidgets.QTableWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.resourceTable.sizePolicy().hasHeightForWidth())

@@ -30,9 +30,7 @@ TOOLSET_WINDOWS: list[QDialog | QMainWindow] = []
 _UNIQUE_SENTINEL = object()
 _MAX_RECENT_FILES = 15
 _TOP_LEVEL_MESSAGE_FLAGS = (
-    Qt.WindowType.Window
-    | Qt.WindowType.Dialog
-    | Qt.WindowType.WindowStaysOnTopHint
+    Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint
 )  # pyright: ignore[reportArgumentType]
 _IMAGE_OR_TEXTURE_CATEGORY = {"Images", "Textures"}
 
@@ -75,10 +73,16 @@ def add_window(
         if isinstance(window, Editor) and window._filepath is not None:  # noqa: SLF001
             add_recent_file(window._filepath)  # noqa: SLF001
         if window in TOOLSET_WINDOWS:
-            RobustLogger().debug(f"Removing window (normal): {window.__class__.__name__} ({window})")
+            RobustLogger().debug(
+                f"Removing window (normal): {window.__class__.__name__} ({window})"
+            )
             TOOLSET_WINDOWS.remove(window)
-        if event is _UNIQUE_SENTINEL:  # Make event arg optional just in case the class has the wrong definition.
-            RobustLogger().debug(f"Closing window (sentinel): {window.__class__.__name__} ({window})")
+        if (
+            event is _UNIQUE_SENTINEL
+        ):  # Make event arg optional just in case the class has the wrong definition.
+            RobustLogger().debug(
+                f"Closing window (sentinel): {window.__class__.__name__} ({window})"
+            )
             original_closeEvent(*args, **kwargs)
         else:
             RobustLogger().debug(f"Closing window (event): {window.__class__.__name__} ({window})")
@@ -171,34 +175,34 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
     open_as_generic_gff: bool = False,
 ) -> tuple[os.PathLike | str | None, Editor | QMainWindow | None]:
     # To avoid circular imports, these need to be placed within the function
-    from toolset.gui.editors.are import AREEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.bwm import BWMEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.dlg import DLGEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.erf import ERFEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.fac import FACEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.gff import GFFEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.git import GITEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.ifo import IFOEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.jrl import JRLEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.lip import LIPEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.ltr import LTREditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.nss import NSSEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.pth import PTHEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.ssf import SSFEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.tlk import TLKEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.tpc import TPCEditor      # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.are import AREEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.bwm import BWMEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.dlg import DLGEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.erf import ERFEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.fac import FACEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.gff import GFFEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.git import GITEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.ifo import IFOEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.jrl import JRLEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.lip import LIPEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.ltr import LTREditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.nss import NSSEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.pth import PTHEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.ssf import SSFEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.tlk import TLKEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.tpc import TPCEditor  # type: ignore[import-not-found] # noqa: PLC0415
     from toolset.gui.editors.twoda import TwoDAEditor  # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.txt import TXTEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.utc import UTCEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.utd import UTDEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.ute import UTEEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.uti import UTIEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.utm import UTMEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.utp import UTPEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.uts import UTSEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.utt import UTTEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.utw import UTWEditor      # type: ignore[import-not-found] # noqa: PLC0415
-    from toolset.gui.editors.wav import WAVEditor      # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.txt import TXTEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.utc import UTCEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.utd import UTDEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.ute import UTEEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.uti import UTIEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.utm import UTMEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.utp import UTPEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.uts import UTSEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.utt import UTTEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.utw import UTWEditor  # type: ignore[import-not-found] # noqa: PLC0415
+    from toolset.gui.editors.wav import WAVEditor  # type: ignore[import-not-found] # noqa: PLC0415
 
     if gff_specialized is None:
         gff_specialized = GlobalSettings().gffSpecializedEditors
@@ -206,7 +210,9 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
         gff_specialized = False
 
     editor: Editor | None = None
-    parent_window_widget: QWidget | None = parent_window if isinstance(parent_window, QWidget) else None
+    parent_window_widget: QWidget | None = (
+        parent_window if isinstance(parent_window, QWidget) else None
+    )
 
     if resource:
         try:
@@ -214,7 +220,11 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
         except Exception:  # noqa: BLE001
             RobustLogger().exception("Exception occurred in _open_resource_editor_impl")
             from toolset.gui.helpers.message_box import show_error_message
-            show_error_message(tr("Failed to get the file data."), tr("An error occurred while attempting to read the data of the file."))
+
+            show_error_message(
+                tr("Failed to get the file data."),
+                tr("An error occurred while attempting to read the data of the file."),
+            )
             return None, None
         restype = resource.restype()
         resname = resource.resname()
@@ -241,7 +251,9 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
             )
         return filepath, existing_editor
 
-    def _instantiate_editor(editor_class: type[Editor], *, requires_installation: bool = False) -> Editor | None:
+    def _instantiate_editor(
+        editor_class: type[Editor], *, requires_installation: bool = False
+    ) -> Editor | None:
         """Create an editor instance with optional installation requirements."""
         if requires_installation and installation is None:
             return None
@@ -267,7 +279,13 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
         editor = _instantiate_editor(TPCEditor)
     elif restype.category == "Audio":
         editor = _instantiate_editor(WAVEditor)
-    elif restype.name in (ResourceType.ERF, ResourceType.SAV, ResourceType.MOD, ResourceType.RIM, ResourceType.BIF):
+    elif restype.name in (
+        ResourceType.ERF,
+        ResourceType.SAV,
+        ResourceType.MOD,
+        ResourceType.RIM,
+        ResourceType.BIF,
+    ):
         editor = _instantiate_editor(ERFEditor)
     elif restype == ResourceType.NCS:
         if installation is None:
@@ -280,7 +298,12 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
         editor = _instantiate_editor(NSSEditor)
     elif restype == ResourceType.BIK:
         from toolset.gui.helpers.message_box import show_info_message
-        show_info_message(tr("Unsupported file type"), tr("BIK video preview is not supported yet in the Toolset editor."), parent_window_widget)
+
+        show_info_message(
+            tr("Unsupported file type"),
+            tr("BIK video preview is not supported yet in the Toolset editor."),
+            parent_window_widget,
+        )
         return None, None
     else:
         # Handle target_type mappings with GFF specialization logic
@@ -353,7 +376,12 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
 
     if editor is None:
         from toolset.gui.helpers.message_box import show_error_message
-        show_error_message(tr("Failed to open file"), trf("The selected file format '{format}' is not yet supported.", format=str(restype)), parent_window_widget)
+
+        show_error_message(
+            tr("Failed to open file"),
+            trf("The selected file format '{format}' is not yet supported.", format=str(restype)),
+            parent_window_widget,
+        )
         return None, None
 
     try:
@@ -376,7 +404,12 @@ def _open_resource_editor_impl(  # noqa: C901, PLR0913, PLR0912, PLR0915
             if head:
                 data_signature = f"\n\nData signature (first 16 bytes): {head.hex(' ')}"
         from toolset.gui.helpers.message_box import show_error_message
-        show_error_message(tr("An unexpected error has occurred"), f"{(e.__class__.__name__, str(e))}{data_signature}", parent_window_widget)
+
+        show_error_message(
+            tr("An unexpected error has occurred"),
+            f"{(e.__class__.__name__, str(e))}{data_signature}",
+            parent_window_widget,
+        )
         return None, None
     else:
         return filepath, editor
@@ -399,7 +432,12 @@ def open_resource_editor_from_path(
     if not path.is_file():
         RobustLogger().warning("open_resource_editor_from_path: not a file: %s", path)
         from toolset.gui.helpers.message_box import show_warning_message
-        show_warning_message(tr("File not found"), trf("The path is not a file: {path}", path=str(path)), parent_window if isinstance(parent_window, QWidget) else None)
+
+        show_warning_message(
+            tr("File not found"),
+            trf("The path is not a file: {path}", path=str(path)),
+            parent_window if isinstance(parent_window, QWidget) else None,
+        )
         return None, None
     resource = FileResource.from_path(path)
     return open_resource_editor(

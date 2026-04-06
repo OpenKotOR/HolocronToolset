@@ -21,7 +21,9 @@ class Ui_Dialog(object):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName("splitter")
         self.settingsTree = QtWidgets.QTreeWidget(self.splitter)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.settingsTree.sizePolicy().hasHeightForWidth())
@@ -34,7 +36,9 @@ class Ui_Dialog(object):
         item_0 = QtWidgets.QTreeWidgetItem(self.settingsTree)
         item_0 = QtWidgets.QTreeWidgetItem(self.settingsTree)
         self.settingsStack = QtWidgets.QStackedWidget(self.splitter)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.settingsStack.sizePolicy().hasHeightForWidth())
@@ -83,14 +87,16 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.splitter)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
         self.settingsStack.setCurrentIndex(1)
-        self.buttonBox.accepted.connect(Dialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(Dialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(Dialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -105,6 +111,8 @@ class Ui_Dialog(object):
         self.settingsTree.topLevelItem(3).setText(0, _translate("Dialog", "Misc"))
         self.settingsTree.topLevelItem(4).setText(0, _translate("Dialog", "Application"))
         self.settingsTree.setSortingEnabled(__sortingEnabled)
+
+
 from toolset.gui.widgets.settings.installations import InstallationsWidget
 from toolset.gui.widgets.settings.widgets.application import ApplicationSettingsWidget
 from toolset.gui.widgets.settings.widgets.git import GITWidget

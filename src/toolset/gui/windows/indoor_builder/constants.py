@@ -28,7 +28,9 @@ MAX_CAMERA_ZOOM: Final[float] = 50.0  # Increased to allow much closer zoom
 # Zoom controls
 # Use multiplicative factor for linear visual zoom (each step changes by the same percentage)
 ZOOM_STEP_FACTOR: Final[float] = 1.15  # 15% zoom change per keyboard step (linear visual change)
-ZOOM_WHEEL_SENSITIVITY: Final[float] = 0.03  # Percentage change per wheel click (3% per click for finer control)
+ZOOM_WHEEL_SENSITIVITY: Final[float] = (
+    0.03  # Percentage change per wheel click (3% per click for finer control)
+)
 
 # =============================================================================
 # Snapping Constants

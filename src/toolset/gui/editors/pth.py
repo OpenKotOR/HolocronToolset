@@ -86,7 +86,9 @@ class AddNodeCommand(QUndoCommand):
 
 
 class MoveNodeCommand(QUndoCommand):
-    def __init__(self, pth: PTH, node_index: int, old_x: float, old_y: float, new_x: float, new_y: float):
+    def __init__(
+        self, pth: PTH, node_index: int, old_x: float, old_y: float, new_x: float, new_y: float
+    ):
         super().__init__()
         self._pth = pth
         self._node_index = node_index
@@ -132,14 +134,20 @@ class DeleteNodeCommand(QUndoCommand):
             if edge.target >= self._node_index:
                 edge.target += 1
         for src, tgt in self._saved_connections:
-            self._pth._connections.append(PTHEdge(self._old_to_new_index(src), self._old_to_new_index(tgt)))
+            self._pth._connections.append(
+                PTHEdge(self._old_to_new_index(src), self._old_to_new_index(tgt))
+            )
 
     def redo(self):
         point = self._pth.get(self._node_index)
         if point is None:
             return
         self._saved_point = (point.x, point.y)
-        self._saved_connections = [(e.source, e.target) for e in copy(self._pth._connections) if e.source == self._node_index or e.target == self._node_index]
+        self._saved_connections = [
+            (e.source, e.target)
+            for e in copy(self._pth._connections)
+            if e.source == self._node_index or e.target == self._node_index
+        ]
         self._pth.remove(self._node_index)
 
 
@@ -183,7 +191,9 @@ class DisconnectCommand(QUndoCommand):
 
 class PTHEditor(Editor):
     STANDALONE_FOLDER_PATHS = [
-        FolderPathSpec("modules_folder", "Modules Folder", "Folder containing extracted module resources."),
+        FolderPathSpec(
+            "modules_folder", "Modules Folder", "Folder containing extracted module resources."
+        ),
     ]
 
     def __init__(
@@ -216,7 +226,9 @@ class PTHEditor(Editor):
         self._tool_mode: str = "select"  # "select" | "add_node" | "connect"
         self._connect_drag_source_index: int | None = None  # for Connect tool
         self._drag_start_world: Vector2 | None = None  # for Select tool move
-        self._drag_initial_positions: list[tuple[int, float, float]] | None = None  # (node_index, x, y) when drag started
+        self._drag_initial_positions: list[tuple[int, float, float]] | None = (
+            None  # (node_index, x, y) when drag started
+        )
 
         self.settings: GITSettings = GITSettings()
 
@@ -331,7 +343,11 @@ class PTHEditor(Editor):
             action_select = getattr(self.ui, "actionSelect", None)
             action_add_node = getattr(self.ui, "actionAddNode", None)
             action_connect = getattr(self.ui, "actionConnect", None)
-            if action_select is not None and action_add_node is not None and action_connect is not None:
+            if (
+                action_select is not None
+                and action_add_node is not None
+                and action_connect is not None
+            ):
                 tool_group = QActionGroup(self)
                 tool_group.setExclusive(True)
                 for a in (action_select, action_add_node, action_connect):
@@ -368,7 +384,9 @@ class PTHEditor(Editor):
 
             action_show_grid = getattr(self.ui, "actionShowGrid", None)
             if action_show_grid is not None:
-                action_show_grid.toggled.connect(lambda value: setattr(self.ui.renderArea, "show_grid", value))
+                action_show_grid.toggled.connect(
+                    lambda value: setattr(self.ui.renderArea, "show_grid", value)
+                )
                 action_show_grid.toggled.connect(lambda _: self.ui.renderArea.update())
 
         # Properties dock is created in code so the .ui compiles with PyQt5 uic (which can fail on QDockWidget).
@@ -438,10 +456,14 @@ class PTHEditor(Editor):
         self.ui.renderArea.update()
 
     def _on_property_x_changed(self, value: float):
-        self._apply_property_position(value, self._properties_spin_y.value() if self._properties_spin_y else 0.0, "x")
+        self._apply_property_position(
+            value, self._properties_spin_y.value() if self._properties_spin_y else 0.0, "x"
+        )
 
     def _on_property_y_changed(self, value: float):
-        self._apply_property_position(self._properties_spin_x.value() if self._properties_spin_x else 0.0, value, "y")
+        self._apply_property_position(
+            self._properties_spin_x.value() if self._properties_spin_x else 0.0, value, "y"
+        )
 
     def _apply_property_position(self, x: float, y: float, changed: str):
         selected = self.ui.renderArea.path_selection.all()
@@ -461,7 +483,11 @@ class PTHEditor(Editor):
 
     def _refresh_properties_inspector(self):
         """Update Properties dock from current selection."""
-        if self._properties_spin_x is None or self._properties_spin_y is None or self._properties_connections is None:
+        if (
+            self._properties_spin_x is None
+            or self._properties_spin_y is None
+            or self._properties_connections is None
+        ):
             return
         selected = self.ui.renderArea.path_selection.all()
         if not selected:
@@ -491,7 +517,9 @@ class PTHEditor(Editor):
         for edge in self._pth.outgoing(idx):
             target = self._pth.get(edge.target)
             if target:
-                self._properties_connections.addItem(f"→ {edge.target} ({target.x:.1f}, {target.y:.1f})")
+                self._properties_connections.addItem(
+                    f"→ {edge.target} ({target.x:.1f}, {target.y:.1f})"
+                )
         for edge in self._pth.incoming(idx):
             self._properties_connections.addItem(f"← {edge.source}")
 
@@ -507,8 +535,14 @@ class PTHEditor(Editor):
 
         layout_data: bytes | None = None
         if self._installation is not None:
-            order: list[SearchLocation] = [SearchLocation.OVERRIDE, SearchLocation.CHITIN, SearchLocation.MODULES]
-            result: ResourceResult | None = self._installation.resource(resref, ResourceType.LYT, order)
+            order: list[SearchLocation] = [
+                SearchLocation.OVERRIDE,
+                SearchLocation.CHITIN,
+                SearchLocation.MODULES,
+            ]
+            result: ResourceResult | None = self._installation.resource(
+                resref, ResourceType.LYT, order
+            )
             if result is not None:
                 layout_data = result.data
         else:
@@ -522,7 +556,11 @@ class PTHEditor(Editor):
 
             BetterMessageBox(
                 tr("Layout not found"),
-                trf("PTHEditor requires {resref}.lyt in order to load '{resref}.{restype}', but it could not be found.", resref=str(resref), restype=str(restype)),
+                trf(
+                    "PTHEditor requires {resref}.lyt in order to load '{resref}.{restype}', but it could not be found.",
+                    resref=str(resref),
+                    restype=str(restype),
+                ),
                 icon=QMessageBox.Icon.Critical,  # pyright: ignore[reportArgumentType]
             ).exec()
 
@@ -559,7 +597,9 @@ class PTHEditor(Editor):
                     SearchLocation.CHITIN,
                     SearchLocation.MODULES,
                 ]
-                findBWM: ResourceResult | None = self._installation.resource(room.model, ResourceType.WOK, order)
+                findBWM: ResourceResult | None = self._installation.resource(
+                    room.model, ResourceType.WOK, order
+                )
                 walkmesh_data = findBWM.data if findBWM is not None else None
             else:
                 walkmesh_data = self._resolve_path_resource(room.model, "wok")
@@ -615,7 +655,9 @@ class PTHEditor(Editor):
         for node_index, old_x, old_y in self._drag_initial_positions:
             point = self._pth.get(node_index)
             if point and (point.x != old_x or point.y != old_y):
-                self._undo_stack.push(MoveNodeCommand(self._pth, node_index, old_x, old_y, point.x, point.y))
+                self._undo_stack.push(
+                    MoveNodeCommand(self._pth, node_index, old_x, old_y, point.x, point.y)
+                )
         self._drag_initial_positions = None
         self._refresh_properties_inspector()
 
@@ -660,7 +702,9 @@ class PTHEditor(Editor):
         world_delta: Vector2 = self.ui.renderArea.to_world_delta(delta.x, delta.y)
         world: Vector3 = self.ui.renderArea.to_world_coords(screen.x, screen.y)
         self.update_status_bar(left_status=f"{world.x:.1f}, {world.y:.1f}")
-        self._controls.on_mouse_moved(screen, delta, Vector2.from_vector3(world), world_delta, buttons, keys)
+        self._controls.on_mouse_moved(
+            screen, delta, Vector2.from_vector3(world), world_delta, buttons, keys
+        )
 
     def on_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
         # print(f"on_mouse_scrolled(delta={delta!r})", file=self.stdout)
@@ -670,7 +714,9 @@ class PTHEditor(Editor):
         world = Vector2.from_vector3(self.ui.renderArea.to_world_coords(screen.x, screen.y))
         self._controls.on_mouse_pressed(screen, buttons, keys, world)
 
-    def on_mouse_released(self, screen: Vector2, buttons: set[int], keys: set[int], released_button: int | None = None):
+    def on_mouse_released(
+        self, screen: Vector2, buttons: set[int], keys: set[int], released_button: int | None = None
+    ):
         world = Vector2.from_vector3(self.ui.renderArea.to_world_coords(screen.x, screen.y))
         self._controls.on_mouse_released(screen, buttons, keys, world)
 
@@ -699,8 +745,12 @@ class PTHControlScheme:
         self.settings: GITSettings = GITSettings()
         self._nav_helper = Viewport2DNavigationHelper(
             self.editor.ui.renderArea,
-            get_content_bounds=lambda: aabb_from_points((point.x, point.y) for point in self.editor.pth()),
-            get_selection_bounds=lambda: aabb_from_points((point.x, point.y) for point in self.editor.selected_nodes()),
+            get_content_bounds=lambda: aabb_from_points(
+                (point.x, point.y) for point in self.editor.pth()
+            ),
+            get_selection_bounds=lambda: aabb_from_points(
+                (point.x, point.y) for point in self.editor.selected_nodes()
+            ),
             settings=self.settings,
         )
 
@@ -709,7 +759,9 @@ class PTHControlScheme:
         self.editor.update_status_bar(left_status=f"{point.x()}, {point.y()}")
 
     def on_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
-        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
+        if self._nav_helper.handle_mouse_scroll(
+            delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d
+        ):
             return
         if self.zoom_camera.satisfied(buttons, keys):
             if not delta.y:
@@ -753,7 +805,11 @@ class PTHControlScheme:
         world: Vector2,
     ):
         mode = self.editor._tool_mode
-        left = Qt.MouseButton.LeftButton in buttons if hasattr(buttons, "__contains__") else (Qt.MouseButton.LeftButton in buttons)
+        left = (
+            Qt.MouseButton.LeftButton in buttons
+            if hasattr(buttons, "__contains__")
+            else (Qt.MouseButton.LeftButton in buttons)
+        )
 
         if mode == "select" and self.select_underneath.satisfied(buttons, keys):
             nodes_under = self.editor.points_under_mouse()
@@ -795,7 +851,11 @@ class PTHControlScheme:
             if nodes_under:
                 tgt = self.editor.pth().find(nodes_under[0])
                 if tgt is not None and tgt != src:
-                    bidirectional = Qt.Key.Key_Shift in keys if hasattr(keys, "__contains__") else (Qt.Key.Key_Shift in keys)
+                    bidirectional = (
+                        Qt.Key.Key_Shift in keys
+                        if hasattr(keys, "__contains__")
+                        else (Qt.Key.Key_Shift in keys)
+                    )
                     self.editor.addEdge(src, tgt, bidirectional=bidirectional)
                     self.editor._refresh_properties_inspector()
             self.editor._connect_drag_source_index = None
@@ -806,7 +866,11 @@ class PTHControlScheme:
         buttons: set[Qt.MouseButton] | set[int] | set[Qt.MouseButton | int],
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
-        if self._nav_helper.handle_key_pressed(set(keys), buttons=set(buttons), pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10):
+        if self._nav_helper.handle_key_pressed(
+            set(keys),
+            buttons=set(buttons),
+            pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10,
+        ):
             return
         if self.delete_selected.satisfied(buttons, keys):
             node = None

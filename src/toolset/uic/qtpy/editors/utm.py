@@ -15,7 +15,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(414, 335)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -79,7 +81,9 @@ class Ui_MainWindow(object):
         self.idSpin.setMaximum(255)
         self.idSpin.setObjectName("idSpin")
         self.horizontalLayout.addWidget(self.idSpin)
-        spacerItem = QtWidgets.QSpacerItem(29, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            29, 17, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.formLayout.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout)
         self.verticalLayout_3.addLayout(self.formLayout)
@@ -119,7 +123,9 @@ class Ui_MainWindow(object):
         self.label_3.setObjectName("label_3")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_3)
         self.onOpenEdit = QtWidgets.QLineEdit(self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onOpenEdit.sizePolicy().hasHeightForWidth())
@@ -131,7 +137,9 @@ class Ui_MainWindow(object):
         self.label_4.setObjectName("label_4")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_4)
         self.storeFlagSelect = QtWidgets.QComboBox(self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.storeFlagSelect.sizePolicy().hasHeightForWidth())
@@ -192,78 +200,142 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_6.setText(_translate("MainWindow", "Name:"))
-        self.nameEdit.setToolTip(_translate("MainWindow", "Name (GFF: LocName). CExoLocString. The display name shown in the\n"
-"                merchant/store interface when the player opens the store. Engine reads via\n"
-"                ReadFieldCExoLocString in CSWSStore::LoadStore. Default when missing: empty.\n"
-"                In-game: shown at the top of the store UI. Modders: set a descriptive name (e.g.\n"
-"                \"Dantooine Merchant\", \"Czerka Corp\"); use the game language for localization. Empty\n"
-"                names may show as blank."))
+        self.nameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Name (GFF: LocName). CExoLocString. The display name shown in the\n"
+                "                merchant/store interface when the player opens the store. Engine reads via\n"
+                "                ReadFieldCExoLocString in CSWSStore::LoadStore. Default when missing: empty.\n"
+                "                In-game: shown at the top of the store UI. Modders: set a descriptive name (e.g.\n"
+                '                "Dantooine Merchant", "Czerka Corp"); use the game language for localization. Empty\n'
+                "                names may show as blank.",
+            )
+        )
         self.label_14.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). CExoString. Unique identifier for this merchant. Engine reads\n"
-"                via ReadFieldCExoString in CSWSStore::LoadStore; default \"\". In-game: scripts use\n"
-"                GetObjectByTag(sTag) to find the merchant (e.g. for OpenStore, dialogue conditions).\n"
-"                Modders: keep unique per module so scripts target the correct store; set a\n"
-"                descriptive tag (e.g. \"dan_merchant\"). Changing a tag breaks existing script\n"
-"                references. Empty is valid but scripts cannot find this merchant."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate Tag from ResRef. Copies the Template ResRef into the Tag field so\n"
-"                they stay in sync. Use when you need to reference this merchant by tag in scripts\n"
-"                (GetObjectByTag)."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). CExoString. Unique identifier for this merchant. Engine reads\n"
+                '                via ReadFieldCExoString in CSWSStore::LoadStore; default "". In-game: scripts use\n'
+                "                GetObjectByTag(sTag) to find the merchant (e.g. for OpenStore, dialogue conditions).\n"
+                "                Modders: keep unique per module so scripts target the correct store; set a\n"
+                '                descriptive tag (e.g. "dan_merchant"). Changing a tag breaks existing script\n'
+                "                references. Empty is valid but scripts cannot find this merchant.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate Tag from ResRef. Copies the Template ResRef into the Tag field so\n"
+                "                they stay in sync. Use when you need to reference this merchant by tag in scripts\n"
+                "                (GetObjectByTag).",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_38.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: ResRef). ResRef (max 16 characters); .utm extension\n"
-"                implied. Identifies this merchant template file. When you place a store in an area\n"
-"                (GIT StoreList), the toolset stores this ResRef so the game loads the correct UTM.\n"
-"                LoadStore receives the struct from the loaded UTM file (via LoadFromTemplate).\n"
-"                Modders: must match the .utm filename (without extension); keep under 16 characters.\n"
-"                Mismatch can cause missing or wrong store data when loading the area."))
-        self.resrefGenerateButton.setToolTip(_translate("MainWindow", "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
-"                16 characters). ResRef must match the .utm filename for the game to load the\n"
-"                template when placing stores in areas."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: ResRef). ResRef (max 16 characters); .utm extension\n"
+                "                implied. Identifies this merchant template file. When you place a store in an area\n"
+                "                (GIT StoreList), the toolset stores this ResRef so the game loads the correct UTM.\n"
+                "                LoadStore receives the struct from the loaded UTM file (via LoadFromTemplate).\n"
+                "                Modders: must match the .utm filename (without extension); keep under 16 characters.\n"
+                "                Mismatch can cause missing or wrong store data when loading the area.",
+            )
+        )
+        self.resrefGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate ResRef from Tag. Copies the Tag into the Template ResRef field (max\n"
+                "                16 characters). ResRef must match the .utm filename for the game to load the\n"
+                "                template when placing stores in areas.",
+            )
+        )
         self.resrefGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_39.setText(_translate("MainWindow", "ID:"))
-        self.idSpin.setToolTip(_translate("MainWindow", "ID (GFF: ID). Toolset-only—the game engine never reads this. Used for\n"
-"                organization in the toolset palette. Stored as BYTE (0–255) when saving; values\n"
-"                outside 0–255 are truncated. Modders: leave at default or use for your own\n"
-"                categorization. Has no effect on store behavior in-game."))
-        self.inventoryButton.setToolTip(_translate("MainWindow", "Edit Inventory (GFF: ItemList). Opens the inventory editor for the merchant\'s\n"
-"            ItemList. Add UTI ResRefs; set infinite stock or droppable per item. Engine loads via\n"
-"            GetList/GetListElement; each element has InventoryRes (CResRef), Infinite (BYTE),\n"
-"            ObjectId (DWORD). Changes are written to the UTM when you save. Empty list = merchant\n"
-"            has no items until added at runtime."))
+        self.idSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "ID (GFF: ID). Toolset-only—the game engine never reads this. Used for\n"
+                "                organization in the toolset palette. Stored as BYTE (0–255) when saving; values\n"
+                "                outside 0–255 are truncated. Modders: leave at default or use for your own\n"
+                "                categorization. Has no effect on store behavior in-game.",
+            )
+        )
+        self.inventoryButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Edit Inventory (GFF: ItemList). Opens the inventory editor for the merchant's\n"
+                "            ItemList. Add UTI ResRefs; set infinite stock or droppable per item. Engine loads via\n"
+                "            GetList/GetListElement; each element has InventoryRes (CResRef), Infinite (BYTE),\n"
+                "            ObjectId (DWORD). Changes are written to the UTM when you save. Empty list = merchant\n"
+                "            has no items until added at runtime.",
+            )
+        )
         self.inventoryButton.setText(_translate("MainWindow", "Edit Inventory"))
         self.groupBox.setTitle(_translate("MainWindow", "Pricing"))
         self.label.setText(_translate("MainWindow", "Mark Up"))
-        self.markUpSpin.setToolTip(_translate("MainWindow", "Mark Up (GFF: MarkUp). INT32. Engine reads via ReadFieldINT in\n"
-"                 CSWSStore::LoadStore; default 0. Percentage multiplier for the selling price: 100 =\n"
-"                 base item price; 150 = 50% markup; 200 = double price. In-game: applied when the\n"
-"                 player buys items. Modders: typical 100–150; 0 may cause free or broken pricing.\n"
-"                 Negative values can cause odd behavior."))
+        self.markUpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Mark Up (GFF: MarkUp). INT32. Engine reads via ReadFieldINT in\n"
+                "                 CSWSStore::LoadStore; default 0. Percentage multiplier for the selling price: 100 =\n"
+                "                 base item price; 150 = 50% markup; 200 = double price. In-game: applied when the\n"
+                "                 player buys items. Modders: typical 100–150; 0 may cause free or broken pricing.\n"
+                "                 Negative values can cause odd behavior.",
+            )
+        )
         self.label_2.setText(_translate("MainWindow", "Mark Down"))
-        self.markDownSpin.setToolTip(_translate("MainWindow", "Mark Down (GFF: MarkDown). INT32. Engine reads via ReadFieldINT in\n"
-"                 CSWSStore::LoadStore; default 0. Percentage of base item price the merchant pays\n"
-"                 when the player sells: 100 = full price; 50 = half; 25 = quarter. In-game: applied\n"
-"                 when the player sells items. Modders: typical 25–100; 0 may mean the merchant pays\n"
-"                 nothing. Negative values can cause odd behavior."))
+        self.markDownSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Mark Down (GFF: MarkDown). INT32. Engine reads via ReadFieldINT in\n"
+                "                 CSWSStore::LoadStore; default 0. Percentage of base item price the merchant pays\n"
+                "                 when the player sells: 100 = full price; 50 = half; 25 = quarter. In-game: applied\n"
+                "                 when the player sells items. Modders: typical 25–100; 0 may mean the merchant pays\n"
+                "                 nothing. Negative values can cause odd behavior.",
+            )
+        )
         self.label_3.setText(_translate("MainWindow", "OnOpenStore"))
-        self.onOpenEdit.setToolTip(_translate("MainWindow", "OnOpenStore (GFF: OnOpenStore). ResRef of NCS script (max 16 characters).\n"
-"                   Engine reads via ReadFieldCResRef in CSWSStore::LoadStore. Fires when the player\n"
-"                   opens the store—before the UI appears. In-game: use for custom logic,\n"
-"                   restrictions, or dynamic inventory. Modders: leave blank for no script; script\n"
-"                   runs in store context. Max 16 characters."))
+        self.onOpenEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "OnOpenStore (GFF: OnOpenStore). ResRef of NCS script (max 16 characters).\n"
+                "                   Engine reads via ReadFieldCResRef in CSWSStore::LoadStore. Fires when the player\n"
+                "                   opens the store—before the UI appears. In-game: use for custom logic,\n"
+                "                   restrictions, or dynamic inventory. Modders: leave blank for no script; script\n"
+                "                   runs in store context. Max 16 characters.",
+            )
+        )
         self.label_4.setText(_translate("MainWindow", "Store"))
-        self.storeFlagSelect.setToolTip(_translate("MainWindow", "Store (GFF: BuySellFlag). BYTE. Engine reads via ReadFieldBYTE in\n"
-"                   CSWSStore::LoadStore. Bit 0 = can buy from player; bit 1 = can sell to player.\n"
-"                   Only Buy = bit 0; Only Sell = bit 1; Buy and Sell = both. In-game: restricts what\n"
-"                   the player can do in the store UI. Modders: choose based on merchant role (e.g.\n"
-"                   vendor = both; junk dealer = buy only)."))
+        self.storeFlagSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Store (GFF: BuySellFlag). BYTE. Engine reads via ReadFieldBYTE in\n"
+                "                   CSWSStore::LoadStore. Bit 0 = can buy from player; bit 1 = can sell to player.\n"
+                "                   Only Buy = bit 0; Only Sell = bit 1; Buy and Sell = both. In-game: restricts what\n"
+                "                   the player can do in the store UI. Modders: choose based on merchant role (e.g.\n"
+                "                   vendor = both; junk dealer = buy only).",
+            )
+        )
         self.storeFlagSelect.setItemText(0, _translate("MainWindow", "Only Buy"))
         self.storeFlagSelect.setItemText(1, _translate("MainWindow", "Only Sell"))
         self.storeFlagSelect.setItemText(2, _translate("MainWindow", "Buy and Sell"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
-        self.commentsEdit.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer notes—the game never reads or\n"
-"            displays this. Use for documentation, change logs, or notes for your team. Modders: no\n"
-"            length limit in GFF; has no effect on store behavior in-game."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
+        self.commentsEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer notes—the game never reads or\n"
+                "            displays this. Use for documentation, change logs, or notes for your team. Modders: no\n"
+                "            length limit in GFF; has no effect on store behavior in-game.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
@@ -271,4 +343,6 @@ class Ui_MainWindow(object):
         self.actionSaveAs.setText(_translate("MainWindow", "Save As"))
         self.actionRevert.setText(_translate("MainWindow", "Revert"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
+
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit

@@ -24,41 +24,45 @@ class Ui_Widget(object):
         self.terminalOutput.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
         self.terminalOutput.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.terminalOutput.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.terminalOutput.setStyleSheet("QPlainTextEdit {\n"
-"       background-color: palette(base);\n"
-"       color: palette(text);\n"
-"       border: none;\n"
-"       padding: 8px;\n"
-"       selection-background-color: palette(highlight);\n"
-"       selection-color: palette(highlighted-text);\n"
-"       }\n"
-"       QScrollBar:vertical {\n"
-"       background-color: palette(base);\n"
-"       width: 14px;\n"
-"       border: none;\n"
-"       }\n"
-"       QScrollBar::handle:vertical {\n"
-"       background-color: palette(mid);\n"
-"       min-height: 30px;\n"
-"       border-radius: 7px;\n"
-"       }\n"
-"       QScrollBar::handle:vertical:hover {\n"
-"       background-color: palette(dark);\n"
-"       }\n"
-"       QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"       height: 0px;\n"
-"       }")
+        self.terminalOutput.setStyleSheet(
+            "QPlainTextEdit {\n"
+            "       background-color: palette(base);\n"
+            "       color: palette(text);\n"
+            "       border: none;\n"
+            "       padding: 8px;\n"
+            "       selection-background-color: palette(highlight);\n"
+            "       selection-color: palette(highlighted-text);\n"
+            "       }\n"
+            "       QScrollBar:vertical {\n"
+            "       background-color: palette(base);\n"
+            "       width: 14px;\n"
+            "       border: none;\n"
+            "       }\n"
+            "       QScrollBar::handle:vertical {\n"
+            "       background-color: palette(mid);\n"
+            "       min-height: 30px;\n"
+            "       border-radius: 7px;\n"
+            "       }\n"
+            "       QScrollBar::handle:vertical:hover {\n"
+            "       background-color: palette(dark);\n"
+            "       }\n"
+            "       QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "       height: 0px;\n"
+            "       }"
+        )
         self.terminalOutput.setObjectName("terminalOutput")
         self.mainLayout.addWidget(self.terminalOutput)
         self.terminalInput = QtWidgets.QLineEdit(Widget)
-        self.terminalInput.setStyleSheet("QLineEdit {\n"
-"       background-color: palette(base);\n"
-"       color: palette(text);\n"
-"       border: none;\n"
-"       padding: 6px 8px;\n"
-"       selection-background-color: palette(highlight);\n"
-"       selection-color: palette(highlighted-text);\n"
-"       }")
+        self.terminalInput.setStyleSheet(
+            "QLineEdit {\n"
+            "       background-color: palette(base);\n"
+            "       color: palette(text);\n"
+            "       border: none;\n"
+            "       padding: 6px 8px;\n"
+            "       selection-background-color: palette(highlight);\n"
+            "       selection-color: palette(highlighted-text);\n"
+            "       }"
+        )
         self.terminalInput.setObjectName("terminalInput")
         self.mainLayout.addWidget(self.terminalInput)
 

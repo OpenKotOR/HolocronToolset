@@ -100,9 +100,15 @@ class LTREditor(Editor):
 
         for i, char in enumerate(char_set):
             self.ui.tableSingles.setItem(i, 0, QTableWidgetItem(char))
-            self.ui.tableSingles.setItem(i, 1, QTableWidgetItem(str(self.ltr._singles.get_start(char))))
-            self.ui.tableSingles.setItem(i, 2, QTableWidgetItem(str(self.ltr._singles.get_middle(char))))
-            self.ui.tableSingles.setItem(i, 3, QTableWidgetItem(str(self.ltr._singles.get_end(char))))
+            self.ui.tableSingles.setItem(
+                i, 1, QTableWidgetItem(str(self.ltr._singles.get_start(char)))
+            )
+            self.ui.tableSingles.setItem(
+                i, 2, QTableWidgetItem(str(self.ltr._singles.get_middle(char)))
+            )
+            self.ui.tableSingles.setItem(
+                i, 3, QTableWidgetItem(str(self.ltr._singles.get_end(char)))
+            )
 
         index = 0
         for prev_char in char_set:
@@ -111,9 +117,15 @@ class LTREditor(Editor):
             for char in char_set:
                 self.ui.tableDoubles.setItem(index, 0, QTableWidgetItem(prev_char))
                 self.ui.tableDoubles.setItem(index, 1, QTableWidgetItem(char))
-                self.ui.tableDoubles.setItem(index, 2, QTableWidgetItem(str(doubles_row.get_start(char))))
-                self.ui.tableDoubles.setItem(index, 3, QTableWidgetItem(str(doubles_row.get_middle(char))))
-                self.ui.tableDoubles.setItem(index, 4, QTableWidgetItem(str(doubles_row.get_end(char))))
+                self.ui.tableDoubles.setItem(
+                    index, 2, QTableWidgetItem(str(doubles_row.get_start(char)))
+                )
+                self.ui.tableDoubles.setItem(
+                    index, 3, QTableWidgetItem(str(doubles_row.get_middle(char)))
+                )
+                self.ui.tableDoubles.setItem(
+                    index, 4, QTableWidgetItem(str(doubles_row.get_end(char)))
+                )
                 index += 1
 
         index = 0
@@ -125,9 +137,15 @@ class LTREditor(Editor):
                     self.ui.tableTriples.setItem(index, 0, QTableWidgetItem(prev2_char))
                     self.ui.tableTriples.setItem(index, 1, QTableWidgetItem(prev1_char))
                     self.ui.tableTriples.setItem(index, 2, QTableWidgetItem(char))
-                    self.ui.tableTriples.setItem(index, 3, QTableWidgetItem(str(triples_cell.get_start(char))))
-                    self.ui.tableTriples.setItem(index, 4, QTableWidgetItem(str(triples_cell.get_middle(char))))
-                    self.ui.tableTriples.setItem(index, 5, QTableWidgetItem(str(triples_cell.get_end(char))))
+                    self.ui.tableTriples.setItem(
+                        index, 3, QTableWidgetItem(str(triples_cell.get_start(char)))
+                    )
+                    self.ui.tableTriples.setItem(
+                        index, 4, QTableWidgetItem(str(triples_cell.get_middle(char)))
+                    )
+                    self.ui.tableTriples.setItem(
+                        index, 5, QTableWidgetItem(str(triples_cell.get_end(char)))
+                    )
                     index += 1
 
     def show_header_context_menu(self, position: QPoint):
@@ -290,6 +308,7 @@ class LTREditor(Editor):
         self.ltr = LTR()
         self.ui.lineEditGeneratedName.setText("")
         self.updateUIFromLTR()
+
 
 if __name__ == "__main__":
     import sys

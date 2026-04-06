@@ -49,7 +49,9 @@ class Ui_Dialog(object):
         self.browseFileButton = QtWidgets.QPushButton(Dialog)
         self.browseFileButton.setObjectName("browseFileButton")
         self.buttonsLayout.addWidget(self.browseFileButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.buttonsLayout.addItem(spacerItem)
         self.okButton = QtWidgets.QPushButton(Dialog)
         self.okButton.setObjectName("okButton")

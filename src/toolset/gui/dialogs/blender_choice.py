@@ -145,15 +145,21 @@ class BlenderChoiceDialog(QDialog):
 
             if self._blender_info.has_kotorblender:
                 # kotorblender installed - all good
-                addon_label = QLabel(f"<b>kotorblender {self._blender_info.kotorblender_version}</b> installed")
+                addon_label = QLabel(
+                    f"<b>kotorblender {self._blender_info.kotorblender_version}</b> installed"
+                )
                 addon_label.setStyleSheet(f"color: {colors['success']};")
                 self._info_layout.addWidget(addon_label)
             else:
                 # kotorblender missing - show warning and install option
-                self._warning_label = QLabel(f"<span style='color: {colors['warning']};'><b>Warning:</b> kotorblender not found</span>")
+                self._warning_label = QLabel(
+                    f"<span style='color: {colors['warning']};'><b>Warning:</b> kotorblender not found</span>"
+                )
                 self._info_layout.addWidget(self._warning_label)
 
-                self._install_hint_label = QLabel("<small>kotorblender is required to use Blender. Install it to enable the Blender option.</small>")
+                self._install_hint_label = QLabel(
+                    "<small>kotorblender is required to use Blender. Install it to enable the Blender option.</small>"
+                )
                 self._install_hint_label.setWordWrap(True)
                 self._install_hint_label.setStyleSheet(f"color: {colors['muted']};")
                 self._info_layout.addWidget(self._install_hint_label)
@@ -164,7 +170,9 @@ class BlenderChoiceDialog(QDialog):
 
                 self._install_button = QPushButton("Install kotorblender")
                 self._install_button.clicked.connect(self._install_kotorblender)
-                self._install_button.setToolTip("Automatically install kotorblender from bundled source")
+                self._install_button.setToolTip(
+                    "Automatically install kotorblender from bundled source"
+                )
                 install_button_layout.addWidget(self._install_button)
 
                 browse_addon_btn = QPushButton("Browse...")
@@ -182,10 +190,14 @@ class BlenderChoiceDialog(QDialog):
 
         else:
             # No Blender found - show error and browse option
-            error_label = QLabel(f"<span style='color: {colors['error']};'><b>Blender not found</b></span>")
+            error_label = QLabel(
+                f"<span style='color: {colors['error']};'><b>Blender not found</b></span>"
+            )
             self._info_layout.addWidget(error_label)
 
-            hint_label = QLabel("<small>Install Blender 3.6 or later, or browse to an existing installation.</small>")
+            hint_label = QLabel(
+                "<small>Install Blender 3.6 or later, or browse to an existing installation.</small>"
+            )
             hint_label.setWordWrap(True)
             hint_label.setStyleSheet(f"color: {colors['muted']};")
             self._info_layout.addWidget(hint_label)
@@ -330,7 +342,9 @@ class BlenderChoiceDialog(QDialog):
         try:
             # Try to verify IPC connection if Blender might be running
             # This ensures the addon is actually working, not just copied
-            success, message = install_kotorblender(self._blender_info, source_path, verify_ipc=True)
+            success, message = install_kotorblender(
+                self._blender_info, source_path, verify_ipc=True
+            )
 
             if success:
                 # Update UI
@@ -573,7 +587,9 @@ class BlenderSettingsWidget(QFrame):
                 status += f"<br><span style='color: {colors['success']};'>✓ kotorblender {self._blender_info.kotorblender_version} installed</span>"
                 self._install_kotorblender_btn.setVisible(False)
             else:
-                status += f"<br><span style='color: {colors['warning']};'>⚠ kotorblender not found</span>"
+                status += (
+                    f"<br><span style='color: {colors['warning']};'>⚠ kotorblender not found</span>"
+                )
                 self._install_kotorblender_btn.setVisible(True)
 
             status += f"<br><small>{self._blender_info.executable}</small>"

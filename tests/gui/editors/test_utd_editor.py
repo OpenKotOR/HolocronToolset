@@ -30,7 +30,9 @@ if TYPE_CHECKING:
 # ============================================================================
 
 
-def test_utd_editor_manipulate_name_locstring(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_name_locstring(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating name LocalizedString field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -51,14 +53,18 @@ def test_utd_editor_manipulate_name_locstring(qtbot: QtBot, installation: HTInst
     data, _ = editor.build()
     modified_utd = read_utd(data)
     assert modified_utd.name.get(Language.ENGLISH, Gender.MALE) == "Modified Door Name"
-    assert modified_utd.name.get(Language.ENGLISH, Gender.MALE) != original_utd.name.get(Language.ENGLISH, Gender.MALE)
+    assert modified_utd.name.get(Language.ENGLISH, Gender.MALE) != original_utd.name.get(
+        Language.ENGLISH, Gender.MALE
+    )
 
     # Load back and verify
     editor.load(utd_file, "naldoor001", ResourceType.UTD, data)
     assert editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Door Name"
 
 
-def test_utd_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating tag field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -85,7 +91,9 @@ def test_utd_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation, t
     assert editor.ui.tagEdit.text() == "modified_tag"
 
 
-def test_utd_editor_manipulate_tag_generate_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_tag_generate_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test tag generation button."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -109,7 +117,9 @@ def test_utd_editor_manipulate_tag_generate_button(qtbot: QtBot, installation: H
     assert modified_utd.tag == generated_tag
 
 
-def test_utd_editor_manipulate_resref(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_resref(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating resref field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -134,7 +144,9 @@ def test_utd_editor_manipulate_resref(qtbot: QtBot, installation: HTInstallation
     assert editor.ui.resrefEdit.text() == "modified_resref"
 
 
-def test_utd_editor_manipulate_resref_generate_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_resref_generate_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test resref generation button."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -158,7 +170,9 @@ def test_utd_editor_manipulate_resref_generate_button(qtbot: QtBot, installation
     assert str(modified_utd.resref) == generated_resref
 
 
-def test_utd_editor_manipulate_appearance(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_appearance(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating appearance combo box."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -185,7 +199,9 @@ def test_utd_editor_manipulate_appearance(qtbot: QtBot, installation: HTInstalla
             assert editor.ui.appearanceSelect.currentIndex() == i
 
 
-def test_utd_editor_manipulate_conversation(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_conversation(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating conversation field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -215,7 +231,9 @@ def test_utd_editor_manipulate_conversation(qtbot: QtBot, installation: HTInstal
 # ============================================================================
 
 
-def test_utd_editor_manipulate_min1_hp_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_min1_hp_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating min1 HP checkbox."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -239,7 +257,9 @@ def test_utd_editor_manipulate_min1_hp_checkbox(qtbot: QtBot, installation: HTIn
     assert not modified_utd.min1_hp
 
 
-def test_utd_editor_manipulate_plot_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_plot_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating plot checkbox."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -263,7 +283,9 @@ def test_utd_editor_manipulate_plot_checkbox(qtbot: QtBot, installation: HTInsta
     assert not modified_utd.plot
 
 
-def test_utd_editor_manipulate_static_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_static_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating static checkbox."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -287,7 +309,9 @@ def test_utd_editor_manipulate_static_checkbox(qtbot: QtBot, installation: HTIns
     assert not modified_utd.static
 
 
-def test_utd_editor_manipulate_not_blastable_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_not_blastable_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating not blastable checkbox (TSL only)."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -314,7 +338,9 @@ def test_utd_editor_manipulate_not_blastable_checkbox(qtbot: QtBot, installation
     assert not modified_utd.not_blastable
 
 
-def test_utd_editor_manipulate_faction(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_faction(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating faction combo box."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -337,7 +363,9 @@ def test_utd_editor_manipulate_faction(qtbot: QtBot, installation: HTInstallatio
             assert modified_utd.faction_id == i
 
 
-def test_utd_editor_manipulate_animation_state(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_animation_state(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating animation state spin box."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -364,7 +392,9 @@ def test_utd_editor_manipulate_animation_state(qtbot: QtBot, installation: HTIns
         assert editor.ui.animationState.value() == val
 
 
-def test_utd_editor_manipulate_hp_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_hp_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating HP spin boxes."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -393,7 +423,9 @@ def test_utd_editor_manipulate_hp_spins(qtbot: QtBot, installation: HTInstallati
         assert modified_utd.maximum_hp == val
 
 
-def test_utd_editor_manipulate_save_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_save_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating save (hardness, fortitude, reflex, will) spin boxes."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -440,7 +472,9 @@ def test_utd_editor_manipulate_save_spins(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_utd_editor_manipulate_locked_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_locked_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating locked checkbox."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -464,7 +498,9 @@ def test_utd_editor_manipulate_locked_checkbox(qtbot: QtBot, installation: HTIns
     assert not modified_utd.locked
 
 
-def test_utd_editor_manipulate_need_key_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_need_key_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating need key checkbox."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -488,7 +524,9 @@ def test_utd_editor_manipulate_need_key_checkbox(qtbot: QtBot, installation: HTI
     assert not modified_utd.key_required
 
 
-def test_utd_editor_manipulate_remove_key_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_remove_key_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating remove key checkbox."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -512,7 +550,9 @@ def test_utd_editor_manipulate_remove_key_checkbox(qtbot: QtBot, installation: H
     assert not modified_utd.auto_remove_key
 
 
-def test_utd_editor_manipulate_key_edit(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_key_edit(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating key name field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -539,7 +579,9 @@ def test_utd_editor_manipulate_key_edit(qtbot: QtBot, installation: HTInstallati
         assert editor.ui.keyEdit.text() == key
 
 
-def test_utd_editor_manipulate_unlock_dc_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_unlock_dc_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating unlock DC spin boxes."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -581,7 +623,9 @@ def test_utd_editor_manipulate_unlock_dc_spins(qtbot: QtBot, installation: HTIns
 # ============================================================================
 
 
-def test_utd_editor_manipulate_on_click_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_click_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on click script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -602,7 +646,9 @@ def test_utd_editor_manipulate_on_click_script(qtbot: QtBot, installation: HTIns
     assert str(modified_utd.on_click) == "test_on_click"
 
 
-def test_utd_editor_manipulate_on_closed_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_closed_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on closed script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -623,7 +669,9 @@ def test_utd_editor_manipulate_on_closed_script(qtbot: QtBot, installation: HTIn
     assert str(modified_utd.on_closed) == "test_on_closed"
 
 
-def test_utd_editor_manipulate_on_damaged_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_damaged_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on damaged script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -644,7 +692,9 @@ def test_utd_editor_manipulate_on_damaged_script(qtbot: QtBot, installation: HTI
     assert str(modified_utd.on_damaged) == "test_on_damaged"
 
 
-def test_utd_editor_manipulate_on_death_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_death_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on death script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -665,7 +715,9 @@ def test_utd_editor_manipulate_on_death_script(qtbot: QtBot, installation: HTIns
     assert str(modified_utd.on_death) == "test_on_death"
 
 
-def test_utd_editor_manipulate_on_open_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_open_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on open script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -686,7 +738,9 @@ def test_utd_editor_manipulate_on_open_script(qtbot: QtBot, installation: HTInst
     assert str(modified_utd.on_open) == "test_on_open"
 
 
-def test_utd_editor_manipulate_on_open_failed_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_open_failed_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on open failed script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -707,7 +761,9 @@ def test_utd_editor_manipulate_on_open_failed_script(qtbot: QtBot, installation:
     assert str(modified_utd.on_open_failed) == "test_on_open_fai"
 
 
-def test_utd_editor_manipulate_on_unlock_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_on_unlock_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on unlock script field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -728,7 +784,9 @@ def test_utd_editor_manipulate_on_unlock_script(qtbot: QtBot, installation: HTIn
     assert str(modified_utd.on_unlock) == "test_on_unlock"
 
 
-def test_utd_editor_manipulate_all_scripts(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_all_scripts(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all script fields."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -775,7 +833,9 @@ def test_utd_editor_manipulate_all_scripts(qtbot: QtBot, installation: HTInstall
 # ============================================================================
 
 
-def test_utd_editor_manipulate_comments(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_comments(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating comments field."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -814,7 +874,9 @@ def test_utd_editor_manipulate_comments(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_utd_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_all_basic_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all basic fields simultaneously."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -844,7 +906,9 @@ def test_utd_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, instal
     assert str(modified_utd.conversation) == "test_conv"
 
 
-def test_utd_editor_manipulate_all_advanced_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_all_advanced_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all advanced fields simultaneously."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -888,7 +952,9 @@ def test_utd_editor_manipulate_all_advanced_fields_combination(qtbot: QtBot, ins
     assert modified_utd.willpower == 25
 
 
-def test_utd_editor_manipulate_all_lock_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_manipulate_all_lock_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all lock fields simultaneously."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -926,7 +992,9 @@ def test_utd_editor_manipulate_all_lock_fields_combination(qtbot: QtBot, install
 # ============================================================================
 
 
-def test_utd_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -959,7 +1027,9 @@ def test_utd_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     assert editor.ui.resrefEdit.text() == str(original_utd.resref)
 
 
-def test_utd_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_save_load_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1005,7 +1075,9 @@ def test_utd_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, install
     assert saved_utd2.comment == saved_utd1.comment
 
 
-def test_utd_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1044,7 +1116,9 @@ def test_utd_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInst
 # ============================================================================
 
 
-def test_utd_editor_minimum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_minimum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all fields to minimum values."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1079,7 +1153,9 @@ def test_utd_editor_minimum_values(qtbot: QtBot, installation: HTInstallation, t
     assert modified_utd.hardness == 0
 
 
-def test_utd_editor_maximum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_maximum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all fields to maximum values."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1148,7 +1224,9 @@ def test_utd_editor_empty_strings(qtbot: QtBot, installation: HTInstallation, te
     assert str(modified_utd.on_death) == ""
 
 
-def test_utd_editor_special_characters_in_text_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_special_characters_in_text_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in text fields."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1180,7 +1258,9 @@ def test_utd_editor_special_characters_in_text_fields(qtbot: QtBot, installation
 # ============================================================================
 
 
-def test_utd_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_gff_roundtrip_comparison(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip comparison like resource tests."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1208,7 +1288,9 @@ def test_utd_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInsta
     assert diff, f"GFF comparison failed:\n{chr(10).join(log_messages)}"
 
 
-def test_utd_editor_gff_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_gff_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1294,7 +1376,9 @@ def test_utd_editor_new_file_all_defaults(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_utd_editor_generate_tag_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_generate_tag_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test tag generation button functionality."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1316,7 +1400,9 @@ def test_utd_editor_generate_tag_button(qtbot: QtBot, installation: HTInstallati
     assert generated_tag
 
 
-def test_utd_editor_generate_resref_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_generate_resref_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test resref generation button functionality."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1338,7 +1424,9 @@ def test_utd_editor_generate_resref_button(qtbot: QtBot, installation: HTInstall
     assert generated_resref
 
 
-def test_utd_editor_conversation_modify_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_conversation_modify_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test conversation modify button exists."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1347,7 +1435,9 @@ def test_utd_editor_conversation_modify_button(qtbot: QtBot, installation: HTIns
     assert hasattr(editor.ui, "conversationModifyButton")
 
     # Verify signal is connected
-    assert editor.ui.conversationModifyButton.receivers(editor.ui.conversationModifyButton.clicked) > 0
+    assert (
+        editor.ui.conversationModifyButton.receivers(editor.ui.conversationModifyButton.clicked) > 0
+    )
 
 
 # ============================================================================
@@ -1372,7 +1462,9 @@ def test_utd_editor_preview_toggle(qtbot: QtBot, installation: HTInstallation):
     assert callable(editor.update3dPreview)
 
 
-def test_utdeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_utdeditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that UTDEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -1394,13 +1486,17 @@ def test_utdeditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-UTD.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-UTD.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
 
 
-def test_utd_editor_preview_updates(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_utd_editor_preview_updates(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test preview updates when appearance changes."""
     editor = UTDEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1415,4 +1511,6 @@ def test_utd_editor_preview_updates(qtbot: QtBot, installation: HTInstallation, 
     if editor.ui.appearanceSelect.count() > 1:
         editor.ui.appearanceSelect.setCurrentIndex(1)
         # Signal should be connected
-        assert editor.ui.appearanceSelect.receivers(editor.ui.appearanceSelect.currentIndexChanged) > 0
+        assert (
+            editor.ui.appearanceSelect.receivers(editor.ui.appearanceSelect.currentIndexChanged) > 0
+        )

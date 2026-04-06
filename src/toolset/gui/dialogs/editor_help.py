@@ -46,7 +46,10 @@ def get_wiki_path() -> tuple[Path, Path | None]:
         toolset_root / "help" / "wiki",
         toolset_root / "wiki",
     ]
-    toolset_wiki = next((candidate for candidate in toolset_wiki_candidates if candidate.exists()), toolset_wiki_candidates[0])
+    toolset_wiki = next(
+        (candidate for candidate in toolset_wiki_candidates if candidate.exists()),
+        toolset_wiki_candidates[0],
+    )
 
     root_wiki_candidate = repo_root / "wiki"
     root_wiki: Path | None = root_wiki_candidate if root_wiki_candidate.exists() else None
@@ -67,7 +70,11 @@ class EditorHelpDialog(QDialog):
         super().__init__(parent)
         from toolset.gui.common.localization import trf
 
-        self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.WindowCloseButtonHint | Qt.WindowType.WindowMinMaxButtonsHint & ~Qt.WindowType.WindowContextHelpButtonHint)
+        self.setWindowFlags(
+            Qt.WindowType.Dialog
+            | Qt.WindowType.WindowCloseButtonHint
+            | Qt.WindowType.WindowMinMaxButtonsHint & ~Qt.WindowType.WindowContextHelpButtonHint
+        )
         from toolset.uic.qtpy.dialogs.editor_help import Ui_Dialog
 
         self.ui = Ui_Dialog()
@@ -122,7 +129,9 @@ class EditorHelpDialog(QDialog):
 
         try:
             text: str = decode_bytes_with_fallbacks(file_path.read_bytes())
-            html_body: str = markdown.markdown(text, extensions=["tables", "fenced_code", "codehilite", "toc"])
+            html_body: str = markdown.markdown(
+                text, extensions=["tables", "fenced_code", "codehilite", "toc"]
+            )
             html: str = wrap_html_with_palette_styles(html_body, self)
             self.ui.textBrowser.setHtml(html)
         except Exception as e:

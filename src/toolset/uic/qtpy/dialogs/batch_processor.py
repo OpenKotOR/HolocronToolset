@@ -37,7 +37,9 @@ class Ui_Dialog(object):
         self.clearAudioBtn = QtWidgets.QPushButton(Dialog)
         self.clearAudioBtn.setObjectName("clearAudioBtn")
         self.buttonLayout.addWidget(self.clearAudioBtn)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.buttonLayout.addItem(spacerItem)
         self.audioLayout.addLayout(self.buttonLayout)
         self.mainLayout.addLayout(self.audioLayout)

@@ -15,22 +15,24 @@ class Ui_Widget(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
         Widget.resize(400, 30)
-        Widget.setStyleSheet("QWidget {\n"
-"    background-color: palette(window);\n"
-"    }\n"
-"    QPushButton {\n"
-"    background-color: transparent;\n"
-"    color: palette(windowText);\n"
-"    border: none;\n"
-"    padding: 2px 4px;\n"
-"    text-align: left;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"    background-color: palette(button);\n"
-"    }\n"
-"    QLabel {\n"
-"    color: palette(mid);\n"
-"    }")
+        Widget.setStyleSheet(
+            "QWidget {\n"
+            "    background-color: palette(window);\n"
+            "    }\n"
+            "    QPushButton {\n"
+            "    background-color: transparent;\n"
+            "    color: palette(windowText);\n"
+            "    border: none;\n"
+            "    padding: 2px 4px;\n"
+            "    text-align: left;\n"
+            "    }\n"
+            "    QPushButton:hover {\n"
+            "    background-color: palette(button);\n"
+            "    }\n"
+            "    QLabel {\n"
+            "    color: palette(mid);\n"
+            "    }"
+        )
         self.mainLayout = QtWidgets.QHBoxLayout(Widget)
         self.mainLayout.setContentsMargins(4, 2, 4, 2)
         self.mainLayout.setSpacing(2)

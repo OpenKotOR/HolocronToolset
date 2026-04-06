@@ -40,7 +40,9 @@ class TXTEditor(Editor):
             - Connects signals
             - Opens new empty document.
         """
-        supported: list[ResourceType] = [member for member in ResourceType if member.contents == "plaintext"]
+        supported: list[ResourceType] = [
+            member for member in ResourceType if member.contents == "plaintext"
+        ]
         super().__init__(parent, "Text Editor", "none", supported, supported, installation)
         self.resize(400, 250)
 
@@ -93,7 +95,12 @@ class TXTEditor(Editor):
     def toggle_word_wrap(self):
         self._word_wrap = not self._word_wrap
         self.ui.actionWord_Wrap.setChecked(self._word_wrap)
-        self.ui.textEdit.setLineWrapMode(QPlainTextEdit.LineWrapMode.WidgetWidth if self._word_wrap else QPlainTextEdit.LineWrapMode.NoWrap)
+        self.ui.textEdit.setLineWrapMode(
+            QPlainTextEdit.LineWrapMode.WidgetWidth
+            if self._word_wrap
+            else QPlainTextEdit.LineWrapMode.NoWrap
+        )
+
 
 if __name__ == "__main__":
     import sys

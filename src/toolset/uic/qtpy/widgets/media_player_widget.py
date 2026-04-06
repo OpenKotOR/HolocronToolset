@@ -90,9 +90,16 @@ class Ui_MediaPlayerWidget(object):
         _translate = QtCore.QCoreApplication.translate
         self.playPauseButton.setToolTip(_translate("MediaPlayerWidget", "Play/Pause (Space)"))
         self.stopButton.setToolTip(_translate("MediaPlayerWidget", "Stop (S)"))
-        self.timeSlider.setToolTip(_translate("MediaPlayerWidget", "Drag to seek, click to jump (Left/Right: ±5s, Shift+Left/Right: ±1s)"))
+        self.timeSlider.setToolTip(
+            _translate(
+                "MediaPlayerWidget",
+                "Drag to seek, click to jump (Left/Right: ±5s, Shift+Left/Right: ±1s)",
+            )
+        )
         self.timeLabel.setToolTip(_translate("MediaPlayerWidget", "Current time / Total duration"))
         self.timeLabel.setText(_translate("MediaPlayerWidget", "00:00 / 00:00"))
         self.muteButton.setToolTip(_translate("MediaPlayerWidget", "Mute/Unmute (M)"))
-        self.speedButton.setToolTip(_translate("MediaPlayerWidget", "Playback Speed (Click to cycle, [ to slow, ] to fast)"))
+        self.speedButton.setToolTip(
+            _translate("MediaPlayerWidget", "Playback Speed (Click to cycle, [ to slow, ] to fast)")
+        )
         self.speedButton.setText(_translate("MediaPlayerWidget", "1.0x"))

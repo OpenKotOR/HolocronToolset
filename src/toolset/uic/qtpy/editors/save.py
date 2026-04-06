@@ -101,9 +101,17 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGlobalVars), _translate("MainWindow", "Global Variables"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabCachedModules), _translate("MainWindow", "Cached Modules"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGeneralResources), _translate("MainWindow", "General Resources"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabGlobalVars), _translate("MainWindow", "Global Variables")
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabCachedModules),
+            _translate("MainWindow", "Cached Modules"),
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabGeneralResources),
+            _translate("MainWindow", "General Resources"),
+        )
         self.menuTools.setTitle(_translate("MainWindow", "&Tools"))
         self.actionRebuildCachedModules.setText(_translate("MainWindow", "Rebuild cached modules"))
         self.actionFlushEventQueue.setText(_translate("MainWindow", "Flush EventQueue"))

@@ -270,7 +270,10 @@ class Debugger:
                 # StackObject list
                 for i, obj in enumerate(stack_state):
                     var_name = f"stack[{i}]"
-                    variables[var_name] = {"type": obj.data_type.name if hasattr(obj, "data_type") else "unknown", "value": obj.value if hasattr(obj, "value") else str(obj)}
+                    variables[var_name] = {
+                        "type": obj.data_type.name if hasattr(obj, "data_type") else "unknown",
+                        "value": obj.value if hasattr(obj, "value") else str(obj),
+                    }
         except Exception:
             pass
 
@@ -319,12 +322,22 @@ class Debugger:
                         if 0 <= index < len(stack_state):
                             obj = stack_state[index]
                             if hasattr(obj, "value"):
-                                return {"type": obj.data_type.name if hasattr(obj, "data_type") else "unknown", "value": obj.value}
+                                return {
+                                    "type": obj.data_type.name
+                                    if hasattr(obj, "data_type")
+                                    else "unknown",
+                                    "value": obj.value,
+                                }
                         elif index < 0 and abs(index) <= len(stack_state):
                             # Negative index from end
                             obj = stack_state[index]
                             if hasattr(obj, "value"):
-                                return {"type": obj.data_type.name if hasattr(obj, "data_type") else "unknown", "value": obj.value}
+                                return {
+                                    "type": obj.data_type.name
+                                    if hasattr(obj, "data_type")
+                                    else "unknown",
+                                    "value": obj.value,
+                                }
                     return f"Stack index {index} out of range"
                 except ValueError:
                     return f"Invalid stack index: {index_str}"
@@ -341,7 +354,9 @@ class Debugger:
                     return {"type": "FLOAT", "value": value}
                 except ValueError:
                     # Try string literal
-                    if (expression.startswith('"') and expression.endswith('"')) or (expression.startswith("'") and expression.endswith("'")):
+                    if (expression.startswith('"') and expression.endswith('"')) or (
+                        expression.startswith("'") and expression.endswith("'")
+                    ):
                         return {"type": "STRING", "value": expression[1:-1]}
 
             # Try simple arithmetic
@@ -352,7 +367,10 @@ class Debugger:
                     # Use Python's eval for simple expressions (safe in this context)
                     result = eval(expression, {"__builtins__": {}}, {})
                     if isinstance(result, (int, float)):
-                        return {"type": "INT" if isinstance(result, int) else "FLOAT", "value": result}
+                        return {
+                            "type": "INT" if isinstance(result, int) else "FLOAT",
+                            "value": result,
+                        }
                     return str(result)
                 except Exception as e:
                     return f"Evaluation error: {e!s}"

@@ -24,7 +24,9 @@ from pykotor.common.misc import ResRef  # type: ignore[import-not-found]
 # ============================================================================
 
 
-def test_uts_editor_manipulate_name_locstring(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_name_locstring(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating name LocalizedString field."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -45,11 +47,15 @@ def test_uts_editor_manipulate_name_locstring(qtbot, installation: HTInstallatio
     data, _ = editor.build()
     modified_uts = read_uts(data)
     assert modified_uts.name.get(Language.ENGLISH, Gender.MALE) == "Modified Sound Name"
-    assert modified_uts.name.get(Language.ENGLISH, Gender.MALE) != original_uts.name.get(Language.ENGLISH, Gender.MALE)
+    assert modified_uts.name.get(Language.ENGLISH, Gender.MALE) != original_uts.name.get(
+        Language.ENGLISH, Gender.MALE
+    )
 
     # Load back and verify
     editor.load(uts_file, "low_air_01", ResourceType.UTS, data)
-    assert editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Sound Name"
+    assert (
+        editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Sound Name"
+    )
 
 
 def test_uts_editor_manipulate_tag(qtbot, installation: HTInstallation, test_files_dir: Path):
@@ -104,7 +110,9 @@ def test_uts_editor_manipulate_resref(qtbot, installation: HTInstallation, test_
     assert editor.ui.resrefEdit.text() == "modified_resref"
 
 
-def test_uts_editor_manipulate_volume_slider(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_volume_slider(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating volume slider."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -131,7 +139,9 @@ def test_uts_editor_manipulate_volume_slider(qtbot, installation: HTInstallation
         assert editor.ui.volumeSlider.value() == vol
 
 
-def test_uts_editor_manipulate_active_checkbox(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_active_checkbox(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating active checkbox."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -160,7 +170,9 @@ def test_uts_editor_manipulate_active_checkbox(qtbot, installation: HTInstallati
 # ============================================================================
 
 
-def test_uts_editor_manipulate_play_random_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_play_random_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating play random radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -184,7 +196,9 @@ def test_uts_editor_manipulate_play_random_radio(qtbot, installation: HTInstalla
     assert modified_uts.random_range_x != 0 or modified_uts.random_range_y != 0
 
 
-def test_uts_editor_manipulate_play_specific_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_play_specific_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating play specific radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -206,7 +220,9 @@ def test_uts_editor_manipulate_play_specific_radio(qtbot, installation: HTInstal
     assert modified_uts.positional
 
 
-def test_uts_editor_manipulate_play_everywhere_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_play_everywhere_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating play everywhere radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -232,7 +248,9 @@ def test_uts_editor_manipulate_play_everywhere_radio(qtbot, installation: HTInst
     assert modified_uts.random_range_y == 0
 
 
-def test_uts_editor_manipulate_order_sequential_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_order_sequential_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating order sequential radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -254,7 +272,9 @@ def test_uts_editor_manipulate_order_sequential_radio(qtbot, installation: HTIns
     assert modified_uts.random_pick == 0
 
 
-def test_uts_editor_manipulate_order_random_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_order_random_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating order random radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -276,7 +296,9 @@ def test_uts_editor_manipulate_order_random_radio(qtbot, installation: HTInstall
     assert modified_uts.random_pick == 1
 
 
-def test_uts_editor_manipulate_interval_spins(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_interval_spins(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating interval spin boxes."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -304,7 +326,9 @@ def test_uts_editor_manipulate_interval_spins(qtbot, installation: HTInstallatio
         assert modified_uts.interval_variation == val
 
 
-def test_uts_editor_manipulate_variation_sliders(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_variation_sliders(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating variation sliders."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -540,7 +564,9 @@ def test_uts_editor_multiple_sounds(qtbot, installation: HTInstallation, test_fi
 # ============================================================================
 
 
-def test_uts_editor_manipulate_style_once_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_style_once_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating style once radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -568,7 +594,9 @@ def test_uts_editor_manipulate_style_once_radio(qtbot, installation: HTInstallat
     assert not modified_uts.continuous
 
 
-def test_uts_editor_manipulate_style_repeat_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_style_repeat_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating style repeat radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -591,7 +619,9 @@ def test_uts_editor_manipulate_style_repeat_radio(qtbot, installation: HTInstall
     assert not modified_uts.continuous
 
 
-def test_uts_editor_manipulate_style_seamless_radio(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_style_seamless_radio(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating style seamless radio button."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -621,7 +651,9 @@ def test_uts_editor_manipulate_style_seamless_radio(qtbot, installation: HTInsta
     assert modified_uts.continuous
 
 
-def test_uts_editor_manipulate_distance_spins(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_distance_spins(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating distance spin boxes."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -640,7 +672,9 @@ def test_uts_editor_manipulate_distance_spins(qtbot, installation: HTInstallatio
         data, _ = editor.build()
         modified_uts = read_uts(data)
         # Use approximate comparison for floating point values (tolerance accounts for float precision in GFF serialization)
-        assert abs(modified_uts.min_distance - val) < 0.02, f"Expected min_distance ≈ {val}, got {modified_uts.min_distance}"
+        assert abs(modified_uts.min_distance - val) < 0.02, (
+            f"Expected min_distance ≈ {val}, got {modified_uts.min_distance}"
+        )
 
     # Test max volume distance (max_distance)
     for val in test_distance_values:
@@ -648,10 +682,14 @@ def test_uts_editor_manipulate_distance_spins(qtbot, installation: HTInstallatio
         data, _ = editor.build()
         modified_uts = read_uts(data)
         # Use approximate comparison for floating point values (tolerance accounts for float precision in GFF serialization)
-        assert abs(modified_uts.max_distance - val) < 0.02, f"Expected max_distance ≈ {val}, got {modified_uts.max_distance}"
+        assert abs(modified_uts.max_distance - val) < 0.02, (
+            f"Expected max_distance ≈ {val}, got {modified_uts.max_distance}"
+        )
 
 
-def test_uts_editor_manipulate_height_spin(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_height_spin(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating height spin box."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -678,7 +716,9 @@ def test_uts_editor_manipulate_height_spin(qtbot, installation: HTInstallation, 
         assert editor.ui.heightSpin.value() == val
 
 
-def test_uts_editor_manipulate_random_range_spins(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_random_range_spins(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating random range spin boxes."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -750,7 +790,9 @@ def test_uts_editor_manipulate_comments(qtbot, installation: HTInstallation, tes
 # ============================================================================
 
 
-def test_uts_editor_manipulate_all_basic_fields_combination(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_all_basic_fields_combination(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all basic fields simultaneously."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -780,7 +822,9 @@ def test_uts_editor_manipulate_all_basic_fields_combination(qtbot, installation:
     assert modified_uts.active
 
 
-def test_uts_editor_manipulate_all_playback_fields_combination(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_all_playback_fields_combination(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all playback fields simultaneously."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -816,7 +860,9 @@ def test_uts_editor_manipulate_all_playback_fields_combination(qtbot, installati
     assert abs(modified_uts.pitch_variation - 0.5) < 0.01
 
 
-def test_uts_editor_manipulate_all_positioning_fields_combination(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_manipulate_all_positioning_fields_combination(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all positioning fields simultaneously."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -850,7 +896,9 @@ def test_uts_editor_manipulate_all_positioning_fields_combination(qtbot, install
 # ============================================================================
 
 
-def test_uts_editor_save_load_roundtrip_identity(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_save_load_roundtrip_identity(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -882,7 +930,9 @@ def test_uts_editor_save_load_roundtrip_identity(qtbot, installation: HTInstalla
     assert editor.ui.resrefEdit.text() == str(original_uts.resref)
 
 
-def test_uts_editor_save_load_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_save_load_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -933,7 +983,9 @@ def test_uts_editor_save_load_roundtrip_with_modifications(qtbot, installation: 
     assert saved_uts2.comment == saved_uts1.comment
 
 
-def test_uts_editor_multiple_save_load_cycles(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_multiple_save_load_cycles(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1063,7 +1115,9 @@ def test_uts_editor_empty_strings(qtbot, installation: HTInstallation, test_file
     assert modified_uts.comment == ""
 
 
-def test_uts_editor_special_characters_in_text_fields(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_special_characters_in_text_fields(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in text fields."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1095,7 +1149,9 @@ def test_uts_editor_special_characters_in_text_fields(qtbot, installation: HTIns
 # ============================================================================
 
 
-def test_uts_editor_gff_roundtrip_comparison(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_gff_roundtrip_comparison(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip comparison like resource tests."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1123,7 +1179,9 @@ def test_uts_editor_gff_roundtrip_comparison(qtbot, installation: HTInstallation
     assert diff, f"GFF comparison failed:\n{chr(10).join(log_messages)}"
 
 
-def test_uts_editor_gff_roundtrip_with_modifications(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_gff_roundtrip_with_modifications(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1244,7 +1302,9 @@ def test_uts_editor_generate_tag_button(qtbot, installation: HTInstallation, tes
     assert generated_tag
 
 
-def test_uts_editor_generate_resref_button(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_generate_resref_button(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test resref generation button functionality."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1406,7 +1466,9 @@ def test_uts_editor_stop_sound_button(qtbot, installation: HTInstallation, test_
 # ============================================================================
 
 
-def test_uts_editor_style_once_disables_interval_group(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_style_once_disables_interval_group(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that style once disables interval group."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1431,7 +1493,9 @@ def test_uts_editor_style_once_disables_interval_group(qtbot, installation: HTIn
     assert editor.ui.variationGroup.isEnabled()
 
 
-def test_uts_editor_style_seamless_disables_all_groups(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_style_seamless_disables_all_groups(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that style seamless disables all style groups."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1454,7 +1518,9 @@ def test_uts_editor_style_seamless_disables_all_groups(qtbot, installation: HTIn
     assert not editor.ui.variationGroup.isEnabled()
 
 
-def test_uts_editor_style_repeat_enables_all_groups(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_style_repeat_enables_all_groups(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that style repeat enables all style groups."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1482,7 +1548,9 @@ def test_uts_editor_style_repeat_enables_all_groups(qtbot, installation: HTInsta
 # ============================================================================
 
 
-def test_uts_editor_play_random_enables_range_groups(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_play_random_enables_range_groups(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that play random enables range groups."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1503,7 +1571,9 @@ def test_uts_editor_play_random_enables_range_groups(qtbot, installation: HTInst
     assert editor.ui.distanceGroup.isEnabled()
 
 
-def test_uts_editor_play_specific_disables_range_group(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_uts_editor_play_specific_disables_range_group(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that play specific disables range group."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1552,13 +1622,17 @@ def test_utseditor_editor_help_dialog_opens_correct_file(qtbot, installation: HT
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-UTS.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-UTS.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
 
 
-def test_utseditor_play_everywhere_disables_all_position_groups(qtbot, installation: HTInstallation, test_files_dir: Path):
+def test_utseditor_play_everywhere_disables_all_position_groups(
+    qtbot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that play everywhere disables all position groups."""
     editor = UTSEditor(None, installation)
     qtbot.addWidget(editor)

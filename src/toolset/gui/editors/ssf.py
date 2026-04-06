@@ -337,7 +337,9 @@ class SSFEditor(Editor):
                 row.more_button.setEnabled(False)
             return
 
-        pairs: dict[tuple[QLineEdit, QLineEdit], int] = {(r.sound_edit, r.text_edit): r.spin.value() for r in self._rows}
+        pairs: dict[tuple[QLineEdit, QLineEdit], int] = {
+            (r.sound_edit, r.text_edit): r.spin.value() for r in self._rows
+        }
         batch: dict[int, StringResult] = self._talktable.batch(list(pairs.values()))
 
         for pair, stringref in pairs.items():
@@ -358,7 +360,9 @@ class SSFEditor(Editor):
             row.more_button.setEnabled(enabled)
 
     def select_talk_table(self):
-        filepath, filter = QFileDialog.getOpenFileName(self, "Select a TLK file", "", "TalkTable (*.tlk)")
+        filepath, filter = QFileDialog.getOpenFileName(
+            self, "Select a TLK file", "", "TalkTable (*.tlk)"
+        )
         if filepath:
             self._talktable = TalkTable(filepath)
         self.update_text_boxes()
@@ -392,7 +396,9 @@ class SSFEditor(Editor):
 
     def _setup_sound_rows(self):
         style: QStyle | None = self.style()
-        play_icon = style.standardIcon(QStyle.StandardPixmap.SP_MediaPlay) if style is not None else None  # pyright: ignore[reportOptionalMemberAccess]
+        play_icon = (
+            style.standardIcon(QStyle.StandardPixmap.SP_MediaPlay) if style is not None else None
+        )  # pyright: ignore[reportOptionalMemberAccess]
 
         self._rows = [
             _SSFRow(
@@ -443,19 +449,110 @@ class SSFEditor(Editor):
                 self.ui.battlecry6PlayButton,
                 self.ui.battlecry6MoreButton,
             ),
-            _SSFRow("Select 1", self.ui.select1StrrefSpin, self.ui.select1SoundEdit, self.ui.select1TextEdit, self.ui.select1PlayButton, self.ui.select1MoreButton),
-            _SSFRow("Select 2", self.ui.select2StrrefSpin, self.ui.select2SoundEdit, self.ui.select2TextEdit, self.ui.select2PlayButton, self.ui.select2MoreButton),
-            _SSFRow("Select 3", self.ui.select3StrrefSpin, self.ui.select3SoundEdit, self.ui.select3TextEdit, self.ui.select3PlayButton, self.ui.select3MoreButton),
-            _SSFRow("Attack Grunt 1", self.ui.attack1StrrefSpin, self.ui.attack1SoundEdit, self.ui.attack1TextEdit, self.ui.attack1PlayButton, self.ui.attack1MoreButton),
-            _SSFRow("Attack Grunt 2", self.ui.attack2StrrefSpin, self.ui.attack2SoundEdit, self.ui.attack2TextEdit, self.ui.attack2PlayButton, self.ui.attack2MoreButton),
-            _SSFRow("Attack Grunt 3", self.ui.attack3StrrefSpin, self.ui.attack3SoundEdit, self.ui.attack3TextEdit, self.ui.attack3PlayButton, self.ui.attack3MoreButton),
-            _SSFRow("Pain Grunt 1", self.ui.pain1StrrefSpin, self.ui.pain1SoundEdit, self.ui.pain1TextEdit, self.ui.pain1PlayButton, self.ui.pain1MoreButton),
-            _SSFRow("Pain Grunt 2", self.ui.pain2StrrefSpin, self.ui.pain2SoundEdit, self.ui.pain2TextEdit, self.ui.pain2PlayButton, self.ui.pain2MoreButton),
-            _SSFRow("Low Health", self.ui.lowHpStrrefSpin, self.ui.lowHpSoundEdit, self.ui.lowHpTextEdit, self.ui.lowHpPlayButton, self.ui.lowHpMoreButton),
-            _SSFRow("Dead", self.ui.deadStrrefSpin, self.ui.deadSoundEdit, self.ui.deadTextEdit, self.ui.deadPlayButton, self.ui.deadMoreButton),
-            _SSFRow("Critical Hit", self.ui.criticalStrrefSpin, self.ui.criticalSoundEdit, self.ui.criticalTextEdit, self.ui.criticalPlayButton, self.ui.criticalMoreButton),
-            _SSFRow("Target Immune", self.ui.immuneStrrefSpin, self.ui.immuneSoundEdit, self.ui.immuneTextEdit, self.ui.immunePlayButton, self.ui.immuneMoreButton),
-            _SSFRow("Lay Mine", self.ui.layMineStrrefSpin, self.ui.layMineSoundEdit, self.ui.layMineTextEdit, self.ui.layMinePlayButton, self.ui.layMineMoreButton),
+            _SSFRow(
+                "Select 1",
+                self.ui.select1StrrefSpin,
+                self.ui.select1SoundEdit,
+                self.ui.select1TextEdit,
+                self.ui.select1PlayButton,
+                self.ui.select1MoreButton,
+            ),
+            _SSFRow(
+                "Select 2",
+                self.ui.select2StrrefSpin,
+                self.ui.select2SoundEdit,
+                self.ui.select2TextEdit,
+                self.ui.select2PlayButton,
+                self.ui.select2MoreButton,
+            ),
+            _SSFRow(
+                "Select 3",
+                self.ui.select3StrrefSpin,
+                self.ui.select3SoundEdit,
+                self.ui.select3TextEdit,
+                self.ui.select3PlayButton,
+                self.ui.select3MoreButton,
+            ),
+            _SSFRow(
+                "Attack Grunt 1",
+                self.ui.attack1StrrefSpin,
+                self.ui.attack1SoundEdit,
+                self.ui.attack1TextEdit,
+                self.ui.attack1PlayButton,
+                self.ui.attack1MoreButton,
+            ),
+            _SSFRow(
+                "Attack Grunt 2",
+                self.ui.attack2StrrefSpin,
+                self.ui.attack2SoundEdit,
+                self.ui.attack2TextEdit,
+                self.ui.attack2PlayButton,
+                self.ui.attack2MoreButton,
+            ),
+            _SSFRow(
+                "Attack Grunt 3",
+                self.ui.attack3StrrefSpin,
+                self.ui.attack3SoundEdit,
+                self.ui.attack3TextEdit,
+                self.ui.attack3PlayButton,
+                self.ui.attack3MoreButton,
+            ),
+            _SSFRow(
+                "Pain Grunt 1",
+                self.ui.pain1StrrefSpin,
+                self.ui.pain1SoundEdit,
+                self.ui.pain1TextEdit,
+                self.ui.pain1PlayButton,
+                self.ui.pain1MoreButton,
+            ),
+            _SSFRow(
+                "Pain Grunt 2",
+                self.ui.pain2StrrefSpin,
+                self.ui.pain2SoundEdit,
+                self.ui.pain2TextEdit,
+                self.ui.pain2PlayButton,
+                self.ui.pain2MoreButton,
+            ),
+            _SSFRow(
+                "Low Health",
+                self.ui.lowHpStrrefSpin,
+                self.ui.lowHpSoundEdit,
+                self.ui.lowHpTextEdit,
+                self.ui.lowHpPlayButton,
+                self.ui.lowHpMoreButton,
+            ),
+            _SSFRow(
+                "Dead",
+                self.ui.deadStrrefSpin,
+                self.ui.deadSoundEdit,
+                self.ui.deadTextEdit,
+                self.ui.deadPlayButton,
+                self.ui.deadMoreButton,
+            ),
+            _SSFRow(
+                "Critical Hit",
+                self.ui.criticalStrrefSpin,
+                self.ui.criticalSoundEdit,
+                self.ui.criticalTextEdit,
+                self.ui.criticalPlayButton,
+                self.ui.criticalMoreButton,
+            ),
+            _SSFRow(
+                "Target Immune",
+                self.ui.immuneStrrefSpin,
+                self.ui.immuneSoundEdit,
+                self.ui.immuneTextEdit,
+                self.ui.immunePlayButton,
+                self.ui.immuneMoreButton,
+            ),
+            _SSFRow(
+                "Lay Mine",
+                self.ui.layMineStrrefSpin,
+                self.ui.layMineSoundEdit,
+                self.ui.layMineTextEdit,
+                self.ui.layMinePlayButton,
+                self.ui.layMineMoreButton,
+            ),
             _SSFRow(
                 "Disarm Mine",
                 self.ui.disarmMineStrrefSpin,
@@ -520,7 +617,14 @@ class SSFEditor(Editor):
                 self.ui.rejoinPartyPlayButton,
                 self.ui.rejoinPartyMoreButton,
             ),
-            _SSFRow("Poisoned", self.ui.poisonedStrrefSpin, self.ui.poisonedSoundEdit, self.ui.poisonedTextEdit, self.ui.poisonedPlayButton, self.ui.poisonedMoreButton),
+            _SSFRow(
+                "Poisoned",
+                self.ui.poisonedStrrefSpin,
+                self.ui.poisonedSoundEdit,
+                self.ui.poisonedTextEdit,
+                self.ui.poisonedPlayButton,
+                self.ui.poisonedMoreButton,
+            ),
         ]
 
         for row in self._rows:
@@ -533,7 +637,9 @@ class SSFEditor(Editor):
             row.more_button.setEnabled(False)
 
             row.spin.installEventFilter(self._spin_focus_batcher)
-            row.spin.valueChanged.connect(lambda value, r=row: self._on_spin_value_changed(r, int(value)))
+            row.spin.valueChanged.connect(
+                lambda value, r=row: self._on_spin_value_changed(r, int(value))
+            )
             row.play_button.clicked.connect(lambda *args, r=row: self._play_row_sound(r))  # type: ignore[misc]
             row.more_button.clicked.connect(lambda *args, r=row: self._open_row_menu(r))  # type: ignore[misc]
 
@@ -556,7 +662,9 @@ class SSFEditor(Editor):
         row = next((r for r in self._rows if r.spin is spin), None)
         if row is None:
             return
-        self._pending_spin_edits[spin] = _PendingSpinEdit(row_label=row.label, start_value=int(spin.value()))
+        self._pending_spin_edits[spin] = _PendingSpinEdit(
+            row_label=row.label, start_value=int(spin.value())
+        )
         self._recompute_window_modified()
 
     def _on_spin_focus_out(self, spin: QSpinBox):
@@ -601,7 +709,10 @@ class SSFEditor(Editor):
     def _recompute_window_modified(self):
         """WindowModified should reflect both undo-stack changes and in-focus pending edits."""
         undo_dirty = self._undo_stack.index() != self._clean_undo_index
-        pending_dirty = any(int(spin.value()) != pending.start_value for spin, pending in self._pending_spin_edits.items())
+        pending_dirty = any(
+            int(spin.value()) != pending.start_value
+            for spin, pending in self._pending_spin_edits.items()
+        )
         self.setWindowModified(undo_dirty or pending_dirty)
 
     def _play_row_sound(self, row: _SSFRow):
@@ -652,7 +763,9 @@ class SSFEditor(Editor):
             self,
             "Unsaved Changes",
             "You have unsaved changes. Do you want to save?",
-            QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Save
+            | QMessageBox.StandardButton.Discard
+            | QMessageBox.StandardButton.Cancel,
         )
         if result == QMessageBox.StandardButton.Save:
             self._flush_pending_spin_edits()
@@ -661,6 +774,7 @@ class SSFEditor(Editor):
         if result == QMessageBox.StandardButton.Discard:
             return True
         return False
+
 
 if __name__ == "__main__":
     import sys

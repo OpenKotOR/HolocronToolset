@@ -34,7 +34,9 @@ def _center_pos(view: RobustTableView, row: int, col: int):
     return rect.center()
 
 
-def _drag_select(qtbot: QtBot, view_or_viewport: RobustTableView | QWidget, start_pos: QPoint, end_pos: QPoint):
+def _drag_select(
+    qtbot: QtBot, view_or_viewport: RobustTableView | QWidget, start_pos: QPoint, end_pos: QPoint
+):
     """Perform a *real* drag selection (mouse moves with LeftButton held).
 
     `qtbot.mouseMove()` does not include the mouse button state, so it doesn't
@@ -173,7 +175,9 @@ def test_first_column_only_mode_restricts_selection(qtbot: QtBot):
     click_pos_other = _center_pos(view, 5, 2)
     qtbot.mouseClick(view.viewport(), Qt.MouseButton.LeftButton, pos=click_pos_other)
     selected_after = view.selectedIndexes()
-    assert len(selected_after) == 0, "Clicking non-first column should clear selection in restriction mode"
+    assert len(selected_after) == 0, (
+        "Clicking non-first column should clear selection in restriction mode"
+    )
 
     # Drag starting from first column should work
     start_col0 = _center_pos(view, 1, 0)
@@ -181,14 +185,18 @@ def test_first_column_only_mode_restricts_selection(qtbot: QtBot):
     _drag_select(qtbot, view, start_col0, end_col0)
     selected_drag = view.selectedIndexes()
     assert len(selected_drag) > 0, "Drag from first column should select"
-    assert all(idx.column() == 0 for idx in selected_drag), "Drag selection should only be in column 0"
+    assert all(idx.column() == 0 for idx in selected_drag), (
+        "Drag selection should only be in column 0"
+    )
 
     # Drag starting from non-first column should clear selection
     start_other = _center_pos(view, 5, 2)
     end_other = _center_pos(view, 7, 2)
     _drag_select(qtbot, view, start_other, end_other)
     selected_drag_other = view.selectedIndexes()
-    assert len(selected_drag_other) == 0, "Drag from non-first column should clear selection in restriction mode"
+    assert len(selected_drag_other) == 0, (
+        "Drag from non-first column should clear selection in restriction mode"
+    )
 
 
 def _get_selected_cells(selected_indexes):
@@ -306,7 +314,9 @@ def test_multiple_sequential_selections_with_verification(qtbot: QtBot):
     click1 = _center_pos(view, 10, 10)
     qtbot.mouseClick(view.viewport(), Qt.MouseButton.LeftButton, pos=click1)
     selected_after_click = _get_selected_cells(view.selectedIndexes())
-    assert selected_after_click == [(10, 10)], f"After click: expected [(10, 10)], got {selected_after_click}"
+    assert selected_after_click == [(10, 10)], (
+        f"After click: expected [(10, 10)], got {selected_after_click}"
+    )
 
     # Selection 2: Select (8,1) to (12,4) - 5x4 block
     start2 = _center_pos(view, 8, 1)
@@ -321,7 +331,9 @@ def test_multiple_sequential_selections_with_verification(qtbot: QtBot):
     click2 = _center_pos(view, 15, 15)
     qtbot.mouseClick(view.viewport(), Qt.MouseButton.LeftButton, pos=click2)
     selected_after_click2 = _get_selected_cells(view.selectedIndexes())
-    assert selected_after_click2 == [(15, 15)], f"After click 2: expected [(15, 15)], got {selected_after_click2}"
+    assert selected_after_click2 == [(15, 15)], (
+        f"After click 2: expected [(15, 15)], got {selected_after_click2}"
+    )
 
     # Selection 3: Select (0,0) to (2,2) - 3x3 block at origin
     start3 = _center_pos(view, 0, 0)
@@ -567,7 +579,9 @@ def test_select_clear_select_different_pattern(qtbot: QtBot):
     click_clear = _center_pos(view, 10, 10)
     qtbot.mouseClick(view.viewport(), Qt.MouseButton.LeftButton, pos=click_clear)
     selected_cleared = _get_selected_cells(view.selectedIndexes())
-    assert selected_cleared == [(10, 10)], f"After clear: expected [(10, 10)], got {selected_cleared}"
+    assert selected_cleared == [(10, 10)], (
+        f"After clear: expected [(10, 10)], got {selected_cleared}"
+    )
 
     # New selection: Different pattern - (7,2) to (11,4) - 5x3 block
     start2 = _center_pos(view, 7, 2)

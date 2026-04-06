@@ -41,10 +41,14 @@ class Ui_Form(object):
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.fovSpin)
         self.rendererRefreshRateLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.rendererRefreshRateLabel.setObjectName("rendererRefreshRateLabel")
-        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.rendererRefreshRateLabel)
+        self.formLayout_3.setWidget(
+            1, QtWidgets.QFormLayout.LabelRole, self.rendererRefreshRateLabel
+        )
         self.rendererRefreshRateCombo = QtWidgets.QComboBox(self.scrollAreaWidgetContents)
         self.rendererRefreshRateCombo.setObjectName("rendererRefreshRateCombo")
-        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.rendererRefreshRateCombo)
+        self.formLayout_3.setWidget(
+            1, QtWidgets.QFormLayout.FieldRole, self.rendererRefreshRateCombo
+        )
         self.verticalLayout.addLayout(self.formLayout_3)
         self.tabWidget = QtWidgets.QTabWidget(self.scrollAreaWidgetContents)
         self.tabWidget.setObjectName("tabWidget")
@@ -57,7 +61,9 @@ class Ui_Form(object):
         self.controls3dResetButton = QtWidgets.QPushButton(self.tab3DControls)
         self.controls3dResetButton.setObjectName("controls3dResetButton")
         self.horizontalLayout_3.addWidget(self.controls3dResetButton)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_3.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.line = QtWidgets.QFrame(self.tab3DControls)
@@ -75,7 +81,9 @@ class Ui_Form(object):
         self.moveCameraSensitivity3dEdit.setMaximum(1000)
         self.moveCameraSensitivity3dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.moveCameraSensitivity3dEdit.setObjectName("moveCameraSensitivity3dEdit")
-        self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.moveCameraSensitivity3dEdit)
+        self.formLayout_5.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.moveCameraSensitivity3dEdit
+        )
         self.label_41 = QtWidgets.QLabel(self.tab3DControls)
         self.label_41.setObjectName("label_41")
         self.formLayout_5.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_41)
@@ -84,7 +92,9 @@ class Ui_Form(object):
         self.rotateCameraSensitivity3dEdit.setMaximum(1000)
         self.rotateCameraSensitivity3dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.rotateCameraSensitivity3dEdit.setObjectName("rotateCameraSensitivity3dEdit")
-        self.formLayout_5.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.rotateCameraSensitivity3dEdit)
+        self.formLayout_5.setWidget(
+            1, QtWidgets.QFormLayout.FieldRole, self.rotateCameraSensitivity3dEdit
+        )
         self.label_42 = QtWidgets.QLabel(self.tab3DControls)
         self.label_42.setObjectName("label_42")
         self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_42)
@@ -93,7 +103,9 @@ class Ui_Form(object):
         self.zoomCameraSensitivity3dEdit.setMaximum(1000)
         self.zoomCameraSensitivity3dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.zoomCameraSensitivity3dEdit.setObjectName("zoomCameraSensitivity3dEdit")
-        self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.zoomCameraSensitivity3dEdit)
+        self.formLayout_5.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.zoomCameraSensitivity3dEdit
+        )
         self.label = QtWidgets.QLabel(self.tab3DControls)
         self.label.setObjectName("label")
         self.formLayout_5.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label)
@@ -102,7 +114,9 @@ class Ui_Form(object):
         self.boostedMoveCameraSensitivity3dEdit.setMaximum(1000)
         self.boostedMoveCameraSensitivity3dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.boostedMoveCameraSensitivity3dEdit.setObjectName("boostedMoveCameraSensitivity3dEdit")
-        self.formLayout_5.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.boostedMoveCameraSensitivity3dEdit)
+        self.formLayout_5.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.boostedMoveCameraSensitivity3dEdit
+        )
         self.verticalLayout_2.addLayout(self.formLayout_5)
         self.line_2 = QtWidgets.QFrame(self.tab3DControls)
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -215,7 +229,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(16, QtWidgets.QFormLayout.LabelRole, self.label_46)
         self.rotateCameraLeft3dBindEdit = SetBindWidget(self.tab3DControls)
         self.rotateCameraLeft3dBindEdit.setObjectName("rotateCameraLeft3dBindEdit")
-        self.formLayout.setWidget(16, QtWidgets.QFormLayout.FieldRole, self.rotateCameraLeft3dBindEdit)
+        self.formLayout.setWidget(
+            16, QtWidgets.QFormLayout.FieldRole, self.rotateCameraLeft3dBindEdit
+        )
         self.label_47 = QtWidgets.QLabel(self.tab3DControls)
         self.label_47.setMinimumSize(QtCore.QSize(110, 0))
         self.label_47.setStyleSheet("QLabel:hover { color: #555;}")
@@ -224,7 +240,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(17, QtWidgets.QFormLayout.LabelRole, self.label_47)
         self.rotateCameraRight3dBindEdit = SetBindWidget(self.tab3DControls)
         self.rotateCameraRight3dBindEdit.setObjectName("rotateCameraRight3dBindEdit")
-        self.formLayout.setWidget(17, QtWidgets.QFormLayout.FieldRole, self.rotateCameraRight3dBindEdit)
+        self.formLayout.setWidget(
+            17, QtWidgets.QFormLayout.FieldRole, self.rotateCameraRight3dBindEdit
+        )
         self.label_48 = QtWidgets.QLabel(self.tab3DControls)
         self.label_48.setMinimumSize(QtCore.QSize(110, 0))
         self.label_48.setStyleSheet("QLabel:hover { color: #555;}")
@@ -233,7 +251,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(18, QtWidgets.QFormLayout.LabelRole, self.label_48)
         self.rotateCameraUp3dBindEdit = SetBindWidget(self.tab3DControls)
         self.rotateCameraUp3dBindEdit.setObjectName("rotateCameraUp3dBindEdit")
-        self.formLayout.setWidget(18, QtWidgets.QFormLayout.FieldRole, self.rotateCameraUp3dBindEdit)
+        self.formLayout.setWidget(
+            18, QtWidgets.QFormLayout.FieldRole, self.rotateCameraUp3dBindEdit
+        )
         self.label_49 = QtWidgets.QLabel(self.tab3DControls)
         self.label_49.setMinimumSize(QtCore.QSize(110, 0))
         self.label_49.setStyleSheet("QLabel:hover { color: #555;}")
@@ -242,7 +262,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(19, QtWidgets.QFormLayout.LabelRole, self.label_49)
         self.rotateCameraDown3dBindEdit = SetBindWidget(self.tab3DControls)
         self.rotateCameraDown3dBindEdit.setObjectName("rotateCameraDown3dBindEdit")
-        self.formLayout.setWidget(19, QtWidgets.QFormLayout.FieldRole, self.rotateCameraDown3dBindEdit)
+        self.formLayout.setWidget(
+            19, QtWidgets.QFormLayout.FieldRole, self.rotateCameraDown3dBindEdit
+        )
         self.label_50 = QtWidgets.QLabel(self.tab3DControls)
         self.label_50.setMinimumSize(QtCore.QSize(110, 0))
         self.label_50.setStyleSheet("QLabel:hover { color: #555;}")
@@ -251,7 +273,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(20, QtWidgets.QFormLayout.LabelRole, self.label_50)
         self.moveCameraForward3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraForward3dBindEdit.setObjectName("moveCameraForward3dBindEdit")
-        self.formLayout.setWidget(20, QtWidgets.QFormLayout.FieldRole, self.moveCameraForward3dBindEdit)
+        self.formLayout.setWidget(
+            20, QtWidgets.QFormLayout.FieldRole, self.moveCameraForward3dBindEdit
+        )
         self.label_51 = QtWidgets.QLabel(self.tab3DControls)
         self.label_51.setMinimumSize(QtCore.QSize(110, 0))
         self.label_51.setStyleSheet("QLabel:hover { color: #555;}")
@@ -260,7 +284,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(21, QtWidgets.QFormLayout.LabelRole, self.label_51)
         self.moveCameraBackward3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraBackward3dBindEdit.setObjectName("moveCameraBackward3dBindEdit")
-        self.formLayout.setWidget(21, QtWidgets.QFormLayout.FieldRole, self.moveCameraBackward3dBindEdit)
+        self.formLayout.setWidget(
+            21, QtWidgets.QFormLayout.FieldRole, self.moveCameraBackward3dBindEdit
+        )
         self.label_53 = QtWidgets.QLabel(self.tab3DControls)
         self.label_53.setMinimumSize(QtCore.QSize(110, 0))
         self.label_53.setStyleSheet("QLabel:hover { color: #555;}")
@@ -269,7 +295,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(22, QtWidgets.QFormLayout.LabelRole, self.label_53)
         self.moveCameraLeft3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraLeft3dBindEdit.setObjectName("moveCameraLeft3dBindEdit")
-        self.formLayout.setWidget(22, QtWidgets.QFormLayout.FieldRole, self.moveCameraLeft3dBindEdit)
+        self.formLayout.setWidget(
+            22, QtWidgets.QFormLayout.FieldRole, self.moveCameraLeft3dBindEdit
+        )
         self.label_52 = QtWidgets.QLabel(self.tab3DControls)
         self.label_52.setMinimumSize(QtCore.QSize(110, 0))
         self.label_52.setStyleSheet("QLabel:hover { color: #555;}")
@@ -278,7 +306,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(23, QtWidgets.QFormLayout.LabelRole, self.label_52)
         self.moveCameraRight3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraRight3dBindEdit.setObjectName("moveCameraRight3dBindEdit")
-        self.formLayout.setWidget(23, QtWidgets.QFormLayout.FieldRole, self.moveCameraRight3dBindEdit)
+        self.formLayout.setWidget(
+            23, QtWidgets.QFormLayout.FieldRole, self.moveCameraRight3dBindEdit
+        )
         self.label_54 = QtWidgets.QLabel(self.tab3DControls)
         self.label_54.setMinimumSize(QtCore.QSize(110, 0))
         self.label_54.setStyleSheet("QLabel:hover { color: #555;}")
@@ -296,7 +326,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(25, QtWidgets.QFormLayout.LabelRole, self.label_55)
         self.moveCameraDown3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraDown3dBindEdit.setObjectName("moveCameraDown3dBindEdit")
-        self.formLayout.setWidget(25, QtWidgets.QFormLayout.FieldRole, self.moveCameraDown3dBindEdit)
+        self.formLayout.setWidget(
+            25, QtWidgets.QFormLayout.FieldRole, self.moveCameraDown3dBindEdit
+        )
         self.label_56 = QtWidgets.QLabel(self.tab3DControls)
         self.label_56.setMinimumSize(QtCore.QSize(110, 0))
         self.label_56.setStyleSheet("QLabel:hover { color: #555;}")
@@ -323,10 +355,14 @@ class Ui_Form(object):
         self.formLayout.setWidget(12, QtWidgets.QFormLayout.LabelRole, self.label_8)
         self.moveCameraToSelected3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraToSelected3dBindEdit.setObjectName("moveCameraToSelected3dBindEdit")
-        self.formLayout.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.moveCameraToSelected3dBindEdit)
+        self.formLayout.setWidget(
+            12, QtWidgets.QFormLayout.FieldRole, self.moveCameraToSelected3dBindEdit
+        )
         self.duplicateObject3dBindEdit = SetBindWidget(self.tab3DControls)
         self.duplicateObject3dBindEdit.setObjectName("duplicateObject3dBindEdit")
-        self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.duplicateObject3dBindEdit)
+        self.formLayout.setWidget(
+            10, QtWidgets.QFormLayout.FieldRole, self.duplicateObject3dBindEdit
+        )
         self.label_58 = QtWidgets.QLabel(self.tab3DControls)
         self.label_58.setMinimumSize(QtCore.QSize(110, 0))
         self.label_58.setStyleSheet("QLabel:hover { color: #555;}")
@@ -341,7 +377,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(13, QtWidgets.QFormLayout.LabelRole, self.label_69)
         self.moveCameraToCursor3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraToCursor3dBindEdit.setObjectName("moveCameraToCursor3dBindEdit")
-        self.formLayout.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.moveCameraToCursor3dBindEdit)
+        self.formLayout.setWidget(
+            13, QtWidgets.QFormLayout.FieldRole, self.moveCameraToCursor3dBindEdit
+        )
         self.label_70 = QtWidgets.QLabel(self.tab3DControls)
         self.label_70.setMinimumSize(QtCore.QSize(110, 0))
         self.label_70.setStyleSheet("QLabel:hover { color: #555;}")
@@ -350,7 +388,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(14, QtWidgets.QFormLayout.LabelRole, self.label_70)
         self.moveCameraToEntryPoint3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraToEntryPoint3dBindEdit.setObjectName("moveCameraToEntryPoint3dBindEdit")
-        self.formLayout.setWidget(14, QtWidgets.QFormLayout.FieldRole, self.moveCameraToEntryPoint3dBindEdit)
+        self.formLayout.setWidget(
+            14, QtWidgets.QFormLayout.FieldRole, self.moveCameraToEntryPoint3dBindEdit
+        )
         self.label_71 = QtWidgets.QLabel(self.tab3DControls)
         self.label_71.setMinimumSize(QtCore.QSize(110, 0))
         self.label_71.setStyleSheet("QLabel:hover { color: #555;}")
@@ -359,7 +399,9 @@ class Ui_Form(object):
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_71)
         self.moveCameraPlane3dBindEdit = SetBindWidget(self.tab3DControls)
         self.moveCameraPlane3dBindEdit.setObjectName("moveCameraPlane3dBindEdit")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.moveCameraPlane3dBindEdit)
+        self.formLayout.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.moveCameraPlane3dBindEdit
+        )
         self.verticalLayout_2.addLayout(self.formLayout)
         self.tabWidget.addTab(self.tab3DControls, "")
         self.tab2DControls = QtWidgets.QWidget()
@@ -371,7 +413,9 @@ class Ui_Form(object):
         self.controls2dResetButton = QtWidgets.QPushButton(self.tab2DControls)
         self.controls2dResetButton.setObjectName("controls2dResetButton")
         self.horizontalLayout_4.addWidget(self.controls2dResetButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_4.addItem(spacerItem1)
         self.verticalLayout_3.addLayout(self.horizontalLayout_4)
         self.line888 = QtWidgets.QFrame(self.tab2DControls)
@@ -389,7 +433,9 @@ class Ui_Form(object):
         self.moveCameraSensitivity2dEdit.setMaximum(1000)
         self.moveCameraSensitivity2dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.moveCameraSensitivity2dEdit.setObjectName("moveCameraSensitivity2dEdit")
-        self.formLayout_6.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.moveCameraSensitivity2dEdit)
+        self.formLayout_6.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.moveCameraSensitivity2dEdit
+        )
         self.label_44 = QtWidgets.QLabel(self.tab2DControls)
         self.label_44.setObjectName("label_44")
         self.formLayout_6.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_44)
@@ -401,13 +447,17 @@ class Ui_Form(object):
         self.rotateCameraSensitivity2dEdit.setMaximum(1000)
         self.rotateCameraSensitivity2dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.rotateCameraSensitivity2dEdit.setObjectName("rotateCameraSensitivity2dEdit")
-        self.formLayout_6.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.rotateCameraSensitivity2dEdit)
+        self.formLayout_6.setWidget(
+            1, QtWidgets.QFormLayout.FieldRole, self.rotateCameraSensitivity2dEdit
+        )
         self.zoomCameraSensitivity2dEdit = QtWidgets.QSlider(self.tab2DControls)
         self.zoomCameraSensitivity2dEdit.setMinimum(10)
         self.zoomCameraSensitivity2dEdit.setMaximum(1000)
         self.zoomCameraSensitivity2dEdit.setOrientation(QtCore.Qt.Horizontal)
         self.zoomCameraSensitivity2dEdit.setObjectName("zoomCameraSensitivity2dEdit")
-        self.formLayout_6.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.zoomCameraSensitivity2dEdit)
+        self.formLayout_6.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.zoomCameraSensitivity2dEdit
+        )
         self.verticalLayout_3.addLayout(self.formLayout_6)
         self.line889 = QtWidgets.QFrame(self.tab2DControls)
         self.line889.setFrameShape(QtWidgets.QFrame.HLine)
@@ -479,7 +529,9 @@ class Ui_Form(object):
         self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_59)
         self.duplicateObject2dBindEdit = SetBindWidget(self.tab2DControls)
         self.duplicateObject2dBindEdit.setObjectName("duplicateObject2dBindEdit")
-        self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.duplicateObject2dBindEdit)
+        self.formLayout_2.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.duplicateObject2dBindEdit
+        )
         self.line_4 = QtWidgets.QFrame(self.tab2DControls)
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -502,9 +554,13 @@ class Ui_Form(object):
         self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.label_62)
         self.moveCameraToSelected2dBindEdit = SetBindWidget(self.tab2DControls)
         self.moveCameraToSelected2dBindEdit.setObjectName("moveCameraToSelected2dBindEdit")
-        self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.moveCameraToSelected2dBindEdit)
+        self.formLayout_2.setWidget(
+            8, QtWidgets.QFormLayout.FieldRole, self.moveCameraToSelected2dBindEdit
+        )
         self.verticalLayout_3.addLayout(self.formLayout_2)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_3.addItem(spacerItem2)
         self.tabWidget.addTab(self.tab2DControls, "")
         self.tabFCControls = QtWidgets.QWidget()
@@ -516,7 +572,9 @@ class Ui_Form(object):
         self.controlsFcResetButton = QtWidgets.QPushButton(self.tabFCControls)
         self.controlsFcResetButton.setObjectName("controlsFcResetButton")
         self.horizontalLayout_5.addWidget(self.controlsFcResetButton)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_5.addItem(spacerItem3)
         self.verticalLayout_4.addLayout(self.horizontalLayout_5)
         self.line_5 = QtWidgets.QFrame(self.tabFCControls)
@@ -544,7 +602,9 @@ class Ui_Form(object):
         self.rotateCameraSensitivityFcEdit.setMaximum(1000)
         self.rotateCameraSensitivityFcEdit.setOrientation(QtCore.Qt.Horizontal)
         self.rotateCameraSensitivityFcEdit.setObjectName("rotateCameraSensitivityFcEdit")
-        self.formLayout_7.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.rotateCameraSensitivityFcEdit)
+        self.formLayout_7.setWidget(
+            1, QtWidgets.QFormLayout.FieldRole, self.rotateCameraSensitivityFcEdit
+        )
         self.label_60 = QtWidgets.QLabel(self.tabFCControls)
         self.label_60.setObjectName("label_60")
         self.formLayout_7.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_60)
@@ -553,7 +613,9 @@ class Ui_Form(object):
         self.boostedFlyCameraSpeedFCEdit.setMaximum(1000)
         self.boostedFlyCameraSpeedFCEdit.setOrientation(QtCore.Qt.Horizontal)
         self.boostedFlyCameraSpeedFCEdit.setObjectName("boostedFlyCameraSpeedFCEdit")
-        self.formLayout_7.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.boostedFlyCameraSpeedFCEdit)
+        self.formLayout_7.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.boostedFlyCameraSpeedFCEdit
+        )
         self.verticalLayout_4.addLayout(self.formLayout_7)
         self.line_6 = QtWidgets.QFrame(self.tabFCControls)
         self.line_6.setFrameShape(QtWidgets.QFrame.HLine)
@@ -572,7 +634,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_63)
         self.moveCameraForwardFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraForwardFcBindEdit.setObjectName("moveCameraForwardFcBindEdit")
-        self.formLayout_8.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.moveCameraForwardFcBindEdit)
+        self.formLayout_8.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.moveCameraForwardFcBindEdit
+        )
         self.label_64 = QtWidgets.QLabel(self.tabFCControls)
         self.label_64.setMinimumSize(QtCore.QSize(110, 0))
         self.label_64.setStyleSheet("QLabel:hover { color: #555;}")
@@ -581,7 +645,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_64)
         self.moveCameraBackwardFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraBackwardFcBindEdit.setObjectName("moveCameraBackwardFcBindEdit")
-        self.formLayout_8.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.moveCameraBackwardFcBindEdit)
+        self.formLayout_8.setWidget(
+            1, QtWidgets.QFormLayout.FieldRole, self.moveCameraBackwardFcBindEdit
+        )
         self.label_65 = QtWidgets.QLabel(self.tabFCControls)
         self.label_65.setMinimumSize(QtCore.QSize(110, 0))
         self.label_65.setStyleSheet("QLabel:hover { color: #555;}")
@@ -590,7 +656,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_65)
         self.moveCameraLeftFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraLeftFcBindEdit.setObjectName("moveCameraLeftFcBindEdit")
-        self.formLayout_8.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.moveCameraLeftFcBindEdit)
+        self.formLayout_8.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.moveCameraLeftFcBindEdit
+        )
         self.label_66 = QtWidgets.QLabel(self.tabFCControls)
         self.label_66.setMinimumSize(QtCore.QSize(110, 0))
         self.label_66.setStyleSheet("QLabel:hover { color: #555;}")
@@ -599,7 +667,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_66)
         self.moveCameraRightFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraRightFcBindEdit.setObjectName("moveCameraRightFcBindEdit")
-        self.formLayout_8.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.moveCameraRightFcBindEdit)
+        self.formLayout_8.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.moveCameraRightFcBindEdit
+        )
         self.label_67 = QtWidgets.QLabel(self.tabFCControls)
         self.label_67.setMinimumSize(QtCore.QSize(110, 0))
         self.label_67.setStyleSheet("QLabel:hover { color: #555;}")
@@ -617,7 +687,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_68)
         self.moveCameraDownFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraDownFcBindEdit.setObjectName("moveCameraDownFcBindEdit")
-        self.formLayout_8.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.moveCameraDownFcBindEdit)
+        self.formLayout_8.setWidget(
+            5, QtWidgets.QFormLayout.FieldRole, self.moveCameraDownFcBindEdit
+        )
         self.label_691 = QtWidgets.QLabel(self.tabFCControls)
         self.label_691.setMinimumSize(QtCore.QSize(110, 0))
         self.label_691.setStyleSheet("QLabel:hover { color: #555;}")
@@ -626,7 +698,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_691)
         self.speedBoostCameraFcBindEdit = SetBindWidget(self.tabFCControls)
         self.speedBoostCameraFcBindEdit.setObjectName("speedBoostCameraFcBindEdit")
-        self.formLayout_8.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.speedBoostCameraFcBindEdit)
+        self.formLayout_8.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.speedBoostCameraFcBindEdit
+        )
         self.label_701 = QtWidgets.QLabel(self.tabFCControls)
         self.label_701.setMinimumSize(QtCore.QSize(110, 0))
         self.label_701.setStyleSheet("QLabel:hover { color: #555;}")
@@ -635,7 +709,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.label_701)
         self.rotateCameraLeftFcBindEdit = SetBindWidget(self.tabFCControls)
         self.rotateCameraLeftFcBindEdit.setObjectName("rotateCameraLeftFcBindEdit")
-        self.formLayout_8.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.rotateCameraLeftFcBindEdit)
+        self.formLayout_8.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.rotateCameraLeftFcBindEdit
+        )
         self.label_711 = QtWidgets.QLabel(self.tabFCControls)
         self.label_711.setMinimumSize(QtCore.QSize(110, 0))
         self.label_711.setStyleSheet("QLabel:hover { color: #555;}")
@@ -644,7 +720,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.label_711)
         self.rotateCameraRightFcBindEdit = SetBindWidget(self.tabFCControls)
         self.rotateCameraRightFcBindEdit.setObjectName("rotateCameraRightFcBindEdit")
-        self.formLayout_8.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.rotateCameraRightFcBindEdit)
+        self.formLayout_8.setWidget(
+            8, QtWidgets.QFormLayout.FieldRole, self.rotateCameraRightFcBindEdit
+        )
         self.label_72 = QtWidgets.QLabel(self.tabFCControls)
         self.label_72.setMinimumSize(QtCore.QSize(110, 0))
         self.label_72.setStyleSheet("QLabel:hover { color: #555;}")
@@ -653,7 +731,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.label_72)
         self.rotateCameraUpFcBindEdit = SetBindWidget(self.tabFCControls)
         self.rotateCameraUpFcBindEdit.setObjectName("rotateCameraUpFcBindEdit")
-        self.formLayout_8.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.rotateCameraUpFcBindEdit)
+        self.formLayout_8.setWidget(
+            9, QtWidgets.QFormLayout.FieldRole, self.rotateCameraUpFcBindEdit
+        )
         self.label_73 = QtWidgets.QLabel(self.tabFCControls)
         self.label_73.setMinimumSize(QtCore.QSize(110, 0))
         self.label_73.setStyleSheet("QLabel:hover { color: #555;}")
@@ -662,7 +742,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.label_73)
         self.rotateCameraDownFcBindEdit = SetBindWidget(self.tabFCControls)
         self.rotateCameraDownFcBindEdit.setObjectName("rotateCameraDownFcBindEdit")
-        self.formLayout_8.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.rotateCameraDownFcBindEdit)
+        self.formLayout_8.setWidget(
+            10, QtWidgets.QFormLayout.FieldRole, self.rotateCameraDownFcBindEdit
+        )
         self.label_74 = QtWidgets.QLabel(self.tabFCControls)
         self.label_74.setMinimumSize(QtCore.QSize(110, 0))
         self.label_74.setStyleSheet("QLabel:hover { color: #555;}")
@@ -671,7 +753,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(11, QtWidgets.QFormLayout.LabelRole, self.label_74)
         self.zoomCameraInFcBindEdit = SetBindWidget(self.tabFCControls)
         self.zoomCameraInFcBindEdit.setObjectName("zoomCameraInFcBindEdit")
-        self.formLayout_8.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.zoomCameraInFcBindEdit)
+        self.formLayout_8.setWidget(
+            11, QtWidgets.QFormLayout.FieldRole, self.zoomCameraInFcBindEdit
+        )
         self.label_75 = QtWidgets.QLabel(self.tabFCControls)
         self.label_75.setMinimumSize(QtCore.QSize(110, 0))
         self.label_75.setStyleSheet("QLabel:hover { color: #555;}")
@@ -680,7 +764,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(12, QtWidgets.QFormLayout.LabelRole, self.label_75)
         self.zoomCameraOutFcBindEdit = SetBindWidget(self.tabFCControls)
         self.zoomCameraOutFcBindEdit.setObjectName("zoomCameraOutFcBindEdit")
-        self.formLayout_8.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.zoomCameraOutFcBindEdit)
+        self.formLayout_8.setWidget(
+            12, QtWidgets.QFormLayout.FieldRole, self.zoomCameraOutFcBindEdit
+        )
         self.label_76 = QtWidgets.QLabel(self.tabFCControls)
         self.label_76.setMinimumSize(QtCore.QSize(110, 0))
         self.label_76.setStyleSheet("QLabel:hover { color: #555;}")
@@ -689,7 +775,9 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(13, QtWidgets.QFormLayout.LabelRole, self.label_76)
         self.moveCameraToEntryPointFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraToEntryPointFcBindEdit.setObjectName("moveCameraToEntryPointFcBindEdit")
-        self.formLayout_8.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.moveCameraToEntryPointFcBindEdit)
+        self.formLayout_8.setWidget(
+            13, QtWidgets.QFormLayout.FieldRole, self.moveCameraToEntryPointFcBindEdit
+        )
         self.label_77 = QtWidgets.QLabel(self.tabFCControls)
         self.label_77.setMinimumSize(QtCore.QSize(110, 0))
         self.label_77.setStyleSheet("QLabel:hover { color: #555;}")
@@ -698,9 +786,13 @@ class Ui_Form(object):
         self.formLayout_8.setWidget(14, QtWidgets.QFormLayout.LabelRole, self.label_77)
         self.moveCameraToCursorFcBindEdit = SetBindWidget(self.tabFCControls)
         self.moveCameraToCursorFcBindEdit.setObjectName("moveCameraToCursorFcBindEdit")
-        self.formLayout_8.setWidget(14, QtWidgets.QFormLayout.FieldRole, self.moveCameraToCursorFcBindEdit)
+        self.formLayout_8.setWidget(
+            14, QtWidgets.QFormLayout.FieldRole, self.moveCameraToCursorFcBindEdit
+        )
         self.verticalLayout_4.addLayout(self.formLayout_8)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_4.addItem(spacerItem4)
         self.tabWidget.addTab(self.tabFCControls, "")
         self.verticalLayout.addWidget(self.tabWidget)
@@ -718,7 +810,9 @@ class Ui_Form(object):
         self.undefinedMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.undefinedMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.undefinedMaterialColourEdit.setObjectName("undefinedMaterialColourEdit")
-        self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.undefinedMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.undefinedMaterialColourEdit
+        )
         self.label_22 = QtWidgets.QLabel(self.groupBox_3)
         self.label_22.setObjectName("label_22")
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_22)
@@ -785,17 +879,23 @@ class Ui_Form(object):
         self.obscuringMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.obscuringMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.obscuringMaterialColourEdit.setObjectName("obscuringMaterialColourEdit")
-        self.formLayout_4.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.obscuringMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.obscuringMaterialColourEdit
+        )
         self.grassMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.grassMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.grassMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.grassMaterialColourEdit.setObjectName("grassMaterialColourEdit")
-        self.formLayout_4.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.grassMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            3, QtWidgets.QFormLayout.FieldRole, self.grassMaterialColourEdit
+        )
         self.stoneMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.stoneMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.stoneMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.stoneMaterialColourEdit.setObjectName("stoneMaterialColourEdit")
-        self.formLayout_4.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.stoneMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            4, QtWidgets.QFormLayout.FieldRole, self.stoneMaterialColourEdit
+        )
         self.woodMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.woodMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.woodMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
@@ -805,37 +905,51 @@ class Ui_Form(object):
         self.waterMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.waterMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.waterMaterialColourEdit.setObjectName("waterMaterialColourEdit")
-        self.formLayout_4.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.waterMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            6, QtWidgets.QFormLayout.FieldRole, self.waterMaterialColourEdit
+        )
         self.nonWalkMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.nonWalkMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.nonWalkMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.nonWalkMaterialColourEdit.setObjectName("nonWalkMaterialColourEdit")
-        self.formLayout_4.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.nonWalkMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            7, QtWidgets.QFormLayout.FieldRole, self.nonWalkMaterialColourEdit
+        )
         self.transparentMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.transparentMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.transparentMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.transparentMaterialColourEdit.setObjectName("transparentMaterialColourEdit")
-        self.formLayout_4.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.transparentMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            8, QtWidgets.QFormLayout.FieldRole, self.transparentMaterialColourEdit
+        )
         self.carpetMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.carpetMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.carpetMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.carpetMaterialColourEdit.setObjectName("carpetMaterialColourEdit")
-        self.formLayout_4.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.carpetMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            9, QtWidgets.QFormLayout.FieldRole, self.carpetMaterialColourEdit
+        )
         self.metalMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.metalMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.metalMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.metalMaterialColourEdit.setObjectName("metalMaterialColourEdit")
-        self.formLayout_4.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.metalMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            10, QtWidgets.QFormLayout.FieldRole, self.metalMaterialColourEdit
+        )
         self.puddlesMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.puddlesMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.puddlesMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.puddlesMaterialColourEdit.setObjectName("puddlesMaterialColourEdit")
-        self.formLayout_4.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.puddlesMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            11, QtWidgets.QFormLayout.FieldRole, self.puddlesMaterialColourEdit
+        )
         self.swampMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.swampMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.swampMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.swampMaterialColourEdit.setObjectName("swampMaterialColourEdit")
-        self.formLayout_4.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.swampMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            12, QtWidgets.QFormLayout.FieldRole, self.swampMaterialColourEdit
+        )
         self.mudMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.mudMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.mudMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
@@ -845,43 +959,59 @@ class Ui_Form(object):
         self.leavesMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.leavesMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.leavesMaterialColourEdit.setObjectName("leavesMaterialColourEdit")
-        self.formLayout_4.setWidget(14, QtWidgets.QFormLayout.FieldRole, self.leavesMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            14, QtWidgets.QFormLayout.FieldRole, self.leavesMaterialColourEdit
+        )
         self.lavaMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.lavaMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.lavaMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.lavaMaterialColourEdit.setObjectName("lavaMaterialColourEdit")
-        self.formLayout_4.setWidget(15, QtWidgets.QFormLayout.FieldRole, self.lavaMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            15, QtWidgets.QFormLayout.FieldRole, self.lavaMaterialColourEdit
+        )
         self.bottomlessPitMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.bottomlessPitMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.bottomlessPitMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.bottomlessPitMaterialColourEdit.setObjectName("bottomlessPitMaterialColourEdit")
-        self.formLayout_4.setWidget(16, QtWidgets.QFormLayout.FieldRole, self.bottomlessPitMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            16, QtWidgets.QFormLayout.FieldRole, self.bottomlessPitMaterialColourEdit
+        )
         self.deepWaterMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.deepWaterMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.deepWaterMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.deepWaterMaterialColourEdit.setObjectName("deepWaterMaterialColourEdit")
-        self.formLayout_4.setWidget(17, QtWidgets.QFormLayout.FieldRole, self.deepWaterMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            17, QtWidgets.QFormLayout.FieldRole, self.deepWaterMaterialColourEdit
+        )
         self.doorMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.doorMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.doorMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.doorMaterialColourEdit.setObjectName("doorMaterialColourEdit")
-        self.formLayout_4.setWidget(18, QtWidgets.QFormLayout.FieldRole, self.doorMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            18, QtWidgets.QFormLayout.FieldRole, self.doorMaterialColourEdit
+        )
         self.nonWalkGrassMaterialColourEdit = ColorEdit(self.groupBox_3)
         self.nonWalkGrassMaterialColourEdit.setMinimumSize(QtCore.QSize(0, 20))
         self.nonWalkGrassMaterialColourEdit.setMaximumSize(QtCore.QSize(16777215, 20))
         self.nonWalkGrassMaterialColourEdit.setObjectName("nonWalkGrassMaterialColourEdit")
-        self.formLayout_4.setWidget(19, QtWidgets.QFormLayout.FieldRole, self.nonWalkGrassMaterialColourEdit)
+        self.formLayout_4.setWidget(
+            19, QtWidgets.QFormLayout.FieldRole, self.nonWalkGrassMaterialColourEdit
+        )
         self.gridLayout_2.addLayout(self.formLayout_4, 1, 0, 1, 1)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.coloursResetButton = QtWidgets.QPushButton(self.groupBox_3)
         self.coloursResetButton.setObjectName("coloursResetButton")
         self.horizontalLayout.addWidget(self.coloursResetButton)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem5)
         self.gridLayout_2.addLayout(self.horizontalLayout, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_3)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 12, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem6 = QtWidgets.QSpacerItem(
+            20, 12, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem6)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -894,31 +1024,42 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.useBlenderCheckbox.setText(_translate("Form", "Use Blender for 3D editing"))
-        self.useBlenderCheckbox.setToolTip(_translate("Form", "When enabled, the Module Designer will try to use Blender for 3D viewport editing\n"
-"           (requires Blender and kotorblender). Disabled by default."))
+        self.useBlenderCheckbox.setToolTip(
+            _translate(
+                "Form",
+                "When enabled, the Module Designer will try to use Blender for 3D viewport editing\n"
+                "           (requires Blender and kotorblender). Disabled by default.",
+            )
+        )
         self.label_20.setText(_translate("Form", "Field of View:"))
         self.rendererRefreshRateLabel.setText(_translate("Form", "Renderer refresh rate:"))
-        self.rendererRefreshRateLabel.setToolTip(_translate("Form", "Target FPS for the 3D viewport. Auto-Detect uses your monitor\'s refresh rate."))
-        self.rendererRefreshRateCombo.setToolTip(_translate("Form", "Target FPS for the 3D viewport. Auto-Detect uses your monitor\'s refresh rate."))
+        self.rendererRefreshRateLabel.setToolTip(
+            _translate(
+                "Form",
+                "Target FPS for the 3D viewport. Auto-Detect uses your monitor's refresh rate.",
+            )
+        )
+        self.rendererRefreshRateCombo.setToolTip(
+            _translate(
+                "Form",
+                "Target FPS for the 3D viewport. Auto-Detect uses your monitor's refresh rate.",
+            )
+        )
         self.controls3dResetButton.setText(_translate("Form", "Reset"))
         self.label602.setText(_translate("Form", "Move Sensitivity"))
         self.label_41.setText(_translate("Form", "Rotate Sensitivity"))
         self.label_42.setText(_translate("Form", "Zoom Sensitivity"))
         self.label.setText(_translate("Form", "Boosted Speed"))
         self.label_2.setToolTip(_translate("Form", "Reacts to mouse movement."))
-        self.label_2.setText(_translate("Form", "Move Camera\n"
-"                 (XY)"))
+        self.label_2.setText(_translate("Form", "Move Camera\n                 (XY)"))
         self.label_12.setToolTip(_translate("Form", "Reacts to mouse movement."))
-        self.label_12.setText(_translate("Form", "Move Camera\n"
-"                 (Z)"))
+        self.label_12.setText(_translate("Form", "Move Camera\n                 (Z)"))
         self.label_3.setToolTip(_translate("Form", "Reacts to mouse movement."))
         self.label_3.setText(_translate("Form", "Rotate Camera"))
         self.label_4.setToolTip(_translate("Form", "Reacts to mouse scrolling."))
-        self.label_4.setText(_translate("Form", "Zoom Camera\n"
-"                 (Mouse Scroll)"))
+        self.label_4.setText(_translate("Form", "Zoom Camera\n                 (Mouse Scroll)"))
         self.label_9.setToolTip(_translate("Form", "Reacts to mouse movement."))
-        self.label_9.setText(_translate("Form", "Zoom Camera\n"
-"                 (Mouse Movement)"))
+        self.label_9.setText(_translate("Form", "Zoom Camera\n                 (Mouse Movement)"))
         self.label_10.setToolTip(_translate("Form", "Reacts to mouse scrolling."))
         self.label_10.setText(_translate("Form", "Move Object XY"))
         self.label_11.setToolTip(_translate("Form", "Reacts to mouse scrolling."))
@@ -954,20 +1095,18 @@ class Ui_Form(object):
         self.label_57.setToolTip(_translate("Form", "Reacts to keyboard input."))
         self.label_57.setText(_translate("Form", "Zoom Camera Out"))
         self.label_8.setToolTip(_translate("Form", "Reacts to keyboard input."))
-        self.label_8.setText(_translate("Form", "Move Camera\n"
-"                 to Selection"))
+        self.label_8.setText(_translate("Form", "Move Camera\n                 to Selection"))
         self.label_58.setToolTip(_translate("Form", "Reacts to mouse movement."))
         self.label_58.setText(_translate("Form", "Duplicate Object"))
         self.label_69.setToolTip(_translate("Form", "Reacts to keyboard input."))
-        self.label_69.setText(_translate("Form", "Move Camera\n"
-"                 to Cursor"))
+        self.label_69.setText(_translate("Form", "Move Camera\n                 to Cursor"))
         self.label_70.setToolTip(_translate("Form", "Reacts to keyboard input."))
-        self.label_70.setText(_translate("Form", "Move Camera\n"
-"                 to Entry Point"))
+        self.label_70.setText(_translate("Form", "Move Camera\n                 to Entry Point"))
         self.label_71.setToolTip(_translate("Form", "Reacts to mouse movement."))
-        self.label_71.setText(_translate("Form", "Move Camera\n"
-"                 (Camera Plane)"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab3DControls), _translate("Form", "3D Controls"))
+        self.label_71.setText(_translate("Form", "Move Camera\n                 (Camera Plane)"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab3DControls), _translate("Form", "3D Controls")
+        )
         self.controls2dResetButton.setText(_translate("Form", "Reset"))
         self.label_43.setText(_translate("Form", "Move Sensitivity"))
         self.label_44.setText(_translate("Form", "Rotate Sensitivity"))
@@ -989,9 +1128,16 @@ class Ui_Form(object):
         self.label_61.setToolTip(_translate("Form", "Reacts to keyboard input."))
         self.label_61.setText(_translate("Form", "Delete Object"))
         self.label_62.setToolTip(_translate("Form", "Reacts to keyboard input."))
-        self.label_62.setText(_translate("Form", "<html><head/><body><p>Move Camera<br/>to\n"
-"                 Selection</p></body></html>"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab2DControls), _translate("Form", "2D Controls"))
+        self.label_62.setText(
+            _translate(
+                "Form",
+                "<html><head/><body><p>Move Camera<br/>to\n"
+                "                 Selection</p></body></html>",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab2DControls), _translate("Form", "2D Controls")
+        )
         self.controlsFcResetButton.setText(_translate("Form", "Reset"))
         self.label_18.setText(_translate("Form", "Fly Speed"))
         self.label_601.setText(_translate("Form", "Rotate Sensitivity"))
@@ -1026,7 +1172,9 @@ class Ui_Form(object):
         self.label_76.setText(_translate("Form", "Move to Entry Point"))
         self.label_77.setToolTip(_translate("Form", "Reacts to keyboard input."))
         self.label_77.setText(_translate("Form", "Move to Cursor"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFCControls), _translate("Form", "FreeCam Controls"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabFCControls), _translate("Form", "FreeCam Controls")
+        )
         self.groupBox_3.setTitle(_translate("Form", "Walkmesh Colours"))
         self.label_21.setText(_translate("Form", "Undefined:"))
         self.label_22.setText(_translate("Form", "Dirt:"))
@@ -1049,5 +1197,7 @@ class Ui_Form(object):
         self.label_39.setText(_translate("Form", "Door:"))
         self.label_40.setText(_translate("Form", "Non-Walk Grass:"))
         self.coloursResetButton.setText(_translate("Form", "Reset"))
+
+
 from toolset.gui.widgets.edit.color import ColorEdit
 from toolset.gui.widgets.set_bind import SetBindWidget

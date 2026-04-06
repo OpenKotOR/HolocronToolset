@@ -26,7 +26,9 @@ class Ui_Dialog(object):
         self.eventGroup = QtWidgets.QGroupBox(Dialog)
         self.eventGroup.setObjectName("eventGroup")
         self.eventLayout = QtWidgets.QFormLayout(self.eventGroup)
-        self.eventLayout.setLabelAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.eventLayout.setLabelAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.eventLayout.setObjectName("eventLayout")
         self.eventTypeLabel = QtWidgets.QLabel(self.eventGroup)
         self.eventTypeLabel.setObjectName("eventTypeLabel")
@@ -48,7 +50,9 @@ class Ui_Dialog(object):
         self.mockGroup = QtWidgets.QGroupBox(Dialog)
         self.mockGroup.setObjectName("mockGroup")
         self.mockLayout = QtWidgets.QFormLayout(self.mockGroup)
-        self.mockLayout.setLabelAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mockLayout.setLabelAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.mockLayout.setObjectName("mockLayout")
         self.lastAttackerLabel = QtWidgets.QLabel(self.mockGroup)
         self.lastAttackerLabel.setObjectName("lastAttackerLabel")
@@ -75,11 +79,15 @@ class Ui_Dialog(object):
         self.eventTargetEdit.setObjectName("eventTargetEdit")
         self.mockLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.eventTargetEdit)
         self.mainLayout.addWidget(self.mockGroup)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.mainLayout.addItem(spacerItem)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.mainLayout.addWidget(self.buttonBox)
 
@@ -96,10 +104,14 @@ class Ui_Dialog(object):
         self.customEventLabel.setText(_translate("Dialog", "Custom Event Number:"))
         self.mockGroup.setTitle(_translate("Dialog", "Mock Engine Function Values"))
         self.lastAttackerLabel.setText(_translate("Dialog", "GetLastAttacker():"))
-        self.lastAttackerEdit.setPlaceholderText(_translate("Dialog", "OBJECT_INVALID (default: 0)"))
+        self.lastAttackerEdit.setPlaceholderText(
+            _translate("Dialog", "OBJECT_INVALID (default: 0)")
+        )
         self.lastAttackerEdit.setText(_translate("Dialog", "0"))
         self.lastPerceivedLabel.setText(_translate("Dialog", "GetLastPerceived():"))
-        self.lastPerceivedEdit.setPlaceholderText(_translate("Dialog", "OBJECT_INVALID (default: 0)"))
+        self.lastPerceivedEdit.setPlaceholderText(
+            _translate("Dialog", "OBJECT_INVALID (default: 0)")
+        )
         self.lastPerceivedEdit.setText(_translate("Dialog", "0"))
         self.eventCreatorLabel.setText(_translate("Dialog", "GetEventCreator():"))
         self.eventCreatorEdit.setPlaceholderText(_translate("Dialog", "OBJECT_SELF (default: 1)"))

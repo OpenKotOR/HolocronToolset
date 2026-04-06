@@ -63,10 +63,14 @@ class Ui_Form(object):
         self.portSpinBox.setProperty("value", 7531)
         self.portSpinBox.setObjectName("portSpinBox")
         self.portLayout.addWidget(self.portSpinBox)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.portLayout.addItem(spacerItem)
         self.verticalLayout.addLayout(self.portLayout)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem1)
 
         self.retranslateUi(Form)
@@ -82,7 +86,11 @@ class Ui_Form(object):
         self.detectButton.setText(_translate("Form", "Detect"))
         self.installKotorblenderButton.setText(_translate("Form", "Install kotorblender"))
         self.preferBlenderCheckbox.setText(_translate("Form", "Prefer Blender when available"))
-        self.preferBlenderCheckbox.setToolTip(_translate("Form", "Automatically use Blender for Module Designer, GIT Editor, etc."))
+        self.preferBlenderCheckbox.setToolTip(
+            _translate("Form", "Automatically use Blender for Module Designer, GIT Editor, etc.")
+        )
         self.rememberCheckbox.setText(_translate("Form", "Remember editor choice"))
-        self.rememberCheckbox.setToolTip(_translate("Form", "Don\'t ask which editor to use each time"))
+        self.rememberCheckbox.setToolTip(
+            _translate("Form", "Don't ask which editor to use each time")
+        )
         self.portLabel.setText(_translate("Form", "IPC Port:"))

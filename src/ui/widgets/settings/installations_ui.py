@@ -66,7 +66,9 @@ class Ui_Form:
         self.pathTslCheckbox = QtWidgets.QCheckBox(parent=self.pathFrame)
         self.pathTslCheckbox.setText("")
         self.pathTslCheckbox.setObjectName("pathTslCheckbox")
-        self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.ItemRole.FieldRole, self.pathTslCheckbox)
+        self.formLayout_2.setWidget(
+            2, QtWidgets.QFormLayout.ItemRole.FieldRole, self.pathTslCheckbox
+        )
         self.horizontalLayout.addWidget(self.pathFrame)
         self.horizontalLayout.setStretch(0, 1)
         self.horizontalLayout.setStretch(2, 2)
@@ -83,4 +85,6 @@ class Ui_Form:
         self.label_12.setText(_translate("Form", "Path:"))
         self.pathBrowseButton.setText(_translate("Form", "Browse..."))
         self.label_13.setText(_translate("Form", "TSL:"))
+
+
 from utility.gui.qt.widgets.itemviews.listview import RobustListView

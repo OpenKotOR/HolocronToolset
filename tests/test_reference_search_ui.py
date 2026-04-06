@@ -38,7 +38,9 @@ class TestReferenceSearchOptionsDialog:
         assert dialog.get_case_sensitive() is False
         assert dialog.get_file_pattern() is None
 
-    def test_reference_search_options_partial_match(self, qtbot: QtBot, installation: HTInstallation):
+    def test_reference_search_options_partial_match(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test partial match checkbox."""
         dialog = ReferenceSearchOptions(None, default_partial_match=True)
         qtbot.addWidget(dialog)
@@ -52,7 +54,9 @@ class TestReferenceSearchOptionsDialog:
         dialog.partial_match_check.setChecked(True)
         assert dialog.get_partial_match() is True
 
-    def test_reference_search_options_case_sensitive(self, qtbot: QtBot, installation: HTInstallation):
+    def test_reference_search_options_case_sensitive(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test case sensitive checkbox."""
         dialog = ReferenceSearchOptions(None, default_case_sensitive=True)
         qtbot.addWidget(dialog)
@@ -66,7 +70,9 @@ class TestReferenceSearchOptionsDialog:
         dialog.case_sensitive_check.setChecked(True)
         assert dialog.get_case_sensitive() is True
 
-    def test_reference_search_options_file_pattern(self, qtbot: QtBot, installation: HTInstallation):
+    def test_reference_search_options_file_pattern(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test file pattern text field."""
         dialog = ReferenceSearchOptions(None, default_file_pattern="*.mod")
         qtbot.addWidget(dialog)
@@ -101,7 +107,9 @@ class TestReferenceSearchOptionsDialog:
         # The implementation returns None if all are selected, but what if none are selected?
         # Let's test the actual behavior
 
-    def test_reference_search_options_dialog_accept(self, qtbot: QtBot, installation: HTInstallation):
+    def test_reference_search_options_dialog_accept(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test accepting the dialog."""
         dialog = ReferenceSearchOptions(None)
         qtbot.addWidget(dialog)
@@ -126,7 +134,9 @@ class TestReferenceSearchOptionsDialog:
 class TestFileResultsDialog:
     """Tests for FileResults dialog with ReferenceSearchResult objects."""
 
-    def test_file_results_with_reference_search_results(self, qtbot: QtBot, installation: HTInstallation):
+    def test_file_results_with_reference_search_results(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test FileResults dialog with ReferenceSearchResult objects."""
         # Create some mock results
         resources = list(installation)
@@ -270,7 +280,9 @@ class TestEditorContextMenus:
         # Verify context menu is set up
         assert tag_field.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_utd_editor_conversation_field_context_menu(self, qtbot: QtBot, installation: HTInstallation):
+    def test_utd_editor_conversation_field_context_menu(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test UTD editor conversation field context menu has Find References."""
         from toolset.gui.editors.utd import UTDEditor
 
@@ -336,7 +348,9 @@ class TestEditorContextMenus:
 class TestHTInstallationReferenceSearch:
     """Tests for HTInstallation reference search functionality."""
 
-    def test_setup_file_context_menu_with_reference_search(self, qtbot: QtBot, installation: HTInstallation):
+    def test_setup_file_context_menu_with_reference_search(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test setup_file_context_menu with reference search enabled."""
         widget = QLineEdit()
         widget.setText("test_script")
@@ -352,7 +366,9 @@ class TestHTInstallationReferenceSearch:
         # Verify context menu policy is set
         assert widget.contextMenuPolicy() == Qt.ContextMenuPolicy.CustomContextMenu
 
-    def test_build_file_context_menu_with_reference_search(self, qtbot: QtBot, installation: HTInstallation):
+    def test_build_file_context_menu_with_reference_search(
+        self, qtbot: QtBot, installation: HTInstallation
+    ):
         """Test build_file_context_menu with reference search enabled."""
         from qtpy.QtWidgets import QMenu
 

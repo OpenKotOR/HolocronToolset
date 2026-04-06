@@ -14,7 +14,9 @@ from loggerplus import RobustLogger
 from utility.updater.github import GithubRelease
 
 
-def fetch_fork_releases(fork_full_name: str, *, include_all: bool = False, include_prerelease: bool = False) -> list[GithubRelease]:
+def fetch_fork_releases(
+    fork_full_name: str, *, include_all: bool = False, include_prerelease: bool = False
+) -> list[GithubRelease]:
     """Fetch releases for a specific fork."""
     if requests is None:
         RobustLogger().warning("requests library not available, cannot fetch fork releases")
@@ -26,7 +28,11 @@ def fetch_fork_releases(fork_full_name: str, *, include_all: bool = False, inclu
         releases_json = response.json()
         if include_all:
             return [GithubRelease.from_json(r) for r in releases_json]
-        return [GithubRelease.from_json(r) for r in releases_json if not r["draft"] and (include_prerelease or not r["prerelease"])]
+        return [
+            GithubRelease.from_json(r)
+            for r in releases_json
+            if not r["draft"] and (include_prerelease or not r["prerelease"])
+        ]
     except requests.HTTPError as e:
         RobustLogger().exception(f"Failed to fetch releases for {fork_full_name}: {e}")
         return []
@@ -52,9 +58,15 @@ def fetch_and_cache_forks() -> dict[str, list[GithubRelease]]:
     return forks_cache
 
 
-def filter_releases(releases: list[GithubRelease], *, include_prerelease: bool = False) -> list[GithubRelease]:
+def filter_releases(
+    releases: list[GithubRelease], *, include_prerelease: bool = False
+) -> list[GithubRelease]:
     """Filter releases based on criteria."""
     filtered: list[GithubRelease] = [
-        release for release in releases if not release.draft and "toolset" in release.tag_name.lower() and (include_prerelease or not release.prerelease)
+        release
+        for release in releases
+        if not release.draft
+        and "toolset" in release.tag_name.lower()
+        and (include_prerelease or not release.prerelease)
     ]
     return filtered

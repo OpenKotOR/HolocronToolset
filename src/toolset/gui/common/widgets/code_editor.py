@@ -161,8 +161,12 @@ class CodeEditor(QPlainTextEdit):
         self._multiple_selections: list[tuple[int, int]] = []  # List of (start, end) positions
 
         # Code folding state
-        self._folded_block_numbers: set[int] = set()  # Block numbers that are folded (blocks that start foldable regions)
-        self._foldable_regions: dict[int, int] = {}  # Map start block number to end block number for foldable regions
+        self._folded_block_numbers: set[int] = (
+            set()
+        )  # Block numbers that are folded (blocks that start foldable regions)
+        self._foldable_regions: dict[
+            int, int
+        ] = {}  # Map start block number to end block number for foldable regions
 
         # VS Code-like settings
         self._show_indent_guides: bool = True  # Draw vertical lines at indent levels
@@ -257,7 +261,9 @@ class CodeEditor(QPlainTextEdit):
         selected_text: str = cursor.selectedText()
         lines: list[str] = selected_text.split("\u2029")  # Unicode line separator
 
-        comment_out: bool = any(not line.lstrip().startswith("//") for line in lines if line.strip())
+        comment_out: bool = any(
+            not line.lstrip().startswith("//") for line in lines if line.strip()
+        )
 
         cursor.beginEditBlock()
         for i, line in enumerate(lines):
@@ -326,7 +332,10 @@ class CodeEditor(QPlainTextEdit):
         # Ensure line numbers are always visible by using a contrasting color
         # If the text color is too similar to background, use a more contrasting color
         bg_color = self.palette().color(QPalette.ColorRole.AlternateBase)
-        if text_color.value() == bg_color.value() or abs(text_color.value() - bg_color.value()) < 30:
+        if (
+            text_color.value() == bg_color.value()
+            or abs(text_color.value() - bg_color.value()) < 30
+        ):
             # Colors are too similar, use a more contrasting color
             # Use WindowText which should always contrast with AlternateBase
             text_color = self.palette().color(QPalette.ColorRole.WindowText)
@@ -342,7 +351,9 @@ class CodeEditor(QPlainTextEdit):
                 # Draw text with right alignment and proper vertical centering
                 # Use 4px right padding to prevent clipping at the edge
                 text_rect = QRect(4, int(top), line_number_area_width - 8, int(block_height))
-                painter.drawText(text_rect, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, number)
+                painter.drawText(
+                    text_rect, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, number
+                )
 
                 # Draw error/warning indicators first (left edge, most important)
                 line_num_1_indexed = block_number + 1
@@ -381,7 +392,9 @@ class CodeEditor(QPlainTextEdit):
                     painter.setBrush(breakpoint_color)
                     painter.setPen(Qt.PenStyle.NoPen)
                     # Draw filled circle for breakpoint
-                    painter.drawEllipse(breakpoint_x, breakpoint_y, breakpoint_size, breakpoint_size)
+                    painter.drawEllipse(
+                        breakpoint_x, breakpoint_y, breakpoint_size, breakpoint_size
+                    )
 
                 # Draw current debug line indicator (highlighted background)
                 if line_num_1_indexed == self.current_debug_line:
@@ -389,8 +402,13 @@ class CodeEditor(QPlainTextEdit):
                     painter.fillRect(0, int(top), line_number_area_width, font_height, debug_color)
 
                 # Draw bookmark indicator (small circle on right side of line numbers)
-                if line_num_1_indexed in self.bookmark_lines and line_num_1_indexed not in self.breakpoint_lines:
-                    bookmark_color = self.palette().color(QPalette.ColorRole.Highlight)  # Use highlight color for bookmarks
+                if (
+                    line_num_1_indexed in self.bookmark_lines
+                    and line_num_1_indexed not in self.breakpoint_lines
+                ):
+                    bookmark_color = self.palette().color(
+                        QPalette.ColorRole.Highlight
+                    )  # Use highlight color for bookmarks
                     # Draw a small filled circle for bookmark
                     bookmark_size = 8
                     bookmark_x = line_number_area_width - bookmark_size - 2
@@ -401,7 +419,11 @@ class CodeEditor(QPlainTextEdit):
                     painter.drawEllipse(bookmark_x, bookmark_y, bookmark_size, bookmark_size)
 
                 # Draw modification indicator (thin line on left edge, below errors/warnings)
-                if block_number in self.modified_lines and line_num_1_indexed not in self.error_lines and line_num_1_indexed not in self.warning_lines:
+                if (
+                    block_number in self.modified_lines
+                    and line_num_1_indexed not in self.error_lines
+                    and line_num_1_indexed not in self.warning_lines
+                ):
                     mod_color = self.palette().color(QPalette.ColorRole.Mid)
                     painter.fillRect(0, int(top), 2, font_height, mod_color)
 
@@ -468,7 +490,9 @@ class CodeEditor(QPlainTextEdit):
     ):
         super().resizeEvent(e)
         cr: QRect = self.contentsRect()
-        self._line_number_area.setGeometry(QRect(cr.left(), cr.top(), self.line_number_area_width(), cr.height()))
+        self._line_number_area.setGeometry(
+            QRect(cr.left(), cr.top(), self.line_number_area_width(), cr.height())
+        )
 
     def _update_line_number_area_width(
         self,
@@ -650,7 +674,9 @@ class CodeEditor(QPlainTextEdit):
                 if text and "\t" in text[: leading_spaces + 1]:
                     # Count tabs and convert to spaces
                     tab_count = text[: leading_spaces + 1].count("\t")
-                    leading_spaces = tab_count * self._indent_guide_width + (leading_spaces - tab_count)
+                    leading_spaces = tab_count * self._indent_guide_width + (
+                        leading_spaces - tab_count
+                    )
 
                 # Calculate number of indent levels
                 indent_levels = leading_spaces // self._indent_guide_width
@@ -752,7 +778,9 @@ class CodeEditor(QPlainTextEdit):
             selection1.format = QTextCharFormat()  # type: ignore[attr-value]
             highlight_color = self.palette().color(QPalette.ColorRole.Highlight)
             selection1.format.setBackground(highlight_color.lighter(120))  # type: ignore[attr-value]
-            selection1.format.setForeground(self.palette().color(QPalette.ColorRole.HighlightedText))  # type: ignore[attr-value]
+            selection1.format.setForeground(
+                self.palette().color(QPalette.ColorRole.HighlightedText)
+            )  # type: ignore[attr-value]
             extra_selections.append(selection1)
 
             # Highlight closing bracket
@@ -763,14 +791,18 @@ class CodeEditor(QPlainTextEdit):
             selection2.cursor = cursor2  # type: ignore[attr-value]
             selection2.format = QTextCharFormat()  # type: ignore[attr-value]
             selection2.format.setBackground(highlight_color.lighter(120))  # type: ignore[attr-value]
-            selection2.format.setForeground(self.palette().color(QPalette.ColorRole.HighlightedText))  # type: ignore[attr-value]
+            selection2.format.setForeground(
+                self.palette().color(QPalette.ColorRole.HighlightedText)
+            )  # type: ignore[attr-value]
             extra_selections.append(selection2)
 
         # Get existing selections (for current line highlight) - preserve them
         existing_selections = self.extraSelections()
         for sel in existing_selections:
             # Keep the current line highlight selection
-            if hasattr(sel, "format") and sel.format.property(QTextFormat.Property.FullWidthSelection):  # type: ignore[attr-value]
+            if hasattr(sel, "format") and sel.format.property(
+                QTextFormat.Property.FullWidthSelection
+            ):  # type: ignore[attr-value]
                 extra_selections.insert(0, sel)  # Insert at beginning to preserve order
 
         self.setExtraSelections(extra_selections)
@@ -817,7 +849,9 @@ class CodeEditor(QPlainTextEdit):
         if dy:
             self._line_number_area.scroll(0, dy)
         else:
-            self._line_number_area.update(0, rect.y(), self._line_number_area.width(), rect.height())
+            self._line_number_area.update(
+                0, rect.y(), self._line_number_area.width(), rect.height()
+            )
         viewport: QWidget | None = self.viewport()
         if viewport is None:
             return
@@ -837,7 +871,9 @@ class CodeEditor(QPlainTextEdit):
     ):
         cursor: QTextCursor = self.textCursor()
         cursor.movePosition(QTextCursor.MoveOperation.Start)
-        cursor.movePosition(QTextCursor.MoveOperation.Down, QTextCursor.MoveMode.MoveAnchor, line_number - 1)
+        cursor.movePosition(
+            QTextCursor.MoveOperation.Down, QTextCursor.MoveMode.MoveAnchor, line_number - 1
+        )
         self.setTextCursor(cursor)
         self.ensureCursorVisible()
 
@@ -847,8 +883,12 @@ class CodeEditor(QPlainTextEdit):
             item: QTreeWidgetItem | None = self.bookmark_tree.topLevelItem(i)
             if item is None:
                 continue
-            bookmarks.append({"line": item.data(0, Qt.ItemDataRole.UserRole), "description": item.text(1)})
-        QSettings(get_qsettings_organization("HolocronToolsetV4"), "CodeEditor").setValue("bookmarks", json.dumps(bookmarks))
+            bookmarks.append(
+                {"line": item.data(0, Qt.ItemDataRole.UserRole), "description": item.text(1)}
+            )
+        QSettings(get_qsettings_organization("HolocronToolsetV4"), "CodeEditor").setValue(
+            "bookmarks", json.dumps(bookmarks)
+        )
 
     # Additional methods
     def show_auto_complete_menu(self):
@@ -861,7 +901,9 @@ class CodeEditor(QPlainTextEdit):
             vertical_scrollbar: QScrollBar | None = popup_completer.verticalScrollBar()
             if vertical_scrollbar is None:
                 return
-            rect.setWidth(popup_completer.sizeHintForColumn(0) + vertical_scrollbar.sizeHint().width())
+            rect.setWidth(
+                popup_completer.sizeHintForColumn(0) + vertical_scrollbar.sizeHint().width()
+            )
             self.completer.complete(rect)
             completion_model: QAbstractItemModel | None = self.completer.completionModel()
             if completion_model is None:
@@ -965,7 +1007,14 @@ class CodeEditor(QPlainTextEdit):
         self.find_dialog.setMinimumWidth(400)
         self.find_dialog.show()
 
-    def find_next(self, find_text: str | None = None, case_sensitive: bool = False, whole_words: bool = False, regex: bool = False, backward: bool = False):
+    def find_next(
+        self,
+        find_text: str | None = None,
+        case_sensitive: bool = False,
+        whole_words: bool = False,
+        regex: bool = False,
+        backward: bool = False,
+    ):
         """Find next occurrence with optional parameters for inline find widget."""
         flags = QTextDocument.FindFlag(0)
         if case_sensitive or (hasattr(self, "case_sensitive") and self.case_sensitive.isChecked()):
@@ -1010,7 +1059,13 @@ class CodeEditor(QPlainTextEdit):
             return True
         return False
 
-    def find_previous(self, find_text: str | None = None, case_sensitive: bool = False, whole_words: bool = False, regex: bool = False):
+    def find_previous(
+        self,
+        find_text: str | None = None,
+        case_sensitive: bool = False,
+        whole_words: bool = False,
+        regex: bool = False,
+    ):
         """Find previous occurrence."""
         return self.find_next(find_text, case_sensitive, whole_words, regex, backward=True)
 
@@ -1022,7 +1077,14 @@ class CodeEditor(QPlainTextEdit):
             return True
         return False
 
-    def replace_all_occurrences(self, find_text: str, replace_text: str, case_sensitive: bool = False, whole_words: bool = False, regex: bool = False):
+    def replace_all_occurrences(
+        self,
+        find_text: str,
+        replace_text: str,
+        case_sensitive: bool = False,
+        whole_words: bool = False,
+        regex: bool = False,
+    ):
         """Replace all occurrences in document."""
         flags = QTextDocument.FindFlag(0)
         if case_sensitive:
@@ -1072,7 +1134,9 @@ class CodeEditor(QPlainTextEdit):
             self.textCursor().insertText(self.replace_edit.text())
             count += 1
         cursor.endEditBlock()
-        QMessageBox.information(self, tr("Replace All"), trf("Replaced {count} occurrences", count=count))
+        QMessageBox.information(
+            self, tr("Replace All"), trf("Replaced {count} occurrences", count=count)
+        )
 
     def on_outline_item_clicked(
         self,
@@ -1103,7 +1167,11 @@ class CodeEditor(QPlainTextEdit):
                 text = self.toPlainText()
                 lines = text.split("\n")
                 for i, line in enumerate(lines, 1):
-                    if identifier in line and (f"void {identifier}" in line or f"struct {identifier}" in line or f"{identifier}(" in line):
+                    if identifier in line and (
+                        f"void {identifier}" in line
+                        or f"struct {identifier}" in line
+                        or f"{identifier}(" in line
+                    ):
                         line_num = i
                         break
 
@@ -1146,7 +1214,11 @@ class CodeEditor(QPlainTextEdit):
                 text = self.toPlainText()
                 lines = text.split("\n")
                 for i, line in enumerate(lines, 1):
-                    if identifier in line and (f"void {identifier}" in line or f"struct {identifier}" in line or f"{identifier}(" in line):
+                    if identifier in line and (
+                        f"void {identifier}" in line
+                        or f"struct {identifier}" in line
+                        or f"{identifier}(" in line
+                    ):
                         line_num = i
                         break
 
@@ -1206,10 +1278,16 @@ class CodeEditor(QPlainTextEdit):
 
         # Find next occurrence starting from cursor position
         search_cursor = QTextCursor(cursor)
-        search_cursor.setPosition(cursor.selectionEnd() if cursor.hasSelection() else cursor.position())
+        search_cursor.setPosition(
+            cursor.selectionEnd() if cursor.hasSelection() else cursor.position()
+        )
 
         # Search forward
-        found = document.find(search_text, search_cursor, QTextDocument.FindFlag.FindCaseSensitively | QTextDocument.FindFlag.FindWholeWords)
+        found = document.find(
+            search_text,
+            search_cursor,
+            QTextDocument.FindFlag.FindCaseSensitively | QTextDocument.FindFlag.FindWholeWords,
+        )
 
         if not found.isNull():
             # Add this to our selections
@@ -1264,10 +1342,14 @@ class CodeEditor(QPlainTextEdit):
             cursor.setPosition(cursor.selectionStart())
             cursor.movePosition(QTextCursor.MoveOperation.StartOfLine)
             cursor.setPosition(cursor.selectionEnd(), QTextCursor.MoveMode.KeepAnchor)
-            cursor.movePosition(QTextCursor.MoveOperation.EndOfLine, QTextCursor.MoveMode.KeepAnchor)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.EndOfLine, QTextCursor.MoveMode.KeepAnchor
+            )
         else:
             cursor.movePosition(QTextCursor.MoveOperation.StartOfLine)
-            cursor.movePosition(QTextCursor.MoveOperation.EndOfLine, QTextCursor.MoveMode.KeepAnchor)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.EndOfLine, QTextCursor.MoveMode.KeepAnchor
+            )
 
         text: str = cursor.selectedText()
         cursor.movePosition(QTextCursor.MoveOperation.EndOfLine)
@@ -1330,7 +1412,9 @@ class CodeEditor(QPlainTextEdit):
         if direction == "up":
             cursor.movePosition(QTextCursor.MoveOperation.StartOfBlock)
             cursor.movePosition(QTextCursor.MoveOperation.Up)
-            cursor.movePosition(QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor
+            )
             cursor.movePosition(QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.KeepAnchor)
             text_to_move = cursor.selectedText()
             cursor.removeSelectedText()
@@ -1339,9 +1423,13 @@ class CodeEditor(QPlainTextEdit):
         else:  # down
             cursor.movePosition(QTextCursor.MoveOperation.EndOfBlock)
             cursor.movePosition(QTextCursor.MoveOperation.Down)
-            cursor.movePosition(QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.EndOfBlock, QTextCursor.MoveMode.KeepAnchor
+            )
             if not cursor.atEnd():
-                cursor.movePosition(QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.KeepAnchor)
+                cursor.movePosition(
+                    QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.KeepAnchor
+                )
             text_to_move = cursor.selectedText()
             cursor.removeSelectedText()
             cursor.movePosition(QTextCursor.MoveOperation.Up)
@@ -1383,12 +1471,16 @@ class CodeEditor(QPlainTextEdit):
 
         super().keyPressEvent(event)
 
-        ctrl_or_shift: Qt.KeyboardModifier = event.modifiers() & (Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+        ctrl_or_shift: Qt.KeyboardModifier = event.modifiers() & (
+            Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier
+        )
         if self.completer is None or (bool(ctrl_or_shift) and len(event.text()) == 0):
             return
 
         eow: str = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="
-        has_modifier: bool = (event.modifiers() != Qt.KeyboardModifier.NoModifier) and not bool(ctrl_or_shift)
+        has_modifier: bool = (event.modifiers() != Qt.KeyboardModifier.NoModifier) and not bool(
+            ctrl_or_shift
+        )
         completion_prefix: str = self.text_under_cursor()
 
         if (
@@ -1405,7 +1497,10 @@ class CodeEditor(QPlainTextEdit):
             self.completer.popup().setCurrentIndex(self.completer.completionModel().index(0, 0))  # pyright: ignore[reportOptionalMemberAccess]
 
         cr: QRect = self.cursorRect()
-        cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())  # pyright: ignore[reportOptionalMemberAccess]
+        cr.setWidth(
+            self.completer.popup().sizeHintForColumn(0)
+            + self.completer.popup().verticalScrollBar().sizeHint().width()
+        )  # pyright: ignore[reportOptionalMemberAccess]
         self.completer.complete(cr)
 
     def focusInEvent(  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -1444,7 +1539,11 @@ class CodeEditor(QPlainTextEdit):
         highlight_color = self.palette().color(QPalette.ColorRole.Highlight)
 
         while True:
-            found = document.find(search_text, search_cursor, QTextDocument.FindFlag.FindCaseSensitively | QTextDocument.FindFlag.FindWholeWords)
+            found = document.find(
+                search_text,
+                search_cursor,
+                QTextDocument.FindFlag.FindCaseSensitively | QTextDocument.FindFlag.FindWholeWords,
+            )
             if found.isNull():
                 break
 
@@ -1609,7 +1708,10 @@ class CodeEditor(QPlainTextEdit):
                     return
 
         # Check if Alt+Shift is pressed for column selection
-        if event.modifiers() & Qt.KeyboardModifier.AltModifier and event.modifiers() & Qt.KeyboardModifier.ShiftModifier:
+        if (
+            event.modifiers() & Qt.KeyboardModifier.AltModifier
+            and event.modifiers() & Qt.KeyboardModifier.ShiftModifier
+        ):
             self._column_selection_mode = True
             pos = event.pos()
             self._column_selection_anchor = pos
@@ -1663,7 +1765,9 @@ class CodeEditor(QPlainTextEdit):
                 return
 
             cursor.setPosition(start_block.position())
-            cursor.movePosition(QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.MoveAnchor, start_col)
+            cursor.movePosition(
+                QTextCursor.MoveOperation.Right, QTextCursor.MoveMode.MoveAnchor, start_col
+            )
 
             # Move to end position
             end_block = document.findBlockByNumber(end_line)
@@ -1720,7 +1824,9 @@ class NSSCodeEditor(CodeEditor):
         self.restoreGeometry(settings.value("NSSCodeEditor/geometry", self.saveGeometry()))  # type: ignore[arg-type]
 
     def save_settings(self):
-        QSettings(get_qsettings_organization("HolocronToolsetV4"), "CodeEditor").setValue("NSSCodeEditor/geometry", self.saveGeometry())
+        QSettings(get_qsettings_organization("HolocronToolsetV4"), "CodeEditor").setValue(
+            "NSSCodeEditor/geometry", self.saveGeometry()
+        )
 
     def dragEnterEvent(  # pyright: ignore[reportIncompatibleMethodOverride]
         self,
@@ -1739,7 +1845,9 @@ class NSSCodeEditor(CodeEditor):
         mime_data: QMimeData | None = event.mimeData()
         if mime_data is None:
             return
-        self.insert_text_at_position(mime_data.text(), event.pos() if qtpy.QT5 else event.position().toPoint())  # pyright: ignore[reportAttributeAccessIssue]
+        self.insert_text_at_position(
+            mime_data.text(), event.pos() if qtpy.QT5 else event.position().toPoint()
+        )  # pyright: ignore[reportAttributeAccessIssue]
 
     def insert_text_at_position(
         self,

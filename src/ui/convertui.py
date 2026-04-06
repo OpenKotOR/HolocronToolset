@@ -33,7 +33,9 @@ if not TOOLSET_DIR.is_dir():
     while len(TOOLSET_DIR.parts) > 1 and TOOLSET_DIR.name.lower() != "toolset":
         TOOLSET_DIR = TOOLSET_DIR.parent
     if TOOLSET_DIR.name.lower() != "toolset":
-        raise RuntimeError("Could not find the toolset folder! Please ensure this script is ran somewhere inside the toolset folder or a subdirectory.")
+        raise RuntimeError(
+            "Could not find the toolset folder! Please ensure this script is ran somewhere inside the toolset folder or a subdirectory."
+        )
 
 if __name__ == "__main__":
     os.chdir(TOOLSET_DIR)
@@ -42,6 +44,27 @@ UI_SOURCE_DIR = Path("../ui/")
 UI_TARGET_DIR = Path("../toolset/uic/")
 QRC_SOURCE_PATH = Path("../resources/resources.qrc")
 QRC_TARGET_PATH = Path("..")
+
+
+def postprocess_ui_file(filedata: str, qt_version: str) -> str:
+    new_filedata = filedata.replace(f"from {qt_version}", "from qtpy").replace(
+        f"import {qt_version}", "import qtpy"
+    )
+    # pyuic6 bug: contentsMargins with 4 equal values generates setContentsMargins(n) instead of
+    # setContentsMargins(n, n, n, n). Fix any single-int call (which is always invalid in PyQt6).
+    new_filedata = re.sub(
+        r"\.setContentsMargins\((\d+)\)",
+        lambda m: f".setContentsMargins({m.group(1)}, {m.group(1)}, {m.group(1)}, {m.group(1)})",
+        new_filedata,
+    )
+    # Some generators emit C++ enum syntax for QFrame.NoFrame, which is invalid Python.
+    new_filedata = re.sub(
+        r"^\s*\w+(?:\.\w+)*\.setFrameShape\([^\n]*::[^\n]*NoFrame[^\n]*\)\r?\n",
+        "",
+        new_filedata,
+        flags=re.MULTILINE,
+    )
+    return new_filedata
 
 
 def get_available_qt_version() -> Literal["PyQt5", "PyQt6", "PySide6", "PySide2"]:
@@ -77,7 +100,9 @@ def get_available_qt_version() -> Literal["PyQt5", "PyQt6", "PySide6", "PySide2"
                 #    f"but {mapped_version} cannot be imported. Please install it or unset QT_API."
                 # ) from e
         else:
-            print(f"Warning: QT_API='{qt_api_env}' is not a recognized value. Valid values: pyqt5, pyqt6, pyside6, pyside2. Falling back to auto-detection.")
+            print(
+                f"Warning: QT_API='{qt_api_env}' is not a recognized value. Valid values: pyqt5, pyqt6, pyside6, pyside2. Falling back to auto-detection."
+            )
 
     # Fall back to auto-detection if QT_API is not set or the specified version is unavailable
     qt_versions = ["PyQt5", "PyQt6", "PySide6", "PySide2"]
@@ -91,7 +116,9 @@ def get_available_qt_version() -> Literal["PyQt5", "PyQt6", "PySide6", "PySide2"
             continue
         else:
             return qt_version  # pyright: ignore[reportReturnType]
-    raise RuntimeError("No supported Qt binding found. Please install `PyQt5`, `PyQt6`, `PySide6`, or `PySide2`.")
+    raise RuntimeError(
+        "No supported Qt binding found. Please install `PyQt5`, `PyQt6`, `PySide6`, or `PySide2`."
+    )
 
 
 def compile_ui_through_python(
@@ -190,7 +217,9 @@ def compile_ui(
                     if compiler_path is None:
                         result = compile_ui_through_python(qt_version, ui_file, ui_target, debug)
                     else:
-                        result = compile_ui_through_subprocess(compiler_path, ui_file, ui_target, debug)
+                        result = compile_ui_through_subprocess(
+                            compiler_path, ui_file, ui_target, debug
+                        )
                 except subprocess.CalledProcessError as e:
                     print(f"Error: {e}")
                     print(f"Error: {e.stdout}")
@@ -210,14 +239,7 @@ def compile_ui(
                 print(f"WARNING: Target '{ui_target}' not generated, skipping...")
                 continue
             filedata: str = ui_target.read_text(encoding="utf-8")
-            new_filedata: str = filedata.replace(f"from {qt_version}", "from qtpy").replace(f"import {qt_version}", "import qtpy")
-            # pyuic6 bug: contentsMargins with 4 equal values generates setContentsMargins(n) instead of
-            # setContentsMargins(n, n, n, n). Fix any single-int call (which is always invalid in PyQt6).
-            new_filedata = re.sub(
-                r"\.setContentsMargins\((\d+)\)",
-                lambda m: f".setContentsMargins({m.group(1)}, {m.group(1)}, {m.group(1)}, {m.group(1)})",
-                new_filedata,
-            )
+            new_filedata: str = postprocess_ui_file(filedata, qt_version)
             if filedata != new_filedata:
                 ui_target.write_text(new_filedata, encoding="utf-8")
 
@@ -286,7 +308,9 @@ def compile_qrc(
         filedata: str = qrc_target.read_text(encoding="utf-8")
         new_filedata: str = filedata
         for binding in ("PyQt5", "PyQt6", "PySide2", "PySide6"):
-            new_filedata = new_filedata.replace(f"from {binding}", "from qtpy").replace(f"import {binding}", "import qtpy")
+            new_filedata = new_filedata.replace(f"from {binding}", "from qtpy").replace(
+                f"import {binding}", "import qtpy"
+            )
         if filedata != new_filedata:
             qrc_target.write_text(new_filedata)
 
@@ -295,7 +319,9 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--force", action="store_true", help="Recompile all UI files ignoring timestamps")
+    parser.add_argument(
+        "--force", action="store_true", help="Recompile all UI files ignoring timestamps"
+    )
     args = parser.parse_args()
     force = args.force
 

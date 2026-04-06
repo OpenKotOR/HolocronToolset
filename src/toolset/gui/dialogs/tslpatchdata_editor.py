@@ -39,7 +39,13 @@ class TSLPatchDataEditor(QDialog):
 
         self.installation = installation
         self.tslpatchdata_path = tslpatchdata_path or Path("tslpatchdata")
-        self.ini_config = configparser.ConfigParser(delimiters=("="), allow_no_value=True, strict=False, interpolation=None, inline_comment_prefixes=(";", "#"))
+        self.ini_config = configparser.ConfigParser(
+            delimiters=("="),
+            allow_no_value=True,
+            strict=False,
+            interpolation=None,
+            inline_comment_prefixes=(";", "#"),
+        )
 
         self._setup_ui()
 
@@ -172,7 +178,9 @@ class TSLPatchDataEditor(QDialog):
         QMessageBox.information(
             self,
             tr("Scan from Diff"),
-            tr("This will scan a KotorDiff results file and automatically populate files.\n\nNot yet implemented."),
+            tr(
+                "This will scan a KotorDiff results file and automatically populate files.\n\nNot yet implemented."
+            ),
         )
 
     def _on_file_selected(self, item):
@@ -237,7 +245,9 @@ class TSLPatchDataEditor(QDialog):
             else:
                 from toolset.gui.common.localization import translate as tr
 
-                QMessageBox.warning(self, tr("Not Found"), tr("dialog.tlk not found in installation."))
+                QMessageBox.warning(
+                    self, tr("Not Found"), tr("dialog.tlk not found in installation.")
+                )
         else:
             QMessageBox.warning(self, tr("No Installation"), tr("No installation loaded."))
 
@@ -253,7 +263,9 @@ class TSLPatchDataEditor(QDialog):
         """Add a compiled script."""
         from toolset.gui.common.localization import translate as tr
 
-        files = QFileDialog.getOpenFileNames(self, tr("Select Scripts (.ncs)"), "", "Scripts (*.ncs)")[0]
+        files = QFileDialog.getOpenFileNames(
+            self, tr("Select Scripts (.ncs)"), "", "Scripts (*.ncs)"
+        )[0]
         for file_path in files:
             self.ui.scriptList.addItem(Path(file_path).name)
 
@@ -289,7 +301,9 @@ class TSLPatchDataEditor(QDialog):
 
     def _preview_ini(self):
         """Show INI preview in current tab."""
-        self.ui.configTabs.setCurrentIndex(self.ui.configTabs.indexOf(self.ui.configTabs.widget(self.ui.configTabs.count() - 1)))
+        self.ui.configTabs.setCurrentIndex(
+            self.ui.configTabs.indexOf(self.ui.configTabs.widget(self.ui.configTabs.count() - 1))
+        )
         self._update_ini_preview()
 
     def _save_configuration(self):
@@ -327,5 +341,8 @@ class TSLPatchDataEditor(QDialog):
         QMessageBox.information(
             self,
             tr("Generated"),
-            trf("TSLPatchData generated at:\n{path}\n\nYou can now distribute this folder with HoloPatcher/TSLPatcher.", path=str(self.tslpatchdata_path)),
+            trf(
+                "TSLPatchData generated at:\n{path}\n\nYou can now distribute this folder with HoloPatcher/TSLPatcher.",
+                path=str(self.tslpatchdata_path),
+            ),
         )

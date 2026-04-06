@@ -72,7 +72,9 @@ class HolocronIPCServer:
         self._server_socket.bind(("127.0.0.1", self.port))
         self._server_socket.listen(5)
         self._running = True
-        self._accept_thread = threading.Thread(target=self._accept_loop, name="HolocronIPCServer", daemon=True)
+        self._accept_thread = threading.Thread(
+            target=self._accept_loop, name="HolocronIPCServer", daemon=True
+        )
         self._accept_thread.start()
         bpy.app.timers.register(self._process_requests, first_interval=0.05, persistent=True)
         return self
@@ -164,7 +166,9 @@ class HolocronIPCServer:
         self._request_queue.put(queued)
         queued.done.wait()
         if queued.error is not None:
-            self._send_response(client, queued.request_id, error=queued.error, error_code=queued.error_code)
+            self._send_response(
+                client, queued.request_id, error=queued.error, error_code=queued.error_code
+            )
         else:
             self._send_response(client, queued.request_id, result=queued.result)
 
@@ -285,7 +289,9 @@ class HolocronIPCServer:
         resref = state.get("resref") or state.get("tag") or "instance"
         return f"{instance_type}:{resref}"
 
-    def _create_mesh_object(self, name: str, vertices: list[tuple[float, float, float]], faces: list[list[int]]) -> bpy.types.Object:
+    def _create_mesh_object(
+        self, name: str, vertices: list[tuple[float, float, float]], faces: list[list[int]]
+    ) -> bpy.types.Object:
         mesh = bpy.data.meshes.new(name)
         mesh.from_pydata(vertices, [], faces)
         mesh.update()
@@ -293,7 +299,9 @@ class HolocronIPCServer:
         self._session_collection().objects.link(obj)
         return obj
 
-    def _create_room_object(self, room_data: dict[str, Any], walkmesh_data: dict[str, Any] | None = None) -> bpy.types.Object:
+    def _create_room_object(
+        self, room_data: dict[str, Any], walkmesh_data: dict[str, Any] | None = None
+    ) -> bpy.types.Object:
         room_name = f"Room:{room_data.get('model', 'room')}"
         if walkmesh_data and walkmesh_data.get("faces"):
             vertices: list[tuple[float, float, float]] = []
@@ -317,10 +325,14 @@ class HolocronIPCServer:
 
         obj.location = self._as_vector_tuple(room_data.get("position"))
         obj[_KIND_PROP] = "room"
-        self._serialize_state(obj, {"model": room_data.get("model", ""), "position": room_data.get("position", {})})
+        self._serialize_state(
+            obj, {"model": room_data.get("model", ""), "position": room_data.get("position", {})}
+        )
         return obj
 
-    def _create_layout_object(self, kind: str, label: str, state: dict[str, Any]) -> bpy.types.Object:
+    def _create_layout_object(
+        self, kind: str, label: str, state: dict[str, Any]
+    ) -> bpy.types.Object:
         obj = bpy.data.objects.new(label, None)
         obj.empty_display_type = "ARROWS"
         obj.empty_display_size = 1.5
@@ -332,7 +344,9 @@ class HolocronIPCServer:
             self._set_rotation_from_state(obj, state)
         return obj
 
-    def _create_instance_object(self, state: dict[str, Any], name: str | None = None) -> bpy.types.Object:
+    def _create_instance_object(
+        self, state: dict[str, Any], name: str | None = None
+    ) -> bpy.types.Object:
         object_name = name or self._instance_name(state)
         obj = bpy.data.objects.new(object_name, None)
         obj.empty_display_type = "PLAIN_AXES"
@@ -407,25 +421,45 @@ class HolocronIPCServer:
             "position": tuple(round(float(v), 6) for v in obj.location),
             "rotation_mode": obj.rotation_mode,
             "rotation": (
-                tuple(round(float(v), 6) for v in obj.rotation_quaternion) if obj.rotation_mode == "QUATERNION" else tuple(round(float(v), 6) for v in obj.rotation_euler)
+                tuple(round(float(v), 6) for v in obj.rotation_quaternion)
+                if obj.rotation_mode == "QUATERNION"
+                else tuple(round(float(v), 6) for v in obj.rotation_euler)
             ),
             "state": state,
         }
 
     def _remember_scene_state(self) -> None:
-        self._monitor_snapshot = {obj.name: self._snapshot_object(obj) for obj in self._tracked_objects()}
-        self._selection_snapshot = tuple(sorted(obj.name for obj in bpy.context.selected_objects if obj.name in self._monitor_snapshot))
+        self._monitor_snapshot = {
+            obj.name: self._snapshot_object(obj) for obj in self._tracked_objects()
+        }
+        self._selection_snapshot = tuple(
+            sorted(
+                obj.name
+                for obj in bpy.context.selected_objects
+                if obj.name in self._monitor_snapshot
+            )
+        )
 
     def _monitor_scene(self) -> float | None:
         if not self._monitor_running:
             return None
 
         tracked_now = {obj.name: obj for obj in self._tracked_objects()}
-        current_selection = tuple(sorted(name for name in tracked_now if tracked_now[name].select_get()))
+        current_selection = tuple(
+            sorted(name for name in tracked_now if tracked_now[name].select_get())
+        )
         if current_selection != self._selection_snapshot:
             self._selection_snapshot = current_selection
-            selected_runtime_ids = [runtime_id for name in current_selection for runtime_id in [self._runtime_id_value(tracked_now[name])] if runtime_id is not None]
-            self.send_event("selection_changed", {"selected": list(current_selection), "selected_runtime_ids": selected_runtime_ids})
+            selected_runtime_ids = [
+                runtime_id
+                for name in current_selection
+                for runtime_id in [self._runtime_id_value(tracked_now[name])]
+                if runtime_id is not None
+            ]
+            self.send_event(
+                "selection_changed",
+                {"selected": list(current_selection), "selected_runtime_ids": selected_runtime_ids},
+            )
 
         previous_names = set(self._monitor_snapshot)
         current_names = set(tracked_now)
@@ -459,20 +493,32 @@ class HolocronIPCServer:
             obj = tracked_now[name]
             old_snapshot = self._monitor_snapshot[name]
             new_snapshot = self._snapshot_object(obj)
-            if old_snapshot["position"] != new_snapshot["position"] or old_snapshot["rotation"] != new_snapshot["rotation"]:
+            if (
+                old_snapshot["position"] != new_snapshot["position"]
+                or old_snapshot["rotation"] != new_snapshot["rotation"]
+            ):
                 params: dict[str, Any] = {
                     "name": name,
                     "runtime_id": new_snapshot.get("runtime_id"),
                     "position": self._vector_dict(obj.location),
                 }
                 if obj.rotation_mode == "QUATERNION" and "orientation" in new_snapshot["state"]:
-                    params["rotation"] = {"quaternion": self._serialize_instance_object(obj)["orientation"]}
+                    params["rotation"] = {
+                        "quaternion": self._serialize_instance_object(obj)["orientation"]
+                    }
                 else:
                     params["rotation"] = {"euler": {"z": float(obj.rotation_euler.z)}}
                 self.send_event("transform_changed", params)
 
-            if old_snapshot["state"] != new_snapshot["state"] and new_snapshot["kind"] == "instance":
-                changed = {key: value for key, value in new_snapshot["state"].items() if old_snapshot["state"].get(key) != value}
+            if (
+                old_snapshot["state"] != new_snapshot["state"]
+                and new_snapshot["kind"] == "instance"
+            ):
+                changed = {
+                    key: value
+                    for key, value in new_snapshot["state"].items()
+                    if old_snapshot["state"].get(key) != value
+                }
                 if changed:
                     self.send_event(
                         "instance_updated",
@@ -495,7 +541,9 @@ class HolocronIPCServer:
         return "pong"
 
     def _rpc_get_version(self, _params: dict[str, Any]) -> dict[str, str]:
-        addon_module = bpy.context.preferences.addons.get("bl_ext.user_default.io_scene_kotor") or bpy.context.preferences.addons.get("io_scene_kotor")
+        addon_module = bpy.context.preferences.addons.get(
+            "bl_ext.user_default.io_scene_kotor"
+        ) or bpy.context.preferences.addons.get("io_scene_kotor")
         version = "unknown"
         if addon_module is not None:
             module = addon_module.module
@@ -504,7 +552,11 @@ class HolocronIPCServer:
                     imported = __import__(module, fromlist=["bl_info"])
                     bl_info = getattr(imported, "bl_info", {})
                     version_tuple = bl_info.get("version", ())
-                    version = ".".join(str(part) for part in version_tuple) if version_tuple else "unknown"
+                    version = (
+                        ".".join(str(part) for part in version_tuple)
+                        if version_tuple
+                        else "unknown"
+                    )
                 except Exception:  # noqa: BLE001
                     version = "unknown"
         return {"kotorblender": version, "bridge": "holocron-ipc"}
@@ -516,21 +568,39 @@ class HolocronIPCServer:
             "installation_path": params.get("installation_path", self.installation_path),
         }
 
-        walkmesh_lookup = {str(walkmesh.get("model", "")).lower(): walkmesh for walkmesh in params.get("walkmeshes", []) if isinstance(walkmesh, dict)}
+        walkmesh_lookup = {
+            str(walkmesh.get("model", "")).lower(): walkmesh
+            for walkmesh in params.get("walkmeshes", [])
+            if isinstance(walkmesh, dict)
+        }
 
         lyt_data = params.get("lyt", {})
         for room in lyt_data.get("rooms", []):
             model_name = str(room.get("model", "")).lower()
             self._create_room_object(room, walkmesh_lookup.get(model_name))
         for door_hook in lyt_data.get("doorhooks", []):
-            self._create_layout_object("door_hook", f"DoorHook:{door_hook.get('door', 'door')}", door_hook)
+            self._create_layout_object(
+                "door_hook", f"DoorHook:{door_hook.get('door', 'door')}", door_hook
+            )
         for track in lyt_data.get("tracks", []):
             self._create_layout_object("track", f"Track:{track.get('model', 'track')}", track)
         for obstacle in lyt_data.get("obstacles", []):
-            self._create_layout_object("obstacle", f"Obstacle:{obstacle.get('model', 'obstacle')}", obstacle)
+            self._create_layout_object(
+                "obstacle", f"Obstacle:{obstacle.get('model', 'obstacle')}", obstacle
+            )
 
         git_data = params.get("git", {})
-        for key in ("creatures", "cameras", "doors", "placeables", "waypoints", "sounds", "stores", "triggers", "encounters"):
+        for key in (
+            "creatures",
+            "cameras",
+            "doors",
+            "placeables",
+            "waypoints",
+            "sounds",
+            "stores",
+            "triggers",
+            "encounters",
+        ):
             for instance in git_data.get(key, []):
                 self._create_instance_object(instance)
 
@@ -575,7 +645,9 @@ class HolocronIPCServer:
         return True
 
     def _rpc_get_selection(self, _params: dict[str, Any]) -> list[str]:
-        return [obj.name for obj in bpy.context.selected_objects if obj.get(_KIND_PROP) == "instance"]
+        return [
+            obj.name for obj in bpy.context.selected_objects if obj.get(_KIND_PROP) == "instance"
+        ]
 
     def _rpc_add_room(self, params: dict[str, Any]) -> str:
         obj = self._create_room_object(params.get("room", {}))
@@ -674,17 +746,29 @@ class HolocronIPCServer:
         return True
 
     def _rpc_add_door_hook(self, params: dict[str, Any]) -> str:
-        obj = self._create_layout_object("door_hook", f"DoorHook:{params.get('door_hook', {}).get('door', 'door')}", params.get("door_hook", {}))
+        obj = self._create_layout_object(
+            "door_hook",
+            f"DoorHook:{params.get('door_hook', {}).get('door', 'door')}",
+            params.get("door_hook", {}),
+        )
         self._remember_scene_state()
         return obj.name
 
     def _rpc_add_track(self, params: dict[str, Any]) -> str:
-        obj = self._create_layout_object("track", f"Track:{params.get('track', {}).get('model', 'track')}", params.get("track", {}))
+        obj = self._create_layout_object(
+            "track",
+            f"Track:{params.get('track', {}).get('model', 'track')}",
+            params.get("track", {}),
+        )
         self._remember_scene_state()
         return obj.name
 
     def _rpc_add_obstacle(self, params: dict[str, Any]) -> str:
-        obj = self._create_layout_object("obstacle", f"Obstacle:{params.get('obstacle', {}).get('model', 'obstacle')}", params.get("obstacle", {}))
+        obj = self._create_layout_object(
+            "obstacle",
+            f"Obstacle:{params.get('obstacle', {}).get('model', 'obstacle')}",
+            params.get("obstacle", {}),
+        )
         self._remember_scene_state()
         return obj.name
 
@@ -733,7 +817,11 @@ class HolocronIPCServer:
         for obj in imported_objects:
             self._move_object_to_session_collection(obj)
 
-        return {"kind": asset_kind, "file_path": file_path, "imported_objects": [obj.name for obj in imported_objects]}
+        return {
+            "kind": asset_kind,
+            "file_path": file_path,
+            "imported_objects": [obj.name for obj in imported_objects],
+        }
 
     def _rpc_export_kotor_model(self, params: dict[str, Any]) -> dict[str, Any]:
         object_name = str(params.get("object_name", ""))

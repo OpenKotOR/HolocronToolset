@@ -102,7 +102,9 @@ class ERFSortFilterProxyModel(RobustSortFilterProxyModel):
         if index.column() == 2:  # noqa: PLR2004
             item: QStandardItem | None = src_model.item(index.row(), 0)
             if item is None:
-                RobustLogger().warning("ERFSortFilterProxyModel: item was None in get_sort_value() at index %s", index)
+                RobustLogger().warning(
+                    "ERFSortFilterProxyModel: item was None in get_sort_value() at index %s", index
+                )
                 return 0
             resource: ERFResource = item.data()
             return len(resource.data)
@@ -115,7 +117,13 @@ class ERFEditor(Editor):
         parent: QWidget | None,
         installation: HTInstallation | None = None,
     ):
-        supported: list[ResourceType] = [ResourceType.RIM, ResourceType.ERF, ResourceType.MOD, ResourceType.SAV, ResourceType.BIF]
+        supported: list[ResourceType] = [
+            ResourceType.RIM,
+            ResourceType.ERF,
+            ResourceType.MOD,
+            ResourceType.SAV,
+            ResourceType.BIF,
+        ]
         super().__init__(parent, "ERF Editor", "none", supported, supported, installation)
         self.resize(400, 250)
 
@@ -159,8 +167,12 @@ class ERFEditor(Editor):
             header.setSortIndicator(-1, Qt.SortOrder.AscendingOrder)
 
         # Disable saving file into module
-        self._save_filter = self._save_filter.replace(f";;Save into module ({self.CAPSULE_FILTER})", "")
-        self._open_filter = self._open_filter.replace(f";;Load from module ({self.CAPSULE_FILTER})", "")
+        self._save_filter = self._save_filter.replace(
+            f";;Save into module ({self.CAPSULE_FILTER})", ""
+        )
+        self._open_filter = self._open_filter.replace(
+            f";;Load from module ({self.CAPSULE_FILTER})", ""
+        )
 
         self.new()
 
@@ -182,7 +194,9 @@ class ERFEditor(Editor):
         sort_state: int = self._proxy_model.sort_states.get(column, 0)
         header: QHeaderView | None = self.ui.tableView.horizontalHeader()
         if header is None:
-            RobustLogger().warning(trf("ERFEditor: horizontalHeader was None in update_sort_indicator()"))
+            RobustLogger().warning(
+                trf("ERFEditor: horizontalHeader was None in update_sort_indicator()")
+            )
             return
         if sort_state == 0:
             header.setSortIndicator(-1, Qt.SortOrder.AscendingOrder)
@@ -214,10 +228,15 @@ class ERFEditor(Editor):
         """
         sel_model: QItemSelectionModel | None = self.ui.tableView.selectionModel()
         if sel_model is None:
-            RobustLogger().warning("ERFEditor: selectionModel was None in _get_selected_resources_data()")
+            RobustLogger().warning(
+                "ERFEditor: selectionModel was None in _get_selected_resources_data()"
+            )
             return []
         selected_rows = sel_model.selectedRows()
-        return [self.source_model.itemFromIndex(self._proxy_model.mapToSource(index)).data() for index in selected_rows]
+        return [
+            self.source_model.itemFromIndex(self._proxy_model.mapToSource(index)).data()
+            for index in selected_rows
+        ]
 
     def prompt_confirm(self) -> bool:
         result = QMessageBox.question(
@@ -243,7 +262,9 @@ class ERFEditor(Editor):
 
         self.source_model.clear()
         self.source_model.setColumnCount(3)
-        self.source_model.setHorizontalHeaderLabels([tr("ResRef"), tr("Type"), tr("Size"), tr("Offset")])
+        self.source_model.setHorizontalHeaderLabels(
+            [tr("ResRef"), tr("Type"), tr("Size"), tr("Offset")]
+        )
         self.ui.refreshButton.setEnabled(True)
 
         if restype.name in (ResourceType.ERF, ResourceType.MOD, ResourceType.SAV):
@@ -285,7 +306,12 @@ class ERFEditor(Editor):
                 tr("Unable to load file"),
                 tr("The file specified is not a MOD/ERF type file."),
                 parent=self,
-                flags=(Qt.WindowType.Dialog | Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowSystemMenuHint),
+                flags=(
+                    Qt.WindowType.Dialog
+                    | Qt.WindowType.Window
+                    | Qt.WindowType.WindowStaysOnTopHint
+                    | Qt.WindowType.WindowSystemMenuHint
+                ),
             ).show()
 
     def _build_archive(
@@ -301,10 +327,17 @@ class ERFEditor(Editor):
             source_index: QModelIndex = self._proxy_model.mapToSource(self._proxy_model.index(i, 0))
             item: QStandardItem | None = self.source_model.itemFromIndex(source_index)
             if item is None:
-                RobustLogger().warning(trf("ERFEditor: item was None in build() at index {source_index}", source_index=source_index))
+                RobustLogger().warning(
+                    trf(
+                        "ERFEditor: item was None in build() at index {source_index}",
+                        source_index=source_index,
+                    )
+                )
                 continue
             resource: ArchiveResource = item.data()
-            assert isinstance(resource, resource_type), f"ERFEditor: Resource '{resource.resref}' is not a valid {resource_type.__name__}: {resource.__class__.__name__}"
+            assert isinstance(resource, resource_type), (
+                f"ERFEditor: Resource '{resource.resref}' is not a valid {resource_type.__name__}: {resource.__class__.__name__}"
+            )
             set_data_func(archive, resource)
         write_func(archive, data)
 
@@ -336,7 +369,11 @@ class ERFEditor(Editor):
                 data,
             )
 
-        elif self._restype in (ResourceType.ERF, ResourceType.MOD, ResourceType.SAV):  # sourcery skip: split-or-ifs
+        elif self._restype in (
+            ResourceType.ERF,
+            ResourceType.MOD,
+            ResourceType.SAV,
+        ):  # sourcery skip: split-or-ifs
             erf = ERF(ERFType.from_extension(self._restype.extension))
             if self._restype == ResourceType.SAV:
                 erf.is_save = True
@@ -429,19 +466,27 @@ class ERFEditor(Editor):
             main_menu.addSeparator()
             if all(resource.restype.target_type().contents == "gff" for resource in sel_resources):
                 main_menu.addAction(tr("Open with GFF Editor")).triggered.connect(
-                    lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(fp, sel_resources, self._installation, gff_specialized=False),
+                    lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(
+                        fp, sel_resources, self._installation, gff_specialized=False
+                    ),
                 )  # noqa: E501
                 if self._installation is not None:
                     main_menu.addAction(tr("Open with Specialized Editor")).triggered.connect(
-                        lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(fp, sel_resources, self._installation, gff_specialized=True),
+                        lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(
+                            fp, sel_resources, self._installation, gff_specialized=True
+                        ),
                     )  # noqa: E501
                     main_menu.addAction(tr("Open with Default Editor")).triggered.connect(
-                        lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(fp, sel_resources, self._installation, gff_specialized=None),
+                        lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(
+                            fp, sel_resources, self._installation, gff_specialized=None
+                        ),
                     )  # noqa: E501
 
             elif self._installation is not None:
                 main_menu.addAction(tr("Open with Editor")).triggered.connect(
-                    lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(fp, sel_resources, self._installation, gff_specialized=True),
+                    lambda *args, fp=self._filepath, **kwargs: self.open_in_resource_editor(
+                        fp, sel_resources, self._installation, gff_specialized=True
+                    ),
                 )  # noqa: E501
 
         viewport: QWidget | None = self.ui.tableView.viewport()
@@ -477,12 +522,18 @@ class ERFEditor(Editor):
         source_index: QModelIndex = self._proxy_model.mapToSource(index)
         item: QStandardItem | None = self.source_model.itemFromIndex(source_index)
         if item is None:
-            RobustLogger().warning("ERFEditor: item was None in rename_selected() at index %s", index)
+            RobustLogger().warning(
+                "ERFEditor: item was None in rename_selected() at index %s", index
+            )
             return
         resource: ERFResource = item.data()
 
         erfrim_name: str = (
-            tr("ERF/RIM/BIF") if self._resname is None or self._restype is None else trf("{resname}.{extension}", resname=self._resname, extension=self._restype.extension)
+            tr("ERF/RIM/BIF")
+            if self._resname is None or self._restype is None
+            else trf(
+                "{resname}.{extension}", resname=self._resname, extension=self._restype.extension
+            )
         )
         new_resname, ok = self.get_validated_resref(erfrim_name, resource)
         if not ok:
@@ -513,7 +564,9 @@ class ERFEditor(Editor):
             QMessageBox.warning(
                 self,
                 tr("Invalid ResRef"),
-                tr("ResRefs must adhere to SBCS encoding standards (typically cp1252/windows-1252/ansi) and be a maximum of 16 characters."),
+                tr(
+                    "ResRefs must adhere to SBCS encoding standards (typically cp1252/windows-1252/ansi) and be a maximum of 16 characters."
+                ),
             )
         return "", False
 
@@ -561,11 +614,18 @@ class ERFEditor(Editor):
                     QMessageBox.Icon.Critical,
                     tr("Failed to add resource"),
                     tr(f"Could not add resource at '{r_filepath.absolute()}'<br><br>{error_msg}"),
-                    flags=(Qt.WindowType.Dialog | Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowSystemMenuHint),
+                    flags=(
+                        Qt.WindowType.Dialog
+                        | Qt.WindowType.Window
+                        | Qt.WindowType.WindowStaysOnTopHint
+                        | Qt.WindowType.WindowSystemMenuHint
+                    ),
                 ).exec()
 
     def select_files_to_add(self):
-        filepaths: list[str] = QFileDialog.getOpenFileNames(self, tr("Load files into module"))[:-1][0]
+        filepaths: list[str] = QFileDialog.getOpenFileNames(self, tr("Load files into module"))[
+            :-1
+        ][0]
         self.add_resources(filepaths)
 
     def open_selected(
@@ -584,7 +644,12 @@ class ERFEditor(Editor):
                 tr("This ERF/RIM must be saved to disk first, do so and try again."),
                 QMessageBox.StandardButton.Ok,
                 self,
-                flags=(Qt.WindowType.Dialog | Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowSystemMenuHint),
+                flags=(
+                    Qt.WindowType.Dialog
+                    | Qt.WindowType.Window
+                    | Qt.WindowType.WindowStaysOnTopHint
+                    | Qt.WindowType.WindowSystemMenuHint
+                ),
             ).exec()
             return
 
@@ -647,7 +712,12 @@ class ERFEditor(Editor):
                 tr("This ERFEditor was never loaded from a file, so there's nothing to refresh."),
                 QMessageBox.StandardButton.Ok,
                 self,
-                flags=(Qt.WindowType.Dialog | Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowSystemMenuHint),
+                flags=(
+                    Qt.WindowType.Dialog
+                    | Qt.WindowType.Window
+                    | Qt.WindowType.WindowStaysOnTopHint
+                    | Qt.WindowType.WindowSystemMenuHint
+                ),
             ).exec()
             return
         self._has_changes = False
@@ -687,7 +757,9 @@ class ERFEditor(Editor):
             source_index: QModelIndex = self._proxy_model.mapToSource(index)
             item: QStandardItem | None = self.source_model.itemFromIndex(source_index)
             if item is None:
-                RobustLogger().warning("ERFEditor: item was None in resource_saved() at index %s", index)
+                RobustLogger().warning(
+                    "ERFEditor: item was None in resource_saved() at index %s", index
+                )
                 continue
             resource: ERFResource = item.data()
             if resource.resref != resname:
@@ -703,12 +775,16 @@ class ERFEditor(Editor):
         for row in range(self.source_model.rowCount()):
             item: QStandardItem | None = self.source_model.item(row, 0)
             if item is None:
-                RobustLogger().warning("ERFEditor: item was None in get_resource_offset() at row %s", row)
+                RobustLogger().warning(
+                    "ERFEditor: item was None in get_resource_offset() at row %s", row
+                )
                 continue
             if item.data() == resource:
                 size_item: QStandardItem | None = self.source_model.item(row, 3)
                 if size_item is None:
-                    RobustLogger().warning("ERFEditor: size_item was None in get_resource_offset() at row %s", row)
+                    RobustLogger().warning(
+                        "ERFEditor: size_item was None in get_resource_offset() at row %s", row
+                    )
                     continue
                 return int(size_item.text(), 16)
         return 0  # Default to 0 if not found
@@ -763,8 +839,12 @@ class ERFEditorTable(RobustTableView):
             event.setDropAction(Qt.DropAction.CopyAction)
             event.accept()
             filter_model: ERFSortFilterProxyModel = cast("ERFSortFilterProxyModel", self.model())
-            source_model: QStandardItemModel = cast("QStandardItemModel", filter_model.sourceModel())
-            existing_items: set[str] = {_resource_identifier(source_model, row) for row in range(source_model.rowCount())}
+            source_model: QStandardItemModel = cast(
+                "QStandardItemModel", filter_model.sourceModel()
+            )
+            existing_items: set[str] = {
+                _resource_identifier(source_model, row) for row in range(source_model.rowCount())
+            }
             always: bool = False
             never: bool = False
             to_skip: list[str] = []
@@ -779,7 +859,9 @@ class ERFEditorTable(RobustTableView):
                         msg_box = QMessageBox()
                         msg_box.setIcon(QMessageBox.Icon.Warning)
                         msg_box.setWindowTitle(tr("Duplicate Resource dropped."))
-                        msg_box.setText(tr("'{link}' already exists in the table. Do you want to overwrite?"))
+                        msg_box.setText(
+                            tr("'{link}' already exists in the table. Do you want to overwrite?")
+                        )
                         msg_box.setStandardButtons(
                             QMessageBox.StandardButton.Yes
                             | QMessageBox.StandardButton.YesToAll
@@ -787,14 +869,22 @@ class ERFEditorTable(RobustTableView):
                             | QMessageBox.StandardButton.NoToAll
                             | QMessageBox.StandardButton.Abort,
                         )
-                        button_yes: QAbstractButton | None = msg_box.button(QMessageBox.StandardButton.Yes)
+                        button_yes: QAbstractButton | None = msg_box.button(
+                            QMessageBox.StandardButton.Yes
+                        )
                         if button_yes is None:
-                            RobustLogger().warning("ERFEditorTable: button_yes was None in dropEvent()")
+                            RobustLogger().warning(
+                                "ERFEditorTable: button_yes was None in dropEvent()"
+                            )
                             return
                         button_yes.setText(tr("Overwrite"))
-                        button_yes_to_all: QAbstractButton | None = msg_box.button(QMessageBox.StandardButton.YesToAll)
+                        button_yes_to_all: QAbstractButton | None = msg_box.button(
+                            QMessageBox.StandardButton.YesToAll
+                        )
                         if button_yes_to_all is None:
-                            RobustLogger().warning("ERFEditorTable: button_yes_to_all was None in dropEvent()")
+                            RobustLogger().warning(
+                                "ERFEditorTable: button_yes_to_all was None in dropEvent()"
+                            )
                             return
                         button_yes_to_all.setText(tr("Overwrite All"))
                     if response == QMessageBox.StandardButton.Yes:
@@ -805,13 +895,21 @@ class ERFEditorTable(RobustTableView):
                         for row in range(model.rowCount()):
                             cell_col_0: QStandardItem | None = source_model.item(row, 0)
                             if cell_col_0 is None:
-                                RobustLogger().warning("ERFEditorTable: cell_col_0 was None in dropEvent() at row %s", row)
+                                RobustLogger().warning(
+                                    "ERFEditorTable: cell_col_0 was None in dropEvent() at row %s",
+                                    row,
+                                )
                                 continue
                             cell_col_1: QStandardItem | None = source_model.item(row, 1)
                             if cell_col_1 is None:
-                                RobustLogger().warning("ERFEditorTable: cell_col_1 was None in dropEvent() at row %s", row)
+                                RobustLogger().warning(
+                                    "ERFEditorTable: cell_col_1 was None in dropEvent() at row %s",
+                                    row,
+                                )
                                 continue
-                            filename: str = f"{cell_col_0.text()}.{cell_col_1.text()}".strip().lower()
+                            filename: str = (
+                                f"{cell_col_0.text()}.{cell_col_1.text()}".strip().lower()
+                            )
                             if filename == link.lower().strip():
                                 RobustLogger().info(f"Removing '{filename}' from the erf/rim.")
                                 model.removeRow(row)
@@ -829,11 +927,17 @@ class ERFEditorTable(RobustTableView):
                         for row in range(model.rowCount()):
                             cell_col_0 = source_model.item(row, 0)
                             if cell_col_0 is None:
-                                RobustLogger().warning("ERFEditorTable: cell_col_0 was None in dropEvent() at row %s", row)
+                                RobustLogger().warning(
+                                    "ERFEditorTable: cell_col_0 was None in dropEvent() at row %s",
+                                    row,
+                                )
                                 continue
                             cell_col_1 = source_model.item(row, 1)
                             if cell_col_1 is None:
-                                RobustLogger().warning("ERFEditorTable: cell_col_1 was None in dropEvent() at row %s", row)
+                                RobustLogger().warning(
+                                    "ERFEditorTable: cell_col_1 was None in dropEvent() at row %s",
+                                    row,
+                                )
                                 continue
                             filename = f"{cell_col_0.text()}.{cell_col_1.text()}".strip().lower()
                             if filename == link.lower().strip():
@@ -863,7 +967,9 @@ class ERFEditorTable(RobustTableView):
         exists: bool = temp_dir.exists()
         if not exists or not temp_dir.is_dir():
             if exists or temp_dir.is_file():
-                RobustLogger().error(f"temp_dir '{temp_dir}' exists but was not a valid filesystem folder.")
+                RobustLogger().error(
+                    f"temp_dir '{temp_dir}' exists but was not a valid filesystem folder."
+                )
             else:
                 temp_dir.mkdir(parents=True, exist_ok=True)
             if not temp_dir.is_dir():
@@ -874,7 +980,9 @@ class ERFEditorTable(RobustTableView):
         filter_model: ERFSortFilterProxyModel = cast("ERFSortFilterProxyModel", self.model())
         source_model: QStandardItemModel = cast("QStandardItemModel", filter_model.sourceModel())
         for index in (index for index in self.selectedIndexes() if not index.column()):
-            resource: ERFResource = source_model.data(filter_model.mapToSource(index), Qt.ItemDataRole.UserRole + 1)
+            resource: ERFResource = source_model.data(
+                filter_model.mapToSource(index), Qt.ItemDataRole.UserRole + 1
+            )
             file_stem, file_ext = str(resource.resref), resource.restype.extension
             filepath: Path = Path(temp_dir, f"{file_stem}.{file_ext}")
             filepath.write_bytes(resource.data)
@@ -885,6 +993,7 @@ class ERFEditorTable(RobustTableView):
         drag = QtGui.QDrag(self)
         drag.setMimeData(mime_data)
         drag.exec(Qt.DropAction.CopyAction, Qt.DropAction.CopyAction)
+
 
 if __name__ == "__main__":
     import sys

@@ -38,12 +38,12 @@ if TYPE_CHECKING:
 # Each entry: (axis_id, world_direction (x,y,z), front_color, back_color, snap_yaw, snap_pitch)
 # snap_yaw and snap_pitch match the values used in designer_controls.py numpad snaps.
 _AXES: list[tuple[str, tuple[float, float, float], QColor, QColor, float, float]] = [
-    ("+X", (1.0, 0.0, 0.0), QColor(220, 60, 60),  QColor(110, 30, 30),  0.0,             math.pi / 2),
-    ("-X", (-1.0, 0.0, 0.0), QColor(110, 30, 30),  QColor(70, 15, 15),  math.pi,          math.pi / 2),
-    ("+Y", (0.0, 1.0, 0.0), QColor(60, 200, 60),  QColor(30, 100, 30),  -math.pi / 2,     math.pi / 2),
-    ("-Y", (0.0, -1.0, 0.0), QColor(30, 100, 30),  QColor(15, 50, 15),   math.pi / 2,      math.pi / 2),
-    ("+Z", (0.0, 0.0, 1.0), QColor(80, 120, 220), QColor(40, 60, 110),  0.0,              0.01),
-    ("-Z", (0.0, 0.0, -1.0), QColor(40, 60, 110),  QColor(20, 30, 55),   0.0,              math.pi - 0.01),
+    ("+X", (1.0, 0.0, 0.0), QColor(220, 60, 60), QColor(110, 30, 30), 0.0, math.pi / 2),
+    ("-X", (-1.0, 0.0, 0.0), QColor(110, 30, 30), QColor(70, 15, 15), math.pi, math.pi / 2),
+    ("+Y", (0.0, 1.0, 0.0), QColor(60, 200, 60), QColor(30, 100, 30), -math.pi / 2, math.pi / 2),
+    ("-Y", (0.0, -1.0, 0.0), QColor(30, 100, 30), QColor(15, 50, 15), math.pi / 2, math.pi / 2),
+    ("+Z", (0.0, 0.0, 1.0), QColor(80, 120, 220), QColor(40, 60, 110), 0.0, 0.01),
+    ("-Z", (0.0, 0.0, -1.0), QColor(40, 60, 110), QColor(20, 30, 55), 0.0, math.pi - 0.01),
 ]
 
 # Radius of the full compass circle (as fraction of widget half-size).
@@ -203,7 +203,6 @@ class ViewCompassWidget(QWidget):
     # ------------------------------------------------------------------
 
     def paintEvent(self, event: QPaintEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
-
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
@@ -321,7 +320,7 @@ class ViewCompassWidget(QWidget):
             px = cx + sx * r
             py = cy + sy * r
             dist2 = (mx - px) ** 2 + (my - py) ** 2
-            if dist2 <= dot_r ** 2:
+            if dist2 <= dot_r**2:
                 # Among overlapping dots prefer the one with greater depth (facing viewer)
                 if depth > best_depth:
                     best_depth = depth

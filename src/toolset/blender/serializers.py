@@ -121,7 +121,9 @@ def deserialize_git_instance(data: dict[str, Any]) -> dict[str, Any]:
                 "linked_to_module": data.get("linked_to_module", ""),
                 "linked_to": data.get("linked_to", ""),
                 "linked_to_flags": data.get("linked_to_flags", 0),
-                "transition_destination_stringref": data.get("transition_destination_stringref", -1),
+                "transition_destination_stringref": data.get(
+                    "transition_destination_stringref", -1
+                ),
             },
         )
     elif instance_type == "GITSound":
@@ -140,7 +142,9 @@ def deserialize_git_instance(data: dict[str, Any]) -> dict[str, Any]:
                     "linked_to_module": data.get("linked_to_module", ""),
                     "linked_to": data.get("linked_to", ""),
                     "linked_to_flags": data.get("linked_to_flags", 0),
-                    "transition_destination_stringref": data.get("transition_destination_stringref", -1),
+                    "transition_destination_stringref": data.get(
+                        "transition_destination_stringref", -1
+                    ),
                 },
             )
         else:

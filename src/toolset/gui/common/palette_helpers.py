@@ -52,7 +52,9 @@ def get_semantic_colors() -> dict[str, str]:
         success_color = QColor(76, 175, 80)  # Material green as base
         # Adjust lightness to match theme brightness
         if target_lightness > success_color.lightness():
-            success_color = success_color.lighter(int((target_lightness - success_color.lightness()) * 0.5))
+            success_color = success_color.lighter(
+                int((target_lightness - success_color.lightness()) * 0.5)
+            )
     else:  # Light theme
         # Use a darker green for light backgrounds
         success_color = QColor(46, 125, 50)  # Darker green for light theme

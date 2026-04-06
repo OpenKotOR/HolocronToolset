@@ -44,7 +44,9 @@ if TYPE_CHECKING:
         # Add other properties as needed
 
 
-def requires_connection(default_return_value: Any = False, check_session: bool = False, **compat_kwargs: Any) -> Callable:
+def requires_connection(
+    default_return_value: Any = False, check_session: bool = False, **compat_kwargs: Any
+) -> Callable:
     """Decorator that checks if Blender is connected before executing a method.
 
     Args:
@@ -221,7 +223,9 @@ class BlenderEditorController:
             True if loaded successfully
         """
         # Serialize module data
-        module_data = serialize_module_data(lyt, git, walkmeshes, module_root, str(installation_path))
+        module_data = serialize_module_data(
+            lyt, git, walkmeshes, module_root, str(installation_path)
+        )
 
         # Send to Blender
         success = self._commands.load_module(

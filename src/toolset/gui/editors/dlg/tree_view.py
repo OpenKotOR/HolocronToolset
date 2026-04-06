@@ -134,7 +134,9 @@ class DropTarget:
         if pos.y() <= upper_threshold:
             # Adjust for top edge of the index
             indicator_rect: QRect = QRect(rect.topLeft(), rect.topRight())
-            return cls(curIndex.parent(), max(curIndex.row(), 0), DropPosition.ABOVE, indicator_rect)
+            return cls(
+                curIndex.parent(), max(curIndex.row(), 0), DropPosition.ABOVE, indicator_rect
+            )
         if pos.y() >= lower_threshold:
             # Adjust for bottom edge of the index
             indicator_rect = QRect(rect.bottomLeft(), rect.bottomRight())
@@ -169,12 +171,16 @@ class DropTarget:
         if self.position is DropPosition.ON_TOP_OF:
             node_types_match = not node_types_match
 
-        return ((self.position is DropPosition.ON_TOP_OF) == node_types_match) != (root_item_index is not None)
+        return ((self.position is DropPosition.ON_TOP_OF) == node_types_match) != (
+            root_item_index is not None
+        )
 
 
 class DLGTreeView(RobustTreeView):
     def __init__(self, parent: QWidget | None = None):
-        self.override_drop_in_view: bool = True  # set to False to use the new logic (not recommended - untested)
+        self.override_drop_in_view: bool = (
+            True  # set to False to use the new logic (not recommended - untested)
+        )
         self.editor: DLGEditor | None = None
         self.drop_indicator_rect: QRect = QRect()
         self.num_links: int = 0
@@ -216,7 +222,9 @@ class DLGTreeView(RobustTreeView):
         model: QAbstractItemModel | None = super().model()
         if model is None:
             return None
-        assert isinstance(model, DLGStandardItemModel), f"model was {model} of type {model.__class__.__name__}, expected DLGStandardItemModel"
+        assert isinstance(model, DLGStandardItemModel), (
+            f"model was {model} of type {model.__class__.__name__}, expected DLGStandardItemModel"
+        )
         return model
 
     def paintEvent(
@@ -248,7 +256,9 @@ class DLGTreeView(RobustTreeView):
         if self.drop_indicator_rect.topLeft().y() == self.drop_indicator_rect.bottomLeft().y():
             pen = QPen(window_text_color, 1, Qt.PenStyle.DashLine)
             painter.setPen(pen)
-            painter.drawLine(self.drop_indicator_rect.topLeft(), self.drop_indicator_rect.topRight())
+            painter.drawLine(
+                self.drop_indicator_rect.topLeft(), self.drop_indicator_rect.topRight()
+            )
         else:
             highlight_color = QColor(highlight_color_obj)
             highlight_color.setAlpha(120)
@@ -283,10 +293,14 @@ class DLGTreeView(RobustTreeView):
 
         # FIXME(th3w1zard1): the below code only works with QTreeView. viewOptions() for qt5, styleOptionForIndex is qt6.  # noqa: TD003
         # We know the above is true, but what we don't know is the QListView equivalent to get a QStyleOptionViewItem? Replace these when that's determined.
-        option: QStyleOptionViewItem = self.viewOptions() if qtpy.QT5 else self.styleOptionForIndex(index)  # pyright: ignore[reportAttributeAccessIssue]
+        option: QStyleOptionViewItem = (
+            self.viewOptions() if qtpy.QT5 else self.styleOptionForIndex(index)
+        )  # pyright: ignore[reportAttributeAccessIssue]
         option.rect = self.visualRect(index)
 
-        delegate: HTMLDelegate | QStyledItemDelegate | QAbstractItemDelegate = self.itemDelegate(index)
+        delegate: HTMLDelegate | QStyledItemDelegate | QAbstractItemDelegate = self.itemDelegate(
+            index
+        )
         if isinstance(delegate, HTMLDelegate) and delegate.handleIconTooltips(event, option, index):
             return
 
@@ -342,7 +356,9 @@ class DLGTreeView(RobustTreeView):
         entry_qcolor = QColor(entry_color)
         reply_qcolor = QColor(reply_color)
         self.draw_drag_icons(painter, QPoint(30, 25), 15, entry_qcolor, f"{self.num_links}")
-        self.draw_drag_icons(painter, QPoint(pixmap.width() - 30, 25), 15, reply_qcolor, f"{self.num_unique_nodes}")
+        self.draw_drag_icons(
+            painter, QPoint(pixmap.width() - 30, 25), 15, reply_qcolor, f"{self.num_unique_nodes}"
+        )
         font = QFont("Arial", 11)
         painter.setFont(font)
         doc = QTextDocument()
@@ -353,8 +369,12 @@ class DLGTreeView(RobustTreeView):
         else:
             color = reply_color
             assert dragged_item.link is not None
-            link_list_display: Literal["EntriesList", "RepliesList", "StartingList"] = "EntriesList" if isinstance(dragged_item.link.node, DLGEntry) else "RepliesList"
-            node_list_display: Literal["EntryList", "ReplyList"] = "EntryList" if isinstance(dragged_item.link.node, DLGEntry) else "ReplyList"
+            link_list_display: Literal["EntriesList", "RepliesList", "StartingList"] = (
+                "EntriesList" if isinstance(dragged_item.link.node, DLGEntry) else "RepliesList"
+            )
+            node_list_display: Literal["EntryList", "ReplyList"] = (
+                "EntryList" if isinstance(dragged_item.link.node, DLGEntry) else "ReplyList"
+            )
         assert dragged_item.link is not None
         display_text: str = f"{link_list_display}\\{dragged_item.link.list_index} --> {node_list_display}\\{dragged_item.link.node.list_index}"
 
@@ -398,7 +418,11 @@ class DLGTreeView(RobustTreeView):
         # Create gradient with palette-aware colors
         bright_color = QColor(text_color)
         bright_color.setAlpha(200)
-        gradient: QRadialGradient = QRadialGradient(QPointF(center), radius) if qtpy.QT5 else QRadialGradient(QPointF(center), radius, QPointF(center))
+        gradient: QRadialGradient = (
+            QRadialGradient(QPointF(center), radius)
+            if qtpy.QT5
+            else QRadialGradient(QPointF(center), radius, QPointF(center))
+        )
         gradient.setColorAt(0, bright_color)
         gradient.setColorAt(0.5, color.lighter())
         gradient.setColorAt(1, color)
@@ -456,7 +480,9 @@ class DLGTreeView(RobustTreeView):
             return self._handle_drag_prepare_in_event(event)
         index = self.currentIndex() if index is None else index
         model: DLGStandardItemModel | None = self.model()
-        assert isinstance(model, QStandardItemModel), f"model was not QStandardItemModel, was instead {model.__class__.__name__}: {model}"
+        assert isinstance(model, QStandardItemModel), (
+            f"model was not QStandardItemModel, was instead {model.__class__.__name__}: {model}"
+        )
         dragged_item: DLGStandardItem | None = model.itemFromIndex(index)
         assert isinstance(dragged_item, DLGStandardItem), (
             f"model.itemFromIndex({index}(row={index.row()}, col={index.column()}) did not return a DLGStandardItem, was instead {self.dragged_item.__class__.__name__}: {self.dragged_item}"
@@ -483,14 +509,20 @@ class DLGTreeView(RobustTreeView):
         assert model is not None
         if id(event.source()) == id(model):
             return True
-        item_data: List[dict[Literal["row", "column", "roles"], Any]] = self.parse_mime_data(mime_data)
+        item_data: List[dict[Literal["row", "column", "roles"], Any]] = self.parse_mime_data(
+            mime_data
+        )
         if item_data[0]["roles"][_MODEL_INSTANCE_ID_ROLE] != id(model):
             return True
-        deserialized_listwidget_link: DLGLink = DLGLink.from_dict(json.loads(item_data[0]["roles"][_DLG_MIME_DATA_ROLE]))
+        deserialized_listwidget_link: DLGLink = DLGLink.from_dict(
+            json.loads(item_data[0]["roles"][_DLG_MIME_DATA_ROLE])
+        )
         temp_item: DLGStandardItem = DLGStandardItem(link=deserialized_listwidget_link)
         # FIXME(th3w1zard1): the above QStandardItem is somehow deleted by qt BEFORE the next line?  # noqa: TD003
         model.update_item_display_text(temp_item)
-        self.dragged_item = model.link_to_items.setdefault(deserialized_listwidget_link, [temp_item])[0]
+        self.dragged_item = model.link_to_items.setdefault(
+            deserialized_listwidget_link, [temp_item]
+        )[0]
         assert self.dragged_item is not None
         assert self.dragged_item.link is not None
         self.calculate_links_and_nodes(self.dragged_item.link.node)
@@ -553,7 +585,9 @@ class DLGTreeView(RobustTreeView):
                 return
 
         delegate: HTMLDelegate | QStyledItemDelegate | QAbstractItemDelegate = self.itemDelegate()
-        assert isinstance(delegate, HTMLDelegate), f"`delegate = self.itemDelegate()` {delegate.__class__.__name__}: {delegate}"
+        assert isinstance(delegate, HTMLDelegate), (
+            f"`delegate = self.itemDelegate()` {delegate.__class__.__name__}: {delegate}"
+        )
         if self.drop_target is not None:
             delegate.nudged_model_indexes.clear()
 
@@ -569,8 +603,12 @@ class DLGTreeView(RobustTreeView):
             return
         model: DLGStandardItemModel | None = self.model()
         assert model is not None, f"model = self.model() {model.__class__.__name__}: {model}"
-        above_index: QModelIndex = model.index(self.drop_target.row - 1, 0, self.drop_target.parent_index)
-        hover_over_index: QModelIndex = model.index(self.drop_target.row, 0, self.drop_target.parent_index)
+        above_index: QModelIndex = model.index(
+            self.drop_target.row - 1, 0, self.drop_target.parent_index
+        )
+        hover_over_index: QModelIndex = model.index(
+            self.drop_target.row, 0, self.drop_target.parent_index
+        )
         if (
             self.drop_target.position in (DropPosition.ABOVE, DropPosition.BELOW)
             and self.dragged_item is not None
@@ -587,7 +625,9 @@ class DLGTreeView(RobustTreeView):
         event: QDragLeaveEvent,
     ):
         delegate: HTMLDelegate | QStyledItemDelegate | QAbstractItemDelegate = self.itemDelegate()
-        assert isinstance(delegate, HTMLDelegate), f"`delegate = self.itemDelegate()` {delegate.__class__.__name__}: {delegate}"
+        assert isinstance(delegate, HTMLDelegate), (
+            f"`delegate = self.itemDelegate()` {delegate.__class__.__name__}: {delegate}"
+        )
         delegate.nudged_model_indexes.clear()
         self.unsetCursor()
 
@@ -608,7 +648,9 @@ class DLGTreeView(RobustTreeView):
             return
 
         delegate: HTMLDelegate | QStyledItemDelegate | QAbstractItemDelegate = self.itemDelegate()
-        assert isinstance(delegate, HTMLDelegate), f"`delegate = self.itemDelegate()` {delegate.__class__.__name__}: {delegate}"
+        assert isinstance(delegate, HTMLDelegate), (
+            f"`delegate = self.itemDelegate()` {delegate.__class__.__name__}: {delegate}"
+        )
         delegate.nudged_model_indexes.clear()
         model: DLGStandardItemModel | None = self.model()
         assert model is not None
@@ -621,7 +663,11 @@ class DLGTreeView(RobustTreeView):
             if self.override_drop_in_view:
                 mime_data: QMimeData | None = event.mimeData()
                 assert mime_data is not None, "mime_data is None"
-                dragged_link: DLGLink | None = self.get_dragged_link_from_mime_data(mime_data) if self.dragged_link is None else self.dragged_link
+                dragged_link: DLGLink | None = (
+                    self.get_dragged_link_from_mime_data(mime_data)
+                    if self.dragged_link is None
+                    else self.dragged_link
+                )
                 if dragged_link is not None:
                     if not self.drop_target.is_valid_drop(dragged_link, self):
                         self.reset_drag_state()
@@ -629,7 +675,9 @@ class DLGTreeView(RobustTreeView):
                     new_index: int = self.drop_target.row
                     if self.drop_target.position is DropPosition.ON_TOP_OF:
                         new_index = 0
-                    model.paste_item(drop_parent, dragged_link, row=new_index, as_new_branches=False)
+                    model.paste_item(
+                        drop_parent, dragged_link, row=new_index, as_new_branches=False
+                    )
                     super().dropEvent(event)
             super().dropEvent(event)
             self.reset_drag_state()
@@ -659,7 +707,9 @@ class DLGTreeView(RobustTreeView):
         self.reset_drag_state()
         self.setAutoScroll(False)
         # self.setSelectionOnDrop(droppedAtRow, parentIndexOfDrop)
-        QTimer.singleShot(0, lambda: self.set_selection_on_drop(dropped_at_row, parent_index_of_drop))
+        QTimer.singleShot(
+            0, lambda: self.set_selection_on_drop(dropped_at_row, parent_index_of_drop)
+        )
 
     def set_selection_on_drop(
         self,
@@ -693,7 +743,9 @@ class DLGTreeView(RobustTreeView):
         mime_data: QMimeData,
     ) -> DLGLink | None:
         try:
-            return DLGLink.from_dict(json.loads(self.parse_mime_data(mime_data)[0]["roles"][_DLG_MIME_DATA_ROLE]))
+            return DLGLink.from_dict(
+                json.loads(self.parse_mime_data(mime_data)[0]["roles"][_DLG_MIME_DATA_ROLE])
+            )
         except Exception:  # noqa: BLE001
             RobustLogger().exception("Failed to deserialize mime data node.")
         return None
@@ -708,7 +760,9 @@ class DLGTreeView(RobustTreeView):
         cur_model_id: int = id(self.model())
         mime_data: QMimeData | None = event.mimeData()
         assert mime_data is not None
-        parsed_mime_data: list[dict[Literal["row", "column", "roles"], Any]] = self.parse_mime_data(mime_data)
+        parsed_mime_data: list[dict[Literal["row", "column", "roles"], Any]] = self.parse_mime_data(
+            mime_data
+        )
         mime_data_model_id_raw: Any = parsed_mime_data[0]["roles"][_MODEL_INSTANCE_ID_ROLE]
         model_id_from_mime_data: int = int(mime_data_model_id_raw)
         return model_id_from_mime_data == cur_model_id
@@ -731,7 +785,9 @@ class DLGTreeView(RobustTreeView):
             roles: dict[int, Any] = {}
             for _ in range(stream.readInt32()):
                 role: int = stream.readInt32()
-                if role == Qt.ItemDataRole.DisplayRole or role == _DLG_MIME_DATA_ROLE:  # sourcery skip: merge-duplicate-blocks, remove-redundant-if
+                if (
+                    role == Qt.ItemDataRole.DisplayRole or role == _DLG_MIME_DATA_ROLE
+                ):  # sourcery skip: merge-duplicate-blocks, remove-redundant-if
                     roles[role] = stream.readQString()
                 elif role == _MODEL_INSTANCE_ID_ROLE:
                     roles[role] = stream.readInt64()
@@ -783,7 +839,9 @@ class DLGTreeView(RobustTreeView):
     ):
         event.accept()
         event.setDropAction(
-            Qt.DropAction.MoveAction if self.is_item_from_current_model(event) else Qt.DropAction.CopyAction,
+            Qt.DropAction.MoveAction
+            if self.is_item_from_current_model(event)
+            else Qt.DropAction.CopyAction,
         )  # DropAction's are unused currently: the view is handling the drop.
         self.setCursor(Qt.CursorShape.ArrowCursor)
 
@@ -791,4 +849,6 @@ class DLGTreeView(RobustTreeView):
 def install_immediate_tooltip(widget: QWidget, tooltip_text: str):
     widget.setToolTip(tooltip_text)
     widget.setMouseTracking(True)
-    widget.event = lambda event: QToolTip.showText(cast("QHoverEvent", event).pos(), widget.toolTip(), widget)  # type: ignore[method-assign]
+    widget.event = lambda event: QToolTip.showText(
+        cast("QHoverEvent", event).pos(), widget.toolTip(), widget
+    )  # type: ignore[method-assign]

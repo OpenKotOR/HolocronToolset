@@ -15,7 +15,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1007, 585)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -27,7 +29,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_preview = QtWidgets.QVBoxLayout()
         self.verticalLayout_preview.setObjectName("verticalLayout_preview")
         self.previewRenderer = ModelRenderer(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.previewRenderer.sizePolicy().hasHeightForWidth())
@@ -40,7 +44,9 @@ class Ui_MainWindow(object):
         self.modelInfoGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.modelInfoGroupBox.setCheckable(True)
         self.modelInfoGroupBox.setChecked(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoGroupBox.sizePolicy().hasHeightForWidth())
@@ -49,7 +55,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_modelInfo = QtWidgets.QVBoxLayout(self.modelInfoGroupBox)
         self.verticalLayout_modelInfo.setObjectName("verticalLayout_modelInfo")
         self.modelInfoSummaryLabel = QtWidgets.QLabel(self.modelInfoGroupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoSummaryLabel.sizePolicy().hasHeightForWidth())
@@ -58,7 +66,9 @@ class Ui_MainWindow(object):
         self.modelInfoSummaryLabel.setObjectName("modelInfoSummaryLabel")
         self.verticalLayout_modelInfo.addWidget(self.modelInfoSummaryLabel)
         self.modelInfoLabel = QtWidgets.QLabel(self.modelInfoGroupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.modelInfoLabel.sizePolicy().hasHeightForWidth())
@@ -93,7 +103,9 @@ class Ui_MainWindow(object):
         self.firstnameEdit.setObjectName("firstnameEdit")
         self.horizontalLayout.addWidget(self.firstnameEdit)
         self.firstnameRandomButton = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.firstnameRandomButton.sizePolicy().hasHeightForWidth())
@@ -112,7 +124,9 @@ class Ui_MainWindow(object):
         self.lastnameEdit.setObjectName("lastnameEdit")
         self.horizontalLayout_2.addWidget(self.lastnameEdit)
         self.lastnameRandomButton = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.lastnameRandomButton.sizePolicy().hasHeightForWidth())
@@ -130,7 +144,9 @@ class Ui_MainWindow(object):
         self.tagEdit.setObjectName("tagEdit")
         self.horizontalLayout_3.addWidget(self.tagEdit)
         self.tagGenerateButton = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tagGenerateButton.sizePolicy().hasHeightForWidth())
@@ -138,7 +154,9 @@ class Ui_MainWindow(object):
         self.tagGenerateButton.setMaximumSize(QtCore.QSize(26, 16777215))
         self.tagGenerateButton.setObjectName("tagGenerateButton")
         self.horizontalLayout_3.addWidget(self.tagGenerateButton)
-        spacerItem = QtWidgets.QSpacerItem(32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_3.addItem(spacerItem)
         self.formLayout.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_3)
         self.label_7 = QtWidgets.QLabel(self.groupBox)
@@ -150,7 +168,9 @@ class Ui_MainWindow(object):
         self.resrefEdit.setMaxLength(16)
         self.resrefEdit.setObjectName("resrefEdit")
         self.horizontalLayout_8.addWidget(self.resrefEdit)
-        spacerItem1 = QtWidgets.QSpacerItem(32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_8.addItem(spacerItem1)
         self.formLayout.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_8)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
@@ -161,7 +181,9 @@ class Ui_MainWindow(object):
         self.appearanceSelect = ComboBox2DA(self.groupBox)
         self.appearanceSelect.setObjectName("appearanceSelect")
         self.horizontalLayout_4.addWidget(self.appearanceSelect)
-        spacerItem2 = QtWidgets.QSpacerItem(32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_4.addItem(spacerItem2)
         self.formLayout.setLayout(4, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_4)
         self.label_10 = QtWidgets.QLabel(self.groupBox)
@@ -172,7 +194,9 @@ class Ui_MainWindow(object):
         self.soundsetSelect = ComboBox2DA(self.groupBox)
         self.soundsetSelect.setObjectName("soundsetSelect")
         self.horizontalLayout_10.addWidget(self.soundsetSelect)
-        spacerItem3 = QtWidgets.QSpacerItem(32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_10.addItem(spacerItem3)
         self.formLayout.setLayout(5, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_10)
         self.label_5 = QtWidgets.QLabel(self.groupBox)
@@ -181,7 +205,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.conversationEdit = FilterComboBox(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationEdit.sizePolicy().hasHeightForWidth())
@@ -189,7 +215,9 @@ class Ui_MainWindow(object):
         self.conversationEdit.setObjectName("conversationEdit")
         self.horizontalLayout_5.addWidget(self.conversationEdit)
         self.conversationModifyButton = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conversationModifyButton.sizePolicy().hasHeightForWidth())
@@ -199,7 +227,9 @@ class Ui_MainWindow(object):
         self.conversationModifyButton.setFont(font)
         self.conversationModifyButton.setObjectName("conversationModifyButton")
         self.horizontalLayout_5.addWidget(self.conversationModifyButton)
-        spacerItem4 = QtWidgets.QSpacerItem(32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            32, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_5.addItem(spacerItem4)
         self.formLayout.setLayout(6, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_5)
         self.gridLayout_2.addLayout(self.formLayout, 1, 0, 1, 1)
@@ -235,7 +265,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addWidget(self.portraitSelect)
         self.horizontalLayout_7.addLayout(self.horizontalLayout_6)
         self.verticalLayout.addWidget(self.groupBox_2)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem5 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem5)
         self.verticalLayout.setStretch(0, 1)
         self.tabWidget.addTab(self.tab, "")
@@ -250,7 +282,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.disarmableCheckbox = QtWidgets.QCheckBox(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.disarmableCheckbox.sizePolicy().hasHeightForWidth())
@@ -258,7 +292,9 @@ class Ui_MainWindow(object):
         self.disarmableCheckbox.setObjectName("disarmableCheckbox")
         self.verticalLayout_2.addWidget(self.disarmableCheckbox)
         self.noPermDeathCheckbox = QtWidgets.QCheckBox(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.noPermDeathCheckbox.sizePolicy().hasHeightForWidth())
@@ -266,7 +302,9 @@ class Ui_MainWindow(object):
         self.noPermDeathCheckbox.setObjectName("noPermDeathCheckbox")
         self.verticalLayout_2.addWidget(self.noPermDeathCheckbox)
         self.min1HpCheckbox = QtWidgets.QCheckBox(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.min1HpCheckbox.sizePolicy().hasHeightForWidth())
@@ -274,7 +312,9 @@ class Ui_MainWindow(object):
         self.min1HpCheckbox.setObjectName("min1HpCheckbox")
         self.verticalLayout_2.addWidget(self.min1HpCheckbox)
         self.plotCheckbox = QtWidgets.QCheckBox(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.plotCheckbox.sizePolicy().hasHeightForWidth())
@@ -282,7 +322,9 @@ class Ui_MainWindow(object):
         self.plotCheckbox.setObjectName("plotCheckbox")
         self.verticalLayout_2.addWidget(self.plotCheckbox)
         self.isPcCheckbox = QtWidgets.QCheckBox(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.isPcCheckbox.sizePolicy().hasHeightForWidth())
@@ -301,7 +343,9 @@ class Ui_MainWindow(object):
         self.hologramCheckbox = QtWidgets.QCheckBox(self.groupBox_3)
         self.hologramCheckbox.setObjectName("hologramCheckbox")
         self.verticalLayout_3.addWidget(self.hologramCheckbox)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem6 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_3.addItem(spacerItem6)
         self.horizontalLayout_9.addLayout(self.verticalLayout_3)
         self.verticalLayout_4.addWidget(self.groupBox_3)
@@ -313,7 +357,9 @@ class Ui_MainWindow(object):
         self.label_8.setObjectName("label_8")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_8)
         self.raceSelect = ComboBox2DA(self.groupBox_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.raceSelect.sizePolicy().hasHeightForWidth())
@@ -324,7 +370,9 @@ class Ui_MainWindow(object):
         self.label_9.setObjectName("label_9")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_9)
         self.subraceSelect = ComboBox2DA(self.groupBox_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.subraceSelect.sizePolicy().hasHeightForWidth())
@@ -339,7 +387,9 @@ class Ui_MainWindow(object):
         self.formLayout_3 = QtWidgets.QFormLayout()
         self.formLayout_3.setObjectName("formLayout_3")
         self.label_16 = QtWidgets.QLabel(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_16.sizePolicy().hasHeightForWidth())
@@ -347,7 +397,9 @@ class Ui_MainWindow(object):
         self.label_16.setObjectName("label_16")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_16)
         self.speedSelect = ComboBox2DA(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.speedSelect.sizePolicy().hasHeightForWidth())
@@ -355,7 +407,9 @@ class Ui_MainWindow(object):
         self.speedSelect.setObjectName("speedSelect")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.speedSelect)
         self.label_11 = QtWidgets.QLabel(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
@@ -363,7 +417,9 @@ class Ui_MainWindow(object):
         self.label_11.setObjectName("label_11")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_11)
         self.factionSelect = ComboBox2DA(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.factionSelect.sizePolicy().hasHeightForWidth())
@@ -371,7 +427,9 @@ class Ui_MainWindow(object):
         self.factionSelect.setObjectName("factionSelect")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.factionSelect)
         self.genderAdvancedLabel = QtWidgets.QLabel(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.genderAdvancedLabel.sizePolicy().hasHeightForWidth())
@@ -379,7 +437,9 @@ class Ui_MainWindow(object):
         self.genderAdvancedLabel.setObjectName("genderAdvancedLabel")
         self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.genderAdvancedLabel)
         self.genderSelect = ComboBox2DA(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.genderSelect.sizePolicy().hasHeightForWidth())
@@ -387,7 +447,9 @@ class Ui_MainWindow(object):
         self.genderSelect.setObjectName("genderSelect")
         self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.genderSelect)
         self.label_12 = QtWidgets.QLabel(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_12.sizePolicy().hasHeightForWidth())
@@ -395,7 +457,9 @@ class Ui_MainWindow(object):
         self.label_12.setObjectName("label_12")
         self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_12)
         self.perceptionSelect = ComboBox2DA(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.perceptionSelect.sizePolicy().hasHeightForWidth())
@@ -403,7 +467,9 @@ class Ui_MainWindow(object):
         self.perceptionSelect.setObjectName("perceptionSelect")
         self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.perceptionSelect)
         self.label_13 = QtWidgets.QLabel(self.groupBox_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_13.sizePolicy().hasHeightForWidth())
@@ -413,7 +479,9 @@ class Ui_MainWindow(object):
         self.challengeRatingSpin = QtWidgets.QDoubleSpinBox(self.groupBox_5)
         self.challengeRatingSpin.setMinimum(0.0)
         self.challengeRatingSpin.setMaximum(100.0)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.challengeRatingSpin.sizePolicy().hasHeightForWidth())
@@ -429,7 +497,9 @@ class Ui_MainWindow(object):
         self.formLayout_24.setContentsMargins(0, 0, 0, 0)
         self.formLayout_24.setObjectName("formLayout_24")
         self.label_102 = QtWidgets.QLabel(self.k2onlyBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_102.sizePolicy().hasHeightForWidth())
@@ -442,7 +512,9 @@ class Ui_MainWindow(object):
         self.blindSpotSpin.setObjectName("blindSpotSpin")
         self.formLayout_24.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.blindSpotSpin)
         self.label_110 = QtWidgets.QLabel(self.k2onlyBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_110.sizePolicy().hasHeightForWidth())
@@ -461,7 +533,9 @@ class Ui_MainWindow(object):
         self.formLayout_24.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.multiplierSetSpin)
         self.verticalLayout_18.addWidget(self.k2onlyBox)
         self.verticalLayout_4.addWidget(self.groupBox_5)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem7 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_4.addItem(spacerItem7)
         self.verticalLayout_4.setStretch(0, 1)
         self.verticalLayout_4.setStretch(1, 1)
@@ -473,7 +547,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.groupBox_6 = QtWidgets.QGroupBox(self.statsTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox_6.sizePolicy().hasHeightForWidth())
@@ -482,7 +558,9 @@ class Ui_MainWindow(object):
         self.formLayout_4 = QtWidgets.QFormLayout(self.groupBox_6)
         self.formLayout_4.setObjectName("formLayout_4")
         self.label_17 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
@@ -492,7 +570,9 @@ class Ui_MainWindow(object):
         self.computerUseSpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.computerUseSpin.setMinimum(0)
         self.computerUseSpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.computerUseSpin.sizePolicy().hasHeightForWidth())
@@ -500,7 +580,9 @@ class Ui_MainWindow(object):
         self.computerUseSpin.setObjectName("computerUseSpin")
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.computerUseSpin)
         self.label_18 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_18.sizePolicy().hasHeightForWidth())
@@ -510,7 +592,9 @@ class Ui_MainWindow(object):
         self.demolitionsSpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.demolitionsSpin.setMinimum(0)
         self.demolitionsSpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.demolitionsSpin.sizePolicy().hasHeightForWidth())
@@ -518,7 +602,9 @@ class Ui_MainWindow(object):
         self.demolitionsSpin.setObjectName("demolitionsSpin")
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.demolitionsSpin)
         self.label_19 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_19.sizePolicy().hasHeightForWidth())
@@ -528,7 +614,9 @@ class Ui_MainWindow(object):
         self.stealthSpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.stealthSpin.setMinimum(0)
         self.stealthSpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.stealthSpin.sizePolicy().hasHeightForWidth())
@@ -536,7 +624,9 @@ class Ui_MainWindow(object):
         self.stealthSpin.setObjectName("stealthSpin")
         self.formLayout_4.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.stealthSpin)
         self.label_20 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
@@ -546,7 +636,9 @@ class Ui_MainWindow(object):
         self.awarenessSpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.awarenessSpin.setMinimum(0)
         self.awarenessSpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.awarenessSpin.sizePolicy().hasHeightForWidth())
@@ -554,7 +646,9 @@ class Ui_MainWindow(object):
         self.awarenessSpin.setObjectName("awarenessSpin")
         self.formLayout_4.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.awarenessSpin)
         self.label_21 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_21.sizePolicy().hasHeightForWidth())
@@ -564,7 +658,9 @@ class Ui_MainWindow(object):
         self.persuadeSpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.persuadeSpin.setMinimum(0)
         self.persuadeSpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.persuadeSpin.sizePolicy().hasHeightForWidth())
@@ -572,7 +668,9 @@ class Ui_MainWindow(object):
         self.persuadeSpin.setObjectName("persuadeSpin")
         self.formLayout_4.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.persuadeSpin)
         self.label_22 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_22.sizePolicy().hasHeightForWidth())
@@ -582,7 +680,9 @@ class Ui_MainWindow(object):
         self.repairSpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.repairSpin.setMinimum(0)
         self.repairSpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.repairSpin.sizePolicy().hasHeightForWidth())
@@ -590,7 +690,9 @@ class Ui_MainWindow(object):
         self.repairSpin.setObjectName("repairSpin")
         self.formLayout_4.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.repairSpin)
         self.label_23 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_23.sizePolicy().hasHeightForWidth())
@@ -600,7 +702,9 @@ class Ui_MainWindow(object):
         self.securitySpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.securitySpin.setMinimum(0)
         self.securitySpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.securitySpin.sizePolicy().hasHeightForWidth())
@@ -608,7 +712,9 @@ class Ui_MainWindow(object):
         self.securitySpin.setObjectName("securitySpin")
         self.formLayout_4.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.securitySpin)
         self.label_24 = QtWidgets.QLabel(self.groupBox_6)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_24.sizePolicy().hasHeightForWidth())
@@ -618,7 +724,9 @@ class Ui_MainWindow(object):
         self.treatInjurySpin = QtWidgets.QSpinBox(self.groupBox_6)
         self.treatInjurySpin.setMinimum(0)
         self.treatInjurySpin.setMaximum(255)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.treatInjurySpin.sizePolicy().hasHeightForWidth())
@@ -631,7 +739,9 @@ class Ui_MainWindow(object):
         self.formLayout_6 = QtWidgets.QFormLayout(self.groupBox_8)
         self.formLayout_6.setObjectName("formLayout_6")
         self.label_31 = QtWidgets.QLabel(self.groupBox_8)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_31.sizePolicy().hasHeightForWidth())
@@ -641,7 +751,9 @@ class Ui_MainWindow(object):
         self.fortitudeSpin = QtWidgets.QSpinBox(self.groupBox_8)
         self.fortitudeSpin.setMinimum(-128)
         self.fortitudeSpin.setMaximum(127)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.fortitudeSpin.sizePolicy().hasHeightForWidth())
@@ -649,7 +761,9 @@ class Ui_MainWindow(object):
         self.fortitudeSpin.setObjectName("fortitudeSpin")
         self.formLayout_6.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.fortitudeSpin)
         self.label_32 = QtWidgets.QLabel(self.groupBox_8)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_32.sizePolicy().hasHeightForWidth())
@@ -657,7 +771,9 @@ class Ui_MainWindow(object):
         self.label_32.setObjectName("label_32")
         self.formLayout_6.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_32)
         self.label_33 = QtWidgets.QLabel(self.groupBox_8)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_33.sizePolicy().hasHeightForWidth())
@@ -667,7 +783,9 @@ class Ui_MainWindow(object):
         self.reflexSpin = QtWidgets.QSpinBox(self.groupBox_8)
         self.reflexSpin.setMinimum(-128)
         self.reflexSpin.setMaximum(127)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.reflexSpin.sizePolicy().hasHeightForWidth())
@@ -677,7 +795,9 @@ class Ui_MainWindow(object):
         self.willSpin = QtWidgets.QSpinBox(self.groupBox_8)
         self.willSpin.setMinimum(-128)
         self.willSpin.setMaximum(127)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.willSpin.sizePolicy().hasHeightForWidth())
@@ -690,7 +810,9 @@ class Ui_MainWindow(object):
         self.formLayout_7 = QtWidgets.QFormLayout(self.groupBox_9)
         self.formLayout_7.setObjectName("formLayout_7")
         self.label_34 = QtWidgets.QLabel(self.groupBox_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_34.sizePolicy().hasHeightForWidth())
@@ -698,7 +820,9 @@ class Ui_MainWindow(object):
         self.label_34.setObjectName("label_34")
         self.formLayout_7.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_34)
         self.armorClassSpin = QtWidgets.QSpinBox(self.groupBox_9)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.armorClassSpin.sizePolicy().hasHeightForWidth())
@@ -708,13 +832,17 @@ class Ui_MainWindow(object):
         self.armorClassSpin.setObjectName("armorClassSpin")
         self.formLayout_7.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.armorClassSpin)
         self.verticalLayout_5.addWidget(self.groupBox_9)
-        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem8 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_5.addItem(spacerItem8)
         self.horizontalLayout_11.addLayout(self.verticalLayout_5)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.groupBox_7 = QtWidgets.QGroupBox(self.statsTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox_7.sizePolicy().hasHeightForWidth())
@@ -723,7 +851,9 @@ class Ui_MainWindow(object):
         self.formLayout_5 = QtWidgets.QFormLayout(self.groupBox_7)
         self.formLayout_5.setObjectName("formLayout_5")
         self.label_25 = QtWidgets.QLabel(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_25.sizePolicy().hasHeightForWidth())
@@ -731,7 +861,9 @@ class Ui_MainWindow(object):
         self.label_25.setObjectName("label_25")
         self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_25)
         self.strengthSpin = QtWidgets.QSpinBox(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.strengthSpin.sizePolicy().hasHeightForWidth())
@@ -741,7 +873,9 @@ class Ui_MainWindow(object):
         self.strengthSpin.setObjectName("strengthSpin")
         self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.strengthSpin)
         self.label_26 = QtWidgets.QLabel(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_26.sizePolicy().hasHeightForWidth())
@@ -749,7 +883,9 @@ class Ui_MainWindow(object):
         self.label_26.setObjectName("label_26")
         self.formLayout_5.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_26)
         self.dexteritySpin = QtWidgets.QSpinBox(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.dexteritySpin.sizePolicy().hasHeightForWidth())
@@ -759,7 +895,9 @@ class Ui_MainWindow(object):
         self.dexteritySpin.setObjectName("dexteritySpin")
         self.formLayout_5.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.dexteritySpin)
         self.label_27 = QtWidgets.QLabel(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_27.sizePolicy().hasHeightForWidth())
@@ -767,7 +905,9 @@ class Ui_MainWindow(object):
         self.label_27.setObjectName("label_27")
         self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_27)
         self.constitutionSpin = QtWidgets.QSpinBox(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.constitutionSpin.sizePolicy().hasHeightForWidth())
@@ -777,7 +917,9 @@ class Ui_MainWindow(object):
         self.constitutionSpin.setObjectName("constitutionSpin")
         self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.constitutionSpin)
         self.label_28 = QtWidgets.QLabel(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_28.sizePolicy().hasHeightForWidth())
@@ -785,7 +927,9 @@ class Ui_MainWindow(object):
         self.label_28.setObjectName("label_28")
         self.formLayout_5.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_28)
         self.intelligenceSpin = QtWidgets.QSpinBox(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.intelligenceSpin.sizePolicy().hasHeightForWidth())
@@ -795,7 +939,9 @@ class Ui_MainWindow(object):
         self.intelligenceSpin.setObjectName("intelligenceSpin")
         self.formLayout_5.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.intelligenceSpin)
         self.label_29 = QtWidgets.QLabel(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_29.sizePolicy().hasHeightForWidth())
@@ -803,7 +949,9 @@ class Ui_MainWindow(object):
         self.label_29.setObjectName("label_29")
         self.formLayout_5.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_29)
         self.wisdomSpin = QtWidgets.QSpinBox(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.wisdomSpin.sizePolicy().hasHeightForWidth())
@@ -813,7 +961,9 @@ class Ui_MainWindow(object):
         self.wisdomSpin.setObjectName("wisdomSpin")
         self.formLayout_5.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.wisdomSpin)
         self.label_30 = QtWidgets.QLabel(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_30.sizePolicy().hasHeightForWidth())
@@ -821,7 +971,9 @@ class Ui_MainWindow(object):
         self.label_30.setObjectName("label_30")
         self.formLayout_5.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_30)
         self.charismaSpin = QtWidgets.QSpinBox(self.groupBox_7)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.charismaSpin.sizePolicy().hasHeightForWidth())
@@ -836,7 +988,9 @@ class Ui_MainWindow(object):
         self.formLayout_8 = QtWidgets.QFormLayout(self.groupBox_10)
         self.formLayout_8.setObjectName("formLayout_8")
         self.label_35 = QtWidgets.QLabel(self.groupBox_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_35.sizePolicy().hasHeightForWidth())
@@ -844,7 +998,9 @@ class Ui_MainWindow(object):
         self.label_35.setObjectName("label_35")
         self.formLayout_8.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_35)
         self.label_36 = QtWidgets.QLabel(self.groupBox_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_36.sizePolicy().hasHeightForWidth())
@@ -852,7 +1008,9 @@ class Ui_MainWindow(object):
         self.label_36.setObjectName("label_36")
         self.formLayout_8.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_36)
         self.label_37 = QtWidgets.QLabel(self.groupBox_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_37.sizePolicy().hasHeightForWidth())
@@ -860,7 +1018,9 @@ class Ui_MainWindow(object):
         self.label_37.setObjectName("label_37")
         self.formLayout_8.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_37)
         self.baseHpSpin = QtWidgets.QSpinBox(self.groupBox_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.baseHpSpin.sizePolicy().hasHeightForWidth())
@@ -870,7 +1030,9 @@ class Ui_MainWindow(object):
         self.baseHpSpin.setObjectName("baseHpSpin")
         self.formLayout_8.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.baseHpSpin)
         self.currentHpSpin = QtWidgets.QSpinBox(self.groupBox_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.currentHpSpin.sizePolicy().hasHeightForWidth())
@@ -880,7 +1042,9 @@ class Ui_MainWindow(object):
         self.currentHpSpin.setObjectName("currentHpSpin")
         self.formLayout_8.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.currentHpSpin)
         self.maxHpSpin = QtWidgets.QSpinBox(self.groupBox_10)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.maxHpSpin.sizePolicy().hasHeightForWidth())
@@ -895,7 +1059,9 @@ class Ui_MainWindow(object):
         self.formLayout_9 = QtWidgets.QFormLayout(self.groupBox_11)
         self.formLayout_9.setObjectName("formLayout_9")
         self.label_39 = QtWidgets.QLabel(self.groupBox_11)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_39.sizePolicy().hasHeightForWidth())
@@ -903,7 +1069,9 @@ class Ui_MainWindow(object):
         self.label_39.setObjectName("label_39")
         self.formLayout_9.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_39)
         self.currentFpSpin = QtWidgets.QSpinBox(self.groupBox_11)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.currentFpSpin.sizePolicy().hasHeightForWidth())
@@ -913,7 +1081,9 @@ class Ui_MainWindow(object):
         self.currentFpSpin.setObjectName("currentFpSpin")
         self.formLayout_9.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.currentFpSpin)
         self.label_40 = QtWidgets.QLabel(self.groupBox_11)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_40.sizePolicy().hasHeightForWidth())
@@ -921,7 +1091,9 @@ class Ui_MainWindow(object):
         self.label_40.setObjectName("label_40")
         self.formLayout_9.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_40)
         self.maxFpSpin = QtWidgets.QSpinBox(self.groupBox_11)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.maxFpSpin.sizePolicy().hasHeightForWidth())
@@ -931,7 +1103,9 @@ class Ui_MainWindow(object):
         self.maxFpSpin.setObjectName("maxFpSpin")
         self.formLayout_9.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.maxFpSpin)
         self.verticalLayout_6.addWidget(self.groupBox_11)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem9 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_6.addItem(spacerItem9)
         self.horizontalLayout_11.addLayout(self.verticalLayout_6)
         self.tabWidget.addTab(self.statsTab, "")
@@ -946,7 +1120,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_13.setObjectName("horizontalLayout_13")
         self.class1Select = ComboBox2DA(self.groupBox_13)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.class1Select.sizePolicy().hasHeightForWidth())
@@ -954,7 +1130,9 @@ class Ui_MainWindow(object):
         self.class1Select.setObjectName("class1Select")
         self.horizontalLayout_13.addWidget(self.class1Select)
         self.class1LevelSpin = QtWidgets.QSpinBox(self.groupBox_13)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.class1LevelSpin.sizePolicy().hasHeightForWidth())
@@ -963,7 +1141,9 @@ class Ui_MainWindow(object):
         self.class1LevelSpin.setMaximum(32767)
         self.class1LevelSpin.setObjectName("class1LevelSpin")
         self.horizontalLayout_13.addWidget(self.class1LevelSpin)
-        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem10 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_13.addItem(spacerItem10)
         self.horizontalLayout_13.setStretch(0, 3)
         self.horizontalLayout_13.setStretch(1, 1)
@@ -972,7 +1152,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_14 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_14.setObjectName("horizontalLayout_14")
         self.class2Select = ComboBox2DA(self.groupBox_13)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.class2Select.sizePolicy().hasHeightForWidth())
@@ -980,7 +1162,9 @@ class Ui_MainWindow(object):
         self.class2Select.setObjectName("class2Select")
         self.horizontalLayout_14.addWidget(self.class2Select)
         self.class2LevelSpin = QtWidgets.QSpinBox(self.groupBox_13)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.class2LevelSpin.sizePolicy().hasHeightForWidth())
@@ -989,7 +1173,9 @@ class Ui_MainWindow(object):
         self.class2LevelSpin.setMaximum(32767)
         self.class2LevelSpin.setObjectName("class2LevelSpin")
         self.horizontalLayout_14.addWidget(self.class2LevelSpin)
-        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem11 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_14.addItem(spacerItem11)
         self.horizontalLayout_14.setStretch(0, 3)
         self.horizontalLayout_14.setStretch(1, 1)
@@ -1014,7 +1200,9 @@ class Ui_MainWindow(object):
         self.label_53.setObjectName("label_53")
         self.horizontalLayout_12.addWidget(self.label_53)
         self.verticalLayout_7.addWidget(self.groupBox_12)
-        spacerItem12 = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem12 = QtWidgets.QSpacerItem(
+            0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_7.addItem(spacerItem12)
         self.tabWidget.addTab(self.classesTab, "")
         self.featsTab = QtWidgets.QWidget()
@@ -1060,7 +1248,9 @@ class Ui_MainWindow(object):
         self.formLayout_22 = QtWidgets.QFormLayout(self.Scripts)
         self.formLayout_22.setObjectName("formLayout_22")
         self.label_95 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_95.sizePolicy().hasHeightForWidth())
@@ -1070,7 +1260,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_29 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_29.setObjectName("horizontalLayout_29")
         self.onBlockedEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onBlockedEdit.sizePolicy().hasHeightForWidth())
@@ -1079,7 +1271,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_29.addWidget(self.onBlockedEdit)
         self.formLayout_22.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_29)
         self.label_106 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_106.sizePolicy().hasHeightForWidth())
@@ -1089,7 +1283,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_30 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_30.setObjectName("horizontalLayout_30")
         self.onAttackedEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onAttackedEdit.sizePolicy().hasHeightForWidth())
@@ -1098,7 +1294,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_30.addWidget(self.onAttackedEdit)
         self.formLayout_22.setLayout(1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_30)
         self.label_96 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_96.sizePolicy().hasHeightForWidth())
@@ -1108,7 +1306,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_31 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_31.setObjectName("horizontalLayout_31")
         self.onNoticeEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onNoticeEdit.sizePolicy().hasHeightForWidth())
@@ -1117,7 +1317,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_31.addWidget(self.onNoticeEdit)
         self.formLayout_22.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_31)
         self.label_97 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_97.sizePolicy().hasHeightForWidth())
@@ -1127,7 +1329,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_32 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_32.setObjectName("horizontalLayout_32")
         self.onConversationEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onConversationEdit.sizePolicy().hasHeightForWidth())
@@ -1136,7 +1340,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_32.addWidget(self.onConversationEdit)
         self.formLayout_22.setLayout(3, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_32)
         self.label_98 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_98.sizePolicy().hasHeightForWidth())
@@ -1146,7 +1352,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_33 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_33.setObjectName("horizontalLayout_33")
         self.onDamagedEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onDamagedEdit.sizePolicy().hasHeightForWidth())
@@ -1155,7 +1363,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_33.addWidget(self.onDamagedEdit)
         self.formLayout_22.setLayout(4, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_33)
         self.label_109 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_109.sizePolicy().hasHeightForWidth())
@@ -1165,7 +1375,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_34 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_34.setObjectName("horizontalLayout_34")
         self.onDeathEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onDeathEdit.sizePolicy().hasHeightForWidth())
@@ -1174,7 +1386,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_34.addWidget(self.onDeathEdit)
         self.formLayout_22.setLayout(5, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_34)
         self.label_107 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_107.sizePolicy().hasHeightForWidth())
@@ -1184,7 +1398,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_35 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_35.setObjectName("horizontalLayout_35")
         self.onEndRoundEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onEndRoundEdit.sizePolicy().hasHeightForWidth())
@@ -1193,7 +1409,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_35.addWidget(self.onEndRoundEdit)
         self.formLayout_22.setLayout(6, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_35)
         self.label_108 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_108.sizePolicy().hasHeightForWidth())
@@ -1203,7 +1421,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_36 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_36.setObjectName("horizontalLayout_36")
         self.onEndConversationEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onEndConversationEdit.sizePolicy().hasHeightForWidth())
@@ -1212,7 +1432,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_36.addWidget(self.onEndConversationEdit)
         self.formLayout_22.setLayout(7, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_36)
         self.label_100 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_100.sizePolicy().hasHeightForWidth())
@@ -1222,7 +1444,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_38 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_38.setObjectName("horizontalLayout_38")
         self.onDisturbedEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onDisturbedEdit.sizePolicy().hasHeightForWidth())
@@ -1231,7 +1455,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_38.addWidget(self.onDisturbedEdit)
         self.formLayout_22.setLayout(8, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_38)
         self.label_101 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_101.sizePolicy().hasHeightForWidth())
@@ -1241,7 +1467,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_39 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_39.setObjectName("horizontalLayout_39")
         self.onHeartbeatSelect = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onHeartbeatSelect.sizePolicy().hasHeightForWidth())
@@ -1250,7 +1478,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_39.addWidget(self.onHeartbeatSelect)
         self.formLayout_22.setLayout(9, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_39)
         self.label_103 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_103.sizePolicy().hasHeightForWidth())
@@ -1260,7 +1490,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_41 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_41.setObjectName("horizontalLayout_41")
         self.onSpawnEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onSpawnEdit.sizePolicy().hasHeightForWidth())
@@ -1269,7 +1501,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_41.addWidget(self.onSpawnEdit)
         self.formLayout_22.setLayout(10, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_41)
         self.label_104 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_104.sizePolicy().hasHeightForWidth())
@@ -1279,7 +1513,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_42 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_42.setObjectName("horizontalLayout_42")
         self.onSpellCastEdit = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onSpellCastEdit.sizePolicy().hasHeightForWidth())
@@ -1288,7 +1524,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_42.addWidget(self.onSpellCastEdit)
         self.formLayout_22.setLayout(11, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_42)
         self.label_105 = QtWidgets.QLabel(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_105.sizePolicy().hasHeightForWidth())
@@ -1298,7 +1536,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_43 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_43.setObjectName("horizontalLayout_43")
         self.onUserDefinedSelect = FilterComboBox(self.Scripts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.onUserDefinedSelect.sizePolicy().hasHeightForWidth())
@@ -1371,416 +1611,836 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.modelInfoGroupBox.setTitle(_translate("MainWindow", "Model Info"))
-        self.modelInfoSummaryLabel.setToolTip(_translate("MainWindow", "Summary of the creature\'s 3D model (from Appearance). Expand to see full model\n"
-"             path, textures, and animation info. Display-only; change Appearance to change the\n"
-"             model. Not stored in the GFF."))
-        self.modelInfoSummaryLabel.setText(_translate("MainWindow", "Click to expand model information..."))
-        self.modelInfoLabel.setToolTip(_translate("MainWindow", "Detailed model information (mesh, textures, animations) for the current\n"
-"             Appearance. Derived from appearance.2da and model files. Display-only; not a GFF field."))
-        self.modelInfoLabel.setText(_translate("MainWindow", "Model information will appear here..."))
+        self.modelInfoSummaryLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Summary of the creature's 3D model (from Appearance). Expand to see full model\n"
+                "             path, textures, and animation info. Display-only; change Appearance to change the\n"
+                "             model. Not stored in the GFF.",
+            )
+        )
+        self.modelInfoSummaryLabel.setText(
+            _translate("MainWindow", "Click to expand model information...")
+        )
+        self.modelInfoLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Detailed model information (mesh, textures, animations) for the current\n"
+                "             Appearance. Derived from appearance.2da and model files. Display-only; not a GFF field.",
+            )
+        )
+        self.modelInfoLabel.setText(
+            _translate("MainWindow", "Model information will appear here...")
+        )
         self.groupBox.setTitle(_translate("MainWindow", "Profile"))
         self.label.setText(_translate("MainWindow", "First Name:"))
-        self.firstnameEdit.setToolTip(_translate("MainWindow", "First Name (GFF: FirstName). CExoLocString stored in creature stats;\n"
-"                   loaded and saved with the creature. The engine uses it wherever the creature\'s\n"
-"                   display name is shown (dialogue, character sheet, targeting HUD). Resolved by\n"
-"                   game language. Empty is valid. Modders: set the displayed name; use ? to\n"
-"                   randomize from name tables. Scripts find creatures by Tag, not by this name."))
-        self.firstnameRandomButton.setToolTip(_translate("MainWindow", "<p><b>Randomize first name.</b> Fills the First Name\n"
-"                   field with a random entry from the name table (names.2da or game-specific\n"
-"                   tables).</p><p><i>Modders:</i> Useful for quickly\n"
-"                   generating generic NPC names. The game uses First Name in dialogue and the\n"
-"                   character sheet; this button only edits the stored value.</p>"))
+        self.firstnameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "First Name (GFF: FirstName). CExoLocString stored in creature stats;\n"
+                "                   loaded and saved with the creature. The engine uses it wherever the creature's\n"
+                "                   display name is shown (dialogue, character sheet, targeting HUD). Resolved by\n"
+                "                   game language. Empty is valid. Modders: set the displayed name; use ? to\n"
+                "                   randomize from name tables. Scripts find creatures by Tag, not by this name.",
+            )
+        )
+        self.firstnameRandomButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "<p><b>Randomize first name.</b> Fills the First Name\n"
+                "                   field with a random entry from the name table (names.2da or game-specific\n"
+                "                   tables).</p><p><i>Modders:</i> Useful for quickly\n"
+                "                   generating generic NPC names. The game uses First Name in dialogue and the\n"
+                "                   character sheet; this button only edits the stored value.</p>",
+            )
+        )
         self.firstnameRandomButton.setText(_translate("MainWindow", "?"))
         self.label_2.setText(_translate("MainWindow", "Last Name:"))
-        self.lastnameEdit.setToolTip(_translate("MainWindow", "Last Name (GFF: LastName). CExoLocString in creature stats; loaded and\n"
-"                   saved with the creature. Displayed with first name in dialogue and UI. Empty is\n"
-"                   valid. Modders: use ? to randomize. Scripts use Tag for lookups, not this field."))
-        self.lastnameRandomButton.setToolTip(_translate("MainWindow", "Randomize last name. Fills the Last Name field with a random entry from\n"
-"                   the name table. The game uses Last Name for dialogue and character display. This\n"
-"                   button only edits the stored GFF value; it does not affect loading."))
+        self.lastnameEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Last Name (GFF: LastName). CExoLocString in creature stats; loaded and\n"
+                "                   saved with the creature. Displayed with first name in dialogue and UI. Empty is\n"
+                "                   valid. Modders: use ? to randomize. Scripts use Tag for lookups, not this field.",
+            )
+        )
+        self.lastnameRandomButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Randomize last name. Fills the Last Name field with a random entry from\n"
+                "                   the name table. The game uses Last Name for dialogue and character display. This\n"
+                "                   button only edits the stored GFF value; it does not affect loading.",
+            )
+        )
         self.lastnameRandomButton.setText(_translate("MainWindow", "?"))
         self.label_3.setText(_translate("MainWindow", "Tag:"))
-        self.tagEdit.setToolTip(_translate("MainWindow", "Tag (GFF: Tag). Loaded into creature stats and saved with the creature.\n"
-"                   The script command GetObjectByTag(sTag, nNth) looks up objects by this string\n"
-"                   (case-insensitive); the engine uses it for story logic and companion checks. If\n"
-"                   multiple creatures share a tag, nNth selects which instance. Must be unique per\n"
-"                   module for scripts that expect a single match. Empty is valid but scripts cannot\n"
-"                   find this creature by tag. Modders: set a unique tag that matches any\n"
-"                   GetObjectByTag calls in scripts/dialogue; changing a tag breaks existing\n"
-"                   references."))
-        self.tagGenerateButton.setToolTip(_translate("MainWindow", "Generate tag from ResRef. Copies the Template ResRef (ResRef field) into\n"
-"                   the Tag field, converting to a valid creature tag (lowercase, no extension).\n"
-"                   Scripts and dialogues reference creatures by Tag; the tag must be unique per\n"
-"                   area. Modders: use this to keep Tag and ResRef in sync when the ResRef is the\n"
-"                   main identifier, or type a custom tag (e.g. for scripting)."))
+        self.tagEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Tag (GFF: Tag). Loaded into creature stats and saved with the creature.\n"
+                "                   The script command GetObjectByTag(sTag, nNth) looks up objects by this string\n"
+                "                   (case-insensitive); the engine uses it for story logic and companion checks. If\n"
+                "                   multiple creatures share a tag, nNth selects which instance. Must be unique per\n"
+                "                   module for scripts that expect a single match. Empty is valid but scripts cannot\n"
+                "                   find this creature by tag. Modders: set a unique tag that matches any\n"
+                "                   GetObjectByTag calls in scripts/dialogue; changing a tag breaks existing\n"
+                "                   references.",
+            )
+        )
+        self.tagGenerateButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Generate tag from ResRef. Copies the Template ResRef (ResRef field) into\n"
+                "                   the Tag field, converting to a valid creature tag (lowercase, no extension).\n"
+                "                   Scripts and dialogues reference creatures by Tag; the tag must be unique per\n"
+                "                   area. Modders: use this to keep Tag and ResRef in sync when the ResRef is the\n"
+                "                   main identifier, or type a custom tag (e.g. for scripting).",
+            )
+        )
         self.tagGenerateButton.setText(_translate("MainWindow", "-"))
         self.label_7.setText(_translate("MainWindow", "ResRef:"))
-        self.resrefEdit.setToolTip(_translate("MainWindow", "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters)\n"
-"                   identifying this creature template. The engine stores ResRefs in a 16-byte\n"
-"                   structure; longer strings are truncated. When the game loads a creature from a\n"
-"                   GIT file it can use this field to know which UTC template the instance uses; when\n"
-"                   loading a UTC file directly the resource filename is the template resref.\n"
-"                   In-game: used to load the correct UTC data for the creature. Modders: set this to\n"
-"                   match the UTC filename (without .utc); keep under 16 characters. If you rename\n"
-"                   the UTC file outside the toolset, update this field to match or references may\n"
-"                   break. Empty is valid but unusual."))
+        self.resrefEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Template ResRef (GFF: TemplateResRef). ResRef (max 16 characters)\n"
+                "                   identifying this creature template. The engine stores ResRefs in a 16-byte\n"
+                "                   structure; longer strings are truncated. When the game loads a creature from a\n"
+                "                   GIT file it can use this field to know which UTC template the instance uses; when\n"
+                "                   loading a UTC file directly the resource filename is the template resref.\n"
+                "                   In-game: used to load the correct UTC data for the creature. Modders: set this to\n"
+                "                   match the UTC filename (without .utc); keep under 16 characters. If you rename\n"
+                "                   the UTC file outside the toolset, update this field to match or references may\n"
+                "                   break. Empty is valid but unusual.",
+            )
+        )
         self.label_4.setText(_translate("MainWindow", "Appearance:"))
-        self.appearanceSelect.setToolTip(_translate("MainWindow", "Appearance (GFF: Appearance_Type). WORD index into appearance.2da. Picks\n"
-"                   the 3D model and skin. Valid range 0 to 65535; use a row that exists in\n"
-"                   appearance.2da or the model may not show. Modders: change to swap the creature\'s\n"
-"                   look; the preview updates when you change this."))
+        self.appearanceSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Appearance (GFF: Appearance_Type). WORD index into appearance.2da. Picks\n"
+                "                   the 3D model and skin. Valid range 0 to 65535; use a row that exists in\n"
+                "                   appearance.2da or the model may not show. Modders: change to swap the creature's\n"
+                "                   look; the preview updates when you change this.",
+            )
+        )
         self.label_10.setText(_translate("MainWindow", "Soundset:"))
-        self.soundsetSelect.setToolTip(_translate("MainWindow", "Soundset (GFF: SoundSetFile). WORD index into soundset.2da. Chooses voice\n"
-"                   and combat barks. Valid range 0 to 65535; use a valid row or sounds may be wrong.\n"
-"                   Modders: pick a row from soundset.2da to change dialogue and battle sounds."))
+        self.soundsetSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Soundset (GFF: SoundSetFile). WORD index into soundset.2da. Chooses voice\n"
+                "                   and combat barks. Valid range 0 to 65535; use a valid row or sounds may be wrong.\n"
+                "                   Modders: pick a row from soundset.2da to change dialogue and battle sounds.",
+            )
+        )
         self.label_5.setText(_translate("MainWindow", "Conversation:"))
-        self.conversationEdit.setToolTip(_translate("MainWindow", "Conversation (GFF: Conversation). ResRef of the dialogue (DLG) file; max\n"
-"                   16 characters. When the player talks to this creature, the game runs this\n"
-"                   dialogue. Blank means no dialogue. Modders: set to a DLG resref and use Edit to\n"
-"                   open the dialogue editor."))
-        self.conversationModifyButton.setToolTip(_translate("MainWindow", "Open the dialogue editor for the Conversation (DLG) assigned to this\n"
-"                   creature. The game runs this dialogue when the player talks to the creature. If\n"
-"                   no conversation is set, this button may open a new or default dialogue. Modders:\n"
-"                   use this to edit the creature\'s dialogue without leaving the UTC editor."))
+        self.conversationEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Conversation (GFF: Conversation). ResRef of the dialogue (DLG) file; max\n"
+                "                   16 characters. When the player talks to this creature, the game runs this\n"
+                "                   dialogue. Blank means no dialogue. Modders: set to a DLG resref and use Edit to\n"
+                "                   open the dialogue editor.",
+            )
+        )
+        self.conversationModifyButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Open the dialogue editor for the Conversation (DLG) assigned to this\n"
+                "                   creature. The game runs this dialogue when the player talks to the creature. If\n"
+                "                   no conversation is set, this button may open a new or default dialogue. Modders:\n"
+                "                   use this to edit the creature's dialogue without leaving the UTC editor.",
+            )
+        )
         self.conversationModifyButton.setText(_translate("MainWindow", "Edit"))
         self.groupBox_15.setTitle(_translate("MainWindow", "Inventory"))
-        self.inventoryCountLabel.setToolTip(_translate("MainWindow", "Shows how many items are in this creature\'s inventory (ItemList) plus equipped\n"
-"               gear (Equip_ItemList). The game loads these when the creature spawns."))
+        self.inventoryCountLabel.setToolTip(
+            _translate(
+                "MainWindow",
+                "Shows how many items are in this creature's inventory (ItemList) plus equipped\n"
+                "               gear (Equip_ItemList). The game loads these when the creature spawns.",
+            )
+        )
         self.inventoryCountLabel.setText(_translate("MainWindow", "Total Items:"))
-        self.inventoryButton.setToolTip(_translate("MainWindow", "Edit creature inventory (GFF: ItemList). Opens an editor where you can add,\n"
-"               remove, or reorder items (UTI ResRefs) and equip them to slots. The game loads this\n"
-"               list when the creature spawns; items appear in the creature\'s inventory and equipped\n"
-"               slots in-game. Modders: add weapons, armor, and loot here; use Equipped slots to set\n"
-"               what the creature has on (e.g. right hand, armor). Empty list is valid—creature\n"
-"               starts with no items."))
+        self.inventoryButton.setToolTip(
+            _translate(
+                "MainWindow",
+                "Edit creature inventory (GFF: ItemList). Opens an editor where you can add,\n"
+                "               remove, or reorder items (UTI ResRefs) and equip them to slots. The game loads this\n"
+                "               list when the creature spawns; items appear in the creature's inventory and equipped\n"
+                "               slots in-game. Modders: add weapons, armor, and loot here; use Equipped slots to set\n"
+                "               what the creature has on (e.g. right hand, armor). Empty list is valid—creature\n"
+                "               starts with no items.",
+            )
+        )
         self.inventoryButton.setText(_translate("MainWindow", "Edit Inventory"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Portrait"))
-        self.portraitPicture.setToolTip(_translate("MainWindow", "Preview of the portrait image. Shows the portrait that will appear in dialogue\n"
-"               and the party panel based on the Portrait (PortraitId) and optional Portrait ResRef\n"
-"               settings above. This is display-only; change the Portrait dropdown or Portrait ResRef\n"
-"               to change the image. If the selected row or resref is invalid, the preview may be\n"
-"               blank or show a fallback."))
-        self.portraitSelect.setToolTip(_translate("MainWindow", "Portrait (GFF: PortraitId). WORD. Image shown in dialogue and party panel.\n"
-"                 Engine: if value < 65534, use as portrait.2da row (0–65533); if 65534 or 65535,\n"
-"                 use the Portrait ResRef field instead. The portrait can change with alignment\n"
-"                 (light/dark) in-game. Modders: pick a row from portrait.2da (valid row 0–65533) or\n"
-"                 use 65535 to use a custom Portrait ResRef; invalid rows may show a wrong or blank\n"
-"                 portrait."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic"))
+        self.portraitPicture.setToolTip(
+            _translate(
+                "MainWindow",
+                "Preview of the portrait image. Shows the portrait that will appear in dialogue\n"
+                "               and the party panel based on the Portrait (PortraitId) and optional Portrait ResRef\n"
+                "               settings above. This is display-only; change the Portrait dropdown or Portrait ResRef\n"
+                "               to change the image. If the selected row or resref is invalid, the preview may be\n"
+                "               blank or show a fallback.",
+            )
+        )
+        self.portraitSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Portrait (GFF: PortraitId). WORD. Image shown in dialogue and party panel.\n"
+                "                 Engine: if value < 65534, use as portrait.2da row (0–65533); if 65534 or 65535,\n"
+                "                 use the Portrait ResRef field instead. The portrait can change with alignment\n"
+                "                 (light/dark) in-game. Modders: pick a row from portrait.2da (valid row 0–65533) or\n"
+                "                 use 65535 to use a custom Portrait ResRef; invalid rows may show a wrong or blank\n"
+                "                 portrait.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Basic")
+        )
         self.groupBox_3.setTitle(_translate("MainWindow", "Flags"))
-        self.disarmableCheckbox.setToolTip(_translate("MainWindow", "Disarmable (GFF: Disarmable). BYTE 0/1. If set, the creature can be disarmed\n"
-"                 in combat (loses weapon). Modders: enable for NPCs that should be disarmable."))
+        self.disarmableCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Disarmable (GFF: Disarmable). BYTE 0/1. If set, the creature can be disarmed\n"
+                "                 in combat (loses weapon). Modders: enable for NPCs that should be disarmable.",
+            )
+        )
         self.disarmableCheckbox.setText(_translate("MainWindow", "Disarmable"))
-        self.noPermDeathCheckbox.setToolTip(_translate("MainWindow", "No Perm Death (GFF: NoPermDeath). BYTE 0 or 1. When checked (1), the\n"
-"                 creature cannot be permanently killed and can be raised from death (e.g. by spells\n"
-"                 or scripts). The game uses this for important NPCs that must stay revivable.\n"
-"                 Unchecked (0) = normal death behavior. Does not stop the corpse from fading or\n"
-"                 prevent scripts from destroying the object; use Plot or Min 1 HP for extra\n"
-"                 protection. Modders: enable for NPCs that must reappear or be raiseable; leave off\n"
-"                 for normal enemies. Note: KotOR 1 also reads the IsRaiseable field when loading\n"
-"                 creatures; both affect whether the creature can be raised."))
+        self.noPermDeathCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "No Perm Death (GFF: NoPermDeath). BYTE 0 or 1. When checked (1), the\n"
+                "                 creature cannot be permanently killed and can be raised from death (e.g. by spells\n"
+                "                 or scripts). The game uses this for important NPCs that must stay revivable.\n"
+                "                 Unchecked (0) = normal death behavior. Does not stop the corpse from fading or\n"
+                "                 prevent scripts from destroying the object; use Plot or Min 1 HP for extra\n"
+                "                 protection. Modders: enable for NPCs that must reappear or be raiseable; leave off\n"
+                "                 for normal enemies. Note: KotOR 1 also reads the IsRaiseable field when loading\n"
+                "                 creatures; both affect whether the creature can be raised.",
+            )
+        )
         self.noPermDeathCheckbox.setText(_translate("MainWindow", "No Perm Death"))
-        self.min1HpCheckbox.setToolTip(_translate("MainWindow", "Min 1 HP (GFF: Min1HP). BYTE 0/1. If set, the creature\'s HP cannot go below\n"
-"                 1 from damage. Modders: use for plot NPCs that must not die from damage (scripts\n"
-"                 can still kill)."))
+        self.min1HpCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Min 1 HP (GFF: Min1HP). BYTE 0/1. If set, the creature's HP cannot go below\n"
+                "                 1 from damage. Modders: use for plot NPCs that must not die from damage (scripts\n"
+                "                 can still kill).",
+            )
+        )
         self.min1HpCheckbox.setText(_translate("MainWindow", "Min 1 HP"))
-        self.plotCheckbox.setToolTip(_translate("MainWindow", "Plot (GFF: Plot). BYTE 0/1. When set, the creature is plot-critical: the\n"
-"                 game will not allow it to die permanently (e.g. companion NPCs). Does not prevent\n"
-"                 knockdown or temporary death; scripts can still destroy the object. Modders: enable\n"
-"                 for story-essential NPCs; leave off for normal enemies."))
+        self.plotCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Plot (GFF: Plot). BYTE 0/1. When set, the creature is plot-critical: the\n"
+                "                 game will not allow it to die permanently (e.g. companion NPCs). Does not prevent\n"
+                "                 knockdown or temporary death; scripts can still destroy the object. Modders: enable\n"
+                "                 for story-essential NPCs; leave off for normal enemies.",
+            )
+        )
         self.plotCheckbox.setText(_translate("MainWindow", "Plot"))
-        self.isPcCheckbox.setToolTip(_translate("MainWindow", "Is PC (GFF: IsPC). BYTE 0/1. When set, the engine treats this creature as a\n"
-"                 player character (e.g. for controls, camera, or UI). Rarely used on NPCs; mainly\n"
-"                 for the player\'s creature in save games. Modders: leave unchecked for normal NPCs;\n"
-"                 enabling can cause odd behavior."))
+        self.isPcCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Is PC (GFF: IsPC). BYTE 0/1. When set, the engine treats this creature as a\n"
+                "                 player character (e.g. for controls, camera, or UI). Rarely used on NPCs; mainly\n"
+                "                 for the player's creature in save games. Modders: leave unchecked for normal NPCs;\n"
+                "                 enabling can cause odd behavior.",
+            )
+        )
         self.isPcCheckbox.setText(_translate("MainWindow", "Is PC"))
-        self.noReorientateCheckbox.setToolTip(_translate("MainWindow", "Doesn\'t Reorient on PC (GFF: NotReorienting). BYTE 0/1. When set, the\n"
-"                 creature does not turn to face the player when the player approaches. Useful for\n"
-"                 NPCs that should keep a fixed orientation (e.g. sitting, working). Modders: enable\n"
-"                 for static or scripted facing."))
-        self.noReorientateCheckbox.setText(_translate("MainWindow", "Doesn\'t Reorientate on PC"))
-        self.noBlockCheckbox.setToolTip(_translate("MainWindow", "Doesn\'t Block PC (GFF: IgnoreCrePath). BYTE 0/1. When set, the creature is\n"
-"                 ignored by pathfinding: the player and party can walk through it. Useful for\n"
-"                 non-solid NPCs or holograms. Modders: enable for ghosts, holograms, or decorative\n"
-"                 creatures that should not block movement."))
-        self.noBlockCheckbox.setText(_translate("MainWindow", "Doesn\'t Block PC"))
-        self.hologramCheckbox.setToolTip(_translate("MainWindow", "Hologram (GFF: Hologram). BYTE 0/1. When set, the creature is rendered as a\n"
-"                 hologram (shader effect). Used for holographic NPCs in KotOR. Modders: enable for\n"
-"                 holocomm or hologram encounters; has no effect on dialogue or scripts."))
+        self.noReorientateCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Doesn't Reorient on PC (GFF: NotReorienting). BYTE 0/1. When set, the\n"
+                "                 creature does not turn to face the player when the player approaches. Useful for\n"
+                "                 NPCs that should keep a fixed orientation (e.g. sitting, working). Modders: enable\n"
+                "                 for static or scripted facing.",
+            )
+        )
+        self.noReorientateCheckbox.setText(_translate("MainWindow", "Doesn't Reorientate on PC"))
+        self.noBlockCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Doesn't Block PC (GFF: IgnoreCrePath). BYTE 0/1. When set, the creature is\n"
+                "                 ignored by pathfinding: the player and party can walk through it. Useful for\n"
+                "                 non-solid NPCs or holograms. Modders: enable for ghosts, holograms, or decorative\n"
+                "                 creatures that should not block movement.",
+            )
+        )
+        self.noBlockCheckbox.setText(_translate("MainWindow", "Doesn't Block PC"))
+        self.hologramCheckbox.setToolTip(
+            _translate(
+                "MainWindow",
+                "Hologram (GFF: Hologram). BYTE 0/1. When set, the creature is rendered as a\n"
+                "                 hologram (shader effect). Used for holographic NPCs in KotOR. Modders: enable for\n"
+                "                 holocomm or hologram encounters; has no effect on dialogue or scripts.",
+            )
+        )
         self.hologramCheckbox.setText(_translate("MainWindow", "Hologram"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Race"))
         self.label_8.setText(_translate("MainWindow", "Race:"))
-        self.raceSelect.setToolTip(_translate("MainWindow", "Race (GFF: Race). Index into racialtypes.2da (row 0, 1, 2, …). The game uses\n"
-"               this for hit dice, skill points, available classes, model options, and race-specific\n"
-"               checks. Modders: choose a row that exists in racialtypes.2da (e.g. Human, Droid).\n"
-"               Important: if the value is greater than or equal to the number of rows in race.2da,\n"
-"               the creature will fail to load in-game. Keep the index within the valid range for\n"
-"               your game/mod."))
+        self.raceSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Race (GFF: Race). Index into racialtypes.2da (row 0, 1, 2, …). The game uses\n"
+                "               this for hit dice, skill points, available classes, model options, and race-specific\n"
+                "               checks. Modders: choose a row that exists in racialtypes.2da (e.g. Human, Droid).\n"
+                "               Important: if the value is greater than or equal to the number of rows in race.2da,\n"
+                "               the creature will fail to load in-game. Keep the index within the valid range for\n"
+                "               your game/mod.",
+            )
+        )
         self.label_9.setText(_translate("MainWindow", "Subrace:"))
-        self.subraceSelect.setToolTip(_translate("MainWindow", "Subrace (GFF: SubraceIndex). Index into subrace.2da; refines the selected race\n"
-"               (e.g. subspecies). The game uses this for appearance and sometimes stat tweaks.\n"
-"               Modders: use a row that exists in subrace.2da and matches the race; 0 is often valid.\n"
-"               Invalid indices are not rejected by the engine but can cause odd appearance or\n"
-"               behavior."))
+        self.subraceSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Subrace (GFF: SubraceIndex). Index into subrace.2da; refines the selected race\n"
+                "               (e.g. subspecies). The game uses this for appearance and sometimes stat tweaks.\n"
+                "               Modders: use a row that exists in subrace.2da and matches the race; 0 is often valid.\n"
+                "               Invalid indices are not rejected by the engine but can cause odd appearance or\n"
+                "               behavior.",
+            )
+        )
         self.groupBox_5.setTitle(_translate("MainWindow", "Other"))
         self.label_16.setText(_translate("MainWindow", "Speed:"))
-        self.speedSelect.setToolTip(_translate("MainWindow", "Speed (GFF: WalkRate). Row index into creaturespeed.2da (WALKRATE column).\n"
-"                 The game uses this value to set the creature\'s walk and run movement speed for\n"
-"                 pathfinding and animation. Modders: choose a row that exists in creaturespeed.2da\n"
-"                 (typically 0 to number of rows minus one). An invalid index may result in default\n"
-"                 speed or broken movement in-game."))
+        self.speedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Speed (GFF: WalkRate). Row index into creaturespeed.2da (WALKRATE column).\n"
+                "                 The game uses this value to set the creature's walk and run movement speed for\n"
+                "                 pathfinding and animation. Modders: choose a row that exists in creaturespeed.2da\n"
+                "                 (typically 0 to number of rows minus one). An invalid index may result in default\n"
+                "                 speed or broken movement in-game.",
+            )
+        )
         self.label_11.setText(_translate("MainWindow", "Faction:"))
-        self.factionSelect.setToolTip(_translate("MainWindow", "Faction (GFF: FactionID). Index into repute.2da (or faction table).\n"
-"                 Determines who the creature is hostile or friendly to. The game uses this for\n"
-"                 combat targeting and dialogue reactions. Modders: set to match your module\'s\n"
-"                 factions; wrong values can make NPCs attack the party or ignore enemies."))
+        self.factionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Faction (GFF: FactionID). Index into repute.2da (or faction table).\n"
+                "                 Determines who the creature is hostile or friendly to. The game uses this for\n"
+                "                 combat targeting and dialogue reactions. Modders: set to match your module's\n"
+                "                 factions; wrong values can make NPCs attack the party or ignore enemies.",
+            )
+        )
         self.genderAdvancedLabel.setText(_translate("MainWindow", "Gender:"))
-        self.genderSelect.setToolTip(_translate("MainWindow", "Gender (GFF: Gender). BYTE index into gender.2da (0=Male, 1=Female, etc.).\n"
-"                 The game clamps values over 4 to 4 when loading. Affects voice, name tables, and\n"
-"                 appearance. Used for dialogue and LTR name generation. Modders: use 0–4; must match\n"
-"                 a row in gender.2da or the engine clamps to 4. Edge case: values above 4 in the GFF\n"
-"                 are clamped when loaded."))
+        self.genderSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Gender (GFF: Gender). BYTE index into gender.2da (0=Male, 1=Female, etc.).\n"
+                "                 The game clamps values over 4 to 4 when loading. Affects voice, name tables, and\n"
+                "                 appearance. Used for dialogue and LTR name generation. Modders: use 0–4; must match\n"
+                "                 a row in gender.2da or the engine clamps to 4. Edge case: values above 4 in the GFF\n"
+                "                 are clamped when loaded.",
+            )
+        )
         self.label_12.setText(_translate("MainWindow", "Perception:"))
-        self.perceptionSelect.setToolTip(_translate("MainWindow", "Perception (GFF: PerceptionRange). Stored as BYTE (0–255). Row index into\n"
-"                 ranges.2da that defines primary and secondary detection range (how far the creature\n"
-"                 can see and hear). The game uses this for AI awareness, stealth detection, and\n"
-"                 targeting. Default for NPCs is 11 when missing. Special: value 12 (0xC) uses the\n"
-"                 appearance\'s PERCEPTIONDIST from appearance.2da instead of a ranges.2da row.\n"
-"                 Invalid row indices can cause the creature to fail to load in-game (engine error).\n"
-"                 Modders: pick a valid row from ranges.2da; higher row indices generally mean larger\n"
-"                 perception range. Only used for non-player creatures; PCs use a fixed range."))
+        self.perceptionSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "Perception (GFF: PerceptionRange). Stored as BYTE (0–255). Row index into\n"
+                "                 ranges.2da that defines primary and secondary detection range (how far the creature\n"
+                "                 can see and hear). The game uses this for AI awareness, stealth detection, and\n"
+                "                 targeting. Default for NPCs is 11 when missing. Special: value 12 (0xC) uses the\n"
+                "                 appearance's PERCEPTIONDIST from appearance.2da instead of a ranges.2da row.\n"
+                "                 Invalid row indices can cause the creature to fail to load in-game (engine error).\n"
+                "                 Modders: pick a valid row from ranges.2da; higher row indices generally mean larger\n"
+                "                 perception range. Only used for non-player creatures; PCs use a fixed range.",
+            )
+        )
         self.label_13.setText(_translate("MainWindow", "Challenge Rating:"))
-        self.challengeRatingSpin.setToolTip(_translate("MainWindow", "Challenge Rating (GFF: ChallengeRating). FLOAT. Used by the game for\n"
-"                 encounter difficulty and XP calculations. Modders: set 0–100; higher values make\n"
-"                 the creature count as tougher for reward and scaling. Has no effect on actual\n"
-"                 combat stats."))
+        self.challengeRatingSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Challenge Rating (GFF: ChallengeRating). FLOAT. Used by the game for\n"
+                "                 encounter difficulty and XP calculations. Modders: set 0–100; higher values make\n"
+                "                 the creature count as tougher for reward and scaling. Has no effect on actual\n"
+                "                 combat stats.",
+            )
+        )
         self.label_102.setText(_translate("MainWindow", "Blindspot:"))
-        self.blindSpotSpin.setToolTip(_translate("MainWindow", "Blindspot (GFF: BlindSpot). KotOR 2 only. FLOAT. Angle in degrees behind\n"
-"                  the creature that is not perceived. Modders: 0 = no blind spot; 360 = effectively\n"
-"                  blind. Used by AI perception."))
+        self.blindSpotSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Blindspot (GFF: BlindSpot). KotOR 2 only. FLOAT. Angle in degrees behind\n"
+                "                  the creature that is not perceived. Modders: 0 = no blind spot; 360 = effectively\n"
+                "                  blind. Used by AI perception.",
+            )
+        )
         self.label_110.setText(_translate("MainWindow", "Multiplier Set:"))
-        self.multiplierSetSpin.setToolTip(_translate("MainWindow", "Multiplier Set (GFF: MultiplierSet). KotOR 2 only. Stored as BYTE (0–255).\n"
-"                  Used for encounter scaling (e.g. difficulty or reward multipliers). The game reads\n"
-"                  and writes this when saving creature stats. Modders: use 0 for default behavior;\n"
-"                  other values depend on game scripts and encounter tables. Invalid or out-of-range\n"
-"                  values may have no effect or use default. Leave 0 if unsure."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.advancedTab), _translate("MainWindow", "Advanced"))
+        self.multiplierSetSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Multiplier Set (GFF: MultiplierSet). KotOR 2 only. Stored as BYTE (0–255).\n"
+                "                  Used for encounter scaling (e.g. difficulty or reward multipliers). The game reads\n"
+                "                  and writes this when saving creature stats. Modders: use 0 for default behavior;\n"
+                "                  other values depend on game scripts and encounter tables. Invalid or out-of-range\n"
+                "                  values may have no effect or use default. Leave 0 if unsure.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.advancedTab), _translate("MainWindow", "Advanced")
+        )
         self.groupBox_6.setTitle(_translate("MainWindow", "Skills"))
         self.label_17.setText(_translate("MainWindow", "Computer Use:"))
-        self.computerUseSpin.setToolTip(_translate("MainWindow", "Computer Use (GFF: SkillList Rank for this skill). BYTE 0–255. Base skill\n"
-"                 rank before modifiers. In-game: used for computer spikes, hacking, droid repair.\n"
-"                 Modders: typical ranks 0–30; 255 is max. Cross-class ranks may use negative values\n"
-"                 internally; editor uses 0–255."))
+        self.computerUseSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Computer Use (GFF: SkillList Rank for this skill). BYTE 0–255. Base skill\n"
+                "                 rank before modifiers. In-game: used for computer spikes, hacking, droid repair.\n"
+                "                 Modders: typical ranks 0–30; 255 is max. Cross-class ranks may use negative values\n"
+                "                 internally; editor uses 0–255.",
+            )
+        )
         self.label_18.setText(_translate("MainWindow", "Demolitions:"))
-        self.demolitionsSpin.setToolTip(_translate("MainWindow", "Demolitions (GFF: SkillList Rank). BYTE 0–255. Base rank for placing and\n"
-"                 disarming mines and explosives. In-game: affects trap DC and disarm checks.\n"
-"                 Modders: 0–30 typical; 255 max."))
+        self.demolitionsSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Demolitions (GFF: SkillList Rank). BYTE 0–255. Base rank for placing and\n"
+                "                 disarming mines and explosives. In-game: affects trap DC and disarm checks.\n"
+                "                 Modders: 0–30 typical; 255 max.",
+            )
+        )
         self.label_19.setText(_translate("MainWindow", "Stealth:"))
-        self.stealthSpin.setToolTip(_translate("MainWindow", "Stealth (GFF: SkillList Rank). BYTE 0–255. Base rank for hiding and moving\n"
-"                 silently. In-game: opposed by Awareness; affects detection range. Modders: 0–30\n"
-"                 typical."))
+        self.stealthSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Stealth (GFF: SkillList Rank). BYTE 0–255. Base rank for hiding and moving\n"
+                "                 silently. In-game: opposed by Awareness; affects detection range. Modders: 0–30\n"
+                "                 typical.",
+            )
+        )
         self.label_20.setText(_translate("MainWindow", "Awareness:"))
-        self.awarenessSpin.setToolTip(_translate("MainWindow", "Awareness (GFF: SkillList Rank). BYTE 0–255. Base rank for spotting traps,\n"
-"                 stealth, and hidden objects. In-game: opposed by Stealth; affects perception.\n"
-"                 Modders: 0–30 typical."))
+        self.awarenessSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Awareness (GFF: SkillList Rank). BYTE 0–255. Base rank for spotting traps,\n"
+                "                 stealth, and hidden objects. In-game: opposed by Stealth; affects perception.\n"
+                "                 Modders: 0–30 typical.",
+            )
+        )
         self.label_21.setText(_translate("MainWindow", "Persuade:"))
-        self.persuadeSpin.setToolTip(_translate("MainWindow", "Persuade (GFF: SkillList Rank). BYTE 0–255. Base rank for dialogue\n"
-"                 persuasion and intimidation. In-game: affects [Persuade] options and DCs. Modders:\n"
-"                 0–30 typical; high values make dialogue checks easier."))
+        self.persuadeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Persuade (GFF: SkillList Rank). BYTE 0–255. Base rank for dialogue\n"
+                "                 persuasion and intimidation. In-game: affects [Persuade] options and DCs. Modders:\n"
+                "                 0–30 typical; high values make dialogue checks easier.",
+            )
+        )
         self.label_22.setText(_translate("MainWindow", "Repair:"))
-        self.repairSpin.setToolTip(_translate("MainWindow", "Repair (GFF: SkillList Rank). BYTE 0–255. Base rank for repairing items and\n"
-"                 droids. In-game: affects repair DCs and droid healing. Modders: 0–30 typical."))
+        self.repairSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Repair (GFF: SkillList Rank). BYTE 0–255. Base rank for repairing items and\n"
+                "                 droids. In-game: affects repair DCs and droid healing. Modders: 0–30 typical.",
+            )
+        )
         self.label_23.setText(_translate("MainWindow", "Security:"))
-        self.securitySpin.setToolTip(_translate("MainWindow", "Security (GFF: SkillList Rank). BYTE 0–255. Base rank for unlocking doors\n"
-"                 and containers. In-game: opposed by lock DC. Modders: 0–30 typical."))
+        self.securitySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Security (GFF: SkillList Rank). BYTE 0–255. Base rank for unlocking doors\n"
+                "                 and containers. In-game: opposed by lock DC. Modders: 0–30 typical.",
+            )
+        )
         self.label_24.setText(_translate("MainWindow", "Treat Injury:"))
-        self.treatInjurySpin.setToolTip(_translate("MainWindow", "Treat Injury (GFF: SkillList Rank). BYTE 0–255. Base rank for healing with\n"
-"                 medpacs and first aid. In-game: affects heal amount and DC. Modders: 0–30 typical."))
+        self.treatInjurySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Treat Injury (GFF: SkillList Rank). BYTE 0–255. Base rank for healing with\n"
+                "                 medpacs and first aid. In-game: affects heal amount and DC. Modders: 0–30 typical.",
+            )
+        )
         self.groupBox_8.setTitle(_translate("MainWindow", "Saves"))
         self.label_31.setText(_translate("MainWindow", "Fortitude:"))
-        self.fortitudeSpin.setToolTip(_translate("MainWindow", "Fortitude save bonus (GFF: fortbonus). Stored as SHORT; engine uses signed\n"
-"                 byte range -128–127. Flat bonus added to Fortitude saving throws (Con-based).\n"
-"                 In-game: added to base save + Con modifier. Modders: 0 = no bonus; negative values\n"
-"                 weaken saves. Typical 0–10."))
+        self.fortitudeSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Fortitude save bonus (GFF: fortbonus). Stored as SHORT; engine uses signed\n"
+                "                 byte range -128–127. Flat bonus added to Fortitude saving throws (Con-based).\n"
+                "                 In-game: added to base save + Con modifier. Modders: 0 = no bonus; negative values\n"
+                "                 weaken saves. Typical 0–10.",
+            )
+        )
         self.label_32.setText(_translate("MainWindow", "Reflex:"))
         self.label_33.setText(_translate("MainWindow", "Will:"))
-        self.reflexSpin.setToolTip(_translate("MainWindow", "Reflex save bonus (GFF: refbonus). Stored as SHORT; engine uses -128–127.\n"
-"                 Flat bonus to Reflex saving throws (Dex-based). In-game: added to base save + Dex\n"
-"                 modifier. Modders: 0 = no bonus; typical 0–10."))
-        self.willSpin.setToolTip(_translate("MainWindow", "Will save bonus (GFF: willbonus). Stored as SHORT; engine uses -128–127.\n"
-"                 Flat bonus to Will saving throws (Wis-based). In-game: added to base save + Wis\n"
-"                 modifier. Modders: 0 = no bonus; typical 0–10."))
+        self.reflexSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Reflex save bonus (GFF: refbonus). Stored as SHORT; engine uses -128–127.\n"
+                "                 Flat bonus to Reflex saving throws (Dex-based). In-game: added to base save + Dex\n"
+                "                 modifier. Modders: 0 = no bonus; typical 0–10.",
+            )
+        )
+        self.willSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Will save bonus (GFF: willbonus). Stored as SHORT; engine uses -128–127.\n"
+                "                 Flat bonus to Will saving throws (Wis-based). In-game: added to base save + Wis\n"
+                "                 modifier. Modders: 0 = no bonus; typical 0–10.",
+            )
+        )
         self.groupBox_9.setTitle(_translate("MainWindow", "Armor Class"))
         self.label_34.setText(_translate("MainWindow", "Armor Class:"))
-        self.armorClassSpin.setToolTip(_translate("MainWindow", "Natural AC (GFF: NaturalAC). BYTE 0–255. Flat bonus to Armor Class from\n"
-"                 natural armor (scales, hide, etc.). The game adds this to base AC and equipment.\n"
-"                 Modders: typical values 0–20; high values make the creature very hard to hit.\n"
-"                 Stacks with armor and Dexterity."))
+        self.armorClassSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Natural AC (GFF: NaturalAC). BYTE 0–255. Flat bonus to Armor Class from\n"
+                "                 natural armor (scales, hide, etc.). The game adds this to base AC and equipment.\n"
+                "                 Modders: typical values 0–20; high values make the creature very hard to hit.\n"
+                "                 Stacks with armor and Dexterity.",
+            )
+        )
         self.groupBox_7.setTitle(_translate("MainWindow", "Attributes"))
         self.label_25.setText(_translate("MainWindow", "Strength:"))
-        self.strengthSpin.setToolTip(_translate("MainWindow", "Strength (GFF: Str). BYTE. Base strength; engine reads via ReadFieldBYTE in\n"
-"                 ReadStatsFromGff. Default when missing: 0. In-game: affects melee damage, carry\n"
-"                 weight, Str-based skills. Modders: valid range 0–255; typical values 8–20. Modifier\n"
-"                 = (Str - 10) / 2 (min -5)."))
+        self.strengthSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Strength (GFF: Str). BYTE. Base strength; engine reads via ReadFieldBYTE in\n"
+                "                 ReadStatsFromGff. Default when missing: 0. In-game: affects melee damage, carry\n"
+                "                 weight, Str-based skills. Modders: valid range 0–255; typical values 8–20. Modifier\n"
+                "                 = (Str - 10) / 2 (min -5).",
+            )
+        )
         self.label_26.setText(_translate("MainWindow", "Dexterity:"))
-        self.dexteritySpin.setToolTip(_translate("MainWindow", "Dexterity (GFF: Dex). BYTE. Base dexterity; engine reads via ReadFieldBYTE.\n"
-"                 Default when missing: 0. In-game: affects AC, reflex, ranged attack, Dex-based\n"
-"                 skills. Modders: valid range 0–255; typical 8–20."))
+        self.dexteritySpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Dexterity (GFF: Dex). BYTE. Base dexterity; engine reads via ReadFieldBYTE.\n"
+                "                 Default when missing: 0. In-game: affects AC, reflex, ranged attack, Dex-based\n"
+                "                 skills. Modders: valid range 0–255; typical 8–20.",
+            )
+        )
         self.label_27.setText(_translate("MainWindow", "Constitution:"))
-        self.constitutionSpin.setToolTip(_translate("MainWindow", "Constitution (GFF: Con). BYTE. Base constitution; engine reads via\n"
-"                 ReadFieldBYTE. Default when missing: 0. In-game: affects HP per level, fortitude.\n"
-"                 Modders: valid range 0–255; typical 8–20."))
+        self.constitutionSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Constitution (GFF: Con). BYTE. Base constitution; engine reads via\n"
+                "                 ReadFieldBYTE. Default when missing: 0. In-game: affects HP per level, fortitude.\n"
+                "                 Modders: valid range 0–255; typical 8–20.",
+            )
+        )
         self.label_28.setText(_translate("MainWindow", "Intelligence:"))
-        self.intelligenceSpin.setToolTip(_translate("MainWindow", "Intelligence (GFF: Int). BYTE. Base intelligence; engine reads via\n"
-"                 ReadFieldBYTE. Default when missing: 0. In-game: affects skill points, spell slots\n"
-"                 (wizards), Int-based skills. Modders: valid range 0–255; typical 8–20."))
+        self.intelligenceSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Intelligence (GFF: Int). BYTE. Base intelligence; engine reads via\n"
+                "                 ReadFieldBYTE. Default when missing: 0. In-game: affects skill points, spell slots\n"
+                "                 (wizards), Int-based skills. Modders: valid range 0–255; typical 8–20.",
+            )
+        )
         self.label_29.setText(_translate("MainWindow", "Wisdom:"))
-        self.wisdomSpin.setToolTip(_translate("MainWindow", "Wisdom (GFF: Wis). BYTE. Base wisdom; engine reads via ReadFieldBYTE.\n"
-"                 Default when missing: 0. In-game: affects Will, Force points (Jedi/Sith), Wis-based\n"
-"                 skills. Modders: valid range 0–255; typical 8–20."))
+        self.wisdomSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Wisdom (GFF: Wis). BYTE. Base wisdom; engine reads via ReadFieldBYTE.\n"
+                "                 Default when missing: 0. In-game: affects Will, Force points (Jedi/Sith), Wis-based\n"
+                "                 skills. Modders: valid range 0–255; typical 8–20.",
+            )
+        )
         self.label_30.setText(_translate("MainWindow", "Charisma:"))
-        self.charismaSpin.setToolTip(_translate("MainWindow", "Charisma (GFF: Cha). BYTE. Base charisma; engine reads via ReadFieldBYTE.\n"
-"                 Default when missing: 0. In-game: affects Persuade, Force points, Cha-based skills.\n"
-"                 Modders: valid range 0–255; typical 8–20."))
+        self.charismaSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Charisma (GFF: Cha). BYTE. Base charisma; engine reads via ReadFieldBYTE.\n"
+                "                 Default when missing: 0. In-game: affects Persuade, Force points, Cha-based skills.\n"
+                "                 Modders: valid range 0–255; typical 8–20.",
+            )
+        )
         self.groupBox_10.setTitle(_translate("MainWindow", "Hit Points"))
         self.label_35.setText(_translate("MainWindow", "Base HP:"))
         self.label_36.setText(_translate("MainWindow", "Current HP:"))
         self.label_37.setText(_translate("MainWindow", "Max HP:"))
-        self.baseHpSpin.setToolTip(_translate("MainWindow", "Base HP (GFF: HitPoints). SHORT. Read by the engine in ReadStatsFromGff;\n"
-"                 stored as object.hit_points (max HP before modifiers). Default when missing: 0.\n"
-"                 In-game: used as base for NPC max HP calculation (with Con modifier and level).\n"
-"                 Modders: valid range 0–32767 (signed 16-bit); for blueprints often matches or is\n"
-"                 less than Max HP. Negative values are not used by the game."))
-        self.currentHpSpin.setToolTip(_translate("MainWindow", "Current HP (GFF: CurrentHitPoints). SHORT. Creature\'s current hit points\n"
-"                 when the template is loaded; can exceed Max HP from temporary buffs. Default when\n"
-"                 missing: 0. In-game: the engine reads this then for NPCs may recompute current HP\n"
-"                 via SetCurrentHitPoints (level + Con modifier); combat and healing update this at\n"
-"                 runtime. Modders: valid range 0–32767; for blueprints set equal to Max HP for a\n"
-"                 full-health start. The game does not use negative HP."))
-        self.maxHpSpin.setToolTip(_translate("MainWindow", "Max HP (GFF: MaxHitPoints). SHORT. Maximum hit points after level and Con;\n"
-"                 the creature cannot exceed this from healing. Default when missing: 0. In-game:\n"
-"                 ceiling for healing and display. Modders: valid range 0–32767; usually ≥ Current\n"
-"                 HP; often derived from Base HP + Con. Edge case: if Current HP > Max HP (e.g.\n"
-"                 buffs), the engine may still use the stored value until next update."))
+        self.baseHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Base HP (GFF: HitPoints). SHORT. Read by the engine in ReadStatsFromGff;\n"
+                "                 stored as object.hit_points (max HP before modifiers). Default when missing: 0.\n"
+                "                 In-game: used as base for NPC max HP calculation (with Con modifier and level).\n"
+                "                 Modders: valid range 0–32767 (signed 16-bit); for blueprints often matches or is\n"
+                "                 less than Max HP. Negative values are not used by the game.",
+            )
+        )
+        self.currentHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Current HP (GFF: CurrentHitPoints). SHORT. Creature's current hit points\n"
+                "                 when the template is loaded; can exceed Max HP from temporary buffs. Default when\n"
+                "                 missing: 0. In-game: the engine reads this then for NPCs may recompute current HP\n"
+                "                 via SetCurrentHitPoints (level + Con modifier); combat and healing update this at\n"
+                "                 runtime. Modders: valid range 0–32767; for blueprints set equal to Max HP for a\n"
+                "                 full-health start. The game does not use negative HP.",
+            )
+        )
+        self.maxHpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max HP (GFF: MaxHitPoints). SHORT. Maximum hit points after level and Con;\n"
+                "                 the creature cannot exceed this from healing. Default when missing: 0. In-game:\n"
+                "                 ceiling for healing and display. Modders: valid range 0–32767; usually ≥ Current\n"
+                "                 HP; often derived from Base HP + Con. Edge case: if Current HP > Max HP (e.g.\n"
+                "                 buffs), the engine may still use the stored value until next update.",
+            )
+        )
         self.groupBox_11.setTitle(_translate("MainWindow", "Force Points"))
         self.label_39.setText(_translate("MainWindow", "Current FP:"))
-        self.currentFpSpin.setToolTip(_translate("MainWindow", "Current FP (GFF: CurrentForce). SHORT. Current Force points when the\n"
-"                 template is loaded; used by Jedi/Sith for powers. Default when missing: 0. In-game:\n"
-"                 engine reads this then for NPCs may set max FP from level and Wis/Cha modifiers.\n"
-"                 Modders: valid range 0–32767; for NPCs often set equal to Max FP for full Force."))
+        self.currentFpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Current FP (GFF: CurrentForce). SHORT. Current Force points when the\n"
+                "                 template is loaded; used by Jedi/Sith for powers. Default when missing: 0. In-game:\n"
+                "                 engine reads this then for NPCs may set max FP from level and Wis/Cha modifiers.\n"
+                "                 Modders: valid range 0–32767; for NPCs often set equal to Max FP for full Force.",
+            )
+        )
         self.label_40.setText(_translate("MainWindow", "Max FP:"))
-        self.maxFpSpin.setToolTip(_translate("MainWindow", "Max FP (GFF: ForcePoints). SHORT. Maximum Force points (from level and\n"
-"                 Wis/Cha modifiers). Default when missing: 0. In-game: ceiling for Force recovery;\n"
-"                 Jedi/Sith use this for power costs. Modders: valid range 0–32767; usually ≥ Current\n"
-"                 FP."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.statsTab), _translate("MainWindow", "Stats"))
+        self.maxFpSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Max FP (GFF: ForcePoints). SHORT. Maximum Force points (from level and\n"
+                "                 Wis/Cha modifiers). Default when missing: 0. In-game: ceiling for Force recovery;\n"
+                "                 Jedi/Sith use this for power costs. Modders: valid range 0–32767; usually ≥ Current\n"
+                "                 FP.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.statsTab), _translate("MainWindow", "Stats")
+        )
         self.groupBox_13.setTitle(_translate("MainWindow", "Classes"))
-        self.class1Select.setToolTip(_translate("MainWindow", "Class 1 (GFF: ClassList[0].Class). Index into classes.2da. The creature\'s\n"
-"                 primary class (e.g. Soldier, Scout, Jedi Guardian). Determines BAB, saves, and\n"
-"                 available feats. Modders: must pick a valid row; this plus Class 2 define the\n"
-"                 creature\'s progression."))
-        self.class1LevelSpin.setToolTip(_translate("MainWindow", "Class 1 Level (GFF: ClassList[0].ClassLevel). SHORT 0–32767. Level in the\n"
-"                 first class; determines HP, BAB, saves, and skill points. The game uses this for\n"
-"                 all level-based calculations. Modders: typical 1–20; must be at least 1 for a valid\n"
-"                 class. Stored as signed 16-bit."))
-        self.class2Select.setToolTip(_translate("MainWindow", "Class 2 (GFF: ClassList[1].Class). Index into classes.2da. Optional second\n"
-"                 class for multiclassing. Choose [Unset] for single-class. Modders: multiclass uses\n"
-"                 the higher BAB/save progression; both classes contribute to HP and skills."))
-        self.class2LevelSpin.setToolTip(_translate("MainWindow", "Class 2 Level (GFF: ClassList[1].ClassLevel). SHORT 0–32767. Level in the\n"
-"                 second class (multiclass). Use [Unset] in the class dropdown to have only one\n"
-"                 class. Modders: typical 1–20; total levels (class1 + class2) drive BAB and saves."))
+        self.class1Select.setToolTip(
+            _translate(
+                "MainWindow",
+                "Class 1 (GFF: ClassList[0].Class). Index into classes.2da. The creature's\n"
+                "                 primary class (e.g. Soldier, Scout, Jedi Guardian). Determines BAB, saves, and\n"
+                "                 available feats. Modders: must pick a valid row; this plus Class 2 define the\n"
+                "                 creature's progression.",
+            )
+        )
+        self.class1LevelSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Class 1 Level (GFF: ClassList[0].ClassLevel). SHORT 0–32767. Level in the\n"
+                "                 first class; determines HP, BAB, saves, and skill points. The game uses this for\n"
+                "                 all level-based calculations. Modders: typical 1–20; must be at least 1 for a valid\n"
+                "                 class. Stored as signed 16-bit.",
+            )
+        )
+        self.class2Select.setToolTip(
+            _translate(
+                "MainWindow",
+                "Class 2 (GFF: ClassList[1].Class). Index into classes.2da. Optional second\n"
+                "                 class for multiclassing. Choose [Unset] for single-class. Modders: multiclass uses\n"
+                "                 the higher BAB/save progression; both classes contribute to HP and skills.",
+            )
+        )
+        self.class2LevelSpin.setToolTip(
+            _translate(
+                "MainWindow",
+                "Class 2 Level (GFF: ClassList[1].ClassLevel). SHORT 0–32767. Level in the\n"
+                "                 second class (multiclass). Use [Unset] in the class dropdown to have only one\n"
+                "                 class. Modders: typical 1–20; total levels (class1 + class2) drive BAB and saves.",
+            )
+        )
         self.groupBox_12.setTitle(_translate("MainWindow", "Alignment"))
         self.label_52.setText(_translate("MainWindow", "Dark"))
-        self.alignmentSlider.setToolTip(_translate("MainWindow", "Alignment (GFF: GoodEvil). 0 = Dark, 100 = Light. Stored as BYTE; the game\n"
-"               clamps values over 100 down to 100. Affects portrait (light-side vs dark-side face),\n"
-"               dialogue options, and story flags. Modders: 50 = neutral; 0 or 100 for full\n"
-"               dark/light. Does not affect combat stats. Edge case: values above 100 in the GFF are\n"
-"               clamped when loaded."))
+        self.alignmentSlider.setToolTip(
+            _translate(
+                "MainWindow",
+                "Alignment (GFF: GoodEvil). 0 = Dark, 100 = Light. Stored as BYTE; the game\n"
+                "               clamps values over 100 down to 100. Affects portrait (light-side vs dark-side face),\n"
+                "               dialogue options, and story flags. Modders: 50 = neutral; 0 or 100 for full\n"
+                "               dark/light. Does not affect combat stats. Edge case: values above 100 in the GFF are\n"
+                "               clamped when loaded.",
+            )
+        )
         self.label_53.setText(_translate("MainWindow", "Light"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.classesTab), _translate("MainWindow", "Classes"))
-        self.featList.setToolTip(_translate("MainWindow", "Feat List (GFF: FeatList). Lists all feats granted to this creature. Each entry\n"
-"            stores a Feat index (BYTE 0–255) referencing feats.2da. The game uses these to grant\n"
-"            abilities such as Weapon Proficiency, Power Attack, or class-specific feats. Modders:\n"
-"            add/remove feats to customize NPC capabilities. The creature must meet prereqs in\n"
-"            feats.2da or the feat may have no effect. Duplicate feat IDs are allowed in the GFF but\n"
-"            typically unnecessary. Use the Add/Remove buttons to manage entries."))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.classesTab), _translate("MainWindow", "Classes")
+        )
+        self.featList.setToolTip(
+            _translate(
+                "MainWindow",
+                "Feat List (GFF: FeatList). Lists all feats granted to this creature. Each entry\n"
+                "            stores a Feat index (BYTE 0–255) referencing feats.2da. The game uses these to grant\n"
+                "            abilities such as Weapon Proficiency, Power Attack, or class-specific feats. Modders:\n"
+                "            add/remove feats to customize NPC capabilities. The creature must meet prereqs in\n"
+                "            feats.2da or the feat may have no effect. Duplicate feat IDs are allowed in the GFF but\n"
+                "            typically unnecessary. Use the Add/Remove buttons to manage entries.",
+            )
+        )
         self.groupBox_14.setTitle(_translate("MainWindow", "Feat Summary"))
-        self.featSummaryEdit.setToolTip(_translate("MainWindow", "Read-only summary of the creature\'s feats (GFF: FeatList). Lists feat names\n"
-"               from feats.2da for each Feat index in the list. Add or remove feats using the Feat\n"
-"               list above; this panel updates automatically. The game grants these feats when the\n"
-"               creature loads."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.featsTab), _translate("MainWindow", "Feats"))
-        self.powerList.setToolTip(_translate("MainWindow", "Force Power List (GFF: ClassList → KnownList0/1/2). Lists Force powers and spells\n"
-"            known by this creature. Powers are stored per class in ClassList: each class has\n"
-"            KnownList0 (level 1), KnownList1 (level 2), KnownList2 (level 3) containing Spell IDs\n"
-"            (WORD 0–65535) that reference spells.2da. The game uses these for Jedi/Sith Force\n"
-"            abilities and special attacks. Modders: add powers to grant Force Push, Heal, etc.;\n"
-"            remove to restrict NPCs. Powers must match the creature\'s classes (e.g. Jedi Guardian\n"
-"            powers for Guardian class). Invalid spell IDs are ignored at runtime."))
+        self.featSummaryEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Read-only summary of the creature's feats (GFF: FeatList). Lists feat names\n"
+                "               from feats.2da for each Feat index in the list. Add or remove feats using the Feat\n"
+                "               list above; this panel updates automatically. The game grants these feats when the\n"
+                "               creature loads.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.featsTab), _translate("MainWindow", "Feats")
+        )
+        self.powerList.setToolTip(
+            _translate(
+                "MainWindow",
+                "Force Power List (GFF: ClassList → KnownList0/1/2). Lists Force powers and spells\n"
+                "            known by this creature. Powers are stored per class in ClassList: each class has\n"
+                "            KnownList0 (level 1), KnownList1 (level 2), KnownList2 (level 3) containing Spell IDs\n"
+                "            (WORD 0–65535) that reference spells.2da. The game uses these for Jedi/Sith Force\n"
+                "            abilities and special attacks. Modders: add powers to grant Force Push, Heal, etc.;\n"
+                "            remove to restrict NPCs. Powers must match the creature's classes (e.g. Jedi Guardian\n"
+                "            powers for Guardian class). Invalid spell IDs are ignored at runtime.",
+            )
+        )
         self.groupBox_29.setTitle(_translate("MainWindow", "Force Power Summary"))
-        self.powerSummaryEdit.setToolTip(_translate("MainWindow", "Read-only summary of the creature\'s Force powers and spells (GFF: ClassList →\n"
-"               KnownList0/1/2). Lists power names from spells.2da. Add or remove powers using the\n"
-"               Powers list above; this panel updates automatically. The game grants these abilities\n"
-"               when the creature loads."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.powersTab), _translate("MainWindow", "Powers"))
+        self.powerSummaryEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "Read-only summary of the creature's Force powers and spells (GFF: ClassList →\n"
+                "               KnownList0/1/2). Lists power names from spells.2da. Add or remove powers using the\n"
+                "               Powers list above; this panel updates automatically. The game grants these abilities\n"
+                "               when the creature loads.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.powersTab), _translate("MainWindow", "Powers")
+        )
         self.label_95.setText(_translate("MainWindow", "OnBlocked:"))
-        self.onBlockedEdit.setToolTip(_translate("MainWindow", "On Blocked (GFF: ScriptOnBlocked). ResRef of NCS script (max 16 chars). Fires\n"
-"              when the creature\'s movement is blocked (e.g. by a door or another creature). Leave\n"
-"              blank for no script. Modders: use for custom blocked behavior or pathing logic."))
+        self.onBlockedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Blocked (GFF: ScriptOnBlocked). ResRef of NCS script (max 16 chars). Fires\n"
+                "              when the creature's movement is blocked (e.g. by a door or another creature). Leave\n"
+                "              blank for no script. Modders: use for custom blocked behavior or pathing logic.",
+            )
+        )
         self.label_106.setText(_translate("MainWindow", "OnAttacked:"))
-        self.onAttackedEdit.setToolTip(_translate("MainWindow", "On Attacked (GFF: ScriptAttacked). ResRef of NCS script. Fires when the\n"
-"              creature is targeted by an attack (before damage). Use for counter-attacks or\n"
-"              dialogue. Leave blank for no script. Max 16 characters."))
+        self.onAttackedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Attacked (GFF: ScriptAttacked). ResRef of NCS script. Fires when the\n"
+                "              creature is targeted by an attack (before damage). Use for counter-attacks or\n"
+                "              dialogue. Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_96.setText(_translate("MainWindow", "OnNoticed:"))
-        self.onNoticeEdit.setToolTip(_translate("MainWindow", "On Noticed (GFF: ScriptOnNotice). ResRef of NCS script. Fires when the creature\n"
-"              notices an enemy (enters perception). Use for alarm, dialogue, or AI triggers. Leave\n"
-"              blank for no script. Max 16 characters."))
+        self.onNoticeEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Noticed (GFF: ScriptOnNotice). ResRef of NCS script. Fires when the creature\n"
+                "              notices an enemy (enters perception). Use for alarm, dialogue, or AI triggers. Leave\n"
+                "              blank for no script. Max 16 characters.",
+            )
+        )
         self.label_97.setText(_translate("MainWindow", "OnConversation:"))
-        self.onConversationEdit.setToolTip(_translate("MainWindow", "On Conversation (GFF: ScriptDialogue). ResRef of NCS script. Fires when the\n"
-"              player starts dialogue with this creature (before the DLG runs). Use to set variables\n"
-"              or change state. Leave blank for no script. Max 16 characters."))
+        self.onConversationEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Conversation (GFF: ScriptDialogue). ResRef of NCS script. Fires when the\n"
+                "              player starts dialogue with this creature (before the DLG runs). Use to set variables\n"
+                "              or change state. Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_98.setText(_translate("MainWindow", "OnDamaged:"))
-        self.onDamagedEdit.setToolTip(_translate("MainWindow", "On Damaged (GFF: ScriptDamaged). ResRef of NCS script. Fires when the creature\n"
-"              takes damage. Use for pain barks, counters, or state changes. Leave blank for no\n"
-"              script. Max 16 characters."))
+        self.onDamagedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Damaged (GFF: ScriptDamaged). ResRef of NCS script. Fires when the creature\n"
+                "              takes damage. Use for pain barks, counters, or state changes. Leave blank for no\n"
+                "              script. Max 16 characters.",
+            )
+        )
         self.label_109.setText(_translate("MainWindow", "OnDeath:"))
-        self.onDeathEdit.setToolTip(_translate("MainWindow", "On Death (GFF: ScriptDeath). ResRef of NCS script. Fires when the creature\n"
-"              dies. Use for loot drops, quest updates, or spawning. Leave blank for no script. Max\n"
-"              16 characters."))
+        self.onDeathEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Death (GFF: ScriptDeath). ResRef of NCS script. Fires when the creature\n"
+                "              dies. Use for loot drops, quest updates, or spawning. Leave blank for no script. Max\n"
+                "              16 characters.",
+            )
+        )
         self.label_107.setText(_translate("MainWindow", "OnEndRound:"))
-        self.onEndRoundEdit.setToolTip(_translate("MainWindow", "On End Round (GFF: ScriptEndRound). ResRef of NCS script. Fires at the end of\n"
-"              each combat round while the creature is in combat. Use for per-round effects or AI.\n"
-"              Leave blank for no script. Max 16 characters."))
+        self.onEndRoundEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On End Round (GFF: ScriptEndRound). ResRef of NCS script. Fires at the end of\n"
+                "              each combat round while the creature is in combat. Use for per-round effects or AI.\n"
+                "              Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_108.setText(_translate("MainWindow", "OnEndConversation:"))
-        self.onEndConversationEdit.setToolTip(_translate("MainWindow", "On End Conversation (GFF: ScriptEndDialogu). ResRef of NCS script. Fires when\n"
-"              the player ends dialogue with this creature. Use to apply choices or set flags. Leave\n"
-"              blank for no script. Max 16 characters."))
+        self.onEndConversationEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On End Conversation (GFF: ScriptEndDialogu). ResRef of NCS script. Fires when\n"
+                "              the player ends dialogue with this creature. Use to apply choices or set flags. Leave\n"
+                "              blank for no script. Max 16 characters.",
+            )
+        )
         self.label_100.setText(_translate("MainWindow", "OnDisturbed:"))
-        self.onDisturbedEdit.setToolTip(_translate("MainWindow", "On Disturbed (GFF: ScriptDisturbed). ResRef of NCS script. Fires when the\n"
-"              creature\'s inventory is opened or items are added/removed. Use for trap or theft\n"
-"              detection. Leave blank for no script. Max 16 characters."))
+        self.onDisturbedEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Disturbed (GFF: ScriptDisturbed). ResRef of NCS script. Fires when the\n"
+                "              creature's inventory is opened or items are added/removed. Use for trap or theft\n"
+                "              detection. Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_101.setText(_translate("MainWindow", "OnHeartbeat:"))
-        self.onHeartbeatSelect.setToolTip(_translate("MainWindow", "On Heartbeat (GFF: ScriptHeartbeat). ResRef of NCS script. Fires periodically\n"
-"              (every few seconds) while the creature is in the area. Use for patrols, timers, or\n"
-"              ambient behavior. Leave blank for no script. Max 16 characters."))
+        self.onHeartbeatSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Heartbeat (GFF: ScriptHeartbeat). ResRef of NCS script. Fires periodically\n"
+                "              (every few seconds) while the creature is in the area. Use for patrols, timers, or\n"
+                "              ambient behavior. Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_103.setText(_translate("MainWindow", "OnSpawn:"))
-        self.onSpawnEdit.setToolTip(_translate("MainWindow", "On Spawn (GFF: ScriptSpawn). ResRef of NCS script. Fires once when the creature\n"
-"              is first created in the area. Use for initial setup, variables, or equipment. Leave\n"
-"              blank for no script. Max 16 characters."))
+        self.onSpawnEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Spawn (GFF: ScriptSpawn). ResRef of NCS script. Fires once when the creature\n"
+                "              is first created in the area. Use for initial setup, variables, or equipment. Leave\n"
+                "              blank for no script. Max 16 characters.",
+            )
+        )
         self.label_104.setText(_translate("MainWindow", "OnSpellCastAt:"))
-        self.onSpellCastEdit.setToolTip(_translate("MainWindow", "On Spell Cast At (GFF: ScriptSpellAt). ResRef of NCS script. Fires when a spell\n"
-"              or power is cast at this creature (before effect). Use for reflection or counters.\n"
-"              Leave blank for no script. Max 16 characters."))
+        self.onSpellCastEdit.setToolTip(
+            _translate(
+                "MainWindow",
+                "On Spell Cast At (GFF: ScriptSpellAt). ResRef of NCS script. Fires when a spell\n"
+                "              or power is cast at this creature (before effect). Use for reflection or counters.\n"
+                "              Leave blank for no script. Max 16 characters.",
+            )
+        )
         self.label_105.setText(_translate("MainWindow", "OnUserDefined:"))
-        self.onUserDefinedSelect.setToolTip(_translate("MainWindow", "On User Defined (GFF: ScriptUserDefine). ResRef of NCS script. Fires when\n"
-"              another script calls ExecuteScript with this creature and the user-defined event. Use\n"
-"              for custom triggers from dialogue or other scripts. Leave blank for no script. Max 16\n"
-"              characters."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Scripts), _translate("MainWindow", "Scripts"))
-        self.comments.setToolTip(_translate("MainWindow", "Comments (GFF: Comment). CExoString. Developer notes only—the game never reads or\n"
-"            displays this. Use it to document the creature (e.g. purpose, author, change log).\n"
-"            Modders: add notes for yourself or your team; no length limit in GFF, but keep readable."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments"))
+        self.onUserDefinedSelect.setToolTip(
+            _translate(
+                "MainWindow",
+                "On User Defined (GFF: ScriptUserDefine). ResRef of NCS script. Fires when\n"
+                "              another script calls ExecuteScript with this creature and the user-defined event. Use\n"
+                "              for custom triggers from dialogue or other scripts. Leave blank for no script. Max 16\n"
+                "              characters.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.Scripts), _translate("MainWindow", "Scripts")
+        )
+        self.comments.setToolTip(
+            _translate(
+                "MainWindow",
+                "Comments (GFF: Comment). CExoString. Developer notes only—the game never reads or\n"
+                "            displays this. Use it to document the creature (e.g. purpose, author, change log).\n"
+                "            Modders: add notes for yourself or your team; no length limit in GFF, but keep readable.",
+            )
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.commentsTab), _translate("MainWindow", "Comments")
+        )
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuTools.setTitle(_translate("MainWindow", "Tools"))
         self.menuView.setTitle(_translate("MainWindow", "View"))
@@ -1793,6 +2453,8 @@ class Ui_MainWindow(object):
         self.actionSaveUnusedFields.setText(_translate("MainWindow", "Save Unused Fields"))
         self.actionAlwaysSaveK2Fields.setText(_translate("MainWindow", "Always Save K2 Fields"))
         self.actionShowPreview.setText(_translate("MainWindow", "Show Preview"))
+
+
 from toolset.gui.widgets.edit.combobox_2da import ComboBox2DA
 from toolset.gui.widgets.edit.locstring import LocalizedStringLineEdit
 from toolset.gui.widgets.renderer.model import ModelRenderer

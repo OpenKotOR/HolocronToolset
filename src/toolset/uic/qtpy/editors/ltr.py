@@ -295,7 +295,9 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End"))
         self.buttonAddSingle.setText(_translate("MainWindow", "Add Row"))
         self.buttonRemoveSingle.setText(_translate("MainWindow", "Remove Selected Row"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSingles), _translate("MainWindow", "Singles"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabSingles), _translate("MainWindow", "Singles")
+        )
         self.labelDoublePrevChar.setText(_translate("MainWindow", "Previous Character"))
         self.labelDoubleChar.setText(_translate("MainWindow", "Character"))
         self.labelDoubleStart.setText(_translate("MainWindow", "Start"))
@@ -314,7 +316,9 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End"))
         self.buttonAddDouble.setText(_translate("MainWindow", "Add Row"))
         self.buttonRemoveDouble.setText(_translate("MainWindow", "Remove Selected Row"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabDoubles), _translate("MainWindow", "Doubles"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabDoubles), _translate("MainWindow", "Doubles")
+        )
         self.labelTriplePrev2Char.setText(_translate("MainWindow", "Previous Character 2"))
         self.labelTriplePrev1Char.setText(_translate("MainWindow", "Previous Character 1"))
         self.labelTripleChar.setText(_translate("MainWindow", "Character"))
@@ -336,7 +340,9 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End"))
         self.buttonAddTriple.setText(_translate("MainWindow", "Add Row"))
         self.buttonRemoveTriple.setText(_translate("MainWindow", "Remove Selected Row"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTriples), _translate("MainWindow", "Triples"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tabTriples), _translate("MainWindow", "Triples")
+        )
         self.buttonGenerate.setText(_translate("MainWindow", "Generate Name"))
         self.lineEditGeneratedName.setPlaceholderText(_translate("MainWindow", "Generated Name"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))

@@ -40,10 +40,22 @@ class MiscWidget(QWidget):
         self.noScrollEventFilter: NoScrollEventFilter = NoScrollEventFilter(self)
         self.installEventFilters(self, self.noScrollEventFilter)
 
-    def installEventFilters(self, parent_widget: QWidget, event_filter: QObject, include_types: list[type[QWidget]] | None = None) -> None:
+    def installEventFilters(
+        self,
+        parent_widget: QWidget,
+        event_filter: QObject,
+        include_types: list[type[QWidget]] | None = None,
+    ) -> None:
         """Recursively install event filters on all child widgets."""
         if include_types is None:
-            include_types = [QComboBox, QSlider, QSpinBox, QGroupBox, QAbstractSpinBox, QDoubleSpinBox]
+            include_types = [
+                QComboBox,
+                QSlider,
+                QSpinBox,
+                QGroupBox,
+                QAbstractSpinBox,
+                QDoubleSpinBox,
+            ]
 
         for widget in parent_widget.findChildren(QWidget):
             if not widget.objectName():

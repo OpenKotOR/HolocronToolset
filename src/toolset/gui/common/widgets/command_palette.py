@@ -24,7 +24,11 @@ class CommandPalette(QDialog):
 
     def __init__(self, parent: QWidget | None = None):
         super().__init__(parent)
-        self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.setWindowFlags(
+            Qt.WindowType.Dialog
+            | Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.WindowStaysOnTopHint
+        )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setMinimumWidth(500)
         self.setMaximumWidth(700)
@@ -52,7 +56,9 @@ class CommandPalette(QDialog):
         self.ui.commandList.itemDoubleClicked.connect(self._on_item_double_clicked)
         self.ui.commandList.itemActivated.connect(self._on_item_activated)
 
-    def register_command(self, command_id: str, label: str, category: str = "", callback: Callable | None = None):
+    def register_command(
+        self, command_id: str, label: str, category: str = "", callback: Callable | None = None
+    ):
         """Register a command in the palette.
 
         Args:
@@ -62,7 +68,12 @@ class CommandPalette(QDialog):
             category: str: Category for grouping
             callback: Callable | None: Optional callback function
         """
-        self._commands[command_id] = {"label": label, "category": category, "callback": callback, "keywords": f"{label} {category} {command_id}".lower()}
+        self._commands[command_id] = {
+            "label": label,
+            "category": category,
+            "callback": callback,
+            "keywords": f"{label} {category} {command_id}".lower(),
+        }
         self._refresh_list()
 
     def register_commands(self, commands: list[dict[str, Any]]):
@@ -73,7 +84,9 @@ class CommandPalette(QDialog):
             commands: list[dict]: List of command dicts with 'id', 'label', 'category', optionally 'callback'
         """
         for cmd in commands:
-            self.register_command(cmd["id"], cmd["label"], cmd.get("category", ""), cmd.get("callback"))
+            self.register_command(
+                cmd["id"], cmd["label"], cmd.get("category", ""), cmd.get("callback")
+            )
 
     def _refresh_list(self):
         """Refresh the command list."""
@@ -81,7 +94,9 @@ class CommandPalette(QDialog):
         self._filtered_items = []
 
         # Sort commands by category then label
-        sorted_commands = sorted(self._commands.items(), key=lambda x: (x[1]["category"], x[1]["label"]))
+        sorted_commands = sorted(
+            self._commands.items(), key=lambda x: (x[1]["category"], x[1]["label"])
+        )
 
         current_category = ""
         for command_id, command_data in sorted_commands:
@@ -145,7 +160,9 @@ class CommandPalette(QDialog):
 
         # Update status
         if visible_count > 0:
-            self.ui.statusLabel.setText(f"{visible_count} command{'s' if visible_count != 1 else ''}")
+            self.ui.statusLabel.setText(
+                f"{visible_count} command{'s' if visible_count != 1 else ''}"
+            )
             if first_visible >= 0:
                 self.ui.commandList.setCurrentRow(first_visible)
         else:
@@ -197,7 +214,11 @@ class CommandPalette(QDialog):
             current_row = self.ui.commandList.currentRow()
             for i in range(current_row + 1, self.ui.commandList.count()):
                 item = self.ui.commandList.item(i)
-                if item is not None and not item.isHidden() and item.flags() != Qt.ItemFlag.NoItemFlags:
+                if (
+                    item is not None
+                    and not item.isHidden()
+                    and item.flags() != Qt.ItemFlag.NoItemFlags
+                ):
                     self.ui.commandList.setCurrentRow(i)
                     break
             event.accept()
@@ -207,7 +228,11 @@ class CommandPalette(QDialog):
             current_row = self.ui.commandList.currentRow()
             for i in range(current_row - 1, -1, -1):
                 item = self.ui.commandList.item(i)
-                if item is not None and not item.isHidden() and item.flags() != Qt.ItemFlag.NoItemFlags:
+                if (
+                    item is not None
+                    and not item.isHidden()
+                    and item.flags() != Qt.ItemFlag.NoItemFlags
+                ):
                     self.ui.commandList.setCurrentRow(i)
                     break
             event.accept()

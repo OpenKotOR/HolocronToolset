@@ -59,7 +59,9 @@ if __name__ == "__main__":
         pykotor_path = file_absolute_path.parents[6] / "Libraries" / "PyKotor" / "src" / "pykotor"
         if pykotor_path.exists():
             update_sys_path(pykotor_path.parent)
-        pykotor_gl_path = file_absolute_path.parents[6] / "Libraries" / "PyKotorGL" / "src" / "pykotor"
+        pykotor_gl_path = (
+            file_absolute_path.parents[6] / "Libraries" / "PyKotorGL" / "src" / "pykotor"
+        )
         if pykotor_gl_path.exists():
             update_sys_path(pykotor_gl_path.parent)
         utility_path = file_absolute_path.parents[6] / "Libraries" / "Utility" / "src"
@@ -152,7 +154,9 @@ class UpdateDialog(QDialog):
             self.ui.releaseComboBox.addItem(release.tag_name, release)
             if release.tag_name == version_to_toolset_tag(LOCAL_PROGRAM_INFO["currentVersion"]):
                 index = self.ui.releaseComboBox.count() - 1
-                self.ui.releaseComboBox.setItemData(index, QFont("Arial", 10, QFont.Weight.Bold), Qt.ItemDataRole.FontRole)
+                self.ui.releaseComboBox.setItemData(
+                    index, QFont("Arial", 10, QFont.Weight.Bold), Qt.ItemDataRole.FontRole
+                )
 
         # Update current version display
         self._update_current_version_display()
@@ -160,7 +164,9 @@ class UpdateDialog(QDialog):
     def init_config(self):
         self.set_prerelease(False)
         self.fetch_and_cache_forks_with_releases()
-        self.forks_cache["th3w1zard1/PyKotor"] = self.fetch_fork_releases("th3w1zard1/PyKotor", include_all=True)
+        self.forks_cache["th3w1zard1/PyKotor"] = self.fetch_fork_releases(
+            "th3w1zard1/PyKotor", include_all=True
+        )
         self.populate_fork_combo_box()
         self.on_fork_changed(self.ui.forkComboBox.currentIndex())
 
@@ -177,7 +183,9 @@ class UpdateDialog(QDialog):
             for fork in forks_json:
                 fork_owner_login: str = fork["owner"]["login"]
                 fork_full_name: str = f"{fork_owner_login}/{fork['name']}"
-                self.forks_cache[fork_full_name] = self.fetch_fork_releases(fork_full_name, include_all=True)
+                self.forks_cache[fork_full_name] = self.fetch_fork_releases(
+                    fork_full_name, include_all=True
+                )
         except requests.HTTPError as e:
             RobustLogger().exception(f"Failed to fetch forks: {e}")
 
@@ -197,7 +205,11 @@ class UpdateDialog(QDialog):
             releases_json: list[dict[str, Any]] = response.json()
             if include_all:
                 return [GithubRelease.from_json(r) for r in releases_json]
-            return [GithubRelease.from_json(r) for r in releases_json if not r["draft"] and (self.include_prerelease() or not r["prerelease"])]
+            return [
+                GithubRelease.from_json(r)
+                for r in releases_json
+                if not r["draft"] and (self.include_prerelease() or not r["prerelease"])
+            ]
         except requests.HTTPError as e:
             RobustLogger().exception(f"Failed to fetch releases for {fork_full_name}: {e}")
             return []
@@ -220,12 +232,16 @@ class UpdateDialog(QDialog):
             self.releases = [
                 release
                 for release in self.forks_cache[selected_fork]
-                if not release.draft and "toolset" in release.tag_name.lower() and (self.include_prerelease() or not release.prerelease)
+                if not release.draft
+                and "toolset" in release.tag_name.lower()
+                and (self.include_prerelease() or not release.prerelease)
             ]
         else:
             self.releases = []
 
-        if not self.include_prerelease() and not self.releases:  # Don't show empty release comboboxes.
+        if (
+            not self.include_prerelease() and not self.releases
+        ):  # Don't show empty release comboboxes.
             print("No releases found, attempt to try again with prereleases")
             self.set_prerelease(True)
             return
@@ -248,7 +264,9 @@ class UpdateDialog(QDialog):
         self.filter_releases_based_on_prerelease()
 
     def get_selected_tag(self) -> str:
-        release: GithubRelease = self.ui.releaseComboBox.itemData(self.ui.releaseComboBox.currentIndex())
+        release: GithubRelease = self.ui.releaseComboBox.itemData(
+            self.ui.releaseComboBox.currentIndex()
+        )
         return release.tag_name if release else ""
 
     def on_release_changed(
@@ -289,7 +307,11 @@ class UpdateDialog(QDialog):
         current_version = LOCAL_PROGRAM_INFO["currentVersion"]
         try:
             selected_tag = self.get_selected_tag()
-            version_color: str = warning_color.name() if is_remote_version_newer(current_version, toolset_tag_to_version(selected_tag)) else success_color.name()
+            version_color: str = (
+                warning_color.name()
+                if is_remote_version_newer(current_version, toolset_tag_to_version(selected_tag))
+                else success_color.name()
+            )
         except Exception:
             version_color = success_color.name()
         version_text = f"<span style='font-size:16px; font-weight:bold; color:{version_color};'>{current_version}</span>"
@@ -313,7 +335,11 @@ class UpdateDialog(QDialog):
         if not release:
             from toolset.gui.common.localization import translate as tr
 
-            QMessageBox(QMessageBox.Icon.Information, tr("Select a release"), tr("No release selected, select one first.")).exec()
+            QMessageBox(
+                QMessageBox.Icon.Information,
+                tr("Select a release"),
+                tr("No release selected, select one first."),
+            ).exec()
             return
         self.start_update(release)
 
@@ -324,7 +350,14 @@ class UpdateDialog(QDialog):
         # sourcery skip: remove-unreachable-code
         os_name: str = platform.system().lower()
         proc_arch: str = ProcessorArchitecture.from_os().get_machine_repr()
-        asset: Asset | None = next((a for a in release.assets if proc_arch in a.name.lower() and os_name in a.name.lower()), None)
+        asset: Asset | None = next(
+            (
+                a
+                for a in release.assets
+                if proc_arch in a.name.lower() and os_name in a.name.lower()
+            ),
+            None,
+        )
 
         if asset:
             download_url: str = asset.browser_download_url
@@ -337,10 +370,15 @@ class UpdateDialog(QDialog):
             result = QMessageBox(  # noqa: F841
                 QMessageBox.Icon.Question,
                 tr("No asset found for this release."),
-                tr("There are no binaries available for download for release '{tag}'.", tag=release.tag_name),  # Would you like to compile this release from source instead?",
+                tr(
+                    "There are no binaries available for download for release '{tag}'.",
+                    tag=release.tag_name,
+                ),  # Would you like to compile this release from source instead?",
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                 None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             ).exec()
 
         progress_queue = Queue()
@@ -393,7 +431,9 @@ class UpdateDialog(QDialog):
         try:
             progress_queue.put({"action": "update_status", "text": "Downloading update..."})
             updater.download(background=False)
-            progress_queue.put({"action": "update_status", "text": "Restarting and Applying update..."})
+            progress_queue.put(
+                {"action": "update_status", "text": "Restarting and Applying update..."}
+            )
             updater.extract_restart()
             progress_queue.put({"action": "update_status", "text": "Cleaning up..."})
             updater.cleanup()

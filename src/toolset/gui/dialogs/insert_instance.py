@@ -49,7 +49,9 @@ class InsertInstanceDialog(QDialog):
         self.setWindowFlags(
             Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
             | Qt.WindowType.WindowCloseButtonHint
-            | Qt.WindowType.WindowStaysOnTopHint & ~Qt.WindowType.WindowContextHelpButtonHint & ~Qt.WindowType.WindowMinMaxButtonsHint,
+            | Qt.WindowType.WindowStaysOnTopHint
+            & ~Qt.WindowType.WindowContextHelpButtonHint
+            & ~Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         self._installation: HTInstallation = installation
@@ -87,7 +89,9 @@ class InsertInstanceDialog(QDialog):
         self.ui.resourceList.itemSelectionChanged.connect(self.on_resource_selected)
 
     def _setup_location_select(self):
-        self.ui.locationSelect.addItem(str(self._installation.override_path()), self._installation.override_path())
+        self.ui.locationSelect.addItem(
+            str(self._installation.override_path()), self._installation.override_path()
+        )
         for capsule in self._module.capsules():
             if is_rim_file(capsule.filepath()) and GlobalSettings().disableRIMSaving:
                 continue
@@ -122,9 +126,13 @@ class InsertInstanceDialog(QDialog):
                 self.ui.resourceList.addItem(item)
 
         for capsule in self._module.capsules():
-            for resource in (resource for resource in capsule if resource.restype() == self._restype):
+            for resource in (
+                resource for resource in capsule if resource.restype() == self._restype
+            ):
                 if resource.restype() == self._restype:
-                    item = self._create_resource_list_item(resource, foreground_brush=QBrush(text_color))
+                    item = self._create_resource_list_item(
+                        resource, foreground_brush=QBrush(text_color)
+                    )
                     self.ui.resourceList.addItem(item)
 
         if self.ui.resourceList.count():
@@ -148,11 +156,15 @@ class InsertInstanceDialog(QDialog):
 
             BetterMessageBox(
                 tr("Choose an instance"),
-                tr("You must choose an instance, use the radial buttons to determine where/how to create the GIT instance."),
+                tr(
+                    "You must choose an instance, use the radial buttons to determine where/how to create the GIT instance."
+                ),
                 icon=QMessageBox.Critical,
             ).exec()
             return
-        resource: FileResource = self.ui.resourceList.selectedItems()[0].data(Qt.ItemDataRole.UserRole)
+        resource: FileResource = self.ui.resourceList.selectedItems()[0].data(
+            Qt.ItemDataRole.UserRole
+        )
 
         if self.ui.reuseResourceRadio.isChecked():
             new = False
@@ -207,7 +219,9 @@ class InsertInstanceDialog(QDialog):
         self.ui.resrefEdit.setEnabled(not self.ui.reuseResourceRadio.isChecked())
 
         if self.ui.reuseResourceRadio.isChecked():
-            button: QPushButton | None = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Ok)  # pyright: ignore[reportArgumentType]
+            button: QPushButton | None = self.ui.buttonBox.button(
+                QDialogButtonBox.StandardButton.Ok
+            )  # pyright: ignore[reportArgumentType]
             assert button is not None, "buttonBox does not have an OK button assigned."
             button.setEnabled(True)
 
@@ -237,7 +251,9 @@ class InsertInstanceDialog(QDialog):
                     modelname: str = door.get_model(read_utd(resource.data()), self._installation)
                     self.set_render_model(modelname)
                 elif resource.restype() == ResourceType.UTP and self.global_settings.showPreviewUTP:
-                    modelname: str = placeable.get_model(read_utp(resource.data()), self._installation)
+                    modelname: str = placeable.get_model(
+                        read_utp(resource.data()), self._installation
+                    )
                     self.set_render_model(modelname)
                 elif resource.restype() in (ResourceType.MDL, ResourceType.MDX) and any(
                     (
@@ -256,7 +272,9 @@ class InsertInstanceDialog(QDialog):
                             rim = read_rim(resource.filepath())
                             mdx_data = rim.get(resource.resname(), ResourceType.MDX)
                         elif is_bif_file(resource.filepath().name):
-                            mdx_res: ResourceResult | None = self._installation.resource(resource.resname(), ResourceType.MDX)
+                            mdx_res: ResourceResult | None = self._installation.resource(
+                                resource.resname(), ResourceType.MDX
+                            )
                             if mdx_res is not None:
                                 mdx_data = mdx_res.data
                         else:
@@ -270,7 +288,9 @@ class InsertInstanceDialog(QDialog):
                             rim = read_rim(resource.filepath())
                             mdl_data = rim.get(resource.resname(), ResourceType.MDL)
                         elif is_bif_file(resource.filepath().name):
-                            mdl_res: ResourceResult | None = self._installation.resource(resource.resname(), ResourceType.MDL)
+                            mdl_res: ResourceResult | None = self._installation.resource(
+                                resource.resname(), ResourceType.MDL
+                            )
                             if mdl_res is not None:
                                 mdl_data = mdl_res.data
                         else:

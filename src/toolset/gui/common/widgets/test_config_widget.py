@@ -93,7 +93,11 @@ class TestConfigWidget(QWidget):
         -------
             dict: Test configuration with event_number and mock values
         """
-        config: dict[str, Any] = {"entry_point": self._entry_point, "event_number": self._event_number, "mocks": {}}
+        config: dict[str, Any] = {
+            "entry_point": self._entry_point,
+            "event_number": self._event_number,
+            "mocks": {},
+        }
 
         # Parse mock values - create proper mock functions
         # NOTE: Lambdas need to capture values, so we use default args to avoid closure issues
@@ -211,7 +215,11 @@ class TestConfigDialog(QDialog):
         -------
             dict: Test configuration with event_number and mock values
         """
-        config: dict[str, Any] = {"entry_point": self._entry_point, "event_number": self._event_number, "mocks": {}}
+        config: dict[str, Any] = {
+            "entry_point": self._entry_point,
+            "event_number": self._event_number,
+            "mocks": {},
+        }
 
         # Parse mock values - create proper mock functions
         # NOTE: Lambdas need to capture values, so we use default args to avoid closure issues

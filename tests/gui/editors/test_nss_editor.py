@@ -171,7 +171,12 @@ def test_nss_editor_code_editing_basic(qtbot: QtBot, installation: HTInstallatio
     assert line_num == 1
 
 
-def test_nss_editor_load_real_ncs_file(qtbot: QtBot, installation: HTInstallation, ncs_test_file: Path | None, monkeypatch: pytest.MonkeyPatch):
+def test_nss_editor_load_real_ncs_file(
+    qtbot: QtBot,
+    installation: HTInstallation,
+    ncs_test_file: Path | None,
+    monkeypatch: pytest.MonkeyPatch,
+):
     """Test loading a real NCS file."""
     if ncs_test_file is None:
         pytest.skip("90sk99.ncs not found in test files")
@@ -294,7 +299,9 @@ def test_nss_editor_bookmark_add_and_navigate(
             assert current_line == bookmark_line
 
 
-def test_nss_editor_bookmark_remove(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_bookmark_remove(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test removing bookmarks."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -327,7 +334,9 @@ def test_nss_editor_bookmark_remove(qtbot: QtBot, installation: HTInstallation, 
     assert editor.ui.bookmarkTree.topLevelItemCount() == 0
 
 
-def test_nss_editor_bookmark_next_previous(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_bookmark_next_previous(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test navigating to next/previous bookmarks."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -410,29 +419,41 @@ def test_nss_editor_bookmark_persistence(qtbot: QtBot, installation: HTInstallat
     QApplication.processEvents()
 
     # Verify resname hasn't changed
-    assert editor._resname == resname_before, f"resname changed from {resname_before} to {editor._resname}"
+    assert editor._resname == resname_before, (
+        f"resname changed from {resname_before} to {editor._resname}"
+    )
 
     # Verify bookmarks were actually saved by checking QSettings directly
     from qtpy.QtCore import QSettings
 
     settings = QSettings("HolocronToolsetV3", "NSSEditor")
-    file_key = f"nss_editor/bookmarks/{resname_before}" if resname_before else "nss_editor/bookmarks/untitled"
+    file_key = (
+        f"nss_editor/bookmarks/{resname_before}"
+        if resname_before
+        else "nss_editor/bookmarks/untitled"
+    )
     saved_bookmarks_json = settings.value(file_key, "[]")
-    assert saved_bookmarks_json != "[]", f"Bookmarks should be saved to QSettings with key {file_key}, got {saved_bookmarks_json}"
+    assert saved_bookmarks_json != "[]", (
+        f"Bookmarks should be saved to QSettings with key {file_key}, got {saved_bookmarks_json}"
+    )
 
     # Clear and reload
     editor.ui.bookmarkTree.clear()
     assert editor.ui.bookmarkTree.topLevelItemCount() == 0, "Tree should be cleared"
 
     # Verify resname still matches before loading
-    assert editor._resname == resname_before, f"resname changed before load: {resname_before} -> {editor._resname}"
+    assert editor._resname == resname_before, (
+        f"resname changed before load: {resname_before} -> {editor._resname}"
+    )
 
     editor.load_bookmarks()
     # Wait for Qt to process the bookmark loading
     QApplication.processEvents()
 
     # Verify bookmarks were restored
-    assert editor.ui.bookmarkTree.topLevelItemCount() >= 2, "Bookmarks should be restored after load"
+    assert editor.ui.bookmarkTree.topLevelItemCount() >= 2, (
+        "Bookmarks should be restored after load"
+    )
 
 
 # ============================================================================
@@ -503,7 +524,10 @@ def test_nss_editor_snippet_filter(qtbot: QtBot, installation: HTInstallation):
 
     # Verify filtering works
     visible_count = sum(
-        1 for i in range(editor.ui.snippetList.count()) if editor.ui.snippetList.item(i) is not None and not cast(QListWidgetItem, editor.ui.snippetList.item(i)).isHidden()
+        1
+        for i in range(editor.ui.snippetList.count())
+        if editor.ui.snippetList.item(i) is not None
+        and not cast(QListWidgetItem, editor.ui.snippetList.item(i)).isHidden()
     )
     assert visible_count >= 1
 
@@ -773,7 +797,9 @@ def test_nss_editor_game_selector_ui(qtbot: QtBot, installation: HTInstallation)
 # ============================================================================
 
 
-def test_nss_editor_outline_view_populated(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_outline_view_populated(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test that outline view is populated with functions and symbols."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -786,7 +812,9 @@ def test_nss_editor_outline_view_populated(qtbot: QtBot, installation: HTInstall
     assert editor.ui.outlineView.topLevelItemCount() >= 0  # May have items
 
 
-def test_nss_editor_outline_navigation(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_outline_navigation(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test navigating to symbols via outline view."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -830,7 +858,9 @@ def test_nss_editor_find_replace_setup(qtbot: QtBot, installation: HTInstallatio
     assert editor._find_replace_widget is not None or True  # May be None if not used
 
 
-def test_nss_editor_find_all_references(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_find_all_references(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test finding all references to a symbol."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -882,7 +912,9 @@ def test_nss_editor_error_reporting(qtbot: QtBot, installation: HTInstallation):
     # Error badge should be visible and show the error count
     # In headless mode, visibility might not work, but the badge text should be updated
     if editor.error_badge:
-        assert editor.error_badge.text() == str(editor._error_count), f"Badge text should be '{editor._error_count}', got '{editor.error_badge.text()}'"
+        assert editor.error_badge.text() == str(editor._error_count), (
+            f"Badge text should be '{editor._error_count}', got '{editor.error_badge.text()}'"
+        )
         # In headless mode, isVisible() might return False even after show() is called
         # So we check the text instead, which is the important part
 
@@ -929,7 +961,9 @@ def test_nss_editor_compilation_ui_setup(qtbot: QtBot, installation: HTInstallat
     assert callable(editor.compile_current_script)
 
 
-def test_nss_editor_build_returns_script_content(qtbot: QtBot, installation: HTInstallation, simple_nss_script: str):
+def test_nss_editor_build_returns_script_content(
+    qtbot: QtBot, installation: HTInstallation, simple_nss_script: str
+):
     """Test that build() returns script content."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -944,7 +978,9 @@ def test_nss_editor_build_returns_script_content(qtbot: QtBot, installation: HTI
     assert len(data) > 0
 
     # Script content should be in data
-    assert simple_nss_script.encode("utf-8") in data or simple_nss_script in data.decode("utf-8", errors="ignore")
+    assert simple_nss_script.encode("utf-8") in data or simple_nss_script in data.decode(
+        "utf-8", errors="ignore"
+    )
 
 
 # ============================================================================
@@ -966,7 +1002,9 @@ def test_nss_editor_file_explorer_setup(qtbot: QtBot, installation: HTInstallati
     assert hasattr(editor.ui, "fileExplorerView")
 
 
-def test_nss_editor_file_explorer_address_bar(qtbot: QtBot, installation: HTInstallation, tmp_path: Path):
+def test_nss_editor_file_explorer_address_bar(
+    qtbot: QtBot, installation: HTInstallation, tmp_path: Path
+):
     """Test file explorer address bar functionality."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1087,7 +1125,9 @@ def test_nss_editor_status_bar_setup(qtbot: QtBot, installation: HTInstallation)
     assert editor.statusBar() is not None
 
 
-def test_nss_editor_status_bar_updates(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_status_bar_updates(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test that status bar updates with cursor position."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1295,7 +1335,9 @@ void helper() {
 }"""
 
 
-def test_nss_editor_foldable_regions_detection(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_foldable_regions_detection(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test that foldable regions are detected correctly."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1310,7 +1352,9 @@ def test_nss_editor_foldable_regions_detection(qtbot: QtBot, installation: HTIns
 
     # Check that foldable regions exist
     assert hasattr(editor.ui.codeEdit, "_foldable_regions")
-    assert len(editor.ui.codeEdit._foldable_regions) > 0, f"Expected foldable regions, got {editor.ui.codeEdit._foldable_regions}"
+    assert len(editor.ui.codeEdit._foldable_regions) > 0, (
+        f"Expected foldable regions, got {editor.ui.codeEdit._foldable_regions}"
+    )
 
     # Verify main function block is foldable
     # Main function should start around line 3-4
@@ -1322,7 +1366,9 @@ def test_nss_editor_foldable_regions_detection(qtbot: QtBot, installation: HTIns
         assert any(start <= main_line <= end for start, end in foldable_regions.items())
 
 
-def test_nss_editor_fold_region(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_fold_region(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test folding a code region."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1355,10 +1401,14 @@ def test_nss_editor_fold_region(qtbot: QtBot, installation: HTInstallation, fold
 
     # Check that blocks are folded
     assert hasattr(editor.ui.codeEdit, "_folded_block_numbers")
-    assert len(editor.ui.codeEdit._folded_block_numbers) > 0, f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    assert len(editor.ui.codeEdit._folded_block_numbers) > 0, (
+        f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    )
 
 
-def test_nss_editor_unfold_region(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_unfold_region(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test unfolding a code region."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1388,13 +1438,17 @@ def test_nss_editor_unfold_region(qtbot: QtBot, installation: HTInstallation, fo
     editor.ui.codeEdit.fold_region()
     QApplication.processEvents()  # Wait for Qt to process the fold operation
     folded_count = len(editor.ui.codeEdit._folded_block_numbers)
-    assert folded_count > 0, f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    assert folded_count > 0, (
+        f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    )
 
     # Unfold
     editor.ui.codeEdit.unfold_region()
     QApplication.processEvents()  # Wait for Qt to process the unfold operation
     unfolded_count = len(editor.ui.codeEdit._folded_block_numbers)
-    assert unfolded_count < folded_count, f"Expected fewer folded blocks after unfold, got {unfolded_count} (was {folded_count})"
+    assert unfolded_count < folded_count, (
+        f"Expected fewer folded blocks after unfold, got {unfolded_count} (was {folded_count})"
+    )
 
 
 def test_nss_editor_fold_all(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
@@ -1417,10 +1471,14 @@ def test_nss_editor_fold_all(qtbot: QtBot, installation: HTInstallation, foldabl
 
     # Multiple regions should be folded
     assert hasattr(editor.ui.codeEdit, "_folded_block_numbers")
-    assert len(editor.ui.codeEdit._folded_block_numbers) > 0, f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    assert len(editor.ui.codeEdit._folded_block_numbers) > 0, (
+        f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    )
 
 
-def test_nss_editor_unfold_all(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_unfold_all(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test unfolding all regions."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1438,7 +1496,9 @@ def test_nss_editor_unfold_all(qtbot: QtBot, installation: HTInstallation, folda
     editor.ui.codeEdit.fold_all()
     QApplication.processEvents()  # Wait for Qt to process the fold operation
     folded_count = len(editor.ui.codeEdit._folded_block_numbers)
-    assert folded_count > 0, f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    assert folded_count > 0, (
+        f"Expected folded blocks, got {editor.ui.codeEdit._folded_block_numbers}"
+    )
 
     # Unfold all
     editor.ui.codeEdit.unfold_all()
@@ -1446,7 +1506,9 @@ def test_nss_editor_unfold_all(qtbot: QtBot, installation: HTInstallation, folda
     assert unfolded_count == 0
 
 
-def test_nss_editor_folding_preserved_on_edit(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_folding_preserved_on_edit(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test that folding state is preserved during text edits."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1481,7 +1543,9 @@ def test_nss_editor_folding_preserved_on_edit(qtbot: QtBot, installation: HTInst
             assert hasattr(editor.ui.codeEdit, "_folded_block_numbers")
 
 
-def test_nss_editor_folding_visual_indicators(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_folding_visual_indicators(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test that folding indicators are drawn in line number area."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1494,7 +1558,9 @@ def test_nss_editor_folding_visual_indicators(qtbot: QtBot, installation: HTInst
 
     # Check that foldable regions exist
     assert hasattr(editor.ui.codeEdit, "_foldable_regions")
-    assert len(editor.ui.codeEdit._foldable_regions) > 0, f"Expected foldable regions, got {editor.ui.codeEdit._foldable_regions}"
+    assert len(editor.ui.codeEdit._foldable_regions) > 0, (
+        f"Expected foldable regions, got {editor.ui.codeEdit._foldable_regions}"
+    )
 
     # Line number area should be updated
     assert hasattr(editor.ui.codeEdit, "_line_number_area")
@@ -1521,7 +1587,9 @@ def test_nss_editor_breadcrumbs_setup(qtbot: QtBot, installation: HTInstallation
     assert editor._breadcrumbs.parent() is not None
 
 
-def test_nss_editor_breadcrumbs_update_on_cursor_move(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_breadcrumbs_update_on_cursor_move(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test that breadcrumbs update when cursor moves."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1550,10 +1618,14 @@ def test_nss_editor_breadcrumbs_update_on_cursor_move(qtbot: QtBot, installation
         # Breadcrumbs should update
         assert editor._breadcrumbs is not None
         path = editor._breadcrumbs._path
-        assert len(path) > 0, f"Expected breadcrumb path with at least filename, got {path}"  # Should have at least filename
+        assert len(path) > 0, (
+            f"Expected breadcrumb path with at least filename, got {path}"
+        )  # Should have at least filename
 
 
-def test_nss_editor_breadcrumbs_navigation(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_breadcrumbs_navigation(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test navigating via breadcrumb clicks."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1573,7 +1645,9 @@ def test_nss_editor_breadcrumbs_navigation(qtbot: QtBot, installation: HTInstall
     assert cursor is not None
 
 
-def test_nss_editor_navigate_to_symbol_function(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_navigate_to_symbol_function(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test navigating to a symbol (function) by name - reproduces the go_to_line bug.
 
     The main bug was: TypeError: CodeEditor.go_to_line() takes 1 positional argument but 2 were given
@@ -1613,7 +1687,9 @@ def test_nss_editor_navigate_to_symbol_function(qtbot: QtBot, installation: HTIn
     # but the critical bug (TypeError) is fixed.
 
 
-def test_nss_editor_breadcrumb_click_navigates_to_function(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_breadcrumb_click_navigates_to_function(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test that clicking a breadcrumb for a function navigates correctly - reproduces the bug.
 
     The main bug was: TypeError: CodeEditor.go_to_line() takes 1 positional argument but 2 were given
@@ -1642,7 +1718,9 @@ def test_nss_editor_breadcrumb_click_navigates_to_function(qtbot: QtBot, install
     # but the critical bug (TypeError) is fixed.
 
 
-def test_nss_editor_breadcrumbs_context_detection(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nss_editor_breadcrumbs_context_detection(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test that breadcrumbs detect context correctly."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1659,7 +1737,9 @@ def test_nss_editor_breadcrumbs_context_detection(qtbot: QtBot, installation: HT
     # Breadcrumbs should have path
     assert editor._breadcrumbs is not None
     path = editor._breadcrumbs._path
-    assert len(path) > 0, f"Expected breadcrumb path with at least filename, got {path}"  # Should have at least filename
+    assert len(path) > 0, (
+        f"Expected breadcrumb path with at least filename, got {path}"
+    )  # Should have at least filename
 
 
 # ============================================================================
@@ -1793,7 +1873,9 @@ xyz uvw"""
 # ============================================================================
 
 
-def test_nss_editor_code_folding_shortcuts(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_code_folding_shortcuts(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test code folding keyboard shortcuts."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1812,7 +1894,11 @@ def test_nss_editor_code_folding_shortcuts(qtbot: QtBot, installation: HTInstall
         editor.ui.codeEdit.setTextCursor(cursor)
 
         # Test fold shortcut (Ctrl+Shift+[)
-        fold_key_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_BracketLeft, Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+        fold_key_event = QKeyEvent(
+            QKeyEvent.Type.KeyPress,
+            Qt.Key.Key_BracketLeft,
+            Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier,
+        )
         editor.ui.codeEdit.keyPressEvent(fold_key_event)
 
         # Should have folded regions
@@ -1840,7 +1926,9 @@ def test_nss_editor_word_selection_shortcuts(qtbot: QtBot, installation: HTInsta
         editor.ui.codeEdit.setTextCursor(cursor)
 
         # Test Ctrl+D shortcut
-        ctrl_d_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_D, Qt.KeyboardModifier.ControlModifier)
+        ctrl_d_event = QKeyEvent(
+            QKeyEvent.Type.KeyPress, Qt.Key.Key_D, Qt.KeyboardModifier.ControlModifier
+        )
         editor.ui.codeEdit.select_next_occurrence()  # Direct call since shortcut is connected
 
         # Should have selections
@@ -1878,7 +1966,9 @@ def test_nss_editor_duplicate_line_shortcut(qtbot: QtBot, installation: HTInstal
 # ============================================================================
 
 
-def test_nss_editor_command_palette_setup(qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch):
+def test_nss_editor_command_palette_setup(
+    qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch
+):
     """Test that command palette is set up."""
     from toolset.gui.common.widgets.command_palette import CommandPalette
     from qtpy.QtWidgets import QDialog, QFileDialog
@@ -1932,10 +2022,14 @@ def test_nss_editor_command_palette_actions(qtbot: QtBot, installation: HTInstal
     if editor._command_palette is not None:
         # Should have commands registered
         assert hasattr(editor._command_palette, "_commands")
-        assert len(editor._command_palette._commands) > 0, f"Expected commands to be registered, got {len(editor._command_palette._commands)}"
+        assert len(editor._command_palette._commands) > 0, (
+            f"Expected commands to be registered, got {len(editor._command_palette._commands)}"
+        )
 
 
-def test_nss_editor_command_palette_shortcut(qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch):
+def test_nss_editor_command_palette_shortcut(
+    qtbot: QtBot, installation: HTInstallation, monkeypatch: pytest.MonkeyPatch
+):
     """Test Ctrl+Shift+P shortcut for command palette."""
     from toolset.gui.common.widgets.command_palette import CommandPalette
     from qtpy.QtWidgets import QDialog
@@ -1951,7 +2045,11 @@ def test_nss_editor_command_palette_shortcut(qtbot: QtBot, installation: HTInsta
     editor.new()
 
     # Trigger shortcut
-    ctrl_shift_p_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_P, Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier)
+    ctrl_shift_p_event = QKeyEvent(
+        QKeyEvent.Type.KeyPress,
+        Qt.Key.Key_P,
+        Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.ShiftModifier,
+    )
 
     # Shortcut should trigger command palette
     editor._show_command_palette()
@@ -1997,7 +2095,9 @@ def test_nss_editor_bracket_matching(qtbot: QtBot, installation: HTInstallation)
 # ============================================================================
 
 
-def test_nss_editor_folding_and_breadcrumbs_together(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_folding_and_breadcrumbs_together(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test code folding and breadcrumbs working together."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2023,7 +2123,9 @@ def test_nss_editor_folding_and_breadcrumbs_together(qtbot: QtBot, installation:
         assert len(path) >= 0
 
 
-def test_nss_editor_multiple_features_integration(qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str):
+def test_nss_editor_multiple_features_integration(
+    qtbot: QtBot, installation: HTInstallation, foldable_nss_script: str
+):
     """Test multiple new features working together."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)
@@ -2228,10 +2330,14 @@ def test_nss_editor_foldable_regions_large_file(qtbot: QtBot, installation: HTIn
 
     # Should detect foldable regions
     assert hasattr(editor.ui.codeEdit, "_foldable_regions")
-    assert len(editor.ui.codeEdit._foldable_regions) > 0, f"Expected foldable regions, got {editor.ui.codeEdit._foldable_regions}"
+    assert len(editor.ui.codeEdit._foldable_regions) > 0, (
+        f"Expected foldable regions, got {editor.ui.codeEdit._foldable_regions}"
+    )
 
 
-def test_nsseditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: HTInstallation):
+def test_nsseditor_editor_help_dialog_opens_correct_file(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that NSSEditor help dialog opens and displays the correct help file (not 'Help File Not Found')."""
     from toolset.gui.dialogs.editor_help import EditorHelpDialog
 
@@ -2253,13 +2359,17 @@ def test_nsseditor_editor_help_dialog_opens_correct_file(qtbot: QtBot, installat
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'NSS-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'NSS-File-Format.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
 
 
-def test_nsseditor_breadcrumbs_update_performance(qtbot: QtBot, installation: HTInstallation, complex_nss_script: str):
+def test_nsseditor_breadcrumbs_update_performance(
+    qtbot: QtBot, installation: HTInstallation, complex_nss_script: str
+):
     """Test breadcrumbs update performance."""
     editor = NSSEditor(None, installation)
     qtbot.addWidget(editor)

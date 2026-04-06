@@ -27,7 +27,9 @@ if TYPE_CHECKING:
 # ============================================================================
 
 
-def test_are_editor_manipulate_name_locstring(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_name_locstring(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating name LocalizedString field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -49,14 +51,18 @@ def test_are_editor_manipulate_name_locstring(qtbot: QtBot, installation: HTInst
     data, _ = editor.build()
     modified_are = read_are(data)
     assert modified_are.name.get(Language.ENGLISH, Gender.MALE) == "Modified Area Name"
-    assert modified_are.name.get(Language.ENGLISH, Gender.MALE) != original_are.name.get(Language.ENGLISH, Gender.MALE)
+    assert modified_are.name.get(Language.ENGLISH, Gender.MALE) != original_are.name.get(
+        Language.ENGLISH, Gender.MALE
+    )
 
     # Load back and verify
     editor.load(are_file, "tat001", ResourceType.ARE, data)
     assert editor.ui.nameEdit.locstring().get(Language.ENGLISH, Gender.MALE) == "Modified Area Name"
 
 
-def test_are_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_tag(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating tag field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -83,7 +89,9 @@ def test_are_editor_manipulate_tag(qtbot: QtBot, installation: HTInstallation, t
     assert editor.ui.tagEdit.text() == "modified_tag"
 
 
-def test_are_editor_manipulate_tag_generate_button(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_tag_generate_button(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test tag generation button."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -108,7 +116,9 @@ def test_are_editor_manipulate_tag_generate_button(qtbot: QtBot, installation: H
     assert modified_are.tag == "tat001"
 
 
-def test_are_editor_manipulate_camera_style(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_camera_style(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating camera style combo box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -136,7 +146,9 @@ def test_are_editor_manipulate_camera_style(qtbot: QtBot, installation: HTInstal
             assert editor.ui.cameraStyleSelect.currentIndex() == i
 
 
-def test_are_editor_manipulate_envmap(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_envmap(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating envmap field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -163,7 +175,9 @@ def test_are_editor_manipulate_envmap(qtbot: QtBot, installation: HTInstallation
         assert editor.ui.envmapEdit.text() == envmap
 
 
-def test_are_editor_manipulate_disable_transit_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_disable_transit_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating disable transit checkbox."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -192,7 +206,9 @@ def test_are_editor_manipulate_disable_transit_checkbox(qtbot: QtBot, installati
     assert editor.ui.disableTransitCheck.isChecked() == False
 
 
-def test_are_editor_manipulate_unescapable_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_unescapable_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating unescapable checkbox."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -216,7 +232,9 @@ def test_are_editor_manipulate_unescapable_checkbox(qtbot: QtBot, installation: 
     assert not modified_are.unescapable
 
 
-def test_are_editor_manipulate_alpha_test_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_alpha_test_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating alpha test spin box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -243,7 +261,9 @@ def test_are_editor_manipulate_alpha_test_spin(qtbot: QtBot, installation: HTIns
         assert editor.ui.alphaTestSpin.value() == pytest.approx(val)
 
 
-def test_are_editor_manipulate_stealth_xp_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_stealth_xp_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating stealth XP checkbox."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -267,7 +287,9 @@ def test_are_editor_manipulate_stealth_xp_checkbox(qtbot: QtBot, installation: H
     assert not modified_are.stealth_xp
 
 
-def test_are_editor_manipulate_stealth_xp_max_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_stealth_xp_max_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating stealth XP max spin box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -290,7 +312,9 @@ def test_are_editor_manipulate_stealth_xp_max_spin(qtbot: QtBot, installation: H
         assert modified_are.stealth_xp_max == val
 
 
-def test_are_editor_manipulate_stealth_xp_loss_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_stealth_xp_loss_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating stealth XP loss spin box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -318,7 +342,9 @@ def test_are_editor_manipulate_stealth_xp_loss_spin(qtbot: QtBot, installation: 
 # ============================================================================
 
 
-def test_are_editor_manipulate_map_axis(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_map_axis(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating map axis combo box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -344,7 +370,9 @@ def test_are_editor_manipulate_map_axis(qtbot: QtBot, installation: HTInstallati
         assert editor.ui.mapAxisSelect.currentIndex() == axis
 
 
-def test_are_editor_manipulate_map_zoom_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_map_zoom_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating map zoom spin box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -367,7 +395,9 @@ def test_are_editor_manipulate_map_zoom_spin(qtbot: QtBot, installation: HTInsta
         assert abs(modified_are.map_zoom - float(val)) < 0.001  # Float comparison
 
 
-def test_are_editor_manipulate_map_res_x_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_map_res_x_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating map resolution X spin box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -390,7 +420,9 @@ def test_are_editor_manipulate_map_res_x_spin(qtbot: QtBot, installation: HTInst
         assert modified_are.map_res_x == val
 
 
-def test_are_editor_manipulate_map_image_points(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_map_image_points(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating map image point coordinates.
 
     Note: Map image points are stored as normalized coordinates (0.0-1.0) in the ARE file format.
@@ -448,7 +480,9 @@ def test_are_editor_manipulate_map_image_points(qtbot: QtBot, installation: HTIn
         assert abs(modified_are.map_point_2.y - point2.y) < 0.001
 
 
-def test_are_editor_manipulate_map_world_points(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_map_world_points(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating map world point coordinates."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -487,7 +521,9 @@ def test_are_editor_manipulate_map_world_points(qtbot: QtBot, installation: HTIn
 # ============================================================================
 
 
-def test_are_editor_manipulate_fog_enabled_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_fog_enabled_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating fog enabled checkbox."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -511,7 +547,9 @@ def test_are_editor_manipulate_fog_enabled_checkbox(qtbot: QtBot, installation: 
     assert not modified_are.fog_enabled
 
 
-def test_are_editor_manipulate_fog_color(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_fog_color(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating fog color."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -543,7 +581,9 @@ def test_are_editor_manipulate_fog_color(qtbot: QtBot, installation: HTInstallat
         assert abs(modified_are.fog_color.b - color.b) < 0.01
 
 
-def test_are_editor_manipulate_fog_near_far_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_fog_near_far_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating fog near and far spin boxes."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -572,7 +612,9 @@ def test_are_editor_manipulate_fog_near_far_spins(qtbot: QtBot, installation: HT
         assert abs(modified_are.fog_far - far_val) < 0.001
 
 
-def test_are_editor_manipulate_sun_colors(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_sun_colors(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating sun ambient, diffuse, and dynamic light colors."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -606,7 +648,9 @@ def test_are_editor_manipulate_sun_colors(qtbot: QtBot, installation: HTInstalla
     assert abs(modified_are.dynamic_light.r - dynamic_color.r) < 0.01
 
 
-def test_are_editor_manipulate_wind_power(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_wind_power(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating wind power combo box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -629,7 +673,9 @@ def test_are_editor_manipulate_wind_power(qtbot: QtBot, installation: HTInstalla
             assert modified_are.wind_power == AREWindPower(power)
 
 
-def test_are_editor_manipulate_weather_checkboxes(qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_weather_checkboxes(
+    qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating rain, snow, and lightning checkboxes.
 
     Note: Weather checkboxes (rain, snow, lightning) are TSL-only features.
@@ -679,7 +725,9 @@ def test_are_editor_manipulate_weather_checkboxes(qtbot: QtBot, tsl_installation
     assert modified_are.chance_lightning == 0
 
 
-def test_are_editor_manipulate_shadows_checkbox(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_shadows_checkbox(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating shadows checkbox."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -703,7 +751,9 @@ def test_are_editor_manipulate_shadows_checkbox(qtbot: QtBot, installation: HTIn
     assert not modified_are.shadows
 
 
-def test_are_editor_manipulate_shadow_opacity_spin(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_shadow_opacity_spin(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating shadow opacity spin box."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -731,7 +781,9 @@ def test_are_editor_manipulate_shadow_opacity_spin(qtbot: QtBot, installation: H
 # ============================================================================
 
 
-def test_are_editor_manipulate_grass_texture(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_grass_texture(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating grass texture field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -754,7 +806,9 @@ def test_are_editor_manipulate_grass_texture(qtbot: QtBot, installation: HTInsta
         assert str(modified_are.grass_texture) == texture
 
 
-def test_are_editor_manipulate_grass_colors(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_grass_colors(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating grass color fields."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -789,7 +843,9 @@ def test_are_editor_manipulate_grass_colors(qtbot: QtBot, installation: HTInstal
         assert abs(modified_are.grass_emissive.r - emissive_color.r) < 0.01
 
 
-def test_are_editor_manipulate_grass_density_size_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_grass_density_size_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating grass density and size spin boxes."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -818,7 +874,9 @@ def test_are_editor_manipulate_grass_density_size_spins(qtbot: QtBot, installati
         assert abs(modified_are.grass_size - size) < 0.001
 
 
-def test_are_editor_manipulate_grass_probability_spins(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_grass_probability_spins(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating grass probability spin boxes (LL, LR, UL, UR)."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -858,7 +916,9 @@ def test_are_editor_manipulate_grass_probability_spins(qtbot: QtBot, installatio
         assert abs(modified_are.grass_prob_ur - prob_ur) < 0.001
 
 
-def test_are_editor_manipulate_dirt_colors(qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_dirt_colors(
+    qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating dirt color fields (TSL only)."""
     editor = AREEditor(None, tsl_installation)
     qtbot.addWidget(editor)
@@ -890,7 +950,9 @@ def test_are_editor_manipulate_dirt_colors(qtbot: QtBot, tsl_installation: HTIns
     assert abs(modified_are.dirty_argb_3.r - dirt3_color.r) < 0.01
 
 
-def test_are_editor_manipulate_dirt_formula_spins(qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_dirt_formula_spins(
+    qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating dirt formula spin boxes (TSL only)."""
     editor = AREEditor(None, tsl_installation)
     qtbot.addWidget(editor)
@@ -921,7 +983,9 @@ def test_are_editor_manipulate_dirt_formula_spins(qtbot: QtBot, tsl_installation
         assert modified_are.dirty_formula_3 == formula
 
 
-def test_are_editor_manipulate_dirt_function_spins(qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_dirt_function_spins(
+    qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating dirt function spin boxes (TSL only)."""
     editor = AREEditor(None, tsl_installation)
     qtbot.addWidget(editor)
@@ -952,7 +1016,9 @@ def test_are_editor_manipulate_dirt_function_spins(qtbot: QtBot, tsl_installatio
         assert modified_are.dirty_func_3 == func
 
 
-def test_are_editor_manipulate_dirt_size_spins(qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_dirt_size_spins(
+    qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating dirt size spin boxes (TSL only)."""
     editor = AREEditor(None, tsl_installation)
     qtbot.addWidget(editor)
@@ -988,7 +1054,9 @@ def test_are_editor_manipulate_dirt_size_spins(qtbot: QtBot, tsl_installation: H
 # ============================================================================
 
 
-def test_are_editor_manipulate_on_enter_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_on_enter_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on enter script field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1013,7 +1081,9 @@ def test_are_editor_manipulate_on_enter_script(qtbot: QtBot, installation: HTIns
     assert editor.ui.onEnterSelect.currentText() == "test_on_enter"
 
 
-def test_are_editor_manipulate_on_exit_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_on_exit_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on exit script field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1034,7 +1104,9 @@ def test_are_editor_manipulate_on_exit_script(qtbot: QtBot, installation: HTInst
     assert str(modified_are.on_exit) == "test_on_exit"
 
 
-def test_are_editor_manipulate_on_heartbeat_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_on_heartbeat_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on heartbeat script field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1055,7 +1127,9 @@ def test_are_editor_manipulate_on_heartbeat_script(qtbot: QtBot, installation: H
     assert str(modified_are.on_heartbeat) == "test_on_hbeat"
 
 
-def test_are_editor_manipulate_on_user_defined_script(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_on_user_defined_script(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating on user defined script field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1081,7 +1155,9 @@ def test_are_editor_manipulate_on_user_defined_script(qtbot: QtBot, installation
 # ============================================================================
 
 
-def test_are_editor_manipulate_comments(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_comments(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating comments field."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1120,7 +1196,9 @@ def test_are_editor_manipulate_comments(qtbot: QtBot, installation: HTInstallati
 # ============================================================================
 
 
-def test_are_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_all_basic_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all basic fields simultaneously."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1160,7 +1238,9 @@ def test_are_editor_manipulate_all_basic_fields_combination(qtbot: QtBot, instal
     assert modified_are.stealth_xp_loss == 25
 
 
-def test_are_editor_manipulate_all_weather_fields_combination(qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_all_weather_fields_combination(
+    qtbot: QtBot, tsl_installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all weather fields simultaneously.
 
     Note: Weather checkboxes (rain, snow, lightning) are TSL-only features.
@@ -1233,7 +1313,9 @@ def test_are_editor_manipulate_all_weather_fields_combination(qtbot: QtBot, tsl_
     assert modified_are.shadow_opacity == 128
 
 
-def test_are_editor_manipulate_all_map_fields_combination(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_manipulate_all_map_fields_combination(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test manipulating all map fields simultaneously."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1280,7 +1362,9 @@ def test_are_editor_manipulate_all_map_fields_combination(qtbot: QtBot, installa
 # ============================================================================
 
 
-def test_are_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_save_load_roundtrip_identity(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that save/load roundtrip preserves all data exactly."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1315,7 +1399,9 @@ def test_are_editor_save_load_roundtrip_identity(qtbot: QtBot, installation: HTI
     assert editor.ui.envmapEdit.text() == str(original_are.default_envmap)
 
 
-def test_are_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_save_load_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test save/load roundtrip with modifications preserves changes."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1362,7 +1448,9 @@ def test_are_editor_save_load_roundtrip_with_modifications(qtbot: QtBot, install
     assert saved_are2.comment == saved_are1.comment
 
 
-def test_are_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_multiple_save_load_cycles(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test multiple save/load cycles preserve data correctly."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1403,7 +1491,9 @@ def test_are_editor_multiple_save_load_cycles(qtbot: QtBot, installation: HTInst
 # ============================================================================
 
 
-def test_are_editor_minimum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_minimum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all fields to minimum values."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1443,7 +1533,9 @@ def test_are_editor_minimum_values(qtbot: QtBot, installation: HTInstallation, t
     assert modified_are.shadow_opacity == 0
 
 
-def test_are_editor_maximum_values(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_maximum_values(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test setting all fields to maximum values."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1513,7 +1605,9 @@ def test_are_editor_empty_strings(qtbot: QtBot, installation: HTInstallation, te
     assert modified_are.comment == ""
 
 
-def test_are_editor_special_characters_in_text_fields(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_special_characters_in_text_fields(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test handling of special characters in text fields."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1545,7 +1639,9 @@ def test_are_editor_special_characters_in_text_fields(qtbot: QtBot, installation
 # ============================================================================
 
 
-def test_are_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_gff_roundtrip_comparison(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip comparison like resource tests.
 
     Note: Floating point precision differences in map points may cause minor differences.
@@ -1581,7 +1677,9 @@ def test_are_editor_gff_roundtrip_comparison(qtbot: QtBot, installation: HTInsta
     assert abs(new_are.map_point_2.y - original_are.map_point_2.y) < 0.01
 
 
-def test_are_editor_gff_roundtrip_with_modifications(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_gff_roundtrip_with_modifications(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test GFF roundtrip with modifications still produces valid GFF."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1671,7 +1769,9 @@ def test_are_editor_new_file_all_defaults(qtbot: QtBot, installation: HTInstalla
 # ============================================================================
 
 
-def test_are_editor_minimap_redo_on_map_axis_change(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_minimap_redo_on_map_axis_change(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that minimap redoes when map axis changes."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1690,7 +1790,9 @@ def test_are_editor_minimap_redo_on_map_axis_change(qtbot: QtBot, installation: 
         assert editor.ui.mapAxisSelect.receivers(editor.ui.mapAxisSelect.currentIndexChanged) > 0
 
 
-def test_are_editor_minimap_redo_on_map_world_change(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_minimap_redo_on_map_world_change(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that minimap redoes when map world coordinates change."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1713,7 +1815,9 @@ def test_are_editor_minimap_redo_on_map_world_change(qtbot: QtBot, installation:
 # ============================================================================
 
 
-def test_are_editor_name_dialog_integration(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_name_dialog_integration(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test name dialog integration."""
     editor = AREEditor(None, installation)
     qtbot.addWidget(editor)
@@ -1790,7 +1894,9 @@ def test_are_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
     html = dialog.text_browser.toHtml()
 
     # Assert that "Help File Not Found" error is NOT shown
-    assert "Help File Not Found" not in html, f"Help file 'GFF-ARE.md' should be found, but error was shown. HTML: {html[:500]}"
+    assert "Help File Not Found" not in html, (
+        f"Help file 'GFF-ARE.md' should be found, but error was shown. HTML: {html[:500]}"
+    )
 
     # Assert that some content is present (file was loaded successfully)
     assert len(html) > 100, "Help dialog should contain content"
@@ -1801,7 +1907,9 @@ def test_are_editor_help_dialog_opens_correct_file(qtbot: QtBot, installation: H
 # ============================================================================
 
 
-def test_are_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_comprehensive_gff_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Comprehensive test that validates ALL GFF fields are preserved through editor roundtrip.
 
     This test ensures serialization/deserialization works correctly by comparing
@@ -1845,7 +1953,9 @@ def test_are_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTIn
 
                 locstr = struct.acquire(label, LocalizedString.from_invalid())
                 # Store stringref and a sorted list of (language, gender, text) tuples for comparison
-                locstr_tuples = sorted((lang.value, gender.value, str(text)) for lang, gender, text in locstr)
+                locstr_tuples = sorted(
+                    (lang.value, gender.value, str(text)) for lang, gender, text in locstr
+                )
                 fields[full_label] = ("LocalizedString", locstr.stringref, tuple(locstr_tuples))
             else:
                 fields[full_label] = (field_type.name, value)
@@ -1908,7 +2018,9 @@ def test_are_editor_comprehensive_gff_roundtrip(qtbot: QtBot, installation: HTIn
     assert not error_msg, f"GFF roundtrip validation failed:\n" + "\n".join(error_msg)
 
 
-def test_are_editor_map_coordinates_roundtrip(qtbot: QtBot, installation: HTInstallation, test_files_dir: Path):
+def test_are_editor_map_coordinates_roundtrip(
+    qtbot: QtBot, installation: HTInstallation, test_files_dir: Path
+):
     """Test that map coordinates (MapPt1X, MapPt1Y, etc.) are preserved exactly through roundtrip.
 
     This is critical because the map rendering depends on these values being accurate.
@@ -1966,15 +2078,33 @@ def test_are_editor_map_coordinates_roundtrip(qtbot: QtBot, installation: HTInst
     # Verify all map coordinates match (with floating point tolerance)
     tolerance = 0.0001
 
-    assert abs(orig_map_pt1_x - new_map_pt1_x) < tolerance, f"MapPt1X mismatch: {orig_map_pt1_x} vs {new_map_pt1_x}"
-    assert abs(orig_map_pt1_y - new_map_pt1_y) < tolerance, f"MapPt1Y mismatch: {orig_map_pt1_y} vs {new_map_pt1_y}"
-    assert abs(orig_map_pt2_x - new_map_pt2_x) < tolerance, f"MapPt2X mismatch: {orig_map_pt2_x} vs {new_map_pt2_x}"
-    assert abs(orig_map_pt2_y - new_map_pt2_y) < tolerance, f"MapPt2Y mismatch: {orig_map_pt2_y} vs {new_map_pt2_y}"
-    assert abs(orig_world_pt1_x - new_world_pt1_x) < tolerance, f"WorldPt1X mismatch: {orig_world_pt1_x} vs {new_world_pt1_x}"
-    assert abs(orig_world_pt1_y - new_world_pt1_y) < tolerance, f"WorldPt1Y mismatch: {orig_world_pt1_y} vs {new_world_pt1_y}"
-    assert abs(orig_world_pt2_x - new_world_pt2_x) < tolerance, f"WorldPt2X mismatch: {orig_world_pt2_x} vs {new_world_pt2_x}"
-    assert abs(orig_world_pt2_y - new_world_pt2_y) < tolerance, f"WorldPt2Y mismatch: {orig_world_pt2_y} vs {new_world_pt2_y}"
-    assert orig_north_axis == new_north_axis, f"NorthAxis mismatch: {orig_north_axis} vs {new_north_axis}"
+    assert abs(orig_map_pt1_x - new_map_pt1_x) < tolerance, (
+        f"MapPt1X mismatch: {orig_map_pt1_x} vs {new_map_pt1_x}"
+    )
+    assert abs(orig_map_pt1_y - new_map_pt1_y) < tolerance, (
+        f"MapPt1Y mismatch: {orig_map_pt1_y} vs {new_map_pt1_y}"
+    )
+    assert abs(orig_map_pt2_x - new_map_pt2_x) < tolerance, (
+        f"MapPt2X mismatch: {orig_map_pt2_x} vs {new_map_pt2_x}"
+    )
+    assert abs(orig_map_pt2_y - new_map_pt2_y) < tolerance, (
+        f"MapPt2Y mismatch: {orig_map_pt2_y} vs {new_map_pt2_y}"
+    )
+    assert abs(orig_world_pt1_x - new_world_pt1_x) < tolerance, (
+        f"WorldPt1X mismatch: {orig_world_pt1_x} vs {new_world_pt1_x}"
+    )
+    assert abs(orig_world_pt1_y - new_world_pt1_y) < tolerance, (
+        f"WorldPt1Y mismatch: {orig_world_pt1_y} vs {new_world_pt1_y}"
+    )
+    assert abs(orig_world_pt2_x - new_world_pt2_x) < tolerance, (
+        f"WorldPt2X mismatch: {orig_world_pt2_x} vs {new_world_pt2_x}"
+    )
+    assert abs(orig_world_pt2_y - new_world_pt2_y) < tolerance, (
+        f"WorldPt2Y mismatch: {orig_world_pt2_y} vs {new_world_pt2_y}"
+    )
+    assert orig_north_axis == new_north_axis, (
+        f"NorthAxis mismatch: {orig_north_axis} vs {new_north_axis}"
+    )
     assert orig_map_zoom == new_map_zoom, f"MapZoom mismatch: {orig_map_zoom} vs {new_map_zoom}"
     assert orig_map_res_x == new_map_res_x, f"MapResX mismatch: {orig_map_res_x} vs {new_map_res_x}"
 

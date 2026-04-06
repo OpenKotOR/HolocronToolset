@@ -26,7 +26,9 @@ class QtTypeWrapper:
         self.type_str: str = type_str
 
     def reconstruct(self) -> Qt.Key | Qt.MouseButton:
-        return get_qt_key(self.value) if self.type_str == "Qt.Key" else get_qt_mouse_button(self.value)
+        return (
+            get_qt_key(self.value) if self.type_str == "Qt.Key" else get_qt_mouse_button(self.value)
+        )
 
 
 T = TypeVar("T")
@@ -47,7 +49,9 @@ class SettingsProperty(property, Generic[T]):
 
         # Asserts are removed in release versions automatically with PYTHONOPTIMIZE (-O) flag.
         reconstructed_default = self.deserialize_value(self.serialized_default)
-        assert default == reconstructed_default, f"{self.return_type} == {reconstructed_default.__class__}, repr type({default}) != type({reconstructed_default})"
+        assert default == reconstructed_default, (
+            f"{self.return_type} == {reconstructed_default.__class__}, repr type({default}) != type({reconstructed_default})"
+        )
 
         super().__init__(self.getter, self.setter, None, None)
 
@@ -57,7 +61,9 @@ class SettingsProperty(property, Generic[T]):
     ) -> T:
         serialized_value: KT | None = None
         try:
-            serialized_value = instance.settings.value(self.name, self.serialized_default, self.serialized_type)
+            serialized_value = instance.settings.value(
+                self.name, self.serialized_default, self.serialized_type
+            )
             constructed_value: T = self.deserialize_value(serialized_value)
             if constructed_value.__class__ != self.default.__class__:
                 RobustLogger().error(
@@ -87,7 +93,9 @@ class SettingsProperty(property, Generic[T]):
             try:
                 instance.settings.setValue(self.name, serialized_value)
             except Exception as e:  # noqa: BLE001
-                RobustLogger().exception(f"Exception in settings setter while saving serialized setting '{self.name}', value {serialized_value}: {e}")
+                RobustLogger().exception(
+                    f"Exception in settings setter while saving serialized setting '{self.name}', value {serialized_value}: {e}"
+                )
 
     def _handle_corrupted_setting(
         self,
@@ -101,14 +109,20 @@ class SettingsProperty(property, Generic[T]):
         self,
         instance: Settings,
     ):
-        RobustLogger().info(f"Reset setting '{self.name}' to default of {self.default!s} (repr: {self.default!r})")
+        RobustLogger().info(
+            f"Reset setting '{self.name}' to default of {self.default!s} (repr: {self.default!r})"
+        )
         instance.settings.setValue(self.name, self.serialized_default)
 
         # Double check it serialized correctly.
-        serialized_value: KT = instance.settings.value(self.name, self.serialized_default, self.serialized_default.__class__)
+        serialized_value: KT = instance.settings.value(
+            self.name, self.serialized_default, self.serialized_default.__class__
+        )
         constructed_value: T = self.deserialize_value(serialized_value)
         if constructed_value.__class__ != self.default.__class__:
-            raise RuntimeError(f"{constructed_value.__class__} == {self.default.__class__}, repr type({constructed_value}) != type({self.default})")
+            raise RuntimeError(
+                f"{constructed_value.__class__} == {self.default.__class__}, repr type({constructed_value}) != type({self.default})"
+            )
 
     def serialize_value(
         self,

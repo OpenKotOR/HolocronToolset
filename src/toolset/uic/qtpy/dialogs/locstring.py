@@ -29,7 +29,9 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_2.addWidget(self.label_2)
         self.stringrefSpin = QtWidgets.QSpinBox(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.stringrefSpin.sizePolicy().hasHeightForWidth())
@@ -73,7 +75,9 @@ class Ui_Dialog(object):
         self.languageSelect.addItem("")
         self.languageSelect.addItem("")
         self.horizontalLayout.addWidget(self.languageSelect)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.maleRadio = QtWidgets.QRadioButton(self.substringFrame)
         self.maleRadio.setChecked(True)
@@ -89,13 +93,15 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.stringEdit)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(Dialog.reject) # type: ignore
+        self.buttonBox.accepted.connect(Dialog.accept)  # type: ignore
+        self.buttonBox.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -105,11 +111,17 @@ class Ui_Dialog(object):
         self.stringrefNewButton.setText(_translate("Dialog", "New"))
         self.stringrefNewButton.setToolTip(_translate("Dialog", "Create a new entry in the TLK."))
         self.stringrefNoneButton.setText(_translate("Dialog", "None"))
-        self.stringrefNoneButton.setToolTip(_translate("Dialog", "Override the TLK with a custom entry."))
+        self.stringrefNoneButton.setToolTip(
+            _translate("Dialog", "Override the TLK with a custom entry.")
+        )
         self.stringrefSearchButton.setText(_translate("Dialog", "Search"))
-        self.stringrefSearchButton.setToolTip(_translate("Dialog", "Search existing TLK entries and select a StringRef."))
+        self.stringrefSearchButton.setToolTip(
+            _translate("Dialog", "Search existing TLK entries and select a StringRef.")
+        )
         self.stringrefOpenTLKButton.setText(_translate("Dialog", "Open TLK"))
-        self.stringrefOpenTLKButton.setToolTip(_translate("Dialog", "Open the TLK editor and jump to this StringRef."))
+        self.stringrefOpenTLKButton.setToolTip(
+            _translate("Dialog", "Open the TLK editor and jump to this StringRef.")
+        )
         self.languageSelect.setItemText(0, _translate("Dialog", "English"))
         self.languageSelect.setItemText(1, _translate("Dialog", "French"))
         self.languageSelect.setItemText(2, _translate("Dialog", "German"))

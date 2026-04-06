@@ -50,7 +50,9 @@ class Ui_Dialog(object):
         self.rememberCheckbox = QtWidgets.QCheckBox(Dialog)
         self.rememberCheckbox.setObjectName("rememberCheckbox")
         self.verticalLayout.addWidget(self.rememberCheckbox)
-        spacerItem = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem)
         self.cancelButton = QtWidgets.QPushButton(Dialog)
         self.cancelButton.setObjectName("cancelButton")
@@ -62,25 +64,38 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Choose Editor"))
-        self.questionLabel.setText(_translate("Dialog", "How would you like to open the Module Designer?"))
-        self.blenderButton.setText(_translate("Dialog", "Open in Blender\n"
-"         (Recommended)"))
+        self.questionLabel.setText(
+            _translate("Dialog", "How would you like to open the Module Designer?")
+        )
+        self.blenderButton.setText(_translate("Dialog", "Open in Blender\n         (Recommended)"))
         self.builtinButton.setText(_translate("Dialog", "Use Built-in Editor"))
-        self.builtinButton.setToolTip(_translate("Dialog", "Use the built-in PyKotorGL renderer.\n"
-"         Integrated experience, no external application needed."))
-        self.comparisonLabel.setText(_translate("Dialog", "<table cellspacing=\'8\'>\n"
-"       <tr><th\n"
-"       align=\'left\'></th><th>Blender</th><th>Built-in</th></tr>\n"
-"       <tr><td>Performance</td><td>⭐⭐⭐</td><td>⭐</td></tr>\n"
-"       <tr><td>3D\n"
-"       Navigation</td><td>⭐⭐⭐</td><td>⭐⭐</td></tr>\n"
-"       <tr><td>Model\n"
-"       Editing</td><td>⭐⭐⭐</td><td>❌</td></tr>\n"
-"       <tr><td>Lightmap\n"
-"       Baking</td><td>⭐⭐⭐</td><td>❌</td></tr>\n"
-"       <tr><td>Integration</td><td>⭐⭐</td><td>⭐⭐⭐</td></tr>\n"
-"       </table>"))
+        self.builtinButton.setToolTip(
+            _translate(
+                "Dialog",
+                "Use the built-in PyKotorGL renderer.\n"
+                "         Integrated experience, no external application needed.",
+            )
+        )
+        self.comparisonLabel.setText(
+            _translate(
+                "Dialog",
+                "<table cellspacing='8'>\n"
+                "       <tr><th\n"
+                "       align='left'></th><th>Blender</th><th>Built-in</th></tr>\n"
+                "       <tr><td>Performance</td><td>⭐⭐⭐</td><td>⭐</td></tr>\n"
+                "       <tr><td>3D\n"
+                "       Navigation</td><td>⭐⭐⭐</td><td>⭐⭐</td></tr>\n"
+                "       <tr><td>Model\n"
+                "       Editing</td><td>⭐⭐⭐</td><td>❌</td></tr>\n"
+                "       <tr><td>Lightmap\n"
+                "       Baking</td><td>⭐⭐⭐</td><td>❌</td></tr>\n"
+                "       <tr><td>Integration</td><td>⭐⭐</td><td>⭐⭐⭐</td></tr>\n"
+                "       </table>",
+            )
+        )
         self.comparisonLabel.setStyleSheet(_translate("Dialog", "color: #666; font-size: 11px;"))
         self.rememberCheckbox.setText(_translate("Dialog", "Remember my choice"))
-        self.rememberCheckbox.setToolTip(_translate("Dialog", "Don\'t show this dialog again. You can change this in Settings."))
+        self.rememberCheckbox.setToolTip(
+            _translate("Dialog", "Don't show this dialog again. You can change this in Settings.")
+        )
         self.cancelButton.setText(_translate("Dialog", "Cancel"))

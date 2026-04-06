@@ -35,7 +35,9 @@ class About(QDialog):
         self.setWindowFlags(
             QtCore.Qt.WindowType.Dialog  # pyright: ignore[reportArgumentType]
             | QtCore.Qt.WindowType.WindowCloseButtonHint
-            | QtCore.Qt.WindowType.WindowStaysOnTopHint & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint & ~QtCore.Qt.WindowType.WindowMinMaxButtonsHint,
+            | QtCore.Qt.WindowType.WindowStaysOnTopHint
+            & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint
+            & ~QtCore.Qt.WindowType.WindowMinMaxButtonsHint,
         )
 
         from toolset.uic.qtpy.dialogs.about import Ui_Dialog
@@ -52,7 +54,9 @@ class About(QDialog):
         # QPushButton.clicked emits a bool; QDialog.close takes no args.
         self.ui.closeButton.clicked.connect(lambda *_: self.close())
 
-        self.ui.aboutLabel.setText(self.ui.aboutLabel.text().replace("X.X.X", LOCAL_PROGRAM_INFO["currentVersion"]))
+        self.ui.aboutLabel.setText(
+            self.ui.aboutLabel.text().replace("X.X.X", LOCAL_PROGRAM_INFO["currentVersion"])
+        )
 
     def showEvent(self, event: QShowEvent):
         self.setFixedSize(self.size())

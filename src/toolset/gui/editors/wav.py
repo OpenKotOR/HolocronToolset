@@ -120,7 +120,9 @@ class WAVEditor(Editor):
         player = self.mediaPlayer.player  # pyright: ignore[reportAttributeAccessIssue]
 
         # Disconnect any existing connections to avoid duplicates
-        signal_pairs: list[tuple[Callable[[], QMediaPlayer.Error | None] | pyqtBoundSignal, Callable]] = [
+        signal_pairs: list[
+            tuple[Callable[[], QMediaPlayer.Error | None] | pyqtBoundSignal, Callable]
+        ] = [
             (player.durationChanged, self._on_duration_changed),
             (player.positionChanged, self._on_position_changed),
             (player.mediaStatusChanged, self._on_media_status_changed),
@@ -323,7 +325,9 @@ class WAVEditor(Editor):
                 wav = read_wav_auto(BytesIO(data))
                 data = bytes_wav(wav, ResourceType.INVALID)
                 if not data:
-                    RobustLogger().warning("Failed to parse WAV file, falling back to direct playback")
+                    RobustLogger().warning(
+                        "Failed to parse WAV file, falling back to direct playback"
+                    )
                     is_wav = False
                     data = original_data
             except Exception as e:  # noqa: BLE001
@@ -529,7 +533,9 @@ class WAVEditor(Editor):
 
     def _on_player_error(self, *args: Any, **kwargs: Any) -> None:
         """Handle media player errors."""
-        RobustLogger().warning(trf("Media player error: {args}, {kwargs}", args=args, kwargs=kwargs))
+        RobustLogger().warning(
+            trf("Media player error: {args}, {kwargs}", args=args, kwargs=kwargs)
+        )
 
     # =========================================================================
     # Cleanup

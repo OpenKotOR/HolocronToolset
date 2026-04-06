@@ -81,7 +81,9 @@ def test_clone_module_dialog_all_widgets_interactions(qtbot: QtBot, installation
         dialog.ui.filenameEdit.setText(filename)
         # The text may be truncated if it exceeds maxLength (16)
         actual_text = dialog.ui.filenameEdit.text()
-        assert actual_text == filename or len(actual_text) == 16, f"Expected '{filename}' but got '{actual_text}' (may be truncated to 16 chars)"
+        assert actual_text == filename or len(actual_text) == 16, (
+            f"Expected '{filename}' but got '{actual_text}' (may be truncated to 16 chars)"
+        )
         assert dialog.ui.prefixEdit.text() == expected_prefix
 
     # Test prefixEdit - QLineEdit (can be manually edited)
@@ -162,7 +164,9 @@ def test_clone_module_dialog_all_widgets_interactions(qtbot: QtBot, installation
     )
 
 
-def test_clone_module_dialog_prefix_generation_exhaustive(qtbot: QtBot, installation: HTInstallation):
+def test_clone_module_dialog_prefix_generation_exhaustive(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test prefix generation logic exhaustively."""
     from qtpy.QtWidgets import QWidget
 
@@ -191,10 +195,14 @@ def test_clone_module_dialog_prefix_generation_exhaustive(qtbot: QtBot, installa
 
     for filename, expected in test_cases:
         dialog.ui.filenameEdit.setText(filename)
-        assert dialog.ui.prefixEdit.text() == expected, f"Failed for filename '{filename}': expected '{expected}', got '{dialog.ui.prefixEdit.text()}'"
+        assert dialog.ui.prefixEdit.text() == expected, (
+            f"Failed for filename '{filename}': expected '{expected}', got '{dialog.ui.prefixEdit.text()}'"
+        )
 
 
-def test_clone_module_dialog_module_selection_updates_root(qtbot: QtBot, installation: HTInstallation):
+def test_clone_module_dialog_module_selection_updates_root(
+    qtbot: QtBot, installation: HTInstallation
+):
     """Test that module selection updates root edit."""
     from qtpy.QtWidgets import QWidget
 

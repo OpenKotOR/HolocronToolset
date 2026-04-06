@@ -215,7 +215,9 @@ class Ui_Dialog(object):
         self.handlPicture.raise_()
         self.gridLayout.addWidget(self.handlFrame, 2, 0, 1, 1)
         self.implantFrame = DropFrame(self.standardEquipmentTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.implantFrame.sizePolicy().hasHeightForWidth())
@@ -328,7 +330,9 @@ class Ui_Dialog(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.naturalEquipmentTab)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.claw1Frame = DropFrame(self.naturalEquipmentTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.claw1Frame.sizePolicy().hasHeightForWidth())
@@ -486,7 +490,9 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout_2.addItem(spacerItem)
         self.okButton = QtWidgets.QPushButton(Dialog)
         self.okButton.setObjectName("okButton")
@@ -505,22 +511,38 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Inventory Editor"))
         self.coreSearchEdit.setPlaceholderText(_translate("Dialog", "search..."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Dialog", "Core Items"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab), _translate("Dialog", "Core Items")
+        )
         self.modulesSearchEdit.setPlaceholderText(_translate("Dialog", "search..."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Module Items"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Module Items")
+        )
         self.overrideSearchEdit.setPlaceholderText(_translate("Dialog", "search..."))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("Dialog", "Override Items"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.standardEquipmentTab), _translate("Dialog", "Standard Equipment"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.naturalEquipmentTab), _translate("Dialog", "Natural Equipment"))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.tab_5), _translate("Dialog", "Override Items")
+        )
+        self.tabWidget_2.setTabText(
+            self.tabWidget_2.indexOf(self.standardEquipmentTab),
+            _translate("Dialog", "Standard Equipment"),
+        )
+        self.tabWidget_2.setTabText(
+            self.tabWidget_2.indexOf(self.naturalEquipmentTab),
+            _translate("Dialog", "Natural Equipment"),
+        )
         item = self.contentsTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Icon"))
         item = self.contentsTable.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "ResRef"))
         item = self.contentsTable.horizontalHeaderItem(2)
         item.setText(_translate("Dialog", "Name"))
-        self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.contentsTab), _translate("Dialog", "Contents"))
+        self.tabWidget_3.setTabText(
+            self.tabWidget_3.indexOf(self.contentsTab), _translate("Dialog", "Contents")
+        )
         self.okButton.setText(_translate("Dialog", "OK"))
         self.cancelButton.setText(_translate("Dialog", "Cancel"))
+
+
 from toolset.gui.dialogs.inventory import DropFrame, InventoryTable
 from utility.gui.qt.widgets.itemviews.treeview import RobustTreeView
 import resources_rc

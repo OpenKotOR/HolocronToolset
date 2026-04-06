@@ -67,11 +67,32 @@ def _create_instance_dialog(
     parent: QWidget,
     instance: GITObject,
     installation: HTInstallation,
-) -> CameraDialog | CreatureDialog | DoorDialog | EncounterDialog | PlaceableDialog | TriggerDialog | SoundDialog | StoreDialog | WaypointDialog:
+) -> (
+    CameraDialog
+    | CreatureDialog
+    | DoorDialog
+    | EncounterDialog
+    | PlaceableDialog
+    | TriggerDialog
+    | SoundDialog
+    | StoreDialog
+    | WaypointDialog
+):
     """Create the appropriate dialog for an instance based on its type."""
     dialog_map: dict[
         type[GITObject],
-        Callable[[], CameraDialog | CreatureDialog | DoorDialog | EncounterDialog | PlaceableDialog | TriggerDialog | SoundDialog | StoreDialog | WaypointDialog],
+        Callable[
+            [],
+            CameraDialog
+            | CreatureDialog
+            | DoorDialog
+            | EncounterDialog
+            | PlaceableDialog
+            | TriggerDialog
+            | SoundDialog
+            | StoreDialog
+            | WaypointDialog,
+        ],
     ] = {
         GITCamera: lambda: CameraDialog(parent, cast("GITCamera", instance)),
         GITCreature: lambda: CreatureDialog(parent, cast("GITCreature", instance)),
@@ -95,9 +116,17 @@ def open_instance_dialog(
     instance: GITObject,
     installation: HTInstallation,
 ) -> int:
-    dialog: CameraDialog | CreatureDialog | DoorDialog | EncounterDialog | PlaceableDialog | TriggerDialog | SoundDialog | StoreDialog | WaypointDialog = (
-        _create_instance_dialog(parent, instance, installation)
-    )
+    dialog: (
+        CameraDialog
+        | CreatureDialog
+        | DoorDialog
+        | EncounterDialog
+        | PlaceableDialog
+        | TriggerDialog
+        | SoundDialog
+        | StoreDialog
+        | WaypointDialog
+    ) = _create_instance_dialog(parent, instance, installation)
     return dialog.exec()
 
 
@@ -156,7 +185,9 @@ class _Mode(ABC):
     def update_status_bar(self, world: Vector2): ...
 
     @staticmethod
-    def _is_first_selected_still_under_mouse(selection: list[object], under_mouse: list[object]) -> bool:
+    def _is_first_selected_still_under_mouse(
+        selection: list[object], under_mouse: list[object]
+    ) -> bool:
         if not selection:
             return False
         under_mouse_ids: set[int] = {id(item) for item in under_mouse}
@@ -251,29 +282,47 @@ class _InstanceMode(_Mode):
             return
         instance: GITInstance = selection[-1]
         resident: ResourceIdentifier | None = instance.identifier()
-        assert resident is not None, "resident cannot be None in edit_selected_instance_resource({instance!r})"
+        assert resident is not None, (
+            "resident cannot be None in edit_selected_instance_resource({instance!r})"
+        )
         resname, restype = resident.resname, resident.restype
 
-        order: list[SearchLocation] = [SearchLocation.CHITIN, SearchLocation.MODULES, SearchLocation.OVERRIDE]
-        assert self._installation is not None, "Installation is required to edit selected instance resource"
+        order: list[SearchLocation] = [
+            SearchLocation.CHITIN,
+            SearchLocation.MODULES,
+            SearchLocation.OVERRIDE,
+        ]
+        assert self._installation is not None, (
+            "Installation is required to edit selected instance resource"
+        )
         search: list[LocationResult] = self._installation.location(resname, restype, order)
 
         if self._is_git_editor:
-            assert self._editor._filepath is not None, "filepath cannot be None in edit_selected_instance_resource({instance!r})"  # noqa: SLF001
-            module_root: str = self._installation.get_module_root(self._editor._filepath.name).lower()  # noqa: SLF001
+            assert self._editor._filepath is not None, (
+                "filepath cannot be None in edit_selected_instance_resource({instance!r})"
+            )  # noqa: SLF001
+            module_root: str = self._installation.get_module_root(
+                self._editor._filepath.name
+            ).lower()  # noqa: SLF001
             edited_file_from_dot_mod = self._editor._filepath.suffix.lower() == ".mod"  # noqa: SLF001
         else:
-            assert self._editor._module is not None, "module cannot be None in edit_selected_instance_resource({instance!r})"  # noqa: SLF001
+            assert self._editor._module is not None, (
+                "module cannot be None in edit_selected_instance_resource({instance!r})"
+            )  # noqa: SLF001
             module_root = self._editor._module.root().lower()  # noqa: SLF001
             edited_file_from_dot_mod = self._editor._module.dot_mod  # noqa: SLF001
 
         for i, loc in reversed(list(enumerate(search))):
             if loc.filepath.parent.name.lower() == "modules":
-                assert self._installation is not None, "Installation is required to edit selected instance resource"
+                assert self._installation is not None, (
+                    "Installation is required to edit selected instance resource"
+                )
                 loc_module_root = self._installation.get_module_root(loc.filepath.name.lower())
                 loc_is_dot_mod = loc.filepath.suffix.lower() == ".mod"
                 if loc_module_root != module_root:
-                    RobustLogger().debug(f"Removing location '{loc.filepath}' (not in our module '{module_root}')")
+                    RobustLogger().debug(
+                        f"Removing location '{loc.filepath}' (not in our module '{module_root}')"
+                    )
                     search.pop(i)
                 elif loc_is_dot_mod != edited_file_from_dot_mod:
                     RobustLogger().debug(f"Removing location '{loc.filepath}' due to rim/mod check")
@@ -303,7 +352,11 @@ class _InstanceMode(_Mode):
 
         if open_instance_dialog(self._editor, instance, self._installation):
             self._git.add(instance)
-            undo_stack = self._editor._controls.undo_stack if self._is_git_editor else self._editor.undo_stack  # noqa: SLF001
+            undo_stack = (
+                self._editor._controls.undo_stack
+                if self._is_git_editor
+                else self._editor.undo_stack
+            )  # noqa: SLF001
             undo_stack.push(InsertCommand(self._git, instance, self._editor))
             self.build_list()
 
@@ -329,7 +382,9 @@ class _InstanceMode(_Mode):
             menu.addAction("Edit Geometry").triggered.connect(self.edit_selected_instance_geometry)  # pyright: ignore[reportOptionalMemberAccess]
 
         if isinstance(instance, GITEncounter):
-            menu.addAction("Edit Spawn Points").triggered.connect(self.edit_selected_instance_spawns)  # pyright: ignore[reportOptionalMemberAccess]
+            menu.addAction("Edit Spawn Points").triggered.connect(
+                self.edit_selected_instance_spawns
+            )  # pyright: ignore[reportOptionalMemberAccess]
         menu.addSeparator()
         self.add_resource_sub_menu(menu, instance)
 
@@ -348,7 +403,9 @@ class _InstanceMode(_Mode):
             valid_filepaths = [self._editor._filepath]  # noqa: SLF001
         else:
             assert self._editor._module is not None  # noqa: SLF001
-            valid_filepaths = [res.filepath() for res in self._editor._module.get_capsules() if res is not None]  # noqa: SLF001
+            valid_filepaths = [
+                res.filepath() for res in self._editor._module.get_capsules() if res is not None
+            ]  # noqa: SLF001
 
         assert self._installation is not None, "Installation is required to add resource submenu"
         override_path = self._installation.override_path()
@@ -360,9 +417,13 @@ class _InstanceMode(_Mode):
             if os.path.commonpath([result.filepath, override_path]) == str(override_path):
                 display_path = result.filepath.relative_to(override_path.parent)
             else:
-                display_path = result.filepath.joinpath(str(instance.identifier())).relative_to(self._installation.path())
+                display_path = result.filepath.joinpath(str(instance.identifier())).relative_to(
+                    self._installation.path()
+                )
             loc_menu: QMenu | None = file_menu.addMenu(str(display_path))  # pyright: ignore[reportOptionalMemberAccess]
-            assert loc_menu is not None, "loc_menu cannot be None in add_resource_submenu({instance!r})"
+            assert loc_menu is not None, (
+                "loc_menu cannot be None in add_resource_submenu({instance!r})"
+            )
             ResourceItems(resources=[result]).build_menu(loc_menu)
 
         def more_info():
@@ -434,7 +495,13 @@ class _InstanceMode(_Mode):
     ) -> dict[int, int]:
         return {id(instance): index for index, instance in enumerate(instances)}
 
-    def _struct_index(self, instance: GITInstance, *, instances: list[GITInstance] | None = None, index_map: dict[int, int] | None = None) -> int:
+    def _struct_index(
+        self,
+        instance: GITInstance,
+        *,
+        instances: list[GITInstance] | None = None,
+        index_map: dict[int, int] | None = None,
+    ) -> int:
         if instances is None:
             instances = self._git.instances()
         if index_map is None:
@@ -450,9 +517,13 @@ class _InstanceMode(_Mode):
         return self._instance_reference_text(instance).rjust(9, "0")
 
     def _is_rotatable_instance(self, instance: GITObject) -> bool:
-        return isinstance(instance, (GITCamera, GITCreature, GITDoor, GITPlaceable, GITStore, GITWaypoint))
+        return isinstance(
+            instance, (GITCamera, GITCreature, GITDoor, GITPlaceable, GITStore, GITWaypoint)
+        )
 
-    def _rotation_delta_to_point(self, instance: GITObject, yaw: float, current_angle: float) -> float:
+    def _rotation_delta_to_point(
+        self, instance: GITObject, yaw: float, current_angle: float
+    ) -> float:
         return yaw - current_angle if isinstance(instance, GITCamera) else -yaw + current_angle
 
     def _show_world_status(self, world: Vector2, detail: str = "") -> None:
@@ -492,7 +563,9 @@ class _InstanceMode(_Mode):
         instance_indices = self._build_instance_index_map(git_instances)
         if not self.renderer2d.instance_selection.isEmpty():
             last = self.renderer2d.instance_selection.last()
-            assert last is not None, f"last cannot be None in _get_render_context_menu({world!r}, {under_mouse!r})"
+            assert last is not None, (
+                f"last cannot be None in _get_render_context_menu({world!r}, {under_mouse!r})"
+            )
             self.add_instance_actions_to_menu(last, menu)
         else:
             self.add_insert_actions_to_menu(menu, world)
@@ -501,10 +574,14 @@ class _InstanceMode(_Mode):
             for instance in under_mouse:
                 icon = QIcon(self.renderer2d.instance_pixmap(instance))
                 reference = self._instance_reference_text(instance)
-                index = self._struct_index(instance, instances=git_instances, index_map=instance_indices)
+                index = self._struct_index(
+                    instance, instances=git_instances, index_map=instance_indices
+                )
 
                 instance_action = menu.addAction(icon, f"[{index}] {reference}")
-                instance_action.triggered.connect(lambda _=None, inst=instance: self.set_selection([inst]))  # pyright: ignore[reportOptionalMemberAccess]
+                instance_action.triggered.connect(
+                    lambda _=None, inst=instance: self.set_selection([inst])
+                )  # pyright: ignore[reportOptionalMemberAccess]
                 instance_action.setEnabled(instance not in self.renderer2d.instance_selection.all())  # pyright: ignore[reportOptionalMemberAccess]
                 menu.addAction(instance_action)
 
@@ -527,14 +604,30 @@ class _InstanceMode(_Mode):
         menu.popup(point)
 
     def add_insert_actions_to_menu(self, menu: QMenu, world: Vector2):
-        menu.addAction("Insert Creature").triggered.connect(lambda: self.add_instance(GITCreature(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Door").triggered.connect(lambda: self.add_instance(GITDoor(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Placeable").triggered.connect(lambda: self.add_instance(GITPlaceable(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Store").triggered.connect(lambda: self.add_instance(GITStore(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Sound").triggered.connect(lambda: self.add_instance(GITSound(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Waypoint").triggered.connect(lambda: self.add_instance(GITWaypoint(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Camera").triggered.connect(lambda: self.add_instance(GITCamera(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
-        menu.addAction("Insert Encounter").triggered.connect(lambda: self.add_instance(GITEncounter(world.x, world.y)))  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Creature").triggered.connect(
+            lambda: self.add_instance(GITCreature(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Door").triggered.connect(
+            lambda: self.add_instance(GITDoor(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Placeable").triggered.connect(
+            lambda: self.add_instance(GITPlaceable(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Store").triggered.connect(
+            lambda: self.add_instance(GITStore(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Sound").triggered.connect(
+            lambda: self.add_instance(GITSound(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Waypoint").triggered.connect(
+            lambda: self.add_instance(GITWaypoint(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Camera").triggered.connect(
+            lambda: self.add_instance(GITCamera(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Encounter").triggered.connect(
+            lambda: self.add_instance(GITEncounter(world.x, world.y))
+        )  # pyright: ignore[reportOptionalMemberAccess]
 
         simple_trigger = GITTrigger(world.x, world.y)
         simple_trigger.geometry.extend(
@@ -545,7 +638,9 @@ class _InstanceMode(_Mode):
                 Vector3(0.0, 3.0, 0.0),
             ],
         )
-        menu.addAction("Insert Trigger").triggered.connect(lambda: self.add_instance(simple_trigger))  # pyright: ignore[reportOptionalMemberAccess]
+        menu.addAction("Insert Trigger").triggered.connect(
+            lambda: self.add_instance(simple_trigger)
+        )  # pyright: ignore[reportOptionalMemberAccess]
 
     def build_list(self):
         self.list_widget().clear()
@@ -582,7 +677,9 @@ class _InstanceMode(_Mode):
 
         # Do not change the selection if the selected instance if its still underneath the mouse
         if self._is_first_selected_still_under_mouse(selection, under_mouse):
-            RobustLogger().info(f"Not changing selection: selected instance '{selection[0].classification()}' is still underneath the mouse.")
+            RobustLogger().info(
+                f"Not changing selection: selected instance '{selection[0].classification()}' is still underneath the mouse."
+            )
             return
 
         if under_mouse:
@@ -652,7 +749,9 @@ class _InstanceMode(_Mode):
     ):
         RobustLogger().debug(f"Moving selected instances by ({x}, {y})")
         if self._ui.lockInstancesCheck.isChecked():
-            RobustLogger().info("Ignoring move_selected for instancemode, lockInstancesCheck is checked.")
+            RobustLogger().info(
+                "Ignoring move_selected for instancemode, lockInstancesCheck is checked."
+            )
             return
 
         for instance in self.renderer2d.instance_selection.all():
@@ -671,8 +770,12 @@ class _InstanceMode(_Mode):
             if not self._is_rotatable_instance(instance):
                 continue
             current_angle = -math.atan2(x - instance.position.x, y - instance.position.y)
-            current_angle = (current_angle + math.pi) % (2 * math.pi) - math.pi  # Normalize to -π to π
-            yaw = ((instance.yaw() or 0.01) + math.pi) % (2 * math.pi) - math.pi  # Normalize to -π to π
+            current_angle = (current_angle + math.pi) % (
+                2 * math.pi
+            ) - math.pi  # Normalize to -π to π
+            yaw = ((instance.yaw() or 0.01) + math.pi) % (
+                2 * math.pi
+            ) - math.pi  # Normalize to -π to π
             rotation_difference = ((yaw - current_angle) + math.pi) % (2 * math.pi) - math.pi
             if abs(rotation_difference) < rotation_threshold:
                 continue
@@ -718,7 +821,9 @@ class _GeometryMode(_Mode):
         instance.geometry.append(point)
         self.renderer2d.geom_points_under_mouse().append(new_geom_point)
         self.renderer2d.geometry_selection._selection.append(new_geom_point)  # noqa: SLF001
-        RobustLogger().debug(f"Inserting new geompoint, instance {instance.identifier()}. Total points: {len(list(instance.geometry))}")
+        RobustLogger().debug(
+            f"Inserting new geompoint, instance {instance.identifier()}. Total points: {len(list(instance.geometry))}"
+        )
 
     # region Interface Methods
     def on_item_selection_changed(self, item: QListWidgetItem): ...
@@ -759,7 +864,9 @@ class _GeometryMode(_Mode):
 
         # Do not change the selection if the selected instance if its still underneath the mouse
         if self._is_first_selected_still_under_mouse(selection, under_mouse):
-            RobustLogger().info(f"Not changing selection: selected instance '{selection[0].instance.classification()}' is still underneath the mouse.")
+            RobustLogger().info(
+                f"Not changing selection: selected instance '{selection[0].instance.classification()}' is still underneath the mouse."
+            )
             return
         self.renderer2d.geometry_selection.select(under_mouse or [])
 
@@ -856,7 +963,9 @@ class _SpawnMode(_Mode):
         """Return whether the selected spawn reference is still present in its encounter list."""
         return id(sp_ref.spawn) in self._spawn_id_set(sp_ref.encounter)
 
-    def _spawn_id_map_for_selection(self, selection: list[EncounterSpawnPoint]) -> dict[int, set[int]]:
+    def _spawn_id_map_for_selection(
+        self, selection: list[EncounterSpawnPoint]
+    ) -> dict[int, set[int]]:
         """Build encounter-id -> spawn-id-set map for selected spawn points."""
         encounters = {sp_ref.encounter for sp_ref in selection}
         return {id(encounter): self._spawn_id_set(encounter) for encounter in encounters}
@@ -890,7 +999,9 @@ class _SpawnMode(_Mode):
         if not self.renderer2d.spawn_selection.isEmpty():
             menu.addAction("Remove Spawn Point").triggered.connect(self.delete_selected)  # pyright: ignore[reportOptionalMemberAccess]
             menu.addAction("Duplicate Spawn Point Here").triggered.connect(  # pyright: ignore[reportOptionalMemberAccess]
-                lambda: self.duplicate_selected(Vector3(world.x, world.y, self.renderer2d.get_z_coord(world.x, world.y))),
+                lambda: self.duplicate_selected(
+                    Vector3(world.x, world.y, self.renderer2d.get_z_coord(world.x, world.y))
+                ),
             )
         else:
             menu.addAction("Insert Spawn Point").triggered.connect(self.insert_spawn_point_at_mouse)  # pyright: ignore[reportOptionalMemberAccess]

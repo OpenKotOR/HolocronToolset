@@ -18,7 +18,10 @@ def ensure_mdl_aabb_hotfix() -> bool:
     except OSError:
         return False
     if n:
-        for name in ("pykotor.resource.formats.mdl.io_mdl", "pykotor.resource.formats.mdl.mdl_auto"):
+        for name in (
+            "pykotor.resource.formats.mdl.io_mdl",
+            "pykotor.resource.formats.mdl.mdl_auto",
+        ):
             mod = sys.modules.get(name)
             if mod is not None:
                 try:

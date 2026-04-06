@@ -17,7 +17,11 @@ from loggerplus import RobustLogger
 from pykotor.gl import vec3
 from pykotor.gl.models.read_mdl import gl_load_mdl
 from pykotor.gl.scene import RenderObject, Scene
-from pykotor.gl.scene.camera_controller import CameraController, CameraControllerSettings, InputState
+from pykotor.gl.scene.camera_controller import (
+    CameraController,
+    CameraControllerSettings,
+    InputState,
+)
 from pykotor.resource.formats.twoda import read_2da
 from pykotor.resource.generics.git import GIT
 from pykotor.resource.type import ResourceType
@@ -48,9 +52,15 @@ class ModelRenderer(OpenGLSceneRenderer):
     resourcesLoaded = Signal()
 
     def __init__(self, parent: QWidget):
-        from toolset.gui.widgets.settings.widgets.module_designer import get_renderer_loop_interval_ms  # noqa: PLC0415
+        from toolset.gui.widgets.settings.widgets.module_designer import (
+            get_renderer_loop_interval_ms,
+        )  # noqa: PLC0415
 
-        super().__init__(parent, initial_mouse_prev=Vector2(0, 0), loop_interval_ms=get_renderer_loop_interval_ms())
+        super().__init__(
+            parent,
+            initial_mouse_prev=Vector2(0, 0),
+            loop_interval_ms=get_renderer_loop_interval_ms(),
+        )
         self._last_texture_count: int = 0
         self._last_pending_texture_count: int = 0
         self._last_requested_texture_count: int = 0
@@ -81,7 +91,9 @@ class ModelRenderer(OpenGLSceneRenderer):
             or self._model_to_load is not None
             or self._creature_to_load is not None
             or self._pending_camera_reset
-            or (self._camera_controller is not None and self._camera_controller.has_pending_motion())
+            or (
+                self._camera_controller is not None and self._camera_controller.has_pending_motion()
+            )
         )
         if pending_async_work or bool(self._mouse_down) or bool(self._keys_down):
             self.update()
@@ -147,7 +159,9 @@ class ModelRenderer(OpenGLSceneRenderer):
         if self.scene is not None and value is not None and self.scene.installation is None:
             self.scene.installation = value
             self.scene.set_installation(value)
-            RobustLogger().debug("ModelRenderer.installation setter: Updated existing scene with installation")
+            RobustLogger().debug(
+                "ModelRenderer.installation setter: Updated existing scene with installation"
+            )
 
     def initializeGL(self):
         # Ensure OpenGL context is current
@@ -206,7 +220,9 @@ class ModelRenderer(OpenGLSceneRenderer):
         elif self._creature_to_load is not None:
             # Use sync=True to force synchronous model loading for the preview renderer
             # This ensures hooks (headhook, rhand, lhand, gogglehook) are found correctly
-            self.scene.objects["model"] = self.scene.get_creature_render_object(None, self._creature_to_load, sync=True)
+            self.scene.objects["model"] = self.scene.get_creature_render_object(
+                None, self._creature_to_load, sync=True
+            )
             # Scene caches object lists; invalidate so swapped render objects take effect.
             self.scene._invalidate_object_cache()  # noqa: SLF001
             self._creature_to_load = None
@@ -232,7 +248,9 @@ class ModelRenderer(OpenGLSceneRenderer):
         # 1. texture_lookup_info count increased (new textures have lookup info stored)
         # 2. OR pending count decreased (async loads completed)
         # DO NOT emit just because requested count increased - that means textures are still loading!
-        textures_finished_loading = current_texture_count > self._last_texture_count or (current_pending_count < previous_pending_count and previous_pending_count > 0)
+        textures_finished_loading = current_texture_count > self._last_texture_count or (
+            current_pending_count < previous_pending_count and previous_pending_count > 0
+        )
 
         if textures_finished_loading:
             self._last_texture_count = current_texture_count
@@ -423,7 +441,9 @@ class ModelRenderer(OpenGLSceneRenderer):
                 if self._camera_controller is not None:
                     self._camera_controller.sync_from_camera()
 
-        self._mouse_prev = screen  # Always assign mouse_prev after emitting, in order to do cursor lock properly.
+        self._mouse_prev = (
+            screen  # Always assign mouse_prev after emitting, in order to do cursor lock properly.
+        )
 
     def mousePressEvent(self, e: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         button = e.button()
@@ -439,7 +459,9 @@ class ModelRenderer(OpenGLSceneRenderer):
         """Apply an incremental rotation to a RenderObject."""
         # I implore someone to explain why Z affects Yaw, and Y affects Roll...
         current_rotation = obj.rotation()
-        new_rotation = vec3(current_rotation.x + pitch, current_rotation.y + roll, current_rotation.z + yaw)
+        new_rotation = vec3(
+            current_rotation.x + pitch, current_rotation.y + roll, current_rotation.z + yaw
+        )
         obj.set_rotation(new_rotation.x, new_rotation.y, new_rotation.z)
 
     def keyPressEvent(self, e: QKeyEvent):  # pyright: ignore[reportIncompatibleMethodOverride]

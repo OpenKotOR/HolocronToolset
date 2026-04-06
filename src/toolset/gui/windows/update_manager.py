@@ -161,7 +161,9 @@ class UpdateManager:
         """Mark a future as complete and shutdown executor if all are done."""
         self._futures_complete[future_type] = True
         # Check if all expected futures are complete
-        if self._futures_complete["master"] and (not self.settings.useBetaChannel or self._futures_complete["edge"]):
+        if self._futures_complete["master"] and (
+            not self.settings.useBetaChannel or self._futures_complete["edge"]
+        ):
             # Schedule shutdown on main thread to avoid deadlock when called from executor callback
             QTimer.singleShot(0, self._shutdown_executor)
 
@@ -237,11 +239,25 @@ class UpdateManager:
                     QMessageBox.StandardButton.Ok,
                 ).exec()
             return
-        remote_info, release_version_checked = self._determine_version_info(self.edge_info, self.master_info)
+        remote_info, release_version_checked = self._determine_version_info(
+            self.edge_info, self.master_info
+        )
         print("Remote info: ", remote_info)
-        greatest_available_version = remote_info["toolsetLatestVersion"] if release_version_checked else remote_info["toolsetLatestBetaVersion"]
-        toolset_latest_notes = remote_info.get("toolsetLatestNotes", "") if release_version_checked else remote_info.get("toolsetBetaLatestNotes", "")
-        toolset_download_link = remote_info["toolsetDownloadLink"] if release_version_checked else remote_info["toolsetBetaDownloadLink"]
+        greatest_available_version = (
+            remote_info["toolsetLatestVersion"]
+            if release_version_checked
+            else remote_info["toolsetLatestBetaVersion"]
+        )
+        toolset_latest_notes = (
+            remote_info.get("toolsetLatestNotes", "")
+            if release_version_checked
+            else remote_info.get("toolsetBetaLatestNotes", "")
+        )
+        toolset_download_link = (
+            remote_info["toolsetDownloadLink"]
+            if release_version_checked
+            else remote_info["toolsetBetaDownloadLink"]
+        )
         version_check = is_remote_version_newer(CURRENT_VERSION, greatest_available_version)
         print("is_remote_version_newer? ", version_check)
         cur_version_beta_release_str = ""
@@ -259,7 +275,9 @@ class UpdateManager:
             is_up_to_date=version_check is False,
             release_version_checked=release_version_checked,
         )
-        RobustLogger().debug("TRACE: Version message displayed - _on_update_info_fetched about to return")
+        RobustLogger().debug(
+            "TRACE: Version message displayed - _on_update_info_fetched about to return"
+        )
         RobustLogger().debug("TRACE: _on_update_info_fetched returning")
 
     def _determine_version_info(
@@ -267,20 +285,54 @@ class UpdateManager:
         edge_remote_info: dict[str, Any],
         master_remote_info: dict[str, Any],
     ) -> tuple[dict[str, Any], bool]:
-        version_list: list[tuple[Literal["toolsetLatestVersion", "toolsetLatestBetaVersion"], Literal["master", "edge"], str]] = []
+        version_list: list[
+            tuple[
+                Literal["toolsetLatestVersion", "toolsetLatestBetaVersion"],
+                Literal["master", "edge"],
+                str,
+            ]
+        ] = []
         print("Version list: ", version_list)
         if self.settings.useBetaChannel:
-            version_list.append(("toolsetLatestVersion", "master", master_remote_info.get("toolsetLatestVersion", "")))
-            version_list.append(("toolsetLatestVersion", "edge", edge_remote_info.get("toolsetLatestVersion", "")))
-            version_list.append(("toolsetLatestBetaVersion", "master", master_remote_info.get("toolsetLatestBetaVersion", "")))
-            version_list.append(("toolsetLatestBetaVersion", "edge", edge_remote_info.get("toolsetLatestBetaVersion", "")))
+            version_list.append(
+                (
+                    "toolsetLatestVersion",
+                    "master",
+                    master_remote_info.get("toolsetLatestVersion", ""),
+                )
+            )
+            version_list.append(
+                ("toolsetLatestVersion", "edge", edge_remote_info.get("toolsetLatestVersion", ""))
+            )
+            version_list.append(
+                (
+                    "toolsetLatestBetaVersion",
+                    "master",
+                    master_remote_info.get("toolsetLatestBetaVersion", ""),
+                )
+            )
+            version_list.append(
+                (
+                    "toolsetLatestBetaVersion",
+                    "edge",
+                    edge_remote_info.get("toolsetLatestBetaVersion", ""),
+                )
+            )
         else:
-            version_list.append(("toolsetLatestVersion", "master", master_remote_info.get("toolsetLatestVersion", "")))
+            version_list.append(
+                (
+                    "toolsetLatestVersion",
+                    "master",
+                    master_remote_info.get("toolsetLatestVersion", ""),
+                )
+            )
 
         version_list.sort(key=lambda x: bool(is_remote_version_newer("0.0.0", x[2])))
 
         release_version = version_list[0][0] == "toolsetLatestVersion"
-        remote_info: dict[str, Any] = edge_remote_info if version_list[0][1] == "edge" else master_remote_info
+        remote_info: dict[str, Any] = (
+            edge_remote_info if version_list[0][1] == "edge" else master_remote_info
+        )
         return remote_info, release_version
 
     def _display_version_message(  # noqa: PLR0913
@@ -302,10 +354,18 @@ class UpdateManager:
             up_to_date_msg_box = QMessageBox(
                 QMessageBox.Icon.Information,
                 tr("Version is up to date"),
-                trf("You are running the latest {version_str}version ({version}).", version_str=cur_version_str, version=CURRENT_VERSION),
-                QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Close,
+                trf(
+                    "You are running the latest {version_str}version ({version}).",
+                    version_str=cur_version_str,
+                    version=CURRENT_VERSION,
+                ),
+                QMessageBox.StandardButton.Ok
+                | QMessageBox.StandardButton.Yes
+                | QMessageBox.StandardButton.Close,
                 parent=None,
-                flags=Qt.WindowType.Window | Qt.WindowType.Dialog | Qt.WindowType.WindowStaysOnTopHint,
+                flags=Qt.WindowType.Window
+                | Qt.WindowType.Dialog
+                | Qt.WindowType.WindowStaysOnTopHint,
             )
 
             from toolset.gui.common.localization import translate as tr
@@ -315,13 +375,17 @@ class UpdateManager:
             result = up_to_date_msg_box.exec()
 
             if result == QMessageBox.StandardButton.Ok:
-                self.autoupdate_toolset(greatest_version, remote_info, is_release=release_version_checked)
+                self.autoupdate_toolset(
+                    greatest_version, remote_info, is_release=release_version_checked
+                )
             elif result == QMessageBox.StandardButton.Yes:
                 toolset_updater = UpdateDialog()
                 toolset_updater.exec()
             return
 
-        beta_string: Literal["release ", "beta "] = "release " if release_version_checked else "beta "
+        beta_string: Literal["release ", "beta "] = (
+            "release " if release_version_checked else "beta "
+        )
         from toolset.gui.common.localization import translate as tr, trf
 
         new_version_msg_box = QMessageBox(
@@ -348,7 +412,9 @@ class UpdateManager:
         response = new_version_msg_box.exec()
 
         if response == QMessageBox.StandardButton.Ok:
-            self.autoupdate_toolset(greatest_version, remote_info, is_release=release_version_checked)
+            self.autoupdate_toolset(
+                greatest_version, remote_info, is_release=release_version_checked
+            )
         elif response == QMessageBox.StandardButton.Yes:
             toolset_updater = UpdateDialog()
             toolset_updater.exec()
@@ -373,7 +439,10 @@ class UpdateManager:
             links = remote_info["toolsetBetaDirectLinks"][os_name][proc_arch.value]
 
         progress_queue = Queue()
-        progress_process = Process(target=run_progress_dialog, args=(progress_queue, "Holocron Toolset is updating and will restart shortly..."))
+        progress_process = Process(
+            target=run_progress_dialog,
+            args=(progress_queue, "Holocron Toolset is updating and will restart shortly..."),
+        )
         progress_process.start()
 
         def download_progress_hook(
@@ -391,12 +460,22 @@ class UpdateManager:
             if kill_self_here:
                 sys.exit(0)
 
-        updater = AppUpdate(links, "HolocronToolset", CURRENT_VERSION, latest_version, downloader=None, progress_hooks=progress_hooks, exithook=exitapp)
+        updater = AppUpdate(
+            links,
+            "HolocronToolset",
+            CURRENT_VERSION,
+            latest_version,
+            downloader=None,
+            progress_hooks=progress_hooks,
+            exithook=exitapp,
+        )
 
         try:
             progress_queue.put({"action": "update_status", "text": "Downloading update..."})
             updater.download(background=False)
-            progress_queue.put({"action": "update_status", "text": "Restarting and Applying update..."})
+            progress_queue.put(
+                {"action": "update_status", "text": "Restarting and Applying update..."}
+            )
             updater.extract_restart()
             progress_queue.put({"action": "update_status", "text": "Cleaning up..."})
             updater.cleanup()
