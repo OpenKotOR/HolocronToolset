@@ -2326,7 +2326,7 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         has_ctrl = bool(modifiers & Qt.KeyboardModifier.ControlModifier)
         has_no_mods = not bool(modifiers)
         renderer = self.ui.mapRenderer
-        keys: set[Qt.Key] = {key}
+        keys: set[int] = {key}
         if modifiers & Qt.KeyboardModifier.ControlModifier:
             keys.add(Qt.Key.Key_Control)
         if modifiers & Qt.KeyboardModifier.ShiftModifier:
