@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from qtpy.QtCore import QPoint, QTimer
+from qtpy.QtCore import QPoint, Qt, QTimer
 from qtpy.QtGui import QCursor
 from qtpy.QtWidgets import QOpenGLWidget  # pyright: ignore[reportPrivateImportUsage]
 
@@ -37,6 +37,11 @@ class OpenGLSceneRenderer(QOpenGLWidget):
         self._mouse_down: set[Any] = set()
         self._mouse_prev: Vector2 = initial_mouse_prev if initial_mouse_prev is not None else Vector2(0, 0)
         self.free_cam: bool = False
+
+        # Accept keyboard focus when clicked so key events (e.g. WASD in fly
+        # cam) reach the renderer directly instead of going to whichever
+        # sibling widget happened to have focus.
+        self.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         self._loop_timer: QTimer = QTimer(self)
         self._loop_timer.setInterval(loop_interval_ms)

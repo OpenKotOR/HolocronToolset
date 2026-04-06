@@ -1345,6 +1345,7 @@ class ModuleRenderer(OpenGLSceneRenderer):
             return
         keys_to_emit = self._keys_down | keyboard_modifiers_to_qt_keys(e.modifiers())
         self.sig_mouse_scrolled.emit(Vector2(e.angleDelta().x(), e.angleDelta().y()), self._mouse_down, keys_to_emit)
+        self.update()  # Ensure the zoom/scroll result is rendered
 
     def mouseMoveEvent(self, e: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         # super().mouseMoveEvent(e)
@@ -1386,6 +1387,7 @@ class ModuleRenderer(OpenGLSceneRenderer):
 
     def mousePressEvent(self, e: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         super().mousePressEvent(e)
+        self.setFocus()  # Grab keyboard focus so WASD/fly-cam keys arrive here
         self._mouse_press_time = monotonic()
         button: Qt.MouseButton = e.button()
         self._mouse_down.add(button)
