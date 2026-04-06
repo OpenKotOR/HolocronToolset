@@ -5,6 +5,8 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+from qtpy.QtWidgets import QComboBox, QLineEdit, QPlainTextEdit, QWidget
+
 from pykotor.common.misc import ResRef
 from pykotor.common.module import Module
 from pykotor.extract.capsule import Capsule
@@ -242,11 +244,7 @@ class UTMEditor(Editor):
         filepath_str = str(self._filepath)
         module_names: CaseInsensitiveDict[str] = self._installation.module_names()
 
-        capsule_paths: list[str] = [
-            path
-            for path in module_names
-            if case_root in path and path != filepath_str
-        ]
+        capsule_paths: list[str] = [path for path in module_names if case_root in path and path != filepath_str]
         return [Capsule(self._installation.module_path() / path) for path in capsule_paths]
 
     def open_inventory(self):
@@ -269,6 +267,7 @@ class UTMEditor(Editor):
         )
         if inventoryEditor.exec():
             self._utm.inventory = inventoryEditor.inventory
+
 
 if __name__ == "__main__":
     import sys

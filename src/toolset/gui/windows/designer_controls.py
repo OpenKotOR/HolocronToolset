@@ -20,9 +20,9 @@ from pykotor.gl.scene.camera_controller import (
 from pykotor.resource.generics.git import GITCamera
 from toolset.data.misc import ControlItem
 from toolset.gui.common.base_2d_controls import Base2DControlScheme
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.editors.git import DuplicateCommand, _GeometryMode, _InstanceMode
 from toolset.gui.widgets.settings.widgets.module_designer import ModuleDesignerSettings
-from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.utils.misc import BUTTON_TO_INT
 from utility.common.geometry import Vector2, Vector3
 
@@ -417,10 +417,7 @@ class ModuleDesignerControls3d:
                     self.renderer.rotate_camera(0.0, -angle_units_delta)
 
                 speed_boost = self.speed_boost_control.satisfied(buttons, keys, exact_keys_and_buttons=False)
-                move_units_delta = (
-                    self.settings.boostedMoveCameraSensitivity3d
-                    if speed_boost else self.settings.moveCameraSensitivity3d
-                )
+                move_units_delta = self.settings.boostedMoveCameraSensitivity3d if speed_boost else self.settings.moveCameraSensitivity3d
                 move_units_delta = (move_units_delta / 500.0) * delta_time * 120.0
 
                 if movement_keys["in"]:
@@ -451,14 +448,7 @@ class ModuleDesignerControls3d:
             ctrl_held=Qt.Key.Key_Control in keys,
             alt_held=Qt.Key.Key_Alt in keys,
         )
-        controller_active = (
-            dx != 0.0
-            or dy != 0.0
-            or input_state.left_button
-            or input_state.middle_button
-            or input_state.right_button
-            or controller.has_pending_motion()
-        )
+        controller_active = dx != 0.0 or dy != 0.0 or input_state.left_button or input_state.middle_button or input_state.right_button or controller.has_pending_motion()
         if keyboard_motion_applied:
             controller.sync_from_camera()
         elif controller_active:
@@ -871,7 +861,9 @@ class ModuleDesignerControlsFreeCam:
             self.renderer.rotate_camera(0.0, -rotate_delta)
             rotation_applied = True
 
-        move_speed = self.settings.boostedFlyCameraSpeedFC if self.speed_boost_control.satisfied(buttons, keys, exact_keys_and_buttons=False) else self.settings.flyCameraSpeedFC
+        move_speed = (
+            self.settings.boostedFlyCameraSpeedFC if self.speed_boost_control.satisfied(buttons, keys, exact_keys_and_buttons=False) else self.settings.flyCameraSpeedFC
+        )
         move_units_delta = (move_speed / 500.0) * delta_time * 120.0
         moved = False
         if self.zoom_camera_in.satisfied(buttons, keys):
@@ -1147,10 +1139,7 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         return aabb_from_points((float(inst.position.x), float(inst.position.y)) for inst in res.instances())
 
     def _selected_instance_bounds(self):
-        return aabb_from_points(
-            (float(inst.position.x), float(inst.position.y))
-            for inst in self.editor.selected_instances
-        )
+        return aabb_from_points((float(inst.position.x), float(inst.position.y)) for inst in self.editor.selected_instances)
 
     def on_mouse_released(
         self,

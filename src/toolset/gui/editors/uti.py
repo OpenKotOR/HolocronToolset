@@ -17,6 +17,7 @@ from qtpy.QtWidgets import (
     QPlainTextEdit,
     QShortcut,  # pyright: ignore[reportPrivateImportUsage]
     QTreeWidgetItem,
+    QWidget,
 )
 
 from loggerplus import RobustLogger  # pyright: ignore[reportMissingTypeStubs]

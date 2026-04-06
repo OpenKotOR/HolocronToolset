@@ -5,6 +5,8 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+from qtpy.QtWidgets import QComboBox, QLineEdit, QPlainTextEdit, QWidget
+
 from pykotor.common.misc import ResRef
 from pykotor.resource.formats.gff import write_gff
 from pykotor.resource.generics.utt import UTT, dismantle_utt, read_utt
@@ -17,7 +19,6 @@ from toolset.gui.editor import Editor
 if TYPE_CHECKING:
     import os
 
-    from qtpy.QtWidgets import QWidget, QComboBox, QLineEdit, QPlainTextEdit
     from typing_extensions import Literal
 
     from pykotor.common.module import GFF

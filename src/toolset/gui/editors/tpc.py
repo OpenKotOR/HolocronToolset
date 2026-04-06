@@ -35,6 +35,7 @@ from qtpy.QtWidgets import (
     QMenu,
     QMessageBox,
     QStyle,
+    QWidget,
 )
 
 from pykotor.resource.formats.tpc import TPC, TPCTextureFormat, write_tpc
@@ -901,11 +902,7 @@ class TPCEditor(Editor):
                 self._display_cache = source_image
                 self._display_cache_key = display_key
 
-            transform_mode = (
-                Qt.TransformationMode.FastTransformation
-                if self._is_zoom_interacting
-                else Qt.TransformationMode.SmoothTransformation
-            )
+            transform_mode = Qt.TransformationMode.FastTransformation if self._is_zoom_interacting else Qt.TransformationMode.SmoothTransformation
 
             # Calculate display size
             if self._fit_to_window:
@@ -1067,6 +1064,7 @@ class TPCEditor(Editor):
         """Invalidate cached decoded image for content-changing actions."""
         self._display_cache = None
         self._display_cache_key = (-1, -1)
+
 
 if __name__ == "__main__":
     import sys

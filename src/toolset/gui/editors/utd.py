@@ -26,8 +26,8 @@ from toolset.gui.widgets.settings.installations import GlobalSettings
 from toolset.utils.window import open_resource_editor
 
 if TYPE_CHECKING:
-    from typing_extensions import Literal
     from qtpy.QtWidgets import QWidget
+    from typing_extensions import Literal
 
     from pykotor.extract.file import ResourceResult
     from pykotor.resource.formats.twoda import TwoDA

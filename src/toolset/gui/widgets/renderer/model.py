@@ -37,9 +37,9 @@ if TYPE_CHECKING:
     )
     from qtpy.QtWidgets import QWidget
 
-    from toolset.data.installation import HTInstallation
     from pykotor.resource.generics.utc import UTC
     from pykotor.resource.generics.uti import UTI
+    from toolset.data.installation import HTInstallation
     from toolset.gui.widgets.renderer.view_compass import ViewCompassWidget
 
 

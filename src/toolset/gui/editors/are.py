@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from qtpy.QtGui import QColor, QImage, QPixmap
-from qtpy.QtWidgets import QColorDialog, QComboBox
+from qtpy.QtWidgets import QColorDialog, QComboBox, QLineEdit, QPlainTextEdit, QWidget
 
 from loggerplus import RobustLogger
 from pykotor.common.misc import Color, ResRef
@@ -17,9 +17,9 @@ from pykotor.resource.formats.lyt import read_lyt
 from pykotor.resource.generics.are import ARE, ARENorthAxis, AREWindPower, dismantle_are, read_are
 from pykotor.resource.type import ResourceType
 from toolset.data.installation import HTInstallation
-from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.interaction.camera import handle_standard_2d_camera_movement
 from toolset.gui.common.localization import translate as tr
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.dialogs.edit.locstring import LocalizedStringDialog
 from toolset.gui.editor import Editor
 from toolset.gui.widgets.installation_toolbar import FolderPathSpec
@@ -31,7 +31,6 @@ if TYPE_CHECKING:
 
     from pathlib import Path
 
-    from qtpy.QtWidgets import QLabel, QLineEdit, QPlainTextEdit, QWidget
     from typing_extensions import Literal
 
     from pykotor.extract.file import ResourceResult
@@ -163,7 +162,7 @@ class AREEditor(Editor):
         self,
         field: QPlainTextEdit | QLineEdit | QComboBox,
         resource_types: list[ResourceType],
-        reference_type: Literal['script', 'tag', 'template_resref', 'conversation', 'resref', 'quest'],
+        reference_type: Literal["script", "tag", "template_resref", "conversation", "resref", "quest"],
         tooltip_text: str,
     ) -> None:
         """Configure context menu reference search behavior for a script widget."""
@@ -522,12 +521,7 @@ class AREEditor(Editor):
         walkmeshes = getattr(self.ui.minimapRenderer, "_walkmeshes", [])
         if not walkmeshes:
             return None
-        return aabb_from_points(
-            (vertex.x, vertex.y)
-            for walkmesh in walkmeshes
-            for face in walkmesh.faces
-            for vertex in (face.v1, face.v2, face.v3)
-        )
+        return aabb_from_points((vertex.x, vertex.y) for walkmesh in walkmeshes for face in walkmesh.faces for vertex in (face.v1, face.v2, face.v3))
 
     def on_minimap_mouse_moved(self, screen: Vector2, delta: Vector2, buttons: set[int], keys: set[int]):
         # Pan/rotate controls mirror `BWMEditor` (Ctrl+drag) and respect module designer sensitivities.
