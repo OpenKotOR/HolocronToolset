@@ -33,7 +33,6 @@ from utility.common.geometry import Vector2, Vector3, Vector4
 from utility.error_handling import assert_with_variable_trace
 
 if TYPE_CHECKING:
-    from glm import vec3  # pyright: ignore[reportMissingImports]
     from qtpy.QtCore import (
         QPoint,  # pyright: ignore[reportAttributeAccessIssue]
         QPointF,  # pyright: ignore[reportAttributeAccessIssue]
@@ -153,7 +152,6 @@ class ModuleRenderer(OpenGLSceneRenderer):
         self._mouse_world_last_screen: Vector2 | None = None
 
         self.do_select: bool = False  # Set to true to select object at mouse pointer
-        self.free_cam: bool = False  # Changes how screenDelta is calculated in mouseMoveEvent
         self.delta: float = 0.0166  # Approx 60 FPS frame time
         self._frame_stats: FrameStats = FrameStats()
         self._initializing: bool = False  # Flag to prevent resize events during initialization
@@ -1278,16 +1276,6 @@ class ModuleRenderer(OpenGLSceneRenderer):
         z: float = default_z if face is None else face.determine_z(x, y)
         return Vector3(x, y, z)
 
-    def reset_buttons_down(self):
-        self._mouse_down.clear()
-
-    def reset_keys_down(self):
-        self._keys_down.clear()
-
-    def reset_all_down(self):
-        self._mouse_down.clear()
-        self._keys_down.clear()
-
     # region Accessors
     def keys_down(self) -> set[Qt.Key]:
         return copy(self._keys_down)
@@ -1298,57 +1286,19 @@ class ModuleRenderer(OpenGLSceneRenderer):
     # endregion
 
     # region Camera Transformations
-    def snap_camera_to_point(
+    def snap_camera_to_point(  # pyright: ignore[reportIncompatibleMethodOverride]  # type: ignore[override]
         self,
         point: Vector3,
         distance: float = 6.0,
-    ):
+    ) -> None:
+        """Snap camera to a world point at eye level (z offset +1.0) with the given orbital distance."""
+        if self.scene is None:
+            return
         camera = self.scene.camera
         camera.x, camera.y, camera.z = point.x, point.y, point.z + 1.0
         camera.distance = distance
 
-    def pan_camera(
-        self,
-        forward: float,
-        right: float,
-        up: float,
-    ):
-        forward_vec: vec3 = forward * self.scene.camera.forward()
-        sideways: vec3 = right * self.scene.camera.sideward()
-
-        self.scene.camera.x += forward_vec.x + sideways.x
-        self.scene.camera.y += forward_vec.y + sideways.y
-        self.scene.camera.z += up
-
-    def move_camera(
-        self,
-        forward: float,
-        right: float,
-        up: float,
-    ):
-        forward_vec: vec3 = forward * self.scene.camera.forward(ignore_z=False)
-        sideways: vec3 = right * self.scene.camera.sideward(ignore_z=False)
-        upward: vec3 = -up * self.scene.camera.upward(ignore_xy=False)
-
-        self.scene.camera.x += upward.x + sideways.x + forward_vec.x
-        self.scene.camera.y += upward.y + sideways.y + forward_vec.y
-        self.scene.camera.z += upward.z + sideways.z + forward_vec.z
-
-    def rotate_camera(
-        self,
-        yaw: float,
-        pitch: float,
-        *,
-        clamp_rotations: bool = True,  # noqa: FBT001
-    ):
-        self.scene.camera.rotate(yaw, pitch, clamp=clamp_rotations)
-
-    def zoom_camera(
-        self,
-        distance: float,
-    ):
-        self.scene.camera.distance -= distance
-        self.scene.camera.distance = max(self.scene.camera.distance, 0)
+    # pan_camera, move_camera, rotate_camera, zoom_camera are inherited from OpenGLSceneRenderer.
 
     # endregion
 
