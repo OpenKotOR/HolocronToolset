@@ -31,6 +31,7 @@ if TYPE_CHECKING:
 
     from pykotor.extract.file import ResourceResult
     from pykotor.resource.formats.twoda import TwoDA
+    from toolset.uic.qtpy.editors.utd import Ui_MainWindow
     from utility.gui.qt.widgets.widgets.combobox import FilterComboBox
 
 
@@ -65,11 +66,12 @@ class UTDEditor(Editor):
         self.global_settings: GlobalSettings = GlobalSettings()
         self._genericdoors_2da: TwoDA | None = installation.ht_get_cache_2da("genericdoors") if installation is not None else None
         self._utd: UTD = UTD()
+        self.ui: Ui_MainWindow | None = None
         super().__init__(parent, "Door Editor", "door", supported, supported, installation)
 
         from toolset.uic.qtpy.editors.utd import Ui_MainWindow  # noqa: PLC0415
 
-        self.ui: Ui_MainWindow = Ui_MainWindow()
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self._setup_menus()
@@ -189,7 +191,7 @@ class UTDEditor(Editor):
             - Populates appearance and faction dropdowns from loaded 2da files
             - Shows/hides TSL-specific UI elements based on installation type.
         """
-        if not hasattr(self, "ui"):
+        if self.ui is None:
             return  # UI not initialized yet, will be set up in __init__
         self._installation = installation
         self.ui.nameEdit.set_installation(installation)
@@ -462,6 +464,8 @@ class UTDEditor(Editor):
             - If True, calls _update_model() to update the 3D model preview
             - If False, hides BOTH the preview renderer AND the model info groupbox.
         """
+        if self.ui is None:
+            return
         show_preview = self.global_settings.showPreviewUTP
         self.ui.previewRenderer.setVisible(show_preview)
         self.ui.modelInfoGroupBox.setVisible(show_preview)
