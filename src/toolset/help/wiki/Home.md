@@ -63,7 +63,7 @@ PyKotor is one part of a larger KotOR tooling ecosystem. This section is a compa
 ### Engine reimplementations
 
 - [xoreos](https://github.com/xoreos/xoreos) is a C++ Aurora/Odyssey/Eclipse reimplementation with KotOR support.
-- [reone](https://github.com/modawan/reone) is a community-maintained modern C++ KotOR engine.
+- [reone](https://github.com/seedhartha/reone) is a community-maintained modern C++ KotOR engine.
 - [KotOR.js](https://github.com/KobaltBlu/KotOR.js) is a TypeScript/WebGL engine implementation.
 - [NorthernLights](https://github.com/lachjames/NorthernLights) and [KotOR-Unity](https://github.com/reubenduncan/KotOR-Unity) are Unity/.NET-based engine projects.
 
@@ -112,3 +112,4 @@ Older communities still matter for release history, workflow pitfalls, and examp
 - [Mod Creation Best Practices](Mod-Creation-Best-Practices)
 - [Reverse Engineering Findings](reverse_engineering_findings)
 - [Wiki Conventions](Wiki-Conventions)
+

@@ -459,7 +459,7 @@ Doors have 3 [walkmesh](Level-Layout-Formats#bwm) states that define pathfinding
 
 This DWK lookup and extraction sequence is implemented in the door walkmesh path in the kit toolchain ([`kit.py` L1090-L1174](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/tools/kit.py#L1090-L1174)).
 
-**Game Engine Reference (reone):** [`door.cpp` L80–L94](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/door.cpp#L80-L94) — attaches closed/open [DWK](Level-Layout-Formats#bwm) walkmeshes to the door model scene node
+**Game Engine Reference (reone):** [`door.cpp` L80–L94](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/door.cpp#L80-L94) — attaches closed/open [DWK](Level-Layout-Formats#bwm) walkmeshes to the door model scene node
 
 ---
 
@@ -493,7 +493,7 @@ Placeables have [walkmeshes](Level-Layout-Formats#bwm) that define their collisi
 
 These PWK resolution rules are implemented in the same placeable walkmesh extraction routine ([`kit.py` L1176-L1251](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/tools/kit.py#L1176-L1251)).
 
-**Game Engine Reference (reone):** [`placeable.cpp` L77–L80](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/placeable.cpp#L77-L80) — loads [PWK](Level-Layout-Formats#bwm) for the resolved placeable model (`ResType::Pwk`)
+**Game Engine Reference (reone):** [`placeable.cpp` L77–L80](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/placeable.cpp#L77-L80) — loads [PWK](Level-Layout-Formats#bwm) for the resolved placeable model (`ResType::Pwk`)
 
 ---
 
@@ -844,11 +844,11 @@ The shared resource-priority and format assumptions are implemented in the kit p
 
 ## Cross-reference: engine implementations
 
-The kit extraction process is aligned with open-source engine code ([reone](https://github.com/modawan/reone), [KotOR.js](https://github.com/KobaltBlu/KotOR.js)) and PyKotor’s kit tools. This section compares how those codebases handle the same operations and notes discrepancies.
+The kit extraction process is aligned with open-source engine code ([reone](https://github.com/seedhartha/reone), [KotOR.js](https://github.com/KobaltBlu/KotOR.js)) and PyKotor’s kit tools. This section compares how those codebases handle the same operations and notes discrepancies.
 
 ### Door Walkmesh ([DWK](Level-Layout-Formats#bwm)) Extraction
 
-**reone** ([`door.cpp` L80–L98](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/door.cpp#L80-L98)):
+**reone** ([`door.cpp` L80–L98](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/door.cpp#L80-L98)):
 
 - Doors load 3 [walkmesh](Level-Layout-Formats#bwm) states: `{modelName}0.dwk` (closed), `{modelName}1.dwk` (open1), `{modelName}2.dwk` (open2)
 - [walkmeshes](Level-Layout-Formats#bwm) are loaded via `_services.resource.walkmeshes.get(modelName + "0", ResType::Dwk)`
@@ -866,7 +866,7 @@ The PyKotor DWK extraction behavior described above is implemented in the dedica
 
 ### Placeable Walkmesh ([PWK](Level-Layout-Formats#bwm)) Extraction
 
-**reone** ([`placeable.cpp` L77–L80](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/placeable.cpp#L77-L80)):
+**reone** ([`placeable.cpp` L77–L80](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/placeable.cpp#L77-L80)):
 
 - Placeables load a single [walkmesh](Level-Layout-Formats#bwm): `_services.resource.walkmeshes.get(modelName, ResType::Pwk)`
 - [walkmesh](Level-Layout-Formats#bwm) is stored as a `WalkmeshSceneNode` attached to the placeable's scene [node](MDL-MDX-File-Format#node-structures)
@@ -883,7 +883,7 @@ The PyKotor PWK extraction behavior described above is implemented in the placea
 
 ### [room model](Level-Layout-Formats#room-definitions) and Component Identification
 
-**reone** ([`area.cpp` L305–L375](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/area.cpp#L305-L375)):
+**reone** ([`area.cpp` L305–L375](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/area.cpp#L305-L375)):
 
 - Loads [LYT file](Level-Layout-Formats#lyt) via `_services.resource.layouts.get(_name)`
 - Iterates through `layout->rooms` to get [room model](Level-Layout-Formats#room-definitions) names
@@ -903,7 +903,7 @@ The corresponding PyKotor room/component detection logic is implemented in the c
 
 ### Door [model](MDL-MDX-File-Format) Resolution
 
-**reone** ([`door.cpp` `loadFromBlueprint` L59+](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/door.cpp#L59)):
+**reone** ([`door.cpp` `loadFromBlueprint` L59+](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/door.cpp#L59)):
 
 - Door [models](MDL-MDX-File-Format) are resolved from [UTD](GFF-File-Format#utd-door) files using `genericdoors.2da`
 - The `appearance_id` field in [UTD](GFF-File-Format#utd-door) maps to a row in `genericdoors.2da`
@@ -920,7 +920,7 @@ PyKotor's door model-resolution helper is implemented in the door utility module
 
 ### Placeable [model](MDL-MDX-File-Format) Resolution
 
-**reone** ([`placeable.cpp` `loadFromBlueprint` L50+](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/game/object/placeable.cpp#L50)):
+**reone** ([`placeable.cpp` `loadFromBlueprint` L50+](https://github.com/seedhartha/reone/blob/master/src/libs/game/object/placeable.cpp#L50)):
 
 - Placeable [models](MDL-MDX-File-Format) are resolved from [UTP](GFF-File-Format#utp-placeable) files using `placeables.2da`
 - The `appearance_id` field in [UTP](GFF-File-Format#utp-placeable) maps to a row in `placeables.2da`
@@ -950,7 +950,7 @@ This texture/lightmap reference scanning behavior is implemented in the model ut
 
 ### Resource Resolution Priority
 
-**reone** ([`src/libs/resource/provider/`](https://github.com/modawan/reone/tree/master/src/libs/resource/provider)):
+**reone** ([`src/libs/resource/provider/`](https://github.com/seedhartha/reone/tree/master/src/libs/resource/provider)):
 
 - Resource resolution follows KOTOR priority: Override → Modules → Chitin
 - `.mod` files take precedence over `.rim` files in Modules directory
@@ -966,7 +966,7 @@ PyKotor's implementation of this resource-priority behavior is defined in its ki
 
 ### [BWM](Level-Layout-Formats#bwm)/[WOK](Level-Layout-Formats#bwm) [walkmesh](Level-Layout-Formats#bwm) Handling
 
-**reone** ([`walkmesh.cpp` L1+](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/graphics/walkmesh.cpp#L1)):
+**reone** ([`walkmesh.cpp` L1+](https://github.com/seedhartha/reone/blob/master/src/libs/graphics/walkmesh.cpp#L1)):
 
 - [walkmeshes](Level-Layout-Formats#bwm) are loaded from [WOK](Level-Layout-Formats#bwm)/[BWM files](Level-Layout-Formats#bwm)
 - [face](MDL-MDX-File-Format#face-structure) [materials](MDL-MDX-File-Format#trimesh-header) determine walkability ([materials](MDL-MDX-File-Format#trimesh-header) 1, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 16, 18, 20, 21, 22 are walkable)
@@ -984,7 +984,7 @@ PyKotor's corresponding minimap and doorhook logic is implemented in the relevan
 
 ### [module archives](Container-Formats#erf) Loading
 
-**reone** ([`src/libs/resource/provider/`](https://github.com/modawan/reone/tree/master/src/libs/resource/provider)):
+**reone** ([`src/libs/resource/provider/`](https://github.com/seedhartha/reone/tree/master/src/libs/resource/provider)):
 
 - Supports RIM and [ERF file](Container-Formats#erf) formats
 - `.mod` files ([ERF](Container-Formats#erf) format) take precedence over `.rim` files
@@ -1160,3 +1160,4 @@ To achieve high granularity coordinate matching, the tests should be enhanced to
 - [Level Layout Formats](Level-Layout-Formats) -- LYT, VIS, BWM binary format reference
 - [Holocron Toolset Map Builder](Holocron-Toolset-Map-Builder) -- Map Builder tool documentation
 - [Texture Formats](Texture-Formats) -- TPC, TGA, DDS texture handling
+

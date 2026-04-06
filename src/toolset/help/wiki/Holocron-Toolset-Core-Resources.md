@@ -30,7 +30,7 @@ Holocron builds on PyKotor’s **installation** and **chitin** stack: `chitin.ke
 
 **Cross-reference (other engines / parsers)**
 
-- **[reone](https://github.com/modawan/reone)** — resource manager and KEY/BIF-style loading live under `src/libs/resource/` (generic Aurora archive stack; treat as **library** behavior, not wiki SSOT).
+- **[reone](https://github.com/seedhartha/reone)** — resource manager and KEY/BIF-style loading live under `src/libs/resource/` (generic Aurora archive stack; treat as **library** behavior, not wiki SSOT).
 - **[KotOR.js](https://github.com/KobaltBlu/KotOR.js)** — game resource loading and [KEY](Container-Formats#key)-style resolution in the TS resource pipeline. When adding anchors, search the repo for:
 
   - `KEY`
@@ -50,3 +50,4 @@ Holocron builds on PyKotor’s **installation** and **chitin** stack: `chitin.ke
 - [Concepts](Concepts) — resource resolution order
 - [Holocron Toolset: Getting Started](Holocron-Toolset-Getting-Started) — paths, first launch, screenshots
 - [Mod-Creation-Best-Practices](Mod-Creation-Best-Practices) — override vs patcher workflows
+

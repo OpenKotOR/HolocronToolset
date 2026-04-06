@@ -2,7 +2,7 @@
 
 NSS files contain human-readable NWScript source code — the scripting language that controls game logic in Knights of the Old Republic and The Sith Lords ([`NssParser` L80](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/ncs/compiler/parser.py#L80), [xoreos-tools `src/nwscript/`](https://github.com/xoreos/xoreos-tools/tree/master/src/nwscript)). The engine does not execute NSS directly; source files are compiled to [NCS bytecode](NCS-File-Format) before they can run ([`InbuiltNCSCompiler.compile_script` L51](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/ncs/compilers.py#L51), [KotOR-Scripting-Tool](https://github.com/KobaltBlu/KotOR-Scripting-Tool)). The master include file `nwscript.nss` defines all engine-exposed functions and constants available to scripts; KotOR and TSL each ship their own version with game-specific additions ([`KOTOR_FUNCTIONS` L3268](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/common/scriptdefs.py#L3268), [`KOTOR_CONSTANTS` L12](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/common/scriptdefs.py#L12), [Vanilla_KOTOR_Script_Source](https://github.com/KOTORCommunityPatches/Vanilla_KOTOR_Script_Source)).
 
-NWScript is a C-like language with strong typing, automatic garbage collection for strings, and a fixed set of engine action routines ([reone `VirtualMachine` L41](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/include/reone/script/virtualmachine.h#L41), [xoreos `src/aurora/nwscript/`](https://github.com/xoreos/xoreos/tree/master/src/aurora/nwscript), [KotOR.js `NWScript` L39](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/nwscript/NWScript.ts#L39)). Scripts interact with the game world through these action routines — spawning creatures, modifying objects, running dialogue branches, applying effects — and are triggered from [GFF](GFF-File-Format) resources: [DLG](GFF-Creature-and-Dialogue#dlg) dialogue files, [UTC](GFF-File-Format#utc-creature) creatures, [UTD](GFF-Spatial-Objects#utd) doors, [UTP](GFF-Spatial-Objects#utp) placeables, and [IFO](GFF-Module-and-Area#ifo) module definitions. Scripts also commonly read [2DA](2DA-File-Format) configuration data at runtime. Like all resources, NSS files are resolved through the standard [resource resolution order](Concepts#resource-resolution-order) (override → MOD/SAV → KEY/BIF).
+NWScript is a C-like language with strong typing, automatic garbage collection for strings, and a fixed set of engine action routines ([reone `VirtualMachine` L41](https://github.com/seedhartha/reone/blob/master/include/reone/script/virtualmachine.h#L41), [xoreos `src/aurora/nwscript/`](https://github.com/xoreos/xoreos/tree/master/src/aurora/nwscript), [KotOR.js `NWScript` L39](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/nwscript/NWScript.ts#L39)). Scripts interact with the game world through these action routines — spawning creatures, modifying objects, running dialogue branches, applying effects — and are triggered from [GFF](GFF-File-Format) resources: [DLG](GFF-Creature-and-Dialogue#dlg) dialogue files, [UTC](GFF-File-Format#utc-creature) creatures, [UTD](GFF-Spatial-Objects#utd) doors, [UTP](GFF-Spatial-Objects#utp) placeables, and [IFO](GFF-Module-and-Area#ifo) module definitions. Scripts also commonly read [2DA](2DA-File-Format) configuration data at runtime. Like all resources, NSS files are resolved through the standard [resource resolution order](Concepts#resource-resolution-order) (override → MOD/SAV → KEY/BIF).
 
 For community guidance, modding guides, and historical compile workflows, see the [Deadly Stream Tutorials forum](https://deadlystream.com/forum/25-tutorials/) and the hub on [Home — community sources and archives](Home#community-sources-and-archives). A nwnnsscomp-era compile tutorial is archived at [LucasForums: How to compile scripts?](https://www.lucasforumsarchive.com/thread/143681), and an introductory series at [KotOR Modding Tutorial Series on Deadly Stream](https://deadlystream.com/topic/6886-tutorial-kotor-modding-tutorial-series/) (some referenced tools are outdated — prefer Holocron Toolset and this wiki for current paths). The original shipped K1 scripts are preserved in [Vanilla_KOTOR_Script_Source](https://github.com/KOTORCommunityPatches/Vanilla_KOTOR_Script_Source). Forum posts are peer guidance; verify behavioral claims against the source implementations cited on this page.
 
@@ -3549,8 +3549,8 @@ In summary, while no one has publicly shared a "uncomment everything" patch (lik
 
 **Parsing nwscript.nss:**
 
-- [`reone/src/apps/dataminer/routines.cpp:149-184`](https://github.com/modawan/reone/blob/master/src/apps/dataminer/routines.cpp) - Parses nwscript.nss using regex patterns for constants and functions
-- [`reone/src/apps/dataminer/routines.cpp:382-427`](https://github.com/modawan/reone/blob/master/src/apps/dataminer/routines.cpp) - Extracts functions from nwscript.nss in chitin.key for K1 and K2
+- [`reone/src/apps/dataminer/routines.cpp:149-184`](https://github.com/seedhartha/reone/blob/master/src/apps/dataminer/routines.cpp) - Parses nwscript.nss using regex patterns for constants and functions
+- [`reone/src/apps/dataminer/routines.cpp:382-427`](https://github.com/seedhartha/reone/blob/master/src/apps/dataminer/routines.cpp) - Extracts functions from nwscript.nss in chitin.key for K1 and K2
 - [`xoreos-tools/src/nwscript/actions.cpp`](https://github.com/xoreos/xoreos-tools/blob/master/src/nwscript/actions.cpp) - Actions data parsing for decompilation
 - [`xoreos-tools/src/nwscript/ncsfile.cpp`](https://github.com/xoreos/xoreos-tools/blob/master/src/nwscript/ncsfile.cpp) - [NCS file](NCS-File-Format) parsing with actions data integration
 - [`NorthernLights/Assets/Scripts/ncs/nwscript_actions.cs`](https://github.com/lachjames/NorthernLights/blob/master/Assets/Scripts/ncs/nwscript_actions.cs) - Unity C# actions table
@@ -3611,8 +3611,8 @@ In summary, while no one has publicly shared a "uncomment everything" patch (lik
 
 **NWScript VM and Execution:**
 
-- [`reone/src/libs/script/format/ncsreader.cpp`](https://github.com/modawan/reone/blob/master/src/libs/script/format/ncsreader.cpp) - [NCS](NCS-File-Format) bytecode reader
-- [`reone/src/libs/script/format/ncswriter.cpp`](https://github.com/modawan/reone/blob/master/src/libs/script/format/ncswriter.cpp) - [NCS](NCS-File-Format) bytecode writer
+- [`reone/src/libs/script/format/ncsreader.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/script/format/ncsreader.cpp) - [NCS](NCS-File-Format) bytecode reader
+- [`reone/src/libs/script/format/ncswriter.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/script/format/ncswriter.cpp) - [NCS](NCS-File-Format) bytecode writer
 - [`xoreos/src/aurora/nwscript/`](https://github.com/xoreos/xoreos/tree/master/src/aurora/nwscript) - NWScript VM implementation
 - [`xoreos/src/aurora/nwscript/ncsfile.cpp`](https://github.com/xoreos/xoreos/blob/master/src/aurora/nwscript/ncsfile.cpp) - [NCS file](NCS-File-Format) parsing and execution
 - [`xoreos/src/aurora/nwscript/object.h`](https://github.com/xoreos/xoreos/blob/master/src/aurora/nwscript/object.h) - NWScript object type definitions
@@ -3644,9 +3644,9 @@ In summary, while no one has publicly shared a "uncomment everything" patch (lik
 
 **NWScript Execution:**
 
-- [`reone/src/libs/script/virtualmachine.cpp` L36+](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/script/virtualmachine.cpp#L36) — Script VM (`VirtualMachine` implementation)
-- [`reone/include/reone/script/virtualmachine.h` L41+](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/include/reone/script/virtualmachine.h#L41) — `VirtualMachine` declaration
-- [`reone/src/libs/script/program.cpp` L28+](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/script/program.cpp#L28) — `ScriptProgram` bytecode container (`add`, instruction helpers)
+- [`reone/src/libs/script/virtualmachine.cpp` L36+](https://github.com/seedhartha/reone/blob/master/src/libs/script/virtualmachine.cpp#L36) — Script VM (`VirtualMachine` implementation)
+- [`reone/include/reone/script/virtualmachine.h` L41+](https://github.com/seedhartha/reone/blob/master/include/reone/script/virtualmachine.h#L41) — `VirtualMachine` declaration
+- [`reone/src/libs/script/program.cpp` L28+](https://github.com/seedhartha/reone/blob/master/src/libs/script/program.cpp#L28) — `ScriptProgram` bytecode container (`add`, instruction helpers)
 - [`xoreos/src/aurora/nwscript/execution.cpp`](https://github.com/xoreos/xoreos/blob/master/src/aurora/nwscript/execution.cpp) - NWScript execution engine
 - [`xoreos/src/aurora/nwscript/variable.cpp`](https://github.com/xoreos/xoreos/blob/master/src/aurora/nwscript/variable.cpp) - Variable handling
 - [`xoreos/src/aurora/nwscript/function.cpp`](https://github.com/xoreos/xoreos/blob/master/src/aurora/nwscript/function.cpp) - Function call handling
@@ -3655,9 +3655,9 @@ In summary, while no one has publicly shared a "uncomment everything" patch (lik
 
 **Routine Implementations:**
 
-- [`reone/src/libs/script/routine/main/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/main) - Main routine implementations
-- [`reone/src/libs/script/routine/action/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/action) - Action routine implementations
-- [`reone/src/libs/script/routine/effect/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/effect) - Effect routine implementations
+- [`reone/src/libs/script/routine/main/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/main) - Main routine implementations
+- [`reone/src/libs/script/routine/action/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/action) - Action routine implementations
+- [`reone/src/libs/script/routine/effect/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/effect) - Effect routine implementations
 - [`xoreos/src/engines/kotorbase/script/routines.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/kotorbase/script/routines.cpp) - KotOR-specific routine implementations
 
 **NWScript type System:**
@@ -3702,8 +3702,8 @@ In summary, while no one has publicly shared a "uncomment everything" patch (lik
 - [`xoreos/src/engines/kotorbase/script/routines.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/kotorbase/script/routines.cpp) - KotOR-specific routine implementations
 - [`xoreos/src/engines/nwn/script/functions_action.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/nwn/script/functions_action.cpp) - NWN action function implementations
 - [`NorthernLights/Assets/Scripts/ncs/constants.cs`](https://github.com/lachjames/NorthernLights/blob/master/Assets/Scripts/ncs/constants.cs) - NWScript constant definitions
-- [`reone/src/libs/game/script/routines.cpp`](https://github.com/modawan/reone/blob/master/src/libs/game/script/routines.cpp) - Game-specific routine implementations
-- [`reone/include/reone/game/script/routines.h`](https://github.com/modawan/reone/blob/master/include/reone/game/script/routines.h) - Game routine header
+- [`reone/src/libs/game/script/routines.cpp`](https://github.com/seedhartha/reone/blob/master/src/libs/game/script/routines.cpp) - Game-specific routine implementations
+- [`reone/include/reone/game/script/routines.h`](https://github.com/seedhartha/reone/blob/master/include/reone/game/script/routines.h) - Game routine header
 - [`xoreos-tools/src/nwscript/subroutine.cpp`](https://github.com/xoreos/xoreos-tools/blob/master/src/nwscript/subroutine.cpp) - Subroutine handling
 - [`xoreos-tools/src/nwscript/subroutine.h`](https://github.com/xoreos/xoreos-tools/blob/master/src/nwscript/subroutine.h) - Subroutine header
 - [`xoreos/src/engines/kotorbase/types.h`](https://github.com/xoreos/xoreos/blob/master/src/engines/kotorbase/types.h) - KotOR type definitions including base item types
@@ -3716,11 +3716,11 @@ In summary, while no one has publicly shared a "uncomment everything" patch (lik
 - [`xoreos/src/engines/nwn/script/functions_effect.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/nwn/script/functions_effect.cpp) - NWN effect function implementations
 - [`xoreos/src/engines/nwn/script/functions_object.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/nwn/script/functions_object.cpp) - NWN object function implementations
 - [`xoreos/src/engines/nwn2/script/functions.cpp`](https://github.com/xoreos/xoreos/blob/master/src/engines/nwn2/script/functions.cpp) - NWN2 function implementations
-- [`reone/src/libs/script/routine/action/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/action) - Action routine implementations
-- [`reone/src/libs/script/routine/effect/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/effect) - Effect routine implementations
-- [`reone/src/libs/script/routine/object/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/object) - Object routine implementations
-- [`reone/src/libs/script/routine/party/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/party) - Party routine implementations
-- [`reone/src/libs/script/routine/combat/`](https://github.com/modawan/reone/tree/master/src/libs/script/routine/combat) - Combat routine implementations
+- [`reone/src/libs/script/routine/action/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/action) - Action routine implementations
+- [`reone/src/libs/script/routine/effect/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/effect) - Effect routine implementations
+- [`reone/src/libs/script/routine/object/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/object) - Object routine implementations
+- [`reone/src/libs/script/routine/party/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/party) - Party routine implementations
+- [`reone/src/libs/script/routine/combat/`](https://github.com/seedhartha/reone/tree/master/src/libs/script/routine/combat) - Combat routine implementations
 - [`NorthernLights/Assets/Scripts/ncs/nwscript_actions.cs`](https://github.com/lachjames/NorthernLights/blob/master/Assets/Scripts/ncs/nwscript_actions.cs) - Complete actions table mapping routine numbers to function names
 - [`NorthernLights/Assets/Scripts/Systems/AuroraActions/AuroraAction.cs`](https://github.com/lachjames/NorthernLights/blob/master/Assets/Scripts/Systems/AuroraActions/AuroraAction.cs) - Action system implementation
 
@@ -3750,3 +3750,4 @@ See [Other Constants](NSS-File-Format#other-constants) for detailed documentatio
 - [GFF-DLG](GFF-Creature-and-Dialogue#dlg) -- Dialogue files that trigger NCS scripts
 - [2DA File Format](2DA-File-Format) -- Game data tables referenced by scripts
 - [Home](Home#community-sources-and-archives) -- Community sources and archives
+
