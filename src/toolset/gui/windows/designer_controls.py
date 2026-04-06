@@ -277,12 +277,13 @@ class ModuleDesignerControls3d:
         move_camera_plane_satisfied = self.move_camera_plane.satisfied(buttons, keys)
         rotate_camera_satisfied = self.rotate_camera.satisfied(buttons, keys)
         zoom_camera_satisfied = self.zoom_camera_mm.satisfied(buttons, keys)
+        pan_camera_lmb_satisfied = self.pan_camera_lmb.satisfied(buttons, keys)
 
         # When a modifier key is held, camera controls always win over instance manipulation.
         # This prevents e.g. Ctrl+LeftDrag (pan camera) from being eaten by the instance
         # move handler whose binding is just LeftButton with no required modifiers.
         modifier_held = self._any_modifier_held(keys)
-        camera_wants_input = move_xy_camera_satisfied or move_camera_plane_satisfied or zoom_camera_satisfied or (rotate_camera_satisfied and modifier_held)
+        camera_wants_input = move_xy_camera_satisfied or move_camera_plane_satisfied or zoom_camera_satisfied or pan_camera_lmb_satisfied or (rotate_camera_satisfied and modifier_held)
 
         # Instance manipulation - only when no camera control with modifiers claims the input.
         # When the user has a selection and is left-dragging (move_xy_selected), always prefer
@@ -337,7 +338,7 @@ class ModuleDesignerControls3d:
                 return
 
         # Camera controls: accumulate raw deltas for CameraController.update() in the render loop (smoothing)
-        plane_pan_satisfied = move_camera_plane_satisfied or move_xy_camera_satisfied
+        plane_pan_satisfied = move_camera_plane_satisfied or move_xy_camera_satisfied or pan_camera_lmb_satisfied
         if plane_pan_satisfied or rotate_camera_satisfied or zoom_camera_satisfied:
             self.editor.do_cursor_lock(screen, center_mouse=False, do_rotations=False)
             self._accumulated_mouse_dx += screen_delta.x
@@ -438,6 +439,7 @@ class ModuleDesignerControls3d:
                     self.renderer.pan_camera(-move_units_delta, 0.0, 0.0)
                 keyboard_motion_applied = True
 
+        pan_lmb_active = self.pan_camera_lmb.satisfied(buttons, keys)
         input_state = InputState(
             mouse_delta_x=dx,
             mouse_delta_y=dy,
@@ -447,6 +449,7 @@ class ModuleDesignerControls3d:
             shift_held=Qt.Key.Key_Shift in keys,
             ctrl_held=Qt.Key.Key_Control in keys,
             alt_held=Qt.Key.Key_Alt in keys,
+            pan_button=pan_lmb_active,
         )
         controller_active = dx != 0.0 or dy != 0.0 or input_state.left_button or input_state.middle_button or input_state.right_button or controller.has_pending_motion()
         if keyboard_motion_applied:
@@ -642,6 +645,10 @@ class ModuleDesignerControls3d:
     @property
     def move_camera_plane(self):
         return ControlItem(self.settings.moveCameraPlane3dBind)
+
+    @property
+    def pan_camera_lmb(self):
+        return ControlItem(self.settings.panCameraLMB3dBind)
 
     @property
     def rotate_camera(self):

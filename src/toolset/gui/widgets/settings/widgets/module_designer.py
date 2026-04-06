@@ -21,56 +21,58 @@ from toolset.gui.widgets.settings.widgets.base import SettingsWidget
 # ---------------------------------------------------------------------------
 
 STANDARD_BINDINGS: dict[str, tuple] = {
-    "rotateCamera3dBind": (set(), {Qt.MouseButton.MiddleButton}),
-    "moveCameraXY3dBind": ({Qt.Key.Key_Shift}, {Qt.MouseButton.MiddleButton}),
-    "moveCameraPlane3dBind": ({Qt.Key.Key_Shift}, {Qt.MouseButton.MiddleButton}),
-    "zoomCameraMM3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}),
-    "rotateSelected3dBind": ({Qt.Key.Key_Alt}, {Qt.MouseButton.LeftButton}),
     "duplicateObject3dBind": ({Qt.Key.Key_Shift}, {Qt.MouseButton.LeftButton}),
-    "rotateObject3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
-    "moveCameraToSelected3dBind": ({Qt.Key.Key_Period}, None),
-    "moveCamera2dBind": (set(), {Qt.MouseButton.MiddleButton}),
-    "zoomCamera2dBind": (set(), set()),
-    "rotateCamera2dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}),
-    "moveCameraToSelected2dBind": ({Qt.Key.Key_Period}, set()),
     "frameAll2dBind": ({Qt.Key.Key_Home}, set()),
-    "resetCameraView2dBind": ({Qt.Key.Key_Control, Qt.Key.Key_0}, set()),
-    "zoomCameraIn2dBind": ({Qt.Key.Key_Equal}, None),
-    "zoomCameraOut2dBind": ({Qt.Key.Key_Minus}, None),
-    "moveCameraLeft2dBind": ({Qt.Key.Key_Left}, None),
-    "moveCameraRight2dBind": ({Qt.Key.Key_Right}, None),
-    "moveCameraUp2dBind": ({Qt.Key.Key_Up}, None),
+    "moveCamera2dBind": (set(), {Qt.MouseButton.MiddleButton}),
     "moveCameraDown2dBind": ({Qt.Key.Key_Down}, None),
+    "moveCameraLeft2dBind": ({Qt.Key.Key_Left}, None),
+    "moveCameraPlane3dBind": ({Qt.Key.Key_Shift}, {Qt.MouseButton.MiddleButton}),
+    "moveCameraRight2dBind": ({Qt.Key.Key_Right}, None),
+    "moveCameraToSelected2dBind": ({Qt.Key.Key_Period}, set()),
+    "moveCameraToSelected3dBind": ({Qt.Key.Key_Period}, None),
+    "moveCameraUp2dBind": ({Qt.Key.Key_Up}, None),
+    "moveCameraXY3dBind": ({Qt.Key.Key_Shift}, {Qt.MouseButton.MiddleButton}),
+    "panCameraLMB3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
+    "resetCameraView2dBind": ({Qt.Key.Key_Control, Qt.Key.Key_0}, set()),
+    "rotateCamera2dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}),
+    "rotateCamera3dBind": (set(), {Qt.MouseButton.MiddleButton}),
+    "rotateObject3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
+    "rotateSelected3dBind": ({Qt.Key.Key_Alt}, {Qt.MouseButton.LeftButton}),
+    "zoomCamera2dBind": (set(), set()),
+    "zoomCameraIn2dBind": ({Qt.Key.Key_Equal}, None),
+    "zoomCameraMM3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}),
+    "zoomCameraOut2dBind": ({Qt.Key.Key_Minus}, None),
 }
 
 LEGACY_BINDINGS: dict[str, tuple] = {
-    "rotateCamera3dBind": (set(), {Qt.MouseButton.LeftButton}),
-    "moveCameraXY3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
-    "moveCameraPlane3dBind": (set(), {Qt.MouseButton.MiddleButton}),
-    "zoomCameraMM3dBind": (set(), {Qt.MouseButton.RightButton}),
-    "rotateSelected3dBind": (set(), {Qt.MouseButton.MiddleButton}),
     "duplicateObject3dBind": ({Qt.Key.Key_Alt}, {Qt.MouseButton.LeftButton}),
-    "rotateObject3dBind": ({Qt.Key.Key_Alt}, {Qt.MouseButton.LeftButton}),
-    "moveCameraToSelected3dBind": ({Qt.Key.Key_Z}, None),
-    "moveCamera2dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
-    "zoomCamera2dBind": ({Qt.Key.Key_Control}, set()),
-    "rotateCamera2dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}),
-    "moveCameraToSelected2dBind": ({Qt.Key.Key_Z}, set()),
     "frameAll2dBind": ({Qt.Key.Key_Home}, set()),
-    "resetCameraView2dBind": ({Qt.Key.Key_Control, Qt.Key.Key_0}, set()),
-    "zoomCameraIn2dBind": ({Qt.Key.Key_Equal}, None),
-    "zoomCameraOut2dBind": ({Qt.Key.Key_Minus}, None),
-    "moveCameraLeft2dBind": ({Qt.Key.Key_Left}, None),
-    "moveCameraRight2dBind": ({Qt.Key.Key_Right}, None),
-    "moveCameraUp2dBind": ({Qt.Key.Key_Up}, None),
+    "moveCamera2dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
     "moveCameraDown2dBind": ({Qt.Key.Key_Down}, None),
+    "moveCameraLeft2dBind": ({Qt.Key.Key_Left}, None),
+    "moveCameraPlane3dBind": (set(), {Qt.MouseButton.MiddleButton}),
+    "moveCameraRight2dBind": ({Qt.Key.Key_Right}, None),
+    "moveCameraToSelected2dBind": ({Qt.Key.Key_Z}, set()),
+    "moveCameraToSelected3dBind": ({Qt.Key.Key_Z}, None),
+    "moveCameraUp2dBind": ({Qt.Key.Key_Up}, None),
+    "moveCameraXY3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
+    "panCameraLMB3dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
+    "resetCameraView2dBind": ({Qt.Key.Key_Control, Qt.Key.Key_0}, set()),
+    "rotateCamera2dBind": ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}),
+    "rotateCamera3dBind": (set(), {Qt.MouseButton.LeftButton}),
+    "rotateObject3dBind": ({Qt.Key.Key_Alt}, {Qt.MouseButton.LeftButton}),
+    "rotateSelected3dBind": (set(), {Qt.MouseButton.MiddleButton}),
+    "zoomCamera2dBind": ({Qt.Key.Key_Control}, set()),
+    "zoomCameraIn2dBind": ({Qt.Key.Key_Equal}, None),
+    "zoomCameraMM3dBind": (set(), {Qt.MouseButton.RightButton}),
+    "zoomCameraOut2dBind": ({Qt.Key.Key_Minus}, None),
 }
 
 
-def normalize_control_scheme(scheme: str | None) -> str:
+def normalize_control_scheme(scheme: str | None = None) -> str:
     if scheme in {None, "", "blender"}:
         return "standard"
-    return scheme
+    return (scheme or "").strip().lower()
 
 def get_renderer_loop_interval_ms() -> int:
     """Return the render loop interval in ms from settings (0 = auto = primary screen Hz)."""
@@ -201,6 +203,18 @@ class ModuleDesignerWidget(SettingsWidget):
                 setattr(self.ui, attr_name, nav_bind_widget)
                 self.ui.formLayout.setWidget(nav_row, self.ui.formLayout.ItemRole.LabelRole, nav_lbl)
                 self.ui.formLayout.setWidget(nav_row, self.ui.formLayout.ItemRole.FieldRole, nav_bind_widget)
+
+        # --- Pan camera (LMB) bind (3D) ---
+        if not hasattr(self.ui, "panCameraLMB3dBindEdit"):
+            pan_lmb_row = self.ui.formLayout.rowCount()
+            pan_lmb_lbl = QLabel("Pan Camera (LMB)", self.ui.tab3DControls)
+            pan_lmb_lbl.setMinimumSize(110, 0)
+            pan_lmb_lbl.setStyleSheet("QLabel:hover { color: #555;}")
+            pan_lmb_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.ui.panCameraLMB3dBindEdit = SetBindWidget(parent=self.ui.tab3DControls)
+            self.ui.panCameraLMB3dBindEdit.setObjectName("panCameraLMB3dBindEdit")
+            self.ui.formLayout.setWidget(pan_lmb_row, self.ui.formLayout.ItemRole.LabelRole, pan_lmb_lbl)
+            self.ui.formLayout.setWidget(pan_lmb_row, self.ui.formLayout.ItemRole.FieldRole, self.ui.panCameraLMB3dBindEdit)
 
         # --- Frame-all bind (2D) ---
         if not hasattr(self.ui, "frameAll2dBindEdit"):
@@ -486,6 +500,10 @@ class ModuleDesignerSettings(Settings):
     )
     rotateObject3dBind: SettingsProperty[Bind] = Settings.addSetting(
         "rotateObject3dBind",
+        ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
+    )
+    panCameraLMB3dBind: SettingsProperty[Bind] = Settings.addSetting(
+        "panCameraLMB3dBind",
         ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
     )
     selectObject3dBind: SettingsProperty[Bind] = Settings.addSetting(
