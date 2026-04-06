@@ -343,9 +343,9 @@ class PTHEditor(Editor):
             action_undo = getattr(self.ui, "actionUndo", None)
             action_redo = getattr(self.ui, "actionRedo", None)
             if action_undo is not None:
-                action_undo.triggered.connect(self._undo_stack.undo)
+                action_undo.triggered.connect(lambda: self._undo_stack.undo())
             if action_redo is not None:
-                action_redo.triggered.connect(self._undo_stack.redo)
+                action_redo.triggered.connect(lambda: self._undo_stack.redo())
 
             action_delete = getattr(self.ui, "actionDelete", None)
             if action_delete is not None:

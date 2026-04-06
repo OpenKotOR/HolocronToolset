@@ -88,6 +88,9 @@ class UTDEditor(Editor):
         self.new()
         self.resize(654, 495)
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTD]
+
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
         if installation is None:
             return

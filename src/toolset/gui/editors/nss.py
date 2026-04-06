@@ -1009,6 +1009,9 @@ class NSSEditor(Editor):
             # Re-analyze current document with new config
             self._request_analysis()
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.NSS]
+
     def _setup_signals(self):
         self.ui.actionCompile.triggered.connect(self.compile_current_script)
         self.ui.constantList.doubleClicked.connect(self.insert_selected_constant)

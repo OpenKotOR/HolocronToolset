@@ -914,6 +914,20 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         if update_flat:
             self.ui.flatRenderer.update()
 
+    def _update_renderers_position_only(self, update_flat: bool = False) -> None:
+        """Repaint renderers without wiping texture/model caches.
+
+        Used during live drag operations (translate/rotate gizmo) where only
+        instance positions/rotations have changed.  SceneCache._sync_positions()
+        already handles pushing those deltas to the render objects each frame, so
+        blowing away all loaded textures and triggering a full async reload is
+        completely unnecessary and is what causes textures to flash/disappear
+        while the user is dragging an instance.
+        """
+        self.ui.mainRenderer.update()
+        if update_flat:
+            self.ui.flatRenderer.update()
+
     def _begin_object_gizmo_drag(self, axis: str) -> None:
         if axis not in ("x", "y", "z") or not self.selected_instances:
             return
@@ -955,7 +969,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
             instance.position = Vector3(new_x, new_y, new_z)
 
-        self._invalidate_scene_and_update_renderers()
+        self._update_renderers_position_only()
         self._update_properties_panel()
         self._sync_object_gizmo()
 
@@ -1024,7 +1038,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
                 instance.rotate(step, 0.0, 0.0)
 
         self._object_rotate_gizmo_last_angle = delta_angle
-        self._invalidate_scene_and_update_renderers()
+        self._update_renderers_position_only()
         self._update_properties_panel()
         self._sync_object_gizmo()
 

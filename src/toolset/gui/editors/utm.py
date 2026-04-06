@@ -68,6 +68,9 @@ class UTMEditor(Editor):
         self.new()
         self.adjustSize()
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTM]
+
     def _setup_signals(self):
         """Sets up signal connections for UI buttons."""
         self.ui.tagGenerateButton.clicked.connect(self.generate_tag)

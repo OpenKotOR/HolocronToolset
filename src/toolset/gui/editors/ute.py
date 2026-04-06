@@ -63,6 +63,9 @@ class UTEEditor(Editor):
 
         self.new()
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTE]
+
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
         if installation is None:
             return

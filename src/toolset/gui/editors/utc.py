@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Sequence
 
 from qtpy.QtCore import QSettings, Qt
 from qtpy.QtGui import QImage, QPixmap, QTransform
-from qtpy.QtWidgets import QApplication, QComboBox, QLineEdit, QListWidgetItem, QMenu, QMessageBox, QPlainTextEdit, QWidget
+from qtpy.QtWidgets import QApplication, QComboBox, QLineEdit, QListWidgetItem, QMenu, QMessageBox, QPlainTextEdit, QSplitter, QVBoxLayout, QWidget
 
 from loggerplus import RobustLogger
 from pykotor.common.language import Gender, Language
@@ -81,6 +81,7 @@ class UTCEditor(Editor):
         self.settings: UTCSettings = UTCSettings()
         self.global_settings: GlobalSettings = GlobalSettings()
         self._utc: UTC = UTC()
+        self._ui_ready: bool = False
         super().__init__(parent, "Creature Editor", "creature", supported, supported, installation)
         self.setMinimumSize(0, 0)
 
@@ -88,6 +89,31 @@ class UTCEditor(Editor):
 
         self.ui: Ui_MainWindow = Ui_MainWindow()
         self.ui.setupUi(self)
+        self._ui_ready = True
+
+        # Wrap the preview panel and tab widget in a QSplitter so the user can
+        # drag the divider to resize the 3-D preview area.
+        preview_container = QWidget()
+        preview_container.setObjectName("previewContainer")
+        preview_vlo = QVBoxLayout(preview_container)
+        preview_vlo.setContentsMargins(0, 0, 0, 0)
+        preview_vlo.setSpacing(self.ui.verticalLayout_preview.spacing())
+        preview_vlo.addWidget(self.ui.previewRenderer)
+        preview_vlo.addWidget(self.ui.modelInfoGroupBox)
+
+        self._preview_splitter = QSplitter(Qt.Orientation.Horizontal)
+        self._preview_splitter.setObjectName("previewSplitter")
+        self._preview_splitter.setChildrenCollapsible(False)
+        self._preview_splitter.addWidget(preview_container)
+        self._preview_splitter.addWidget(self.ui.tabWidget)
+        self._preview_splitter.setStretchFactor(0, 0)
+        self._preview_splitter.setStretchFactor(1, 1)
+        self._preview_splitter.setSizes([380, 580])
+
+        while self.ui.horizontalLayout_15.count():
+            self.ui.horizontalLayout_15.takeAt(0)
+        self.ui.horizontalLayout_15.addWidget(self._preview_splitter)
+
         self.resize(798, 553)
 
         self._setup_menus()
@@ -113,8 +139,11 @@ class UTCEditor(Editor):
         self.ui.portraitPicture.customContextMenuRequested.connect(self._portrait_context_menu)
         self.ui.portraitPicture.setToolTip(self._generate_portrait_tooltip(as_html=True))
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTC]
+
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
-        if installation is None:
+        if installation is None or not self._ui_ready:
             return
         self._setup_installation(installation)
         self.update3dPreview()
@@ -960,6 +989,8 @@ class UTCEditor(Editor):
 
         Hides BOTH the preview renderer AND the model info groupbox when preview is hidden.
         """
+        if not self._ui_ready:
+            return
         show_preview = self.global_settings.showPreviewUTC
         self.ui.actionShowPreview.setChecked(show_preview)
         self.ui.previewRenderer.setVisible(show_preview)

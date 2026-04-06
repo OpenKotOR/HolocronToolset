@@ -1474,8 +1474,8 @@ class TwoDAEditor(Editor):
 
         self.ui.filterBox.setVisible(False)
         self._undo_stack: QUndoStack = QUndoStack(self)
-        self.ui.actionUndo.triggered.connect(self._undo_stack.undo)
-        self.ui.actionRedo.triggered.connect(self._undo_stack.redo)
+        self.ui.actionUndo.triggered.connect(lambda: self._undo_stack.undo())
+        self.ui.actionRedo.triggered.connect(lambda: self._undo_stack.redo())
         self._undo_stack.canUndoChanged.connect(self.ui.actionUndo.setEnabled)
         self._undo_stack.canRedoChanged.connect(self.ui.actionRedo.setEnabled)
         self.ui.actionUndo.setEnabled(False)

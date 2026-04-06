@@ -6,7 +6,7 @@ from __future__ import annotations
 EDITOR_WIKI_MAP: dict[str, str | None] = {
     "AREEditor": "GFF-ARE.md",
     "BWMEditor": "BWM-File-Format.md",
-    "DLGEditor": "GFF-DLG.md",
+    "DLGEditor": "GFF-Creature-and-Dialogue.md",
     "ERFEditor": "ERF-File-Format.md",
     "FACEditor": "GFF-FAC.md",
     "GFFEditor": "GFF-File-Format.md",  # Generic GFF editor uses general format doc

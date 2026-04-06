@@ -110,6 +110,9 @@ class UTIEditor(Editor):
         self.update3dPreview()
         self.new()
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTI]
+
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
         if installation is None:
             return
@@ -234,7 +237,7 @@ class UTIEditor(Editor):
         self,
         installation: HTInstallation,
     ):
-        if not hasattr(self, "ui"):
+        if not self._ui_ready:
             return  # UI not initialized yet, will be set up in __init__
         self._installation = installation  # pyright: ignore[reportIncompatibleVariableOverride]
         self.ui.nameEdit.set_installation(installation)
@@ -288,14 +291,14 @@ class UTIEditor(Editor):
         restype: ResourceType,
         data: bytes | bytearray,
     ):
-        """Load resource and populate UI from UTI. Defaults from construct_uti (K1 LoadDataFromGff 0x0055fcd0, LoadItem 0x00560970; TSL TODO)."""
+        """Load resource and populate UI from UTI. Defaults from construct_uti."""
         super().load(filepath, resref, restype, data)
 
         uti = read_uti(data)
         self._loadUTI(uti)
 
     def _loadUTI(self, uti: UTI):
-        """Loads UTI data into UI. Defaults from construct_uti; K1 LoadDataFromGff 0x0055fcd0, LoadItem 0x00560970; TSL same (addresses TODO)."""
+        """Loads UTI data into UI. Defaults from construct_uti."""
         self._uti: UTI = uti
 
         # Basic
@@ -308,7 +311,7 @@ class UTIEditor(Editor):
         self.ui.commentsEdit.setPlainText(uti.comment)
 
     def build(self) -> tuple[bytes, bytes]:
-        """Builds UTI from UI. Populates from UI then dismantle_uti (K1 LoadDataFromGff 0x0055fcd0, LoadItem 0x00560970; TSL TODO). Returns GFF bytes and log."""
+        """Builds UTI from UI. Populates from UI then dismantle_uti. Returns GFF bytes and log."""
         uti: UTI = deepcopy(self._uti)
 
         # Basic

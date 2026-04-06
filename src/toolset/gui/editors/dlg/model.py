@@ -1111,7 +1111,7 @@ class DLGStandardItemModel(QStandardItemModel):
         assert self.editor is not None
 
         # Get palette colors for theme-aware node coloring
-        app = QApplication.instance()
+        app: QApplication | None = QApplication.instance()
         if app is not None and isinstance(app, QApplication):
             palette = app.palette()
         else:
@@ -1130,17 +1130,17 @@ class DLGStandardItemModel(QStandardItemModel):
         entry_color.setBlue(int(entry_color.blue() * 0.3))
 
         # Reply: Blue-ish (link-like) - use link color
-        reply_color = link_color
+        reply_color: QColor = link_color
 
         # Default/Neutral: Muted gray from mid or window text
-        default_color = QColor(mid_color if mid_color.isValid() else window_text)
+        default_color: QColor = QColor(mid_color if mid_color.isValid() else window_text)
         if default_color.lightness() > 200:  # Too light, darken
             default_color = default_color.darker(150)
         elif default_color.lightness() < 50:  # Too dark, lighten
             default_color = default_color.lighter(150)
 
         # End Dialog: Orange-ish - create from link color
-        end_dialog_color_obj = QColor(link_color)
+        end_dialog_color_obj: QColor = QColor(link_color)
         end_dialog_color_obj.setRed(min(255, int(end_dialog_color_obj.red() * 1.2 + 80)))
         end_dialog_color_obj.setGreen(int(end_dialog_color_obj.green() * 0.7 + 50))
         end_dialog_color_obj.setBlue(int(end_dialog_color_obj.blue() * 0.4))

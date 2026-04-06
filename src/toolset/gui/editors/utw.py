@@ -60,6 +60,9 @@ class UTWEditor(Editor):
 
         self.new()
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTW]
+
     def _setup_signals(self):
         for signal, handler in (
             (self.ui.tagGenerateButton.clicked, self.generate_tag),

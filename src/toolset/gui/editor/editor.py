@@ -391,7 +391,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         # Create media player as a child widget (not added to any layout)
         # NOTE: Do NOT call setLayout() on a QMainWindow - it interferes with the
         # central widget mechanism and causes layout issues. The mediaPlayer is used
-        # for audio playback via playSound() and doesn't need to be in a layout.
+        # for audio playback via play_sound() and doesn't need to be in a layout.
         self.mediaPlayer: MediaPlayerWidget = MediaPlayerWidget(self)
         self.setWindowTitle(title)
         self._setupIcon(iconName)
@@ -745,7 +745,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             else:
                 self._saveEndsWithOther(data, data_ext)
         except Exception as e:  # pylint: disable=W0718  # noqa: BLE001
-            self.blinkWindow()
+            self.blink_window()
             RobustLogger().critical("Failed to write to file", exc_info=True)
             msgBox = QMessageBox(QMessageBox.Icon.Critical, "Failed to write to file", str((e.__class__.__name__, str(e))).replace("\n", "<br>"))
             msgBox.setDetailedText(format_exception_with_variables(e))
@@ -1115,7 +1115,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
     def revert(self):
         if self._revert is None:
             print("No data to revert from")
-            self.blinkWindow()
+            self.blink_window()
             return
         assert self._filepath is not None, assert_with_variable_trace(self._filepath is not None)
         assert self._resname is not None, assert_with_variable_trace(self._resname is not None)
@@ -1151,25 +1151,25 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             setText(self._installation.talktable().string(locstring.stringref))
             apply_locstring_background(textbox, from_tlk=True)
 
-    def blinkWindow(self, *, sound: bool = True):
+    def blink_window(self, *, sound: bool = True):
         if sound:
             with suppress(Exception):
-                self.playSound("dr_metal_lock")
+                self.play_sound("dr_metal_lock")
         self.setWindowOpacity(0.7)
         QTimer.singleShot(125, lambda: self.setWindowOpacity(1))
 
     def play_byte_source_media(self, data: bytes | None) -> bool:
         if qtpy.QT5:
-            from qtpy.QtMultimedia import QMediaContent
+            from qtpy.QtMultimedia import QMediaContent # pyright: ignore[reportAttributeAccessIssue]
 
-            if data:
+            if data is not None:
                 self.mediaPlayer.buffer = buffer = QBuffer(self)
                 buffer.setData(data)
                 buffer.open(QIODevice.OpenModeFlag.ReadOnly)
-                self.mediaPlayer.player.setMedia(QMediaContent(), buffer)
+                self.mediaPlayer.player.setMedia(QMediaContent(), buffer) # pyright: ignore[reportAttributeAccessIssue]
                 QTimer.singleShot(0, self.mediaPlayer.player.play)  # IMPORTANT!! in pyqt5/pyside2, ONLY works when singleShot from a timer. No idea why.
             else:
-                self.blinkWindow()
+                self.blink_window()
                 return False
             return True
 
@@ -1177,32 +1177,66 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             if data:
                 self._play_byte_data_qt6(data)
             else:
-                self.blinkWindow()
+                self.blink_window()
                 return False
             return True
         raise RuntimeError(f"Unsupported QT_API value: {qtpy.API_NAME}")
 
     def _play_byte_data_qt6(self, data: bytes):
-        from qtpy.QtMultimedia import QAudioOutput
+        player: PyQt6MediaPlayer | PySide6MediaPlayer = cast("Any", self.mediaPlayer.player)
 
-        tempFile = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        # Reuse the persistent QAudioOutput — never create a new one per play.
+        # Creating a new QAudioOutput and calling setAudioOutput() on every play
+        # resets Qt6's async backend (breaks subsequent plays) AND accumulates
+        # dead QAudioOutput children on self.
+        _media_audio = getattr(self.mediaPlayer, "_audio_output", None)
+        if _media_audio is not None and player.audioOutput() is not _media_audio:
+            player.setAudioOutput(_media_audio)  # type: ignore[attr-name]
+        elif _media_audio is None and player.audioOutput() is None:
+            from qtpy.QtMultimedia import QAudioOutput  # pyright: ignore[reportAttributeAccessIssue]
+            _fallback = QAudioOutput(self)  # pyright: ignore[reportCallIssue]
+            _fallback.setVolume(1.0)
+            player.setAudioOutput(_fallback)  # type: ignore[attr-name]
+
+        # Write audio data to a temp file (more reliable than QBuffer in Qt6).
+        tempFile = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")  # noqa: SIM115
         tempFile.write(data)
         tempFile.flush()
-        tempFile.seek(0)
         tempFile.close()
 
-        player: PyQt6MediaPlayer | PySide6MediaPlayer = cast("Any", self.mediaPlayer.player)
-        audioOutput = QAudioOutput(self)  # pyright: ignore[reportCallIssue]
-        player.setAudioOutput(audioOutput)  # type: ignore[attr-name]
+        # Clear current source so Qt6's internal state machine fully resets.
+        player.setSource(QUrl())  # type: ignore[attr-name]
         player.setSource(QUrl.fromLocalFile(tempFile.name))  # type: ignore[attr-name]
-        audioOutput.setVolume(1)  # IMPORTANT!! volume starts off at 0% otherwise.
-        player.mediaStatusChanged.connect(lambda status, file_name=tempFile.name: self.removeTempAudioFile(status, file_name))
-        player.play()
 
-    def playSound(self, resname: str, order: list[SearchLocation] | None = None) -> bool:
+        # Disconnect any previously connected one-shot cleanup handler to prevent
+        # accumulating N handlers after N plays (each would call stop() at EndOfMedia).
+        try:
+            player.mediaStatusChanged.disconnect(self._on_qt6_media_end)
+        except (RuntimeError, TypeError):
+            pass
+        self._qt6_temp_audio_path: str = tempFile.name
+        player.mediaStatusChanged.connect(self._on_qt6_media_end)
+
+        # Defer play() so Qt6's async backend processes the setSource(QUrl()) reset.
+        QTimer.singleShot(0, player.play)
+
+    def _on_qt6_media_end(
+        self,
+        status: QMediaPlayer.MediaStatus,
+    ) -> None:
+        if status != QMediaPlayer.MediaStatus.EndOfMedia:
+            return
+        player = cast("Any", self.mediaPlayer.player)
+        player.stop()
+        path = getattr(self, "_qt6_temp_audio_path", None)
+        self._qt6_temp_audio_path = ""
+        if path:
+            QTimer.singleShot(33, lambda: remove_any(path))
+
+    def play_sound(self, resname: str, order: list[SearchLocation] | None = None) -> bool:
         """Plays a sound resource."""
         if not resname or not resname.strip() or self._installation is None:
-            self.blinkWindow(sound=False)
+            self.blink_window(sound=False)
             return False
 
         self.mediaPlayer.player.stop()
@@ -1220,15 +1254,15 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             ],
         )
         if not data:
-            self.blinkWindow(sound=False)
+            self.blink_window(sound=False)
         return self.play_byte_source_media(data)
 
-    def removeTempAudioFile(
+    def remove_temp_audio_file(
         self,
         status: QMediaPlayer.MediaStatus,
         filePathStr: str,
     ):
-        print("<SDM> [removeTempAudioFile scope] status: ", status)
+        print("<SDM> [remove_temp_audio_file scope] status: ", status)
         if status == QMediaPlayer.MediaStatus.EndOfMedia:
             try:
                 self.mediaPlayer.player.stop()

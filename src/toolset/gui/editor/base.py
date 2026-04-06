@@ -17,6 +17,7 @@ from qtpy.QtCore import (
     QBuffer,
     QIODevice,
     QTimer,
+    QUrl,
     Qt,
     Signal,  # pyright: ignore[reportPrivateImportUsage]
 )
@@ -131,6 +132,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         # Installation toolbar — reusable widget (same as standalone windows).
         self._editor_toolbar: QToolBar = QToolBar(self)
         self._editor_toolbar.setObjectName("editorToolbar")
+        self._editor_toolbar.setWindowTitle("Installation")
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self._editor_toolbar)
         self._installation_toolbar = InstallationToolbar(
             self,
@@ -140,17 +142,19 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         self._installation_toolbar.installation_changed.connect(self._handle_installation_changed)
         self._installation_toolbar.folder_paths_changed.connect(self._handle_folder_paths_changed)
         self._editor_toolbar.addWidget(self._installation_toolbar)
-        if self._installation is not None:
-            idx = self._installation_toolbar.installationCombo.findData(self._installation.name)
-            if idx >= 0:
-                self._installation_toolbar.installationCombo.setCurrentIndex(idx)
 
         # Resource navigation bar (opt-in by subclasses via _nav_resource_types).
+        # Must be initialised before setCurrentIndex() below, which fires installation_changed.
         self._nav_toolbar: QToolBar | None = None
         self._nav_combo: QComboBox | None = None
         self._nav_populating: bool = False
         self._nav_prev_index: int = -1
         self._setup_nav_bar()
+
+        if self._installation is not None:
+            idx = self._installation_toolbar.installationCombo.findData(self._installation.name)
+            if idx >= 0:
+                self._installation_toolbar.installationCombo.setCurrentIndex(idx)
 
     def _populate_editor_toolbar(self, toolbar: QToolBar) -> None:
         """Override in subclasses to append editor-specific controls after the installation toolbar.
@@ -198,6 +202,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         self.addToolBarBreak(Qt.ToolBarArea.TopToolBarArea)
         self._nav_toolbar = QToolBar(self)
         self._nav_toolbar.setObjectName("navToolbar")
+        self._nav_toolbar.setWindowTitle("Navigate")
         self._nav_toolbar.setMovable(False)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self._nav_toolbar)
 
@@ -987,24 +992,31 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             QTimer.singleShot(0, self.media_player.player.play)
 
         elif qtpy.QT6:
-            from qtpy.QtMultimedia import (
-                QAudioOutput,  # pyright: ignore[reportAttributeAccessIssue]
-            )
-
-            # Create buffer and load data
-            buffer = QBuffer(self)
-            buffer.setData(data)
-            buffer.open(QIODevice.OpenModeFlag.ReadOnly)
-
-            # Set up player
             player: PyQt6MediaPlayer | PySide6MediaPlayer = cast("Any", self.media_player.player)
-            audio_output = QAudioOutput(self)
-            audio_output.setVolume(1)
-            player.setAudioOutput(audio_output)
 
-            # Use the buffer directly instead of a file
-            player.setSourceDevice(buffer)
-            player.play()
+            # Reuse the persistent QAudioOutput from MediaPlayerWidget — never replace it.
+            # Calling setAudioOutput() on every play resets Qt6's async FFmpeg backend,
+            # which prevents subsequent plays from working reliably on Windows.
+            _media_audio = getattr(self.media_player, "_audio_output", None)
+            if _media_audio is not None and player.audioOutput() is not _media_audio:
+                player.setAudioOutput(_media_audio)  # type: ignore[arg-type]
+
+            # Clear the current source so Qt6's internal state machine fully resets
+            # before we provide the new source.  Without this the second play can see
+            # a stale status and never transition to "Playing".
+            player.setSource(QUrl())
+
+            # Keep exactly one QBuffer alive at a time.  Assigning to self prevents
+            # Python's GC from freeing it while Qt6's async decoder is still reading.
+            self._qt6_play_buffer: QBuffer = QBuffer(self)
+            self._qt6_play_buffer.setData(data)
+            self._qt6_play_buffer.open(QIODevice.OpenModeFlag.ReadOnly)
+            player.setSourceDevice(self._qt6_play_buffer)  # type: ignore[arg-type]
+
+            # Defer play() to the next event-loop iteration so Qt6's async backend
+            # can process the preceding stop() and setSource(QUrl()) state-change
+            # signals before we request playback — same pattern as Qt5.
+            QTimer.singleShot(0, player.play)
         return True
 
     def play_sound(

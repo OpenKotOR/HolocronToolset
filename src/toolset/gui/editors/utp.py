@@ -63,6 +63,7 @@ class UTPEditor(Editor):
         supported: list[ResourceType] = [ResourceType.UTP, ResourceType.BTP]
         self.globalSettings: GlobalSettings = GlobalSettings()
         self._utp: UTP = UTP()
+        self._ui_ready: bool = False
         super().__init__(parent, "Placeable Editor", "placeable", supported, supported, installation)
 
         if installation is not None:
@@ -72,6 +73,7 @@ class UTPEditor(Editor):
 
         self.ui: Ui_MainWindow = Ui_MainWindow()
         self.ui.setupUi(self)
+        self._ui_ready = True
 
         self._setup_menus()
         self._add_help_action()
@@ -87,9 +89,12 @@ class UTPEditor(Editor):
         self.new()
         self.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.UTP]
+
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
         # InstallationToolbar can emit during base-class init before self.ui exists.
-        if installation is None or not hasattr(self, "ui"):
+        if installation is None or not self._ui_ready:
             return
         self._setup_installation(installation)
         self.update3dPreview()

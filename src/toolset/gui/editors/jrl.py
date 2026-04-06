@@ -91,6 +91,9 @@ class JRLEditor(Editor):
 
         self.new()
 
+    def _nav_resource_types(self) -> list[ResourceType]:
+        return [ResourceType.JRL]
+
     def _setup_signals(self):
         # Connect selection changed signal using selection model (more reliable than property assignment)
         sel_model = self.ui.journalTree.selectionModel()

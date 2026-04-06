@@ -23,7 +23,6 @@ from qtpy.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QListWidgetItem,
-    QMainWindow,
     QMenu,
     QMessageBox,
     QPlainTextEdit,
@@ -108,7 +107,8 @@ from toolset.gui.common.log_bridge import LEVEL_COLORS, LogRecordEmitter, QtLogH
 from toolset.gui.common.status_bar_utils import format_status_bar_keys_and_buttons
 from toolset.gui.common.walkmesh_materials import get_walkmesh_material_colors
 from toolset.gui.dialogs.asyncloader import AsyncLoader
-from toolset.gui.widgets.installation_toolbar import InstallationToolbar, StandaloneWindowMixin
+from toolset.gui.editor.base import Editor
+from toolset.gui.widgets.installation_toolbar import InstallationToolbar
 from toolset.gui.widgets.settings.installations import GlobalSettings
 from toolset.gui.windows.help import HelpWindow
 from toolset.gui.windows.indoor_builder.constants import (
@@ -187,14 +187,17 @@ class SnapResult:
 # =============================================================================
 
 
-class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
+class IndoorMapBuilder(Editor, BlenderEditorMixin):
     def __init__(
         self,
         parent: QWidget | None,
         installation: HTInstallation | None = None,
         use_blender: bool = False,
     ):
-        super().__init__(parent)
+        super().__init__(parent, "Indoor Map Builder", "indoor_builder", [], [], None)
+        # Editor creates _editor_toolbar with _installation_toolbar; hide it since
+        # IndoorMapBuilder manages the installation combo in its own settings toolbar.
+        self._editor_toolbar.hide()
 
         # Initialize Blender integration
         self._init_blender_integration(BlenderEditorMode.INDOOR_BUILDER)
@@ -274,6 +277,19 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self._paint_stroke_new: dict[tuple[IndoorMapRoom, int], SurfaceMaterial] = {}
 
         self._setup_signals()
+        # _installation_toolbar is always set by Editor.__init__; pre-populate its cache
+        # so selecting the active installation doesn't trigger an AsyncLoader, then sync
+        # the toolbar combo so toolbarInstallationCombo reflects the current installation.
+        if self._installation is not None and self._installation_toolbar is not None:
+            self._installation_toolbar._installation_cache[self._installation.name] = self._installation
+            self._installation_toolbar._in_update = True
+            try:
+                idx = self._installation_toolbar.installationCombo.findData(self._installation.name)
+                if idx >= 0:
+                    self._installation_toolbar.installationCombo.setCurrentIndex(idx)
+            finally:
+                self._installation_toolbar._in_update = False
+        self._sync_toolbar_installation_from_left()
         self._setup_walkmesh_painter()
         self._setup_undo_redo()
         self._setup_kits()
@@ -308,7 +324,7 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self._no_scroll_filter.setup_filter(parent_widget=self)
 
     def _on_installation_changed(self, installation: HTInstallation | None) -> None:
-        self._installation = installation
+        # self._installation is already set by Editor._handle_installation_changed before this call.
         self._module_kit_manager = None if installation is None else ModuleKitManager(installation)
         try:
             self._setup_settings_toolbar()
@@ -325,18 +341,10 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             RobustLogger().exception("Failed to refresh after installation switch")
 
     def enable_standalone_mode(self) -> None:
-        """Override: place installation toolbar in left dock above Modules instead of above the map."""
-        if self._installation_toolbar is not None:
+        """Override: move installation toolbar from Editor's hidden toolbar into the left dock."""
+        if self._installation_toolbar is None:
             return
         container: QWidget = self.ui.installationToolbarContainer
-        self._standalone_folder_paths: dict[str, str] = {}
-        self._installation_toolbar = InstallationToolbar(
-            container,
-            folder_path_specs=list(self.STANDALONE_FOLDER_PATHS),
-            requires_installation=self.STANDALONE_REQUIRES_INSTALLATION,
-        )
-        self._installation_toolbar.installation_changed.connect(self._handle_installation_changed)
-        self._installation_toolbar.folder_paths_changed.connect(self._handle_folder_paths_changed)
         layout: QLayout | None = container.layout()
         if layout is not None:
             layout.addWidget(self._installation_toolbar)
@@ -585,7 +593,7 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self.ui.toolbarInstallationCombo.currentIndexChanged.connect(self._on_toolbar_installation_changed)
         self.ui.toolbarOpenModuleButton.clicked.connect(self._on_toolbar_open_module_clicked)
         self.ui.toolbarRefreshModulesButton.clicked.connect(self._setup_modules)
-        QTimer.singleShot(100, self._sync_toolbar_installation_from_left)
+        # (Toolbar sync is done in __init__ after _setup_signals, not via a one-shot timer.)
 
         # View menu: Settings action (keybind dialog)
         self.ui.actionSettings.triggered.connect(self._open_settings_dialog)
@@ -682,8 +690,8 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
     def _setup_undo_redo(self):
         """Setup undo/redo actions."""
-        self.ui.actionUndo.triggered.connect(self._undo_stack.undo)
-        self.ui.actionRedo.triggered.connect(self._undo_stack.redo)
+        self.ui.actionUndo.triggered.connect(lambda: self._undo_stack.undo())
+        self.ui.actionRedo.triggered.connect(lambda: self._undo_stack.redo())
 
         # Update action enabled states
         self._undo_stack.canUndoChanged.connect(self.ui.actionUndo.setEnabled)
@@ -1768,16 +1776,6 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             self._update_settings_ui()
             self._sync_module_combo_to_current_map()
             self._refresh_window_title()
-
-            # Show success message
-            room_count = len(self._map.rooms)
-            from toolset.gui.common.localization import translate as tr, translate_format as trf
-
-            QMessageBox(
-                QMessageBox.Icon.Information,
-                tr("Module Loaded"),
-                trf("Successfully loaded module '{module}' with {count} room{plural}.", module=module_root, count=room_count, plural="s" if room_count != 1 else ""),
-            ).exec()
 
             return True
 

@@ -2309,6 +2309,18 @@ class ToolWindow(QMainWindow):
         except Exception:  # noqa: BLE001
             RobustLogger().exception("Failed to setResources of the core list")
         try:
+            music = self.active._streammusic  # noqa: SLF001
+            if music:
+                self.ui.coreWidget.set_resources(music, "Music", clear_existing=False)
+        except Exception:  # noqa: BLE001
+            RobustLogger().exception("Failed to add Music resources to the core list")
+        try:
+            voice = self.active._streamwaves  # noqa: SLF001
+            if voice:
+                self.ui.coreWidget.set_resources(voice, "VoiceOver", clear_existing=False)
+        except Exception:  # noqa: BLE001
+            RobustLogger().exception("Failed to add VoiceOver resources to the core list")
+        try:
             self.ui.coreWidget.modules_model.remove_unused_categories()
         except Exception:  # noqa: BLE001
             RobustLogger().exception("Failed to remove unused categories in the core list")
