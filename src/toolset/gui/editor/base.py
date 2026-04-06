@@ -23,7 +23,9 @@ from qtpy.QtCore import (
 from qtpy.QtGui import QAction, QIcon, QPixmap
 from qtpy.QtWidgets import (
     QApplication,
+    QComboBox,
     QFileDialog,
+    QLabel,
     QMainWindow,
     QMenu,
     QMessageBox,
@@ -37,7 +39,7 @@ from qtpy.QtWidgets import (
 from loggerplus import RobustLogger  # pyright: ignore[reportMissingTypeStubs]
 from pykotor.common.module import Module
 from pykotor.extract.capsule import Capsule
-from pykotor.extract.file import ResourceIdentifier
+from pykotor.extract.file import FileResource, ResourceIdentifier
 from pykotor.extract.installation import SearchLocation
 from pykotor.resource.formats.bif import read_bif
 from pykotor.resource.formats.erf import ERF, ERFType, read_erf, write_erf
@@ -124,12 +126,6 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         self.setWindowTitle(title)
         self._setup_icon(icon_name)
 
-        # Setup event filter to prevent scroll wheel interaction with controls
-        from toolset.gui.common.filters import NoScrollEventFilter
-
-        self._no_scroll_filter = NoScrollEventFilter(self)
-        self._no_scroll_filter.setup_filter(parent_widget=self)
-
         self.setup_editor_filters(read_supported, write_supported)
 
         # Installation toolbar — reusable widget (same as standalone windows).
@@ -149,6 +145,13 @@ class Editor(QMainWindow, StandaloneWindowMixin):
             if idx >= 0:
                 self._installation_toolbar.installationCombo.setCurrentIndex(idx)
 
+        # Resource navigation bar (opt-in by subclasses via _nav_resource_types).
+        self._nav_toolbar: QToolBar | None = None
+        self._nav_combo: QComboBox | None = None
+        self._nav_populating: bool = False
+        self._nav_prev_index: int = -1
+        self._setup_nav_bar()
+
     def _populate_editor_toolbar(self, toolbar: QToolBar) -> None:
         """Override in subclasses to append editor-specific controls after the installation toolbar.
 
@@ -161,6 +164,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
     def _handle_installation_changed(self, installation: HTInstallation | None) -> None:
         """Forward InstallationToolbar signal to overridable handler."""
         self._installation = installation
+        self._refresh_nav_bar(installation)
         self._on_installation_changed(installation)
 
     def _handle_folder_paths_changed(self, paths: dict[str, Path | None]) -> None:
@@ -174,6 +178,146 @@ class Editor(QMainWindow, StandaloneWindowMixin):
     def _on_folder_paths_changed(self, paths: dict[str, Path | None]) -> None:
         """Override in subclasses that support folder-path mode."""
         return
+
+    # ------------------------------------------------------------------
+    # Resource navigation bar (opt-in)
+    # ------------------------------------------------------------------
+
+    def _nav_resource_types(self) -> list[ResourceType]:
+        """Override to enable the resource-navigation row below the toolbar.
+
+        Return the ResourceType(s) whose chitin+override entries should populate
+        the nav combobox.  Return [] (default) to disable the nav bar entirely.
+        """
+        return []
+
+    def _setup_nav_bar(self) -> None:
+        """Create the nav toolbar + combobox when _nav_resource_types() is non-empty."""
+        if not self._nav_resource_types():
+            return
+        self.addToolBarBreak(Qt.ToolBarArea.TopToolBarArea)
+        self._nav_toolbar = QToolBar(self)
+        self._nav_toolbar.setObjectName("navToolbar")
+        self._nav_toolbar.setMovable(False)
+        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self._nav_toolbar)
+
+        self._nav_toolbar.addWidget(QLabel("  Navigate:  "))
+
+        self._nav_combo = QComboBox()
+        self._nav_combo.setMinimumWidth(320)
+        self._nav_combo.setMaxVisibleItems(30)
+        self._nav_toolbar.addWidget(self._nav_combo)
+
+        self._nav_combo.currentIndexChanged.connect(self._on_nav_selection_changed)
+
+        if self._installation is not None:
+            self._refresh_nav_bar(self._installation)
+
+    def _refresh_nav_bar(self, installation: HTInstallation | None) -> None:
+        """Repopulate the nav combobox from chitin + override for the configured types."""
+        combo = self._nav_combo
+        if combo is None:
+            return
+        nav_types = self._nav_resource_types()
+        if not nav_types or installation is None:
+            return
+
+        self._nav_populating = True
+        try:
+            combo.clear()
+            resources: list[FileResource] = []
+            nav_type_set = set(nav_types)
+            for res in installation.chitin_resources():
+                if res.restype() in nav_type_set:
+                    resources.append(res)
+            for res in installation.override_resources():
+                if res.restype() in nav_type_set:
+                    resources.append(res)
+            resources.sort(key=lambda r: r.resname().lower())
+            for res in resources:
+                combo.addItem(res.resname(), res)
+            self._nav_sync_combo_internal(combo)
+        finally:
+            self._nav_populating = False
+
+    def _nav_sync_combo(self) -> None:
+        """Sync the nav combobox selection to the currently-loaded resname."""
+        combo = self._nav_combo
+        if combo is None:
+            return
+        self._nav_populating = True
+        try:
+            self._nav_sync_combo_internal(combo)
+        finally:
+            self._nav_populating = False
+
+    def _nav_sync_combo_internal(self, combo: QComboBox) -> None:
+        resname_lower = (self._resname or "").lower()
+        for i in range(combo.count()):
+            res: FileResource | None = combo.itemData(i)
+            if res is not None and res.resname().lower() == resname_lower:
+                combo.setCurrentIndex(i)
+                self._nav_prev_index = i
+                return
+        combo.setCurrentIndex(-1)
+        self._nav_prev_index = -1
+
+    def _on_nav_selection_changed(self, index: int) -> None:
+        """Handle user picking a different resource in the nav combobox."""
+        if self._nav_populating or index < 0:
+            return
+        combo = self._nav_combo
+        if combo is None:
+            return
+        res: FileResource | None = combo.itemData(index)
+        if res is None:
+            return
+        # No-op when the selection matches what is already loaded.
+        if res.resname().lower() == (self._resname or "").lower():
+            self._nav_prev_index = index
+            return
+
+        prev_index = self._nav_prev_index
+
+        if self.isWindowModified():
+            result = QMessageBox.question(
+                self,
+                tr("Unsaved Changes"),
+                trf(
+                    "Save changes to '{resname}.{ext}' before switching?",
+                    resname=self._resname,
+                    ext=self._restype.extension if self._restype else "",
+                ),
+                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Cancel,
+            )
+            if result == QMessageBox.StandardButton.Cancel:
+                self._nav_populating = True
+                try:
+                    combo.setCurrentIndex(prev_index)
+                finally:
+                    self._nav_populating = False
+                return
+            if result == QMessageBox.StandardButton.Save:
+                self.save()
+
+        self._nav_prev_index = index
+        try:
+            data = res.data()
+        except Exception as exc:  # noqa: BLE001
+            RobustLogger().exception("Nav bar failed to read resource")
+            QMessageBox.critical(
+                self,
+                tr("Load Error"),
+                trf(
+                    "Failed to read {resname}.{ext}: {error}",
+                    resname=res.resname(),
+                    ext=res.restype().extension,
+                    error=str(exc),
+                ),
+            )
+            return
+        self.load(res.filepath(), res.resname(), res.restype(), data)
 
     @abstractmethod
     def build(self) -> tuple[bytes | bytearray, bytes | bytearray]: ...
@@ -651,6 +795,23 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         self.sig_saved_file.emit(str(self._filepath), self._resname, self._restype, bytes(data))
 
     def open(self):
+        if self.isWindowModified():
+            result = QMessageBox.question(
+                self,
+                tr("Unsaved Changes"),
+                trf(
+                    "Save changes to '{resname}.{ext}' before opening a different file?",
+                    resname=self._resname,
+                    ext=self._restype.extension if self._restype else "",
+                ),
+                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
+                QMessageBox.StandardButton.Cancel,
+            )
+            if result == QMessageBox.StandardButton.Cancel:
+                return
+            if result == QMessageBox.StandardButton.Save:
+                self.save()
+
         filepath_str, _filter = QFileDialog.getOpenFileName(self, "Open file", "", self._open_filter, "")
         if filepath_str is None or not str(filepath_str).strip():
             return
@@ -720,6 +881,7 @@ class Editor(QMainWindow, StandaloneWindowMixin):
                     break
         self.refresh_window_title()
         self.sig_loaded_file.emit(str(self._filepath), self._resname, self._restype, data_bytes)
+        self._nav_sync_combo()
 
     def _detect_save_game_resource(self, filepath: Path) -> bool:
         """Detect if a resource is from a save game by checking the filepath.
