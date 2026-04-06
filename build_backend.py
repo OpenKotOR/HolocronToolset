@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
+from typing import List, Mapping, Optional, Union
 
 from setuptools.build_meta import build_editable as _build_editable
 from setuptools.build_meta import build_sdist as _build_sdist
@@ -18,6 +19,9 @@ from setuptools.build_meta import get_requires_for_build_sdist as _get_requires_
 from setuptools.build_meta import get_requires_for_build_wheel as _get_requires_for_build_wheel
 from setuptools.build_meta import prepare_metadata_for_build_editable as _prepare_metadata_for_build_editable
 from setuptools.build_meta import prepare_metadata_for_build_wheel as _prepare_metadata_for_build_wheel
+
+
+ConfigSettings = Optional[Mapping[str, Union[str, List[str], None]]]
 
 
 def _remove_wiki_git() -> None:
@@ -35,42 +39,42 @@ def _remove_wiki_git() -> None:
                 pass
 
 
-def build_wheel(wheel_directory: str, config_settings: object = None, metadata_directory: str | None = None) -> str:
+def build_wheel(wheel_directory: str, config_settings: ConfigSettings = None, metadata_directory: str | None = None) -> str:
     _remove_wiki_git()
     return _build_wheel(wheel_directory, config_settings, metadata_directory)
 
 
-def build_sdist(sdist_directory: str, config_settings: object = None) -> str:
+def build_sdist(sdist_directory: str, config_settings: ConfigSettings = None) -> str:
     _remove_wiki_git()
     return _build_sdist(sdist_directory, config_settings)
 
 
 def build_editable(
     wheel_directory: str,
-    config_settings: object = None,
+    config_settings: ConfigSettings = None,
     metadata_directory: str | None = None,
 ) -> str:
     _remove_wiki_git()
     return _build_editable(wheel_directory, config_settings, metadata_directory)
 
 
-def get_requires_for_build_wheel(config_settings: object = None) -> list[str]:
+def get_requires_for_build_wheel(config_settings: ConfigSettings = None) -> list[str]:
     return _get_requires_for_build_wheel(config_settings)
 
 
-def get_requires_for_build_sdist(config_settings: object = None) -> list[str]:
+def get_requires_for_build_sdist(config_settings: ConfigSettings = None) -> list[str]:
     return _get_requires_for_build_sdist(config_settings)
 
 
-def get_requires_for_build_editable(config_settings: object = None) -> list[str]:
+def get_requires_for_build_editable(config_settings: ConfigSettings = None) -> list[str]:
     return _get_requires_for_build_editable(config_settings)
 
 
-def prepare_metadata_for_build_wheel(metadata_directory: str, config_settings: object = None) -> str:
+def prepare_metadata_for_build_wheel(metadata_directory: str, config_settings: ConfigSettings = None) -> str:
     _remove_wiki_git()
     return _prepare_metadata_for_build_wheel(metadata_directory, config_settings)
 
 
-def prepare_metadata_for_build_editable(metadata_directory: str, config_settings: object = None) -> str:
+def prepare_metadata_for_build_editable(metadata_directory: str, config_settings: ConfigSettings = None) -> str:
     _remove_wiki_git()
     return _prepare_metadata_for_build_editable(metadata_directory, config_settings)
