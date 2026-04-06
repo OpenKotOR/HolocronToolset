@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from toolset.data.misc import ControlItem
+
 if TYPE_CHECKING:
     from utility.common.geometry import Vector2
 
@@ -25,6 +27,15 @@ def calculate_zoom_strength(delta_y: float, sens_setting: int) -> float:
     factor_in = m * sens_setting + b
     return 1 / abs(factor_in) if delta_y < 0 else abs(factor_in)
 
+
+def _control_from_settings(
+    settings: object | None,
+    attr_name: str,
+    default: tuple[set[Any], set[Any] | None],
+) -> ControlItem:
+    bind = getattr(settings, attr_name, default) if settings is not None else default
+    return ControlItem(bind)
+
 def handle_standard_2d_camera_movement(
     renderer: Any,
     screen: Vector2,
@@ -36,6 +47,7 @@ def handle_standard_2d_camera_movement(
     rotate_sens: float = 1.0,
     *,
     is_indoor_builder: bool = False,
+    settings: object | None = None,
 ) -> bool:
     """Handles standard 2D view pan and rotate. Returns True if the camera was moved.
     
@@ -57,39 +69,22 @@ def handle_standard_2d_camera_movement(
 
     did_handle = False
 
+    pan_camera = _control_from_settings(settings, "moveCamera2dBind", (set(), {Qt.MouseButton.MiddleButton}))
+    rotate_camera = _control_from_settings(settings, "rotateCamera2dBind", ({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}))
+
     if is_indoor_builder:
-        # Indoor Builder: Middle mouse OR LMB+Ctrl = Pan (Blender MMB primary ✅)
-        if Qt.MouseButton.MiddleButton in buttons and Qt.Key.Key_Shift not in keys and Qt.Key.Key_Control not in keys:
+        if pan_camera.satisfied(buttons, keys):
             renderer.pan_camera(-world_delta.x * move_sens, -world_delta.y * move_sens)
             did_handle = True
-        elif Qt.MouseButton.MiddleButton in buttons and Qt.Key.Key_Shift in keys:
-            renderer.pan_camera(-world_delta.x * move_sens, -world_delta.y * move_sens)
-            did_handle = True
-        elif Qt.MouseButton.LeftButton in buttons and Qt.Key.Key_Control in keys:
-            renderer.pan_camera(-world_delta.x * move_sens, -world_delta.y * move_sens)
-            did_handle = True
-        # Right mouse + Ctrl = Rotate
-        elif Qt.MouseButton.RightButton in buttons and Qt.Key.Key_Control in keys:
+        elif rotate_camera.satisfied(buttons, keys):
             renderer.rotate_camera((delta.x / 50.0) * rotate_sens)
             did_handle = True
-    # Standard WOK/ARE/GIT bindings: MMB (Blender) or LMB+Ctrl (legacy) = Pan,
-    # Ctrl+MMB = Rotate (Blender secondary)
-    elif Qt.MouseButton.MiddleButton in buttons and Qt.Key.Key_Shift not in keys and Qt.Key.Key_Control not in keys:
+    elif pan_camera.satisfied(buttons, keys):
         if hasattr(renderer, "do_cursor_lock"):
             renderer.do_cursor_lock(screen)
         renderer.camera.nudge_position(-world_delta.x * move_sens, -world_delta.y * move_sens)
         did_handle = True
-    elif Qt.MouseButton.MiddleButton in buttons and Qt.Key.Key_Shift in keys:
-        if hasattr(renderer, "do_cursor_lock"):
-            renderer.do_cursor_lock(screen)
-        renderer.camera.nudge_position(-world_delta.x * move_sens, -world_delta.y * move_sens)
-        did_handle = True
-    elif Qt.MouseButton.LeftButton in buttons and Qt.Key.Key_Control in keys:
-        if hasattr(renderer, "do_cursor_lock"):
-            renderer.do_cursor_lock(screen)
-        renderer.camera.nudge_position(-world_delta.x * move_sens, -world_delta.y * move_sens)
-        did_handle = True
-    elif Qt.MouseButton.MiddleButton in buttons and Qt.Key.Key_Control in keys:
+    elif rotate_camera.satisfied(buttons, keys):
         if hasattr(renderer, "do_cursor_lock"):
             renderer.do_cursor_lock(screen)
         renderer.camera.nudge_rotation((delta.x / 50.0) * rotate_sens)

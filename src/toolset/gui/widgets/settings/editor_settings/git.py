@@ -154,11 +154,11 @@ class GITSettings(Settings):
     # region Binds (Controls)
     controlScheme: SettingsProperty[str] = Settings.addSetting(
         "controlScheme",
-        "blender",
+        "standard",
     )
     moveCameraBind = Settings.addSetting(
         "moveCameraBind",
-        ({Qt.Key.Key_Control}, {Qt.MouseButton.LeftButton}),
+        (set(), {Qt.MouseButton.MiddleButton}),
     )
     rotateCameraBind = Settings.addSetting(
         "rotateCameraBind",
@@ -166,11 +166,11 @@ class GITSettings(Settings):
     )
     zoomCameraBind = Settings.addSetting(
         "zoomCameraBind",
-        ({Qt.Key.Key_Control}, set()),
+        (set(), set()),
     )
     rotateSelectedToPointBind = Settings.addSetting(
         "rotateSelectedToPointBind",
-        (set(), {Qt.MouseButton.MiddleButton}),
+        ({Qt.Key.Key_Alt}, {Qt.MouseButton.MiddleButton}),
     )
     moveSelectedBind = Settings.addSetting(
         "moveSelectedBind",
@@ -191,5 +191,41 @@ class GITSettings(Settings):
     toggleLockInstancesBind = Settings.addSetting(
         "toggleLockInstancesBind",
         ({Qt.Key.Key_L}, set()),
+    )
+    moveCameraToSelected2dBind = Settings.addSetting(
+        "moveCameraToSelected2dBind",
+        ({Qt.Key.Key_Period}, set()),
+    )
+    frameAll2dBind = Settings.addSetting(
+        "frameAll2dBind",
+        ({Qt.Key.Key_Home}, set()),
+    )
+    resetCameraView2dBind = Settings.addSetting(
+        "resetCameraView2dBind",
+        ({Qt.Key.Key_Control, Qt.Key.Key_0}, set()),
+    )
+    zoomCameraIn2dBind = Settings.addSetting(
+        "zoomCameraIn2dBind",
+        ({Qt.Key.Key_Equal}, None),
+    )
+    zoomCameraOut2dBind = Settings.addSetting(
+        "zoomCameraOut2dBind",
+        ({Qt.Key.Key_Minus}, None),
+    )
+    moveCameraLeft2dBind = Settings.addSetting(
+        "moveCameraLeft2dBind",
+        ({Qt.Key.Key_Left}, None),
+    )
+    moveCameraRight2dBind = Settings.addSetting(
+        "moveCameraRight2dBind",
+        ({Qt.Key.Key_Right}, None),
+    )
+    moveCameraUp2dBind = Settings.addSetting(
+        "moveCameraUp2dBind",
+        ({Qt.Key.Key_Up}, None),
+    )
+    moveCameraDown2dBind = Settings.addSetting(
+        "moveCameraDown2dBind",
+        ({Qt.Key.Key_Down}, None),
     )
     # endregion

@@ -4,8 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from qtpy.QtCore import Qt
-from qtpy.QtGui import QColor, QImage, QPixmap, QShortcut
+from qtpy.QtGui import QColor, QImage, QPixmap
 from qtpy.QtWidgets import QColorDialog, QComboBox
 
 from loggerplus import RobustLogger
@@ -18,11 +17,8 @@ from pykotor.resource.formats.lyt import read_lyt
 from pykotor.resource.generics.are import ARE, ARENorthAxis, AREWindPower, dismantle_are, read_are
 from pykotor.resource.type import ResourceType
 from toolset.data.installation import HTInstallation
-from toolset.gui.common.blender_2d_nav import Blender2DNavigationHelper, aabb_from_points
-from toolset.gui.common.interaction.camera import (
-    calculate_zoom_strength,
-    handle_standard_2d_camera_movement,
-)
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
+from toolset.gui.common.interaction.camera import handle_standard_2d_camera_movement
 from toolset.gui.common.localization import translate as tr
 from toolset.gui.dialogs.edit.locstring import LocalizedStringDialog
 from toolset.gui.editor import Editor
@@ -133,18 +129,11 @@ class AREEditor(Editor):
         self.ui.minimapRenderer.sig_mouse_scrolled.connect(self.on_minimap_mouse_scrolled)
         self.ui.minimapRenderer.sig_key_pressed.connect(self.on_minimap_key_pressed)
 
-        self._minimap_nav = Blender2DNavigationHelper(
+        self._minimap_nav = Viewport2DNavigationHelper(
             self.ui.minimapRenderer,
             get_content_bounds=self._minimap_bounds,
             settings=ModuleDesignerSettings(),
         )
-
-        # Common zoom shortcuts: use "=" (base key) for zoom in, "-" for zoom out.
-        # "+" requires Shift, but "=" works without modifiers (standard keyboard behavior).
-        QShortcut("=", self).activated.connect(lambda: self.ui.minimapRenderer.zoom_at_screen(1.25))
-        QShortcut("-", self).activated.connect(lambda: self.ui.minimapRenderer.zoom_at_screen(0.8))
-        QShortcut("Ctrl+0", self).activated.connect(self.fit_minimap_view)
-        QShortcut("Home", self).activated.connect(self.fit_minimap_view)
 
         self.relevant_script_resnames: list[str] = []
         if self._installation is not None:
@@ -547,22 +536,23 @@ class AREEditor(Editor):
         rotate_sens = ModuleDesignerSettings().rotateCameraSensitivity2d / 1000
 
         handle_standard_2d_camera_movement(
-            self.ui.minimapRenderer, screen, delta, world_delta, buttons, keys, move_sens, rotate_sens,
+            self.ui.minimapRenderer,
+            screen,
+            delta,
+            world_delta,
+            buttons,
+            keys,
+            move_sens,
+            rotate_sens,
+            settings=ModuleDesignerSettings(),
         )
 
     def on_minimap_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
-        if self._minimap_nav.handle_mouse_scroll(delta, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
+        if self._minimap_nav.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
             return
-        if not delta.y:
-            return
-        if Qt.Key.Key_Control not in keys:  # type: ignore[attr-defined]
-            return
-        sens_setting = ModuleDesignerSettings().zoomCameraSensitivity2d
-        zoom_factor = calculate_zoom_strength(delta.y, sens_setting)
-        self.ui.minimapRenderer.zoom_at_screen(zoom_factor)
 
     def on_minimap_key_pressed(self, buttons: set[int], keys: set[int]) -> None:
-        self._minimap_nav.handle_key_pressed(keys, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10)
+        self._minimap_nav.handle_key_pressed(keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10)
 
     def change_color(self, color_spin: LongSpinBox):
         qcolor: QColor = QColorDialog.getColor(QColor(color_spin.value()))

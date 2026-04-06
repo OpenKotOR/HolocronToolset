@@ -5,14 +5,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QListWidgetItem, QShortcut  # pyright: ignore[reportPrivateImportUsage]
+from qtpy.QtWidgets import QListWidgetItem
 
 from pykotor.resource.formats.bwm import (  # pyright: ignore[reportMissingImports]
     read_bwm,
     write_bwm,
 )
 from pykotor.resource.type import ResourceType  # pyright: ignore[reportMissingImports]
-from toolset.gui.common.blender_2d_nav import Blender2DNavigationHelper, aabb_from_points
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.interaction.camera import (
     calculate_zoom_strength,
     handle_standard_2d_camera_movement,
@@ -73,7 +73,7 @@ class BWMEditor(Editor):
         self.ui.renderArea.material_colors = self.material_colors
         self.ui.renderArea.show_room_boundaries = True
         self.ui.renderArea.show_grid = False
-        self._blender_nav = Blender2DNavigationHelper(
+        self._nav_helper = Viewport2DNavigationHelper(
             self.ui.renderArea,
             get_content_bounds=self._content_bounds,
             settings=ModuleDesignerSettings(),
@@ -91,13 +91,6 @@ class BWMEditor(Editor):
         self.ui.actionShowGrid.toggled.connect(lambda value: setattr(self.ui.renderArea, "show_grid", value))
         self.ui.actionShowGrid.toggled.connect(lambda _: self.ui.renderArea.update())
 
-        # Use "=" (base key) for zoom in as well as "+" (which requires Shift).
-        QShortcut("=", self).activated.connect(lambda: self.ui.renderArea.zoom_at_screen(1.25))
-        QShortcut("+", self).activated.connect(lambda: self.ui.renderArea.zoom_at_screen(1.25))
-        QShortcut("-", self).activated.connect(lambda: self.ui.renderArea.zoom_at_screen(0.8))
-        QShortcut("Home", self).activated.connect(self.frame_all)
-        QShortcut(".", self).activated.connect(self.frame_all)
-
     def _content_bounds(self):
         if self._bwm is None:
             return None
@@ -108,7 +101,7 @@ class BWMEditor(Editor):
         )
 
     def frame_all(self) -> None:
-        if not self._blender_nav.frame_all():
+        if not self._nav_helper.frame_all():
             self.ui.renderArea.center_camera()
 
     def rebuild_materials(self):
@@ -195,7 +188,7 @@ class BWMEditor(Editor):
         face: BWMFace | None = self._bwm.faceAt(world.x, world.y)
 
         handled_cam = handle_standard_2d_camera_movement(
-            self.ui.renderArea, screen, delta, world_data, buttons, keys,
+            self.ui.renderArea, screen, delta, world_data, buttons, keys, settings=ModuleDesignerSettings(),
         )
 
         # Paint with left-drag unless camera movement consumed the input.
@@ -214,20 +207,12 @@ class BWMEditor(Editor):
         status_bar.showMessage(coords_text + face_text + xy)  # pyright: ignore[reportCallIssue]
 
     def on_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
-        if self._blender_nav.handle_mouse_scroll(delta, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
+        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
             self.ui.renderArea.update()
             return
-        if not delta.y:
-            return  # sometimes it'll be zero when holding middlemouse-down.
-        if Qt.Key.Key_Control not in keys:  # pyright: ignore[reportGeneralTypeIssues, attr-defined]
-            return
-        sens_setting = ModuleDesignerSettings().zoomCameraSensitivity2d
-        zoom_factor = calculate_zoom_strength(delta.y, sens_setting)
-        self.ui.renderArea.zoom_at_screen(zoom_factor)
-        self.ui.renderArea.update()  # Trigger a re-render
 
     def on_key_pressed(self, buttons: set[int], keys: set[int]):
-        self._blender_nav.handle_key_pressed(keys, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10)
+        self._nav_helper.handle_key_pressed(keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10)
 
     def change_face_material(self, face: BWMFace):
         """Change material of a face.

@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 from qtpy.QtCore import Qt
 
+from toolset.data.misc import ControlItem
 from toolset.gui.common.interaction.camera import calculate_zoom_strength
 
 if TYPE_CHECKING:
@@ -37,7 +38,7 @@ def zoom_to_fit_aabb(renderer: Any, aabb: AABB2D, *, padding: float = 0.15) -> N
     renderer.mark_dirty()
 
 
-class Blender2DNavigationHelper:
+class Viewport2DNavigationHelper:
     def __init__(
         self,
         renderer: Any,
@@ -51,8 +52,9 @@ class Blender2DNavigationHelper:
         self._get_selection_bounds = get_selection_bounds
         self._settings = settings
 
-    def _is_blender_scheme(self) -> bool:
-        return getattr(self._settings, "controlScheme", "blender") != "classic"
+    def _bind(self, attr_name: str, default: tuple[set[Qt.Key], set[Qt.MouseButton] | None]) -> ControlItem:
+        bind = getattr(self._settings, attr_name, default) if self._settings is not None else default
+        return ControlItem(bind)
 
     def frame_all(self) -> bool:
         bounds = self._get_content_bounds()
@@ -73,43 +75,56 @@ class Blender2DNavigationHelper:
     def reset_view(self) -> bool:
         return self.frame_all()
 
-    def handle_mouse_scroll(self, delta: Vector2, keys: set[int], *, zoom_sensitivity: int) -> bool:
+    def handle_mouse_scroll(
+        self,
+        delta: Vector2,
+        buttons: set[int],
+        keys: set[int],
+        *,
+        zoom_sensitivity: int,
+    ) -> bool:
         if not delta.y:
             return False
-        if not self._is_blender_scheme() and Qt.Key.Key_Control not in keys:
+        if not self._bind("zoomCamera2dBind", (set(), set())).satisfied(buttons, keys):
             return False
         self.renderer.zoom_at_screen(calculate_zoom_strength(delta.y, zoom_sensitivity))
         return True
 
-    def handle_key_pressed(self, keys: set[int], *, pan_step: float, zoom_in_factor: float = 1.25, zoom_out_factor: float = 0.8) -> bool:
-        if Qt.Key.Key_Home in keys:
-            return self.frame_all()
-        if Qt.Key.Key_Period in keys:
-            return self.frame_selected()
-        if Qt.Key.Key_0 in keys and Qt.Key.Key_Control in keys:
-            return self.reset_view()
-        if Qt.Key.Key_Equal in keys or Qt.Key.Key_Plus in keys:
-            self.renderer.zoom_at_screen(zoom_in_factor)
-            return True
-        if Qt.Key.Key_Minus in keys:
-            self.renderer.zoom_at_screen(zoom_out_factor)
-            return True
+    def handle_key_pressed(
+        self,
+        keys: set[int],
+        *,
+        pan_step: float,
+        buttons: set[int] | None = None,
+    ) -> bool:
+        active_buttons = set() if buttons is None else buttons
 
-        effective_pan_step = pan_step * 0.2 if Qt.Key.Key_Shift in keys else pan_step
-        if Qt.Key.Key_Left in keys:
-            self.renderer.camera.nudge_position(-effective_pan_step, 0.0)
+        if self._bind("frameAll2dBind", ({Qt.Key.Key_Home}, set())).satisfied(active_buttons, keys):
+            return self.frame_all()
+        if self._bind("moveCameraToSelected2dBind", ({Qt.Key.Key_Period}, set())).satisfied(active_buttons, keys):
+            return self.frame_selected()
+        if self._bind("resetCameraView2dBind", ({Qt.Key.Key_Control, Qt.Key.Key_0}, set())).satisfied(active_buttons, keys):
+            return self.reset_view()
+        if self._bind("zoomCameraIn2dBind", ({Qt.Key.Key_Equal}, None)).satisfied(active_buttons, keys):
+            self.renderer.zoom_at_screen(1.25)
+            return True
+        if self._bind("zoomCameraOut2dBind", ({Qt.Key.Key_Minus}, None)).satisfied(active_buttons, keys):
+            self.renderer.zoom_at_screen(0.8)
+            return True
+        if self._bind("moveCameraLeft2dBind", ({Qt.Key.Key_Left}, None)).satisfied(active_buttons, keys):
+            self.renderer.camera.nudge_position(-pan_step, 0.0)
             self.renderer.mark_dirty()
             return True
-        if Qt.Key.Key_Right in keys:
-            self.renderer.camera.nudge_position(effective_pan_step, 0.0)
+        if self._bind("moveCameraRight2dBind", ({Qt.Key.Key_Right}, None)).satisfied(active_buttons, keys):
+            self.renderer.camera.nudge_position(pan_step, 0.0)
             self.renderer.mark_dirty()
             return True
-        if Qt.Key.Key_Up in keys:
-            self.renderer.camera.nudge_position(0.0, effective_pan_step)
+        if self._bind("moveCameraUp2dBind", ({Qt.Key.Key_Up}, None)).satisfied(active_buttons, keys):
+            self.renderer.camera.nudge_position(0.0, pan_step)
             self.renderer.mark_dirty()
             return True
-        if Qt.Key.Key_Down in keys:
-            self.renderer.camera.nudge_position(0.0, -effective_pan_step)
+        if self._bind("moveCameraDown2dBind", ({Qt.Key.Key_Down}, None)).satisfied(active_buttons, keys):
+            self.renderer.camera.nudge_position(0.0, -pan_step)
             self.renderer.mark_dirty()
             return True
         return False

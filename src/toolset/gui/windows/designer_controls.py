@@ -23,7 +23,7 @@ from toolset.data.misc import ControlItem
 from toolset.gui.common.base_2d_controls import Base2DControlScheme
 from toolset.gui.editors.git import DuplicateCommand, _GeometryMode, _InstanceMode
 from toolset.gui.widgets.settings.widgets.module_designer import ModuleDesignerSettings
-from toolset.gui.common.blender_2d_nav import Blender2DNavigationHelper, aabb_from_points
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.utils.misc import BUTTON_TO_INT
 from utility.common.geometry import Vector2, Vector3
 
@@ -970,10 +970,11 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         super().__init__(editor=editor, renderer=renderer, transform_state=editor.transform_state)
         self.editor: ModuleDesigner
         self.renderer: WalkmeshRenderer
-        self._blender_nav = Blender2DNavigationHelper(
+        self._nav_helper = Viewport2DNavigationHelper(
             renderer,
             get_content_bounds=self._all_instance_bounds,
             get_selection_bounds=self._selected_instance_bounds,
+            settings=self.settings,
         )
 
     def zoom_sensitivity(self) -> int:
@@ -985,7 +986,7 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         buttons: set[Qt.MouseButton],
         keys: set[Qt.Key],
     ):
-        if self._blender_nav.handle_mouse_scroll(delta, keys, zoom_sensitivity=self.zoom_sensitivity()):
+        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=self.zoom_sensitivity()):
             return
         self.handle_zoom_event(delta, buttons, keys, self.renderer.zoom_at_screen)
 
@@ -1075,8 +1076,9 @@ class ModuleDesignerControls2d(Base2DControlScheme):
         buttons: set[Qt.MouseButton],
         keys: set[Qt.Key],
     ):
-        if self._blender_nav.handle_key_pressed(
+        if self._nav_helper.handle_key_pressed(
             keys,
+            buttons=buttons,
             pan_step=max(1.0, 48.0 / max(1.0, self.renderer.camera.zoom())),
         ):
             return

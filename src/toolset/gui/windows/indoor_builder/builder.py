@@ -62,7 +62,7 @@ from toolset.blender import BlenderEditorMode, check_blender_and_ask, get_blende
 from toolset.blender.integration import BlenderEditorMixin
 from toolset.data.indoorkit.qt_preview import ensure_component_image
 from toolset.data.installation import HTInstallation
-from toolset.gui.common.blender_2d_nav import Blender2DNavigationHelper, aabb_from_points
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.editor_pipelines import (
     populate_module_root_combobox,
     set_preview_source_image,
@@ -182,6 +182,12 @@ class SnapResult:
 
 
 class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
+    @staticmethod
+    def _navigation_settings():
+        from toolset.gui.widgets.settings.widgets.module_designer import ModuleDesignerSettings
+
+        return ModuleDesignerSettings()
+
     def __init__(
         self,
         parent: QWidget | None,
@@ -277,10 +283,11 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self.ui.mapRenderer.set_map(self._map)
         self.ui.mapRenderer.set_undo_stack(self._undo_stack)
         self.ui.mapRenderer.set_status_callback(self._refresh_status_bar)
-        self._blender_nav = Blender2DNavigationHelper(
+        self._nav_helper = Viewport2DNavigationHelper(
             self.ui.mapRenderer,
             get_content_bounds=self._content_bounds,
             get_selection_bounds=self._selection_bounds,
+            settings=self._navigation_settings(),
         )
 
         # Initialize Options UI to match renderer state
@@ -1963,7 +1970,16 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         world_delta: Vector2 = self.ui.mapRenderer.to_world_delta(delta.x, delta.y)
 
         # Walkmesh painting drag - Shift+Left drag should paint
-        handled_cam = handle_standard_2d_camera_movement(self.ui.mapRenderer, screen, delta, world_delta, buttons, keys, is_indoor_builder=True)
+        handled_cam = handle_standard_2d_camera_movement(
+            self.ui.mapRenderer,
+            screen,
+            delta,
+            world_delta,
+            buttons,
+            keys,
+            is_indoor_builder=True,
+            settings=self._navigation_settings(),
+        )
 
         if not handled_cam and (self._painting_walkmesh or Qt.Key.Key_Shift in keys) and Qt.MouseButton.LeftButton in buttons and Qt.Key.Key_Control not in keys:
             self._apply_paint_at_screen(screen)
@@ -2317,9 +2333,11 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             keys.add(Qt.Key.Key_Shift)
         if modifiers & Qt.KeyboardModifier.AltModifier:
             keys.add(Qt.Key.Key_Alt)
+        nav_buttons: set[Qt.MouseButton] = set()
 
-        if self._blender_nav.handle_key_pressed(
+        if self._nav_helper.handle_key_pressed(
             keys,
+            buttons=nav_buttons,
             pan_step=max(1.0, 48.0 / max(1.0, renderer.camera.zoom())),
         ):
             return
@@ -2343,8 +2361,8 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             key_duplicate=Qt.Key.Key_D,
             key_cancel_placement=Qt.Key.Key_Space,
             key_toggle_paint=Qt.Key.Key_P,
-            key_reset_home=Qt.Key.Key_Home,
-            key_reset_zero=Qt.Key.Key_0,
+            key_reset_home=None,
+            key_reset_zero=None,
             key_refresh=Qt.Key.Key_F5,
             key_save=Qt.Key.Key_S,
             key_new=Qt.Key.Key_N,
@@ -2360,8 +2378,8 @@ class IndoorMapBuilder(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             on_toggle_paint=lambda: toggle_check_widget(self.ui.enablePaintCheck),  # pyright: ignore[reportArgumentType]
             on_reset_view=self.reset_view,
             on_refresh=lambda: cancel_indoor_operations_and_refresh(renderer, cancel_operations=self._cancel_all_operations),
-            key_zoom_in=(Qt.Key.Key_Equal, Qt.Key.Key_Plus),
-            key_zoom_out=(Qt.Key.Key_Minus,),
+            key_zoom_in=(),
+            key_zoom_out=(),
             on_zoom_in=lambda: self.ui.mapRenderer.zoom_in_camera(ZOOM_STEP_FACTOR),
             on_zoom_out=lambda: self.ui.mapRenderer.zoom_in_camera(1.0 / ZOOM_STEP_FACTOR),
         )

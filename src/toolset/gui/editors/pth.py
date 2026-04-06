@@ -28,7 +28,7 @@ from pykotor.resource.formats.lyt import read_lyt
 from pykotor.resource.generics.pth import PTH, PTHEdge, bytes_pth, read_pth
 from pykotor.resource.type import ResourceType
 from toolset.data.misc import ControlItem
-from toolset.gui.common.blender_2d_nav import Blender2DNavigationHelper, aabb_from_points
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.interaction.camera import calculate_zoom_strength
 from toolset.gui.common.walkmesh_materials import get_walkmesh_material_colors
 from toolset.gui.editor import Editor
@@ -697,7 +697,7 @@ class PTHControlScheme:
     def __init__(self, editor: PTHEditor):
         self.editor: PTHEditor = editor
         self.settings: GITSettings = GITSettings()
-        self._blender_nav = Blender2DNavigationHelper(
+        self._nav_helper = Viewport2DNavigationHelper(
             self.editor.ui.renderArea,
             get_content_bounds=lambda: aabb_from_points((point.x, point.y) for point in self.editor.pth()),
             get_selection_bounds=lambda: aabb_from_points((point.x, point.y) for point in self.editor.selected_nodes()),
@@ -709,7 +709,7 @@ class PTHControlScheme:
         self.editor.update_status_bar(left_status=f"{point.x()}, {point.y()}")
 
     def on_mouse_scrolled(self, delta: Vector2, buttons: set[int], keys: set[int]):
-        if self._blender_nav.handle_mouse_scroll(delta, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
+        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=ModuleDesignerSettings().zoomCameraSensitivity2d):
             return
         if self.zoom_camera.satisfied(buttons, keys):
             if not delta.y:
@@ -806,7 +806,7 @@ class PTHControlScheme:
         buttons: set[Qt.MouseButton] | set[int] | set[Qt.MouseButton | int],
         keys: set[Qt.Key] | set[QKeySequence] | set[int] | set[Qt.Key | QKeySequence | int],
     ):
-        if self._blender_nav.handle_key_pressed(set(keys), pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10):
+        if self._nav_helper.handle_key_pressed(set(keys), buttons=set(buttons), pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10):
             return
         if self.delete_selected.satisfied(buttons, keys):
             node = None
@@ -908,8 +908,6 @@ class PTHControlScheme:
     # Use @property decorators to allow Users to change their settings without restarting the editor.
     @property
     def pan_camera(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem((set(), {Qt.MouseButton.MiddleButton}))
         return ControlItem(self.settings.moveCameraBind)
 
     @pan_camera.setter
@@ -917,8 +915,6 @@ class PTHControlScheme:
 
     @property
     def rotate_camera(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem(({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}))
         return ControlItem(self.settings.rotateCameraBind)
 
     @rotate_camera.setter
@@ -926,8 +922,6 @@ class PTHControlScheme:
 
     @property
     def zoom_camera(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem((set(), set()))
         return ControlItem(self.settings.zoomCameraBind)
 
     @zoom_camera.setter

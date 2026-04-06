@@ -17,7 +17,7 @@ from pykotor.resource.generics.git import (
     GITWaypoint,
 )
 from toolset.data.misc import ControlItem
-from toolset.gui.common.blender_2d_nav import Blender2DNavigationHelper, aabb_from_points
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.base_2d_controls import Base2DControlScheme
 from toolset.gui.widgets.settings.editor_settings.git import GITSettings
 from toolset.gui.widgets.settings.widgets.module_designer import ModuleDesignerSettings
@@ -57,7 +57,7 @@ class GITControlScheme(Base2DControlScheme):
         super().__init__(editor=editor, renderer=editor.ui.renderArea, transform_state=transform_state)
         self.editor: GITEditor
         self.renderer = editor.ui.renderArea
-        self._blender_nav = Blender2DNavigationHelper(
+        self._nav_helper = Viewport2DNavigationHelper(
             self.renderer,
             get_content_bounds=lambda: aabb_from_points((inst.position.x, inst.position.y) for inst in self.editor._git.instances()),
             get_selection_bounds=lambda: aabb_from_points((inst.position.x, inst.position.y) for inst in self.renderer.instance_selection.all()),
@@ -73,7 +73,7 @@ class GITControlScheme(Base2DControlScheme):
         buttons: set[Qt.MouseButton],
         keys: set[Qt.Key],
     ):
-        if self._blender_nav.handle_mouse_scroll(delta, keys, zoom_sensitivity=self.zoom_sensitivity()):
+        if self._nav_helper.handle_mouse_scroll(delta, buttons, keys, zoom_sensitivity=self.zoom_sensitivity()):
             return
         self.handle_zoom_event(delta, buttons, keys, self.renderer.zoom_at_screen)
 
@@ -195,7 +195,7 @@ class GITControlScheme(Base2DControlScheme):
         if self.toggle_instance_lock.satisfied(buttons, keys):
             self.editor.ui.lockInstancesCheck.setChecked(not self.editor.ui.lockInstancesCheck.isChecked())
 
-        if self._blender_nav.handle_key_pressed(keys, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10):
+        if self._nav_helper.handle_key_pressed(keys, buttons=buttons, pan_step=ModuleDesignerSettings().moveCameraSensitivity2d / 10):
             return
 
     def on_keyboard_released(
@@ -208,26 +208,18 @@ class GITControlScheme(Base2DControlScheme):
     # Use @property decorators to allow users to change settings without restarting the editor.
     @property
     def pan_camera(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem((set(), {Qt.MouseButton.MiddleButton}))
         return ControlItem(self.settings.moveCameraBind)
 
     @property
     def rotate_camera(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem(({Qt.Key.Key_Control}, {Qt.MouseButton.MiddleButton}))
         return ControlItem(self.settings.rotateCameraBind)
 
     @property
     def zoom_camera(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem((set(), set()))
         return ControlItem(self.settings.zoomCameraBind)
 
     @property
     def rotate_selected_to_point(self) -> ControlItem:
-        if self.settings.controlScheme != "classic":
-            return ControlItem(({Qt.Key.Key_Alt}, {Qt.MouseButton.MiddleButton}))
         return ControlItem(self.settings.rotateSelectedToPointBind)
 
     @property
