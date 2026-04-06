@@ -15,7 +15,7 @@ The "Module" tab allows you to navigate through the various module files through
 - **Refresh** -- Refreshes the list of module files stored in the game's folder.
 - **Reload** -- Reloads the list of resources stored in the module file selected in the dropdown menu. If a resource is changed outside of the toolset, you will need to press this button or an error may occur.
 
-![Module tab](https://raw.githubusercontent.com/OldRepublicDevs/PyKotor/master/Tools/HolocronToolset/src/toolset/help/images/introduction_3-moduleResources=1.png)
+![Module tab](https://raw.githubusercontent.com/OpenKotOR/PyKotor/master/Tools/HolocronToolset/src/toolset/help/images/introduction_3-moduleResources=1.png)
 
 ### See also
 

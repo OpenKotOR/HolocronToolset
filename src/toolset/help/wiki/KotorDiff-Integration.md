@@ -33,7 +33,7 @@ Module capsules may be `.rim` ([RIM File Format](Container-Formats#rim)), `.mod`
 
 **Goal:** Automate compile, pack resources into a module or tree layout, then diff against a baseline installation to review what changed or to scaffold incremental TSLPatcher output.
 
-**Prerequisites:** [CLI quickstart](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/CLI_QUICKSTART.md), configured NSS compiler if you compile outside Holocron (`uvx PyKotor config --global nssCompiler …`), two game roots or a workspace folder vs install.
+**Prerequisites:** [CLI quickstart](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/CLI_QUICKSTART.md), configured NSS compiler if you compile outside Holocron (`uvx PyKotor config --global nssCompiler …`), two game roots or a workspace folder vs install.
 
 **Steps:**
 
@@ -57,9 +57,9 @@ Key flags:
 
 ## Implementation Notes
 
-- Diff orchestration, filtering, and incremental TSLPatcher generation live in `[Libraries/PyKotor/src/pykotor/diff_tool/app.py](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/diff_tool/app.py)` L40-L530. Incremental writer creation and [StrRef](Audio-and-Localization-Formats#string-references-strref) analysis are handled in `handle_diff` and `generate_tslpatcher_data` (L295-L529).
-- CLI argument wiring and headless execution are defined in `[Libraries/PyKotor/src/pykotor/diff_tool/cli.py](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/diff_tool/cli.py)` L26-L238.
-- [GUI](GFF-File-Format#gui-graphical-user-interface) fallback is implemented in `[Libraries/PyKotor/src/pykotor/diff_tool/gui.py](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/diff_tool/gui.py)` (headless when arguments are present, UI when omitted).
+- Diff orchestration, filtering, and incremental TSLPatcher generation live in `[Libraries/PyKotor/src/pykotor/diff_tool/app.py](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/diff_tool/app.py)` L40-L530. Incremental writer creation and [StrRef](Audio-and-Localization-Formats#string-references-strref) analysis are handled in `handle_diff` and `generate_tslpatcher_data` (L295-L529).
+- CLI argument wiring and headless execution are defined in `[Libraries/PyKotor/src/pykotor/diff_tool/cli.py](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/diff_tool/cli.py)` L26-L238.
+- [GUI](GFF-File-Format#gui-graphical-user-interface) fallback is implemented in `[Libraries/PyKotor/src/pykotor/diff_tool/gui.py](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/diff_tool/gui.py)` (headless when arguments are present, UI when omitted).
 
 ### See also
 

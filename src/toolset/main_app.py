@@ -263,7 +263,7 @@ def main():
     app = ToolsetApplication(sys.argv)
     app.setApplicationName("HolocronToolset")
     app.setOrganizationName("PyKotor")
-    app.setOrganizationDomain("github.com/OldRepublicDevs/PyKotor")
+    app.setOrganizationDomain("github.com/OpenKotOR/PyKotor")
     app.setApplicationVersion(CURRENT_VERSION)
     app.setDesktopFileName("com.pykotor.toolset")
     app.setApplicationDisplayName("Holocron Toolset")

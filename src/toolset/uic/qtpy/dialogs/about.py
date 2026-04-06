@@ -63,7 +63,7 @@ class Ui_Dialog(object):
 "          href=\"https://deadlystream.com/files/file/1982-holocron-toolset/\"><span\n"
 "          style=\" text-decoration: underline; color:#0000ff;\">Deadlystream\n"
 "          Page<br/></span></a><a\n"
-"          href=\"https://github.com/OldRepublicDevs/PyKotor\"><span style=\"\n"
+"          href=\"https://github.com/OpenKotOR/PyKotor\"><span style=\"\n"
 "          text-decoration: underline;\n"
 "          color:#0000ff;\">Github</span></a></p></body></html>"))
         self.closeButton.setText(_translate("Dialog", "Close"))

@@ -12,7 +12,7 @@ Start with [TSLPatcher's Official Readme](TSLPatcher's-Official-Readme) if you n
 - `Libraries/PyKotor/src/pykotor/tslpatcher/mods/` - per-format patch implementations
 - `Tools/HoloPatcher/src/holopatcher/` - GUI flow, namespace handling, logging, and backup behavior
 
-**Implementation:** [`Libraries/PyKotor/src/pykotor/tslpatcher/`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/tslpatcher/)
+**Implementation:** [`Libraries/PyKotor/src/pykotor/tslpatcher/`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/tslpatcher/)
 
 **Other mod installers and managers:**
 
@@ -28,8 +28,8 @@ Start with [TSLPatcher's Official Readme](TSLPatcher's-Official-Readme) if you n
 
 **Related PyKotor Tools:**
 
-- [`Tools/HolocronToolset/`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Tools/HolocronToolset) - Integrated HoloPatcher [GUI](GFF-File-Format#gui-graphical-user-interface)
-- [`Libraries/PyKotor/src/pykotor/tslpatcher/mods/`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/tslpatcher/mods) - Individual patching modules
+- [`Tools/HolocronToolset/`](https://github.com/OpenKotOR/PyKotor/tree/master/Tools/HolocronToolset) - Integrated HoloPatcher [GUI](GFF-File-Format#gui-graphical-user-interface)
+- [`Libraries/PyKotor/src/pykotor/tslpatcher/mods/`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/tslpatcher/mods) - Individual patching modules
 
 ### See also
 
@@ -68,7 +68,7 @@ Start with [TSLPatcher's Official Readme](TSLPatcher's-Official-Readme) if you n
 
 **Verify in-game:** Confirm the loose file appears where expected, then confirm the TLK and 2DA changes in a tool or test dialogue before shipping.
 
-**Alternatives:** For learning GFF-only flows, follow [Tutorial: Creating a new store](Tutorial-Creating-a-New-Store) in Holocron. For headless builds, use [CLI quickstart](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/CLI_QUICKSTART.md).
+**Alternatives:** For learning GFF-only flows, follow [Tutorial: Creating a new store](Tutorial-Creating-a-New-Store) in Holocron. For headless builds, use [CLI quickstart](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/CLI_QUICKSTART.md).
 
 **Common failures:** pointing the patcher at `override/` instead of the **game root**, reinstalling the same option without [restore backup](Installing-Mods-with-HoloPatcher), and shipping bad relative paths in InstallList. See [Mod Creation Best Practices](Mod-Creation-Best-Practices#tslpatcher-setup-and-2datlk-merging).
 
@@ -91,14 +91,14 @@ StrRef0=2
 
 This will replace `StrRef0` in [dialog.tlk](Audio-and-Localization-Formats#tlk) with `StrRef2` from `tlk_modifications_file.tlk`.
 
-[See our tests](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/tests/test_tslpatcher/test_reader.py#L463) for more examples.
+[See our tests](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/tests/test_tslpatcher/test_reader.py#L463) for more examples.
 Don't use the 'ignore' syntax or the 'range' syntax, these won't be documented or supported until further notice.
 
 ### HACKList (Editing [NCS](NCS-File-Format) directly)
 
-This is a TSLPatcher feature that was [not documented in the TSLPatcher readme](https://github.com/OldRepublicDevs/PyKotor/wiki/TSLPatcher's-Official-Readme). Public examples are rare. The main known references are [Stoffe's HLFP mod](https://deadlystream.com/files/file/832-high-level-force-powers/) and a few historical forum archives.
+This is a TSLPatcher feature that was [not documented in the TSLPatcher readme](https://github.com/OpenKotOR/PyKotor/wiki/TSLPatcher's-Official-Readme). Public examples are rare. The main known references are [Stoffe's HLFP mod](https://deadlystream.com/files/file/832-high-level-force-powers/) and a few historical forum archives.
 
-Due to this feature being highly undocumented and only one known usage, our implementation might not match exactly. If you happen to find an old TSLPatcher mod that produces different HACKList results than HoloPatcher, [please report them here](https://github.com/OldRepublicDevs/PyKotor/issues/24)
+Due to this feature being highly undocumented and only one known usage, our implementation might not match exactly. If you happen to find an old TSLPatcher mod that produces different HACKList results than HoloPatcher, [please report them here](https://github.com/OpenKotOR/PyKotor/issues/24)
 
 In continuation, HoloPatcher's [HACKList] will use the following syntax:
 
@@ -121,9 +121,9 @@ In short, HACKList writes unsigned WORD values (two bytes each) to the [NCS](NCS
 
 ### For more information on HoloPatcher's implementation
 
-#### [pykotor.tslpatcher.reader](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/tslpatcher/reader.py#L697)
+#### [pykotor.tslpatcher.reader](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/tslpatcher/reader.py#L697)
 
-#### [pykotor.tslpatcher.mods.ncs](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/tslpatcher/mods/ncs.py)
+#### [pykotor.tslpatcher.mods.ncs](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/tslpatcher/mods/ncs.py)
 
 ### See also
 

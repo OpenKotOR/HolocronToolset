@@ -44,7 +44,6 @@ errorlog.txt
 EXE-*.toc
 ignore
 installlog.txt
-kits/
 Libraries/Utility/.aider.model.settings.json
 Libraries/Utility/src/utility/updater/update.py
 logs/

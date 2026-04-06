@@ -1,8 +1,8 @@
 # Blender Integration
 
-Holocron Toolset uses Blender with the **kotorblender** add-on (canonical **[OldRepublicDevs/kotorblender](https://github.com/OldRepublicDevs/kotorblender)**; **th3w1zard1** hosts a mirror) for 3D model import/export.
+Holocron Toolset uses Blender with the **kotorblender** add-on (canonical **[OpenKotOR/kotorblender](https://github.com/OpenKotOR/kotorblender)**; **th3w1zard1** hosts a mirror) for 3D model import/export.
 
-- Upstream (OldRepublicDevs/kotorblender): <https://github.com/OldRepublicDevs/kotorblender/tree/404c42bc4f36b1f60b643eda0cd17c81ba5ca7d4>
+- Upstream (OpenKotOR/kotorblender): <https://github.com/OpenKotOR/kotorblender/tree/404c42bc4f36b1f60b643eda0cd17c81ba5ca7d4>
 - Mirror (th3w1zard1/kotorblender): <https://github.com/th3w1zard1/kotorblender/tree/afae04c9172f30ab765891315d9d11224ab57426>
 
 ## Goals
@@ -27,9 +27,9 @@ The Toolset no longer assumes a bundled vendor checkout of `kotorblender`.
 Instead it now supports the following source discovery order:
 
 1. A custom `io_scene_kotor` source path from the `KOTORBLENDER_SOURCE_PATH` environment variable
-2. A local checkout of [kotorblender](https://github.com/OldRepublicDevs/kotorblender) (for example `io_scene_kotor/` at repo root)
+2. A local checkout of [kotorblender](https://github.com/OpenKotOR/kotorblender) (for example `io_scene_kotor/` at repo root)
 3. An adjacent checkout such as `kotorblender/io_scene_kotor`
-4. An auto-downloaded cache of the upstream [kotorblender](https://github.com/OldRepublicDevs/kotorblender) GitHub repository (same upstream / mirror permalinks as in the intro above).
+4. An auto-downloaded cache of the upstream [kotorblender](https://github.com/OpenKotOR/kotorblender) GitHub repository (same upstream / mirror permalinks as in the intro above).
 
 When the Toolset installs the add-on, it also injects a **Holocron IPC overlay** into the installed
 `io_scene_kotor` package. This overlay hosts the Toolset’s JSON-RPC bridge inside *Blender* without

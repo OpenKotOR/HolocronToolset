@@ -113,7 +113,7 @@ If a page genuinely needs bibliographic notes beyond direct inline links, keep t
 ### BWM and implementation notes
 
 - On BWM pages and other deep technical pages, implementation evidence still belongs next to the claim it supports. If multiple implementations are compared, introduce them in the sentence itself rather than under a detached heading.
-- The normative spec remains reverse engineering plus pipeline evidence, per the [authoritative BWM policy](https://github.com/OldRepublicDevs/PyKotor/blob/main/docs/solutions/documentation/authoritative-bwm-wiki-from-re-and-pipelines.md).
+- The normative spec remains reverse engineering plus pipeline evidence, per the [authoritative BWM policy](https://github.com/OpenKotOR/PyKotor/blob/main/docs/solutions/documentation/authoritative-bwm-wiki-from-re-and-pipelines.md).
 
 ### Images
 

@@ -22,11 +22,11 @@ Holocron builds on PyKotor’s **installation** and **chitin** stack: `chitin.ke
 
 | Area | Location |
 | ---- | -------- |
-| Chitin + KEY-driven BIF lookup | [`Chitin` L21+](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/extract/chitin.py#L21) — read-only index over `chitin.key` + BIFs |
-| KEY binary reader | [`io_key.py` `_load_key_legacy` L53+](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L53) |
-| KEY binary reader (Kaitai) | [`io_key.py` `_load_key_from_kaitai` L25+](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L25) |
-| Toolset installation wrapper | [`HTInstallation` L60+](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Tools/HolocronToolset/src/toolset/data/installation.py#L60) — extends PyKotor `Installation` with 2DA name constants |
-| 2DA registry (PyKotor) | [`TwoDARegistry` L551+](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/extract/twoda.py#L551) in `twoda.py` |
+| Chitin + KEY-driven BIF lookup | [`Chitin` L21+](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/extract/chitin.py#L21) — read-only index over `chitin.key` + BIFs |
+| KEY binary reader | [`io_key.py` `_load_key_legacy` L53+](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L53) |
+| KEY binary reader (Kaitai) | [`io_key.py` `_load_key_from_kaitai` L25+](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L25) |
+| Toolset installation wrapper | [`HTInstallation` L60+](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Tools/HolocronToolset/src/toolset/data/installation.py#L60) — extends PyKotor `Installation` with 2DA name constants |
+| 2DA registry (PyKotor) | [`TwoDARegistry` L551+](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/extract/twoda.py#L551) in `twoda.py` |
 
 **Cross-reference (other engines / parsers)**
 

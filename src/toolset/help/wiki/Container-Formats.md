@@ -59,18 +59,18 @@ The *KEY* file, specifically `chitin.key` in KotOR, serves as the master index f
 
 The *KEY* indexes [BIF](Container-Formats#bif) entries only (step 4 in that order). Higher-priority sources can shadow *KEY*-indexed assets without editing the *KEY*; using override or MOD for that is normal modding practice.
 
-**Implementation:** [`Libraries/PyKotor/src/pykotor/resource/formats/key/`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/key/)
+**Implementation:** [`Libraries/PyKotor/src/pykotor/resource/formats/key/`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/key/)
 
 **Cross-reference implementations (line anchors are against `master` and may drift):**
 
 - **PyKotor**
 
-  - Layout spec: [`key_data.py` L1–L55](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L55)
-  - Binary I/O: [`KEYBinaryReader.load`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L65-L128)
-  - Binary I/O: [`KEYBinaryWriter`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L143-L195) (`io_key.py`)
-  - Data model: [`BifEntry`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L66-L152)
-  - Data model: [`KeyEntry`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L154-L288)
-  - Data model: [`KEY`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L291-L473)
+  - Layout spec: [`key_data.py` L1–L55](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L55)
+  - Binary I/O: [`KEYBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L65-L128)
+  - Binary I/O: [`KEYBinaryWriter`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L143-L195) (`io_key.py`)
+  - Data model: [`BifEntry`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L66-L152)
+  - Data model: [`KeyEntry`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L154-L288)
+  - Data model: [`KEY`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L291-L473)
 
 - **[reone](https://github.com/modawan/reone)** ([historical upstream / mirror: seedhartha/reone](https://github.com/modawan/reone))
 
@@ -182,7 +182,7 @@ Each *KEY* entry is `22` (`0x16`) bytes in size:
 | Name        | Type     | Offset | Size | Description                                                      |
 | ----------- | -------- | ------ | ---- | ---------------------------------------------------------------- |
 | *ResRef*      | [char](GFF-File-Format#gff-data-types) | `0` (`0x00`) | `16`   | Resource Filename (null-padded, max 16 characters)                   |
-| Resource Type | [UInt16](GFF-File-Format#gff-data-types) | `16` (`0x10`) | `2`    | Numeric resource type ID ([wiki table](Resource-Formats-and-Resolution#resource-type-identifiers); PyKotor [`ResourceType`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py))                                         |
+| Resource Type | [UInt16](GFF-File-Format#gff-data-types) | `16` (`0x10`) | `2`    | Numeric resource type ID ([wiki table](Resource-Formats-and-Resolution#resource-type-identifiers); PyKotor [`ResourceType`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/type.py))                                         |
 | Resource ID | UInt32   | `18` (`0x12`) | `4`    | Encoded Resource Location (see [Resource ID Encoding](#resource-id-encoding)) (e.g. `0x00000005` for the 5th Resource in the 1st [BIF](Container-Formats#bif)) |
 
 **Critical Structure Packing Note:**
@@ -242,7 +242,7 @@ This split is implemented directly in reone's [`readKeyEntry`](https://github.co
 
 ---
 
-PyKotor's KEY coverage is split between [`KEYBinaryReader.load`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L65-L128), [`KEYBinaryWriter`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L143-L195), and the structural notes plus data models in [`key_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L473); the broader cross-tool comparison remains summarized under [File structure overview](#file-structure-overview).
+PyKotor's KEY coverage is split between [`KEYBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L65-L128), [`KEYBinaryWriter`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/io_key.py#L143-L195), and the structural notes plus data models in [`key_data.py`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L473); the broader cross-tool comparison remains summarized under [File structure overview](#file-structure-overview).
 
 ### See also
 
@@ -303,17 +303,17 @@ BIF containers are the primary storage mechanism for game assets. The game organ
 
 The [modular structure](https://en.wikipedia.org/wiki/Modular_programming) allows for efficient loading and potential platform-specific optimizations. Resources in BIF files are read-only at runtime; mods override them via the `override/` directory or custom [MOD](Container-Formats#erf) or [ERF](Container-Formats#erf) files. The engine loads from BIF only when the resource is not found in [override](Concepts#override-folder), loaded MOD, or save (see [resource resolution order](Concepts#resource-resolution-order)); the [KEY file](Container-Formats#key) supplies the mapping from ResRef to the correct BIF and offset.
 
-**Implementation:** [`Libraries/PyKotor/src/pykotor/resource/formats/bif/`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/)
+**Implementation:** [`Libraries/PyKotor/src/pykotor/resource/formats/bif/`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/)
 
 **Cross-reference implementations (line anchors are against `master` and may drift):**
 
 - **PyKotor**:
 
-  - layout (header + variable entries + BZF note): [`bif_data.py` module docstring L1–L40](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L1-L40)
-  - `BIFType` / `BIFResource` / `BIF`: [`bif_data.py` L60–L569](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L60-L569)
-  - binary I/O: [`BIFBinaryReader`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L51-L180) (`load` L83–L89, signature L91–L109, header L111–L120, resource table L122–L155, payload L157–L179)
-  - [`BIFBinaryWriter`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L183-L256)
-  - raw LZMA helper for BZF: [`_decompress_bzf_payload` L20–L48](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L20-L48)
+  - layout (header + variable entries + BZF note): [`bif_data.py` module docstring L1–L40](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L1-L40)
+  - `BIFType` / `BIFResource` / `BIF`: [`bif_data.py` L60–L569](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L60-L569)
+  - binary I/O: [`BIFBinaryReader`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L51-L180) (`load` L83–L89, signature L91–L109, header L111–L120, resource table L122–L155, payload L157–L179)
+  - [`BIFBinaryWriter`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L183-L256)
+  - raw LZMA helper for BZF: [`_decompress_bzf_payload` L20–L48](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L20-L48)
 - **[reone](https://github.com/modawan/reone)** ([historical upstream / mirror: seedhartha/reone](https://github.com/modawan/reone)):
 
   - [`bifreader.cpp` `BifReader::load` L27–L31](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/bifreader.cpp#L27-L31) (expects an 8-byte signature: `BIFFV1` plus one trailing ASCII space)
@@ -332,7 +332,7 @@ The [modular structure](https://en.wikipedia.org/wiki/Modular_programming) allow
   - local parser: `vendor/sotor/core/src/formats/bif/read.rs`
   - local model/tests: `vendor/sotor/core/src/formats/bif/mod.rs`
   - notes: accepts `BIFF V1  ` and `BIFF V1.1`, validates that the fixed-resource count is `0`, and reads requested 16-byte variable-resource rows by absolute payload offset
-- **[bioware-kaitai-formats](https://github.com/OldRepublicDevs/bioware-kaitai-formats)** — Kaitai Struct specs for BIF and related BioWare containers.
+- **[bioware-kaitai-formats](https://github.com/OpenKotOR/bioware-kaitai-formats)** — Kaitai Struct specs for BIF and related BioWare containers.
 
 ---
 
@@ -352,7 +352,7 @@ The file header is 20 bytes in size:
 
 **Note on Fixed Resources:** The "Fixed Resource count" field is a legacy holdover from *Neverwinter Nights* (not used in *KotOR*) where some resource types had predetermined sizes. In *KotOR*, this field is always `0` and fixed resource tables are never used. All resources are stored in the variable resource table regardless of their size.
 
-**Note on header Variations**: [xoreos-docs Torlack `bif.html`](https://github.com/xoreos/xoreos-docs/blob/master/specs/torlack/bif.html) shows the field at offset `0x000C` as “Unknown value” rather than “Fixed Resource count”. In *KotOR* it is always `0`; PyKotor **rejects** `fixed_res_count > 0` ([`io_bif.py` L117–L120](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L117-L120)), and the local Andastra `vendor/sotor/core` Rust reader now enforces the same constraint.
+**Note on header Variations**: [xoreos-docs Torlack `bif.html`](https://github.com/xoreos/xoreos-docs/blob/master/specs/torlack/bif.html) shows the field at offset `0x000C` as “Unknown value” rather than “Fixed Resource count”. In *KotOR* it is always `0`; PyKotor **rejects** `fixed_res_count > 0` ([`io_bif.py` L117–L120](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L117-L120)), and the local Andastra `vendor/sotor/core` Rust reader now enforces the same constraint.
 
 **References:**
 
@@ -381,7 +381,7 @@ Entries are read sequentially from the variable resource table. The table is loc
 - [reone `readResourceEntry` L52–L67](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/bifreader.cpp#L52-L67)
 - [Kotor.NET `VariableResource` L49–L64](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorBIF/BIFBinaryStructure.cs#L49-L64)
 - [xoreos `biffile.cpp` L84–L96](https://github.com/xoreos/xoreos/blob/f36b681b2a38799ddd6fce0f252b6d7fa781dfc2/src/aurora/biffile.cpp#L84-L96)
-- PyKotor table loop [`io_bif.py` L122–L141](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L122-L141).
+- PyKotor table loop [`io_bif.py` L122–L141](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L122-L141).
 
 ### Resource Data
 
@@ -471,10 +471,10 @@ The *BZF* wrapper is completely transparent to the game engine - once decompress
 
 **References:**
 
-- PyKotor BZF wrapper layout — [`bif_data.py` L35–L39](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L35-L39)
-- PyKotor BZF decompression entry — [`io_bif.py` L162–L169](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L162-L169)
-- PyKotor LZMA payload decode — [`_decompress_bzf_payload` L20–L48](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L20-L48)
-- PyKotor **version string** (`BIFBinaryReader` accepts `V1` + two ASCII spaces or `V1.1` in the 8-byte signature for **both** BIF and BZF) — [`io_bif.py` L107–L109](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L107-L109)
+- PyKotor BZF wrapper layout — [`bif_data.py` L35–L39](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L35-L39)
+- PyKotor BZF decompression entry — [`io_bif.py` L162–L169](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L162-L169)
+- PyKotor LZMA payload decode — [`_decompress_bzf_payload` L20–L48](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L20-L48)
+- PyKotor **version string** (`BIFBinaryReader` accepts `V1` + two ASCII spaces or `V1.1` in the 8-byte signature for **both** BIF and BZF) — [`io_bif.py` L107–L109](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py#L107-L109)
 - Some distributions describe mobile BZF as `V1.0` in prose—verify against real headers if a file fails to load.
 - [xoreos `biffile.h` L56–L60](https://github.com/xoreos/xoreos/blob/f36b681b2a38799ddd6fce0f252b6d7fa781dfc2/src/aurora/biffile.h#L56-L60)
 - [reone `BifReader::load` L27–L31](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/bifreader.cpp#L27-L31)
@@ -494,7 +494,7 @@ See [KEY File Format](Container-Formats#key) for the matching KEY-side lookup an
 
 ---
 
-PyKotor's BIF implementation is centered in [`io_bif.py`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py) for binary read and write paths and [`bif_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L100-L575) for the in-memory model.
+PyKotor's BIF implementation is centered in [`io_bif.py`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/io_bif.py) for binary read and write paths and [`bif_data.py`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L100-L575) for the in-memory model.
 
 ### See also
 
@@ -573,12 +573,12 @@ See:
 
 **Implementation (PyKotor):**
 
-- package: [`Libraries/PyKotor/src/pykotor/resource/formats/erf/`](https://github.com/OldRepublicDevs/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/erf/)
-- layout table in [`erf_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L19-L54) docstring
-- read path [`ERFBinaryReader.load`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L51-L169)
-- write path [`ERFBinaryWriter.write`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L186-L256)
+- package: [`Libraries/PyKotor/src/pykotor/resource/formats/erf/`](https://github.com/OpenKotOR/PyKotor/tree/master/Libraries/PyKotor/src/pykotor/resource/formats/erf/)
+- layout table in [`erf_data.py`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L19-L54) docstring
+- read path [`ERFBinaryReader.load`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L51-L169)
+- write path [`ERFBinaryWriter.write`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L186-L256)
 
-Other engines and tools cover the same container family in parallel: reone's [`erfreader.cpp`](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/erfreader.cpp#L29-L92) and [`erfreader.h`](https://github.com/modawan/reone/blob/master/include/reone/resource/format/erfreader.h) parse `ERF V1.0` and `MOD V1.0` but intentionally skip localized strings and do not expose explicit `SAV` fourcc handling; KotOR.js's [`ERFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L69-L346) covers header, localized strings, keys, resource records, and serialization; Kotor.NET's [`ERFBinaryStructure.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L25-L161) reads the core structures but skips the description StrRef and reserved tail; the local Andastra `vendor/sotor/core` Rust implementation covers the same header, localized-string, key-list, and resource-list read path in `src/formats/erf/read.rs` with matching in-memory structures in `src/formats/erf/mod.rs`; xoreos and xoreos-tools both use [`erffile.cpp`](https://github.com/xoreos/xoreos/blob/master/src/aurora/erffile.cpp) style Aurora readers; KotOR-Unity ships its own [`ERFObject.cs`](https://github.com/reubenduncan/KotOR-Unity/blob/master/Assets/Scripts/FileObjects/ERFObject.cs); and the [`bioware-kaitai-formats`](https://github.com/OldRepublicDevs/bioware-kaitai-formats) project provides declarative ERF specs for code generation. More repo cross-links are cataloged on [Home — Cross-reference: other tools and engines](Home#cross-reference-other-tools-and-engines).
+Other engines and tools cover the same container family in parallel: reone's [`erfreader.cpp`](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/erfreader.cpp#L29-L92) and [`erfreader.h`](https://github.com/modawan/reone/blob/master/include/reone/resource/format/erfreader.h) parse `ERF V1.0` and `MOD V1.0` but intentionally skip localized strings and do not expose explicit `SAV` fourcc handling; KotOR.js's [`ERFObject.ts`](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L69-L346) covers header, localized strings, keys, resource records, and serialization; Kotor.NET's [`ERFBinaryStructure.cs`](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L25-L161) reads the core structures but skips the description StrRef and reserved tail; the local Andastra `vendor/sotor/core` Rust implementation covers the same header, localized-string, key-list, and resource-list read path in `src/formats/erf/read.rs` with matching in-memory structures in `src/formats/erf/mod.rs`; xoreos and xoreos-tools both use [`erffile.cpp`](https://github.com/xoreos/xoreos/blob/master/src/aurora/erffile.cpp) style Aurora readers; KotOR-Unity ships its own [`ERFObject.cs`](https://github.com/reubenduncan/KotOR-Unity/blob/master/Assets/Scripts/FileObjects/ERFObject.cs); and the [`bioware-kaitai-formats`](https://github.com/OpenKotOR/bioware-kaitai-formats) project provides declarative ERF specs for code generation. More repo cross-links are cataloged on [Home — Cross-reference: other tools and engines](Home#cross-reference-other-tools-and-engines).
 
 ---
 
@@ -652,7 +652,7 @@ The Description [StrRef](Audio-and-Localization-Formats#string-references-strref
 - **NWM files**: `-1` (**Neverwinter Nights module format, NOT used in KotOR**)
 - **ERF files**: Unpredictable (may contain valid [StrRef](Audio-and-Localization-Formats#string-references-strref) or `-1`)
 
-**Technical Note**: The engine determines if a file is a Save Game based on context (loading from `saves/` vs `modules/` and presence of `SAVES:` resource alias), **NOT** by any flag or value in the ERF header; that matches PyKotor's full 160-byte header read and layout table, KotOR.js's `ERFObject.parseHeader`, Kotor.NET's partial header reader, and the historical Torlack RE notes in xoreos-docs ([`io_erf.py` L70-L96](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L70-L96), [`erf_data.py` L19-L36](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L19-L36), [`ERFObject.ts` L69-L85](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L69-L85), [`ERFBinaryStructure.cs` L86-L97](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L86-L97), [xoreos-docs `specs/torlack/mod.html`](https://github.com/xoreos/xoreos-docs/blob/master/specs/torlack/mod.html)).
+**Technical Note**: The engine determines if a file is a Save Game based on context (loading from `saves/` vs `modules/` and presence of `SAVES:` resource alias), **NOT** by any flag or value in the ERF header; that matches PyKotor's full 160-byte header read and layout table, KotOR.js's `ERFObject.parseHeader`, Kotor.NET's partial header reader, and the historical Torlack RE notes in xoreos-docs ([`io_erf.py` L70-L96](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L70-L96), [`erf_data.py` L19-L36](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L19-L36), [`ERFObject.ts` L69-L85](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L69-L85), [`ERFBinaryStructure.cs` L86-L97](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L86-L97), [xoreos-docs `specs/torlack/mod.html`](https://github.com/xoreos/xoreos-docs/blob/master/specs/torlack/mod.html)).
 
 ### Localized String List
 
@@ -678,7 +678,7 @@ ERF localized strings provide multi-language descriptions for the container itse
 - **Encoding**: Strings should be encoded as `windows-1252` (CP1252) to support legacy BioWare character sets.
 - The Description [StrRef](Audio-and-Localization-Formats#string-references-strref) field (in header) provides an alternative via [TLK](Audio-and-Localization-Formats#tlk) reference
 
-PyKotor's localized-string block reader and writer and KotOR.js's `parseStructures` confirm that this list is a simple `language id + byte length + text` sequence, while reone's `ErfReader` omits localized-string parsing entirely, so PyKotor and KotOR.js are the better implementation references for this subsection ([`io_erf.py` L122-L143](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L122-L143), [`io_erf.py` L235-L240](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L235-L240), [`ERFObject.ts` L91-L97](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L91-L97)).
+PyKotor's localized-string block reader and writer and KotOR.js's `parseStructures` confirm that this list is a simple `language id + byte length + text` sequence, while reone's `ErfReader` omits localized-string parsing entirely, so PyKotor and KotOR.js are the better implementation references for this subsection ([`io_erf.py` L122-L143](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L122-L143), [`io_erf.py` L235-L240](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L235-L240), [`ERFObject.ts` L91-L97](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L91-L97)).
 
 ### [KEY](Container-Formats#key) List
 
@@ -695,7 +695,7 @@ Each [KEY](Container-Formats#key) entry is 24 bytes and maps ResRefs to resource
 
 Resource names are padded with NULL bytes to 16 characters, but are not necessarily [null-terminated](https://en.cppreference.com/w/c/string/byte). If a resource name is exactly 16 characters long, no [null terminator](https://en.cppreference.com/w/c/string/byte) exists. Resource names can be mixed case, though most are lowercase in practice.
 
-PyKotor's reader and writer, KotOR.js's key loop, Kotor.NET's `KeyEntry` reader, reone's `readKeyEntry`, and Torlack's padding notes all agree on the 24-byte layout; the main behavioral difference is casing, because PyKotor preserves the stored ResRef while reone lowercases it during import ([`io_erf.py` L148-L155](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L148-L155), [`io_erf.py` L242-L246](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L242-L246), [`ERFObject.ts` L101-L108](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L101-L108), [`ERFBinaryStructure.cs` L128-L134](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L128-L134), [`erfreader.cpp` L62-L71](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/erfreader.cpp#L62-L71), [xoreos-docs `specs/torlack/mod.html`](https://github.com/xoreos/xoreos-docs/blob/master/specs/torlack/mod.html)).
+PyKotor's reader and writer, KotOR.js's key loop, Kotor.NET's `KeyEntry` reader, reone's `readKeyEntry`, and Torlack's padding notes all agree on the 24-byte layout; the main behavioral difference is casing, because PyKotor preserves the stored ResRef while reone lowercases it during import ([`io_erf.py` L148-L155](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L148-L155), [`io_erf.py` L242-L246](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L242-L246), [`ERFObject.ts` L101-L108](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L101-L108), [`ERFBinaryStructure.cs` L128-L134](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L128-L134), [`erfreader.cpp` L62-L71](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/erfreader.cpp#L62-L71), [xoreos-docs `specs/torlack/mod.html`](https://github.com/xoreos/xoreos-docs/blob/master/specs/torlack/mod.html)).
 
 ### Resource List
 
@@ -706,7 +706,7 @@ Each resource entry is 8 bytes:
 | offset to data | UInt32 | 0 (0x00) | 4    | offset to resource data in file                                  |
 | Resource size | UInt32 | 4 (0x04) | 4    | size of resource data in bytes                                   |
 
-PyKotor, KotOR.js, Kotor.NET, and reone all implement the resource list as a compact `(offset, size)` array and then use those pairs to seek into the payload region, with PyKotor also mirroring the layout on write ([`io_erf.py` L159-L162](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L159-L162), [`io_erf.py` L248-L252](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L248-L252), [`ERFObject.ts` L112-L116](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L112-L116), [`ERFBinaryStructure.cs` L157-L161](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L157-L161), [`erfreader.cpp` L84-L92](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/erfreader.cpp#L84-L92)).
+PyKotor, KotOR.js, Kotor.NET, and reone all implement the resource list as a compact `(offset, size)` array and then use those pairs to seek into the payload region, with PyKotor also mirroring the layout on write ([`io_erf.py` L159-L162](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L159-L162), [`io_erf.py` L248-L252](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L248-L252), [`ERFObject.ts` L112-L116](https://github.com/KobaltBlu/KotOR.js/blob/ea9491d5c783364cf285f178434b84405bee3608/src/resource/ERFObject.ts#L112-L116), [`ERFBinaryStructure.cs` L157-L161](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorERF/ERFBinaryStructure.cs#L157-L161), [`erfreader.cpp` L84-L92](https://github.com/modawan/reone/blob/61531089341caf5827abbc54346c8c959b03d449/src/libs/resource/format/erfreader.cpp#L84-L92)).
 
 ### Resource data
 
@@ -734,7 +734,7 @@ ERF files come in several variants based on file type:
 | MOD       | `.mod`    | Module file (contains area resources)                            |
 | SAV       | `.sav`    | Save game file (contains saved game state)                       |
 
-The **on-disk** 160-byte layout is the same family for shipped KotOR capsules; the **first four bytes** are not always a distinct `SAV` type code—PyKotor treats many `.sav` files as the `MOD` / `V1.0` header pair for typing purposes ([`ERFType.from_extension`](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L128-L135)). `ERF` (and `SAV` when present) are still valid Aurora signatures when they appear.
+The **on-disk** 160-byte layout is the same family for shipped KotOR capsules; the **first four bytes** are not always a distinct `SAV` type code—PyKotor treats many `.sav` files as the `MOD` / `V1.0` header pair for typing purposes ([`ERFType.from_extension`](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L128-L135)). `ERF` (and `SAV` when present) are still valid Aurora signatures when they appear.
 
 ### MOD Files (module containers)
 
@@ -824,11 +824,11 @@ Contrary to popular belief, the engine does **not** identify Save Games based on
 
 | Component | PyKotor (line anchors) |
 | --------- | ------------------------ |
-| Layout / types (docstring) | [`erf_data.py` L19–L54](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L19-L54) |
-| `ERFType` | [`erf_data.py` L107–L137](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L107-L137) |
-| `ERF` archive | [`erf_data.py` L140–L253](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L140-L253) |
-| Binary read | [`ERFBinaryReader.load` L51–L169](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L51-L169) |
-| Binary write | [`ERFBinaryWriter.write` L186–L256](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L186-L256) |
+| Layout / types (docstring) | [`erf_data.py` L19–L54](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L19-L54) |
+| `ERFType` | [`erf_data.py` L107–L137](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L107-L137) |
+| `ERF` archive | [`erf_data.py` L140–L253](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L140-L253) |
+| Binary read | [`ERFBinaryReader.load` L51–L169](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L51-L169) |
+| Binary write | [`ERFBinaryWriter.write` L186–L256](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/erf/io_erf.py#L186-L256) |
 
 See also **Cross-reference** at the [top of this page](#file-structure-overview) for KotOR.js, Kotor.NET, reone, and xoreos.
 
@@ -983,13 +983,13 @@ For a side-by-side narrative aimed at ERF readers, see [RIM versus ERF](Containe
 
 - **PyKotor**:
 
-  - on-disk layout (120-byte header, 32-byte keys): [`rim_data.py` module docstring L1–L45](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/rim_data.py#L1-L45)
-  - `RIMResource` / `RIM`: [`rim_data.py` L59–L173](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/rim_data.py#L59-L173)
-  - Kaitai load: [`io_rim.py` `_load_rim_from_kaitai` L22–L35](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L22-L35)
-  - legacy reader (implicit table offset **120**, row order **ResRef, UInt32 type, id, offset, size**): [`_load_rim_legacy` L38–L61](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L38-L61)
-  - [`_read_rim_entries` L64–L88](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L64-L88)
+  - on-disk layout (120-byte header, 32-byte keys): [`rim_data.py` module docstring L1–L45](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/rim_data.py#L1-L45)
+  - `RIMResource` / `RIM`: [`rim_data.py` L59–L173](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/rim_data.py#L59-L173)
+  - Kaitai load: [`io_rim.py` `_load_rim_from_kaitai` L22–L35](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L22-L35)
+  - legacy reader (implicit table offset **120**, row order **ResRef, UInt32 type, id, offset, size**): [`_load_rim_legacy` L38–L61](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L38-L61)
+  - [`_read_rim_entries` L64–L88](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L64-L88)
   - `RIMBinaryReader.load` L120–L127
-  - vanilla-style writer: [`RIMBinaryWriter.write` L142–L198](https://github.com/OldRepublicDevs/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L142-L198)
+  - vanilla-style writer: [`RIMBinaryWriter.write` L142–L198](https://github.com/OpenKotOR/PyKotor/blob/a8daa4091b067e8424ae537793224e6b178ee9d8/Libraries/PyKotor/src/pykotor/resource/formats/rim/io_rim.py#L142-L198)
 - **[Kotor.NET](https://github.com/NickHugi/Kotor.NET)**: [`RIMBinaryStructure.cs` `FileRoot` / `FileHeader` / `ResourceEntry` L16–L116](https://github.com/NickHugi/Kotor.NET/blob/6dca4a6a1af2fee6e36befb9a6f127c8ba04d3e2/Kotor.NET/Formats/KotorRIM/RIMBinaryStructure.cs#L16-L116) — reads the **20-byte** logical header then seeks `OffsetToResources` (vanilla **120**).
 - **[reone](https://github.com/modawan/reone)** ([historical upstream / mirror: seedhartha/reone](https://github.com/modawan/reone)):
 

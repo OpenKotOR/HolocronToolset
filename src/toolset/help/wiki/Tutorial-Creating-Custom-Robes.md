@@ -11,20 +11,20 @@ Extract the necessary files into a folder for editing.
 
 You should have 6 files. Rename the numbers from **03/003** to **05/005** (we are making a fifth robe variant).
 
-![Extract textures](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=1.png)
+![Extract textures](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=1.png)
 
 ## Step 2: Edit the textures
 
 Edit the images in an editor that supports transparency (e.g. Paint.NET on Windows; avoid MS Paint). For this example the robes are retextured to a greenish colour.
 
-![Edit textures](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=2.png)
+![Edit textures](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=2.png)
 
 ## Step 3: Create the item file
 
 Under **Core** → **Items**, open **g_a_jedirobe01**.
 
-![Open item](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=3.png)
-![Item editor](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=4.png)
+![Open item](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=3.png)
+![Item editor](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=4.png)
 
 Change:
 
@@ -32,19 +32,19 @@ Change:
 - **Texture Variation** to **5** (matching the renamed texture files).
 - **Name** and **Description** if desired: click the ellipsis (**...**) next to the text field → **None** → enter your text.
 
-![Set fields](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=5.png)
-![Name/description](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=6.png)
+![Set fields](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=5.png)
+![Name/description](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=6.png)
 
 Save the file with the same name as the ResRef (e.g. **greenrobes**). You should have 7 files.
 
-![Save](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=7.png)
+![Save](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=7.png)
 
 ## Step 4: Install and test
 
 Copy all files into your game's **override** folder. In-game, use the cheat **giveitem greenrobes** and equip from inventory.
 
-![Override](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=8.png)
-![In-game](https://raw.githubusercontent.com/OldRepublicDevs/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=9.png)
+![Override](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=8.png)
+![In-game](https://raw.githubusercontent.com/OpenKotOR/HolocronToolset/refs/heads/master/src/toolset/help/images/tutorials1-creatingCustomRobes=9.png)
 
 ### See also
 

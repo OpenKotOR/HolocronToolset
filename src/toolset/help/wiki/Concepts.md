@@ -1,6 +1,6 @@
 # Concepts
 
-The Odyssey engine resolves every resource request through a fixed priority chain: override folder, then module capsules (MOD/SAV/ERF/RIM), then KEY/BIF base archives [[`SearchLocation` enum](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L65-L110)]. Understanding this chain — along with ResRefs, resource types, and the difference between template data and instance data — is essential for any modding work. Other wiki pages reference the definitions here rather than re-explaining the rules. Open reimplementations describe the same shape from a different angle: xoreos's KotOR engine page lists initial module and area loading plus room-room visibility evaluation as core milestones, while xoreos-tools splits archive, GFF, TLK, and 2DA utilities along the same format boundaries modders work with daily [[Knights of the Old Republic](https://wiki.xoreos.org/index.php?title=Knights_of_the_Old_Republic), [Running xoreos-tools](https://wiki.xoreos.org/index.php/Running_xoreos-tools)].
+The Odyssey engine resolves every resource request through a fixed priority chain: override folder, then module capsules (MOD/SAV/ERF/RIM), then KEY/BIF base archives [[`SearchLocation` enum](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L65-L110)]. Understanding this chain — along with ResRefs, resource types, and the difference between template data and instance data — is essential for any modding work. Other wiki pages reference the definitions here rather than re-explaining the rules. Open reimplementations describe the same shape from a different angle: xoreos's KotOR engine page lists initial module and area loading plus room-room visibility evaluation as core milestones, while xoreos-tools splits archive, GFF, TLK, and 2DA utilities along the same format boundaries modders work with daily [[Knights of the Old Republic](https://wiki.xoreos.org/index.php?title=Knights_of_the_Old_Republic), [Running xoreos-tools](https://wiki.xoreos.org/index.php/Running_xoreos-tools)].
 
 ## Cross-reference: source modules
 
@@ -17,28 +17,28 @@ When the game needs a resource, it resolves a pair: **ResRef + resource type**. 
 
 In normal play, the effective order is:
 
-1. **Override folder** (`override/` in the game directory) [[`SearchLocation.OVERRIDE = 0`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L66-L68)]
-2. **Currently loaded MOD/ERF/[RIM](Container-Formats#rim) module archives** (e.g. the module being played) [[`SearchLocation.MODULES = 1`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L70-L71)]
+1. **Override folder** (`override/` in the game directory) [[`SearchLocation.OVERRIDE = 0`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L66-L68)]
+2. **Currently loaded MOD/ERF/[RIM](Container-Formats#rim) module archives** (e.g. the module being played) [[`SearchLocation.MODULES = 1`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L70-L71)]
 3. **Currently loaded save game** (when in-game; situational — often exposed as a loaded SAV / save-side container)
 4. **patch.erf resources** This file exists in the root of the k1 installation at least on PC, containing mostly updated textures. Probably loaded at this stage but this is currently a guess.
-5. **BIF files** indexed by **KEY** (vanilla game data) [[`SearchLocation.CHITIN = 2`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L73-L74)]
+5. **BIF files** indexed by **KEY** (vanilla game data) [[`SearchLocation.CHITIN = 2`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L73-L74)]
 6. **Hardcoded defaults** (if the engine provides them)
 
 Anything in `override/` or in the active module capsule wins before the game falls back to vanilla KEY/BIF data. That is why “just copy a file into override” works for quick tests, but also why it causes collisions when multiple mods ship the same ResRef and type.
 
 ### How the *resource manager* resolves a request
 
-The engine first checks whether the resource is already loaded or cached. If not, it routes the request to the correct backend for that storage shape: directory, active module capsule, save-side data, or the KEY/BIF stack [[`Installation.resource()`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L1361)]. The [KEY](Container-Formats#key) only participates in that fourth step. It does not control override precedence, and it does not need to be edited for a mod to shadow a vanilla file.
+The engine first checks whether the resource is already loaded or cached. If not, it routes the request to the correct backend for that storage shape: directory, active module capsule, save-side data, or the KEY/BIF stack [[`Installation.resource()`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/extract/installation.py#L1361)]. The [KEY](Container-Formats#key) only participates in that fourth step. It does not control override precedence, and it does not need to be edited for a mod to shadow a vanilla file.
 
 ### Role of the [**KEY**](Container-Formats#key) file
 
-The [**KEY**](Container-Formats#key) file (normally `chitin.key`) is the master index for vanilla archive data [[`key_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L55)]. It maps a ResRef and resource type to a specific BIF archive and an entry inside that archive. It does not define the whole resolution order; it only enables the vanilla-data fallback stage. xoreos's `unkeybif` page phrases the same idea in practical extraction terms: the KEY carries names and types, the BIF carries payloads, and extracting everything indexed by a KEY requires the corresponding BIF set to be treated as one unit [[Unkeybif](https://wiki.xoreos.org/index.php?title=Unkeybif)].
+The [**KEY**](Container-Formats#key) file (normally `chitin.key`) is the master index for vanilla archive data [[`key_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/key/key_data.py#L1-L55)]. It maps a ResRef and resource type to a specific BIF archive and an entry inside that archive. It does not define the whole resolution order; it only enables the vanilla-data fallback stage. xoreos's `unkeybif` page phrases the same idea in practical extraction terms: the KEY carries names and types, the BIF carries payloads, and extracting everything indexed by a KEY requires the corresponding BIF set to be treated as one unit [[Unkeybif](https://wiki.xoreos.org/index.php?title=Unkeybif)].
 
 That distinction matters for authors. If your mod ships a file in `override/`, or a resource in a module `.mod`, the engine can find it before ever consulting `chitin.key`.
 
 ## ResRef (Resource Reference)
 
-A **ResRef** is the resource's name: a short string (up to ***16 characters*** in *KotOR*) [[`ResRef.MAX_LENGTH = 16`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/common/misc.py#L75) · [Kotor.NET `ResRef.cs`](https://github.com/th3w1zard1/Kotor.NET/blob/master/Kotor.NET/Common/Data/ResRef.cs#L9-L72)], normally written without a filename extension. Together with a **Resource Type** (numeric ID; see [Resource Type Identifiers](Resource-Formats-and-Resolution#resource-type-identifiers) and [GFF-File-Format](GFF-File-Format#gff-data-types)), the engine uses the *ResRef* to look up the resource via the [resource resolution order](#resource-resolution-order) above.
+A **ResRef** is the resource's name: a short string (up to ***16 characters*** in *KotOR*) [[`ResRef.MAX_LENGTH = 16`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/common/misc.py#L75) · [Kotor.NET `ResRef.cs`](https://github.com/th3w1zard1/Kotor.NET/blob/master/Kotor.NET/Common/Data/ResRef.cs#L9-L72)], normally written without a filename extension. Together with a **Resource Type** (numeric ID; see [Resource Type Identifiers](Resource-Formats-and-Resolution#resource-type-identifiers) and [GFF-File-Format](GFF-File-Format#gff-data-types)), the engine uses the *ResRef* to look up the resource via the [resource resolution order](#resource-resolution-order) above.
 
 ## Override Folder
 
@@ -52,13 +52,13 @@ For Steam, GOG, and Aspyr folder layouts, widescreen patches, and common OS fixe
 
 ## [**BIF**](Container-Formats#bif) and [**KEY**](Container-Formats#key)
 
-[**BIF**](Container-Formats#bif) files store most of the shipped game data [[`bif_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L1-L10)]. [**KEY**](Container-Formats#key) tells the game which BIF contains a given ResRef and type, and which entry inside that BIF to read.
+[**BIF**](Container-Formats#bif) files store most of the shipped game data [[`bif_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/bif/bif_data.py#L1-L10)]. [**KEY**](Container-Formats#key) tells the game which BIF contains a given ResRef and type, and which entry inside that BIF to read.
 
 From a modder’s point of view, the important rule is simple: [**BIF**](Container-Formats#bif) and [**KEY**](Container-Formats#key) are the baseline, not the preferred mod target. Most mods leave them untouched and win by providing a higher-priority file in override or a module capsule.
 
 ## [**MOD**](Container-Formats#erf) / [**ERF**](Container-Formats#erf) / [**RIM**](Container-Formats#rim)
 
-[**ERF**](Container-Formats#erf) is a general-purpose container format [[`erf_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L1-L10)]. [**MOD**](Container-Formats#erf) files are ERFs used as module capsules; [**SAV**](Container-Formats#erf) files are ERF-style save containers. [**RIM**](Container-Formats#rim) is the stock module archive format used by the shipped game data [[`rim_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/rim/rim_data.py#L1-L10)].
+[**ERF**](Container-Formats#erf) is a general-purpose container format [[`erf_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/erf/erf_data.py#L1-L10)]. [**MOD**](Container-Formats#erf) files are ERFs used as module capsules; [**SAV**](Container-Formats#erf) files are ERF-style save containers. [**RIM**](Container-Formats#rim) is the stock module archive format used by the shipped game data [[`rim_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/rim/rim_data.py#L1-L10)].
 
 The practical rule is that module-scoped content belongs here, not in global override, when you want the resource to apply only to a specific area or module. In many common setups, a module `.mod` in `modules/` overrides the matching stock `.rim` pair for that module name.
 
@@ -76,7 +76,7 @@ For distribution work, the usual failure modes are scope mistakes rather than fo
 
 ## [**GFF** (Generic File Format)](GFF-File-Format)
 
-[**GFF**](GFF-File-Format) is BioWare’s binary format for structured game data: areas (ARE), creatures (UTC), items (UTI), dialogues ([DLG](GFF-File-Format#dlg)), placeables ([UTP](GFF-File-Format#utp)), and many others [[`gff_data.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/gff_data.py#L1-L20)]. Files are hierarchical (structs, fields, lists). The same [GFF](GFF-File-Format) layout is used across Aurora/Odyssey games; KotOR and TSL use specific [GFF](GFF-File-Format) types and field meanings. Modders edit [GFF](GFF-File-Format) with tools (KotOR Tool, Holocron Toolset, K-GFF) or via [TSLPatcher/HoloPatcher `[GFFList]` implementation](TSLPatcher-GFFList-Syntax). See [GFF-File-Format](GFF-File-Format), [Bioware-Aurora-GFF](Bioware-Aurora-Core-Formats#gff).
+[**GFF**](GFF-File-Format) is BioWare’s binary format for structured game data: areas (ARE), creatures (UTC), items (UTI), dialogues ([DLG](GFF-File-Format#dlg)), placeables ([UTP](GFF-File-Format#utp)), and many others [[`gff_data.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/gff/gff_data.py#L1-L20)]. Files are hierarchical (structs, fields, lists). The same [GFF](GFF-File-Format) layout is used across Aurora/Odyssey games; KotOR and TSL use specific [GFF](GFF-File-Format) types and field meanings. Modders edit [GFF](GFF-File-Format) with tools (KotOR Tool, Holocron Toolset, K-GFF) or via [TSLPatcher/HoloPatcher `[GFFList]` implementation](TSLPatcher-GFFList-Syntax). See [GFF-File-Format](GFF-File-Format), [Bioware-Aurora-GFF](Bioware-Aurora-Core-Formats#gff).
 
 ## [**2DA** (Two-Dimensional Array)](2DA-File-Format)
 
@@ -92,7 +92,7 @@ The canonical **hex resource type ID** table (*Aurora* / *Odyssey* family, inclu
 
 ## Language IDs (*KotOR*)
 
-Language IDs are a small integer enum [[`Language` enum](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/common/language.py#L13-L50) · [`tlk_data.py` binary spec](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/tlk_data.py#L1-L35)] shared across *Infinity*/*Aurora*/*Odyssey*/*Eclipse*-era engines (TLK headers, [ERF](Container-Formats#erf) localized string lists, [GFF](GFF-File-Format) `LocalizedString` substrings, etc.). Newer *BioWare* titles added values but usually stay backward compatible with 0–5.
+Language IDs are a small integer enum [[`Language` enum](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/common/language.py#L13-L50) · [`tlk_data.py` binary spec](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/resource/formats/tlk/tlk_data.py#L1-L35)] shared across *Infinity*/*Aurora*/*Odyssey*/*Eclipse*-era engines (TLK headers, [ERF](Container-Formats#erf) localized string lists, [GFF](GFF-File-Format) `LocalizedString` substrings, etc.). Newer *BioWare* titles added values but usually stay backward compatible with 0–5.
 
 Use this table as the **wiki SSOT** for numeric IDs and typical text encodings. Official *BioWare* PDFs duplicate the same numbering in places like [Bioware-Aurora-TalkTable](Bioware-Aurora-Core-Formats#talktable) and [Bioware-Aurora-LocalizedStrings](Bioware-Aurora-Core-Formats#localizedstrings). xoreos's TLK language matrix reaches the same KotOR mapping and is worth keeping in view because its `tlk2xml` tool has to be told either the game or the encoding; the format family does not provide enough information to autodetect text encoding safely across BioWare titles [[TLK language IDs and encodings](https://wiki.xoreos.org/index.php?title=TLK_language_IDs_and_encodings), [Tlk2xml](https://wiki.xoreos.org/index.php?title=Tlk2xml)].
 

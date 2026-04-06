@@ -55,8 +55,8 @@ from pykotor.common.module import Module, ModuleResource
 from pykotor.common.modulekit import ModuleKitManager
 from pykotor.extract.file import ResourceIdentifier
 from pykotor.resource.formats.bwm import BWM
-from pykotor.resource.formats.erf import write_erf
-from pykotor.resource.formats.lyt import LYT, LYTDoorHook, LYTObstacle, LYTRoom, LYTTrack
+from pykotor.resource.formats.erf import read_erf, write_erf
+from pykotor.resource.formats.lyt import LYT, LYTDoorHook, LYTObstacle, LYTRoom, LYTTrack, bytes_lyt
 from pykotor.resource.formats.vis import bytes_vis
 from pykotor.resource.generics.git import (
     GITCamera,
@@ -70,6 +70,7 @@ from pykotor.resource.generics.git import (
     GITStore,
     GITTrigger,
     GITWaypoint,
+    bytes_git,
 )
 from pykotor.resource.generics.utd import read_utd
 from pykotor.resource.generics.utt import read_utt
@@ -3622,7 +3623,6 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         _profile_init_renderer_duration: float | None = None
 
         mod_root: str = self._installation.get_module_root(mod_filepath)
-        mod_filepath = self._ensure_mod_file(mod_filepath, mod_root)
 
         self.unload_module()
         combined_module = Module(mod_root, self._installation, use_dot_mod=is_mod_file(mod_filepath))
@@ -3719,34 +3719,75 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             init_renderer_ms = _profile_init_renderer_duration * 1000 if _profile_init_renderer_duration is not None else 0.0
             self.log.info("[MODULE_DESIGNER_PROFILE] open_module total=%.2f ms, initialize_renderer=%.2f ms", startup_ms, init_renderer_ms)
 
-    def _ensure_mod_file(self, mod_filepath: Path, mod_root: str) -> Path:
-        mod_file = mod_filepath.with_name(f"{mod_root}.mod")
+    def _check_save_to_mod(self) -> bool:
+        """Prompts the user to save to a .mod file when the module is currently using .rim/.erf archives.
+
+        If the user accepts, the in-memory GIT (and LYT, if present) are written directly into
+        the .mod ERF, the installation cache is refreshed, and self._module is switched to
+        use_dot_mod=True.  Returns True if the save was fully handled (caller should return
+        early); False to fall through to the normal .rim/.erf save path.
+        """
+        assert self._module is not None
+        mod_root = self._module.root()
+        mod_dir = self._installation.module_path()
+        mod_file = mod_dir / f"{mod_root}.mod"
+
         if not mod_file.is_file():
-            if self._confirm_create_mod(mod_root):
-                self._create_mod(mod_file, mod_root)
-                return mod_file
-            return mod_filepath
-
-        if mod_file != mod_filepath and not self._confirm_use_mod(mod_filepath, mod_file):
-            return mod_filepath
-        return mod_file
-
-    def _confirm_create_mod(self, mod_root: str) -> bool:
-        return (
-            QMessageBox.question(
+            reply = QMessageBox.question(
                 self,
-                "Editing .RIM/.ERF modules is discouraged.",
-                f"The Module Designer would like to create a .mod for module '{mod_root}', would you like to do this now?",
+                "Save as .mod file?",
+                (
+                    f"You are saving changes to '{mod_root}', which is stored in base game .RIM/.ERF archives.\n\n"
+                    f"It is strongly recommended to save to a '{mod_root}.mod' override file instead — "
+                    f".mod files are not overwritten by game updates and are the safest format for distributing changes.\n\n"
+                    f"Create '{mod_root}.mod' and save there now?"
+                ),
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                 QMessageBox.StandardButton.Yes,
             )
-            == QMessageBox.StandardButton.Yes
-        )
+            if reply != QMessageBox.StandardButton.Yes:
+                return False
+            self._create_mod(mod_file, mod_root)
+        else:
+            reply = QMessageBox.question(
+                self,
+                "Save to existing .mod file?",
+                (
+                    f"'{mod_root}.mod' already exists.\n\n"
+                    f"Would you like to save your changes there instead of the .RIM/.ERF archives?"
+                ),
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.Yes,
+            )
+            if reply != QMessageBox.StandardButton.Yes:
+                return False
+
+        self._save_resources_to_mod(mod_file, mod_root)
+        self._installation.reload_module(mod_file.name)
+        self._module = Module(mod_root, self._installation, use_dot_mod=True)
+        git = self._module.git()
+        if git is not None:
+            self._git_cache = git.resource()
+        self._mark_clean_state()
+        return True
 
     def _create_mod(self, mod_file: Path, mod_root: str):
         self.log.info("Creating '%s.mod' from the rims/erfs...", mod_root)
         module.rim_to_mod(mod_file, game=self._installation.game())
         self._installation.reload_module(mod_file.name)
+
+    def _save_resources_to_mod(self, mod_file: Path, mod_root: str):
+        """Writes the current in-memory GIT (and LYT, if loaded) directly into the .mod ERF."""
+        assert self._git_cache is not None
+        assert self._module is not None
+        erf = read_erf(mod_file)
+        erf.set_data(mod_root, ResourceType.GIT, bytes_git(self._git_cache))
+        layout_module = self._module.layout()
+        if layout_module is not None:
+            lyt = layout_module.resource()
+            if lyt is not None:
+                erf.set_data(mod_root, ResourceType.LYT, bytes_lyt(lyt))
+        write_erf(erf, mod_file)
 
     def _confirm_use_mod(self, orig_filepath: Path, mod_filepath: Path) -> bool:
         return (
@@ -3816,6 +3857,9 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
     def save_git(self):
         assert self._module is not None
+        if not self._module.dot_mod and self._check_save_to_mod():
+            return
+
         git_module = self._module.git()
         assert git_module is not None
         git_module.save()

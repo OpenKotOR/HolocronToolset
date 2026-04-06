@@ -196,7 +196,7 @@ def create_standalone_app(argv: list[str] | None = None) -> QApplication:
     install_tooltip_label_filter(app)
     app.setApplicationName("HolocronToolset-Editor")
     app.setOrganizationName("PyKotor")
-    app.setOrganizationDomain("github.com/OldRepublicDevs/PyKotor")
+    app.setOrganizationDomain("github.com/OpenKotOR/PyKotor")
     app.setApplicationDisplayName("KotOR Editor")
 
     # Set up exception handling

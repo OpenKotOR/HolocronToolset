@@ -110,11 +110,11 @@ toolset = "toolset.__main__:main"
 indoorbuilder = "toolset.gui.editors.standalone:launch_indoor_builder"
 
 [project.urls]
-Homepage = "https://github.com/OldRepublicDevs/PyKotor"
-Documentation = "https://github.com/OldRepublicDevs/PyKotor/wiki"
-Repository = "https://github.com/OldRepublicDevs/PyKotor.git"
-Issues = "https://github.com/OldRepublicDevs/PyKotor/issues"
-Changelog = "https://github.com/OldRepublicDevs/PyKotor/releases"
+Homepage = "https://github.com/OpenKotOR/PyKotor"
+Documentation = "https://github.com/OpenKotOR/PyKotor/wiki"
+Repository = "https://github.com/OpenKotOR/PyKotor.git"
+Issues = "https://github.com/OpenKotOR/PyKotor/issues"
+Changelog = "https://github.com/OpenKotOR/PyKotor/releases"
 
 # Optional Poetry configuration for those who prefer it
 [tool.poetry]
@@ -316,11 +316,11 @@ wav_editor = "toolset.gui.editors.standalone:launch_wav"
 waveditor = "toolset.gui.editors.standalone:launch_wav"
 
 [tool.poetry.urls]
-Homepage = "https://github.com/OldRepublicDevs/PyKotor"
-Documentation = "https://github.com/OldRepublicDevs/PyKotor/wiki"
-Repository = "https://github.com/OldRepublicDevs/PyKotor.git"
-Issues = "https://github.com/OldRepublicDevs/PyKotor/issues"
-Changelog = "https://github.com/OldRepublicDevs/PyKotor/releases"
+Homepage = "https://github.com/OpenKotOR/PyKotor"
+Documentation = "https://github.com/OpenKotOR/PyKotor/wiki"
+Repository = "https://github.com/OpenKotOR/PyKotor.git"
+Issues = "https://github.com/OpenKotOR/PyKotor/issues"
+Changelog = "https://github.com/OpenKotOR/PyKotor/releases"
 
 ########################################################
 ## UV workspace configuration                         ##

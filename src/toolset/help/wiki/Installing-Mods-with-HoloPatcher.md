@@ -2,7 +2,7 @@
 
 _This page explains how to install mods with HoloPatcher. If you are packaging a mod, see [HoloPatcher README for Mod Developers](HoloPatcher-README-for-mod-developers)._
 
-HoloPatcher is the current PyKotor implementation of the TSLPatcher workflow [1](https://github.com/OldRepublicDevs/PyKotor/tree/master/Tools/HoloPatcher/src/holopatcher). For players, the important part is simple: point it at the right game folder, install one mod option at a time, and use its restore flow before retrying or switching variants.
+HoloPatcher is the current PyKotor implementation of the TSLPatcher workflow [1](https://github.com/OpenKotOR/PyKotor/tree/master/Tools/HoloPatcher/src/holopatcher). For players, the important part is simple: point it at the right game folder, install one mod option at a time, and use its restore flow before retrying or switching variants.
 
 ## Before you install
 

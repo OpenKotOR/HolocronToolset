@@ -48,7 +48,7 @@ While we're not sure what the exact problem is, it seems newer python versions w
 
 ## Local Development
 
-- Clone [PyKotor](https://github.com/OldRepublicDevs/PyKotor). Use `uvx --with-editable` to run from local source, or run `install_python_venv.ps1` for a traditional venv setup.
+- Clone [PyKotor](https://github.com/OpenKotOR/PyKotor). Use `uvx --with-editable` to run from local source, or run `install_python_venv.ps1` for a traditional venv setup.
 
 ## Accessing the GUI Designer
 

@@ -13,7 +13,7 @@ The "Override" tab allows you to navigate through the override files. In TSL you
 - **Refresh** -- Refreshes the list of nested folders in the override directory.
 - **Reload** -- Reloads the list of resources in the selected folder. If a resource is changed outside of the toolset, press this or an error may occur.
 
-![Override Tab](https://raw.githubusercontent.com/OldRepublicDevs/PyKotor/master/Tools/HolocronToolset/src/toolset/help/images/introduction_1-overrideResources=1.png)
+![Override Tab](https://raw.githubusercontent.com/OpenKotOR/PyKotor/master/Tools/HolocronToolset/src/toolset/help/images/introduction_1-overrideResources=1.png)
 
 ### See also
 

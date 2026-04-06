@@ -35,7 +35,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
 
-KOTORBLENDER_GITHUB_REPO = "OldRepublicDevs/kotorblender"
+KOTORBLENDER_GITHUB_REPO = "OpenKotOR/kotorblender"
 KOTORBLENDER_GITHUB_URL = f"https://github.com/{KOTORBLENDER_GITHUB_REPO}"
 KOTORBLENDER_ARCHIVE_URL = f"https://codeload.github.com/{KOTORBLENDER_GITHUB_REPO}/zip/refs/heads/master"
 KOTORBLENDER_ENV_VAR = "KOTORBLENDER_SOURCE_PATH"

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document summarizes engine-level findings from reverse engineering the KotOR I and II game executables (e.g. with Ghidra). It is meant to inform PyKotor and toolset work at a conceptual level: class names, control flow, and subsystem roles—not step-by-step tool transcripts or raw dumps. For continued analysis, use your usual RE workflow on a loaded game binary and cross-check with vendor and community references; see [Community sources and archives](Home#community-sources-and-archives). Walkmesh / BWM / AABB engine behavior is documented under [BWM / walkmesh / AABB (engine implementation analysis)](reverse_engineering_findings#bwm-walkmesh-aabb-engine-implementation-analysis) below. Repository automation guidance for agents is in [AGENTS.md](https://github.com/OldRepublicDevs/PyKotor/blob/master/AGENTS.md) (conceptual wiki policy).
+This document summarizes engine-level findings from reverse engineering the KotOR I and II game executables (e.g. with Ghidra). It is meant to inform PyKotor and toolset work at a conceptual level: class names, control flow, and subsystem roles—not step-by-step tool transcripts or raw dumps. For continued analysis, use your usual RE workflow on a loaded game binary and cross-check with vendor and community references; see [Community sources and archives](Home#community-sources-and-archives). Walkmesh / BWM / AABB engine behavior is documented under [BWM / walkmesh / AABB (engine implementation analysis)](reverse_engineering_findings#bwm-walkmesh-aabb-engine-implementation-analysis) below. Repository automation guidance for agents is in [AGENTS.md](https://github.com/OpenKotOR/PyKotor/blob/master/AGENTS.md) (conceptual wiki policy).
 
 ## Table of Contents
 
@@ -139,7 +139,7 @@ This section documents the core resource manager used by both KotOR I and II (re
 **Container type flags** (how the engine classifies registered sources):
 
 - `FIXED` (0x00000000): KEY/BIF files (chitin.key + data/*.bif)
-- `RIM` (0x20000000): Resource-image path in the resource manager (e.g. texture packs; naming per MacOS symbols / `AddResourceImageFile()`, see [PyKotor#47](https://github.com/OldRepublicDevs/PyKotor/issues/47); compare on-disk [RIM](Container-Formats#rim) capsules)
+- `RIM` (0x20000000): Resource-image path in the resource manager (e.g. texture packs; naming per MacOS symbols / `AddResourceImageFile()`, see [PyKotor#47](https://github.com/OpenKotOR/PyKotor/issues/47); compare on-disk [RIM](Container-Formats#rim) capsules)
 - `ERF` (0x40000000): Encapsulated archives on disk ([ERF File Format](Container-Formats#erf), [RIM File Format](Container-Formats#rim); often `modules/*.rim`, `modules/*.mod`, `modules/*.erf`)
 - `DIRECTORY` (0x80000000): Loose files in directories
 

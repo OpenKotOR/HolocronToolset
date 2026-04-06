@@ -1,6 +1,6 @@
 # HoloPatcher
 
-HoloPatcher is the cross-platform replacement for the Windows-only TSLPatcher installer, developed as part of [PyKotor](https://github.com/OldRepublicDevs/PyKotor/tree/master/Tools/HoloPatcher/src/holopatcher). It reads the standard `tslpatchdata` layout and applies merge-aware patching for [GFF](GFF-File-Format), [2DA](2DA-File-Format), [TLK](Audio-and-Localization-Formats#tlk), [SSF](Audio-and-Localization-Formats#ssf), and [NCS](NCS-File-Format) on Windows, macOS, and Linux.
+HoloPatcher is the cross-platform replacement for the Windows-only TSLPatcher installer, developed as part of [PyKotor](https://github.com/OpenKotOR/PyKotor/tree/master/Tools/HoloPatcher/src/holopatcher). It reads the standard `tslpatchdata` layout and applies merge-aware patching for [GFF](GFF-File-Format), [2DA](2DA-File-Format), [TLK](Audio-and-Localization-Formats#tlk), [SSF](Audio-and-Localization-Formats#ssf), and [NCS](NCS-File-Format) on Windows, macOS, and Linux.
 
 Use this page as the entry point for HoloPatcher documentation. Detailed usage, authoring guidance, and implementation notes now live on dedicated pages so they can be maintained without duplication.
 
@@ -37,9 +37,9 @@ Start there if you are building a first mod package, comparing HoloPatcher with 
 
 If you need implementation detail rather than end-user instructions, use [Explanations on HoloPatcher Internal Logic](Explanations-on-HoloPatcher-Internal-Logic). That page breaks the tool into its major layers:
 
-- the UI and CLI entry points in `Tools/HoloPatcher/src/holopatcher/` [[`app.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Tools/HoloPatcher/src/holopatcher/app.py) · [`cli.py`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Tools/HoloPatcher/src/holopatcher/cli.py)]
-- the config reader that parses `changes.ini` [[`ConfigReader`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/tslpatcher/reader.py#L132)]
-- the patcher that orders, applies, logs, and backs up each modification [[`ModInstaller`](https://github.com/OldRepublicDevs/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/tslpatcher/patcher.py#L43)]
+- the UI and CLI entry points in `Tools/HoloPatcher/src/holopatcher/` [[`app.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Tools/HoloPatcher/src/holopatcher/app.py) · [`cli.py`](https://github.com/OpenKotOR/PyKotor/blob/master/Tools/HoloPatcher/src/holopatcher/cli.py)]
+- the config reader that parses `changes.ini` [[`ConfigReader`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/tslpatcher/reader.py#L132)]
+- the patcher that orders, applies, logs, and backs up each modification [[`ModInstaller`](https://github.com/OpenKotOR/PyKotor/blob/master/Libraries/PyKotor/src/pykotor/tslpatcher/patcher.py#L43)]
 
 It also documents the patch routine, patch-list priority, override handling, and backup semantics that matter when you are debugging edge cases or comparing output against legacy TSLPatcher behavior.
 

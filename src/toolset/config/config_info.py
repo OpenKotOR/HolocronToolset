@@ -44,30 +44,30 @@ LOCAL_PROGRAM_INFO: dict[str, Any] = {
     "updateInfoLink": "https://api.github.com/repos/th3w1zard1/PyKotor/contents/Tools/HolocronToolset/src/toolset/config/config_info.py",
     "updateBetaInfoLink": "https://api.github.com/repos/th3w1zard1/PyKotor/contents/Tools/HolocronToolset/src/toolset/config/config_info.py?ref=bleeding-edge",
     "toolsetDownloadLink": "https://deadlystream.com/files/file/1982-holocron-toolset",
-    "toolsetBetaDownloadLink": "https://github.com/OldRepublicDevs/PyKotor/releases/tag/v{tag}-toolset",
+    "toolsetBetaDownloadLink": "https://github.com/OpenKotOR/PyKotor/releases/tag/v{tag}-toolset",
     "toolsetDirectLinks": {
         "Darwin": {
             "32bit": [],
             "64bit": [
                 "https://mega.nz/file/0LxE3JYR#NUpzCQGQ8YThU9KPo2Ikql4c8jcBPnLfLwxsoVQtmN4",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Mac_PyQt5_x64.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Mac_PyQt5_x64.zip",
             ],
         },
         "Linux": {
             "32bit": [],
             "64bit": [
                 "https://mega.nz/file/JOwW0RII#SbP3HsQxKbhpTBzmL5P1ynwwovJcuJOK6NbB1QvzI_8",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Linux_PyQt5_x64.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Linux_PyQt5_x64.zip",
             ],
         },
         "Windows": {
             "32bit": [
                 "https://mega.nz/file/laAkmJxS#-CTNluRAhkoWeRvyrj8HGRwRgQMLVT-jlFdYMsKvLLE",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x86.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x86.zip",
             ],
             "64bit": [
                 "https://mega.nz/file/0ex33YTJ#RlBxTx3AOdxj8tBmgFg8SsCMSdO5i9SYu2FNsktrtzc",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x64.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x64.zip",
             ],
         },
     },
@@ -76,24 +76,24 @@ LOCAL_PROGRAM_INFO: dict[str, Any] = {
             "32bit": [],
             "64bit": [
                 "https://mega.nz/file/0LxE3JYR#NUpzCQGQ8YThU9KPo2Ikql4c8jcBPnLfLwxsoVQtmN4",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Mac_PyQt5_x64.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Mac_PyQt5_x64.zip",
             ],
         },
         "Linux": {
             "32bit": [],
             "64bit": [
                 "https://mega.nz/file/JOwW0RII#SbP3HsQxKbhpTBzmL5P1ynwwovJcuJOK6NbB1QvzI_8",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Linux_PyQt5_x64.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Linux_PyQt5_x64.zip",
             ],
         },
         "Windows": {
             "32bit": [
                 "https://mega.nz/file/laAkmJxS#-CTNluRAhkoWeRvyrj8HGRwRgQMLVT-jlFdYMsKvLLE",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x86.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x86.zip",
             ],
             "64bit": [
                 "https://mega.nz/file/0ex33YTJ#RlBxTx3AOdxj8tBmgFg8SsCMSdO5i9SYu2FNsktrtzc",
-                "https://github.com/OldRepublicDevs/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x64.zip",
+                "https://github.com/OpenKotOR/PyKotor/releases/download/v{tag}-toolset/HolocronToolset_Windows_PyQt5_x64.zip",
             ],
         },
     },
@@ -103,7 +103,7 @@ LOCAL_PROGRAM_INFO: dict[str, Any] = {
         "Black Vulkar Base": {"version": 1, "id": "blackvulkar"},
         "Endar Spire": {"version": 1, "id": "endarspire"},
         "Hidden Bek Base": {"version": 1, "id": "hiddenbek"},
-        "repository": "OldRepublicDevs/ToolsetData",
+        "repository": "OpenKotOR/ToolsetData",
         "release_tag": "latest",
     },
     "help": {"version": 3},
