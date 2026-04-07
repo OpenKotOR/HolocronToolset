@@ -40,9 +40,13 @@ else:
 
 from pykotor.common.indoorkit import KitComponentHook
 from pykotor.common.indoormap import IndoorMap, IndoorMapRoom
-from pykotor.gl.native.gl_accel import (
-    c_available as _c_accel_available,
-)
+try:
+    from pykotor.gl.native.gl_accel import (
+        c_available as _c_accel_available,
+    )
+except ModuleNotFoundError:
+    def _c_accel_available() -> bool:  # type: ignore[misc]
+        return False
 from toolset.gui.common.base_2d_renderer import Base2DMapRenderer
 from toolset.gui.common.marquee import MARQUEE_MOVE_THRESHOLD_PIXELS
 from toolset.gui.common.snapping import snap_value
