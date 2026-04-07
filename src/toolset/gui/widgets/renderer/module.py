@@ -142,6 +142,9 @@ class ModuleRenderer(OpenGLSceneRenderer):
     sig_object_selected: ClassVar[Signal] = Signal(object)  # pyright: ignore[reportPrivateImportUsage]
     """Signal emitted when an object has been selected through the renderer."""
 
+    sig_camera_changed: ClassVar[Signal] = Signal(object, object)  # pyright: ignore[reportPrivateImportUsage]
+    """Signal emitted when the renderer camera orientation changes."""
+
     sig_lyt_updated: ClassVar[Signal] = Signal(object)  # pyright: ignore[reportPrivateImportUsage]
 
     def __init__(self, parent: QWidget):
@@ -192,6 +195,7 @@ class ModuleRenderer(OpenGLSceneRenderer):
         self._vis_overlay_points: dict[int, Vector3] = {}
         self._vis_overlay_matrix: dict[int, set[int]] = {}
         self._show_vis_overlay: bool = True
+        self._last_camera_orientation: tuple[float, float] | None = None
 
         # Render-loop state: initialized here so no getattr/hasattr is ever needed.
         self._last_loop_time: float = 0.0
@@ -224,6 +228,19 @@ class ModuleRenderer(OpenGLSceneRenderer):
             or self._scene_has_pending_async_work()
             or self._mouse_world_refresh_needed()
         )
+
+    def _emit_camera_changed_if_needed(self, *, force: bool = False) -> None:
+        if self.scene is None:
+            return
+        orientation = (float(self.scene.camera.yaw), float(self.scene.camera.pitch))
+        if force or self._last_camera_orientation is None:
+            self._last_camera_orientation = orientation
+            self.sig_camera_changed.emit(*orientation)
+            return
+        old_yaw, old_pitch = self._last_camera_orientation
+        if abs(orientation[0] - old_yaw) > 1e-6 or abs(orientation[1] - old_pitch) > 1e-6:
+            self._last_camera_orientation = orientation
+            self.sig_camera_changed.emit(*orientation)
 
     def _on_loop_timer_timeout(self) -> None:
         self.loop()
@@ -1234,6 +1251,7 @@ class ModuleRenderer(OpenGLSceneRenderer):
         callback_requested = False
         if callback is not None:
             callback_requested = bool(callback(delta_time))
+        self._emit_camera_changed_if_needed()
         if callback_requested or self._needs_continuous_render():
             # Use update() instead of repaint() - this schedules a repaint rather than
             # forcing an immediate synchronous paint. Qt will batch multiple update()

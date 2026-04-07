@@ -108,6 +108,10 @@ def _project_axis(
     return sx, sy, depth
 
 
+def _wrap_angle_pi(angle: float) -> float:
+    return (angle + math.pi) % (2 * math.pi) - math.pi
+
+
 class ViewCompassWidget(QWidget):
     """Blender-style orientation gizmo overlay.
 
@@ -125,9 +129,12 @@ class ViewCompassWidget(QWidget):
 
     #: Emitted when an axis is clicked.  Arguments: yaw (float), pitch (float).
     sig_snap_view: Signal = Signal(float, float)  # pyright: ignore[reportPrivateImportUsage]
+    sig_orbit_view: Signal = Signal(float, float)  # pyright: ignore[reportPrivateImportUsage]
 
     # Widget dimensions (square)
     _SIZE = 96  # pixels
+    _DRAG_THRESHOLD = 4
+    _DRAG_SENSITIVITY = math.pi / 180.0
 
     def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
@@ -143,10 +150,15 @@ class ViewCompassWidget(QWidget):
         self._camera_source: Callable[[], tuple[float, float]] | None = None
         self._hovered_axis: str | None = None
         self._last_parent_size: tuple[int, int] = (-1, -1)
+        self._drag_active: bool = False
+        self._drag_origin: QPoint | None = None
+        self._drag_start_yaw: float = 0.0
+        self._drag_start_pitch: float = math.pi / 2
+        self._pressed_axis: str | None = None
 
-        # Repaint timer — runs at ~30 Hz to keep the gizmo in sync with the camera.
+        # Fallback timer for resize/scene replacement; live camera updates are event-driven.
         self._repaint_timer: QTimer = QTimer(self)
-        self._repaint_timer.setInterval(50)
+        self._repaint_timer.setInterval(150)
         self._repaint_timer.timeout.connect(self._on_timer)
         self._repaint_timer.start()
 
@@ -162,17 +174,23 @@ class ViewCompassWidget(QWidget):
         """Provide a callable that returns ``(yaw, pitch)`` from the live camera."""
         self._camera_source = fn
 
-    def refresh(self) -> None:
-        """Pull latest camera orientation and repaint."""
+    def set_camera_angles(self, yaw: float, pitch: float) -> None:
+        if not (math.isfinite(yaw) and math.isfinite(pitch)):
+            return
         old_yaw = self._yaw
         old_pitch = self._pitch
+        self._yaw = yaw
+        self._pitch = pitch
+        if abs(self._yaw - old_yaw) > 1e-6 or abs(self._pitch - old_pitch) > 1e-6:
+            self.update()
+
+    def refresh(self) -> None:
+        """Pull latest camera orientation and repaint."""
         if self._camera_source is not None:
             try:
-                self._yaw, self._pitch = self._camera_source()
+                self.set_camera_angles(*self._camera_source())
             except Exception:  # noqa: BLE001
                 pass
-        if abs(self._yaw - old_yaw) > 1e-4 or abs(self._pitch - old_pitch) > 1e-4:
-            self.update()
 
     def update_position(self) -> None:
         """Reposition the widget in the top-right corner of the parent widget."""
@@ -273,6 +291,17 @@ class ViewCompassWidget(QWidget):
         painter.end()
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
+        if self._drag_origin is not None and event.buttons() & Qt.MouseButton.LeftButton:
+            delta = event.pos() - self._drag_origin
+            if self._drag_active or delta.manhattanLength() >= self._DRAG_THRESHOLD:
+                self._drag_active = True
+                self._pressed_axis = None
+                yaw = _wrap_angle_pi(self._drag_start_yaw - delta.x() * self._DRAG_SENSITIVITY)
+                pitch = max(0.01, min(math.pi - 0.01, self._drag_start_pitch - delta.y() * self._DRAG_SENSITIVITY))
+                self.set_camera_angles(yaw, pitch)
+                self.sig_orbit_view.emit(yaw, pitch)
+                event.accept()
+                return
         axis = self._axis_at(event.pos())
         if axis != self._hovered_axis:
             self._hovered_axis = axis
@@ -286,13 +315,28 @@ class ViewCompassWidget(QWidget):
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
         if event.button() == Qt.MouseButton.LeftButton:
-            axis = self._axis_at(event.pos())
-            if axis is not None:
+            self._drag_origin = QPoint(event.pos())
+            self._drag_start_yaw = self._yaw
+            self._drag_start_pitch = self._pitch
+            self._drag_active = False
+            self._pressed_axis = self._axis_at(event.pos())
+            event.accept()
+            return
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
+        if event.button() == Qt.MouseButton.LeftButton:
+            if not self._drag_active and self._pressed_axis is not None:
                 for axis_id, _, _, _, snap_yaw, snap_pitch in _AXES:
-                    if axis_id == axis:
+                    if axis_id == self._pressed_axis:
                         self.sig_snap_view.emit(snap_yaw, snap_pitch)
                         break
-        super().mousePressEvent(event)
+            self._drag_active = False
+            self._drag_origin = None
+            self._pressed_axis = None
+            event.accept()
+            return
+        super().mouseReleaseEvent(event)
 
     def resizeEvent(self, event: QResizeEvent) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
         super().resizeEvent(event)

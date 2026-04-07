@@ -526,10 +526,14 @@ class ModuleDesignerControls3d:
             yaw: Target yaw in radians.
             pitch: Target pitch in radians (0=top-down, pi/2=horizon).
         """
+        self.set_view_rotation(yaw, pitch, instant=False)
+
+    def set_view_rotation(self, yaw: float, pitch: float, *, instant: bool = False) -> None:
+        """Set the orbit camera orientation using the shared controller model."""
         if self.renderer.scene is None:
             return
         ctrl = self._get_camera_controller()
-        ctrl.set_rotation(yaw, pitch, instant=False)
+        ctrl.set_rotation(yaw, pitch, instant=instant)
 
     def frame_selected(self) -> None:
         """Frame the selected instance(s) in the 3D viewport.

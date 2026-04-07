@@ -45,6 +45,7 @@ from qtpy.QtWidgets import (
     QPlainTextEdit,
     QProgressDialog,
     QPushButton,
+    QSizePolicy,
     QSplitter,
     QStackedWidget,
     QStatusBar,
@@ -1097,6 +1098,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         )
         self._camera_hud.move(0, 0)
         self._camera_hud.setText("Camera: --")
+        self._camera_hud.setWordWrap(False)
         self._camera_hud.adjustSize()
         self._camera_hud.show()
 
@@ -1112,7 +1114,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             return
         cam = scene.camera
         self._camera_hud.setText(f"X: {cam.x:8.2f}  Y: {cam.y:8.2f}  Z: {cam.z:8.2f}\nPitch: {cam.pitch:6.1f}  Yaw: {cam.yaw:6.1f}  Dist: {cam.distance:6.1f}")
-        self._camera_hud.adjustSize()
+        self._camera_hud.setFixedSize(self._camera_hud.sizeHint())
 
     # =========================================================================
     # Instance Inspector Panel
@@ -3008,7 +3010,10 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         self.selected_instance_label = QLabel("Selected Instance: ")
         self.view_camera_label = QLabel("View: ")
 
-        # Set labels to allow rich text
+        # Set labels to allow rich text.  Disable word-wrap so that
+        # variable-width text never causes the label sizeHint to grow
+        # vertically, which would expand the status bar and the QMainWindow
+        # in an unbounded feedback loop ("window keeps growing" bug).
         for label in [
             self.mouse_pos_label,
             self.buttons_keys_pressed_label,
@@ -3016,6 +3021,7 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             self.view_camera_label,
         ]:
             label.setTextFormat(Qt.TextFormat.RichText)
+            label.setWordWrap(False)
             label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
         # First row: distribute evenly across full width
@@ -3033,11 +3039,21 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
         self.blender_status_chip = QLabel("Blender: idle")
         self.blender_status_chip.setTextFormat(Qt.TextFormat.RichText)
+        self.blender_status_chip.setWordWrap(False)
         self.blender_status_chip.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.custom_status_bar_layout.addWidget(self.blender_status_chip)
 
+        # Lock the container's height so the status bar never grows the window.
+        self.custom_status_bar_container.setSizePolicy(
+            self.custom_status_bar_container.sizePolicy().horizontalPolicy(),
+            QSizePolicy.Policy.Fixed if hasattr(QSizePolicy, 'Policy') else QSizePolicy.Fixed,  # type: ignore[attr-defined]
+        )
+
         # Add the container as a regular widget (not permanent) to use full width
         self.custom_status_bar.addWidget(self.custom_status_bar_container, 1)
+
+        # Freeze the status bar height once Qt has computed it from the initial content.
+        self.custom_status_bar.setMaximumHeight(self.custom_status_bar.sizeHint().height())
 
     def _install_view_stack(self):
         """Wrap the GL/2D split with a stacked widget so we can swap in Blender instructions."""
@@ -6425,8 +6441,26 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
             compass.sig_snap_view.disconnect()
         except TypeError:
             pass
+        try:
+            compass.sig_orbit_view.disconnect()
+        except TypeError:
+            pass
+        try:
+            self.ui.mainRenderer.sig_camera_changed.disconnect(compass.set_camera_angles)
+        except TypeError:
+            pass
+        self.ui.mainRenderer.sig_camera_changed.connect(compass.set_camera_angles)
+        compass.set_camera_source(self._main_renderer_camera_angles)
+        compass.refresh()
         if isinstance(self._controls3d, ModuleDesignerControls3d):
             compass.sig_snap_view.connect(self._controls3d._apply_numpad_view)
+            compass.sig_orbit_view.connect(lambda yaw, pitch: self._controls3d.set_view_rotation(yaw, pitch, instant=True))
+
+    def _main_renderer_camera_angles(self) -> tuple[float, float]:
+        scene = self.ui.mainRenderer.scene
+        if scene is None:
+            return (0.0, math.pi / 2)
+        return (float(scene.camera.yaw), float(scene.camera.pitch))
 
     def _setup_view_compass(self) -> None:
         """Create and wire the Blender-style orientation gizmo on the 3-D viewport."""
@@ -6435,12 +6469,11 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
         if self._view_compass is not None:
             return  # Already created (e.g. module reloaded)
 
-        scene = self.ui.mainRenderer.scene
-        if scene is None:
+        if self.ui.mainRenderer.scene is None:
             return
 
         self._view_compass = ViewCompassWidget(self.ui.mainRenderer)
-        self._view_compass.set_camera_source(lambda: (scene.camera.yaw, scene.camera.pitch))
+        self._view_compass.set_camera_source(self._main_renderer_camera_angles)
         self._bind_3d_control_callbacks()
 
     def _deferred_initialization(self):
