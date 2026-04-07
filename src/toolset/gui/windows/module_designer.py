@@ -2617,9 +2617,9 @@ class ModuleDesigner(QMainWindow, BlenderEditorMixin, StandaloneWindowMixin):
 
         # Selection / hover info
         hover_room: IndoorMapRoom | None = renderer.room_under_mouse()
-        sel_rooms = renderer.selected_rooms()
-        sel_hook = renderer.selected_hook()
-        active_room = sel_rooms[-1] if sel_rooms else None
+        sel_rooms: list[IndoorMapRoom] = renderer.selected_rooms()
+        sel_hook: tuple[IndoorMapRoom, int] | None = renderer.selected_hook()
+        active_room: IndoorMapRoom | None = sel_rooms[-1] if sel_rooms else None
 
         parts: list[str] = []
         if hover_room is not None:
