@@ -27,7 +27,7 @@ from qtpy.QtGui import (
 from qtpy.QtWidgets import QApplication, QWidget
 
 from pykotor.resource.formats.bwm import BWM
-from pykotor.resource.formats.bwm.bwm_data import BWMType, BWMFace
+from pykotor.resource.formats.bwm.bwm_data import BWMFace, BWMType
 from pykotor.resource.formats.tpc import TPCTextureFormat
 from pykotor.resource.generics.are import ARENorthAxis
 from pykotor.resource.generics.git import (
@@ -248,6 +248,10 @@ class WalkmeshRenderer(Base2DMapRenderer):
         self._connection_preview_source_index: int | None = None
         self._connection_preview_mouse: Vector2 | None = None
 
+        # Cache QPainterPath outlines for each walkmesh perimeter (keyed by id(walkmesh)).
+        # Cleared whenever walkmeshes are replaced so stale geometry is never drawn.
+        self._walkmesh_perimeter_cache: dict[int, QPainterPath] = {}
+
     def set_walkmeshes(self, walkmeshes: list[BWM]):
         """Sets the list of walkmeshes to be rendered.
 
@@ -258,6 +262,7 @@ class WalkmeshRenderer(Base2DMapRenderer):
         self._walkmeshes = walkmeshes
         self._highlighted_face = None
         self._highlighted_edge = None
+        self._walkmesh_perimeter_cache.clear()
         # Keep bounds in sync so callers can immediately `center_camera()` reliably.
         # This mirrors engine-side behavior where the active area map is initialized
         # with the current area's map parameters before any drawing occurs.
@@ -286,6 +291,7 @@ class WalkmeshRenderer(Base2DMapRenderer):
         for room in layout.rooms:
             walkmesh = self.create_walkmesh_for_room(room, template_lookup.get(room.model.lower()))
             self._walkmeshes.append(walkmesh)
+        self._walkmesh_perimeter_cache.clear()
         self.update_walkmesh_display()
 
     def create_walkmesh_for_room(self, room: LYTRoom, template: BWM | None = None) -> BWM:
@@ -828,92 +834,88 @@ class WalkmeshRenderer(Base2DMapRenderer):
 
         # Draw room boundaries and names from LYT layout
         if self.show_room_boundaries and self._layout is not None:
-            # Create a mapping from room model to walkmesh
-            # Walkmeshes are loaded in the same order as rooms in load_layout
+            # Create a mapping from room model to walkmesh.
+            # Walkmeshes are loaded in the same order as rooms in load_layout.
             room_to_walkmesh: dict[str, BWM] = {}
             for i, room in enumerate(self._layout.rooms):
                 if i < len(self._walkmeshes):
                     room_to_walkmesh[room.model.lower()] = self._walkmeshes[i]
 
-            # Draw boundaries and names for each room
+            palette = self._current_palette()
+            if palette is not None:
+                room_boundary_color = palette.color(QPalette.ColorRole.Link)
+                room_boundary_color.setAlpha(200)
+                text_color = palette.color(QPalette.ColorRole.WindowText)
+                bg_color = palette.color(QPalette.ColorRole.Window)
+                bg_color.setAlpha(180)
+            else:
+                room_boundary_color = QColor(100, 150, 255, 200)
+                text_color = QColor(255, 255, 255, 255)
+                bg_color = QColor(0, 0, 0, 180)
+
+            border_pen = QPen(room_boundary_color, 2 / self.camera.zoom(), Qt.PenStyle.SolidLine)
+
             for room in self._layout.rooms:
                 walkmesh = room_to_walkmesh.get(room.model.lower())
                 if walkmesh is None:
                     continue
 
-                # Get bounding box of walkmesh (already in world space)
+                # Get bounding box of walkmesh (already in world space).
                 bbmin, bbmax = walkmesh.box()
 
-                # Draw room boundary - just draw the bounding rectangle for the room dimensions
-                # Walkmeshes are already in world space, no need to transform by room.position
-                palette = self._current_palette()
-                if palette is not None:
-                    room_boundary_color = palette.color(QPalette.ColorRole.Link)
-                    room_boundary_color.setAlpha(200)
-                else:
-                    room_boundary_color = QColor(100, 150, 255, 200)
-                painter.setPen(
-                    QPen(room_boundary_color, 2 / self.camera.zoom(), Qt.PenStyle.SolidLine)
-                )
+                # Build or retrieve perimeter path from cache.
+                wm_key = id(walkmesh)
+                perimeter_path: QPainterPath | None = self._walkmesh_perimeter_cache.get(wm_key)
+                if perimeter_path is None:
+                    perimeter_path = QPainterPath()
+                    try:
+                        for edge in walkmesh.edges():
+                            face = edge.face
+                            idx = edge.index
+                            if idx == 0:
+                                vs, ve = face.v1, face.v2
+                            elif idx == 1:
+                                vs, ve = face.v2, face.v3
+                            else:
+                                vs, ve = face.v3, face.v1
+                            perimeter_path.moveTo(vs.x, vs.y)
+                            perimeter_path.lineTo(ve.x, ve.y)
+                    except Exception:  # noqa: BLE001
+                        pass  # leave empty; fallback to bounding box below
+                    self._walkmesh_perimeter_cache[wm_key] = perimeter_path
+
+                # Draw the room outline.
+                painter.setPen(border_pen)
                 painter.setBrush(Qt.BrushStyle.NoBrush)
+                if not perimeter_path.isEmpty():
+                    painter.drawPath(perimeter_path)
+                elif bbmax.x != bbmin.x or bbmax.y != bbmin.y:
+                    # Fallback: axis-aligned bounding box when perimeter could not be computed.
+                    painter.drawRect(QRectF(bbmin.x, bbmin.y, bbmax.x - bbmin.x, bbmax.y - bbmin.y))
 
-                # Draw rectangle representing the room's dimensions
-                room_rect = QRectF(bbmin.x, bbmin.y, bbmax.x - bbmin.x, bbmax.y - bbmin.y)
-                painter.drawRect(room_rect)
-
-                # Draw room name in bottom right of room
+                # Draw room name centered in the room (same style as IndoorMapRenderer).
                 room_name = room.model
-                # Calculate bottom right position in world coordinates
-                # Walkmeshes are already in world space, so bounding box is also in world space
-                # Note: Y increases upward in world space, so bottom is min Y
-                # For bottom-right corner: max X, min Y
-                text_x_world = bbmax.x
-                text_y_world = bbmin.y
+                center_world = QPointF((bbmin.x + bbmax.x) * 0.5, (bbmin.y + bbmax.y) * 0.5)
+                center_screen = painter.transform().map(center_world)
 
-                # Use painter's transform to convert world coordinates to screen coordinates
-                # The painter transform already accounts for camera position, rotation, zoom, and Y flip
-                text_world_point = QPointF(text_x_world, text_y_world)
-                text_screen_point = painter.transform().map(text_world_point)
-
-                # Reset transform temporarily for text rendering (text should be screen-space)
                 painter.save()
                 painter.resetTransform()
-
-                # Set up text rendering with palette colors
-                palette = self._current_palette()
-                if palette is not None:
-                    text_color = palette.color(QPalette.ColorRole.WindowText)
-                    bg_color = palette.color(QPalette.ColorRole.Window)
-                    bg_color.setAlpha(180)
-                else:
-                    text_color = QColor(255, 255, 255, 255)
-                    bg_color = QColor(0, 0, 0, 180)
                 painter.setPen(QPen(text_color, 1))
                 painter.setBrush(bg_color)
-
-                # Get text metrics to position it properly (bottom right)
                 font = painter.font()
                 font.setPointSize(10)
                 painter.setFont(font)
                 text_rect = painter.fontMetrics().boundingRect(room_name)
-
-                # Position text at bottom right (adjust for text size)
-                # text_screen_point.y is screen Y (increases downward after Y flip in transform)
-                # For bottom right, we want: x = right edge - text width, y = bottom edge - text height
-                text_x_screen_pos = text_screen_point.x() - text_rect.width() - 5
-                text_y_screen_pos = text_screen_point.y() - text_rect.height() - 5
-
-                # Draw background rectangle
+                text_x = center_screen.x() - text_rect.width() / 2
+                text_y = center_screen.y() + text_rect.height() / 2
                 bg_rect = QRectF(
-                    text_x_screen_pos - 2,
-                    text_y_screen_pos - text_rect.height() - 2,
-                    text_rect.width() + 4,
-                    text_rect.height() + 4,
+                    text_x - 3,
+                    text_y - text_rect.height() - 3,
+                    text_rect.width() + 6,
+                    text_rect.height() + 6,
                 )
                 painter.drawRect(bg_rect)
-
-                # Draw text
-                painter.drawText(int(text_x_screen_pos), int(text_y_screen_pos), room_name)
+                painter.drawText(int(text_x), int(text_y), room_name)
                 painter.restore()
 
         # Draw the pathfinding nodes and edges

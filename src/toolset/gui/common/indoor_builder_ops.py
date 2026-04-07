@@ -12,13 +12,11 @@ from pykotor.resource.formats.bwm import bytes_bwm, read_bwm
 from utility.common.geometry import Vector3
 
 if TYPE_CHECKING:
-    from qtpy.QtWidgets import QCheckBox, QDoubleSpinBox, QListWidget, QSpinBox, QPushButton
     from qtpy.QtGui import QUndoStack
-    from qtpy.QtWidgets import QMenu
+    from qtpy.QtWidgets import QCheckBox, QDoubleSpinBox, QListWidget, QMenu, QPushButton, QSpinBox
 
     from pykotor.common.indoorkit import Kit, KitComponent
     from pykotor.common.indoormap import EmbeddedKit, IndoorMap
-
     from toolset.gui.windows.indoor_builder.renderer import IndoorMapRenderer
 
 

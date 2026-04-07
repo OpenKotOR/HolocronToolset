@@ -12,10 +12,10 @@ from pykotor.resource.formats.bwm import (  # pyright: ignore[reportMissingImpor
     write_bwm,
 )
 from pykotor.resource.type import ResourceType  # pyright: ignore[reportMissingImports]
-from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.interaction.camera import (
     handle_standard_2d_camera_movement,
 )
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.walkmesh_materials import (
     get_walkmesh_material_colors,
     populate_material_list_widget,

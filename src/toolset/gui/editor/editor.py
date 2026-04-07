@@ -1276,7 +1276,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
 
     def play_byte_source_media(self, data: bytes | None) -> bool:
         if qtpy.QT5:
-            from qtpy.QtMultimedia import QMediaContent  # pyright: ignore[reportAttributeAccessIssue]
+            from qtpy.QtMultimedia import (
+                QMediaContent,  # pyright: ignore[reportAttributeAccessIssue]
+            )
 
             if data is not None:
                 self.mediaPlayer.buffer = buffer = QBuffer(self)
@@ -1311,7 +1313,9 @@ class Editor(QMainWindow, StandaloneWindowMixin):
         if _media_audio is not None and player.audioOutput() is not _media_audio:
             player.setAudioOutput(_media_audio)  # type: ignore[attr-name]
         elif _media_audio is None and player.audioOutput() is None:
-            from qtpy.QtMultimedia import QAudioOutput  # pyright: ignore[reportAttributeAccessIssue]
+            from qtpy.QtMultimedia import (
+                QAudioOutput,  # pyright: ignore[reportAttributeAccessIssue]
+            )
 
             _fallback = QAudioOutput(self)  # pyright: ignore[reportCallIssue]
             _fallback.setVolume(1.0)

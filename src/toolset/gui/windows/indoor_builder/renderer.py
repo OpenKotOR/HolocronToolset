@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import struct
 
 from copy import deepcopy
 from dataclasses import dataclass
@@ -39,6 +40,9 @@ else:
 
 from pykotor.common.indoorkit import KitComponentHook
 from pykotor.common.indoormap import IndoorMap, IndoorMapRoom
+from pykotor.gl.native.gl_accel import (
+    c_available as _c_accel_available,
+)
 from toolset.gui.common.base_2d_renderer import Base2DMapRenderer
 from toolset.gui.common.marquee import MARQUEE_MOVE_THRESHOLD_PIXELS
 from toolset.gui.common.snapping import snap_value
@@ -137,9 +141,25 @@ class _BWMSurfaceCache:
     face_id_to_index: dict[int, int]
     # Unique vertex list for operations like marquee selection (local space).
     vertices: list[Vector3]
+    # Packed xy floats for C acceleration (N×2 floats as bytes).
+    vertices_xy_bytes: bytes
     # Local-space AABB for cheap early-out in picking.
     bbmin: Vector3
     bbmax: Vector3
+    # Precomputed perimeter outline path in local space (drawn as room border).
+    perimeter_path: QPainterPath
+
+
+# =============================================================================
+# Pre-computed QColor / QPen constants (avoids 800+ allocations per frame)
+# =============================================================================
+_HOOK_BRUSH_UNCONNECTED = QColor(*HOOK_COLOR_UNCONNECTED)
+_HOOK_BRUSH_CONNECTED = QColor(*HOOK_COLOR_CONNECTED)
+_HOOK_PEN_UNCONNECTED = QPen(QColor(*HOOK_PEN_COLOR_UNCONNECTED), GRID_PEN_WIDTH)
+_HOOK_PEN_CONNECTED = QPen(QColor(*HOOK_PEN_COLOR_CONNECTED), GRID_PEN_WIDTH)
+_CONNECTION_LINE_QCOLOR = QColor(*CONNECTION_LINE_COLOR)
+_ROOM_HOVER_QCOLOR = QColor(*ROOM_HOVER_COLOR)
+_ROOM_SELECTED_QCOLOR = QColor(*ROOM_SELECTED_COLOR)
 
 
 # =============================================================================
@@ -229,6 +249,7 @@ class IndoorMapRenderer(Base2DMapRenderer):
         self.hide_magnets: bool = False
         self.show_grid: bool = False
         self.show_room_labels: bool = True
+        self.show_room_boundaries: bool = True
         self.highlight_rooms_hover: bool = True
 
         # Snap visualization
@@ -416,6 +437,10 @@ class IndoorMapRenderer(Base2DMapRenderer):
         self.show_room_labels = enabled
         self.mark_dirty()
 
+    def set_show_room_boundaries(self, enabled: bool):
+        self.show_room_boundaries = enabled
+        self.mark_dirty()
+
     def set_hide_magnets(self, enabled: bool):
         self.hide_magnets = enabled
         self.mark_dirty()
@@ -519,44 +544,83 @@ class IndoorMapRenderer(Base2DMapRenderer):
             component, position, rotation, flip_x=flip_x, flip_y=flip_y
         )
 
-        best_distance = float("inf")
-        best_snap: SnapResult = SnapResult(position=position, snapped=False)
         # Snap threshold scales with zoom - reduced to keep snaps helpful but separable
         snap_threshold = max(HOOK_SNAP_BASE_THRESHOLD, HOOK_SNAP_SCALE_FACTOR / self.camera.zoom())
+
+        # Collect all existing hook world positions and test hook local positions for C batch
+        existing_hooks_xy: list[float] = []
+        existing_hook_refs: list[tuple[IndoorMapRoom, KitComponentHook]] = []
 
         for existing_room in self._map.rooms:
             if room is not None and existing_room is room:
                 continue
             if existing_room in self._selected_rooms:
                 continue
+            for existing_hook in existing_room.component.hooks:
+                hw: Vector3 = existing_room.hook_position(existing_hook)
+                existing_hooks_xy.append(hw.x)
+                existing_hooks_xy.append(hw.y)
+                existing_hook_refs.append((existing_room, existing_hook))
 
-            # Check ALL hook pairs for potential snap positions
-            for test_hook in test_room.component.hooks:
-                test_hook_local: Vector3 = test_room.hook_position(test_hook, world_offset=False)
+        test_hooks_local_xy: list[float] = []
+        test_hook_refs: list[KitComponentHook] = []
+        for test_hook in test_room.component.hooks:
+            tl: Vector3 = test_room.hook_position(test_hook, world_offset=False)
+            test_hooks_local_xy.append(tl.x)
+            test_hooks_local_xy.append(tl.y)
+            test_hook_refs.append(test_hook)
 
-                for existing_hook in existing_room.component.hooks:
-                    existing_hook_world: Vector3 = existing_room.hook_position(existing_hook)
+        if not existing_hook_refs or not test_hook_refs:
+            return SnapResult(position=position, snapped=False)
 
-                    # Calculate where test_room would need to be positioned
-                    # so that test_hook aligns with existing_hook
-                    snapped_pos = Vector3(
-                        existing_hook_world.x - test_hook_local.x,
-                        existing_hook_world.y - test_hook_local.y,
-                        existing_hook_world.z - test_hook_local.z,
+        # Use C extension for batch distance computation when available
+        if _c_accel_available():
+            from pykotor.gl.native._gl_accel import batch_hook_snap_distances
+
+            existing_bytes = struct.pack(f"{len(existing_hooks_xy)}f", *existing_hooks_xy)
+            test_bytes = struct.pack(f"{len(test_hooks_local_xy)}f", *test_hooks_local_xy)
+            result = batch_hook_snap_distances(
+                existing_bytes,
+                test_bytes,
+                position.x,
+                position.y,
+                snap_threshold,
+            )
+            if result is None:
+                return SnapResult(position=position, snapped=False)
+            _best_dist, best_test_idx, best_existing_idx, snap_x, snap_y = result
+            target_room, target_hook = existing_hook_refs[best_existing_idx]
+            return SnapResult(
+                position=Vector3(snap_x, snap_y, position.z),
+                snapped=True,
+                hook_from=test_hook_refs[best_test_idx],
+                hook_to=target_hook,
+                target_room=target_room,
+            )
+
+        # Python fallback: same triple-nested loop logic
+        best_distance = float("inf")
+        best_snap: SnapResult = SnapResult(position=position, snapped=False)
+        for t_idx, test_hook in enumerate(test_hook_refs):
+            tlx = test_hooks_local_xy[t_idx * 2]
+            tly = test_hooks_local_xy[t_idx * 2 + 1]
+            for e_idx, (existing_room_ref, existing_hook) in enumerate(existing_hook_refs):
+                ewx = existing_hooks_xy[e_idx * 2]
+                ewy = existing_hooks_xy[e_idx * 2 + 1]
+                sx = ewx - tlx
+                sy = ewy - tly
+                dx = position.x - sx
+                dy = position.y - sy
+                distance = math.sqrt(dx * dx + dy * dy)
+                if distance < snap_threshold and distance < best_distance:
+                    best_distance = distance
+                    best_snap = SnapResult(
+                        position=Vector3(sx, sy, position.z),
+                        snapped=True,
+                        hook_from=test_hook,
+                        hook_to=existing_hook,
+                        target_room=existing_room_ref,
                     )
-
-                    distance = Vector2.from_vector3(position).distance(
-                        Vector2.from_vector3(snapped_pos)
-                    )
-                    if distance < snap_threshold and distance < best_distance:
-                        best_distance = distance
-                        best_snap = SnapResult(
-                            position=snapped_pos,
-                            snapped=True,
-                            hook_from=test_hook,
-                            hook_to=existing_hook,
-                            target_room=existing_room,
-                        )
 
         return best_snap
 
@@ -733,11 +797,33 @@ class IndoorMapRenderer(Base2DMapRenderer):
             # Use cached local-space vertices and transform via math (no geometry copy).
             base_bwm = room.base_walkmesh()
             cache = self._get_bwm_surface_cache(base_bwm)
-            for local_v in cache.vertices:
-                world_v = self._room_local_to_world(room, local_v)
-                if min_x <= world_v.x <= max_x and min_y <= world_v.y <= max_y:
+
+            # Use C extension for batch vertex-in-rect test when available
+            if _c_accel_available() and cache.vertices_xy_bytes:
+                from pykotor.gl.native._gl_accel import batch_vertices_in_rect
+
+                cos_r = math.cos(math.radians(room.rotation))
+                sin_r = math.sin(math.radians(room.rotation))
+                if batch_vertices_in_rect(
+                    cache.vertices_xy_bytes,
+                    cos_r,
+                    sin_r,
+                    room.flip_x,
+                    room.flip_y,
+                    room.position.x,
+                    room.position.y,
+                    min_x,
+                    min_y,
+                    max_x,
+                    max_y,
+                ):
                     selected.append(room)
-                    break
+            else:
+                for local_v in cache.vertices:
+                    world_v = self._room_local_to_world(room, local_v)
+                    if min_x <= world_v.x <= max_x and min_y <= world_v.y <= max_y:
+                        selected.append(room)
+                        break
 
         return selected
 
@@ -949,6 +1035,46 @@ class IndoorMapRenderer(Base2DMapRenderer):
             room_for_selection=room,
         )
 
+    def _draw_room_boundaries(
+        self,
+        painter: QPainter,
+    ) -> None:
+        """Draw room perimeter outlines in world space on top of walkmesh face fills."""
+        if not self.show_room_boundaries:
+            return
+
+        palette = self._current_palette()
+        if palette is not None:
+            color = palette.color(QPalette.ColorRole.Link)
+            color.setAlpha(200)
+        else:
+            color = QColor(100, 150, 255, 200)
+        pen = QPen(color, 2.0 / self.camera.zoom(), Qt.PenStyle.SolidLine)
+
+        for room in self._map.rooms:
+            base_bwm = room.base_walkmesh()
+            cache = self._get_bwm_surface_cache(base_bwm)
+
+            painter.save()
+            painter.translate(room.position.x, room.position.y)
+            painter.rotate(room.rotation)
+            painter.scale(-1.0 if room.flip_x else 1.0, -1.0 if room.flip_y else 1.0)
+            painter.setPen(pen)
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            if not cache.perimeter_path.isEmpty():
+                painter.drawPath(cache.perimeter_path)
+            elif cache.bbmax.x != cache.bbmin.x or cache.bbmax.y != cache.bbmin.y:
+                # Fallback: draw bounding box when perimeter could not be computed.
+                painter.drawRect(
+                    QRectF(
+                        cache.bbmin.x,
+                        cache.bbmin.y,
+                        cache.bbmax.x - cache.bbmin.x,
+                        cache.bbmax.y - cache.bbmin.y,
+                    )
+                )
+            painter.restore()
+
     def _draw_room_labels(
         self,
         painter: QPainter,
@@ -972,15 +1098,35 @@ class IndoorMapRenderer(Base2DMapRenderer):
 
         for room in self._map.rooms:
             base_bwm = room.base_walkmesh()
-            vertices = base_bwm.vertices()
-            if not vertices:
+            cache = self._get_bwm_surface_cache(base_bwm)
+            if not cache.vertices:
                 continue
 
-            world_vertices = [self._room_local_to_world(room, vertex) for vertex in vertices]
-            min_x = min(vertex.x for vertex in world_vertices)
-            max_x = max(vertex.x for vertex in world_vertices)
-            min_y = min(vertex.y for vertex in world_vertices)
-            max_y = max(vertex.y for vertex in world_vertices)
+            # Use C extension for batch vertex transform + bounds when available
+            if _c_accel_available() and cache.vertices_xy_bytes:
+                from pykotor.gl.native._gl_accel import batch_transform_vertices_2d
+
+                cos_r = math.cos(math.radians(room.rotation))
+                sin_r = math.sin(math.radians(room.rotation))
+                _, bounds = batch_transform_vertices_2d(
+                    cache.vertices_xy_bytes,
+                    cos_r,
+                    sin_r,
+                    room.flip_x,
+                    room.flip_y,
+                    room.position.x,
+                    room.position.y,
+                )
+                min_x, min_y, max_x, max_y = bounds
+            else:
+                vertices = base_bwm.vertices()
+                if not vertices:
+                    continue
+                world_vertices = [self._room_local_to_world(room, vertex) for vertex in vertices]
+                min_x = min(vertex.x for vertex in world_vertices)
+                max_x = max(vertex.x for vertex in world_vertices)
+                min_y = min(vertex.y for vertex in world_vertices)
+                max_y = max(vertex.y for vertex in world_vertices)
             center_world = QPointF((min_x + max_x) * 0.5, (min_y + max_y) * 0.5)
             center_screen = painter.transform().map(center_world)
 
@@ -1102,17 +1248,41 @@ class IndoorMapRenderer(Base2DMapRenderer):
             bbmax = Vector3(
                 max(v.x for v in verts), max(v.y for v in verts), max(v.z for v in verts)
             )
+            # Pack xy floats for C acceleration
+            verts_xy_bytes = struct.pack(
+                f"{len(verts) * 2}f", *(c for v in verts for c in (v.x, v.y))
+            )
         else:
             bbmin = Vector3.from_null()
             bbmax = Vector3.from_null()
+            verts_xy_bytes = b""
+
+        # Build perimeter path from walkmesh boundary edges (local space).
+        perimeter_path = QPainterPath()
+        try:
+            for edge in bwm.edges():
+                face = edge.face
+                idx = edge.index
+                if idx == 0:
+                    vs, ve = face.v1, face.v2
+                elif idx == 1:
+                    vs, ve = face.v2, face.v3
+                else:
+                    vs, ve = face.v3, face.v1
+                perimeter_path.moveTo(vs.x, vs.y)
+                perimeter_path.lineTo(ve.x, ve.y)
+        except Exception:  # noqa: BLE001
+            pass  # leave perimeter_path empty; _draw_room_boundaries will fall back to AABB
 
         cached = _BWMSurfaceCache(
             bwm_obj_id=key,
             face_paths=face_paths,
             face_id_to_index=face_id_to_index,
             vertices=verts,
+            vertices_xy_bytes=verts_xy_bytes,
             bbmin=bbmin,
             bbmax=bbmax,
+            perimeter_path=perimeter_path,
         )
         self._bwm_surface_cache[key] = cached
         return cached
@@ -1449,6 +1619,7 @@ class IndoorMapRenderer(Base2DMapRenderer):
         # Draw rooms using walkmesh geometry (NOT QImage - QImage is only for sidebar preview)
         for room in self._map.rooms:
             self._draw_room_walkmesh(painter, room)
+        self._draw_room_boundaries(painter)
         self._draw_room_labels(painter)
         self._draw_vis_overlay(painter)
 
@@ -1460,45 +1631,11 @@ class IndoorMapRenderer(Base2DMapRenderer):
                     hook_pos = room.hook_position(hook)
                     # Color: unconnected = red, connected = green
                     if room.hooks[hook_index] is None:
-                        painter.setBrush(
-                            QColor(
-                                HOOK_COLOR_UNCONNECTED[0],
-                                HOOK_COLOR_UNCONNECTED[1],
-                                HOOK_COLOR_UNCONNECTED[2],
-                                HOOK_COLOR_UNCONNECTED[3],
-                            )
-                        )
-                        painter.setPen(
-                            QPen(
-                                QColor(
-                                    HOOK_PEN_COLOR_UNCONNECTED[0],
-                                    HOOK_PEN_COLOR_UNCONNECTED[1],
-                                    HOOK_PEN_COLOR_UNCONNECTED[2],
-                                    HOOK_PEN_COLOR_UNCONNECTED[3],
-                                ),
-                                GRID_PEN_WIDTH,
-                            ),
-                        )
+                        painter.setBrush(_HOOK_BRUSH_UNCONNECTED)
+                        painter.setPen(_HOOK_PEN_UNCONNECTED)
                     else:
-                        painter.setBrush(
-                            QColor(
-                                HOOK_COLOR_CONNECTED[0],
-                                HOOK_COLOR_CONNECTED[1],
-                                HOOK_COLOR_CONNECTED[2],
-                                HOOK_COLOR_CONNECTED[3],
-                            )
-                        )
-                        painter.setPen(
-                            QPen(
-                                QColor(
-                                    HOOK_PEN_COLOR_CONNECTED[0],
-                                    HOOK_PEN_COLOR_CONNECTED[1],
-                                    HOOK_PEN_COLOR_CONNECTED[2],
-                                    HOOK_PEN_COLOR_CONNECTED[3],
-                                ),
-                                GRID_PEN_WIDTH,
-                            ),
-                        )
+                        painter.setBrush(_HOOK_BRUSH_CONNECTED)
+                        painter.setPen(_HOOK_PEN_CONNECTED)
                     painter.drawEllipse(
                         QPointF(hook_pos.x, hook_pos.y), HOOK_DISPLAY_RADIUS, HOOK_DISPLAY_RADIUS
                     )
@@ -1513,12 +1650,7 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 yd = math.sin(math.radians(hook.rotation + room.rotation)) * hook.door.width / 2
                 painter.setPen(
                     QPen(
-                        QColor(
-                            CONNECTION_LINE_COLOR[0],
-                            CONNECTION_LINE_COLOR[1],
-                            CONNECTION_LINE_COLOR[2],
-                            CONNECTION_LINE_COLOR[3],
-                        ),
+                        _CONNECTION_LINE_QCOLOR,
                         CONNECTION_LINE_WIDTH_SCALE / self.camera.zoom(),
                     ),
                 )
@@ -1539,12 +1671,7 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 painter,
                 self._under_mouse_room,
                 ROOM_HOVER_ALPHA,
-                QColor(
-                    ROOM_HOVER_COLOR[0],
-                    ROOM_HOVER_COLOR[1],
-                    ROOM_HOVER_COLOR[2],
-                    ROOM_HOVER_COLOR[3],
-                ),
+                _ROOM_HOVER_QCOLOR,
             )
 
         # Draw selection highlights
@@ -1553,12 +1680,7 @@ class IndoorMapRenderer(Base2DMapRenderer):
                 painter,
                 room,
                 ROOM_SELECTED_ALPHA,
-                QColor(
-                    ROOM_SELECTED_COLOR[0],
-                    ROOM_SELECTED_COLOR[1],
-                    ROOM_SELECTED_COLOR[2],
-                    ROOM_SELECTED_COLOR[3],
-                ),
+                _ROOM_SELECTED_QCOLOR,
             )
 
         # Draw spawn point (warp point)

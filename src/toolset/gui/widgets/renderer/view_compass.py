@@ -23,7 +23,7 @@ import math
 
 from typing import TYPE_CHECKING, Callable
 
-from qtpy.QtCore import QPoint, QRect, QSize, Qt, QTimer, Signal
+from qtpy.QtCore import QPoint, QRect, QSize, QTimer, Qt, Signal
 from qtpy.QtGui import QColor, QFont, QPainter, QPen
 from qtpy.QtWidgets import QWidget
 

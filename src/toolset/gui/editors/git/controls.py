@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, cast
 
 import qtpy
+
 from qtpy.QtCore import Qt
 
 from loggerplus import RobustLogger  # pyright: ignore[reportMissingTypeStubs]
@@ -17,8 +18,8 @@ from pykotor.resource.generics.git import (
     GITWaypoint,
 )
 from toolset.data.misc import ControlItem
-from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.base_2d_controls import Base2DControlScheme
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.widgets.settings.editor_settings.git import GITSettings
 from toolset.gui.widgets.settings.widgets.module_designer import ModuleDesignerSettings
 from utility.common.geometry import Vector2, Vector3

@@ -89,8 +89,8 @@ def get_renderer_loop_interval_ms() -> int:
 
 
 if TYPE_CHECKING:
-    from qtpy.QtWidgets import QWidget
     from qtpy.QtGui import QScreen
+    from qtpy.QtWidgets import QWidget
 
     from toolset.data.misc import Bind
     from toolset.gui.widgets.edit.color import ColorEdit

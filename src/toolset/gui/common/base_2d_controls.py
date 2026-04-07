@@ -9,9 +9,8 @@ from toolset.gui.common.interaction.transforms import TransformInteractionState
 from utility.common.geometry import Vector2, Vector3
 
 if TYPE_CHECKING:
-    from toolset.data.misc import ControlItem
-
     from pykotor.resource.generics.git import GITInstance, GITObject
+    from toolset.data.misc import ControlItem
     from utility.common.geometry import Vector4
 
 

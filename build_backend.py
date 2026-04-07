@@ -8,24 +8,20 @@ hooks, tools like uv can miss script entry-point metadata for editable installs.
 from __future__ import annotations
 
 import shutil
+
 from pathlib import Path
 from typing import List, Mapping, Optional, Union
 
-from setuptools.build_meta import build_editable as _build_editable
-from setuptools.build_meta import build_sdist as _build_sdist
-from setuptools.build_meta import build_wheel as _build_wheel
 from setuptools.build_meta import (
+    build_editable as _build_editable,
+    build_sdist as _build_sdist,
+    build_wheel as _build_wheel,
     get_requires_for_build_editable as _get_requires_for_build_editable,
-)
-from setuptools.build_meta import get_requires_for_build_sdist as _get_requires_for_build_sdist
-from setuptools.build_meta import get_requires_for_build_wheel as _get_requires_for_build_wheel
-from setuptools.build_meta import (
+    get_requires_for_build_sdist as _get_requires_for_build_sdist,
+    get_requires_for_build_wheel as _get_requires_for_build_wheel,
     prepare_metadata_for_build_editable as _prepare_metadata_for_build_editable,
-)
-from setuptools.build_meta import (
     prepare_metadata_for_build_wheel as _prepare_metadata_for_build_wheel,
 )
-
 
 ConfigSettings = Optional[Mapping[str, Union[str, List[str], None]]]
 

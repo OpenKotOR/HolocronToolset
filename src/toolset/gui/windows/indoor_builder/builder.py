@@ -61,7 +61,6 @@ from toolset.blender import BlenderEditorMode, check_blender_and_ask, get_blende
 from toolset.blender.integration import BlenderEditorMixin
 from toolset.data.indoorkit.qt_preview import ensure_component_image
 from toolset.data.installation import HTInstallation
-from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.editor_pipelines import (
     populate_module_root_combobox,
     set_preview_source_image,
@@ -105,6 +104,7 @@ from toolset.gui.common.interaction.camera import handle_standard_2d_camera_move
 from toolset.gui.common.localization import translate as tr, translate_format as trf
 from toolset.gui.common.log_bridge import LEVEL_COLORS, LogRecordEmitter, QtLogHandler
 from toolset.gui.common.status_bar_utils import format_status_bar_keys_and_buttons
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.walkmesh_materials import get_walkmesh_material_colors
 from toolset.gui.dialogs.asyncloader import AsyncLoader
 from toolset.gui.editor.base import Editor

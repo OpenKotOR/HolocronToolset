@@ -104,6 +104,7 @@ if TYPE_CHECKING:
 
     from qtpy.QtCore import QAbstractItemModel, QItemSelection, QModelIndex, QObject, QPoint
     from qtpy.QtGui import (
+        QAction,
         QClipboard,
         QCloseEvent,
         QFocusEvent,
@@ -111,12 +112,11 @@ if TYPE_CHECKING:
         QMouseEvent,
         QShowEvent,
         QStandardItem,
-        QAction,
     )
     from qtpy.QtWidgets import (
+        QMenu,
         QScrollBar,
         QStatusBar,
-        QMenu,
     )
     from typing_extensions import Literal, Self  # pyright: ignore[reportMissingModuleSource]
 

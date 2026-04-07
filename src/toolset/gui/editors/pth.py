@@ -28,8 +28,8 @@ from pykotor.resource.formats.lyt import read_lyt
 from pykotor.resource.generics.pth import PTH, PTHEdge, bytes_pth, read_pth
 from pykotor.resource.type import ResourceType
 from toolset.data.misc import ControlItem
-from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.interaction.camera import calculate_zoom_strength
+from toolset.gui.common.viewport_2d_nav import Viewport2DNavigationHelper, aabb_from_points
 from toolset.gui.common.walkmesh_materials import get_walkmesh_material_colors
 from toolset.gui.editor import Editor
 from toolset.gui.widgets.installation_toolbar import FolderPathSpec

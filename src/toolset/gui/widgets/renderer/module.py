@@ -16,8 +16,7 @@ import qtpy
 
 from qtpy import QtCore
 from qtpy.QtCore import Qt
-from qtpy.QtGui import QColor, QPainter, QPen, QPolygonF
-from qtpy.QtGui import QCursor
+from qtpy.QtGui import QColor, QCursor, QPainter, QPen, QPolygonF
 from qtpy.QtWidgets import (
     QApplication,
     QMessageBox,
@@ -145,11 +144,11 @@ class ModuleRenderer(OpenGLSceneRenderer):
     def __init__(self, parent: QWidget):
         initial_mouse = Vector2(QCursor.pos().x(), QCursor.pos().y())
 
-        from toolset.gui.windows.module_designer import (
-            ModuleDesignerSettings,  # noqa: PLC0415  # pylint: disable=C0415
-        )
         from toolset.gui.widgets.settings.widgets.module_designer import (
             get_renderer_loop_interval_ms,  # noqa: PLC0415  # pylint: disable=C0415
+        )
+        from toolset.gui.windows.module_designer import (
+            ModuleDesignerSettings,  # noqa: PLC0415  # pylint: disable=C0415
         )
 
         super().__init__(

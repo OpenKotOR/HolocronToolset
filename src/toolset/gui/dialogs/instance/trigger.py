@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QDialog, QMessageBox
 
-from pykotor.resource.generics.git import GITTrigger, GITModuleLink
+from pykotor.resource.generics.git import GITModuleLink, GITTrigger
 from toolset.data.installation import HTInstallation
 from toolset.gui.common.localization import translate as tr
 from toolset.gui.dialogs.instance._util import parse_resref_field
