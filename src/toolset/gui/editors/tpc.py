@@ -39,9 +39,28 @@ from qtpy.QtWidgets import (
 )
 
 from pykotor.resource.formats.tpc import TPC, TPCTextureFormat, write_tpc
+from pykotor.resource.formats.tpc.io_tga import TPCTGAReader
 from pykotor.resource.type import ResourceType
-from pykotor.tools.texture_batch import read_tpc_for_editor
 from toolset.gui.editor import Editor
+
+try:
+    from pykotor.tools.texture_batch import read_tpc_for_editor
+except ImportError:
+    from pykotor.common.stream import BinaryReader
+    from pykotor.resource.formats.tpc import read_tpc
+
+    def read_tpc_for_editor(filepath: os.PathLike[str] | str, data: bytes | bytearray) -> TPC:
+        path = Path(filepath).resolve()
+        txi_path = path.with_suffix(".txi")
+        txi_src = txi_path if txi_path.is_file() else None
+        try:
+            return read_tpc(data, txi_source=txi_src)
+        except ValueError:
+            loaded = TPCTGAReader(bytes(data), 0, len(data)).load()
+            if txi_src is not None:
+                with BinaryReader.from_auto(txi_src) as reader:
+                    loaded.txi = reader.read_all().decode(encoding="ascii", errors="ignore")
+            return loaded
 
 if TYPE_CHECKING:
     import os
