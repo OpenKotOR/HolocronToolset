@@ -1783,21 +1783,45 @@ class ToolWindow(QMainWindow):
         self._preparing_resources = True
         try:
 
-            def prepare_task(
-                loader: AsyncLoader | None = None,
-            ) -> tuple[list[QStandardItem] | None, ...]:
+            def prepare_task() -> tuple[list[QStandardItem] | None, ...]:
                 """Prepare resource lists for modules, overrides, textures, and stream audio."""
-                modules = self._get_modules_list(reload=False)
-                override = self._get_override_list(reload=False)
-                textures = self._get_texture_pack_list()
-                # Pre-warm stream audio caches while the progress dialog is still open,
-                # so refresh_core_list (called after dialog close) returns instantly.
                 assert self.active is not None
-                _music = self.active._streammusic  # noqa: SLF001
-                _voice = self.active._streamwaves  # noqa: SLF001
+                # Point Installation's progress_callback at the live dialog so
+                # _build_single_resource / _build_resource_list subtask text flows
+                # through to the UI automatically.
+                cb = prepare_loader.progress_callback_api
+                self.active.progress_callback = cb
+                try:
+                    cb(5, "set_maximum")
+
+                    cb("Loading modules...", "update_maintask_text")
+                    modules = self._get_modules_list(reload=False)
+                    cb(1, "increment")
+
+                    cb("Loading override...", "update_maintask_text")
+                    override = self._get_override_list(reload=False)
+                    cb(1, "increment")
+
+                    cb("Loading textures...", "update_maintask_text")
+                    textures = self._get_texture_pack_list()
+                    cb(1, "increment")
+
+                    # Pre-warm stream audio caches while the progress dialog is still open,
+                    # so refresh_core_list (called after dialog close) returns instantly.
+                    cb("Loading stream music...", "update_maintask_text")
+                    _music = self.active._streammusic  # noqa: SLF001
+                    cb(1, "increment")
+
+                    cb("Loading stream audio...", "update_maintask_text")
+                    _voice = self.active._streamwaves  # noqa: SLF001
+                    cb(1, "increment")
+                finally:
+                    # Clear callback so stale Qt signals aren't emitted after the
+                    # dialog is destroyed.
+                    self.active.progress_callback = None
                 return (modules, override, textures)
 
-            prepare_loader = AsyncLoader(
+            prepare_loader: AsyncLoader = AsyncLoader(
                 self,
                 "Preparing resources...",
                 prepare_task,
