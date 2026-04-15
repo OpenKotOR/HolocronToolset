@@ -279,6 +279,77 @@ class TestControlsIntegration(unittest.TestCase):
             self.assertTrue(math.isfinite(accel_y))
 
 
+class TestCameraInputStateCompatibility(unittest.TestCase):
+    """Tests for compatibility with older InputState constructor shapes."""
+
+    def test_current_input_state_keeps_pan_button(self):
+        """Current InputState should preserve the explicit pan_button field."""
+        from pykotor.gl.scene.camera_controller import InputState
+        from toolset.gui.windows.designer_controls import _create_camera_input_state
+
+        input_state = _create_camera_input_state(
+            InputState,
+            mouse_delta_x=12.0,
+            mouse_delta_y=-4.0,
+            left_button=True,
+            middle_button=False,
+            right_button=False,
+            shift_held=False,
+            ctrl_held=True,
+            alt_held=False,
+            pan_button=True,
+        )
+
+        self.assertTrue(input_state.pan_button)
+        self.assertFalse(input_state.middle_button)
+        self.assertFalse(input_state.alt_held)
+
+    def test_legacy_input_state_falls_back_to_alt_middle_pan(self):
+        """Legacy InputState without pan_button should still request pan mode."""
+        from toolset.gui.windows.designer_controls import _create_camera_input_state
+
+        class LegacyInputState:
+            def __init__(
+                self,
+                *,
+                mouse_delta_x: float = 0.0,
+                mouse_delta_y: float = 0.0,
+                left_button: bool = False,
+                middle_button: bool = False,
+                right_button: bool = False,
+                shift_held: bool = False,
+                ctrl_held: bool = False,
+                alt_held: bool = False,
+            ):
+                self.mouse_delta_x = mouse_delta_x
+                self.mouse_delta_y = mouse_delta_y
+                self.left_button = left_button
+                self.middle_button = middle_button
+                self.right_button = right_button
+                self.shift_held = shift_held
+                self.ctrl_held = ctrl_held
+                self.alt_held = alt_held
+
+        input_state = _create_camera_input_state(
+            LegacyInputState,
+            mouse_delta_x=8.0,
+            mouse_delta_y=6.0,
+            left_button=True,
+            middle_button=False,
+            right_button=False,
+            shift_held=False,
+            ctrl_held=True,
+            alt_held=False,
+            pan_button=True,
+        )
+
+        self.assertTrue(input_state.left_button)
+        self.assertTrue(input_state.middle_button)
+        self.assertTrue(input_state.alt_held)
+        self.assertTrue(input_state.ctrl_held)
+        self.assertFalse(input_state.shift_held)
+
+
 class TestEdgeCases(unittest.TestCase):
     """Tests for edge cases and boundary conditions."""
 

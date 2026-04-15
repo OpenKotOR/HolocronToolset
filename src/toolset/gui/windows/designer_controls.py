@@ -6,7 +6,7 @@ import math
 import time
 
 from copy import deepcopy
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from qtpy import QtCore
 from qtpy.QtCore import QPoint, Qt
@@ -32,6 +32,9 @@ if TYPE_CHECKING:
     from toolset.gui.widgets.renderer.module import ModuleRenderer
     from toolset.gui.widgets.renderer.walkmesh import WalkmeshRenderer
     from toolset.gui.windows.module_designer import ModuleDesigner
+
+
+TInputState = TypeVar("TInputState")
 
 
 class InputSmoother:
@@ -120,6 +123,24 @@ class InputAccelerator:
         accelerated_excess = math.pow(excess, self.power)
 
         return sign * (self.threshold + accelerated_excess)
+
+
+def _create_camera_input_state(
+    input_state_type: type[TInputState],
+    **kwargs: Any,
+) -> TInputState:
+    try:
+        return input_state_type(**kwargs)
+    except TypeError as exc:
+        if "pan_button" not in str(exc):
+            raise
+
+    legacy_kwargs = dict(kwargs)
+    requested_pan = bool(legacy_kwargs.pop("pan_button", False))
+    if requested_pan:
+        legacy_kwargs["middle_button"] = True
+        legacy_kwargs["alt_held"] = bool(legacy_kwargs.get("alt_held", False)) or True
+    return input_state_type(**legacy_kwargs)
 
 
 class ModuleDesignerControls3d:
@@ -474,7 +495,8 @@ class ModuleDesignerControls3d:
                 keyboard_motion_applied = True
 
         pan_lmb_active = self.pan_camera_lmb.satisfied(buttons, keys)
-        input_state = InputState(
+        input_state = _create_camera_input_state(
+            InputState,
             mouse_delta_x=dx,
             mouse_delta_y=dy,
             left_button=Qt.MouseButton.LeftButton in buttons,
