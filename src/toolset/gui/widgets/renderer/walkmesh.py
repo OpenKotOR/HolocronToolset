@@ -188,6 +188,7 @@ class WalkmeshRenderer(Base2DMapRenderer):
         self.spawn_selection: WalkmeshSelection[EncounterSpawnPoint] = WalkmeshSelection()
 
         self._walkmesh_face_cache: dict[BWMFace, QPainterPath] | None = None
+        self._walkmesh_material_groups: dict[SurfaceMaterial, QPainterPath] | None = None
 
         self.highlight_on_hover: bool = False
         self.highlight_boundaries: bool = True
@@ -367,6 +368,7 @@ class WalkmeshRenderer(Base2DMapRenderer):
 
         # Erase the cache so it will be rebuilt
         self._walkmesh_face_cache = None
+        self._walkmesh_material_groups = None
 
     def set_git(self, git: GIT):
         self._git = git
@@ -626,15 +628,26 @@ class WalkmeshRenderer(Base2DMapRenderer):
         self,
         e: QPaintEvent,  # pyright: ignore[reportIncompatibleMethodOverride]
     ):
-        # Build walkmesh faces cache
+        # Build walkmesh faces cache and material-grouped drawing cache
         if self._walkmesh_face_cache is None:
             self._walkmesh_face_cache = {}
+            self._walkmesh_material_groups: dict[SurfaceMaterial, QPainterPath] | None = None
             for walkmesh in self._walkmeshes:
                 # We want to draw walkable faces over the unwalkable ones
                 for face in walkmesh.walkable_faces():
                     self._walkmesh_face_cache[face] = self._build_face(face)
                 for face in walkmesh.unwalkable_faces():
                     self._walkmesh_face_cache[face] = self._build_face(face)
+
+        # Build material-grouped composite paths for batch drawing (once)
+        if getattr(self, "_walkmesh_material_groups", None) is None:
+            groups: dict[SurfaceMaterial, QPainterPath] = {}
+            for face, path in self._walkmesh_face_cache.items():
+                mat = face.material
+                if mat not in groups:
+                    groups[mat] = QPainterPath()
+                groups[mat].addPath(path)
+            self._walkmesh_material_groups = groups
 
         transform: QTransform = self._create_world_transform()
         painter = QPainter(self)
@@ -756,9 +769,11 @@ class WalkmeshRenderer(Base2DMapRenderer):
             )
         )
         painter.setPen(pen)
-        for face, path in self._walkmesh_face_cache.items():
-            painter.setBrush(self.material_color(face.material))
-            painter.drawPath(path)
+        # Batch draw: one drawPath per material instead of per face
+        if self._walkmesh_material_groups:
+            for mat, composite_path in self._walkmesh_material_groups.items():
+                painter.setBrush(self.material_color(mat))
+                painter.drawPath(composite_path)
 
         # Get palette colors for highlights
         palette = self._current_palette()
@@ -1017,7 +1032,7 @@ class WalkmeshRenderer(Base2DMapRenderer):
             icon_rotation = math.pi + self.camera.rotation()
             icon_scale = 1 / 16
 
-            non_camera_groups: tuple[tuple[list[GITInstance], QPixmap], ...] = (
+            non_camera_groups: tuple[tuple[list[GITInstance], QPixmap], ...] = (  # pyright: ignore[reportAssignmentType]
                 ([] if self.hide_creatures else self._git.creatures, self._pixmap_creature),
                 ([] if self.hide_doors else self._git.doors, self._pixmap_door),
                 ([] if self.hide_placeables else self._git.placeables, self._pixmap_placeable),
@@ -1237,30 +1252,91 @@ class WalkmeshRenderer(Base2DMapRenderer):
         if self._git is not None:
             instances: list[GITObject] = self._git.instances()
             selected_instances = self.instance_selection.all()
-            for instance in instances:
-                position = Vector2(instance.position.x, instance.position.y)
-                visible_or_pickable = self.is_instance_visible(instance) or self.pick_include_hidden
-                if position.distance(world) <= 1 and visible_or_pickable:
-                    self.sig_instance_hovered.emit(instance)
-                    self._instances_under_mouse.append(instance)
-                if self._should_collect_geom_points(instance, selected_instances) and isinstance(
-                    instance, (GITEncounter, GITTrigger)
-                ):
-                    for point in instance.geometry:
-                        pworld: Vector2 = Vector2.from_vector3(instance.position + point)
-                        if pworld.distance(world) <= 0.5:  # noqa: PLR2004
-                            self._geom_points_under_mouse.append(GeomPoint(instance, point))
-                if isinstance(instance, GITEncounter) and not self.hide_spawn_points:
-                    for spawn in instance.spawn_points:
-                        pworld = Vector2(spawn.x, spawn.y)
-                        if pworld.distance(world) <= 0.75:  # noqa: PLR2004
-                            self._spawn_points_under_mouse.append(
-                                EncounterSpawnPoint(instance, spawn)
-                            )
+
+            # Try C-accelerated batch distance check for the main instance loop
+            try:
+                from pykotor.gl.native.render2d_accel import is_available
+
+                if is_available() and instances:
+                    self._update_hits_batch_accel(instances, selected_instances, world)
+                else:
+                    self._update_hits_python(instances, selected_instances, world)
+            except Exception:  # noqa: BLE001
+                self._update_hits_python(instances, selected_instances, world)
+
         if self._pth is not None:
             for point in self._pth:
                 if point.distance(world) <= self._path_node_size:
                     self._path_nodes_under_mouse.append(point)
+
+    def _update_hits_batch_accel(
+        self,
+        instances: list[GITObject],
+        selected_instances: list[GITObject],
+        world: Vector2,
+    ) -> None:
+        """C-accelerated batch distance filtering for instance hit testing."""
+        import array as _array
+
+        from pykotor.gl.native.render2d_accel import batch_distances_2d_filtered
+
+        # Build flat position array for all instances
+        pos_arr = _array.array("f")
+        for inst in instances:
+            pos_arr.append(inst.position.x)
+            pos_arr.append(inst.position.y)
+        positions_flat = pos_arr.tobytes()
+
+        # Batch find instances within distance 1 (threshold_sq = 1.0)
+        hit_indices: list[int] = batch_distances_2d_filtered(positions_flat, world.x, world.y, 1.0)
+
+        for idx in hit_indices:
+            instance = instances[idx]
+            visible_or_pickable = self.is_instance_visible(instance) or self.pick_include_hidden
+            if visible_or_pickable:
+                self.sig_instance_hovered.emit(instance)
+                self._instances_under_mouse.append(instance)
+
+        # Geometry and spawn points still need per-instance checks (only for selected/encounters)
+        for instance in instances:
+            if self._should_collect_geom_points(instance, selected_instances) and isinstance(
+                instance, (GITEncounter, GITTrigger)
+            ):
+                for point in instance.geometry:
+                    pworld: Vector2 = Vector2.from_vector3(instance.position + point)
+                    if pworld.distance(world) <= 0.5:  # noqa: PLR2004
+                        self._geom_points_under_mouse.append(GeomPoint(instance, point))
+            if isinstance(instance, GITEncounter) and not self.hide_spawn_points:
+                for spawn in instance.spawn_points:
+                    pworld = Vector2(spawn.x, spawn.y)
+                    if pworld.distance(world) <= 0.75:  # noqa: PLR2004
+                        self._spawn_points_under_mouse.append(EncounterSpawnPoint(instance, spawn))
+
+    def _update_hits_python(
+        self,
+        instances: list[GITObject],
+        selected_instances: list[GITObject],
+        world: Vector2,
+    ) -> None:
+        """Pure-Python fallback for instance hit testing."""
+        for instance in instances:
+            position = Vector2(instance.position.x, instance.position.y)
+            visible_or_pickable = self.is_instance_visible(instance) or self.pick_include_hidden
+            if position.distance(world) <= 1 and visible_or_pickable:
+                self.sig_instance_hovered.emit(instance)
+                self._instances_under_mouse.append(instance)
+            if self._should_collect_geom_points(instance, selected_instances) and isinstance(
+                instance, (GITEncounter, GITTrigger)
+            ):
+                for point in instance.geometry:
+                    pworld: Vector2 = Vector2.from_vector3(instance.position + point)
+                    if pworld.distance(world) <= 0.5:  # noqa: PLR2004
+                        self._geom_points_under_mouse.append(GeomPoint(instance, point))
+            if isinstance(instance, GITEncounter) and not self.hide_spawn_points:
+                for spawn in instance.spawn_points:
+                    pworld = Vector2(spawn.x, spawn.y)
+                    if pworld.distance(world) <= 0.75:  # noqa: PLR2004
+                        self._spawn_points_under_mouse.append(EncounterSpawnPoint(instance, spawn))
 
     def mouseMoveEvent(self, e: QMouseEvent):  # pyright: ignore[reportIncompatibleMethodOverride]
         coords: Vector2 = self._event_coords(e)
