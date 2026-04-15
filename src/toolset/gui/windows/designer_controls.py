@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import inspect
 import math
 import time
 
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any
 
 from qtpy import QtCore
 from qtpy.QtCore import QPoint, Qt
@@ -34,7 +35,52 @@ if TYPE_CHECKING:
     from toolset.gui.windows.module_designer import ModuleDesigner
 
 
-TInputState = TypeVar("TInputState")
+def _input_state_parameter_names(input_state_cls: type[object]) -> set[str]:
+    """Return the accepted keyword parameters for an InputState-like class."""
+    try:
+        return set(inspect.signature(input_state_cls).parameters)
+    except (TypeError, ValueError):
+        return set()
+
+
+def _build_camera_input_state(
+    dx: float,
+    dy: float,
+    buttons: set[Qt.MouseButton],
+    keys: set[Qt.Key],
+    pan_lmb_active: bool,
+    input_state_cls: type[object] | None = None,
+) -> Any:
+    """Build camera input state while tolerating older pykotor InputState shapes.
+
+    Older Toolset installs can end up paired with a pykotor build that predates
+    the virtual ``pan_button`` field. In that case, translate Ctrl+LMB pan into
+    the legacy Alt+MMB-compatible shape instead of raising at construction time.
+    """
+    resolved_input_state_cls = InputState if input_state_cls is None else input_state_cls
+    parameter_names = _input_state_parameter_names(resolved_input_state_cls)
+
+    input_kwargs: dict[str, object] = {
+        "mouse_delta_x": dx,
+        "mouse_delta_y": dy,
+        "left_button": Qt.MouseButton.LeftButton in buttons,
+        "middle_button": Qt.MouseButton.MiddleButton in buttons,
+        "right_button": Qt.MouseButton.RightButton in buttons,
+        "shift_held": Qt.Key.Key_Shift in keys,
+        "ctrl_held": Qt.Key.Key_Control in keys,
+        "alt_held": Qt.Key.Key_Alt in keys,
+    }
+
+    if "pan_button" in parameter_names:
+        input_kwargs["pan_button"] = pan_lmb_active
+    elif pan_lmb_active:
+        # Legacy camera controllers do not know about pan_button. Present the
+        # same action as Alt+MMB, which those versions already map to pan.
+        input_kwargs["middle_button"] = True
+        input_kwargs["alt_held"] = True
+
+    filtered_kwargs: dict[str, Any] = {key: value for key, value in input_kwargs.items() if key in parameter_names}
+    return resolved_input_state_cls(**filtered_kwargs)
 
 
 class InputSmoother:
@@ -123,24 +169,6 @@ class InputAccelerator:
         accelerated_excess = math.pow(excess, self.power)
 
         return sign * (self.threshold + accelerated_excess)
-
-
-def _create_camera_input_state(
-    input_state_type: type[TInputState],
-    **kwargs: Any,
-) -> TInputState:
-    try:
-        return input_state_type(**kwargs)
-    except TypeError as exc:
-        if "pan_button" not in str(exc):
-            raise
-
-    legacy_kwargs = dict(kwargs)
-    requested_pan = bool(legacy_kwargs.pop("pan_button", False))
-    if requested_pan:
-        legacy_kwargs["middle_button"] = True
-        legacy_kwargs["alt_held"] = bool(legacy_kwargs.get("alt_held", False)) or True
-    return input_state_type(**legacy_kwargs)
 
 
 class ModuleDesignerControls3d:
@@ -495,17 +523,12 @@ class ModuleDesignerControls3d:
                 keyboard_motion_applied = True
 
         pan_lmb_active = self.pan_camera_lmb.satisfied(buttons, keys)
-        input_state = _create_camera_input_state(
-            InputState,
-            mouse_delta_x=dx,
-            mouse_delta_y=dy,
-            left_button=Qt.MouseButton.LeftButton in buttons,
-            middle_button=Qt.MouseButton.MiddleButton in buttons,
-            right_button=Qt.MouseButton.RightButton in buttons,
-            shift_held=Qt.Key.Key_Shift in keys,
-            ctrl_held=Qt.Key.Key_Control in keys,
-            alt_held=Qt.Key.Key_Alt in keys,
-            pan_button=pan_lmb_active,
+        input_state = _build_camera_input_state(
+            dx=dx,
+            dy=dy,
+            buttons=buttons,
+            keys=keys,
+            pan_lmb_active=pan_lmb_active,
         )
         controller_active = (
             dx != 0.0
