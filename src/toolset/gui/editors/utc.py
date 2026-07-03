@@ -724,6 +724,30 @@ class UTCEditor(Editor):
                 list_widget.addItem(item)  # pyright: ignore[reportArgumentType, reportCallIssue]
             item.setCheckState(Qt.CheckState.Checked)
 
+    def _checked_ids_from_list(self, list_widget) -> list[int]:
+        """Return checked UserRole ids in the widget's current display order."""
+        checked_ids: list[int] = []
+        for i in range(list_widget.count()):
+            item = list_widget.item(i)  # pyright: ignore[reportAssignmentType]
+            assert item is not None, (
+                f"{self.__class__.__name__}.ui list item({i}) "
+                f"{item.__class__.__name__}: {item}"
+            )
+            if item.checkState() == Qt.CheckState.Checked:
+                checked_ids.append(item.data(Qt.ItemDataRole.UserRole))
+        return checked_ids
+
+    @staticmethod
+    def _matching_original_class(
+        original_classes: list[UTCClass],
+        index: int,
+        class_id: int,
+    ) -> UTCClass | None:
+        if index >= len(original_classes):
+            return None
+        original_class = original_classes[index]
+        return original_class if original_class.class_id == class_id else None
+
     def build(self) -> tuple[bytes | bytearray, bytes]:
         """Build UTC bytes from editor state. Write values match engine."""
         utc: UTC = deepcopy(self._utc)
@@ -795,35 +819,46 @@ class UTCEditor(Editor):
         utc.on_user_defined = ResRef(self.ui.onUserDefinedSelect.currentText())
         utc.comment = self.ui.comments.toPlainText()
 
+        original_classes = self._utc.classes
+        selected_class_ids: list[int] = []
         utc.classes = []
         if self.ui.class1Select.currentIndex() != -1:
             class_id: int = self.ui.class1Select.currentIndex()
             class_level: int = self.ui.class1LevelSpin.value()
-            utc.classes.append(UTCClass(class_id, class_level))
+            selected_class_ids.append(class_id)
+            original_class = self._matching_original_class(original_classes, 0, class_id)
+            utc_class = (
+                deepcopy(original_class) if original_class is not None else UTCClass(class_id)
+            )
+            utc_class.class_id = class_id
+            utc_class.class_level = class_level
+            utc.classes.append(utc_class)
         if self.ui.class2Select.currentIndex() != 0:
             # class2Select index 0 is "[Unset]", index 1 = class_id 0, index 2 = class_id 1, etc.
             class_id = self.ui.class2Select.currentIndex() - 1
             class_level = self.ui.class2LevelSpin.value()
-            utc.classes.append(UTCClass(class_id, class_level))
-
-        item: QListWidgetItem | None
-        utc.feats = []
-        for i in range(self.ui.featList.count()):
-            item = self.ui.featList.item(i)  # pyright: ignore[reportAssignmentType]
-            assert item is not None, (
-                f"{self.__class__.__name__}.ui.featList.item({i}) {item.__class__.__name__}: {item}"
+            selected_class_ids.append(class_id)
+            original_class = self._matching_original_class(original_classes, 1, class_id)
+            utc_class = (
+                deepcopy(original_class) if original_class is not None else UTCClass(class_id)
             )
-            if item.checkState() == Qt.CheckState.Checked:
-                utc.feats.append(item.data(Qt.ItemDataRole.UserRole))
+            utc_class.class_id = class_id
+            utc_class.class_level = class_level
+            utc.classes.append(utc_class)
 
-        powers: list[int] = utc.classes[-1].powers
-        for i in range(self.ui.powerList.count()):
-            item = self.ui.powerList.item(i)  # pyright: ignore[reportAssignmentType]
-            assert item is not None, (
-                f"{self.__class__.__name__}.ui.powerList.item({i}) {item.__class__.__name__}: {item}"
-            )
-            if item.checkState() == Qt.CheckState.Checked:
-                powers.append(item.data(Qt.ItemDataRole.UserRole))
+        utc.feats = self._checked_ids_from_list(self.ui.featList)
+
+        selected_powers = self._checked_ids_from_list(self.ui.powerList)
+        original_powers = [power for utc_class in self._utc.classes for power in utc_class.powers]
+        original_class_ids = [utc_class.class_id for utc_class in self._utc.classes]
+        class_membership_changed = selected_class_ids != original_class_ids
+        powers_changed = class_membership_changed or set(selected_powers) != set(original_powers)
+        if powers_changed and utc.classes:
+            # The UTC editor has a single aggregate powers list. Preserve the prior behavior for
+            # actual power edits, but do not rewrite KnownList0 when the checked set is unchanged.
+            for utc_class in utc.classes:
+                utc_class.powers = []
+            utc.classes[-1].powers = selected_powers
 
         use_tsl = Game.K2 if self.settings.alwaysSaveK2Fields or self._installation.tsl else Game.K1  # type: ignore[valid-type]
         data = bytearray()
