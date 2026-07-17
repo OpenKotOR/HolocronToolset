@@ -33,7 +33,7 @@ from toolset.utils.qt_exceptions import (
     install_sys_unraisablehook,
 )
 from toolset.utils.window import TOOLSET_WINDOWS
-from utility.system.app_process.shutdown import terminate_child_processes
+from toolset.compat.lifecycle import terminate_child_processes
 
 
 class ToolsetApplication(QApplication):

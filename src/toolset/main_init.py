@@ -351,7 +351,7 @@ def last_resort_cleanup():
     This function should be registered with atexit as early as possible.
     """
     from loggerplus import RobustLogger  # pyright: ignore[reportMissingTypeStubs]
-    from utility.system.app_process.shutdown import (
+    from toolset.compat.lifecycle import (
         gracefully_shutdown_threads,
         start_shutdown_process,
     )

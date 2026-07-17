@@ -51,6 +51,8 @@ dependencies = [
   "PySide6_Essentials>=6.10.1; python_implementation == 'PyPy' and python_version >= '3.9'",
   "PySide6>=6.10.1; python_implementation == 'PyPy' and python_version >= '3.9'",
   "qtpy>=2.4.3",
+  # Standalone process lifecycle (extracted from PyKotor utility); falls back to utility.system.app_process.
+  "app-process-lifecycle @ git+https://github.com/oldrepublicwizard/app-process-lifecycle.git",
   "requests>=2.23.0,<2.32.5; python_version < \"3.9\"",
   "requests>=2.32.4; python_version >= \"3.9\"",
   "send2trash>=1.8.3",

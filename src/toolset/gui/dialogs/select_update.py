@@ -36,7 +36,7 @@ from toolset.config import (
 from toolset.gui.common.localization import translate as tr
 from toolset.gui.dialogs.asyncloader import ProgressDialog
 from utility.misc import ProcessorArchitecture
-from utility.system.app_process.shutdown import terminate_child_processes
+from toolset.compat.lifecycle import terminate_child_processes
 from utility.updater.github import GithubRelease
 from utility.updater.update import AppUpdate
 

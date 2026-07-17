@@ -21,3 +21,16 @@ from pykotor.tools.texture_batch import convert_single_texture
 
 out = convert_single_texture(Path(user_selected_path), overwrite=True)
 ```
+
+## Standalone utility libraries
+
+Holocron is adopting non-KotOR libraries extracted from PyKotor's `utility` tree.
+See the catalog: https://github.com/oldrepublicwizard/pykotor-extracted-libs
+
+| Package | Holocron status |
+|---------|-----------------|
+| `qtpy-theme-manager` | Prefer via import fallback (PR) |
+| `github-app-updater` | Prefer via `toolset.compat.updater` (PR) |
+| `app-process-lifecycle` | Prefer via `toolset.compat.lifecycle` |
+| `loggerplus` / [LoggerPlus](https://github.com/oldrepublicwizard/LoggerPlus) | Imports already use `loggerplus`; the top-level package is still **vendored inside `pykotor`**. Do not add a second `loggerplus` distribution dependency until PyKotor stops shipping it, or installs will conflict. |
+
