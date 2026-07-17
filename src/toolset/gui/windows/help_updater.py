@@ -17,7 +17,7 @@ from toolset.gui.dialogs.asyncloader import AsyncLoader
 from toolset.gui.widgets.settings.installations import GlobalSettings
 from toolset.gui.windows.help_window import HelpWindow
 from utility.system.os_helper import is_frozen
-from utility.updater.github import download_github_file
+from toolset.compat.updater import download_github_file
 
 if TYPE_CHECKING:
     from toolset.gui.windows.help_window import HelpWindow

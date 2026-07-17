@@ -23,12 +23,12 @@ from toolset.gui.dialogs.update_github import (
 )
 from toolset.gui.dialogs.update_process import start_update_process
 from utility.misc import ProcessorArchitecture
-from utility.updater.github import GithubRelease
+from toolset.compat.updater import GithubRelease
 
 if TYPE_CHECKING:
     from qtpy.QtWidgets import QWidget
 
-    from utility.updater.github import Asset, GithubRelease
+    from toolset.compat.updater import Asset, GithubRelease
 
 
 def convert_markdown_to_html(md_text: str, widget: QWidget | None = None) -> str:

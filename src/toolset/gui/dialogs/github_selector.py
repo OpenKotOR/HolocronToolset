@@ -48,7 +48,7 @@ from qtpy.QtWidgets import (
 
 from loggerplus import RobustLogger
 from toolset.gui.common.localization import translate as tr, trf  # type: ignore[import-not-found]
-from utility.updater.github import (
+from toolset.compat.updater import (
     CompleteRepoData,
     TreeInfoData,
     extract_owner_repo,

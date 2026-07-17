@@ -17,10 +17,10 @@ from loggerplus import RobustLogger
 from toolset.config import LOCAL_PROGRAM_INFO, toolset_tag_to_version, version_to_toolset_tag
 from toolset.gui.dialogs.asyncloader import ProgressDialog
 from utility.system.app_process.shutdown import terminate_child_processes
-from utility.updater.update import AppUpdate
+from toolset.compat.updater import AppUpdate
 
 if TYPE_CHECKING:
-    from utility.updater.github import GithubRelease
+    from toolset.compat.updater import GithubRelease
 
 
 def run_progress_dialog(

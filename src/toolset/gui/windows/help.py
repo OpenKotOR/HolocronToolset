@@ -29,7 +29,7 @@ from toolset.config import get_remote_toolset_update_info, is_remote_version_new
 from toolset.gui.dialogs.asyncloader import AsyncLoader
 from toolset.gui.widgets.settings.installations import GlobalSettings
 from utility.system.os_helper import is_frozen
-from utility.updater.github import download_github_file
+from toolset.compat.updater import download_github_file
 
 if TYPE_CHECKING:
     import os

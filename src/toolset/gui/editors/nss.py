@@ -111,7 +111,7 @@ from toolset.gui.widgets.terminal_widget import (
 from toolset.utils.script import ht_compile_script  # pyright: ignore[reportPrivateImportUsage]
 from toolset.utils.window import open_resource_editor  # pyright: ignore[reportPrivateImportUsage]
 from utility.misc import is_debug_mode  # pyright: ignore[reportPrivateImportUsage]
-from utility.updater.github import download_github_file  # pyright: ignore[reportPrivateImportUsage]
+from toolset.compat.updater import download_github_file  # pyright: ignore[reportPrivateImportUsage]
 
 if TYPE_CHECKING:
     from types import TracebackType

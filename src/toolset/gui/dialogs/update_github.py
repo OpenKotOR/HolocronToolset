@@ -11,7 +11,7 @@ except ImportError:
     requests = None  # type: ignore[assignment, unused-ignore]
 
 from loggerplus import RobustLogger
-from utility.updater.github import GithubRelease
+from toolset.compat.updater import GithubRelease
 
 
 def fetch_fork_releases(

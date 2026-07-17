@@ -26,7 +26,7 @@ from toolset.gui.widgets.settings.installations import GlobalSettings
 from utility.error_handling import format_exception_with_variables
 from utility.misc import is_debug_mode
 from utility.system.os_helper import is_frozen
-from utility.updater.github import download_github_release_asset
+from toolset.compat.updater import download_github_release_asset
 
 if TYPE_CHECKING:
     from qtpy.QtWidgets import QWidget

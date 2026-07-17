@@ -18,7 +18,7 @@ from toolset.config import CURRENT_VERSION, get_remote_toolset_update_info, is_r
 from toolset.gui.dialogs.select_update import ProgressDialog, UpdateDialog, run_progress_dialog
 from toolset.gui.widgets.settings.installations import GlobalSettings
 from utility.misc import ProcessorArchitecture
-from utility.updater.update import AppUpdate
+from toolset.compat.updater import AppUpdate
 
 if TYPE_CHECKING:
     from concurrent.futures import Future
