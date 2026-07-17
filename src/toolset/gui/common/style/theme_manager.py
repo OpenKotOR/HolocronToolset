@@ -1,4 +1,4 @@
-"""Toolset compatibility wrapper: delegates to utility ThemeManager. Settings owned by main window."""
+"""Toolset compatibility wrapper: delegates to ThemeManager. Settings owned by main window."""
 
 from __future__ import annotations
 
@@ -8,7 +8,11 @@ from qtpy.QtCore import Slot
 from qtpy.QtWidgets import QAction
 
 from toolset.gui.widgets.settings.widgets.misc import GlobalSettings
-from utility.gui.qt.widgets.theme import ThemeManager as UtilityThemeManager, ThemeSources
+
+try:
+    from qtpy_theme_manager import ThemeManager as UtilityThemeManager, ThemeSources
+except ImportError:  # pragma: no cover - fallback while pykotor still vendors utility.theme
+    from utility.gui.qt.widgets.theme import ThemeManager as UtilityThemeManager, ThemeSources
 
 
 # Optional extra_themes dirs (Toolset resources); :/themes is default in ThemeSources
@@ -23,10 +27,10 @@ def _toolset_extra_theme_dirs() -> tuple[str, ...]:
 
 
 class ThemeManager:
-    """Toolset theme manager: delegates to utility.gui ThemeManager.
+    """Toolset theme manager: delegates to qtpy-theme-manager (or in-tree utility fallback).
+
     Persistence (selectedTheme/selectedStyle) is handled by the main window; this wrapper
-    only reads them for apply context. Prefer importing from utility.gui.qt.widgets.theme
-    for new code.
+    only reads them for apply context. Prefer importing from ``qtpy_theme_manager`` for new code.
     """
 
     def __init__(self, original_style: str | None = None):

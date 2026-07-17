@@ -1,11 +1,15 @@
-"""Toolset compatibility wrapper: delegates to utility ThemeSelectorDialog with Toolset tr and theme manager."""
+"""Toolset compatibility wrapper: ThemeSelectorDialog with Toolset tr and theme manager."""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
 from toolset.gui.common.localization import translate as tr
-from utility.gui.qt.widgets.theme import ThemeSelectorDialog as UtilityThemeSelectorDialog
+
+try:
+    from qtpy_theme_manager import ThemeSelectorDialog as UtilityThemeSelectorDialog
+except ImportError:  # pragma: no cover - fallback while pykotor still vendors utility.theme
+    from utility.gui.qt.widgets.theme import ThemeSelectorDialog as UtilityThemeSelectorDialog
 
 if TYPE_CHECKING:
     from qtpy.QtWidgets import QWidget
@@ -14,9 +18,9 @@ if TYPE_CHECKING:
 
 
 class ThemeSelectorDialog(UtilityThemeSelectorDialog):
-    """Toolset theme selector: utility dialog with Toolset localization and optional theme manager.
+    """Toolset theme selector: qtpy-theme-manager dialog with Toolset localization.
 
-    Prefer importing from utility.gui.qt.widgets.theme for new code.
+    Prefer importing from ``qtpy_theme_manager`` for new code.
     """
 
     def __init__(
